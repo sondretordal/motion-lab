@@ -6,7 +6,7 @@ import pyads
 
 qui_main_file = 'gui/main.ui' # Enter file here.
 gui_main, QtBaseClass = uic.loadUiType(qui_main_file)
-
+#hei jeg heter jan
 
 
 
