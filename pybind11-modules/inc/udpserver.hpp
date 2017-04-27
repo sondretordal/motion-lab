@@ -50,7 +50,7 @@ private:
         exit(EXIT_FAILURE);
       }
 
-      std::cout << "rx_data.data[0] " << rx_data->data[0] << std::endl;
+      //std::cout << "rx_data.data[0] " << rx_data->data[0] << std::endl;
 
       for (int i = 0; i < 50; i++) {
         tx_data->data[i] = static_cast<float>(count);

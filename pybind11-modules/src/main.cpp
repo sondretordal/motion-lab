@@ -7,6 +7,17 @@
 
 #include "udpserver.hpp"
 
+namespace py = pybind11;
+
+PYBIND11_PLUGIN(MotionLab) {
+    py::module m("MotionLab", "Motion-Laboratory Python Interface");
+    py::class_<UdpServer> udp(m, "udpserver");
+    udp.def(py::init<>());
+    udp.def("Start", &UdpServer::Start);
+    udp.def("Stop", &UdpServer::Stop);
+    return m.ptr();
+}
+
 int main(int argc, char** argv)
 {
 
