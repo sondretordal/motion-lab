@@ -1,0 +1,8 @@
+[requires]
+pybind11/any@memsharded/stable
+
+[generators]
+cmake
+
+[options]
+pybind11:version=2.1.1

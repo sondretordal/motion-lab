@@ -1,12 +1,11 @@
-cmake_minimum_required (VERSION 2.8)
+project(PybindModules)
+cmake_minimum_required(VERSION 3.1)
 
-#set(CMAKE_CXX_FLAGS "-std=c++11")
+find_package(PythonLibs REQUIRED)
+find_package(Threads REQUIRED)
 
-#set(pybind11_DIR "C:/pybind11/build/mock_install/share/cmake/pybind11")
-#find_package(pybind11 REQUIRED)
+# Conan include and setup
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup()
 
-project (main)
-add_executable(main
-  main.cpp
-  udpserver.hpp
-)
+add_subdirectory(src)
