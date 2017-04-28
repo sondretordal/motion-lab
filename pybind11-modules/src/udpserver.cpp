@@ -33,15 +33,30 @@ UdpServer::UdpServer(unsigned int port) : run_thread() {
   running = true;
 }
 
+std::vector<float> UdpServer::RecvData(int i) {
+  std::vector<float> ret;
+  run_mtx.lock();
+  ret.push_back(rx_data->data[i]);
+  run_mtx.unlock();
+
+  return ret;
+}
+
+void UdpServer::SendData(float data, int i) {
+  run_mtx.lock();
+  tx_data->data[i] = data;
+  run_mtx.unlock();
+}
+
 UdpServer::~UdpServer() {
-    Stop();
-  }
+  Close();
+}
 
 void UdpServer::Start() {
   run_thread = std::thread(&UdpServer::Run, this);
 }
 
-void UdpServer::Stop() {
+void UdpServer::Close() {
   running = false;
   if (run_thread.joinable()) {
      run_thread.join();
@@ -57,13 +72,6 @@ void UdpServer::Run() {
     }
 
     //std::cout << "rx_data.data[0] " << rx_data->data[0] << std::endl;
-
-    for (int i = 0; i < 50; i++) {
-      tx_data->data[i] = static_cast<float>(count);
-
-    }
-    count++;
-
     if (sendto(s, tx_buff, sizeof(tx_buff), 0, (struct sockaddr*) &si_client, slen) == SOCKET_ERROR) {
       std::cout << "sendto() failed with error code: " << WSAGetLastError() << std::endl;
       exit(EXIT_FAILURE);

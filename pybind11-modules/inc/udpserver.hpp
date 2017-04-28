@@ -2,6 +2,7 @@
 #define __URSERVER_HPP__
 
 #include <iostream>
+#include <vector>
 #include <chrono>
 #include <string>
 #include <thread>
@@ -36,7 +37,6 @@ private:
   RxData *rx_data;
 
   bool running = false;
-  int count = 0;
 
   std::thread run_thread;
   std::mutex run_mtx;
@@ -48,7 +48,9 @@ public:
   ~UdpServer();
 
   void Start();
-  void Stop();
+  void Close();
+  std::vector<float> RecvData(int i);
+  void SendData(float data, int i);
 };
 
 #endif

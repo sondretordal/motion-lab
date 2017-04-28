@@ -12,9 +12,11 @@ namespace py = pybind11;
 PYBIND11_PLUGIN(MotionLab) {
     py::module m("MotionLab", "Motion-Laboratory Python Interface");
     py::class_<UdpServer> udp(m, "udpserver");
-    udp.def(py::init<>());
-    udp.def("Start", &UdpServer::Start);
-    udp.def("Stop", &UdpServer::Stop);
+    udp.def(py::init<const unsigned int &>());
+    udp.def("start", &UdpServer::Start);
+    udp.def("close", &UdpServer::Close);
+    udp.def("recv_data", &UdpServer::RecvData);
+    udp.def("send_data", &UdpServer::SendData);
     return m.ptr();
 }
 
@@ -28,7 +30,9 @@ int main(int argc, char** argv)
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
     a++;
   }
-  udp.Stop();
+  udp.Close();
+
+
 
 
 
