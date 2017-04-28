@@ -5,15 +5,18 @@ include_directories(
   ${PYTHON_INCLUDE_DIRS}
   ${MotionLab_SOURCE_DIR}/inc
 )
-message("CONAN_INCLUDE_DIRS: " ${CONAN_INCLUDE_DIRS})
-message("PybindModules_SOURCE_DIR: " ${PybindModules_SOURCE_DIR})
 
-#add_executable (
-  #${CMAKE_PROJECT_NAME}
-  #main.cpp
-  #udpserver.cpp
-#)
+# Executable settings
+add_executable(main
+  main.cpp
+  udpserver.cpp
+)
 
+target_link_libraries(main
+  ${PYTHON_LIBRARIES}
+)
+
+# Shared pybind11 module settings
 add_library(${CMAKE_PROJECT_NAME} SHARED
   main.cpp
   udpserver.cpp

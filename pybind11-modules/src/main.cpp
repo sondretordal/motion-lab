@@ -20,7 +20,6 @@ PYBIND11_PLUGIN(MotionLab) {
 
 int main(int argc, char** argv)
 {
-
   UdpServer udp;
   udp.Start();
   int a = 0;
@@ -31,12 +30,7 @@ int main(int argc, char** argv)
   }
   udp.Stop();
 
-  /*
-  MyClass test;
-  test.start();
-  std::this_thread::sleep_for (std::chrono::seconds(5));
-  test.stop();
-  */
+
 
 
   return 0;
