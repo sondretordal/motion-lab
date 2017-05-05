@@ -1,5 +1,6 @@
 *.ini
 *.csv
+*.json
 
 build/
 plc/

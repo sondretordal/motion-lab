@@ -23,6 +23,8 @@ struct RxData {
   float data[50];
 };
 
+//TxData sst;
+
 class UdpServer
 {
 private:
@@ -46,6 +48,8 @@ private:
 public:
   UdpServer(unsigned int port = 50050);
   ~UdpServer();
+
+  TxData test;
 
   void Start();
   void Close();

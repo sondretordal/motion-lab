@@ -2,9 +2,9 @@ from build import MotionLab
 import numpy as np
 import time
 
-ml = MotionLab.udpserver()
+ml = MotionLab.udpserver(50050)
 
-ml.Start()
+ml.start()
 
 #A = np.matrix(np.random.rand(500, 500))
 #
@@ -15,8 +15,9 @@ ml.Start()
 #    B = A.I
 #    i = i + 1
 
+from build import MotionLab
 
-#ml.Stop()
+ml.close()
 
 
 
