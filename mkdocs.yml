@@ -1,0 +1,6 @@
+site_name: Norwegian Motion Laboratory
+
+pages:
+  - Home: index.md
+
+theme: readthedocs
