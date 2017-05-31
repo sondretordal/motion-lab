@@ -1,8 +1,10 @@
 Welcome to the motion-lab wiki!
 
-# Code
-This pages shows a couple of test-scripts
+# Home
+This is the home page
 
-sondre
+# Links
+Here are a list of pages
 
-test
+* About [This is the text](about)
+* Info (does not exit)

@@ -4,6 +4,7 @@
 
 
 build/
+site/
 plc/
 udp/
-docs/_build/
+
