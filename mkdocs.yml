@@ -1,7 +1,0 @@
-site_name: Norwegian Motion Laboratory
-
-pages:
-  - Home: index.md
-  - About: about.md
-
-theme: readthedocs
