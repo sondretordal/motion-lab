@@ -1,17 +1,17 @@
 .. _about:
 
-First steps
+About
 ###########
 
-This sections demonstrates the basic features of pybind11. Before getting
-started, make sure that development environment is set up to compile the
-included set of test cases.
-
-SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+This section covers the information regarding the Motion-Laboratory project
 
 
-Compiling the test cases
+Subsection
 ========================
 
-Linux/MacOS
------------
+Subsubsection
+-------------
+
+.. math::
+
+   \frac{ \sum_{t=0}^{N}f(t,k) }{N}
