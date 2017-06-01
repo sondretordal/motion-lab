@@ -12,6 +12,7 @@ Norwegian Motion-laboratory documentation
    
    about
    code
+   publications
 
 Indices and tables
 ==================
