@@ -2,9 +2,11 @@
 *.csv
 *.json
 
-
 build/
 site/
 plc/
 udp/
 
+_build/
+_static/
+_templates/
