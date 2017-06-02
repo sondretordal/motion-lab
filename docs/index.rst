@@ -12,7 +12,13 @@ Norwegian Motion-laboratory documentation
    
    about
    code
-   publications
+
+.. toctree::
+    :maxdepth: 2
+    :caption: Communication:
+
+    com
+    publications
 
 Indices and tables
 ==================
