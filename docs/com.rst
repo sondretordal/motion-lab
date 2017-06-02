@@ -11,7 +11,30 @@ and a Real-Time target computer which is connected to the user portal.
 
 A schematic of the communication setup is illustrated in the figure below.
 
-.. image:: /img/communcation_schematic.svg
+.. image:: /img/communication_setup_schematic.svg
 
 As the figure shows, different components uses different communication protocols, 
 where each of the components has their own IP address, and communication port.
+
+KVM Switch
+----------
+
++-------------------------------+--------------+
+| System:                       | Port Number: |
++===============================+==============+
+| Host PC                       |       1      |
++-------------------------------+--------------+
+| Real-Time Target PC           |       2      |
++-------------------------------+--------------+
+| Motion Capture PC:  Qualisys  |       3      |
++-------------------------------+--------------+
+| Motion PC: EM 8000            |       4      |
++-------------------------------+--------------+
+| Motion PC: EM 1500            |       5      |
++-------------------------------+--------------+
+| Linux PC:  COMAU              |       6      |
++-------------------------------+--------------+
+| Spare connection (not in use) |       7      |
++-------------------------------+--------------+
+| Spare connection (not in use) |       8      |
++-------------------------------+--------------+
