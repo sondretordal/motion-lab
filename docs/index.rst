@@ -13,6 +13,7 @@ Norwegian Motion-laboratory documentation
    about
    code
 
+.. Test the toctree
 .. toctree::
     :maxdepth: 2
     :caption: Communication:
