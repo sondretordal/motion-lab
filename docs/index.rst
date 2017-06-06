@@ -7,17 +7,11 @@ Norwegian Motion-laboratory documentation
 =========================================
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
-   
-   about
-   code
-
-.. Test the toctree
-.. toctree::
     :maxdepth: 2
-    :caption: Communication:
-
+    :caption: Contents:
+   
+    about
+    code
     com
     publications
 
