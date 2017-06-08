@@ -13,6 +13,7 @@ Norwegian Motion-laboratory documentation
     about
     code
     com
+    comau
     publications
 
 Indices and tables
