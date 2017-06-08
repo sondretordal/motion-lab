@@ -4,8 +4,6 @@ import sys
 from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QMessageBox
 from PyQt5 import uic
 import pyads
-import numpy as np
-import pandas as pd
 
 gui_main_file = './gui/main.ui' # Enter file here.
 gui_main, QtBaseClass = uic.loadUiType(gui_main_file)
@@ -35,25 +33,6 @@ class MyApp(QMainWindow):
         self.ui.COMAU_engaged_fast.clicked.connect(self.COMAU_engaged_fast)
 
         self.ui.COMAU_omega.valueChanged.connect(self.COMAU_omega)
-        
-        self.ui.handEyeCalib.clicked.connect(self.HandEyeCalib)
-        self.ui.handEyeCalibSave.clicked.connect(self.HandEyeCalibSave)
-        
-        self.dataCalib = []
-        self.logCount = 0
-        
-    def HandEyeCalibSave(self):
-        df = pd.DataFrame(self.dataCalib)
-        
-        df.to_csv(".\dataCalib.csv", header = False, index = False)
-        print("Calibration data saved as: .\dataCalib.csv")
-
-    def HandEyeCalib(self):
-        data = pyads.read_by_name(self.adr, 'REMOTE.Feedback.data', pyads.PLCTYPE_ARR_REAL(20))
-        self.dataCalib.append(data)
-        
-        self.logCount = self.logCount + 1
-        print("Calibration counter = ",self.logCount)
 
     def EM1500_settled(self):
         pyads.write_by_name(self.adr, 'EM1500.Control.CMND', 1, pyads.PLCTYPE_DINT)
