@@ -1,0 +1,7 @@
+/.cnfg/
+/cnfg/
+/CMakeFiles/*
+*.cmake
+CMakeCache.txt
+main
+Makefile
