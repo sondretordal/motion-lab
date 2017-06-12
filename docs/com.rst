@@ -155,9 +155,9 @@ Available systems are listed in the table below, with the related port number.
 +-------------------------------+--------------+
 | System:                       | Port Number: |
 +===============================+==============+
-| Host PC                       |       1      |
+| External Connection           |       1      |
 +-------------------------------+--------------+
-| Real-Time Target PC           |       2      |
+| Host PC                       |       2      |
 +-------------------------------+--------------+
 | Motion Capture PC:  Qualisys  |       3      |
 +-------------------------------+--------------+
