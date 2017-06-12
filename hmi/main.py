@@ -11,7 +11,7 @@ gui_main, QtBaseClass = uic.loadUiType(gui_main_file)
 class MyApp(QMainWindow):
     def __init__(self):
         # Open ADS Port
-        pyads.open_port();
+        pyads.open_port()
 
         # Set PLC ADS address
         self.adr = pyads.AmsAddr('192.168.90.150.1.1', 851)
@@ -19,6 +19,7 @@ class MyApp(QMainWindow):
         super(MyApp,self).__init__()
         self.ui = gui_main()
         self.ui.setupUi(self)
+        
 
         self.ui.EM1500_settled.clicked.connect(self.EM1500_settled)
         self.ui.EM1500_neutral.clicked.connect(self.EM1500_neutral)
@@ -90,7 +91,8 @@ def main():
 
     app = QApplication(sys.argv)
     window = MyApp()
-    window.show()
+#    window.show()              # Start application in windowed mode
+    window.showFullScreen()     # Start application in fullscreen mode
     app.exec_()
 
 
