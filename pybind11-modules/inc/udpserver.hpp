@@ -16,11 +16,13 @@
 // Threads in classes: https://rafalcieslak.wordpress.com/2014/05/16/c11-stdthreads-managed-by-a-designated-class/
 
 struct TxData {
-  float data[50];
+  unsigned int counter;
+  float data[49];
 };
 
 struct RxData {
-  float data[50];
+  unsigned int counter;
+  float data[49];
 };
 
 //TxData sst;
