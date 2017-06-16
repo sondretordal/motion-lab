@@ -1,14 +1,16 @@
 import sys
 
-
-from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QMessageBox
+from PyQt5.QtWidgets import *
+from PyQt5.QtCore import *
 from PyQt5 import uic
+import numpy as np
+import pyqtgraph as pg
 import pyads
 
 gui_main_file = './gui/main.ui' # Enter file here.
 gui_main, QtBaseClass = uic.loadUiType(gui_main_file)
 
-class MyApp(QMainWindow):
+class MyApp(QMainWindow, QWidget):
     def __init__(self):
         # Open ADS Port
         pyads.open_port()
@@ -19,7 +21,6 @@ class MyApp(QMainWindow):
         super(MyApp,self).__init__()
         self.ui = gui_main()
         self.ui.setupUi(self)
-        
 
         self.ui.EM1500_settled.clicked.connect(self.EM1500_settled)
         self.ui.EM1500_neutral.clicked.connect(self.EM1500_neutral)
@@ -34,6 +35,34 @@ class MyApp(QMainWindow):
         self.ui.COMAU_engaged_fast.clicked.connect(self.COMAU_engaged_fast)
 
         self.ui.COMAU_omega.valueChanged.connect(self.COMAU_omega)
+
+        # Live plot
+        self.ui.plotwidget = pg.PlotWidget()
+        self.ui.plotcurve = pg.PlotCurveItem()
+        #self.ui.plotwidget.addItem(self.ui.plotcurve)   
+        self.ui.pyqtgraph_plot.addItem(self.ui.plotcurve) 
+
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.update_plot)
+        self.timer.start(50)
+        self.t = np.linspace(0, 10, 100)
+        self.y = np.zeros(100)
+
+        
+
+    def update_plot(self):
+        self.t[0:-1] = self.t[1:]
+        self.t[-1] = pyads.read_by_name(self.adr, 'Main.t', pyads.PLCTYPE_REAL)
+        
+        self.y[0:-1] = self.y[1:]
+        self.y[-1] = pyads.read_by_name(self.adr, 'Main.test', pyads.PLCTYPE_REAL)
+
+        t = pyads.read_by_name(self.adr, 'Main.t', pyads.PLCTYPE_REAL)
+
+        self.ui.pyqtgraph_plot.setYRange(-1, 1)
+        self.ui.pyqtgraph_plot.setXRange(t-10, t)
+        self.ui.plotcurve.setData(self.t, self.y)
+
 
     def EM1500_settled(self):
         pyads.write_by_name(self.adr, 'EM1500.Control.CMND', 1, pyads.PLCTYPE_DINT)
@@ -91,8 +120,7 @@ def main():
 
     app = QApplication(sys.argv)
     window = MyApp()
-#    window.show()              # Start application in windowed mode
-    window.showFullScreen()     # Start application in fullscreen mode
+    window.show()              # Start application in windowed mode
     app.exec_()
 
 
