@@ -7,7 +7,7 @@ import pyqtgraph as pg
 import pyads
 import csv
 
-gui_main_file = './src/gui/main.ui' # Enter file here. 
+gui_main_file = './src/main.ui' # Enter file here. 
 gui_main, QtBaseClass = uic.loadUiType(gui_main_file)
 
 class GUI(QMainWindow,gui_main):
@@ -33,6 +33,7 @@ class GUI(QMainWindow,gui_main):
         self.y = np.zeros(1000)
         self.time_save = []
         self.data_save = []
+        self.time_range = 15
 
         # Calling GUI connection function
         self.ui_connect()                               # Calling the function "ui_connect"
@@ -64,19 +65,19 @@ class GUI(QMainWindow,gui_main):
         self.pyqtgraph_plot_11.plot(a, b)
 
 
-        p1 = self.plot_EM1500.addPlot()
-        p2 = self.plot_EM1500.addPlot()
-        p3 = self.plot_EM1500.addPlot()
-        self.plot_EM1500.nextRow()
-        p4 = self.plot_EM1500.addPlot()
-        p5 = self.plot_EM1500.addPlot()
-        p6 = self.plot_EM1500.addPlot()
-        curve1 = p1.plot(a, b)
-        curve2 = p2.plot(a, c)
-        curve3 = p3.plot(a, d)
-        curve4 = p4.plot(a, b)
-        curve5 = p5.plot(a, c)
-        curve6 = p6.plot(a, d)
+        # p1 = self.plot_EM1500.addPlot()
+        # p2 = self.plot_EM1500.addPlot()
+        # p3 = self.plot_EM1500.addPlot()
+        # self.plot_EM1500.nextRow()
+        # p4 = self.plot_EM1500.addPlot()
+        # p5 = self.plot_EM1500.addPlot()
+        # p6 = self.plot_EM1500.addPlot()
+        # curve1 = p1.plot(a, b)
+        # curve2 = p2.plot(a, c)
+        # curve3 = p3.plot(a, d)
+        # curve4 = p4.plot(a, b)
+        # curve5 = p5.plot(a, c)
+        # curve6 = p6.plot(a, d)
 
  
         self.p11 = self.plot_COMAU.addPlot()
@@ -90,6 +91,40 @@ class GUI(QMainWindow,gui_main):
         self.curve11 = self.p11.plot(pen="y")
         self.curve12 = self.p12.plot(pen="r", name="red")
         self.curve13 = self.p12.plot(pen="g", name="green")
+
+        # EM1500 - Plot Setup
+        #-----------------------------------------------------------------------#
+
+        # Adding position-plot and angle-plot objects to plot widget
+        self.EM1500_plot_pos = self.EM1500_plot.addPlot()
+        self.EM1500_plot.nextRow()
+        self.EM1500_plot_ang = self.EM1500_plot.addPlot()
+
+        # Adding lables and legends to plot objects
+        self.EM1500_plot_pos.setLabel('left','Position','m')
+        self.EM1500_plot_ang.setLabel('left','Angle','deg')
+        self.EM1500_plot_ang.setLabel('bottom','Time (s)')
+
+        self.EM1500_plot_pos.addLegend(size=None, offset=(30, 30))
+        self.EM1500_plot_ang.addLegend(size=None, offset=(30, 30))
+
+        # Adding position curves to position plot
+        self.EM1500_plot_pos_x = self.EM1500_plot_pos.plot(pen="y", name="Sway")
+        self.EM1500_plot_pos_y = self.EM1500_plot_pos.plot(pen="r", name="Surge")
+        self.EM1500_plot_pos_z = self.EM1500_plot_pos.plot(pen="g", name="Heave")
+
+        # Adding angle curves to angle plot
+        self.EM1500_plot_ang_r = self.EM1500_plot_ang.plot(pen="y", name="Roll")
+        self.EM1500_plot_ang_p = self.EM1500_plot_ang.plot(pen="r", name="Pitch")
+        self.EM1500_plot_ang_y = self.EM1500_plot_ang.plot(pen="g", name="Yaw")
+
+
+        self.text_edit1.setText("12.34")
+        self.text_edit2.setText("12.34")
+        self.text_edit3.setText("432.21")
+        self.text_edit4.setText("41233.21")
+        self.text_edit5.setText("43.21321")
+        self.text_edit6.setText("423.221")
 
         # Show UI
         self.show()
@@ -114,6 +149,26 @@ class GUI(QMainWindow,gui_main):
         self.plotcurve.setData(self.t, self.y)
         self.plotcurve2.setData(self.t, 0.5*self.y)
 
+        # Setup of Scrolling PlotWidget (EM1500)
+        #------------------------------------------------------------------------------#
+
+        # Set vertical and horizontal range
+        # the vertical range (time-axis) is a scrolling value (determined by user input)
+        self.EM1500_plot_pos.setYRange(-1, 1)
+        self.EM1500_plot_pos.setXRange(time-self.time_range, time)
+
+        self.EM1500_plot_ang.setYRange(-1, 1)
+        self.EM1500_plot_ang.setXRange(time-self.time_range, time)
+
+        # Plot data to related position curves
+        self.EM1500_plot_pos_x.setData(self.t, self.y)
+        self.EM1500_plot_pos_y.setData(self.t, 0.5*self.y)
+        self.EM1500_plot_pos_z.setData(self.t, 0.25*self.y)
+
+        # Plot data to related angle curves
+        self.EM1500_plot_ang_r.setData(self.t, self.y)
+        self.EM1500_plot_ang_p.setData(self.t, 0.5*self.y)
+        self.EM1500_plot_ang_y.setData(self.t, 0.25*self.y)
 
         # Setup of Scrolling PlotWidget (COMAU)
         self.p11.setYRange(-1, 1)
@@ -125,10 +180,18 @@ class GUI(QMainWindow,gui_main):
         self.curve11.setData(self.t, self.y)
         self.curve12.setData(self.t, self.y)
         self.curve13.setData(self.t, 0.5*self.y)
-
+        
         # Append obtained ADS data
         self.time_save.append(time)
         self.data_save.append(data)
+        
+        # Testing text edit box
+        self.text_edit1.setText(str(time))
+
+    # Function to change the time axis range of the plots
+    def plot_time_axis_range(self):
+
+        self.time_range = int(self.sender().currentText())
 
     # Save plot data function
     def save_plot_data(self):
@@ -174,6 +237,7 @@ class GUI(QMainWindow,gui_main):
 
         # Plotting Tab:
         #----------------------------------------------------------#
+        self.EM1500_plot_time_range.currentIndexChanged.connect(self.plot_time_axis_range)
         self.save_plot_btn.clicked.connect(self.save_plot_data)
 
         # Logging Tab:
