@@ -1,6 +1,7 @@
 *.ini
 *.csv
 *.json
+*.pyc
 
 build/
 site/
