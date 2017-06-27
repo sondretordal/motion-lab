@@ -38,7 +38,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab_interface">
        <attribute name="title">
@@ -1500,7 +1500,7 @@ color: rgb(255, 255, 255);
        <attribute name="title">
         <string>Plot</string>
        </attribute>
-       <widget class="QTabWidget" name="tabWidget_3">
+       <widget class="QTabWidget" name="tab">
         <property name="geometry">
          <rect>
           <x>20</x>
@@ -1510,263 +1510,17 @@ color: rgb(255, 255, 255);
          </rect>
         </property>
         <property name="currentIndex">
-         <number>1</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="widget">
          <attribute name="title">
           <string>EM 8000</string>
          </attribute>
-         <widget class="PlotWidget" name="pyqtgraph_plot">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>40</y>
-            <width>201</width>
-            <height>131</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="PlotWidget" name="pyqtgraph_plot_2">
-          <property name="geometry">
-           <rect>
-            <x>250</x>
-            <y>40</y>
-            <width>201</width>
-            <height>131</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="PlotWidget" name="pyqtgraph_plot_3">
-          <property name="geometry">
-           <rect>
-            <x>480</x>
-            <y>40</y>
-            <width>201</width>
-            <height>131</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="PlotWidget" name="pyqtgraph_plot_4">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>230</y>
-            <width>201</width>
-            <height>131</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_10">
-          <property name="geometry">
-           <rect>
-            <x>250</x>
-            <y>20</y>
-            <width>91</width>
-            <height>21</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Sway</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_11">
-          <property name="geometry">
-           <rect>
-            <x>480</x>
-            <y>20</y>
-            <width>91</width>
-            <height>21</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Heave</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_12">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>20</y>
-            <width>91</width>
-            <height>21</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Surge</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_19">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>210</y>
-            <width>91</width>
-            <height>21</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Roll</string>
-          </property>
-         </widget>
-         <widget class="PlotWidget" name="pyqtgraph_plot_5">
-          <property name="geometry">
-           <rect>
-            <x>250</x>
-            <y>230</y>
-            <width>201</width>
-            <height>131</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_20">
-          <property name="geometry">
-           <rect>
-            <x>250</x>
-            <y>210</y>
-            <width>91</width>
-            <height>21</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Pitch</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_32">
-          <property name="geometry">
-           <rect>
-            <x>480</x>
-            <y>210</y>
-            <width>91</width>
-            <height>21</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Yaw</string>
-          </property>
-         </widget>
-         <widget class="PlotWidget" name="pyqtgraph_plot_11">
-          <property name="geometry">
-           <rect>
-            <x>480</x>
-            <y>230</y>
-            <width>201</width>
-            <height>131</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="QPushButton" name="pushButton">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>180</y>
-            <width>81</width>
-            <height>21</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Save Plot</string>
-          </property>
-         </widget>
-         <widget class="QPushButton" name="pushButton_2">
-          <property name="geometry">
-           <rect>
-            <x>250</x>
-            <y>180</y>
-            <width>81</width>
-            <height>21</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Save Plot</string>
-          </property>
-         </widget>
-         <widget class="QPushButton" name="pushButton_3">
-          <property name="geometry">
-           <rect>
-            <x>480</x>
-            <y>180</y>
-            <width>81</width>
-            <height>21</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Save Plot</string>
-          </property>
-         </widget>
-         <widget class="QPushButton" name="pushButton_4">
-          <property name="geometry">
-           <rect>
-            <x>480</x>
-            <y>370</y>
-            <width>81</width>
-            <height>21</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Save Plot</string>
-          </property>
-         </widget>
-         <widget class="QPushButton" name="pushButton_5">
-          <property name="geometry">
-           <rect>
-            <x>250</x>
-            <y>370</y>
-            <width>81</width>
-            <height>21</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Save Plot</string>
-          </property>
-         </widget>
-         <widget class="QPushButton" name="pushButton_6">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>370</y>
-            <width>81</width>
-            <height>21</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Save Plot</string>
-          </property>
-         </widget>
          <widget class="QGroupBox" name="groupBox_4">
           <property name="geometry">
            <rect>
-            <x>540</x>
-            <y>310</y>
+            <x>10</x>
+            <y>290</y>
             <width>261</width>
             <height>291</height>
            </rect>
@@ -2038,6 +1792,440 @@ color: rgb(255, 255, 255);
             <set>Qt::AlignCenter</set>
            </property>
           </widget>
+         </widget>
+         <widget class="QGroupBox" name="groupBox_12">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>10</y>
+            <width>261</width>
+            <height>211</height>
+           </rect>
+          </property>
+          <property name="title">
+           <string>Plot Values</string>
+          </property>
+          <widget class="QTextEdit" name="EM8000_output_pos_y">
+           <property name="geometry">
+            <rect>
+             <x>110</x>
+             <y>60</y>
+             <width>91</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="verticalScrollBarPolicy">
+            <enum>Qt::ScrollBarAlwaysOff</enum>
+           </property>
+           <property name="undoRedoEnabled">
+            <bool>false</bool>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_65">
+           <property name="geometry">
+            <rect>
+             <x>210</x>
+             <y>60</y>
+             <width>31</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>[m]</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_84">
+           <property name="geometry">
+            <rect>
+             <x>210</x>
+             <y>90</y>
+             <width>31</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>[m]</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QTextEdit" name="EM8000_output_pos_z">
+           <property name="geometry">
+            <rect>
+             <x>110</x>
+             <y>90</y>
+             <width>91</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="verticalScrollBarPolicy">
+            <enum>Qt::ScrollBarAlwaysOff</enum>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_85">
+           <property name="geometry">
+            <rect>
+             <x>210</x>
+             <y>30</y>
+             <width>31</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>[m]</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QTextEdit" name="EM8000_output_pos_x">
+           <property name="geometry">
+            <rect>
+             <x>110</x>
+             <y>30</y>
+             <width>91</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="verticalScrollBarPolicy">
+            <enum>Qt::ScrollBarAlwaysOff</enum>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_86">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>31</y>
+             <width>91</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Surge (X) :</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QTextEdit" name="EM8000_output_ang_y">
+           <property name="geometry">
+            <rect>
+             <x>110</x>
+             <y>180</y>
+             <width>91</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="verticalScrollBarPolicy">
+            <enum>Qt::ScrollBarAlwaysOff</enum>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_87">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>150</y>
+             <width>41</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Pitch :</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QTextEdit" name="EM8000_output_ang_r">
+           <property name="geometry">
+            <rect>
+             <x>110</x>
+             <y>120</y>
+             <width>91</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="verticalScrollBarPolicy">
+            <enum>Qt::ScrollBarAlwaysOff</enum>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_88">
+           <property name="geometry">
+            <rect>
+             <x>210</x>
+             <y>120</y>
+             <width>31</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>[deg]</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QTextEdit" name="EM8000_output_ang_p">
+           <property name="geometry">
+            <rect>
+             <x>110</x>
+             <y>150</y>
+             <width>91</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="verticalScrollBarPolicy">
+            <enum>Qt::ScrollBarAlwaysOff</enum>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_89">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>121</y>
+             <width>41</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Roll  :</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_90">
+           <property name="geometry">
+            <rect>
+             <x>210</x>
+             <y>150</y>
+             <width>31</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>[deg]</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_91">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>180</y>
+             <width>41</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Yaw  :</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_92">
+           <property name="geometry">
+            <rect>
+             <x>210</x>
+             <y>180</y>
+             <width>31</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>[deg]</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_93">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>60</y>
+             <width>91</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Sway (Y)  :</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_94">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>90</y>
+             <width>91</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Heave (Z) :</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </widget>
+         <widget class="QGroupBox" name="groupBox_13">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>230</y>
+            <width>261</width>
+            <height>51</height>
+           </rect>
+          </property>
+          <property name="title">
+           <string>Plot options</string>
+          </property>
+          <widget class="QLabel" name="label_95">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>20</y>
+             <width>101</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Time axis range:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QComboBox" name="EM8000_plot_time_range">
+           <property name="geometry">
+            <rect>
+             <x>130</x>
+             <y>20</y>
+             <width>69</width>
+             <height>22</height>
+            </rect>
+           </property>
+           <property name="currentText">
+            <string>15</string>
+           </property>
+           <property name="currentIndex">
+            <number>2</number>
+           </property>
+           <item>
+            <property name="text">
+             <string>5</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>10</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>15</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>20</string>
+            </property>
+           </item>
+          </widget>
+          <widget class="QLabel" name="label_96">
+           <property name="geometry">
+            <rect>
+             <x>210</x>
+             <y>20</y>
+             <width>31</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>[s]</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </widget>
+         <widget class="GraphicsLayoutWidget" name="EM8000_plot">
+          <property name="geometry">
+           <rect>
+            <x>290</x>
+            <y>20</y>
+            <width>761</width>
+            <height>561</height>
+           </rect>
+          </property>
          </widget>
         </widget>
         <widget class="QWidget" name="tab_3">
@@ -2343,7 +2531,7 @@ color: rgb(255, 255, 255);
           <property name="title">
            <string>Plot Values</string>
           </property>
-          <widget class="QTextEdit" name="text_edit2">
+          <widget class="QTextEdit" name="EM1500_output_pos_y">
            <property name="geometry">
             <rect>
              <x>110</x>
@@ -2403,7 +2591,7 @@ color: rgb(255, 255, 255);
             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
            </property>
           </widget>
-          <widget class="QTextEdit" name="text_edit3">
+          <widget class="QTextEdit" name="EM1500_output_pos_z">
            <property name="geometry">
             <rect>
              <x>110</x>
@@ -2441,7 +2629,7 @@ color: rgb(255, 255, 255);
             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
            </property>
           </widget>
-          <widget class="QTextEdit" name="text_edit1">
+          <widget class="QTextEdit" name="EM1500_output_pos_x">
            <property name="geometry">
             <rect>
              <x>110</x>
@@ -2479,7 +2667,7 @@ color: rgb(255, 255, 255);
             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
            </property>
           </widget>
-          <widget class="QTextEdit" name="text_edit6">
+          <widget class="QTextEdit" name="EM1500_output_ang_y">
            <property name="geometry">
             <rect>
              <x>110</x>
@@ -2517,7 +2705,7 @@ color: rgb(255, 255, 255);
             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
            </property>
           </widget>
-          <widget class="QTextEdit" name="text_edit4">
+          <widget class="QTextEdit" name="EM1500_output_ang_r">
            <property name="geometry">
             <rect>
              <x>110</x>
@@ -2555,7 +2743,7 @@ color: rgb(255, 255, 255);
             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
            </property>
           </widget>
-          <widget class="QTextEdit" name="text_edit5">
+          <widget class="QTextEdit" name="EM1500_output_ang_p">
            <property name="geometry">
             <rect>
              <x>110</x>
@@ -2760,28 +2948,716 @@ color: rgb(255, 255, 255);
          <attribute name="title">
           <string>COMAU</string>
          </attribute>
-         <widget class="GraphicsLayoutWidget" name="plot_COMAU">
+         <widget class="QGroupBox" name="groupBox_20">
           <property name="geometry">
            <rect>
-            <x>15</x>
-            <y>11</y>
-            <width>681</width>
-            <height>351</height>
+            <x>10</x>
+            <y>290</y>
+            <width>261</width>
+            <height>291</height>
+           </rect>
+          </property>
+          <property name="title">
+           <string>COMAU Joint Position</string>
+          </property>
+          <widget class="QProgressBar" name="progressBar_44">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>30</y>
+             <width>21</width>
+             <height>221</height>
+            </rect>
+           </property>
+           <property name="value">
+            <number>24</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="invertedAppearance">
+            <bool>false</bool>
+           </property>
+          </widget>
+          <widget class="QProgressBar" name="progressBar_45">
+           <property name="geometry">
+            <rect>
+             <x>60</x>
+             <y>30</y>
+             <width>21</width>
+             <height>221</height>
+            </rect>
+           </property>
+           <property name="value">
+            <number>24</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="invertedAppearance">
+            <bool>false</bool>
+           </property>
+          </widget>
+          <widget class="QProgressBar" name="progressBar_46">
+           <property name="geometry">
+            <rect>
+             <x>100</x>
+             <y>30</y>
+             <width>21</width>
+             <height>221</height>
+            </rect>
+           </property>
+           <property name="value">
+            <number>24</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="invertedAppearance">
+            <bool>false</bool>
+           </property>
+          </widget>
+          <widget class="QProgressBar" name="progressBar_47">
+           <property name="geometry">
+            <rect>
+             <x>140</x>
+             <y>30</y>
+             <width>21</width>
+             <height>221</height>
+            </rect>
+           </property>
+           <property name="value">
+            <number>24</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="invertedAppearance">
+            <bool>false</bool>
+           </property>
+          </widget>
+          <widget class="QProgressBar" name="progressBar_48">
+           <property name="geometry">
+            <rect>
+             <x>180</x>
+             <y>30</y>
+             <width>21</width>
+             <height>221</height>
+            </rect>
+           </property>
+           <property name="value">
+            <number>24</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="invertedAppearance">
+            <bool>false</bool>
+           </property>
+          </widget>
+          <widget class="QProgressBar" name="progressBar_49">
+           <property name="geometry">
+            <rect>
+             <x>220</x>
+             <y>30</y>
+             <width>21</width>
+             <height>221</height>
+            </rect>
+           </property>
+           <property name="value">
+            <number>24</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="invertedAppearance">
+            <bool>false</bool>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_129">
+           <property name="geometry">
+            <rect>
+             <x>180</x>
+             <y>260</y>
+             <width>21</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="text">
+            <string>5</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_130">
+           <property name="geometry">
+            <rect>
+             <x>220</x>
+             <y>260</y>
+             <width>21</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="text">
+            <string>6</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_131">
+           <property name="geometry">
+            <rect>
+             <x>140</x>
+             <y>260</y>
+             <width>21</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="text">
+            <string>4</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_132">
+           <property name="geometry">
+            <rect>
+             <x>100</x>
+             <y>260</y>
+             <width>21</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="text">
+            <string>3</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_133">
+           <property name="geometry">
+            <rect>
+             <x>60</x>
+             <y>260</y>
+             <width>21</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="text">
+            <string>2</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_134">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>260</y>
+             <width>21</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="text">
+            <string>1</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </widget>
+         <widget class="QGroupBox" name="groupBox_21">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>10</y>
+            <width>261</width>
+            <height>211</height>
+           </rect>
+          </property>
+          <property name="title">
+           <string>Plot Values</string>
+          </property>
+          <widget class="QTextEdit" name="COMAU_output_pos_j2">
+           <property name="geometry">
+            <rect>
+             <x>110</x>
+             <y>60</y>
+             <width>91</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="verticalScrollBarPolicy">
+            <enum>Qt::ScrollBarAlwaysOff</enum>
+           </property>
+           <property name="undoRedoEnabled">
+            <bool>false</bool>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_135">
+           <property name="geometry">
+            <rect>
+             <x>210</x>
+             <y>60</y>
+             <width>31</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>[deg]</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_136">
+           <property name="geometry">
+            <rect>
+             <x>210</x>
+             <y>90</y>
+             <width>31</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>[deg]</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QTextEdit" name="COMAU_output_pos_j3">
+           <property name="geometry">
+            <rect>
+             <x>110</x>
+             <y>90</y>
+             <width>91</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="verticalScrollBarPolicy">
+            <enum>Qt::ScrollBarAlwaysOff</enum>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_137">
+           <property name="geometry">
+            <rect>
+             <x>210</x>
+             <y>30</y>
+             <width>31</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>[deg]</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QTextEdit" name="COMAU_output_pos_j1">
+           <property name="geometry">
+            <rect>
+             <x>110</x>
+             <y>30</y>
+             <width>91</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="verticalScrollBarPolicy">
+            <enum>Qt::ScrollBarAlwaysOff</enum>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_138">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>31</y>
+             <width>91</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Joint 1 :</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QTextEdit" name="COMAU_output_pos_j6">
+           <property name="geometry">
+            <rect>
+             <x>110</x>
+             <y>180</y>
+             <width>91</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="verticalScrollBarPolicy">
+            <enum>Qt::ScrollBarAlwaysOff</enum>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_139">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>150</y>
+             <width>91</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Joint 5 :</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QTextEdit" name="COMAU_output_pos_j4">
+           <property name="geometry">
+            <rect>
+             <x>110</x>
+             <y>120</y>
+             <width>91</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="verticalScrollBarPolicy">
+            <enum>Qt::ScrollBarAlwaysOff</enum>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_140">
+           <property name="geometry">
+            <rect>
+             <x>210</x>
+             <y>120</y>
+             <width>31</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>[deg]</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QTextEdit" name="COMAU_output_pos_j5">
+           <property name="geometry">
+            <rect>
+             <x>110</x>
+             <y>150</y>
+             <width>91</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="verticalScrollBarPolicy">
+            <enum>Qt::ScrollBarAlwaysOff</enum>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_141">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>121</y>
+             <width>91</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Joint 4 :</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_142">
+           <property name="geometry">
+            <rect>
+             <x>210</x>
+             <y>150</y>
+             <width>31</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>[deg]</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_143">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>180</y>
+             <width>91</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Joint 6 :</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_144">
+           <property name="geometry">
+            <rect>
+             <x>210</x>
+             <y>180</y>
+             <width>31</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>[deg]</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_145">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>60</y>
+             <width>91</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Joint 2 :</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_146">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>90</y>
+             <width>91</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Joint 3 :</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </widget>
+         <widget class="GraphicsLayoutWidget" name="COMAU_plot">
+          <property name="geometry">
+           <rect>
+            <x>290</x>
+            <y>20</y>
+            <width>761</width>
+            <height>561</height>
            </rect>
           </property>
          </widget>
-         <widget class="QPushButton" name="save_plot_btn">
+         <widget class="QGroupBox" name="groupBox_22">
           <property name="geometry">
            <rect>
-            <x>20</x>
-            <y>365</y>
-            <width>71</width>
-            <height>21</height>
+            <x>10</x>
+            <y>230</y>
+            <width>261</width>
+            <height>51</height>
            </rect>
           </property>
-          <property name="text">
-           <string>Save Plot 1</string>
+          <property name="title">
+           <string>Plot options</string>
           </property>
+          <widget class="QLabel" name="label_147">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>20</y>
+             <width>101</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Time axis range:</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QComboBox" name="COMAU_plot_time_range">
+           <property name="geometry">
+            <rect>
+             <x>130</x>
+             <y>20</y>
+             <width>69</width>
+             <height>22</height>
+            </rect>
+           </property>
+           <property name="currentText">
+            <string>15</string>
+           </property>
+           <property name="currentIndex">
+            <number>2</number>
+           </property>
+           <item>
+            <property name="text">
+             <string>5</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>10</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>15</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>20</string>
+            </property>
+           </item>
+          </widget>
+          <widget class="QLabel" name="label_148">
+           <property name="geometry">
+            <rect>
+             <x>210</x>
+             <y>20</y>
+             <width>31</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>[s]</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
          </widget>
         </widget>
        </widget>
@@ -3944,24 +4820,6 @@ color: rgb(255, 255, 255);
    </layout>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <widget class="QMenuBar" name="menuBar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>1142</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menuFile">
-    <property name="title">
-     <string>File</string>
-    </property>
-    <addaction name="menu_open_file"/>
-    <addaction name="menu_save_file"/>
-   </widget>
-   <addaction name="menuFile"/>
-  </widget>
   <action name="menu_open_file">
    <property name="text">
     <string>Open File</string>
@@ -3986,11 +4844,6 @@ color: rgb(255, 255, 255);
   </action>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>PlotWidget</class>
-   <extends>QGraphicsView</extends>
-   <header>pyqtgraph</header>
-  </customwidget>
   <customwidget>
    <class>GraphicsLayoutWidget</class>
    <extends>QGraphicsView</extends>
