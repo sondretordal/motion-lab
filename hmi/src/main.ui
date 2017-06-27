@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1142</width>
-    <height>870</height>
+    <width>1130</width>
+    <height>768</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,7 +15,7 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="1">
+    <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -38,7 +38,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab_interface">
        <attribute name="title">
@@ -607,8 +607,11 @@ color: rgb(255, 255, 255);
            <height>221</height>
           </rect>
          </property>
+         <property name="minimum">
+          <number>-100</number>
+         </property>
          <property name="value">
-          <number>24</number>
+          <number>0</number>
          </property>
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -626,8 +629,11 @@ color: rgb(255, 255, 255);
            <height>221</height>
           </rect>
          </property>
+         <property name="minimum">
+          <number>-100</number>
+         </property>
          <property name="value">
-          <number>24</number>
+          <number>0</number>
          </property>
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -645,8 +651,11 @@ color: rgb(255, 255, 255);
            <height>221</height>
           </rect>
          </property>
+         <property name="minimum">
+          <number>-100</number>
+         </property>
          <property name="value">
-          <number>24</number>
+          <number>0</number>
          </property>
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -664,8 +673,11 @@ color: rgb(255, 255, 255);
            <height>221</height>
           </rect>
          </property>
+         <property name="minimum">
+          <number>-100</number>
+         </property>
          <property name="value">
-          <number>24</number>
+          <number>0</number>
          </property>
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -683,8 +695,11 @@ color: rgb(255, 255, 255);
            <height>221</height>
           </rect>
          </property>
+         <property name="minimum">
+          <number>-100</number>
+         </property>
          <property name="value">
-          <number>24</number>
+          <number>0</number>
          </property>
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -702,8 +717,11 @@ color: rgb(255, 255, 255);
            <height>221</height>
           </rect>
          </property>
+         <property name="minimum">
+          <number>-100</number>
+         </property>
          <property name="value">
-          <number>24</number>
+          <number>0</number>
          </property>
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -884,8 +902,11 @@ color: rgb(255, 255, 255);
            <height>221</height>
           </rect>
          </property>
+         <property name="minimum">
+          <number>-100</number>
+         </property>
          <property name="value">
-          <number>24</number>
+          <number>0</number>
          </property>
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -903,8 +924,11 @@ color: rgb(255, 255, 255);
            <height>221</height>
           </rect>
          </property>
+         <property name="minimum">
+          <number>-100</number>
+         </property>
          <property name="value">
-          <number>24</number>
+          <number>0</number>
          </property>
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -922,8 +946,11 @@ color: rgb(255, 255, 255);
            <height>221</height>
           </rect>
          </property>
+         <property name="minimum">
+          <number>-100</number>
+         </property>
          <property name="value">
-          <number>24</number>
+          <number>0</number>
          </property>
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -941,8 +968,11 @@ color: rgb(255, 255, 255);
            <height>221</height>
           </rect>
          </property>
+         <property name="minimum">
+          <number>-100</number>
+         </property>
          <property name="value">
-          <number>24</number>
+          <number>0</number>
          </property>
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -960,8 +990,11 @@ color: rgb(255, 255, 255);
            <height>221</height>
           </rect>
          </property>
+         <property name="minimum">
+          <number>-100</number>
+         </property>
          <property name="value">
-          <number>24</number>
+          <number>0</number>
          </property>
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -979,8 +1012,14 @@ color: rgb(255, 255, 255);
            <height>221</height>
           </rect>
          </property>
+         <property name="minimum">
+          <number>-100</number>
+         </property>
+         <property name="maximum">
+          <number>100</number>
+         </property>
          <property name="value">
-          <number>24</number>
+          <number>0</number>
          </property>
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -1218,8 +1257,11 @@ color: rgb(255, 255, 255);
            <height>221</height>
           </rect>
          </property>
+         <property name="minimum">
+          <number>-100</number>
+         </property>
          <property name="value">
-          <number>24</number>
+          <number>0</number>
          </property>
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -1237,8 +1279,11 @@ color: rgb(255, 255, 255);
            <height>221</height>
           </rect>
          </property>
+         <property name="minimum">
+          <number>-100</number>
+         </property>
          <property name="value">
-          <number>24</number>
+          <number>0</number>
          </property>
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -1256,8 +1301,11 @@ color: rgb(255, 255, 255);
            <height>221</height>
           </rect>
          </property>
+         <property name="minimum">
+          <number>-100</number>
+         </property>
          <property name="value">
-          <number>24</number>
+          <number>0</number>
          </property>
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -1275,8 +1323,11 @@ color: rgb(255, 255, 255);
            <height>221</height>
           </rect>
          </property>
+         <property name="minimum">
+          <number>-100</number>
+         </property>
          <property name="value">
-          <number>24</number>
+          <number>0</number>
          </property>
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -1294,8 +1345,11 @@ color: rgb(255, 255, 255);
            <height>221</height>
           </rect>
          </property>
+         <property name="minimum">
+          <number>-100</number>
+         </property>
          <property name="value">
-          <number>24</number>
+          <number>0</number>
          </property>
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -1313,8 +1367,11 @@ color: rgb(255, 255, 255);
            <height>221</height>
           </rect>
          </property>
+         <property name="minimum">
+          <number>-100</number>
+         </property>
          <property name="value">
-          <number>24</number>
+          <number>0</number>
          </property>
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -1474,6 +1531,45 @@ color: rgb(255, 255, 255);
          </property>
         </widget>
        </widget>
+       <widget class="Line" name="line_6">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>480</y>
+          <width>241</width>
+          <height>11</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="Line" name="line_7">
+        <property name="geometry">
+         <rect>
+          <x>310</x>
+          <y>490</y>
+          <width>241</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="Line" name="line_8">
+        <property name="geometry">
+         <rect>
+          <x>590</x>
+          <y>490</y>
+          <width>241</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
        <zorder>groupBox_EM8000</zorder>
        <zorder>groupBox_EM1500_2</zorder>
        <zorder>groupBox_EM1500</zorder>
@@ -1495,6 +1591,9 @@ color: rgb(255, 255, 255);
        <zorder>groupBox_8</zorder>
        <zorder>groupBox_9</zorder>
        <zorder>groupBox_10</zorder>
+       <zorder>line_6</zorder>
+       <zorder>line_7</zorder>
+       <zorder>line_8</zorder>
       </widget>
       <widget class="QWidget" name="tab_plot">
        <attribute name="title">
@@ -1510,7 +1609,7 @@ color: rgb(255, 255, 255);
          </rect>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>2</number>
         </property>
         <widget class="QWidget" name="widget">
          <attribute name="title">
@@ -1528,101 +1627,6 @@ color: rgb(255, 255, 255);
           <property name="title">
            <string>EM8000 Actuator Position</string>
           </property>
-          <widget class="QProgressBar" name="progressBar_2">
-           <property name="geometry">
-            <rect>
-             <x>20</x>
-             <y>30</y>
-             <width>21</width>
-             <height>221</height>
-            </rect>
-           </property>
-           <property name="value">
-            <number>24</number>
-           </property>
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="invertedAppearance">
-            <bool>false</bool>
-           </property>
-          </widget>
-          <widget class="QProgressBar" name="progressBar_3">
-           <property name="geometry">
-            <rect>
-             <x>60</x>
-             <y>30</y>
-             <width>21</width>
-             <height>221</height>
-            </rect>
-           </property>
-           <property name="value">
-            <number>24</number>
-           </property>
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="invertedAppearance">
-            <bool>false</bool>
-           </property>
-          </widget>
-          <widget class="QProgressBar" name="progressBar_4">
-           <property name="geometry">
-            <rect>
-             <x>100</x>
-             <y>30</y>
-             <width>21</width>
-             <height>221</height>
-            </rect>
-           </property>
-           <property name="value">
-            <number>24</number>
-           </property>
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="invertedAppearance">
-            <bool>false</bool>
-           </property>
-          </widget>
-          <widget class="QProgressBar" name="progressBar_5">
-           <property name="geometry">
-            <rect>
-             <x>140</x>
-             <y>30</y>
-             <width>21</width>
-             <height>221</height>
-            </rect>
-           </property>
-           <property name="value">
-            <number>24</number>
-           </property>
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="invertedAppearance">
-            <bool>false</bool>
-           </property>
-          </widget>
-          <widget class="QProgressBar" name="progressBar_6">
-           <property name="geometry">
-            <rect>
-             <x>180</x>
-             <y>30</y>
-             <width>21</width>
-             <height>221</height>
-            </rect>
-           </property>
-           <property name="value">
-            <number>24</number>
-           </property>
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="invertedAppearance">
-            <bool>false</bool>
-           </property>
-          </widget>
           <widget class="QProgressBar" name="progressBar_7">
            <property name="geometry">
             <rect>
@@ -1632,8 +1636,11 @@ color: rgb(255, 255, 255);
              <height>221</height>
             </rect>
            </property>
+           <property name="minimum">
+            <number>-100</number>
+           </property>
            <property name="value">
-            <number>24</number>
+            <number>0</number>
            </property>
            <property name="orientation">
             <enum>Qt::Vertical</enum>
@@ -1790,6 +1797,129 @@ color: rgb(255, 255, 255);
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+          <widget class="QProgressBar" name="progressBar_32">
+           <property name="geometry">
+            <rect>
+             <x>180</x>
+             <y>30</y>
+             <width>21</width>
+             <height>221</height>
+            </rect>
+           </property>
+           <property name="minimum">
+            <number>-100</number>
+           </property>
+           <property name="value">
+            <number>0</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="invertedAppearance">
+            <bool>false</bool>
+           </property>
+          </widget>
+          <widget class="QProgressBar" name="progressBar_33">
+           <property name="geometry">
+            <rect>
+             <x>140</x>
+             <y>30</y>
+             <width>21</width>
+             <height>221</height>
+            </rect>
+           </property>
+           <property name="minimum">
+            <number>-100</number>
+           </property>
+           <property name="value">
+            <number>0</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="invertedAppearance">
+            <bool>false</bool>
+           </property>
+          </widget>
+          <widget class="QProgressBar" name="progressBar_34">
+           <property name="geometry">
+            <rect>
+             <x>100</x>
+             <y>30</y>
+             <width>21</width>
+             <height>221</height>
+            </rect>
+           </property>
+           <property name="minimum">
+            <number>-100</number>
+           </property>
+           <property name="value">
+            <number>0</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="invertedAppearance">
+            <bool>false</bool>
+           </property>
+          </widget>
+          <widget class="QProgressBar" name="progressBar_35">
+           <property name="geometry">
+            <rect>
+             <x>60</x>
+             <y>30</y>
+             <width>21</width>
+             <height>221</height>
+            </rect>
+           </property>
+           <property name="minimum">
+            <number>-100</number>
+           </property>
+           <property name="value">
+            <number>0</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="invertedAppearance">
+            <bool>false</bool>
+           </property>
+          </widget>
+          <widget class="QProgressBar" name="progressBar_36">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>30</y>
+             <width>21</width>
+             <height>221</height>
+            </rect>
+           </property>
+           <property name="minimum">
+            <number>-100</number>
+           </property>
+           <property name="value">
+            <number>0</number>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="invertedAppearance">
+            <bool>false</bool>
+           </property>
+          </widget>
+          <widget class="Line" name="line_9">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>110</y>
+             <width>241</width>
+             <height>11</height>
+            </rect>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
            </property>
           </widget>
          </widget>
@@ -2174,10 +2304,10 @@ color: rgb(255, 255, 255);
             </rect>
            </property>
            <property name="currentText">
-            <string>15</string>
+            <string>20</string>
            </property>
            <property name="currentIndex">
-            <number>2</number>
+            <number>3</number>
            </property>
            <item>
             <property name="text">
@@ -2197,6 +2327,16 @@ color: rgb(255, 255, 255);
            <item>
             <property name="text">
              <string>20</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>25</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>30</string>
             </property>
            </item>
           </widget>
@@ -2263,8 +2403,11 @@ color: rgb(255, 255, 255);
              <height>221</height>
             </rect>
            </property>
+           <property name="minimum">
+            <number>-100</number>
+           </property>
            <property name="value">
-            <number>24</number>
+            <number>0</number>
            </property>
            <property name="orientation">
             <enum>Qt::Vertical</enum>
@@ -2282,8 +2425,11 @@ color: rgb(255, 255, 255);
              <height>221</height>
             </rect>
            </property>
+           <property name="minimum">
+            <number>-100</number>
+           </property>
            <property name="value">
-            <number>24</number>
+            <number>0</number>
            </property>
            <property name="orientation">
             <enum>Qt::Vertical</enum>
@@ -2301,8 +2447,11 @@ color: rgb(255, 255, 255);
              <height>221</height>
             </rect>
            </property>
+           <property name="minimum">
+            <number>-100</number>
+           </property>
            <property name="value">
-            <number>24</number>
+            <number>0</number>
            </property>
            <property name="orientation">
             <enum>Qt::Vertical</enum>
@@ -2320,8 +2469,11 @@ color: rgb(255, 255, 255);
              <height>221</height>
             </rect>
            </property>
+           <property name="minimum">
+            <number>-100</number>
+           </property>
            <property name="value">
-            <number>24</number>
+            <number>0</number>
            </property>
            <property name="orientation">
             <enum>Qt::Vertical</enum>
@@ -2339,8 +2491,11 @@ color: rgb(255, 255, 255);
              <height>221</height>
             </rect>
            </property>
+           <property name="minimum">
+            <number>-100</number>
+           </property>
            <property name="value">
-            <number>24</number>
+            <number>0</number>
            </property>
            <property name="orientation">
             <enum>Qt::Vertical</enum>
@@ -2358,8 +2513,11 @@ color: rgb(255, 255, 255);
              <height>221</height>
             </rect>
            </property>
+           <property name="minimum">
+            <number>-100</number>
+           </property>
            <property name="value">
-            <number>24</number>
+            <number>0</number>
            </property>
            <property name="orientation">
             <enum>Qt::Vertical</enum>
@@ -2516,6 +2674,19 @@ color: rgb(255, 255, 255);
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+          <widget class="Line" name="line_10">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>110</y>
+             <width>241</width>
+             <height>11</height>
+            </rect>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
            </property>
           </widget>
          </widget>
@@ -2900,10 +3071,10 @@ color: rgb(255, 255, 255);
             </rect>
            </property>
            <property name="currentText">
-            <string>15</string>
+            <string>20</string>
            </property>
            <property name="currentIndex">
-            <number>2</number>
+            <number>3</number>
            </property>
            <item>
             <property name="text">
@@ -2923,6 +3094,16 @@ color: rgb(255, 255, 255);
            <item>
             <property name="text">
              <string>20</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>25</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>30</string>
             </property>
            </item>
           </widget>
@@ -2960,7 +3141,7 @@ color: rgb(255, 255, 255);
           <property name="title">
            <string>COMAU Joint Position</string>
           </property>
-          <widget class="QProgressBar" name="progressBar_44">
+          <widget class="QProgressBar" name="COMAU_bar_j1">
            <property name="geometry">
             <rect>
              <x>20</x>
@@ -2969,8 +3150,14 @@ color: rgb(255, 255, 255);
              <height>221</height>
             </rect>
            </property>
+           <property name="minimum">
+            <number>-100</number>
+           </property>
+           <property name="maximum">
+            <number>100</number>
+           </property>
            <property name="value">
-            <number>24</number>
+            <number>0</number>
            </property>
            <property name="orientation">
             <enum>Qt::Vertical</enum>
@@ -2979,7 +3166,7 @@ color: rgb(255, 255, 255);
             <bool>false</bool>
            </property>
           </widget>
-          <widget class="QProgressBar" name="progressBar_45">
+          <widget class="QProgressBar" name="COMAU_bar_j2">
            <property name="geometry">
             <rect>
              <x>60</x>
@@ -2988,8 +3175,17 @@ color: rgb(255, 255, 255);
              <height>221</height>
             </rect>
            </property>
+           <property name="autoFillBackground">
+            <bool>false</bool>
+           </property>
+           <property name="minimum">
+            <number>-100</number>
+           </property>
+           <property name="maximum">
+            <number>100</number>
+           </property>
            <property name="value">
-            <number>24</number>
+            <number>0</number>
            </property>
            <property name="orientation">
             <enum>Qt::Vertical</enum>
@@ -3007,8 +3203,11 @@ color: rgb(255, 255, 255);
              <height>221</height>
             </rect>
            </property>
+           <property name="minimum">
+            <number>-100</number>
+           </property>
            <property name="value">
-            <number>24</number>
+            <number>0</number>
            </property>
            <property name="orientation">
             <enum>Qt::Vertical</enum>
@@ -3026,8 +3225,11 @@ color: rgb(255, 255, 255);
              <height>221</height>
             </rect>
            </property>
+           <property name="minimum">
+            <number>-100</number>
+           </property>
            <property name="value">
-            <number>24</number>
+            <number>0</number>
            </property>
            <property name="orientation">
             <enum>Qt::Vertical</enum>
@@ -3045,8 +3247,11 @@ color: rgb(255, 255, 255);
              <height>221</height>
             </rect>
            </property>
+           <property name="minimum">
+            <number>-100</number>
+           </property>
            <property name="value">
-            <number>24</number>
+            <number>0</number>
            </property>
            <property name="orientation">
             <enum>Qt::Vertical</enum>
@@ -3064,8 +3269,11 @@ color: rgb(255, 255, 255);
              <height>221</height>
             </rect>
            </property>
+           <property name="minimum">
+            <number>-100</number>
+           </property>
            <property name="value">
-            <number>24</number>
+            <number>0</number>
            </property>
            <property name="orientation">
             <enum>Qt::Vertical</enum>
@@ -3222,6 +3430,19 @@ color: rgb(255, 255, 255);
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+          <widget class="Line" name="line_11">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>100</y>
+             <width>241</width>
+             <height>11</height>
+            </rect>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
            </property>
           </widget>
          </widget>
@@ -3616,10 +3837,10 @@ color: rgb(255, 255, 255);
             </rect>
            </property>
            <property name="currentText">
-            <string>15</string>
+            <string>20</string>
            </property>
            <property name="currentIndex">
-            <number>2</number>
+            <number>3</number>
            </property>
            <item>
             <property name="text">
@@ -3639,6 +3860,16 @@ color: rgb(255, 255, 255);
            <item>
             <property name="text">
              <string>20</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>25</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>30</string>
             </property>
            </item>
           </widget>
@@ -4815,6 +5046,26 @@ color: rgb(255, 255, 255);
         </widget>
        </widget>
       </widget>
+      <widget class="QWidget" name="tab_4">
+       <attribute name="title">
+        <string>Documentation</string>
+       </attribute>
+       <widget class="QWebView" name="webView">
+        <property name="geometry">
+         <rect>
+          <x>9</x>
+          <y>9</y>
+          <width>1091</width>
+          <height>791</height>
+         </rect>
+        </property>
+        <property name="url">
+         <url>
+          <string>file:///C:/Users/Jan Thomas/OneDrive/GitHub/motion-lab/docs/_build/html/index.html</string>
+         </url>
+        </property>
+       </widget>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -4844,6 +5095,11 @@ color: rgb(255, 255, 255);
   </action>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>QWebView</class>
+   <extends>QWidget</extends>
+   <header>QtWebKitWidgets/QWebView</header>
+  </customwidget>
   <customwidget>
    <class>GraphicsLayoutWidget</class>
    <extends>QGraphicsView</extends>

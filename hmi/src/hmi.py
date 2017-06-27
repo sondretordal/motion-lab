@@ -1,14 +1,21 @@
 import sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
+from PyQt5.QtGui import *
 from PyQt5 import uic
 import numpy as np
 import pyqtgraph as pg
 import pyads
 import csv
 
-gui_main_file = './src/main.ui' # Enter file here. 
+# Background color pyqtgraph
+pg.setConfigOption('background', 'w')
+pg.setConfigOption('foreground', 'k')
+
+# Load Qt Designer UI file
+gui_main_file = './src/main.ui'
 gui_main, QtBaseClass = uic.loadUiType(gui_main_file)
+
 
 class GUI(QMainWindow, gui_main):
     def __init__(self):
@@ -38,11 +45,12 @@ class GUI(QMainWindow, gui_main):
 
         # Start ADS communication
         self.open_ADS()
+        self.t_start = pyads.read_by_name(self.adr, 'Main.t', pyads.PLCTYPE_REAL)
 
         # Timer function for plot update
         # (with specified timeout value of "50 ms")
         self.timer = QTimer()
-        self.timer.timeout.connect(self.update_plot)
+        self.timer.timeout.connect(self.update_data)
         self.timer.start(50)
 
         # Show UI
@@ -92,6 +100,7 @@ class GUI(QMainWindow, gui_main):
         # Prettier plots 
         # (may affect performance)
         #pg.setConfigOptions(antialias=True)
+        #pg.setConfigOption('background', 'w')
 
         # EM8000 - Plot Setup
         #-----------------------------------------------------------------------#
@@ -101,27 +110,31 @@ class GUI(QMainWindow, gui_main):
         self.EM8000_plot.nextRow()
         self.EM8000_plot_ang = self.EM8000_plot.addPlot()
 
-        # Adding lables and legends to plot objects
+        # Adding lables, legends and grid to plot objects
         self.EM8000_plot_pos.setLabel('left', 'Position', 'm')
+        self.EM8000_plot_pos.setLabel('bottom', '')
         self.EM8000_plot_ang.setLabel('left', 'Angle', 'deg')
         self.EM8000_plot_ang.setLabel('bottom', 'Time (s)')
 
         self.EM8000_plot_pos.addLegend(size=None, offset=(30, 30))
         self.EM8000_plot_ang.addLegend(size=None, offset=(30, 30))
 
+        self.EM8000_plot_pos.showGrid(x=True, y=True)
+        self.EM8000_plot_ang.showGrid(x=True, y=True)
+
         # Setting vertical range of plot objects
         self.EM8000_plot_pos.setYRange(-1, 1)
         self.EM8000_plot_ang.setYRange(-1, 1)
 
         # Adding position curves to position plot
-        self.EM8000_plot_pos_x = self.EM8000_plot_pos.plot(pen="y", name="Sway")
-        self.EM8000_plot_pos_y = self.EM8000_plot_pos.plot(pen="r", name="Surge")
-        self.EM8000_plot_pos_z = self.EM8000_plot_pos.plot(pen="g", name="Heave")
+        self.EM8000_plot_pos_x = self.EM8000_plot_pos.plot(pen="r", name="Sway")
+        self.EM8000_plot_pos_y = self.EM8000_plot_pos.plot(pen="g", name="Surge")
+        self.EM8000_plot_pos_z = self.EM8000_plot_pos.plot(pen="b", name="Heave")
 
         # Adding angle curves to angle plot
-        self.EM8000_plot_ang_r = self.EM8000_plot_ang.plot(pen="y", name="Roll")
-        self.EM8000_plot_ang_p = self.EM8000_plot_ang.plot(pen="r", name="Pitch")
-        self.EM8000_plot_ang_y = self.EM8000_plot_ang.plot(pen="g", name="Yaw")
+        self.EM8000_plot_ang_r = self.EM8000_plot_ang.plot(pen="r", name="Roll")
+        self.EM8000_plot_ang_p = self.EM8000_plot_ang.plot(pen="g", name="Pitch")
+        self.EM8000_plot_ang_y = self.EM8000_plot_ang.plot(pen="b", name="Yaw")
 
         # EM1500 - Plot Setup
         #-----------------------------------------------------------------------#
@@ -131,27 +144,31 @@ class GUI(QMainWindow, gui_main):
         self.EM1500_plot.nextRow()
         self.EM1500_plot_ang = self.EM1500_plot.addPlot()
 
-        # Adding lables and legends to plot objects
+        # Adding lables, legends and grid to plot objects
         self.EM1500_plot_pos.setLabel('left', 'Position', 'm')
+        self.EM1500_plot_pos.setLabel('bottom', '')
         self.EM1500_plot_ang.setLabel('left', 'Angle', 'deg')
         self.EM1500_plot_ang.setLabel('bottom', 'Time (s)')
 
         self.EM1500_plot_pos.addLegend(size=None, offset=(30, 30))
         self.EM1500_plot_ang.addLegend(size=None, offset=(30, 30))
 
+        self.EM1500_plot_pos.showGrid(x=True, y=True)
+        self.EM1500_plot_ang.showGrid(x=True, y=True)
+
         # Setting vertical range of plot objects
         self.EM1500_plot_pos.setYRange(-1, 1)
         self.EM1500_plot_ang.setYRange(-1, 1)
 
         # Adding position curves to position plot
-        self.EM1500_plot_pos_x = self.EM1500_plot_pos.plot(pen="y", name="Sway")
-        self.EM1500_plot_pos_y = self.EM1500_plot_pos.plot(pen="r", name="Surge")
-        self.EM1500_plot_pos_z = self.EM1500_plot_pos.plot(pen="g", name="Heave")
+        self.EM1500_plot_pos_x = self.EM1500_plot_pos.plot(pen="r", name="Sway")
+        self.EM1500_plot_pos_y = self.EM1500_plot_pos.plot(pen="g", name="Surge")
+        self.EM1500_plot_pos_z = self.EM1500_plot_pos.plot(pen="b", name="Heave")
 
         # Adding angle curves to angle plot
-        self.EM1500_plot_ang_r = self.EM1500_plot_ang.plot(pen="y", name="Roll")
-        self.EM1500_plot_ang_p = self.EM1500_plot_ang.plot(pen="r", name="Pitch")
-        self.EM1500_plot_ang_y = self.EM1500_plot_ang.plot(pen="g", name="Yaw")
+        self.EM1500_plot_ang_r = self.EM1500_plot_ang.plot(pen="r", name="Roll")
+        self.EM1500_plot_ang_p = self.EM1500_plot_ang.plot(pen="g", name="Pitch")
+        self.EM1500_plot_ang_y = self.EM1500_plot_ang.plot(pen="b", name="Yaw")
 
         # Initialize the output fields
         self.EM1500_output_pos_x.setText('0')
@@ -167,20 +184,22 @@ class GUI(QMainWindow, gui_main):
         # Adding position-plot object to plot widget
         self.COMAU_plot_pos = self.COMAU_plot.addPlot()
 
-        # Adding lables and legends to plot object
+        # Adding lables, legend and grid to plot object
         self.COMAU_plot_pos.setLabel('left', 'Position', 'm')
         self.COMAU_plot_pos.setLabel('bottom', 'Time (s)')
 
         self.COMAU_plot_pos.addLegend(size=None, offset=(30, 30))
 
+        self.COMAU_plot_pos.showGrid(x=True, y=True)
+
         # Setting vertical range of plot object
         self.COMAU_plot_pos.setYRange(-1, 7)
 
         # Adding position curves to position plot
-        self.COMAU_plot_pos_j1 = self.COMAU_plot_pos.plot(pen="y", name="Joint 1")
-        self.COMAU_plot_pos_j2 = self.COMAU_plot_pos.plot(pen="r", name="Joint 2")
-        self.COMAU_plot_pos_j3 = self.COMAU_plot_pos.plot(pen="g", name="Joint 3")
-        self.COMAU_plot_pos_j4 = self.COMAU_plot_pos.plot(pen="b", name="Joint 4")
+        self.COMAU_plot_pos_j1 = self.COMAU_plot_pos.plot(pen="r", name="Joint 1")
+        self.COMAU_plot_pos_j2 = self.COMAU_plot_pos.plot(pen="g", name="Joint 2")
+        self.COMAU_plot_pos_j3 = self.COMAU_plot_pos.plot(pen="b", name="Joint 3")
+        self.COMAU_plot_pos_j4 = self.COMAU_plot_pos.plot(pen="y", name="Joint 4")
         self.COMAU_plot_pos_j5 = self.COMAU_plot_pos.plot(pen="m", name="Joint 5")
         self.COMAU_plot_pos_j6 = self.COMAU_plot_pos.plot(pen="c", name="Joint 6")
 
@@ -192,12 +211,15 @@ class GUI(QMainWindow, gui_main):
         self.COMAU_output_pos_j5.setText('0')
         self.COMAU_output_pos_j6.setText('0')
 
-    # Update plot function
-    def update_plot(self):
+    # Update data and plot
+    def update_data(self):
 
         # ADS read from PLC:
-        time = pyads.read_by_name(self.adr, 'Main.t', pyads.PLCTYPE_REAL)
+        time_plc = pyads.read_by_name(self.adr, 'Main.t', pyads.PLCTYPE_REAL)
         data = pyads.read_by_name(self.adr, 'Main.test', pyads.PLCTYPE_REAL)
+
+        # Making the plot start at 0
+        time = time_plc - self.t_start
 
         # Shifting data arrays
         self.t[:-1] = self.t[1:]
@@ -207,8 +229,10 @@ class GUI(QMainWindow, gui_main):
         self.y[-1] = data
 
         # Append obtained ADS data
-        self.time_save.append(time)
-        self.data_save.append(data)
+        # self.time_save.append(time)
+        # self.data_save.append(data)
+        
+        self.COMAU_bar_j2.setValue(data*100.0)
 
         # EM8000 Plot Update
         #------------------------------------------------------------------------------#
@@ -285,13 +309,15 @@ class GUI(QMainWindow, gui_main):
         self.COMAU_output_pos_j5.setText(str(data + 5))
         self.COMAU_output_pos_j6.setText(str(data + 6))
 
+       
+
     # Function to change the time axis range of the plots
     def plot_time_axis_range(self):
     # (This function is universal for all combobox objects in the plot tabs)
 
         # Set the time_range equal to combobox-object text
         self.time_range = int(self.sender().currentText())
-
+        self.COMAU_bar_j1.setValue(self.time_range)
         # Find and set the selected index to all combobox objects in the plot tabs
         val = self.sender().currentIndex()
         self.EM8000_plot_time_range.setCurrentIndex(val)
