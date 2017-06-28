@@ -79,6 +79,10 @@ class GUI(QMainWindow, gui_main):
         self.COMAU_engaged_btn.clicked.connect(self.COMAU_engaged)
         self.COMAU_engaged_fast_btn.clicked.connect(self.COMAU_engaged_fast)
 
+        # Connecting SYSTEM Interface-buttons to functions
+        self.SYSTEM_settled_btn.clicked.connect(self.SYSTEM_settled)
+        self.SYSTEM_stop_btn.clicked.connect(self.SYSTEM_stop)
+
         # Plotting Tab:
         #----------------------------------------------------------#
         self.EM1500_plot_time_range.currentIndexChanged.connect(self.plot_time_axis_range)
@@ -433,23 +437,23 @@ class GUI(QMainWindow, gui_main):
 
     # EM 8000 button functions
     def EM8000_settled(self):
-        self.EM8000_settled_btn.setStyleSheet("QPushButton { background-color: #cccccc }")
-        self.EM8000_neutral_btn.setStyleSheet("QPushButton { background-color: none    }")
-        self.EM8000_engaged_btn.setStyleSheet("QPushButton { background-color: none    }")
+        self.EM8000_settled_btn.setStyleSheet("background-color: #cccccc")
+        self.EM8000_neutral_btn.setStyleSheet("background-color: none   ")
+        self.EM8000_engaged_btn.setStyleSheet("background-color: none   ")
 
         #pyads.write_by_name(self.adr, 'EM8000.Control.CMND', 1, pyads.PLCTYPE_DINT)
 
     def EM8000_neutral(self):
-        self.EM8000_settled_btn.setStyleSheet("QPushButton { background-color: none    }")
-        self.EM8000_neutral_btn.setStyleSheet("QPushButton { background-color: #cccccc }")
-        self.EM8000_engaged_btn.setStyleSheet("QPushButton { background-color: none    }")
+        self.EM8000_settled_btn.setStyleSheet("background-color: none   ")
+        self.EM8000_neutral_btn.setStyleSheet("background-color: #cccccc")
+        self.EM8000_engaged_btn.setStyleSheet("background-color: none   ")
 
         #pyads.write_by_name(self.adr, 'EM8000.Control.CMND', 3, pyads.PLCTYPE_DINT)
 
     def EM8000_engaged(self):
-        self.EM8000_settled_btn.setStyleSheet("QPushButton { background-color: none    }")
-        self.EM8000_neutral_btn.setStyleSheet("QPushButton { background-color: none    }")
-        self.EM8000_engaged_btn.setStyleSheet("QPushButton { background-color: #cccccc }")
+        self.EM8000_settled_btn.setStyleSheet("background-color: none   ")
+        self.EM8000_neutral_btn.setStyleSheet("background-color: none   ")
+        self.EM8000_engaged_btn.setStyleSheet("background-color: #cccccc")
 
         #pyads.write_by_name(self.adr, 'EM8000.Control.CMND', 7, pyads.PLCTYPE_DINT)
 
@@ -462,41 +466,58 @@ class GUI(QMainWindow, gui_main):
         #pyads.write_by_name(self.adr, 'EM1500.Control.CMND', 1, pyads.PLCTYPE_DINT)
 
     def EM1500_neutral(self):
-        self.EM1500_settled_btn.setStyleSheet("QPushButton { background-color: none    }")
-        self.EM1500_neutral_btn.setStyleSheet("QPushButton { background-color: #cccccc }")
-        self.EM1500_engaged_btn.setStyleSheet("QPushButton { background-color: none    }")
+        self.EM1500_settled_btn.setStyleSheet("background-color: none   ")
+        self.EM1500_neutral_btn.setStyleSheet("background-color: #cccccc")
+        self.EM1500_engaged_btn.setStyleSheet("background-color: none   ")
 
         #pyads.write_by_name(self.adr, 'EM1500.Control.CMND', 3, pyads.PLCTYPE_DINT)
 
     def EM1500_engaged(self):
-        self.EM1500_settled_btn.setStyleSheet("QPushButton { background-color: none    }")
-        self.EM1500_neutral_btn.setStyleSheet("QPushButton { background-color: none    }")
-        self.EM1500_engaged_btn.setStyleSheet("QPushButton { background-color: #cccccc }")
+        self.EM1500_settled_btn.setStyleSheet("background-color: none   ")
+        self.EM1500_neutral_btn.setStyleSheet("background-color: none   ")
+        self.EM1500_engaged_btn.setStyleSheet("background-color: #cccccc")
 
         #pyads.write_by_name(self.adr, 'EM1500.Control.CMND', 7, pyads.PLCTYPE_DINT)
 
     # COMAU button functions
     def COMAU_settled(self):
-        self.COMAU_settled_btn.setStyleSheet("QPushButton { background-color: #cccccc }")
-        self.COMAU_engaged_btn.setStyleSheet("QPushButton { background-color: none    }")
-        self.COMAU_engaged_fast_btn.setStyleSheet("QPushButton { background-color: none    }")
+        self.COMAU_settled_btn.setStyleSheet("background-color: #cccccc")
+        self.COMAU_engaged_btn.setStyleSheet("background-color: none   ")
+        self.COMAU_engaged_fast_btn.setStyleSheet("background-color: none")
 
         #pyads.write_by_name(self.adr, 'COMAU.Control.mode', 0, pyads.PLCTYPE_DINT)
 
     def COMAU_engaged(self):
-        self.COMAU_settled_btn.setStyleSheet("QPushButton { background-color: none    }")
-        self.COMAU_engaged_btn.setStyleSheet("QPushButton { background-color: #cccccc }")
-        self.COMAU_engaged_fast_btn.setStyleSheet("QPushButton { background-color: none    }")
+        self.COMAU_settled_btn.setStyleSheet("background-color: none   ")
+        self.COMAU_engaged_btn.setStyleSheet("background-color: #cccccc")
+        self.COMAU_engaged_fast_btn.setStyleSheet("background-color: none")
 
         #pyads.write_by_name(self.adr, 'COMAU.Control.mode', 1, pyads.PLCTYPE_DINT)
 
     def COMAU_engaged_fast(self):
-        self.COMAU_settled_btn.setStyleSheet("QPushButton { background-color: none    }")
-        self.COMAU_engaged_btn.setStyleSheet("QPushButton { background-color: none    }")
-        self.COMAU_engaged_fast_btn.setStyleSheet("QPushButton { background-color: #cccccc }")
+        self.COMAU_settled_btn.setStyleSheet("background-color: none")
+        self.COMAU_engaged_btn.setStyleSheet("background-color: none")
+        self.COMAU_engaged_fast_btn.setStyleSheet("background-color: #cccccc")
 
         #pyads.write_by_name(self.adr, 'COMAU.Control.mode', 2, pyads.PLCTYPE_DINT)
 
+    # SYSTEM button functions
+    def SYSTEM_settled(self):
+        
+        self.SYSTEM_settled_btn.setStyleSheet("background-color: #cccccc")
+        self.EM8000_settled()
+        self.EM1500_settled()
+        self.COMAU_settled()
+
+        print "system settled function is called"
+        
+    def SYSTEM_stop(self):
+        self.SYSTEM_settled_btn.setStyleSheet("background-color: none")
+        self.EM8000_settled()
+        self.EM1500_settled()
+        self.COMAU_settled()
+
+        print "system stop function is called"
     # Close ADS connection to Bekchoff PLC
     def close_ADS(self):
 
@@ -510,7 +531,7 @@ class GUI(QMainWindow, gui_main):
         #pyads.write_by_name(self.adr, 'EM8000.Control.CMND', 1, pyads.PLCTYPE_DINT)
         #pyads.write_by_name(self.adr, 'EM1500.Control.CMND', 1, pyads.PLCTYPE_DINT)
         #pyads.write_by_name(self.adr, 'COMAU.Control.mode', 0, pyads.PLCTYPE_DINT)
-        print 'test'
+        print 'APPLICATION STOPPED'
 
     # Function to handle the closing event of to the application
     def closeEvent(self, event):
