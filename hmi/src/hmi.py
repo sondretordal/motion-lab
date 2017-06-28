@@ -336,7 +336,7 @@ class GUI(QMainWindow, gui_main):
                 for row in data:
                     w.writerow(row)
 
-    # Testing checkbox function
+    # Logging tab checkboxes
     def checkbox_func(self):
         selected_box = self.sender()
 
@@ -370,8 +370,11 @@ class GUI(QMainWindow, gui_main):
                 
                 self.groupBox_log_COMAU.setEnabled(False)
 
-    # Testing tab selector function
+    # Main Tab selector
+    # (with password protection on admin-tab)
     def tab_selector(self):
+        # Check if the selected tab is admin-tab
+        # If so, call function "password_login(password)"
         main_tab = self.sender()
         if main_tab.currentIndex() == 4:
             if self.password_login("1234"):
@@ -395,7 +398,7 @@ class GUI(QMainWindow, gui_main):
                 msg.exec_()
                 return False
 
-    # Function to open ADS connection to Beckhoff PLC
+    # Open ADS connection to Beckhoff PLC
     def open_ADS(self):
         # Open ADS Port
         pyads.open_port()
@@ -494,11 +497,20 @@ class GUI(QMainWindow, gui_main):
 
         #pyads.write_by_name(self.adr, 'COMAU.Control.mode', 2, pyads.PLCTYPE_DINT)
 
-    # Function to close ADS connection to Bekchoff PLC
+    # Close ADS connection to Bekchoff PLC
     def close_ADS(self):
+
         # Close ADS port
         pyads.close_port()
         print 'Beckhoff ADS Connection Closed'
+    
+    # Stop all function
+    def stop_all(self):
+
+        #pyads.write_by_name(self.adr, 'EM8000.Control.CMND', 1, pyads.PLCTYPE_DINT)
+        #pyads.write_by_name(self.adr, 'EM1500.Control.CMND', 1, pyads.PLCTYPE_DINT)
+        #pyads.write_by_name(self.adr, 'COMAU.Control.mode', 0, pyads.PLCTYPE_DINT)
+        print 'test'
 
     # Function to handle the closing event of to the application
     def closeEvent(self, event):
@@ -507,6 +519,7 @@ class GUI(QMainWindow, gui_main):
         QMessageBox.No, QMessageBox.No)
 
         if reply == QMessageBox.Yes:
+            self.stop_all()
             self.close_ADS()
             event.accept()
         else:
