@@ -18,7 +18,6 @@ PYBIND11_PLUGIN(MotionLab) {
     udp.def("close", &UdpServer::Close);
     udp.def("recv_data", &UdpServer::RecvData);
     udp.def("send_data", &UdpServer::SendData);
-    udp.def_readwrite("test", &UdpServer::test);
     
     return m.ptr();
 }

@@ -2,6 +2,7 @@
 *.csv
 *.json
 *.pyc
+*.pyd
 
 build/
 site/

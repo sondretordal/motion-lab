@@ -16,13 +16,11 @@
 // Threads in classes: https://rafalcieslak.wordpress.com/2014/05/16/c11-stdthreads-managed-by-a-designated-class/
 
 struct TxData {
-  unsigned int counter;
-  float data[49];
+  float data[256];
 };
 
 struct RxData {
-  unsigned int counter;
-  float data[49];
+  float data[109];
 };
 
 //TxData sst;
@@ -51,11 +49,9 @@ public:
   UdpServer(unsigned int port = 50050);
   ~UdpServer();
 
-  TxData test;
-
   void Start();
   void Close();
-  std::vector<float> RecvData(int i);
+  std::vector<float> RecvData();
   void SendData(float data, int i);
 };
 

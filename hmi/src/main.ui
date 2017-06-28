@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1130</width>
-    <height>768</height>
+    <width>1129</width>
+    <height>772</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -38,7 +38,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab_interface">
        <attribute name="title">
@@ -598,7 +598,7 @@ color: rgb(255, 255, 255);
         <property name="title">
          <string>EM1500 Actuator Position</string>
         </property>
-        <widget class="QProgressBar" name="progressBar_20">
+        <widget class="QProgressBar" name="EM1500_bar1_l1">
          <property name="geometry">
           <rect>
            <x>20</x>
@@ -620,7 +620,7 @@ color: rgb(255, 255, 255);
           <bool>false</bool>
          </property>
         </widget>
-        <widget class="QProgressBar" name="progressBar_21">
+        <widget class="QProgressBar" name="EM1500_bar1_l2">
          <property name="geometry">
           <rect>
            <x>60</x>
@@ -642,7 +642,7 @@ color: rgb(255, 255, 255);
           <bool>false</bool>
          </property>
         </widget>
-        <widget class="QProgressBar" name="progressBar_22">
+        <widget class="QProgressBar" name="EM1500_bar1_l3">
          <property name="geometry">
           <rect>
            <x>100</x>
@@ -664,7 +664,7 @@ color: rgb(255, 255, 255);
           <bool>false</bool>
          </property>
         </widget>
-        <widget class="QProgressBar" name="progressBar_23">
+        <widget class="QProgressBar" name="EM1500_bar1_l4">
          <property name="geometry">
           <rect>
            <x>140</x>
@@ -686,7 +686,7 @@ color: rgb(255, 255, 255);
           <bool>false</bool>
          </property>
         </widget>
-        <widget class="QProgressBar" name="progressBar_24">
+        <widget class="QProgressBar" name="EM1500_bar1_l5">
          <property name="geometry">
           <rect>
            <x>180</x>
@@ -708,7 +708,7 @@ color: rgb(255, 255, 255);
           <bool>false</bool>
          </property>
         </widget>
-        <widget class="QProgressBar" name="progressBar_25">
+        <widget class="QProgressBar" name="EM1500_bar1_l6">
          <property name="geometry">
           <rect>
            <x>220</x>
@@ -1531,45 +1531,6 @@ color: rgb(255, 255, 255);
          </property>
         </widget>
        </widget>
-       <widget class="Line" name="line_6">
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>490</y>
-          <width>241</width>
-          <height>11</height>
-         </rect>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-       <widget class="Line" name="line_7">
-        <property name="geometry">
-         <rect>
-          <x>310</x>
-          <y>490</y>
-          <width>241</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-       <widget class="Line" name="line_8">
-        <property name="geometry">
-         <rect>
-          <x>590</x>
-          <y>490</y>
-          <width>241</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
        <zorder>groupBox_EM8000</zorder>
        <zorder>groupBox_EM1500_2</zorder>
        <zorder>groupBox_EM1500</zorder>
@@ -1591,9 +1552,6 @@ color: rgb(255, 255, 255);
        <zorder>groupBox_8</zorder>
        <zorder>groupBox_9</zorder>
        <zorder>groupBox_10</zorder>
-       <zorder>line_6</zorder>
-       <zorder>line_7</zorder>
-       <zorder>line_8</zorder>
       </widget>
       <widget class="QWidget" name="tab_plot">
        <attribute name="title">
@@ -1609,7 +1567,7 @@ color: rgb(255, 255, 255);
          </rect>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>1</number>
         </property>
         <widget class="QWidget" name="widget">
          <attribute name="title">
@@ -1907,19 +1865,6 @@ color: rgb(255, 255, 255);
            </property>
            <property name="invertedAppearance">
             <bool>false</bool>
-           </property>
-          </widget>
-          <widget class="Line" name="line_9">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>110</y>
-             <width>241</width>
-             <height>11</height>
-            </rect>
-           </property>
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
            </property>
           </widget>
          </widget>
@@ -2394,7 +2339,7 @@ color: rgb(255, 255, 255);
           <property name="title">
            <string>EM1500 Actuator Position</string>
           </property>
-          <widget class="QProgressBar" name="progressBar_14">
+          <widget class="QProgressBar" name="EM1500_bar2_l1">
            <property name="geometry">
             <rect>
              <x>20</x>
@@ -2416,7 +2361,7 @@ color: rgb(255, 255, 255);
             <bool>false</bool>
            </property>
           </widget>
-          <widget class="QProgressBar" name="progressBar_15">
+          <widget class="QProgressBar" name="EM1500_bar2_l2">
            <property name="geometry">
             <rect>
              <x>60</x>
@@ -2438,7 +2383,7 @@ color: rgb(255, 255, 255);
             <bool>false</bool>
            </property>
           </widget>
-          <widget class="QProgressBar" name="progressBar_16">
+          <widget class="QProgressBar" name="EM1500_bar2_l3">
            <property name="geometry">
             <rect>
              <x>100</x>
@@ -2460,7 +2405,7 @@ color: rgb(255, 255, 255);
             <bool>false</bool>
            </property>
           </widget>
-          <widget class="QProgressBar" name="progressBar_17">
+          <widget class="QProgressBar" name="EM1500_bar2_l4">
            <property name="geometry">
             <rect>
              <x>140</x>
@@ -2482,7 +2427,7 @@ color: rgb(255, 255, 255);
             <bool>false</bool>
            </property>
           </widget>
-          <widget class="QProgressBar" name="progressBar_18">
+          <widget class="QProgressBar" name="EM1500_bar2_l5">
            <property name="geometry">
             <rect>
              <x>180</x>
@@ -2504,7 +2449,7 @@ color: rgb(255, 255, 255);
             <bool>false</bool>
            </property>
           </widget>
-          <widget class="QProgressBar" name="progressBar_19">
+          <widget class="QProgressBar" name="EM1500_bar2_l6">
            <property name="geometry">
             <rect>
              <x>220</x>
@@ -2674,19 +2619,6 @@ color: rgb(255, 255, 255);
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-          <widget class="Line" name="line_10">
-           <property name="geometry">
-            <rect>
-             <x>0</x>
-             <y>110</y>
-             <width>241</width>
-             <height>11</height>
-            </rect>
-           </property>
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
            </property>
           </widget>
          </widget>
@@ -3430,19 +3362,6 @@ color: rgb(255, 255, 255);
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-          <widget class="Line" name="line_11">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>100</y>
-             <width>241</width>
-             <height>11</height>
-            </rect>
-           </property>
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
            </property>
           </widget>
          </widget>
@@ -5050,18 +4969,18 @@ color: rgb(255, 255, 255);
        <attribute name="title">
         <string>Documentation</string>
        </attribute>
-       <widget class="QWebView" name="webView">
+       <widget class="QWebView" name="docView" native="true">
         <property name="geometry">
          <rect>
-          <x>9</x>
-          <y>9</y>
-          <width>1091</width>
-          <height>791</height>
+          <x>10</x>
+          <y>10</y>
+          <width>1081</width>
+          <height>681</height>
          </rect>
         </property>
-        <property name="url">
+        <property name="url" stdset="0">
          <url>
-          <string>file:///C:/Users/Jan Thomas/OneDrive/GitHub/motion-lab/docs/_build/html/index.html</string>
+          <string>about:blank</string>
          </url>
         </property>
        </widget>
