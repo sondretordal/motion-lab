@@ -893,7 +893,7 @@ color: rgb(255, 255, 255);
         <property name="title">
          <string>EM8000 Actuator Position</string>
         </property>
-        <widget class="QProgressBar" name="progressBar_8">
+        <widget class="QProgressBar" name="EM8000_bar1_l1">
          <property name="geometry">
           <rect>
            <x>20</x>
@@ -915,7 +915,7 @@ color: rgb(255, 255, 255);
           <bool>false</bool>
          </property>
         </widget>
-        <widget class="QProgressBar" name="progressBar_9">
+        <widget class="QProgressBar" name="EM8000_bar1_l2">
          <property name="geometry">
           <rect>
            <x>60</x>
@@ -937,7 +937,7 @@ color: rgb(255, 255, 255);
           <bool>false</bool>
          </property>
         </widget>
-        <widget class="QProgressBar" name="progressBar_10">
+        <widget class="QProgressBar" name="EM8000_bar1_l3">
          <property name="geometry">
           <rect>
            <x>100</x>
@@ -959,7 +959,7 @@ color: rgb(255, 255, 255);
           <bool>false</bool>
          </property>
         </widget>
-        <widget class="QProgressBar" name="progressBar_11">
+        <widget class="QProgressBar" name="EM8000_bar1_l4">
          <property name="geometry">
           <rect>
            <x>140</x>
@@ -981,7 +981,7 @@ color: rgb(255, 255, 255);
           <bool>false</bool>
          </property>
         </widget>
-        <widget class="QProgressBar" name="progressBar_12">
+        <widget class="QProgressBar" name="EM8000_bar1_l5">
          <property name="geometry">
           <rect>
            <x>180</x>
@@ -1003,7 +1003,7 @@ color: rgb(255, 255, 255);
           <bool>false</bool>
          </property>
         </widget>
-        <widget class="QProgressBar" name="progressBar_13">
+        <widget class="QProgressBar" name="EM8000_bar1_l6">
          <property name="geometry">
           <rect>
            <x>220</x>
@@ -1248,7 +1248,7 @@ color: rgb(255, 255, 255);
         <property name="title">
          <string>COMAU Joint Position</string>
         </property>
-        <widget class="QProgressBar" name="progressBar_26">
+        <widget class="QProgressBar" name="COMAU_bar1_j1">
          <property name="geometry">
           <rect>
            <x>20</x>
@@ -1270,7 +1270,7 @@ color: rgb(255, 255, 255);
           <bool>false</bool>
          </property>
         </widget>
-        <widget class="QProgressBar" name="progressBar_27">
+        <widget class="QProgressBar" name="COMAU_bar1_j2">
          <property name="geometry">
           <rect>
            <x>60</x>
@@ -1292,7 +1292,7 @@ color: rgb(255, 255, 255);
           <bool>false</bool>
          </property>
         </widget>
-        <widget class="QProgressBar" name="progressBar_28">
+        <widget class="QProgressBar" name="COMAU_bar1_j3">
          <property name="geometry">
           <rect>
            <x>100</x>
@@ -1314,7 +1314,7 @@ color: rgb(255, 255, 255);
           <bool>false</bool>
          </property>
         </widget>
-        <widget class="QProgressBar" name="progressBar_29">
+        <widget class="QProgressBar" name="COMAU_bar1_j4">
          <property name="geometry">
           <rect>
            <x>140</x>
@@ -1336,7 +1336,7 @@ color: rgb(255, 255, 255);
           <bool>false</bool>
          </property>
         </widget>
-        <widget class="QProgressBar" name="progressBar_30">
+        <widget class="QProgressBar" name="COMAU_bar1_j5">
          <property name="geometry">
           <rect>
            <x>180</x>
@@ -1358,7 +1358,7 @@ color: rgb(255, 255, 255);
           <bool>false</bool>
          </property>
         </widget>
-        <widget class="QProgressBar" name="progressBar_31">
+        <widget class="QProgressBar" name="COMAU_bar1_j6">
          <property name="geometry">
           <rect>
            <x>220</x>
@@ -1567,7 +1567,7 @@ color: rgb(255, 255, 255);
          </rect>
         </property>
         <property name="currentIndex">
-         <number>1</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="widget">
          <attribute name="title">
@@ -1585,7 +1585,7 @@ color: rgb(255, 255, 255);
           <property name="title">
            <string>EM8000 Actuator Position</string>
           </property>
-          <widget class="QProgressBar" name="progressBar_7">
+          <widget class="QProgressBar" name="EM8000_bar2_l6">
            <property name="geometry">
             <rect>
              <x>220</x>
@@ -1757,7 +1757,7 @@ color: rgb(255, 255, 255);
             <set>Qt::AlignCenter</set>
            </property>
           </widget>
-          <widget class="QProgressBar" name="progressBar_32">
+          <widget class="QProgressBar" name="EM8000_bar2_l5">
            <property name="geometry">
             <rect>
              <x>180</x>
@@ -1779,7 +1779,7 @@ color: rgb(255, 255, 255);
             <bool>false</bool>
            </property>
           </widget>
-          <widget class="QProgressBar" name="progressBar_33">
+          <widget class="QProgressBar" name="EM8000_bar2_l4">
            <property name="geometry">
             <rect>
              <x>140</x>
@@ -1801,7 +1801,7 @@ color: rgb(255, 255, 255);
             <bool>false</bool>
            </property>
           </widget>
-          <widget class="QProgressBar" name="progressBar_34">
+          <widget class="QProgressBar" name="EM8000_bar2_l3">
            <property name="geometry">
             <rect>
              <x>100</x>
@@ -1823,7 +1823,7 @@ color: rgb(255, 255, 255);
             <bool>false</bool>
            </property>
           </widget>
-          <widget class="QProgressBar" name="progressBar_35">
+          <widget class="QProgressBar" name="EM8000_bar2_l2">
            <property name="geometry">
             <rect>
              <x>60</x>
@@ -1845,7 +1845,7 @@ color: rgb(255, 255, 255);
             <bool>false</bool>
            </property>
           </widget>
-          <widget class="QProgressBar" name="progressBar_36">
+          <widget class="QProgressBar" name="EM8000_bar2_l1">
            <property name="geometry">
             <rect>
              <x>20</x>
@@ -3073,7 +3073,7 @@ color: rgb(255, 255, 255);
           <property name="title">
            <string>COMAU Joint Position</string>
           </property>
-          <widget class="QProgressBar" name="COMAU_bar_j1">
+          <widget class="QProgressBar" name="COMAU_bar2_j1">
            <property name="geometry">
             <rect>
              <x>20</x>
@@ -3098,7 +3098,7 @@ color: rgb(255, 255, 255);
             <bool>false</bool>
            </property>
           </widget>
-          <widget class="QProgressBar" name="COMAU_bar_j2">
+          <widget class="QProgressBar" name="COMAU_bar2_j2">
            <property name="geometry">
             <rect>
              <x>60</x>
@@ -3126,7 +3126,7 @@ color: rgb(255, 255, 255);
             <bool>false</bool>
            </property>
           </widget>
-          <widget class="QProgressBar" name="progressBar_46">
+          <widget class="QProgressBar" name="COMAU_bar2_j3">
            <property name="geometry">
             <rect>
              <x>100</x>
@@ -3148,7 +3148,7 @@ color: rgb(255, 255, 255);
             <bool>false</bool>
            </property>
           </widget>
-          <widget class="QProgressBar" name="progressBar_47">
+          <widget class="QProgressBar" name="COMAU_bar2_j4">
            <property name="geometry">
             <rect>
              <x>140</x>
@@ -3170,7 +3170,7 @@ color: rgb(255, 255, 255);
             <bool>false</bool>
            </property>
           </widget>
-          <widget class="QProgressBar" name="progressBar_48">
+          <widget class="QProgressBar" name="COMAU_bar2_j5">
            <property name="geometry">
             <rect>
              <x>180</x>
@@ -3192,7 +3192,7 @@ color: rgb(255, 255, 255);
             <bool>false</bool>
            </property>
           </widget>
-          <widget class="QProgressBar" name="progressBar_49">
+          <widget class="QProgressBar" name="COMAU_bar2_j6">
            <property name="geometry">
             <rect>
              <x>220</x>
@@ -4969,7 +4969,7 @@ color: rgb(255, 255, 255);
        <attribute name="title">
         <string>Documentation</string>
        </attribute>
-       <widget class="QWebView" name="docView" native="true">
+       <widget class="QWebView" name="docView">
         <property name="geometry">
          <rect>
           <x>10</x>
@@ -4978,7 +4978,7 @@ color: rgb(255, 255, 255);
           <height>681</height>
          </rect>
         </property>
-        <property name="url" stdset="0">
+        <property name="url">
          <url>
           <string>about:blank</string>
          </url>

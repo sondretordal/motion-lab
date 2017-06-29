@@ -36,7 +36,7 @@ UdpServer::UdpServer(unsigned int port) : run_thread() {
 std::vector<float> UdpServer::RecvData() {
   std::vector<float> ret;
   run_mtx.lock();
-  for (unsigned int i = 0; i < sizeof(RxData); i++) {
+  for (unsigned int i = 0; i < 109; i++) {
     ret.push_back(rx_data->data[i]);
   }
   run_mtx.unlock();
