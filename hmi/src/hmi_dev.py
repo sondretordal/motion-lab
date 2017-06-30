@@ -8,6 +8,7 @@ import numpy as np
 import pyqtgraph as pg
 import pyads
 import csv
+import time
 
 import MotionLab
 
@@ -37,8 +38,6 @@ class GUI(QMainWindow, gui_main):
         self.ml = MotionLab.udpserver(50160)
         self.ml.start()
 
-        self.time_start = self.ml.recv_data()[0]
-
         # Variable declaration
         self.t = np.zeros(1000)
         self.y = np.zeros(1000)
@@ -52,7 +51,7 @@ class GUI(QMainWindow, gui_main):
         self.plot_setup()
 
         # Start ADS communication
-        self.open_ADS()
+        self.init_ADS()
 
         # Timer function for plot update
         # (with specified timeout value of "50 ms")
@@ -227,26 +226,19 @@ class GUI(QMainWindow, gui_main):
         self.COMAU_output_pos_j5.setText('0')
         self.COMAU_output_pos_j6.setText('0')
 
+
     # Update data and plot
     def update_data(self):
-        
-        # Read PLC data from UDP interface
-        ml_data = self.ml.recv_data()
-        time_plc = ml_data[0]
-    
-        # Making the plot start at 0
-        time = time_plc - self.time_start
 
-        # Shifting data arrays
-        self.t[:-1] = self.t[1:]
-        self.t[-1] = time
-
-        self.y[:-1] = self.y[1:]
-        self.y[-1] = ml_data[108] 
-
+        # Read PLC data from UDP interface and shift data arrays
+        # (this enables scrolling plots)
         self.data[:, 0:-1] = self.data[:, 1:]
         self.data[:, -1] = self.ml.recv_data()
 
+        #ml_data = self.ml.recv_data()
+
+        # time = data[0, -1]
+        # t = data[0, 0:]
 
         # EM8000 Plot Update
         #------------------------------------------------------------------------------#
@@ -257,44 +249,44 @@ class GUI(QMainWindow, gui_main):
 
         # Set the horizontal plot range
         # (the time-axis is a scrolling value, interval is determined by user input)
-        self.EM8000_plot_pos.setXRange(time-self.time_range, time)
-        self.EM8000_plot_ang.setXRange(time-self.time_range, time)
+        self.EM8000_plot_pos.setXRange(self.data[0, -1] - self.time_range, self.data[0, -1])
+        self.EM8000_plot_ang.setXRange(self.data[0, -1] - self.time_range, self.data[0, -1])
 
         # Plot data to related position curves
-        self.EM8000_plot_pos_x.setData(self.t, -self.data[108, 0:])
-        self.EM8000_plot_pos_y.setData(self.t, self.y)
-        self.EM8000_plot_pos_z.setData(self.t, self.y)
+        self.EM8000_plot_pos_x.setData(self.data[0, 0:], -self.data[108, 0:])     #self.data[59, 0:]
+        self.EM8000_plot_pos_y.setData(self.data[0, 0:], self.data[108, 0:])      #self.data[60, 0:]
+        self.EM8000_plot_pos_z.setData(self.data[0, 0:], self.data[108, 0:]*0.95) #self.data[61, 0:]
 
         # Plot data to related angle curves
-        self.EM8000_plot_ang_r.setData(self.t, self.y)
-        self.EM8000_plot_ang_p.setData(self.t, self.y)
-        self.EM8000_plot_ang_y.setData(self.t, 0.25*self.y)
+        self.EM8000_plot_ang_r.setData(self.data[0, 0:], self.data[62, 0:])
+        self.EM8000_plot_ang_p.setData(self.data[0, 0:], self.data[63, 0:])
+        self.EM8000_plot_ang_y.setData(self.data[0, 0:], self.data[64, 0:])
 
         # Udpate the values in the output fields
-        self.EM8000_output_pos_x.setText(str(round(ml_data[59], EM8000_precision)))
-        self.EM8000_output_pos_y.setText(str(round(ml_data[60], EM8000_precision)))
-        self.EM8000_output_pos_z.setText(str(round(ml_data[61], EM8000_precision)))
-        self.EM8000_output_ang_r.setText(str(round(ml_data[62], EM8000_precision)))
-        self.EM8000_output_ang_p.setText(str(round(ml_data[63], EM8000_precision)))
-        self.EM8000_output_ang_y.setText(str(round(ml_data[64], EM8000_precision)))
+        self.EM8000_output_pos_x.setText(str(round(self.data[59, -1], EM8000_precision)))
+        self.EM8000_output_pos_y.setText(str(round(self.data[60, -1], EM8000_precision)))
+        self.EM8000_output_pos_z.setText(str(round(self.data[61, -1], EM8000_precision)))
+        self.EM8000_output_ang_r.setText(str(round(self.data[62, -1], EM8000_precision)))
+        self.EM8000_output_ang_p.setText(str(round(self.data[63, -1], EM8000_precision)))
+        self.EM8000_output_ang_y.setText(str(round(self.data[64, -1], EM8000_precision)))
 
         # Update progressbar EM8000
 
         # Interface tab:
-        self.EM8000_bar1_l1.setValue(ml_data[53]/EM8000_max_stroke*100.0)
-        self.EM8000_bar1_l2.setValue(ml_data[54]/EM8000_max_stroke*100.0)
-        self.EM8000_bar1_l3.setValue(ml_data[55]/EM8000_max_stroke*100.0)
-        self.EM8000_bar1_l4.setValue(ml_data[56]/EM8000_max_stroke*100.0)
-        self.EM8000_bar1_l5.setValue(ml_data[57]/EM8000_max_stroke*100.0)
-        self.EM8000_bar1_l6.setValue(ml_data[58]/EM8000_max_stroke*100.0)
+        self.EM8000_bar1_l1.setValue(self.data[53, -1]/EM8000_max_stroke*100.0)
+        self.EM8000_bar1_l2.setValue(self.data[54, -1]/EM8000_max_stroke*100.0)
+        self.EM8000_bar1_l3.setValue(self.data[55, -1]/EM8000_max_stroke*100.0)
+        self.EM8000_bar1_l4.setValue(self.data[56, -1]/EM8000_max_stroke*100.0)
+        self.EM8000_bar1_l5.setValue(self.data[57, -1]/EM8000_max_stroke*100.0)
+        self.EM8000_bar1_l6.setValue(self.data[58, -1]/EM8000_max_stroke*100.0)
 
         # Plotting tab:
-        self.EM8000_bar2_l1.setValue(ml_data[53]/EM8000_max_stroke*100.0)
-        self.EM8000_bar2_l2.setValue(ml_data[54]/EM8000_max_stroke*100.0)
-        self.EM8000_bar2_l3.setValue(ml_data[55]/EM8000_max_stroke*100.0)
-        self.EM8000_bar2_l4.setValue(ml_data[56]/EM8000_max_stroke*100.0)
-        self.EM8000_bar2_l5.setValue(ml_data[57]/EM8000_max_stroke*100.0)
-        self.EM8000_bar2_l6.setValue(ml_data[58]/EM8000_max_stroke*100.0)
+        self.EM8000_bar2_l1.setValue(self.data[53, -1]/EM8000_max_stroke*100.0)
+        self.EM8000_bar2_l2.setValue(self.data[54, -1]/EM8000_max_stroke*100.0)
+        self.EM8000_bar2_l3.setValue(self.data[55, -1]/EM8000_max_stroke*100.0)
+        self.EM8000_bar2_l4.setValue(self.data[56, -1]/EM8000_max_stroke*100.0)
+        self.EM8000_bar2_l5.setValue(self.data[57, -1]/EM8000_max_stroke*100.0)
+        self.EM8000_bar2_l6.setValue(self.data[58, -1]/EM8000_max_stroke*100.0)
 
         # EM1500 Plot Update
         #------------------------------------------------------------------------------#
@@ -305,44 +297,44 @@ class GUI(QMainWindow, gui_main):
 
         # Set the horizontal plot range
         # (the time-axis is a scrolling value, interval is determined by user input)
-        self.EM1500_plot_pos.setXRange(time-self.time_range, time)
-        self.EM1500_plot_ang.setXRange(time-self.time_range, time)
+        self.EM1500_plot_pos.setXRange(self.data[0, -1]-self.time_range, self.data[0,-1])
+        self.EM1500_plot_ang.setXRange(self.data[0, -1]-self.time_range, self.data[0,-1])
 
         # Plot data to related position curves
-        self.EM1500_plot_pos_x.setData(self.t, 0*self.y)
-        self.EM1500_plot_pos_y.setData(self.t, 0*self.y)
-        self.EM1500_plot_pos_z.setData(self.t, self.y)
+        self.EM1500_plot_pos_x.setData(self.data[0, 0:], self.data[21, 0:])
+        self.EM1500_plot_pos_y.setData(self.data[0, 0:], self.data[22, 0:])
+        self.EM1500_plot_pos_z.setData(self.data[0, 0:], self.data[23, 0:])
 
         # Plot data to related angle curves
-        self.EM1500_plot_ang_r.setData(self.t, self.y)
-        self.EM1500_plot_ang_p.setData(self.t, 0.5*self.y)
-        self.EM1500_plot_ang_y.setData(self.t, 0.25*self.y)
+        self.EM1500_plot_ang_r.setData(self.data[0, 0:], self.data[24, 0:])
+        self.EM1500_plot_ang_p.setData(self.data[0, 0:], self.data[25, 0:])
+        self.EM1500_plot_ang_y.setData(self.data[0, 0:], self.data[26, 0:])
 
         # Udpate the values in the output fields
-        self.EM1500_output_pos_x.setText(str(round(ml_data[21], EM1500_precision)))
-        self.EM1500_output_pos_y.setText(str(round(ml_data[22], EM1500_precision)))
-        self.EM1500_output_pos_z.setText(str(round(ml_data[23], EM1500_precision)))
-        self.EM1500_output_ang_r.setText(str(round(ml_data[24], EM1500_precision)))
-        self.EM1500_output_ang_p.setText(str(round(ml_data[25], EM1500_precision)))
-        self.EM1500_output_ang_y.setText(str(round(ml_data[26], EM1500_precision)))
+        self.EM1500_output_pos_x.setText(str(round(self.data[21, -1], EM1500_precision)))
+        self.EM1500_output_pos_y.setText(str(round(self.data[22, -1], EM1500_precision)))
+        self.EM1500_output_pos_z.setText(str(round(self.data[23, -1], EM1500_precision)))
+        self.EM1500_output_ang_r.setText(str(round(self.data[24, -1], EM1500_precision)))
+        self.EM1500_output_ang_p.setText(str(round(self.data[25, -1], EM1500_precision)))
+        self.EM1500_output_ang_y.setText(str(round(self.data[26, -1], EM1500_precision)))
 
         # Update progressbar EM1500
 
         # Interface tab:
-        self.EM1500_bar1_l1.setValue(ml_data[15]/EM1500_max_stroke*100.0)
-        self.EM1500_bar1_l2.setValue(ml_data[16]/EM1500_max_stroke*100.0)
-        self.EM1500_bar1_l3.setValue(ml_data[17]/EM1500_max_stroke*100.0)
-        self.EM1500_bar1_l4.setValue(ml_data[18]/EM1500_max_stroke*100.0)
-        self.EM1500_bar1_l5.setValue(ml_data[19]/EM1500_max_stroke*100.0)
-        self.EM1500_bar1_l6.setValue(ml_data[20]/EM1500_max_stroke*100.0)
+        self.EM1500_bar1_l1.setValue(self.data[15, -1]/EM1500_max_stroke*100.0)
+        self.EM1500_bar1_l2.setValue(self.data[16, -1]/EM1500_max_stroke*100.0)
+        self.EM1500_bar1_l3.setValue(self.data[17, -1]/EM1500_max_stroke*100.0)
+        self.EM1500_bar1_l4.setValue(self.data[18, -1]/EM1500_max_stroke*100.0)
+        self.EM1500_bar1_l5.setValue(self.data[19, -1]/EM1500_max_stroke*100.0)
+        self.EM1500_bar1_l6.setValue(self.data[20, -1]/EM1500_max_stroke*100.0)
 
         # Plotting tab:
-        self.EM1500_bar2_l1.setValue(ml_data[15]/EM1500_max_stroke*100.0)
-        self.EM1500_bar2_l2.setValue(ml_data[16]/EM1500_max_stroke*100.0)
-        self.EM1500_bar2_l3.setValue(ml_data[17]/EM1500_max_stroke*100.0)
-        self.EM1500_bar2_l4.setValue(ml_data[18]/EM1500_max_stroke*100.0)
-        self.EM1500_bar2_l5.setValue(ml_data[19]/EM1500_max_stroke*100.0)
-        self.EM1500_bar2_l6.setValue(ml_data[20]/EM1500_max_stroke*100.0)
+        self.EM1500_bar2_l1.setValue(self.data[15, -1]/EM1500_max_stroke*100.0)
+        self.EM1500_bar2_l2.setValue(self.data[16, -1]/EM1500_max_stroke*100.0)
+        self.EM1500_bar2_l3.setValue(self.data[17, -1]/EM1500_max_stroke*100.0)
+        self.EM1500_bar2_l4.setValue(self.data[18, -1]/EM1500_max_stroke*100.0)
+        self.EM1500_bar2_l5.setValue(self.data[19, -1]/EM1500_max_stroke*100.0)
+        self.EM1500_bar2_l6.setValue(self.data[20, -1]/EM1500_max_stroke*100.0)
 
         # COMAU Plot Update
         #------------------------------------------------------------------------------#
@@ -353,41 +345,41 @@ class GUI(QMainWindow, gui_main):
 
         # Set the horizontal plot range
         # (the time-axis is a scrolling value, interval is determined by user input)
-        self.COMAU_plot_pos.setXRange(time-self.time_range, time)
+        self.COMAU_plot_pos.setXRange(self.data[0, -1] - self.time_range, self.data[0, -1])
 
         # Plot data to related position curves
-        self.COMAU_plot_pos_j1.setData(self.t, self.y + 1)
-        self.COMAU_plot_pos_j2.setData(self.t, self.y + 2)
-        self.COMAU_plot_pos_j3.setData(self.t, self.y + 3)
-        self.COMAU_plot_pos_j4.setData(self.t, self.y + 4)
-        self.COMAU_plot_pos_j5.setData(self.t, self.y + 5)
-        self.COMAU_plot_pos_j6.setData(self.t, self.y + 6)
+        self.COMAU_plot_pos_j1.setData(self.data[0, 0:], self.data[84, 0:])
+        self.COMAU_plot_pos_j2.setData(self.data[0, 0:], self.data[85, 0:])
+        self.COMAU_plot_pos_j3.setData(self.data[0, 0:], self.data[86, 0:])
+        self.COMAU_plot_pos_j4.setData(self.data[0, 0:], self.data[87, 0:])
+        self.COMAU_plot_pos_j5.setData(self.data[0, 0:], self.data[88, 0:])
+        self.COMAU_plot_pos_j6.setData(self.data[0, 0:], self.data[89, 0:])
 
         # Udpate the values in the output fields
-        self.COMAU_output_pos_j1.setText(str(round(ml_data[84], COMAU_precision)))
-        self.COMAU_output_pos_j2.setText(str(round(ml_data[85], COMAU_precision)))
-        self.COMAU_output_pos_j3.setText(str(round(ml_data[86], COMAU_precision)))
-        self.COMAU_output_pos_j4.setText(str(round(ml_data[87], COMAU_precision)))
-        self.COMAU_output_pos_j5.setText(str(round(ml_data[88], COMAU_precision)))
-        self.COMAU_output_pos_j6.setText(str(round(ml_data[89], COMAU_precision)))
+        self.COMAU_output_pos_j1.setText(str(round(self.data[84, -1], COMAU_precision)))
+        self.COMAU_output_pos_j2.setText(str(round(self.data[85, -1], COMAU_precision)))
+        self.COMAU_output_pos_j3.setText(str(round(self.data[86, -1], COMAU_precision)))
+        self.COMAU_output_pos_j4.setText(str(round(self.data[87, -1], COMAU_precision)))
+        self.COMAU_output_pos_j5.setText(str(round(self.data[88, -1], COMAU_precision)))
+        self.COMAU_output_pos_j6.setText(str(round(self.data[89, -1], COMAU_precision)))
 
         # Update progressbar COMAU
 
         # Interface tab:
-        self.COMAU_bar1_j1.setValue(ml_data[84]/COMAU_max_stroke*100.0)
-        self.COMAU_bar1_j2.setValue(ml_data[85]/COMAU_max_stroke*100.0)
-        self.COMAU_bar1_j3.setValue(ml_data[86]/COMAU_max_stroke*100.0)
-        self.COMAU_bar1_j4.setValue(ml_data[87]/COMAU_max_stroke*100.0)
-        self.COMAU_bar1_j5.setValue(ml_data[88]/COMAU_max_stroke*100.0)
-        self.COMAU_bar1_j6.setValue(ml_data[89]/COMAU_max_stroke*100.0)
+        self.COMAU_bar1_j1.setValue(self.data[84, -1]/COMAU_max_stroke*100.0)
+        self.COMAU_bar1_j2.setValue(self.data[85, -1]/COMAU_max_stroke*100.0)
+        self.COMAU_bar1_j3.setValue(self.data[86, -1]/COMAU_max_stroke*100.0)
+        self.COMAU_bar1_j4.setValue(self.data[87, -1]/COMAU_max_stroke*100.0)
+        self.COMAU_bar1_j5.setValue(self.data[88, -1]/COMAU_max_stroke*100.0)
+        self.COMAU_bar1_j6.setValue(self.data[89, -1]/COMAU_max_stroke*100.0)
 
         # Plotting tab:
-        self.COMAU_bar2_j1.setValue(ml_data[84]/COMAU_max_stroke*100.0)
-        self.COMAU_bar2_j2.setValue(ml_data[85]/COMAU_max_stroke*100.0)
-        self.COMAU_bar2_j3.setValue(ml_data[86]/COMAU_max_stroke*100.0)
-        self.COMAU_bar2_j4.setValue(ml_data[87]/COMAU_max_stroke*100.0)
-        self.COMAU_bar2_j5.setValue(ml_data[88]/COMAU_max_stroke*100.0)
-        self.COMAU_bar2_j6.setValue(ml_data[89]/COMAU_max_stroke*100.0)
+        self.COMAU_bar2_j1.setValue(self.data[84, -1]/COMAU_max_stroke*100.0)
+        self.COMAU_bar2_j2.setValue(self.data[85, -1]/COMAU_max_stroke*100.0)
+        self.COMAU_bar2_j3.setValue(self.data[86, -1]/COMAU_max_stroke*100.0)
+        self.COMAU_bar2_j4.setValue(self.data[87, -1]/COMAU_max_stroke*100.0)
+        self.COMAU_bar2_j5.setValue(self.data[88, -1]/COMAU_max_stroke*100.0)
+        self.COMAU_bar2_j6.setValue(self.data[89, -1]/COMAU_max_stroke*100.0)
 
     # Function to change the time axis range of the plots
     def plot_time_axis_range(self):
@@ -395,7 +387,6 @@ class GUI(QMainWindow, gui_main):
 
         # Set the time_range equal to combobox-object text
         self.time_range = int(self.sender().currentText())
-        self.COMAU_bar_j1.setValue(self.time_range)
 
         # Find and set the selected index to all combobox objects in the plot tabs
         val = self.sender().currentIndex()
@@ -466,7 +457,7 @@ class GUI(QMainWindow, gui_main):
                 return False
 
     # Open ADS connection to Beckhoff PLC
-    def open_ADS(self):
+    def init_ADS(self):
         # Open ADS Port
         pyads.open_port()
         print "Beckhoff ADS Connection Open"
@@ -474,27 +465,33 @@ class GUI(QMainWindow, gui_main):
         # Set PLC ADS address
         self.adr = pyads.AmsAddr('192.168.90.150.1.1', 851)
         
+        # Set PLC time to 0
+        pyads.write_by_name(self.adr, 'REMOTE.Tx.t', 0.0, pyads.PLCTYPE_REAL)
+        
     # EM 8000 button functions
     def EM8000_settled(self):
         self.EM8000_settled_btn.setStyleSheet("background-color: #cccccc")
         self.EM8000_neutral_btn.setStyleSheet("background-color: none   ")
         self.EM8000_engaged_btn.setStyleSheet("background-color: none   ")
 
-        #pyads.write_by_name(self.adr, 'EM8000.Control.CMND', 1, pyads.PLCTYPE_DINT)
+        # Write to PLC: EM8000 settled = 1
+        pyads.write_by_name(self.adr, 'EM8000.Tx.CMND', 1, pyads.PLCTYPE_DINT)
 
     def EM8000_neutral(self):
         self.EM8000_settled_btn.setStyleSheet("background-color: none   ")
         self.EM8000_neutral_btn.setStyleSheet("background-color: #cccccc")
         self.EM8000_engaged_btn.setStyleSheet("background-color: none   ")
 
-        #pyads.write_by_name(self.adr, 'EM8000.Control.CMND', 3, pyads.PLCTYPE_DINT)
+        # Write to PLC: EM8000 neutral = 3
+        pyads.write_by_name(self.adr, 'EM8000.Tx.CMND', 3, pyads.PLCTYPE_DINT)
 
     def EM8000_engaged(self):
         self.EM8000_settled_btn.setStyleSheet("background-color: none   ")
         self.EM8000_neutral_btn.setStyleSheet("background-color: none   ")
         self.EM8000_engaged_btn.setStyleSheet("background-color: #cccccc")
 
-        #pyads.write_by_name(self.adr, 'EM8000.Control.CMND', 7, pyads.PLCTYPE_DINT)
+        # Write to PLC: EM8000 engaged = 7
+        pyads.write_by_name(self.adr, 'EM8000.Tx.CMND', 7, pyads.PLCTYPE_DINT)
 
     # EM 1500 button functions
     def EM1500_settled(self):
@@ -502,6 +499,7 @@ class GUI(QMainWindow, gui_main):
         self.EM1500_neutral_btn.setStyleSheet("background-color: none")
         self.EM1500_engaged_btn.setStyleSheet("background-color: none")
 
+        # Write to PLC: EM1500 settled = 1
         pyads.write_by_name(self.adr, 'EM1500.Tx.CMND', 1, pyads.PLCTYPE_DINT)
 
     def EM1500_neutral(self):
@@ -509,6 +507,7 @@ class GUI(QMainWindow, gui_main):
         self.EM1500_neutral_btn.setStyleSheet("background-color: #cccccc")
         self.EM1500_engaged_btn.setStyleSheet("background-color: none   ")
 
+        # Write to PLC: EM1500 neutral = 3
         pyads.write_by_name(self.adr, 'EM1500.Tx.CMND', 3, pyads.PLCTYPE_DINT)
 
     def EM1500_engaged(self):
@@ -516,6 +515,7 @@ class GUI(QMainWindow, gui_main):
         self.EM1500_neutral_btn.setStyleSheet("background-color: none   ")
         self.EM1500_engaged_btn.setStyleSheet("background-color: #cccccc")
 
+        # Write to PLC: EM1500 engaged = 7
         pyads.write_by_name(self.adr, 'EM1500.Tx.CMND', 7, pyads.PLCTYPE_DINT)
 
     # COMAU button functions
@@ -524,39 +524,38 @@ class GUI(QMainWindow, gui_main):
         self.COMAU_engaged_btn.setStyleSheet("background-color: none   ")
         self.COMAU_engaged_fast_btn.setStyleSheet("background-color: none")
 
-        #pyads.write_by_name(self.adr, 'COMAU.Control.mode', 0, pyads.PLCTYPE_DINT)
+        # Write to PLC: COMAU settled = 1
+        pyads.write_by_name(self.adr, 'COMAU.Tx.mode', 0, pyads.PLCTYPE_DINT)
 
     def COMAU_engaged(self):
         self.COMAU_settled_btn.setStyleSheet("background-color: none   ")
         self.COMAU_engaged_btn.setStyleSheet("background-color: #cccccc")
         self.COMAU_engaged_fast_btn.setStyleSheet("background-color: none")
 
-        #pyads.write_by_name(self.adr, 'COMAU.Control.mode', 1, pyads.PLCTYPE_DINT)
+        # Write to PLC: COMAU engaged = 1
+        pyads.write_by_name(self.adr, 'COMAU.Tx.mode', 1, pyads.PLCTYPE_DINT)
 
     def COMAU_engaged_fast(self):
         self.COMAU_settled_btn.setStyleSheet("background-color: none")
         self.COMAU_engaged_btn.setStyleSheet("background-color: none")
         self.COMAU_engaged_fast_btn.setStyleSheet("background-color: #cccccc")
 
-        #pyads.write_by_name(self.adr, 'COMAU.Control.mode', 2, pyads.PLCTYPE_DINT)
+        # Write to PLC: COMAU engaged-fast = 2
+        pyads.write_by_name(self.adr, 'COMAU.Tx.mode', 2, pyads.PLCTYPE_DINT)
 
     # SYSTEM button functions
     def SYSTEM_settled(self):
-        
         self.SYSTEM_settled_btn.setStyleSheet("background-color: #cccccc")
         self.EM8000_settled()
         self.EM1500_settled()
         self.COMAU_settled()
 
-        print "system settled function is called"
-        
     def SYSTEM_stop(self):
         self.SYSTEM_settled_btn.setStyleSheet("background-color: none")
         self.EM8000_settled()
         self.EM1500_settled()
         self.COMAU_settled()
 
-        print "system stop function is called"
     # Close ADS connection to Bekchoff PLC
     def close_ADS(self):
 
