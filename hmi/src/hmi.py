@@ -200,7 +200,7 @@ class GUI(QMainWindow, gui_main):
         self.COMAU_plot_pos = self.COMAU_plot.addPlot()
 
         # Adding lables, legend and grid to plot object
-        self.COMAU_plot_pos.setLabel('left', 'Position', 'm')
+        self.COMAU_plot_pos.setLabel('left', 'Joint Angle', 'deg')
         self.COMAU_plot_pos.setLabel('bottom', 'Time (s)')
 
         self.COMAU_plot_pos.addLegend(size=None, offset=(30, 30))
@@ -208,7 +208,7 @@ class GUI(QMainWindow, gui_main):
         self.COMAU_plot_pos.showGrid(x=True, y=True)
 
         # Setting vertical range of plot object
-        self.COMAU_plot_pos.setYRange(-1, 7)
+        self.COMAU_plot_pos.setYRange(-180, 180)
 
         # Adding position curves to position plot
         self.COMAU_plot_pos_j1 = self.COMAU_plot_pos.plot(pen="r", name="Joint 1")
@@ -244,7 +244,7 @@ class GUI(QMainWindow, gui_main):
         #------------------------------------------------------------------------------#
 
         # EM 1500 Variable Declaration
-        EM8000_max_stroke = 0.8
+        EM8000_max_stroke = 0.776
         EM8000_precision = 4
 
         # Set the horizontal plot range
@@ -253,9 +253,9 @@ class GUI(QMainWindow, gui_main):
         self.EM8000_plot_ang.setXRange(self.data[0, -1] - self.time_range, self.data[0, -1])
 
         # Plot data to related position curves
-        self.EM8000_plot_pos_x.setData(self.data[0, 0:], -self.data[108, 0:])     #self.data[59, 0:]
-        self.EM8000_plot_pos_y.setData(self.data[0, 0:], self.data[108, 0:])      #self.data[60, 0:]
-        self.EM8000_plot_pos_z.setData(self.data[0, 0:], self.data[108, 0:]*0.95) #self.data[61, 0:]
+        self.EM8000_plot_pos_x.setData(self.data[0, 0:], self.data[59, 0:])
+        self.EM8000_plot_pos_y.setData(self.data[0, 0:], self.data[60, 0:])
+        self.EM8000_plot_pos_z.setData(self.data[0, 0:], self.data[61, 0:])
 
         # Plot data to related angle curves
         self.EM8000_plot_ang_r.setData(self.data[0, 0:], self.data[62, 0:])
@@ -340,7 +340,7 @@ class GUI(QMainWindow, gui_main):
         #------------------------------------------------------------------------------#
 
         # EM 1500 Variable Declaration
-        COMAU_max_stroke = 2*np.pi
+        COMAU_max_stroke = 180.0
         COMAU_precision = 4
 
         # Set the horizontal plot range
