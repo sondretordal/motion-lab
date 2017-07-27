@@ -1,23 +1,21 @@
-from build import MotionLab
-
+from build import udp
 import time
 
-ml1 = MotionLab.udpserver(50060)
-ml2 = MotionLab.udpserver(50160)
+s = udp.server(50060,296,4)
 
-ml1.start()
-ml2.start()
+s.start()
+time.sleep(1)
+
+ret = s.recv()
+
+time.sleep(2)
+
+print ret
+
+s.close()
 
 
 
-
-tS = time.time()
-while((time.time() - tS) <= 5.0):
-   print ml1.recv_data()
-
-
-ml1.close()
-ml2.close()
 
 
 
