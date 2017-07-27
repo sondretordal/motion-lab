@@ -22,6 +22,37 @@ pg.setConfigOption('foreground', 'k')
 gui_main_file = './src/main.ui'
 gui_main, QtBaseClass = uic.loadUiType(gui_main_file)
 
+class PlotObject:
+    def __init__(self, plot):
+        self.plot = plot
+        self.curves = []
+        self.t = np.zeros(1000)
+        self.y = []
+
+class RealTimePlot:
+    def __init__(self, widget):
+        self.__plots = []
+        self.__widget = widget
+
+    def add_plots(self, n):
+        for i in range(0, n):
+            self.__plots.append(self.__widget.addPlot())
+            self.__plots[i].showGrid(x=True, y=True)
+            self.__plots[i].addLegend(size=None, offset=(10, 10))
+            self.__widget.nextRow()
+
+    def set_label(self, n, x_label, y_label, unit):
+        self.__plots[n].setLabel('bottom', x_label)
+        self.__plots[n].setLabel('left', y_label, unit)
+
+    def set_y_range(self, n, min, max):
+        self.__plots[n].setYRange(min, max)
+        
+    def add_curve(self, n, color, curve_name):
+        self.__plots[n].plot(pen=color, name=curve_name)
+
+        
+
 
 class GUI(QMainWindow, gui_main):
     kirk = RxData
@@ -37,6 +68,21 @@ class GUI(QMainWindow, gui_main):
 
         # Set up the user interface from QT Designer
         self.setupUi(self)
+
+        ###############################################################
+        temp = RealTimePlot(self.testWidget)
+        temp.add_plots(2)
+
+        temp.set_label(0, 'Time - (s)', 'Position', 'm')
+        temp.set_y_range(0, -10, 10)
+        temp.add_curve(0, 'r', 'Surge')
+        temp.add_curve(0, 'g', 'Sway')
+        temp.add_curve(0, 'b', 'Heave')
+
+        temp.set_label(1, 'Time - (s)', 'Angle', 'deg')
+        temp.set_y_range(1, -30, 30)
+        temp.add_curve(0, 'r', 'Roll')
+
 
         # UDP interface
         self.addr = ("192.168.90.50", 50150)
@@ -73,6 +119,8 @@ class GUI(QMainWindow, gui_main):
         dir3 = os.path.dirname(dir2)
         dir4 = os.path.abspath(dir3 + '\docs\_build\html\index.html')
         self.docView.load(QUrl.fromLocalFile(dir4))
+
+        
 
         # Show UI
         self.show()
@@ -135,7 +183,7 @@ class GUI(QMainWindow, gui_main):
 
         # Adding lables, legends and grid to plot objects
         self.EM8000_plot_pos.setLabel('left', 'Position', 'm')
-        self.EM8000_plot_pos.setLabel('bottom', '')
+        self.EM8000_plot_pos.setLabel('bottom', 'Time (s)')
         self.EM8000_plot_ang.setLabel('left', 'Angle', 'deg')
         self.EM8000_plot_ang.setLabel('bottom', 'Time (s)')
 
@@ -169,7 +217,7 @@ class GUI(QMainWindow, gui_main):
 
         # Adding lables, legends and grid to plot objects
         self.EM1500_plot_pos.setLabel('left', 'Position', 'm')
-        self.EM1500_plot_pos.setLabel('bottom', '')
+        self.EM1500_plot_pos.setLabel('bottom', 'Time (s)')
         self.EM1500_plot_ang.setLabel('left', 'Angle', 'deg')
         self.EM1500_plot_ang.setLabel('bottom', 'Time (s)')
 
@@ -192,14 +240,6 @@ class GUI(QMainWindow, gui_main):
         self.EM1500_plot_ang_r = self.EM1500_plot_ang.plot(pen="r", name="Roll")
         self.EM1500_plot_ang_p = self.EM1500_plot_ang.plot(pen="g", name="Pitch")
         self.EM1500_plot_ang_y = self.EM1500_plot_ang.plot(pen="b", name="Yaw")
-
-        # Initialize the output fields
-        self.EM1500_output_pos_x.setText('0')
-        self.EM1500_output_pos_y.setText('0')
-        self.EM1500_output_pos_z.setText('0')
-        self.EM1500_output_ang_r.setText('0')
-        self.EM1500_output_ang_p.setText('0')
-        self.EM1500_output_ang_y.setText('0')
 
         # COMAU - Plot Setup
         #-----------------------------------------------------------------------#
@@ -225,15 +265,6 @@ class GUI(QMainWindow, gui_main):
         self.COMAU_plot_pos_j4 = self.COMAU_plot_pos.plot(pen="y", name="Joint 4")
         self.COMAU_plot_pos_j5 = self.COMAU_plot_pos.plot(pen="m", name="Joint 5")
         self.COMAU_plot_pos_j6 = self.COMAU_plot_pos.plot(pen="c", name="Joint 6")
-
-        # Initialize the output fields
-        self.COMAU_output_pos_j1.setText('0')
-        self.COMAU_output_pos_j2.setText('0')
-        self.COMAU_output_pos_j3.setText('0')
-        self.COMAU_output_pos_j4.setText('0')
-        self.COMAU_output_pos_j5.setText('0')
-        self.COMAU_output_pos_j6.setText('0')
-
 
     # Update data and plot
     def update_data(self):
@@ -581,18 +612,26 @@ class GUI(QMainWindow, gui_main):
 
     # Function to handle the closing event of to the application
     def closeEvent(self, event):
-        reply = QMessageBox.question(self, 'Message',
-            "Are you sure to quit?", QMessageBox.Yes |
-        QMessageBox.No, QMessageBox.No)
+        # reply = QMessageBox.question(self, 'Message',
+        #     "Are you sure to quit?", QMessageBox.Yes |
+        # QMessageBox.No, QMessageBox.No)
 
-        if reply == QMessageBox.Yes:
+        # if reply == QMessageBox.Yes:
+        #     self.stop_all()
+            
+        #     # Close ADS port
+        #     pyads.close_port()
+        #     print 'Beckhoff ADS Connection Closed'
+
+        #     self.sock.close()
+        #     event.accept()
+        # else:
+        #     event.ignore()
+
             self.stop_all()
             
             # Close ADS port
             pyads.close_port()
             print 'Beckhoff ADS Connection Closed'
 
-            self.sock.close()
             event.accept()
-        else:
-            event.ignore()

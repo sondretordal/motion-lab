@@ -38,7 +38,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>6</number>
       </property>
       <widget class="QWidget" name="tab_interface">
        <attribute name="title">
@@ -4982,6 +4982,21 @@ color: rgb(255, 255, 255);
          <url>
           <string>about:blank</string>
          </url>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tab_5">
+       <attribute name="title">
+        <string>Page</string>
+       </attribute>
+       <widget class="GraphicsLayoutWidget" name="testWidget">
+        <property name="geometry">
+         <rect>
+          <x>140</x>
+          <y>80</y>
+          <width>761</width>
+          <height>561</height>
+         </rect>
         </property>
        </widget>
       </widget>
