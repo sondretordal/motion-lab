@@ -26,33 +26,43 @@ class PlotObject:
     def __init__(self, plot):
         self.plot = plot
         self.curves = []
-        self.t = np.zeros(1000)
-        self.y = []
+        self.buffer_size = 1000
+        self.time = np.zeros(self.buffer_size)
+        self.data = []
+        self.time_range = 20
 
-class RealTimePlot:
-    def __init__(self, widget):
-        self.__plots = []
-        self.__widget = widget
+        # Default setup for plot
+        self.plot.showGrid(x=True, y=True)
+        self.plot.addLegend(size=None, offset=(10, 10))
+        self.plot.setLabel('bottom', 'Time - (s)')
+        self.plot.setYRange(-1, 1)
 
-    def add_plots(self, n):
-        for i in range(0, n):
-            self.__plots.append(self.__widget.addPlot())
-            self.__plots[i].showGrid(x=True, y=True)
-            self.__plots[i].addLegend(size=None, offset=(10, 10))
-            self.__widget.nextRow()
+    def add_curves(self, colors, names):
+        if len(colors) == len(names):
+            for i in range(0, len(colors)):
+                curve = self.plot.plot(pen=colors[i], name=names[i])
+                self.curves.append(curve)
 
-    def set_label(self, n, x_label, y_label, unit):
-        self.__plots[n].setLabel('bottom', x_label)
-        self.__plots[n].setLabel('left', y_label, unit)
+                y = np.zeros(self.buffer_size)
+                self.data.append(y)
+        else:
+            print "Colors and names are not equally long"
 
-    def set_y_range(self, n, min, max):
-        self.__plots[n].setYRange(min, max)
+    def update(self, t, y):
+        self.time[0:-1] = self.time[1:]
+        self.time[-1] = t
+
+        self.plot.setXRange(self.time[-1] - self.time_range, self.time[-1])
         
-    def add_curve(self, n, color, curve_name):
-        self.__plots[n].plot(pen=color, name=curve_name)
-
+        if len(y) == len(self.data):
+            for i in range(0, len(self.data)):
+                self.data[i][0:-1] = self.data[i][1:]
+                self.data[i][-1] = y[i]
+                
+                self.curves[i].setData(self.time, self.data[i])
+        else:
+            print "Data y and curves are not equally long"
         
-
 
 class GUI(QMainWindow, gui_main):
     kirk = RxData
@@ -70,19 +80,31 @@ class GUI(QMainWindow, gui_main):
         self.setupUi(self)
 
         ###############################################################
-        temp = RealTimePlot(self.testWidget)
-        temp.add_plots(2)
+        self.EM1500_1 = PlotObject(self.EM1500_plot.addPlot())
+        self.EM1500_1.plot.setLabel('left', 'Position', 'm')
+        self.EM1500_1.add_curves(['r', 'g', 'b'], ['Surge', 'Sway', 'Heave'])
 
-        temp.set_label(0, 'Time - (s)', 'Position', 'm')
-        temp.set_y_range(0, -10, 10)
-        temp.add_curve(0, 'r', 'Surge')
-        temp.add_curve(0, 'g', 'Sway')
-        temp.add_curve(0, 'b', 'Heave')
+        self.EM1500_plot.nextRow()
 
-        temp.set_label(1, 'Time - (s)', 'Angle', 'deg')
-        temp.set_y_range(1, -30, 30)
-        temp.add_curve(0, 'r', 'Roll')
+        self.EM1500_2 = PlotObject(self.EM1500_plot.addPlot())
+        self.EM1500_2.plot.setLabel('left', 'Angle', 'deg')
+        self.EM1500_2.add_curves(['r', 'g', 'b'], ['Roll', 'Pitch', 'Yaw'])
+        
 
+        self.EM8000_1 = PlotObject(self.EM8000_plot.addPlot())
+        self.EM8000_1.plot.setLabel('left', 'Position', 'm')
+        self.EM8000_1.add_curves(['r', 'g', 'b'], ['Surge', 'Sway', 'Heave'])
+
+        self.EM8000_plot.nextRow()
+
+        self.EM8000_2 = PlotObject(self.EM8000_plot.addPlot())
+        self.EM8000_2.plot.setLabel('left', 'Angle', 'deg')
+        self.EM8000_2.add_curves(['r', 'g', 'b'], ['Roll', 'Pitch', 'Yaw'])
+
+        self.COMAU = PlotObject(self.COMAU_plot.addPlot())
+        self.COMAU.plot.setYRange(-180, 180)
+        self.COMAU.plot.setLabel('left', 'Angle', 'deg')
+        self.COMAU.add_curves(['r', 'g', 'b', 'y', 'm', 'c'], ['q1', 'q2', 'q3', 'q4', 'q5', 'q6'])
 
         # UDP interface
         self.addr = ("192.168.90.50", 50150)
@@ -101,9 +123,6 @@ class GUI(QMainWindow, gui_main):
         # Connect the interaction functionality of the GUI
         self.ui_connect()
 
-        # Setup of the plotting tab
-        self.plot_setup()
-
         # Start ADS communication
         self.init_ADS()
 
@@ -120,14 +139,11 @@ class GUI(QMainWindow, gui_main):
         dir4 = os.path.abspath(dir3 + '\docs\_build\html\index.html')
         self.docView.load(QUrl.fromLocalFile(dir4))
 
-        
-
         # Show UI
         self.show()
 
     # UI connections
     def ui_connect(self):
-
         # Password Protection of Tabs
         self.tabWidget.currentChanged.connect(self.tab_selector)
 
@@ -166,115 +182,9 @@ class GUI(QMainWindow, gui_main):
         self.checkBox_EM1500.stateChanged.connect(self.checkbox_func)
         self.checkBox_COMAU.stateChanged.connect(self.checkbox_func)
 
-    # Setup of the plotting tab
-    def plot_setup(self):
-
-        # Prettier plots 
-        # (may affect performance)
-        #pg.setConfigOptions(antialias=True)
-
-        # EM8000 - Plot Setup
-        #-----------------------------------------------------------------------#
-
-        # Adding position-plot and angle-plot objects to plot widget
-        self.EM8000_plot_pos = self.EM8000_plot.addPlot()
-        self.EM8000_plot.nextRow()
-        self.EM8000_plot_ang = self.EM8000_plot.addPlot()
-
-        # Adding lables, legends and grid to plot objects
-        self.EM8000_plot_pos.setLabel('left', 'Position', 'm')
-        self.EM8000_plot_pos.setLabel('bottom', 'Time (s)')
-        self.EM8000_plot_ang.setLabel('left', 'Angle', 'deg')
-        self.EM8000_plot_ang.setLabel('bottom', 'Time (s)')
-
-        self.EM8000_plot_pos.addLegend(size=None, offset=(30, 30))
-        self.EM8000_plot_ang.addLegend(size=None, offset=(30, 30))
-
-        self.EM8000_plot_pos.showGrid(x=True, y=True)
-        self.EM8000_plot_ang.showGrid(x=True, y=True)
-
-        # Setting vertical range of plot objects
-        self.EM8000_plot_pos.setYRange(-1, 1)
-        self.EM8000_plot_ang.setYRange(-1, 1)
-
-        # Adding position curves to position plot
-        self.EM8000_plot_pos_x = self.EM8000_plot_pos.plot(pen="r", name="Surge")
-        self.EM8000_plot_pos_y = self.EM8000_plot_pos.plot(pen="g", name="Sway")
-        self.EM8000_plot_pos_z = self.EM8000_plot_pos.plot(pen="b", name="Heave")
-
-        # Adding angle curves to angle plot
-        self.EM8000_plot_ang_r = self.EM8000_plot_ang.plot(pen="r", name="Roll")
-        self.EM8000_plot_ang_p = self.EM8000_plot_ang.plot(pen="g", name="Pitch")
-        self.EM8000_plot_ang_y = self.EM8000_plot_ang.plot(pen="b", name="Yaw")
-
-        # EM1500 - Plot Setup
-        #-----------------------------------------------------------------------#
-
-        # Adding position-plot and angle-plot objects to plot widget
-        self.EM1500_plot_pos = self.EM1500_plot.addPlot()
-        self.EM1500_plot.nextRow()
-        self.EM1500_plot_ang = self.EM1500_plot.addPlot()
-
-        # Adding lables, legends and grid to plot objects
-        self.EM1500_plot_pos.setLabel('left', 'Position', 'm')
-        self.EM1500_plot_pos.setLabel('bottom', 'Time (s)')
-        self.EM1500_plot_ang.setLabel('left', 'Angle', 'deg')
-        self.EM1500_plot_ang.setLabel('bottom', 'Time (s)')
-
-        self.EM1500_plot_pos.addLegend(size=None, offset=(30, 30))
-        self.EM1500_plot_ang.addLegend(size=None, offset=(30, 30))
-
-        self.EM1500_plot_pos.showGrid(x=True, y=True)
-        self.EM1500_plot_ang.showGrid(x=True, y=True)
-
-        # Setting vertical range of plot objects
-        self.EM1500_plot_pos.setYRange(-1, 1)
-        self.EM1500_plot_ang.setYRange(-1, 1)
-
-        # Adding position curves to position plot
-        self.EM1500_plot_pos_x = self.EM1500_plot_pos.plot(pen="r", name="Surge")
-        self.EM1500_plot_pos_y = self.EM1500_plot_pos.plot(pen="g", name="Sway")
-        self.EM1500_plot_pos_z = self.EM1500_plot_pos.plot(pen="b", name="Heave")
-
-        # Adding angle curves to angle plot
-        self.EM1500_plot_ang_r = self.EM1500_plot_ang.plot(pen="r", name="Roll")
-        self.EM1500_plot_ang_p = self.EM1500_plot_ang.plot(pen="g", name="Pitch")
-        self.EM1500_plot_ang_y = self.EM1500_plot_ang.plot(pen="b", name="Yaw")
-
-        # COMAU - Plot Setup
-        #-----------------------------------------------------------------------#
-
-        # Adding position-plot object to plot widget
-        self.COMAU_plot_pos = self.COMAU_plot.addPlot()
-
-        # Adding lables, legend and grid to plot object
-        self.COMAU_plot_pos.setLabel('left', 'Joint Angle', 'deg')
-        self.COMAU_plot_pos.setLabel('bottom', 'Time (s)')
-
-        self.COMAU_plot_pos.addLegend(size=None, offset=(30, 30))
-
-        self.COMAU_plot_pos.showGrid(x=True, y=True)
-
-        # Setting vertical range of plot object
-        self.COMAU_plot_pos.setYRange(-180, 180)
-
-        # Adding position curves to position plot
-        self.COMAU_plot_pos_j1 = self.COMAU_plot_pos.plot(pen="r", name="Joint 1")
-        self.COMAU_plot_pos_j2 = self.COMAU_plot_pos.plot(pen="g", name="Joint 2")
-        self.COMAU_plot_pos_j3 = self.COMAU_plot_pos.plot(pen="b", name="Joint 3")
-        self.COMAU_plot_pos_j4 = self.COMAU_plot_pos.plot(pen="y", name="Joint 4")
-        self.COMAU_plot_pos_j5 = self.COMAU_plot_pos.plot(pen="m", name="Joint 5")
-        self.COMAU_plot_pos_j6 = self.COMAU_plot_pos.plot(pen="c", name="Joint 6")
-
     # Update data and plot
     def update_data(self):
-
-        # Read PLC data from UDP interface and shift data arrays
-        # (this enables scrolling plots)
-        # self.data[:, 0:-1] = self.data[:, 1:]
-        # self.data[:, -1] = self.ml.recv_data()
-
-
+        # Udp data exhange
         self.tx.udpKey = np.random.random_integers(100)
 
         memmove(self.tx_buff, byref(self.tx), sizeof(self.tx))
@@ -283,39 +193,35 @@ class GUI(QMainWindow, gui_main):
         rx_buff, server = self.sock.recvfrom(sizeof(RxData))
         memmove(byref(self.rx), rx_buff, sizeof(RxData))
 
+        # Update real time plots
+        self.EM1500_1.time_range = self.time_range
+        self.EM1500_1.update(self.rx.t, [self.rx.EM8000.L1, -self.rx.EM8000.L1, 1.5*self.rx.EM8000.L1])
+        
+        self.EM1500_2.time_range = self.time_range
+        self.EM1500_2.update(self.rx.t, [3*self.rx.EM8000.L1, self.rx.EM8000.L1, -1.5*self.rx.EM8000.L1])
 
-        # EM8000 Plot Update
-        #------------------------------------------------------------------------------#
+        self.EM8000_1.time_range = self.time_range
+        self.EM8000_1.update(self.rx.t, [self.rx.EM8000.L1, -self.rx.EM8000.L1, 1.5*self.rx.EM8000.L1])
+        
+        self.EM8000_2.time_range = self.time_range
+        self.EM8000_2.update(self.rx.t, [3*self.rx.EM8000.L1, self.rx.EM8000.L1, -1.5*self.rx.EM8000.L1])
+        
+        self.COMAU.time_range = self.time_range
+        self.COMAU.update(self.rx.t, np.array([100.0, -60.0, 75.0, 180.0, 30.0, -45.0])*self.rx.EM8000.L1)
 
         # EM 8000 Variable Declaration
         EM8000_max_stroke = 0.776
         EM8000_precision = 4
 
-        # Set the horizontal plot range
-        # (the time-axis is a scrolling value, interval is determined by user input)
-        self.EM8000_plot_pos.setXRange(self.data[0, -1] - self.time_range, self.data[0, -1])
-        self.EM8000_plot_ang.setXRange(self.data[0, -1] - self.time_range, self.data[0, -1])
+        # # Update the values in the output fields
+        # self.EM8000_output_pos_x.setText(str(round(self.data[59, -1], EM8000_precision)))
+        # self.EM8000_output_pos_y.setText(str(round(self.data[60, -1], EM8000_precision)))
+        # self.EM8000_output_pos_z.setText(str(round(self.data[61, -1], EM8000_precision)))
+        # self.EM8000_output_ang_r.setText(str(round(self.data[62, -1], EM8000_precision)))
+        # self.EM8000_output_ang_p.setText(str(round(self.data[63, -1], EM8000_precision)))
+        # self.EM8000_output_ang_y.setText(str(round(self.data[64, -1], EM8000_precision)))
 
-        # Plot data to related position curves
-        self.EM8000_plot_pos_x.setData(self.data[0, 0:], self.data[59, 0:])
-        self.EM8000_plot_pos_y.setData(self.data[0, 0:], self.data[60, 0:])
-        self.EM8000_plot_pos_z.setData(self.data[0, 0:], self.data[61, 0:])
-
-        # Plot data to related angle curves
-        self.EM8000_plot_ang_r.setData(self.data[0, 0:], self.data[62, 0:])
-        self.EM8000_plot_ang_p.setData(self.data[0, 0:], self.data[63, 0:])
-        self.EM8000_plot_ang_y.setData(self.data[0, 0:], self.data[64, 0:])
-
-        # Udpate the values in the output fields
-        self.EM8000_output_pos_x.setText(str(round(self.data[59, -1], EM8000_precision)))
-        self.EM8000_output_pos_y.setText(str(round(self.data[60, -1], EM8000_precision)))
-        self.EM8000_output_pos_z.setText(str(round(self.data[61, -1], EM8000_precision)))
-        self.EM8000_output_ang_r.setText(str(round(self.data[62, -1], EM8000_precision)))
-        self.EM8000_output_ang_p.setText(str(round(self.data[63, -1], EM8000_precision)))
-        self.EM8000_output_ang_y.setText(str(round(self.data[64, -1], EM8000_precision)))
-
-        # Update progressbar EM8000
-
+        ## Update progressbar EM8000
         # Interface tab:
         self.EM8000_bar1_l1.setValue(self.rx.EM8000.L1/EM8000_max_stroke*100.0)
         self.EM8000_bar1_l2.setValue(self.rx.EM8000.L2/EM8000_max_stroke*100.0)
@@ -332,83 +238,48 @@ class GUI(QMainWindow, gui_main):
         self.EM8000_bar2_l5.setValue(self.rx.EM8000.L5/EM8000_max_stroke*100.0)
         self.EM8000_bar2_l6.setValue(self.rx.EM8000.L6/EM8000_max_stroke*100.0)
 
-        # EM1500 Plot Update
-        #------------------------------------------------------------------------------#
-
-        # EM 1500 Variable Declaration
+        # # EM 1500 Variable Declaration
         EM1500_max_stroke = 0.395
         EM1500_precision = 4
 
-        # Set the horizontal plot range
-        # (the time-axis is a scrolling value, interval is determined by user input)
-        self.EM1500_plot_pos.setXRange(self.data[0, -1]-self.time_range, self.data[0,-1])
-        self.EM1500_plot_ang.setXRange(self.data[0, -1]-self.time_range, self.data[0,-1])
-
-        # Plot data to related position curves
-        self.EM1500_plot_pos_x.setData(self.data[0, 0:], self.data[21, 0:])
-        self.EM1500_plot_pos_y.setData(self.data[0, 0:], self.data[22, 0:])
-        self.EM1500_plot_pos_z.setData(self.data[0, 0:], self.data[23, 0:])
-
-        # Plot data to related angle curves
-        self.EM1500_plot_ang_r.setData(self.data[0, 0:], self.data[24, 0:])
-        self.EM1500_plot_ang_p.setData(self.data[0, 0:], self.data[25, 0:])
-        self.EM1500_plot_ang_y.setData(self.data[0, 0:], self.data[26, 0:])
-
-        # Udpate the values in the output fields
-        self.EM1500_output_pos_x.setText(str(round(self.data[21, -1], EM1500_precision)))
-        self.EM1500_output_pos_y.setText(str(round(self.data[22, -1], EM1500_precision)))
-        self.EM1500_output_pos_z.setText(str(round(self.data[23, -1], EM1500_precision)))
-        self.EM1500_output_ang_r.setText(str(round(self.data[24, -1], EM1500_precision)))
-        self.EM1500_output_ang_p.setText(str(round(self.data[25, -1], EM1500_precision)))
-        self.EM1500_output_ang_y.setText(str(round(self.data[26, -1], EM1500_precision)))
-
-        # Update progressbar EM1500
+        # # Update progressbar EM1500
+        # # Update the values in the output fields
+        # self.EM1500_output_pos_x.setText(str(round(self.data[59, -1], EM1500_precision)))
+        # self.EM1500_output_pos_y.setText(str(round(self.data[60, -1], EM1500_precision)))
+        # self.EM1500_output_pos_z.setText(str(round(self.data[61, -1], EM1500_precision)))
+        # self.EM1500_output_ang_r.setText(str(round(self.data[62, -1], EM1500_precision)))
+        # self.EM1500_output_ang_p.setText(str(round(self.data[63, -1], EM1500_precision)))
+        # self.EM1500_output_ang_y.setText(str(round(self.data[64, -1], EM1500_precision)))
 
         # Interface tab:
-        self.EM1500_bar1_l1.setValue(self.data[15, -1]/EM1500_max_stroke*100.0)
-        self.EM1500_bar1_l2.setValue(self.data[16, -1]/EM1500_max_stroke*100.0)
-        self.EM1500_bar1_l3.setValue(self.data[17, -1]/EM1500_max_stroke*100.0)
-        self.EM1500_bar1_l4.setValue(self.data[18, -1]/EM1500_max_stroke*100.0)
-        self.EM1500_bar1_l5.setValue(self.data[19, -1]/EM1500_max_stroke*100.0)
-        self.EM1500_bar1_l6.setValue(self.data[20, -1]/EM1500_max_stroke*100.0)
+        self.EM1500_bar1_l1.setValue(self.rx.EM1500.L1/EM1500_max_stroke*100.0)
+        self.EM1500_bar1_l2.setValue(self.rx.EM1500.L2/EM1500_max_stroke*100.0)
+        self.EM1500_bar1_l3.setValue(self.rx.EM1500.L3/EM1500_max_stroke*100.0)
+        self.EM1500_bar1_l4.setValue(self.rx.EM1500.L4/EM1500_max_stroke*100.0)
+        self.EM1500_bar1_l5.setValue(self.rx.EM1500.L5/EM1500_max_stroke*100.0)
+        self.EM1500_bar1_l6.setValue(self.rx.EM1500.L6/EM1500_max_stroke*100.0)
 
         # Plotting tab:
-        self.EM1500_bar2_l1.setValue(self.data[15, -1]/EM1500_max_stroke*100.0)
-        self.EM1500_bar2_l2.setValue(self.data[16, -1]/EM1500_max_stroke*100.0)
-        self.EM1500_bar2_l3.setValue(self.data[17, -1]/EM1500_max_stroke*100.0)
-        self.EM1500_bar2_l4.setValue(self.data[18, -1]/EM1500_max_stroke*100.0)
-        self.EM1500_bar2_l5.setValue(self.data[19, -1]/EM1500_max_stroke*100.0)
-        self.EM1500_bar2_l6.setValue(self.data[20, -1]/EM1500_max_stroke*100.0)
+        self.EM1500_bar2_l1.setValue(self.rx.EM1500.L1/EM1500_max_stroke*100.0)
+        self.EM1500_bar2_l2.setValue(self.rx.EM1500.L2/EM1500_max_stroke*100.0)
+        self.EM1500_bar2_l3.setValue(self.rx.EM1500.L3/EM1500_max_stroke*100.0)
+        self.EM1500_bar2_l4.setValue(self.rx.EM1500.L4/EM1500_max_stroke*100.0)
+        self.EM1500_bar2_l5.setValue(self.rx.EM1500.L5/EM1500_max_stroke*100.0)
+        self.EM1500_bar2_l6.setValue(self.rx.EM1500.L6/EM1500_max_stroke*100.0)
 
-        # COMAU Plot Update
-        #------------------------------------------------------------------------------#
-
-        # EM 1500 Variable Declaration
+        # COMAU Variable Declaration
         COMAU_max_stroke = 180.0
         COMAU_precision = 4
 
-        # Set the horizontal plot range
-        # (the time-axis is a scrolling value, interval is determined by user input)
-        self.COMAU_plot_pos.setXRange(self.data[0, -1] - self.time_range, self.data[0, -1])
+        # # Update the values in the output fields
+        # self.COMAU_output_pos_j1.setText(str(round(self.data[84, -1], COMAU_precision)))
+        # self.COMAU_output_pos_j2.setText(str(round(self.data[85, -1], COMAU_precision)))
+        # self.COMAU_output_pos_j3.setText(str(round(self.data[86, -1], COMAU_precision)))
+        # self.COMAU_output_pos_j4.setText(str(round(self.data[87, -1], COMAU_precision)))
+        # self.COMAU_output_pos_j5.setText(str(round(self.data[88, -1], COMAU_precision)))
+        # self.COMAU_output_pos_j6.setText(str(round(self.data[89, -1], COMAU_precision)))
 
-        # Plot data to related position curves
-        self.COMAU_plot_pos_j1.setData(self.data[0, 0:], self.data[84, 0:])
-        self.COMAU_plot_pos_j2.setData(self.data[0, 0:], self.data[85, 0:])
-        self.COMAU_plot_pos_j3.setData(self.data[0, 0:], self.data[86, 0:])
-        self.COMAU_plot_pos_j4.setData(self.data[0, 0:], self.data[87, 0:])
-        self.COMAU_plot_pos_j5.setData(self.data[0, 0:], self.data[88, 0:])
-        self.COMAU_plot_pos_j6.setData(self.data[0, 0:], self.data[89, 0:])
-
-        # Udpate the values in the output fields
-        self.COMAU_output_pos_j1.setText(str(round(self.data[84, -1], COMAU_precision)))
-        self.COMAU_output_pos_j2.setText(str(round(self.data[85, -1], COMAU_precision)))
-        self.COMAU_output_pos_j3.setText(str(round(self.data[86, -1], COMAU_precision)))
-        self.COMAU_output_pos_j4.setText(str(round(self.data[87, -1], COMAU_precision)))
-        self.COMAU_output_pos_j5.setText(str(round(self.data[88, -1], COMAU_precision)))
-        self.COMAU_output_pos_j6.setText(str(round(self.data[89, -1], COMAU_precision)))
-
-        # Update progressbar COMAU
-
+        ## Update progressbar COMAU
         # Interface tab:
         self.COMAU_bar1_j1.setValue(self.data[84, -1]/COMAU_max_stroke*100.0)
         self.COMAU_bar1_j2.setValue(self.data[85, -1]/COMAU_max_stroke*100.0)
