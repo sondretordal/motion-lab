@@ -9,8 +9,10 @@ import pyqtgraph as pg
 import pyads
 import csv
 import time
+import socket
+from ctypes import sizeof, memmove, byref
 
-import MotionLab
+from remotedata import TxData, RxData
 
 # Background color pyqtgraph
 pg.setConfigOption('background', 'w')
@@ -22,6 +24,8 @@ gui_main, QtBaseClass = uic.loadUiType(gui_main_file)
 
 
 class GUI(QMainWindow, gui_main):
+    kirk = RxData
+
     def __init__(self):
         super(GUI, self).__init__()
 
@@ -34,9 +38,13 @@ class GUI(QMainWindow, gui_main):
         # Set up the user interface from QT Designer
         self.setupUi(self)
 
-        # UDP Logging Interface
-        self.ml = MotionLab.udpserver(50160)
-        self.ml.start()
+        # UDP interface
+        self.addr = ("192.168.90.50", 50150)
+        self.sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+
+        self.rx = RxData()
+        self.tx = TxData()
+        self.tx_buff = '0'*sizeof(TxData)
 
         # Variable declaration
         self.t = np.zeros(1000)
@@ -232,18 +240,23 @@ class GUI(QMainWindow, gui_main):
 
         # Read PLC data from UDP interface and shift data arrays
         # (this enables scrolling plots)
-        self.data[:, 0:-1] = self.data[:, 1:]
-        self.data[:, -1] = self.ml.recv_data()
+        # self.data[:, 0:-1] = self.data[:, 1:]
+        # self.data[:, -1] = self.ml.recv_data()
 
-        #ml_data = self.ml.recv_data()
 
-        # time = data[0, -1]
-        # t = data[0, 0:]
+        self.tx.udpKey = np.random.random_integers(100)
+
+        memmove(self.tx_buff, byref(self.tx), sizeof(self.tx))
+        self.sock.sendto(self.tx_buff, self.addr)
+        
+        rx_buff, server = self.sock.recvfrom(sizeof(RxData))
+        memmove(byref(self.rx), rx_buff, sizeof(RxData))
+
 
         # EM8000 Plot Update
         #------------------------------------------------------------------------------#
 
-        # EM 1500 Variable Declaration
+        # EM 8000 Variable Declaration
         EM8000_max_stroke = 0.776
         EM8000_precision = 4
 
@@ -273,20 +286,20 @@ class GUI(QMainWindow, gui_main):
         # Update progressbar EM8000
 
         # Interface tab:
-        self.EM8000_bar1_l1.setValue(self.data[53, -1]/EM8000_max_stroke*100.0)
-        self.EM8000_bar1_l2.setValue(self.data[54, -1]/EM8000_max_stroke*100.0)
-        self.EM8000_bar1_l3.setValue(self.data[55, -1]/EM8000_max_stroke*100.0)
-        self.EM8000_bar1_l4.setValue(self.data[56, -1]/EM8000_max_stroke*100.0)
-        self.EM8000_bar1_l5.setValue(self.data[57, -1]/EM8000_max_stroke*100.0)
-        self.EM8000_bar1_l6.setValue(self.data[58, -1]/EM8000_max_stroke*100.0)
+        self.EM8000_bar1_l1.setValue(self.rx.EM8000.L1/EM8000_max_stroke*100.0)
+        self.EM8000_bar1_l2.setValue(self.rx.EM8000.L2/EM8000_max_stroke*100.0)
+        self.EM8000_bar1_l3.setValue(self.rx.EM8000.L3/EM8000_max_stroke*100.0)
+        self.EM8000_bar1_l4.setValue(self.rx.EM8000.L4/EM8000_max_stroke*100.0)
+        self.EM8000_bar1_l5.setValue(self.rx.EM8000.L5/EM8000_max_stroke*100.0)
+        self.EM8000_bar1_l6.setValue(self.rx.EM8000.L6/EM8000_max_stroke*100.0)
 
         # Plotting tab:
-        self.EM8000_bar2_l1.setValue(self.data[53, -1]/EM8000_max_stroke*100.0)
-        self.EM8000_bar2_l2.setValue(self.data[54, -1]/EM8000_max_stroke*100.0)
-        self.EM8000_bar2_l3.setValue(self.data[55, -1]/EM8000_max_stroke*100.0)
-        self.EM8000_bar2_l4.setValue(self.data[56, -1]/EM8000_max_stroke*100.0)
-        self.EM8000_bar2_l5.setValue(self.data[57, -1]/EM8000_max_stroke*100.0)
-        self.EM8000_bar2_l6.setValue(self.data[58, -1]/EM8000_max_stroke*100.0)
+        self.EM8000_bar2_l1.setValue(self.rx.EM8000.L1/EM8000_max_stroke*100.0)
+        self.EM8000_bar2_l2.setValue(self.rx.EM8000.L2/EM8000_max_stroke*100.0)
+        self.EM8000_bar2_l3.setValue(self.rx.EM8000.L3/EM8000_max_stroke*100.0)
+        self.EM8000_bar2_l4.setValue(self.rx.EM8000.L4/EM8000_max_stroke*100.0)
+        self.EM8000_bar2_l5.setValue(self.rx.EM8000.L5/EM8000_max_stroke*100.0)
+        self.EM8000_bar2_l6.setValue(self.rx.EM8000.L6/EM8000_max_stroke*100.0)
 
         # EM1500 Plot Update
         #------------------------------------------------------------------------------#
@@ -556,12 +569,9 @@ class GUI(QMainWindow, gui_main):
         self.EM1500_settled()
         self.COMAU_settled()
 
-    # Close ADS connection to Bekchoff PLC
-    def close_ADS(self):
+    
 
-        # Close ADS port
-        pyads.close_port()
-        print 'Beckhoff ADS Connection Closed'
+        
     
     # Stop all function
     def stop_all(self):
@@ -577,8 +587,12 @@ class GUI(QMainWindow, gui_main):
 
         if reply == QMessageBox.Yes:
             self.stop_all()
-            self.close_ADS()
-            self.ml.close()
+            
+            # Close ADS port
+            pyads.close_port()
+            print 'Beckhoff ADS Connection Closed'
+
+            self.sock.close()
             event.accept()
         else:
             event.ignore()
