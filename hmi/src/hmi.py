@@ -118,14 +118,11 @@ class UdpClient(RxData):
         self.hmi_counter.value += 1
 
 
+
 ##
-class RobotEquipment(RealTimePlot, RealTimeBar):
+class Logging():
     def __init__(self):
-        self.widgets = []
-
-    def add_widget(self, widget):
-        self.widgets.append(widget)
-
+        pass
 ##
 class GUI(QMainWindow, gui_main):
     def __init__(self):
@@ -138,9 +135,11 @@ class GUI(QMainWindow, gui_main):
         # Set up the user interface from QT Designer
         self.setupUi(self)
 
-        # # Equipment
-        # EM1500 = RobotEquipment()
-        # EM1500.add_widget(self.EM1500_plot)
+        # Start ADS communication
+        self.init_ADS()
+
+        # UDP client interface
+        self.udp = UdpClient('192.168.90.50', 50150)
 
         # Real-time plots
         self.EM1500_1 = RealTimePlot(self.EM1500_plot.addPlot())
@@ -198,17 +197,11 @@ class GUI(QMainWindow, gui_main):
                 self.COMAU_bar2_j1, self.COMAU_bar2_j2, self.COMAU_bar2_j3, self.COMAU_bar2_j4, self.COMAU_bar2_j5, self.COMAU_bar2_j6
             ]
 
-        # UDP client interface
-        self.udp = UdpClient('192.168.90.50', 50150)
-
         # Plot time range setting
         self.time_range = 15
 
         # Connect the interaction functionality of the GUI
         self.ui_connect()
-
-        # Start ADS communication
-        self.init_ADS()
 
         # Timer function for plot update
         self.timer = QTimer()
@@ -491,10 +484,6 @@ class GUI(QMainWindow, gui_main):
         self.EM1500_settled()
         self.COMAU_settled()
 
-    
-
-        
-    
     # Stop all function
     def stop_all(self):
 
