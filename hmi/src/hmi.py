@@ -10,7 +10,7 @@ import pyads
 import csv
 import time
 import socket
-from ctypes import sizeof, memmove, byref
+from ctypes import sizeof, memmove, byref, c_uint
 
 from remotedata import TxData, RxData
 
@@ -22,14 +22,17 @@ pg.setConfigOption('foreground', 'k')
 gui_main_file = './src/main.ui'
 gui_main, QtBaseClass = uic.loadUiType(gui_main_file)
 
-class PlotObject:
+##
+class RealTimePlot:
     def __init__(self, plot):
         self.plot = plot
         self.curves = []
+        self.text_displays = []
         self.buffer_size = 1000
         self.time = np.zeros(self.buffer_size)
         self.data = []
         self.time_range = 20
+        self.precision = 4
 
         # Default setup for plot
         self.plot.showGrid(x=True, y=True)
@@ -46,7 +49,17 @@ class PlotObject:
                 y = np.zeros(self.buffer_size)
                 self.data.append(y)
         else:
-            print "Colors and names are not equally long"
+            print "Dimension mismatch"
+
+    def add_text_displays(self, displays):
+        if len(self.curves) != 0:
+            if len(displays) == len(self.curves):
+                for i in range(0, len(displays)):
+                    self.text_displays.append(displays[i])
+            else:
+                print "Dimension mismatch"
+        else:
+            print "Add curves before adding text displays"
 
     def update(self, t, y):
         self.time[0:-1] = self.time[1:]
@@ -60,64 +73,135 @@ class PlotObject:
                 self.data[i][-1] = y[i]
                 
                 self.curves[i].setData(self.time, self.data[i])
+
+                if len(self.text_displays) == len(self.curves):
+                    self.text_displays[i].setText(str(round(self.data[i][-1], self.precision)))
+
         else:
-            print "Data y and curves are not equally long"
+            print "Dimension mismatch"
+##
+class RealTimeBar:
+    def __init__(self):
+        self.bars = []
+        self.max_values = []
+
+    def update(self, values):
+        if len(values) == len(self.bars):
+            for i in range(0, len(self.bars)):
+                self.bars[i].setValue(values[i]/self.max_values[i]*100.0)
+        else:
+            print "Dimension mismatch"
+
+##
+class UdpClient(RxData):
+    def __init__(self, ip, port):
+        self.addr = (ip, port)
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.rx = RxData()
+        self.hmi_counter = c_uint(0)
+        self.server = []
+
+        # Udp buffers
+        self.__rx_buff = sizeof(RxData)
+        self.__tx_buff = '0'*sizeof(self.hmi_counter)
+
+    def update(self):
+        # Send data to udp server
+        memmove(self.__tx_buff, byref(self.hmi_counter), sizeof(self.hmi_counter))
+        self.sock.sendto(self.__tx_buff, self.addr)
         
+        # Recieve data from udp server
+        self.__rx_buff, self.server = self.sock.recvfrom(sizeof(RxData))
+        memmove(byref(self.rx), self.__rx_buff, sizeof(RxData))
 
+        # Update hmi counter
+        self.hmi_counter.value += 1
+
+
+##
+class RobotEquipment(RealTimePlot, RealTimeBar):
+    def __init__(self):
+        self.widgets = []
+
+    def add_widget(self, widget):
+        self.widgets.append(widget)
+
+##
 class GUI(QMainWindow, gui_main):
-    kirk = RxData
-
     def __init__(self):
         super(GUI, self).__init__()
-
         # Calling the initUI function
         self.initUI()
 
     # Function that initialize all the objects in the UI
     def initUI(self):
-
         # Set up the user interface from QT Designer
         self.setupUi(self)
 
-        ###############################################################
-        self.EM1500_1 = PlotObject(self.EM1500_plot.addPlot())
+        # # Equipment
+        # EM1500 = RobotEquipment()
+        # EM1500.add_widget(self.EM1500_plot)
+
+        # Real-time plots
+        self.EM1500_1 = RealTimePlot(self.EM1500_plot.addPlot())
         self.EM1500_1.plot.setLabel('left', 'Position', 'm')
         self.EM1500_1.add_curves(['r', 'g', 'b'], ['Surge', 'Sway', 'Heave'])
+        self.EM1500_1.add_text_displays([self.EM1500_output_pos_x, self.EM1500_output_pos_y, self.EM1500_output_pos_z])
 
         self.EM1500_plot.nextRow()
 
-        self.EM1500_2 = PlotObject(self.EM1500_plot.addPlot())
+        self.EM1500_2 = RealTimePlot(self.EM1500_plot.addPlot())
         self.EM1500_2.plot.setLabel('left', 'Angle', 'deg')
         self.EM1500_2.add_curves(['r', 'g', 'b'], ['Roll', 'Pitch', 'Yaw'])
+        self.EM1500_2.add_text_displays([self.EM1500_output_ang_r, self.EM1500_output_ang_p, self.EM1500_output_ang_y])
         
-
-        self.EM8000_1 = PlotObject(self.EM8000_plot.addPlot())
+        self.EM8000_1 = RealTimePlot(self.EM8000_plot.addPlot())
         self.EM8000_1.plot.setLabel('left', 'Position', 'm')
         self.EM8000_1.add_curves(['r', 'g', 'b'], ['Surge', 'Sway', 'Heave'])
+        self.EM8000_1.add_text_displays([self.EM8000_output_pos_x, self.EM8000_output_pos_y, self.EM8000_output_pos_z])
 
         self.EM8000_plot.nextRow()
 
-        self.EM8000_2 = PlotObject(self.EM8000_plot.addPlot())
+        self.EM8000_2 = RealTimePlot(self.EM8000_plot.addPlot())
         self.EM8000_2.plot.setLabel('left', 'Angle', 'deg')
         self.EM8000_2.add_curves(['r', 'g', 'b'], ['Roll', 'Pitch', 'Yaw'])
+        self.EM8000_2.add_text_displays([self.EM8000_output_ang_r, self.EM8000_output_ang_p, self.EM8000_output_ang_y])
 
-        self.COMAU = PlotObject(self.COMAU_plot.addPlot())
+        self.COMAU = RealTimePlot(self.COMAU_plot.addPlot())
         self.COMAU.plot.setYRange(-180, 180)
         self.COMAU.plot.setLabel('left', 'Angle', 'deg')
         self.COMAU.add_curves(['r', 'g', 'b', 'y', 'm', 'c'], ['q1', 'q2', 'q3', 'q4', 'q5', 'q6'])
+        self.COMAU.add_text_displays([
+                self.COMAU_output_pos_j1, self.COMAU_output_pos_j2, self.COMAU_output_pos_j3,
+                self.COMAU_output_pos_j4, self.COMAU_output_pos_j5, self.COMAU_output_pos_j6
+            ])
 
-        # UDP interface
-        self.addr = ("192.168.90.50", 50150)
-        self.sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+        # Joint stroke bar indicators
+        self.EM1500_bars = RealTimeBar()
+        self.EM1500_bars.max_values = [0.395]*12
+        self.EM1500_bars.bars = [
+                self.EM1500_bar1_l1, self.EM1500_bar1_l2, self.EM1500_bar1_l3, self.EM1500_bar1_l4, self.EM1500_bar1_l5, self.EM1500_bar1_l6,
+                self.EM1500_bar2_l1, self.EM1500_bar2_l2, self.EM1500_bar2_l3, self.EM1500_bar2_l4, self.EM1500_bar2_l5, self.EM1500_bar2_l6
+            ]
+        
+        self.EM8000_bars = RealTimeBar()
+        self.EM8000_bars.max_values = [0.776]*12
+        self.EM8000_bars.bars = [
+                self.EM8000_bar1_l1, self.EM8000_bar1_l2, self.EM8000_bar1_l3, self.EM8000_bar1_l4, self.EM8000_bar1_l5, self.EM8000_bar1_l6,
+                self.EM8000_bar2_l1, self.EM8000_bar2_l2, self.EM8000_bar2_l3, self.EM8000_bar2_l4, self.EM8000_bar2_l5, self.EM8000_bar2_l6
+            ]
+        
+        self.COMAU_bars = RealTimeBar()
+        self.COMAU_bars.max_values = [180]*12
+        self.COMAU_bars.bars = [
+                self.COMAU_bar1_j1, self.COMAU_bar1_j2, self.COMAU_bar1_j3, self.COMAU_bar1_j4, self.COMAU_bar1_j5, self.COMAU_bar1_j6,
+                self.COMAU_bar2_j1, self.COMAU_bar2_j2, self.COMAU_bar2_j3, self.COMAU_bar2_j4, self.COMAU_bar2_j5, self.COMAU_bar2_j6
+            ]
 
-        self.rx = RxData()
-        self.tx = TxData()
-        self.tx_buff = '0'*sizeof(TxData)
+        # UDP client interface
+        self.udp = UdpClient('192.168.90.50', 50150)
 
-        # Variable declaration
-        self.t = np.zeros(1000)
-        self.y = np.zeros(1000)
-        self.data = np.zeros((109, 1000))
+        # Plot time range setting
         self.time_range = 15
 
         # Connect the interaction functionality of the GUI
@@ -127,7 +211,6 @@ class GUI(QMainWindow, gui_main):
         self.init_ADS()
 
         # Timer function for plot update
-        # (with specified timeout value of "50 ms")
         self.timer = QTimer()
         self.timer.timeout.connect(self.update_data)
         self.timer.start(50)
@@ -184,117 +267,54 @@ class GUI(QMainWindow, gui_main):
 
     # Update data and plot
     def update_data(self):
-        # Udp data exhange
-        self.tx.udpKey = np.random.random_integers(100)
-
-        memmove(self.tx_buff, byref(self.tx), sizeof(self.tx))
-        self.sock.sendto(self.tx_buff, self.addr)
-        
-        rx_buff, server = self.sock.recvfrom(sizeof(RxData))
-        memmove(byref(self.rx), rx_buff, sizeof(RxData))
+        # Udp data exchange
+        self.udp.update()
 
         # Update real time plots
         self.EM1500_1.time_range = self.time_range
-        self.EM1500_1.update(self.rx.t, [self.rx.EM8000.L1, -self.rx.EM8000.L1, 1.5*self.rx.EM8000.L1])
-        
+        self.EM1500_1.update(self.udp.rx.t, [
+                self.udp.rx.EM1500.x, self.udp.rx.EM1500.y, self.udp.rx.EM1500.z
+            ])
         self.EM1500_2.time_range = self.time_range
-        self.EM1500_2.update(self.rx.t, [3*self.rx.EM8000.L1, self.rx.EM8000.L1, -1.5*self.rx.EM8000.L1])
+        self.EM1500_2.update(self.udp.rx.t, [
+                self.udp.rx.EM1500.roll, self.udp.rx.EM1500.pitch, self.udp.rx.EM1500.yaw
+            ])
 
         self.EM8000_1.time_range = self.time_range
-        self.EM8000_1.update(self.rx.t, [self.rx.EM8000.L1, -self.rx.EM8000.L1, 1.5*self.rx.EM8000.L1])
-        
+        self.EM8000_1.update(self.udp.rx.t, [
+                self.udp.rx.EM8000.x, self.udp.rx.EM8000.y, self.udp.rx.EM8000.z
+            ])
         self.EM8000_2.time_range = self.time_range
-        self.EM8000_2.update(self.rx.t, [3*self.rx.EM8000.L1, self.rx.EM8000.L1, -1.5*self.rx.EM8000.L1])
+        self.EM8000_2.update(self.udp.rx.t, [
+                self.udp.rx.EM8000.roll, self.udp.rx.EM8000.pitch, self.udp.rx.EM8000.yaw
+            ])
         
         self.COMAU.time_range = self.time_range
-        self.COMAU.update(self.rx.t, np.array([100.0, -60.0, 75.0, 180.0, 30.0, -45.0])*self.rx.EM8000.L1)
+        self.COMAU.update(self.udp.rx.t, [
+                self.udp.rx.COMAU.q1, self.udp.rx.COMAU.q2, self.udp.rx.COMAU.q3,
+                self.udp.rx.COMAU.q4, self.udp.rx.COMAU.q5, self.udp.rx.COMAU.q6
+            ])
+        
+        self.EM8000_bars.update([
+                self.udp.rx.EM8000.L1, self.udp.rx.EM8000.L2, self.udp.rx.EM8000.L3,
+                self.udp.rx.EM8000.L4, self.udp.rx.EM8000.L5, self.udp.rx.EM8000.L6,
+                self.udp.rx.EM8000.L1, self.udp.rx.EM8000.L2, self.udp.rx.EM8000.L3,
+                self.udp.rx.EM8000.L4, self.udp.rx.EM8000.L5, self.udp.rx.EM8000.L6
+            ])
 
-        # EM 8000 Variable Declaration
-        EM8000_max_stroke = 0.776
-        EM8000_precision = 4
+        self.EM1500_bars.update([
+                self.udp.rx.EM1500.L1, self.udp.rx.EM1500.L2, self.udp.rx.EM1500.L3,
+                self.udp.rx.EM1500.L4, self.udp.rx.EM1500.L5, self.udp.rx.EM1500.L6,
+                self.udp.rx.EM1500.L1, self.udp.rx.EM1500.L2, self.udp.rx.EM1500.L3,
+                self.udp.rx.EM1500.L4, self.udp.rx.EM1500.L5, self.udp.rx.EM1500.L6
+            ])
 
-        # # Update the values in the output fields
-        # self.EM8000_output_pos_x.setText(str(round(self.data[59, -1], EM8000_precision)))
-        # self.EM8000_output_pos_y.setText(str(round(self.data[60, -1], EM8000_precision)))
-        # self.EM8000_output_pos_z.setText(str(round(self.data[61, -1], EM8000_precision)))
-        # self.EM8000_output_ang_r.setText(str(round(self.data[62, -1], EM8000_precision)))
-        # self.EM8000_output_ang_p.setText(str(round(self.data[63, -1], EM8000_precision)))
-        # self.EM8000_output_ang_y.setText(str(round(self.data[64, -1], EM8000_precision)))
-
-        ## Update progressbar EM8000
-        # Interface tab:
-        self.EM8000_bar1_l1.setValue(self.rx.EM8000.L1/EM8000_max_stroke*100.0)
-        self.EM8000_bar1_l2.setValue(self.rx.EM8000.L2/EM8000_max_stroke*100.0)
-        self.EM8000_bar1_l3.setValue(self.rx.EM8000.L3/EM8000_max_stroke*100.0)
-        self.EM8000_bar1_l4.setValue(self.rx.EM8000.L4/EM8000_max_stroke*100.0)
-        self.EM8000_bar1_l5.setValue(self.rx.EM8000.L5/EM8000_max_stroke*100.0)
-        self.EM8000_bar1_l6.setValue(self.rx.EM8000.L6/EM8000_max_stroke*100.0)
-
-        # Plotting tab:
-        self.EM8000_bar2_l1.setValue(self.rx.EM8000.L1/EM8000_max_stroke*100.0)
-        self.EM8000_bar2_l2.setValue(self.rx.EM8000.L2/EM8000_max_stroke*100.0)
-        self.EM8000_bar2_l3.setValue(self.rx.EM8000.L3/EM8000_max_stroke*100.0)
-        self.EM8000_bar2_l4.setValue(self.rx.EM8000.L4/EM8000_max_stroke*100.0)
-        self.EM8000_bar2_l5.setValue(self.rx.EM8000.L5/EM8000_max_stroke*100.0)
-        self.EM8000_bar2_l6.setValue(self.rx.EM8000.L6/EM8000_max_stroke*100.0)
-
-        # # EM 1500 Variable Declaration
-        EM1500_max_stroke = 0.395
-        EM1500_precision = 4
-
-        # # Update progressbar EM1500
-        # # Update the values in the output fields
-        # self.EM1500_output_pos_x.setText(str(round(self.data[59, -1], EM1500_precision)))
-        # self.EM1500_output_pos_y.setText(str(round(self.data[60, -1], EM1500_precision)))
-        # self.EM1500_output_pos_z.setText(str(round(self.data[61, -1], EM1500_precision)))
-        # self.EM1500_output_ang_r.setText(str(round(self.data[62, -1], EM1500_precision)))
-        # self.EM1500_output_ang_p.setText(str(round(self.data[63, -1], EM1500_precision)))
-        # self.EM1500_output_ang_y.setText(str(round(self.data[64, -1], EM1500_precision)))
-
-        # Interface tab:
-        self.EM1500_bar1_l1.setValue(self.rx.EM1500.L1/EM1500_max_stroke*100.0)
-        self.EM1500_bar1_l2.setValue(self.rx.EM1500.L2/EM1500_max_stroke*100.0)
-        self.EM1500_bar1_l3.setValue(self.rx.EM1500.L3/EM1500_max_stroke*100.0)
-        self.EM1500_bar1_l4.setValue(self.rx.EM1500.L4/EM1500_max_stroke*100.0)
-        self.EM1500_bar1_l5.setValue(self.rx.EM1500.L5/EM1500_max_stroke*100.0)
-        self.EM1500_bar1_l6.setValue(self.rx.EM1500.L6/EM1500_max_stroke*100.0)
-
-        # Plotting tab:
-        self.EM1500_bar2_l1.setValue(self.rx.EM1500.L1/EM1500_max_stroke*100.0)
-        self.EM1500_bar2_l2.setValue(self.rx.EM1500.L2/EM1500_max_stroke*100.0)
-        self.EM1500_bar2_l3.setValue(self.rx.EM1500.L3/EM1500_max_stroke*100.0)
-        self.EM1500_bar2_l4.setValue(self.rx.EM1500.L4/EM1500_max_stroke*100.0)
-        self.EM1500_bar2_l5.setValue(self.rx.EM1500.L5/EM1500_max_stroke*100.0)
-        self.EM1500_bar2_l6.setValue(self.rx.EM1500.L6/EM1500_max_stroke*100.0)
-
-        # COMAU Variable Declaration
-        COMAU_max_stroke = 180.0
-        COMAU_precision = 4
-
-        # # Update the values in the output fields
-        # self.COMAU_output_pos_j1.setText(str(round(self.data[84, -1], COMAU_precision)))
-        # self.COMAU_output_pos_j2.setText(str(round(self.data[85, -1], COMAU_precision)))
-        # self.COMAU_output_pos_j3.setText(str(round(self.data[86, -1], COMAU_precision)))
-        # self.COMAU_output_pos_j4.setText(str(round(self.data[87, -1], COMAU_precision)))
-        # self.COMAU_output_pos_j5.setText(str(round(self.data[88, -1], COMAU_precision)))
-        # self.COMAU_output_pos_j6.setText(str(round(self.data[89, -1], COMAU_precision)))
-
-        ## Update progressbar COMAU
-        # Interface tab:
-        self.COMAU_bar1_j1.setValue(self.data[84, -1]/COMAU_max_stroke*100.0)
-        self.COMAU_bar1_j2.setValue(self.data[85, -1]/COMAU_max_stroke*100.0)
-        self.COMAU_bar1_j3.setValue(self.data[86, -1]/COMAU_max_stroke*100.0)
-        self.COMAU_bar1_j4.setValue(self.data[87, -1]/COMAU_max_stroke*100.0)
-        self.COMAU_bar1_j5.setValue(self.data[88, -1]/COMAU_max_stroke*100.0)
-        self.COMAU_bar1_j6.setValue(self.data[89, -1]/COMAU_max_stroke*100.0)
-
-        # Plotting tab:
-        self.COMAU_bar2_j1.setValue(self.data[84, -1]/COMAU_max_stroke*100.0)
-        self.COMAU_bar2_j2.setValue(self.data[85, -1]/COMAU_max_stroke*100.0)
-        self.COMAU_bar2_j3.setValue(self.data[86, -1]/COMAU_max_stroke*100.0)
-        self.COMAU_bar2_j4.setValue(self.data[87, -1]/COMAU_max_stroke*100.0)
-        self.COMAU_bar2_j5.setValue(self.data[88, -1]/COMAU_max_stroke*100.0)
-        self.COMAU_bar2_j6.setValue(self.data[89, -1]/COMAU_max_stroke*100.0)
+        self.COMAU_bars.update([
+                self.udp.rx.COMAU.q1, self.udp.rx.COMAU.q2, self.udp.rx.COMAU.q3,
+                self.udp.rx.COMAU.q4, self.udp.rx.COMAU.q5, self.udp.rx.COMAU.q6,
+                self.udp.rx.COMAU.q1, self.udp.rx.COMAU.q2, self.udp.rx.COMAU.q3,
+                self.udp.rx.COMAU.q4, self.udp.rx.COMAU.q5, self.udp.rx.COMAU.q6
+            ])
 
     # Function to change the time axis range of the plots
     def plot_time_axis_range(self):
