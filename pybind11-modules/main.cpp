@@ -14,11 +14,90 @@
 #define WIN32_LEAN_AND_MEAN
 #pragma comment(lib,"ws2_32.lib")
 
+struct RxStruct {
+	unsigned int udpKey;
+};
 
-struct A {
-    float x;
-    float y;
-	float z;
+struct TxStruct {
+	float t;
+	float EM1500_x;
+	float EM1500_y;
+	float EM1500_z;
+	float EM1500_roll;
+	float EM1500_pitch;
+	float EM1500_yaw;
+	float EM1500_x_t;
+	float EM1500_y_t;
+	float EM1500_z_t;
+	float EM1500_roll_t;
+	float EM1500_pitch_t;
+	float EM1500_yaw_t;
+	float EM1500_x_tt;
+	float EM1500_y_tt;
+	float EM1500_z_tt;
+	float EM1500_roll_tt;
+	float EM1500_pitch_tt;
+	float EM1500_yaw_tt;
+	float EM1500_L1;
+	float EM1500_L2;
+	float EM1500_L3;
+	float EM1500_L4;
+	float EM1500_L5;
+	float EM1500_L6;
+	float EM8000_x;
+	float EM8000_y;
+	float EM8000_z;
+	float EM8000_roll;
+	float EM8000_pitch;
+	float EM8000_yaw;
+	float EM8000_x_t;
+	float EM8000_y_t;
+	float EM8000_z_t;
+	float EM8000_roll_t;
+	float EM8000_pitch_t;
+	float EM8000_yaw_t;
+	float EM8000_x_tt;
+	float EM8000_y_tt;
+	float EM8000_z_tt;
+	float EM8000_roll_tt;
+	float EM8000_pitch_tt;
+	float EM8000_yaw_tt;
+	float EM8000_L1;
+	float EM8000_L2;
+	float EM8000_L3;
+	float EM8000_L4;
+	float EM8000_L5;
+	float EM8000_L6;
+	float q1;
+	float q2;
+	float q3;
+	float q4;
+	float q5;
+	float q6;
+	float q1_t;
+	float q2_t;
+	float q3_t;
+	float q4_t;
+	float q5_t;
+	float q6_t;
+	float q1_tt;
+	float q2_tt;
+	float q3_tt;
+	float q4_tt;
+	float q5_tt;
+	float q6_tt;
+	float AT960_x;
+	float AT960_y;
+	float AT960_z;
+	float AT960_q0;
+	float AT960_q1;
+	float AT960_q2;
+	float AT960_q3;
+};
+
+struct Data {
+	RxStruct rx;
+	TxStruct tx;
 };
 
 namespace py = pybind11;
@@ -31,11 +110,8 @@ private:
 	WSADATA wsa;
 	struct sockaddr_in si_server, si_client;
 
-	const unsigned int rx_size;
-	const unsigned int tx_size;
-
-	char rx_buff[296];
-	char tx_buff[4];
+	char rx_buff[500];
+	//char tx_buff[sizeof(TxData)];
 
 	bool running = false;
 
@@ -51,23 +127,18 @@ private:
 				exit(EXIT_FAILURE);
 			}
 
-			//std::cout << "rx_data.data[0] " << rx_data->data[0] << std::endl;
-			if (sendto(s, tx_buff, sizeof(tx_buff), 0, (struct sockaddr*) &si_client, slen) == SOCKET_ERROR) {
-				std::cout << "sendto() failed with error code: " << WSAGetLastError() << std::endl;
-				exit(EXIT_FAILURE);
-			}
+			// if (sendto(s, tx_buff, sizeof(tx_buff), 0, (struct sockaddr*) &si_client, slen) == SOCKET_ERROR) {
+			// 	std::cout << "sendto() failed with error code: " << WSAGetLastError() << std::endl;
+			// 	exit(EXIT_FAILURE);
+			// }
 		}
 	}
 
 public:
 
-	UdpServer(unsigned int port, unsigned int rx_size, unsigned int tx_size) : 
-		run_thread(), rx_size(rx_size), tx_size(tx_size) {
+	UdpServer(unsigned int port, unsigned int rx_size, unsigned int tx_size) : run_thread() {
 		slen = sizeof(si_client);
 
-		std::cout << "rx_size = " << rx_size << " sizeof(rx_buff) = " << sizeof(rx_buff) << std::endl;
-		std::cout << "tx_size = " << tx_size << " sizeof(tx_buff) = " << sizeof(tx_buff) << std::endl;
-		
 		if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
 		{
 			std::cout << "WSA Startup Failed. Error Code: " <<  WSAGetLastError() << std::endl;
@@ -110,34 +181,24 @@ public:
 		}
 	}
 
-	void Send(char* bytes) {
-		mtx.lock();
-		memcpy(&tx_buff, bytes, sizeof(tx_buff));
-		mtx.unlock();
-	}
+	// void Send(char* bytes) {
+	// 	mtx.lock();
+	// 	memcpy(&tx_buff, bytes, sizeof(tx_buff));
+	// 	mtx.unlock();
+	// }
 
-	py::bytes Recv() {
-		mtx.lock();
-		std::string str( rx_buff, rx_buff + sizeof rx_buff / sizeof rx_buff[0]);
-		mtx.unlock();
-		return py::bytes(str);
-	}
+	// py::bytes Recv() {
+	// 	mtx.lock();
+	// 	std::string str( rx_buff, rx_buff + sizeof rx_buff / sizeof rx_buff[0]);
+	// 	mtx.unlock();
+	// 	return py::bytes(str);
+	// }
 
 	
-	A test(void) {
-		A myStruct;
-
-		return myStruct;
-	}
-
-	// py::array_t<A> test2(void) {
-	// 	return myStruct;
-	// }
 };
 
 
 PYBIND11_PLUGIN(udp) {
-	PYBIND11_NUMPY_DTYPE(A, x, y, z);
 	// Module
 	py::module m("udp", "Udp server and client utilites");
 	// Constructor
@@ -145,11 +206,8 @@ PYBIND11_PLUGIN(udp) {
 	server.def(py::init<unsigned int, unsigned int, unsigned int>());
 	server.def("start", &UdpServer::Start);
 	server.def("close", &UdpServer::Close);
-	server.def("send", &UdpServer::Send);
-	server.def("recv", &UdpServer::Recv);
-
-	server.def("test", &UdpServer::test);
-	// server.def("test2", &UdpServer::test2);
+	// server.def("send", &UdpServer::Send);
+	// server.def("recv", &UdpServer::Recv);
 
 
 	return m.ptr();
