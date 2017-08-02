@@ -1,19 +1,23 @@
-from build import udp
 import time
 
-s = udp.server(50060,296,4)
+from build import udp
+# s = udp.server(50060)
 
-s.start()
-time.sleep(1)
+s = udp.client(12345, '192.168.90.50')
 
-ret = s.recv()
 
-time.sleep(2)
+tS = time.time()
 
-print ret
+t = []
+i = 1
+while time.time() - tS <= 5.0:
+    s.update(i)
+    i = i + 1
+    time.sleep(0.01)
 
-s.close()
 
+
+print len(t)
 
 
 

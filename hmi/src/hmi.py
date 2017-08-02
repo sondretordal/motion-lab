@@ -97,6 +97,7 @@ class UdpClient(RxData):
     def __init__(self, ip, port):
         self.addr = (ip, port)
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.sock.settimeout(1)
         self.rx = RxData()
         self.hmi_counter = c_uint(0)
         self.server = []
@@ -111,18 +112,15 @@ class UdpClient(RxData):
         self.sock.sendto(self.__tx_buff, self.addr)
         
         # Recieve data from udp server
-        self.__rx_buff, self.server = self.sock.recvfrom(sizeof(RxData))
-        memmove(byref(self.rx), self.__rx_buff, sizeof(RxData))
+        try:
+            self.__rx_buff, self.server = self.sock.recvfrom(sizeof(RxData))
+            memmove(byref(self.rx), self.__rx_buff, sizeof(RxData))
+        except timeout:
+            print "Timeout"
 
         # Update hmi counter
         self.hmi_counter.value += 1
 
-
-
-##
-class Logging():
-    def __init__(self):
-        pass
 ##
 class GUI(QMainWindow, gui_main):
     def __init__(self):
@@ -261,7 +259,8 @@ class GUI(QMainWindow, gui_main):
     # Update data and plot
     def update_data(self):
         # Udp data exchange
-        self.udp.update()
+        # TODO
+        #self.udp.update()
 
         # Update real time plots
         self.EM1500_1.time_range = self.time_range
