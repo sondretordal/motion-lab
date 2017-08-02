@@ -1,16 +1,4 @@
-#ifndef DATASTRUCTURES_H
-#define DATASTRUCTURES_H
-
-struct A {
-	int x = 1;
-	float y = 2.0f;
-	double z = 3.0;
-};
-
-struct B {
-	A s1;
-	A s2;
-};  
+#pragma once
 
 // Control structs
 struct RemoteControlComau {
@@ -92,5 +80,3 @@ struct RemoteFeedbackLeica {
 	float q2;
 	float q3;
 };
-
-#endif
