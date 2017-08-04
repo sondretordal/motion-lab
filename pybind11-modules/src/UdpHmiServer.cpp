@@ -1,10 +1,10 @@
-#include "UdpServer.h"
+#include "UdpHmiServer.h"
 
-UdpServer::UdpServer(unsigned int port) : run_thread() {
+UdpHmiServer::UdpHmiServer(unsigned int port) : run_thread() {
     slen = sizeof(si_client);
 
-    Feedback = reinterpret_cast<RemoteFeedback*>(rx_buff);
-    Control = reinterpret_cast<RemoteControl*>(tx_buff);
+    rx_data = reinterpret_cast<HmiFeedback*>(rx_buff);
+    tx_data = reinterpret_cast<HmiControl*>(tx_buff);
 
     if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
     {
@@ -34,14 +34,18 @@ UdpServer::UdpServer(unsigned int port) : run_thread() {
     std::cout << "Socket bind done" << std::endl;
 }
 
-UdpServer::~UdpServer() {
+UdpHmiServer::~UdpHmiServer() {
     close();
 }
 
-void UdpServer::run() {
+void UdpHmiServer::run() {
     while (running) {
         mtx.lock();
         rx_size = recvfrom(sock, rx_buff, sizeof(rx_buff), 0, (struct sockaddr*) &si_client, &slen);
+
+        Control = rx_data->Control;
+        Feedback = rx_data->Feedback;
+
         mtx.unlock();
 
         if (rx_size == SOCKET_ERROR) {
@@ -51,6 +55,8 @@ void UdpServer::run() {
         }
 
         mtx.lock();
+        tx_data->counter = counter;
+
         tx_size = sendto(sock, tx_buff, sizeof(tx_buff), 0, (struct sockaddr*) &si_client, slen);
         mtx.unlock();
 
@@ -62,12 +68,12 @@ void UdpServer::run() {
     }
 }
 
-void UdpServer::start() {
+void UdpHmiServer::start() {
     running = true;
-    run_thread = std::thread(&UdpServer::run, this);
+    run_thread = std::thread(&UdpHmiServer::run, this);
 }
 
-void UdpServer::close() {
+void UdpHmiServer::close() {
     running = false;
     if (run_thread.joinable()) {
         run_thread.join();

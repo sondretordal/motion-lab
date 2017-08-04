@@ -22,6 +22,11 @@ struct RemoteControlComau {
 	float q6_tt;
 };
 
+struct RemoteControl {
+	int	udp_key;
+	RemoteControlComau COMAU;
+};
+
 // Feedback structs
 struct RemoteFeedbackStewart {
 	float x;
@@ -79,4 +84,12 @@ struct RemoteFeedbackLeica {
 	float q1;
 	float q2;
 	float q3;
+};
+
+struct RemoteFeedback {
+	float t;
+	RemoteFeedbackStewart EM1500;
+	RemoteFeedbackStewart EM8000;
+	RemoteFeedbackComau COMAU;
+	RemoteFeedbackLeica AT960;
 };

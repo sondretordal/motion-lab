@@ -1,143 +1,15 @@
+// Pybind includes
 #include <pybind11/pybind11.h>
-#include <pybind11/stl.h>
-#include <pybind11/numpy.h>
 
-#include <iostream>
-#include <vector>
-#include <chrono>
-#include <string>
-#include <thread>
-#include <mutex>
-#include <stdio.h>
-#include <winsock2.h>
-
-#include "RemoteData.h"
-
-#define WIN32_LEAN_AND_MEAN
-#pragma comment(lib,"ws2_32.lib")
-
-struct RemoteControl {
-	int	udp_key;
-	RemoteControlComau COMAU;
-};
-
-struct RemoteFeedback {
-	float t;
-	RemoteFeedbackStewart EM1500;
-	RemoteFeedbackStewart EM8000;
-	RemoteFeedbackComau COMAU;
-	RemoteFeedbackLeica AT960;
-};
+// Classes
+#include "UdpServer.h"
+#include "UdpHmiServer.h"
 
 namespace py = pybind11;
 
-// Threads in classes: https://rafalcieslak.wordpress.com/2014/05/16/c11-stdthreads-managed-by-a-designated-class/
-class UdpServer
-{
-private:
-	SOCKET sock;
-	WSADATA wsa;
-	int slen;
-	struct sockaddr_in si_server, si_client;
-
-	char rx_buff[sizeof(RemoteFeedback)];
-	char tx_buff[sizeof(RemoteControl)];
-
-	int rx_size;
-	int tx_size;
-
-	bool running = false;
-
-	std::thread run_thread;
-	std::mutex tx_mtx, rx_mtx;
-
-	void run() {
-		while (running) {
-			rx_mtx.lock();
-			rx_size = recvfrom(sock, rx_buff, sizeof(rx_buff), 0, (struct sockaddr*) &si_client, &slen);
-			rx_mtx.unlock();
-
-			if (rx_size == SOCKET_ERROR) {
-				std::cout << "recvfrom() failed with error code: " << WSAGetLastError() << std::endl;
-				WSACleanup();
-				exit(EXIT_FAILURE);
-			}
-
-			tx_mtx.lock();
-			tx_size = sendto(sock, tx_buff, sizeof(tx_buff), 0, (struct sockaddr*) &si_client, slen);
-			tx_mtx.unlock();
-
-			if (tx_size == SOCKET_ERROR) {
-				std::cout << "sendto() failed with error code: " << WSAGetLastError() << std::endl;
-				WSACleanup();
-				exit(EXIT_FAILURE);
-			}
-
-			
-		}
-	}
-
-public:
-	RemoteFeedback *Feedback;
-	RemoteControl *Control;
-
-	UdpServer(unsigned int port) : run_thread() {
-		slen = sizeof(si_client);
-
-		Feedback = reinterpret_cast<RemoteFeedback*>(rx_buff);
-		Control = reinterpret_cast<RemoteControl*>(tx_buff);
-
-		if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
-		{
-			std::cout << "WSA Startup Failed. Error Code: " <<  WSAGetLastError() << std::endl;
-			WSACleanup();
-			exit(EXIT_FAILURE);
-		}
-
-		if ((sock = (socket(AF_INET, SOCK_DGRAM, 0))) == INVALID_SOCKET)
-		{
-			std::cout << "Could not create socket: " << WSAGetLastError() << std::endl;
-			WSACleanup();
-			exit(EXIT_FAILURE);
-		}
-		std::cout << "Socket created" << std::endl;
-
-		si_server.sin_family = AF_INET;
-		si_server.sin_addr.s_addr = INADDR_ANY;
-		si_server.sin_port = htons(port);
-
-		if (bind(sock, (struct sockaddr*) &si_server, sizeof(si_server)) == SOCKET_ERROR)
-		{
-			std::cout << "Bind failed with error code: " << WSAGetLastError() << std::endl;
-			WSACleanup();
-			exit(EXIT_FAILURE);
-		}
-		std::cout << "Socket bind done" << std::endl;
-	}
-	~UdpServer() {
-		close();
-	}
-
-	void start() {
-		running = true;
-		run_thread = std::thread(&UdpServer::run, this);
-	}
-
-	void close() {
-		running = false;
-		if (run_thread.joinable()) {
-			run_thread.join();
-			std::cout << "UDP thread joined sucessfully!" << std::endl;
-
-			WSACleanup();
-			closesocket(sock);
-		}
-	}
-};
-
-PYBIND11_PLUGIN(udp) {
+PYBIND11_PLUGIN(MotionLab) {
 	// Module
-	py::module m("udp", "Udp server and client utilites");
+	py::module m("MotionLab", "Udp server and client utilites");
 
 	// Feedback structs
 	py::class_<RemoteFeedbackStewart>(m, "RemoteFeedbackStewart")
@@ -232,25 +104,37 @@ PYBIND11_PLUGIN(udp) {
 		.def(py::init<>())
 		.def_readwrite("udp_key", &RemoteControl::udp_key)
 		.def_readwrite("COMAU", &RemoteControl::COMAU);
-
-
 	// Udp server class define
-	py::class_<UdpServer>(m, "server")
+	py::class_<UdpServer>(m, "UdpServer")
 		.def(py::init<unsigned int>())
 		.def("start", &UdpServer::start)
 		.def("close", &UdpServer::close)
 		.def_readonly("Feedback", &UdpServer::Feedback)
 		.def_readwrite("Control", &UdpServer::Control);
+	// Hmi feedback struct
+	py::class_<HmiControl>(m, "HmiControl")
+		.def(py::init<>())
+		.def_readwrite("counter", &HmiControl::counter);
+	// Hmi control struct
+	py::class_<HmiFeedback>(m, "HmiFeedback")
+		.def(py::init<>())
+		.def_readonly("Feedback", &HmiFeedback::Feedback)
+		.def_readonly("Control", &HmiFeedback::Control);
+	// Udp hmi server class define
+	py::class_<UdpHmiServer>(m, "UdpHmiServer")
+		.def(py::init<unsigned int>())
+		.def("start", &UdpHmiServer::start)
+		.def("close", &UdpHmiServer::close)
+		.def_readwrite("counter", &UdpHmiServer::counter)
+		.def_readonly("Feedback", &UdpHmiServer::Feedback)
+		.def_readonly("Control", &UdpHmiServer::Control);
 
 	// Return module
 	return m.ptr();
 }
 
-
 int main(int argc, char** argv)
 {
-	UdpServer udp(50060);
 	
-
 	return 0;
 }
