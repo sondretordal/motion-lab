@@ -13,6 +13,7 @@ import socket
 from ctypes import sizeof, memmove, byref, c_uint
 
 from remotedata import TxData, RxData
+import MotionLab
 
 # Background color pyqtgraph
 pg.setConfigOption('background', 'w')
@@ -134,10 +135,17 @@ class GUI(QMainWindow, gui_main):
         self.setupUi(self)
 
         # Start ADS communication
-        self.init_ADS()
+        self.plc = pyads.Connection('192.168.90.150.1.1', 851)
+        self.plc.open()
+        print "Beckhoff ADS Connection Open"
+        
+        # Set PLC time to 0
+        self.plc.write_by_name('REMOTE.Feedback.t', 0.0, pyads.PLCTYPE_REAL)
 
-        # UDP client interface
-        self.udp = UdpClient('192.168.90.50', 50150)
+        # UDP server interface from pybind11
+        #self.udp = UdpClient('192.168.90.50', 50150)
+        self.udp = MotionLab.UdpHmiServer(50160)
+        self.udp.start()
 
         # Real-time plots
         self.EM1500_1 = RealTimePlot(self.EM1500_plot.addPlot())
@@ -204,7 +212,7 @@ class GUI(QMainWindow, gui_main):
         # Timer function for plot update
         self.timer = QTimer()
         self.timer.timeout.connect(self.update_data)
-        self.timer.start(50)
+        self.timer.start(25)
 
         # Set the relative path to the Sphinx docs
         dir1 = os.path.dirname(__file__)
@@ -258,54 +266,50 @@ class GUI(QMainWindow, gui_main):
 
     # Update data and plot
     def update_data(self):
-        # Udp data exchange
-        # TODO
-        #self.udp.update()
-
         # Update real time plots
         self.EM1500_1.time_range = self.time_range
-        self.EM1500_1.update(self.udp.rx.t, [
-                self.udp.rx.EM1500.x, self.udp.rx.EM1500.y, self.udp.rx.EM1500.z
+        self.EM1500_1.update(self.udp.Feedback.t, [
+                self.udp.Feedback.EM1500.x, self.udp.Feedback.EM1500.y, self.udp.Feedback.EM1500.z
             ])
         self.EM1500_2.time_range = self.time_range
-        self.EM1500_2.update(self.udp.rx.t, [
-                self.udp.rx.EM1500.roll, self.udp.rx.EM1500.pitch, self.udp.rx.EM1500.yaw
+        self.EM1500_2.update(self.udp.Feedback.t, [
+                self.udp.Feedback.EM1500.roll, self.udp.Feedback.EM1500.pitch, self.udp.Feedback.EM1500.yaw
             ])
 
         self.EM8000_1.time_range = self.time_range
-        self.EM8000_1.update(self.udp.rx.t, [
-                self.udp.rx.EM8000.x, self.udp.rx.EM8000.y, self.udp.rx.EM8000.z
+        self.EM8000_1.update(self.udp.Feedback.t, [
+                self.udp.Feedback.EM8000.x, self.udp.Feedback.EM8000.y, self.udp.Feedback.EM8000.z
             ])
         self.EM8000_2.time_range = self.time_range
-        self.EM8000_2.update(self.udp.rx.t, [
-                self.udp.rx.EM8000.roll, self.udp.rx.EM8000.pitch, self.udp.rx.EM8000.yaw
+        self.EM8000_2.update(self.udp.Feedback.t, [
+                self.udp.Feedback.EM8000.roll, self.udp.Feedback.EM8000.pitch, self.udp.Feedback.EM8000.yaw
             ])
         
         self.COMAU.time_range = self.time_range
-        self.COMAU.update(self.udp.rx.t, [
-                self.udp.rx.COMAU.q1, self.udp.rx.COMAU.q2, self.udp.rx.COMAU.q3,
-                self.udp.rx.COMAU.q4, self.udp.rx.COMAU.q5, self.udp.rx.COMAU.q6
+        self.COMAU.update(self.udp.Feedback.t, [
+                self.udp.Feedback.COMAU.q1, self.udp.Feedback.COMAU.q2, self.udp.Feedback.COMAU.q3,
+                self.udp.Feedback.COMAU.q4, self.udp.Feedback.COMAU.q5, self.udp.Feedback.COMAU.q6
             ])
         
         self.EM8000_bars.update([
-                self.udp.rx.EM8000.L1, self.udp.rx.EM8000.L2, self.udp.rx.EM8000.L3,
-                self.udp.rx.EM8000.L4, self.udp.rx.EM8000.L5, self.udp.rx.EM8000.L6,
-                self.udp.rx.EM8000.L1, self.udp.rx.EM8000.L2, self.udp.rx.EM8000.L3,
-                self.udp.rx.EM8000.L4, self.udp.rx.EM8000.L5, self.udp.rx.EM8000.L6
+                self.udp.Feedback.EM8000.L1, self.udp.Feedback.EM8000.L2, self.udp.Feedback.EM8000.L3,
+                self.udp.Feedback.EM8000.L4, self.udp.Feedback.EM8000.L5, self.udp.Feedback.EM8000.L6,
+                self.udp.Feedback.EM8000.L1, self.udp.Feedback.EM8000.L2, self.udp.Feedback.EM8000.L3,
+                self.udp.Feedback.EM8000.L4, self.udp.Feedback.EM8000.L5, self.udp.Feedback.EM8000.L6
             ])
 
         self.EM1500_bars.update([
-                self.udp.rx.EM1500.L1, self.udp.rx.EM1500.L2, self.udp.rx.EM1500.L3,
-                self.udp.rx.EM1500.L4, self.udp.rx.EM1500.L5, self.udp.rx.EM1500.L6,
-                self.udp.rx.EM1500.L1, self.udp.rx.EM1500.L2, self.udp.rx.EM1500.L3,
-                self.udp.rx.EM1500.L4, self.udp.rx.EM1500.L5, self.udp.rx.EM1500.L6
+                self.udp.Feedback.EM1500.L1, self.udp.Feedback.EM1500.L2, self.udp.Feedback.EM1500.L3,
+                self.udp.Feedback.EM1500.L4, self.udp.Feedback.EM1500.L5, self.udp.Feedback.EM1500.L6,
+                self.udp.Feedback.EM1500.L1, self.udp.Feedback.EM1500.L2, self.udp.Feedback.EM1500.L3,
+                self.udp.Feedback.EM1500.L4, self.udp.Feedback.EM1500.L5, self.udp.Feedback.EM1500.L6
             ])
 
         self.COMAU_bars.update([
-                self.udp.rx.COMAU.q1, self.udp.rx.COMAU.q2, self.udp.rx.COMAU.q3,
-                self.udp.rx.COMAU.q4, self.udp.rx.COMAU.q5, self.udp.rx.COMAU.q6,
-                self.udp.rx.COMAU.q1, self.udp.rx.COMAU.q2, self.udp.rx.COMAU.q3,
-                self.udp.rx.COMAU.q4, self.udp.rx.COMAU.q5, self.udp.rx.COMAU.q6
+                self.udp.Feedback.COMAU.q1, self.udp.Feedback.COMAU.q2, self.udp.Feedback.COMAU.q3,
+                self.udp.Feedback.COMAU.q4, self.udp.Feedback.COMAU.q5, self.udp.Feedback.COMAU.q6,
+                self.udp.Feedback.COMAU.q1, self.udp.Feedback.COMAU.q2, self.udp.Feedback.COMAU.q3,
+                self.udp.Feedback.COMAU.q4, self.udp.Feedback.COMAU.q5, self.udp.Feedback.COMAU.q6
             ])
 
     # Function to change the time axis range of the plots
@@ -382,18 +386,6 @@ class GUI(QMainWindow, gui_main):
                 msg.setWindowTitle("Access Denied")
                 msg.exec_()
                 return False
-
-    # Open ADS connection to Beckhoff PLC
-    def init_ADS(self):
-        # Open ADS Port
-        pyads.open_port()
-        print "Beckhoff ADS Connection Open"
-
-        # Set PLC ADS address
-        self.adr = pyads.AmsAddr('192.168.90.150.1.1', 851)
-        
-        # Set PLC time to 0
-        pyads.write_by_name(self.adr, 'REMOTE.Tx.t', 0.0, pyads.PLCTYPE_REAL)
         
     # EM 8000 button functions
     def EM8000_settled(self):
@@ -402,7 +394,7 @@ class GUI(QMainWindow, gui_main):
         self.EM8000_engaged_btn.setStyleSheet("background-color: none   ")
 
         # Write to PLC: EM8000 settled = 1
-        pyads.write_by_name(self.adr, 'EM8000.Tx.CMND', 1, pyads.PLCTYPE_DINT)
+        self.plc.write_by_name('EM8000.Control.CMND', 1, pyads.PLCTYPE_DINT)
 
     def EM8000_neutral(self):
         self.EM8000_settled_btn.setStyleSheet("background-color: none   ")
@@ -410,7 +402,7 @@ class GUI(QMainWindow, gui_main):
         self.EM8000_engaged_btn.setStyleSheet("background-color: none   ")
 
         # Write to PLC: EM8000 neutral = 3
-        pyads.write_by_name(self.adr, 'EM8000.Tx.CMND', 3, pyads.PLCTYPE_DINT)
+        self.plc.write_by_name('EM8000.Control.CMND', 3, pyads.PLCTYPE_DINT)
 
     def EM8000_engaged(self):
         self.EM8000_settled_btn.setStyleSheet("background-color: none   ")
@@ -418,7 +410,7 @@ class GUI(QMainWindow, gui_main):
         self.EM8000_engaged_btn.setStyleSheet("background-color: #cccccc")
 
         # Write to PLC: EM8000 engaged = 7
-        pyads.write_by_name(self.adr, 'EM8000.Tx.CMND', 7, pyads.PLCTYPE_DINT)
+        self.plc.write_by_name('EM8000.Control.CMND', 7, pyads.PLCTYPE_DINT)
 
     # EM 1500 button functions
     def EM1500_settled(self):
@@ -427,7 +419,7 @@ class GUI(QMainWindow, gui_main):
         self.EM1500_engaged_btn.setStyleSheet("background-color: none")
 
         # Write to PLC: EM1500 settled = 1
-        pyads.write_by_name(self.adr, 'EM1500.Tx.CMND', 1, pyads.PLCTYPE_DINT)
+        self.plc.write_by_name('EM1500.Control.CMND', 1, pyads.PLCTYPE_DINT)
 
     def EM1500_neutral(self):
         self.EM1500_settled_btn.setStyleSheet("background-color: none   ")
@@ -435,7 +427,7 @@ class GUI(QMainWindow, gui_main):
         self.EM1500_engaged_btn.setStyleSheet("background-color: none   ")
 
         # Write to PLC: EM1500 neutral = 3
-        pyads.write_by_name(self.adr, 'EM1500.Tx.CMND', 3, pyads.PLCTYPE_DINT)
+        self.plc.write_by_name('EM1500.Control.CMND', 3, pyads.PLCTYPE_DINT)
 
     def EM1500_engaged(self):
         self.EM1500_settled_btn.setStyleSheet("background-color: none   ")
@@ -443,7 +435,7 @@ class GUI(QMainWindow, gui_main):
         self.EM1500_engaged_btn.setStyleSheet("background-color: #cccccc")
 
         # Write to PLC: EM1500 engaged = 7
-        pyads.write_by_name(self.adr, 'EM1500.Tx.CMND', 7, pyads.PLCTYPE_DINT)
+        self.plc.write_by_name('EM1500.Control.CMND', 7, pyads.PLCTYPE_DINT)
 
     # COMAU button functions
     def COMAU_settled(self):
@@ -452,7 +444,7 @@ class GUI(QMainWindow, gui_main):
         self.COMAU_engaged_fast_btn.setStyleSheet("background-color: none")
 
         # Write to PLC: COMAU settled = 1
-        pyads.write_by_name(self.adr, 'COMAU.Tx.mode', 0, pyads.PLCTYPE_DINT)
+        self.plc.write_by_name('COMAU.Control.mode', 0, pyads.PLCTYPE_DINT)
 
     def COMAU_engaged(self):
         self.COMAU_settled_btn.setStyleSheet("background-color: none   ")
@@ -460,7 +452,7 @@ class GUI(QMainWindow, gui_main):
         self.COMAU_engaged_fast_btn.setStyleSheet("background-color: none")
 
         # Write to PLC: COMAU engaged = 1
-        pyads.write_by_name(self.adr, 'COMAU.Tx.mode', 1, pyads.PLCTYPE_DINT)
+        self.plc.write_by_name('COMAU.Control.mode', 1, pyads.PLCTYPE_DINT)
 
     def COMAU_engaged_fast(self):
         self.COMAU_settled_btn.setStyleSheet("background-color: none")
@@ -468,7 +460,7 @@ class GUI(QMainWindow, gui_main):
         self.COMAU_engaged_fast_btn.setStyleSheet("background-color: #cccccc")
 
         # Write to PLC: COMAU engaged-fast = 2
-        pyads.write_by_name(self.adr, 'COMAU.Tx.mode', 2, pyads.PLCTYPE_DINT)
+        self.plc.write_by_name('COMAU.Control.mode', 2, pyads.PLCTYPE_DINT)
 
     # SYSTEM button functions
     def SYSTEM_settled(self):
@@ -510,7 +502,10 @@ class GUI(QMainWindow, gui_main):
             self.stop_all()
             
             # Close ADS port
-            pyads.close_port()
+            self.plc.close()
             print 'Beckhoff ADS Connection Closed'
+
+            self.udp.close()
+            print 'HMI Udp Connection Closed'
 
             event.accept()
