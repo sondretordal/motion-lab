@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.6">
+  <POU Name="StocWave" Id="{8c3d10e4-a66c-4e52-99e3-64c2b76a027a}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION StocWave : REAL
+VAR_INPUT
+	Tp			: REAL := 20.0;
+	Hs			: REAL := 0.20;
+	t			: REAL := 0.0;
+	mode		: INT := 0;
+END_VAR
+VAR
+	// Random phases
+	phi_0		: ARRAY [1..25] OF REAL := [4.761022,4.669239,2.464435,4.118489,1.075598,4.436218,0.200012,1.739958,0.290103,0.610297,5.173938,4.365737,1.992395,5.970421,0.216431,2.756712,2.397402,4.809884,4.996388,1.174155,3.077280,2.799701,4.060904,4.457071,4.741836];
+	phi_1		: ARRAY [1..25] OF REAL := [1.734317,4.270698,4.116102,1.021720,0.747684,3.131314,6.030249,2.138707,3.677346,1.406252,4.720350,1.602810,3.179022,4.392429,5.597710,6.027406,3.438257,0.871003,0.938042,1.617972,5.282382,1.597702,5.116302,1.530113,5.838736];
+	phi_2		: ARRAY [1..25] OF REAL := [2.199013,1.235244,1.577606,3.870723,2.973762,2.209542,5.220250,3.677323,3.454015,5.762898,1.795980,4.757629,4.735820,2.390412,3.567729,0.476607,0.338979,3.335099,4.895652,5.868562,0.816225,3.574024,2.949268,0.074783,2.118204];
+	phi_3		: ARRAY [1..25] OF REAL := [1.019021,4.990637,1.955422,3.320872,1.040802,3.782364,1.652297,4.109700,4.330462,4.700775,2.830836,0.526665,1.438705,5.738668,0.957419,5.188761,3.382505,6.258899,0.491191,2.781430,0.670119,6.043784,0.029118,4.868906,5.135268];
+	
+	i 			: INT;
+	dw			: REAL;
+	w			: REAL;
+	Sx			: REAL;
+	pi			: REAL := 3.141592653589793;
+	An			: REAL := 0.0;
+	xn			: REAL := 0.0;
+	x			: REAL := 0.0;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+
+dw	:= 1.0/25.0;
+x := 0.0;
+FOR i := 1 TO 25 BY 1 DO
+	// Frequency componen i
+	w := dw*INT_TO_REAL(i);
+	
+	// Calculate the wave spectrum
+	Sx := LREAL_TO_REAL(5*EXPT(pi,4)*EXPT(Hs,2)/(EXPT(Tp,4)*EXPT(w,5))*EXP(-20*EXPT(pi,4)/(EXPT(Tp,4)*EXPT(w,4))));
+	
+	// Wave component i
+	An := SQRT(2*Sx*dw);
+	
+	CASE mode OF
+	0 :
+		xn := An*SIN(w*t-phi_0[i]);
+	1 :
+		xn := An*SIN(w*t-phi_1[i]);
+	2 :
+		xn := An*SIN(w*t-phi_2[i]);
+	3 :
+		xn := An*SIN(w*t-phi_3[i]);
+	ELSE
+		xn := 0.0;
+	END_CASE;
+	
+	// Sum up output wave signal
+	x := x + xn;
+END_FOR;
+
+// Return the wave amplitude
+StocWave := x;
+
+]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

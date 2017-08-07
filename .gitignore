@@ -6,9 +6,15 @@
 
 build/
 site/
-plc/
-udp/
 
 _build/
 _static/
 _templates/
+
+# TwinCAT ignores
+*.bak
+*.tclrs
+_Boot/
+_Config/
+_Compileinfo/
+_Libraries/

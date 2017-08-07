@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
+  <DUT Name="RemoteFeedbackStewart" Id="{dbe9f13a-90b3-482d-a35b-3c357fc25569}">
+    <Declaration><![CDATA[TYPE RemoteFeedbackStewart :
+STRUCT
+	x					: REAL;
+	y					: REAL;
+	z					: REAL;
+	roll				: REAL;
+	pitch				: REAL;
+	yaw					: REAL;
+	x_t					: REAL;
+	y_t					: REAL;
+	z_t					: REAL;
+	roll_t				: REAL;
+	pitch_t				: REAL;
+	yaw_t				: REAL;
+	x_tt				: REAL;
+	y_tt				: REAL;
+	z_tt				: REAL;
+	roll_tt				: REAL;
+	pitch_tt			: REAL;
+	yaw_tt				: REAL;
+	L1					: REAL;
+	L2					: REAL;
+	L3					: REAL;
+	L4					: REAL;
+	L5					: REAL;
+	L6					: REAL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

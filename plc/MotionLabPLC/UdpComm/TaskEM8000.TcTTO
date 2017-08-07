@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
+  <Task Name="TaskEM8000" Id="{55fa982e-0b2e-42d5-8b3c-2403dbf41eca}">
+    <!--CycleTime in micro seconds.-->
+    <CycleTime>4000</CycleTime>
+    <Priority>20</Priority>
+    <PouCall>
+      <Name>EM8000</Name>
+    </PouCall>
+    <TaskFBGuid>{67475f45-0a92-45b8-8b69-75728baa9c9f}</TaskFBGuid>
+    <Fb_init>{bcbaf6de-3e10-4f7b-a280-62570351f8e2}</Fb_init>
+    <Fb_exit>{8a3e9ab0-7b1f-409e-90d9-60419dced9bb}</Fb_exit>
+    <CycleUpdate>{daf53ad7-3866-4537-9057-b2028626e9c2}</CycleUpdate>
+    <PostCycleUpdate>{6115a9d9-5830-48ec-b0cc-2761fd1be903}</PostCycleUpdate>
+  </Task>
+</TcPlcObject>

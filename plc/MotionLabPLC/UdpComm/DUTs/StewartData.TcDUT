@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
+  <DUT Name="StewartData" Id="{5f7beaa1-9fa0-4f27-949f-a8ad46ebe5de}">
+    <Declaration><![CDATA[TYPE StewartData :
+STRUCT
+	// Data sendt from PLC to Stewart platform
+	Tx	 	: StewartDataTx;
+	// Feedback data from Stewart platform to PLC
+	Rx		: StewartDataRx;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

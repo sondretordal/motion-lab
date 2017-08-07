@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.6">
+  <Task Name="TaskEM1500" Id="{c57c34b1-4952-483b-b9c2-478a9db5c1f3}">
+    <!--CycleTime in micro seconds.-->
+    <CycleTime>4000</CycleTime>
+    <Priority>21</Priority>
+    <PouCall>
+      <Name>EM1500</Name>
+    </PouCall>
+    <TaskFBGuid>{ca5c3c06-ad0f-4c64-a390-3b443dae14d2}</TaskFBGuid>
+    <Fb_init>{28e595e9-c43b-44ab-b3fb-3a365485b1c4}</Fb_init>
+    <Fb_exit>{a82b8ba4-03b7-410f-a1dd-1a8d6846e94d}</Fb_exit>
+    <CycleUpdate>{2d1036de-64e0-4387-8f18-1cf365a5fa2d}</CycleUpdate>
+    <PostCycleUpdate>{2d9afe5c-1180-410a-97da-2716dab40495}</PostCycleUpdate>
+  </Task>
+</TcPlcObject>

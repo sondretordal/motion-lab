@@ -1,0 +1,243 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
+  <POU Name="UdpClient" Id="{17830f4f-7b0b-4399-962a-272c3e96881e}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'c++_compatible'}
+FUNCTION_BLOCK UdpClient IMPLEMENTS ITcIoUdpProtocolRecv
+VAR_INPUT
+	
+END_VAR
+VAR_OUTPUT
+	
+END_VAR
+VAR
+	{attribute 'TcInitSymbol'}
+	oid					: OTCID;
+	ipUdp 				: ITcIoUdpProtocol;
+	nSendPackets		: UDINT := 0;
+	nRecvPackets		: UDINT := 0;
+	
+	// Values are initilized in FB_init
+	ipAddr				: UDINT;
+	udpRemotePort		: UINT;
+	udpLocalPort		: UINT;
+	nDataSend 			: UDINT;
+	pDataSend			: PVOID;
+	nDataRecv			: UDINT;
+	pDataRecv			: PVOID;
+	
+	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Initilization of this FB
+// Object : UdpClient(ipAddrAsLong,udpRemotePort,udpLocalPort,nDataSend,pDataSend,nDataRecieve,pDataRecieve);
+
+IF ipUdp <> 0 THEN
+	// Send data to udp server
+	ipUdp.SendData(ipAddr, udpRemotePort, udpLocalPort, nDataSend, pDataSend, TRUE, 0);
+	nSendPackets := nSendPackets + 1;
+	
+	IF nDataRecv <> 0 THEN
+		// If data is recieved, recieve data method is called
+		ipUdp.CheckReceived();
+	END_IF
+END_IF
+
+
+
+
+]]></ST>
+    </Implementation>
+    <Method Name="FB_exit" Id="{4b5bb94b-a1a7-4e9d-95ca-2e000268c171}">
+      <Declaration><![CDATA[METHOD FB_exit : BOOL
+VAR_INPUT
+	bInCopyCode : BOOL; // if TRUE, the exit method is called for exiting an instance that is copied afterwards (online change).
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF (NOT bInCopyCode AND ipUdp <> 0) THEN //Shutdown
+	ipUdp.UnregisterReceiver(udpLocalPort);
+	FW_SafeRelease(ADR(ipUdp));
+	FB_exit := TRUE;
+ELSE
+	FB_exit := FALSE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_init" Id="{ced870f0-029e-4e24-a67a-dee604318de2}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains			: BOOL; 	// if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode				: BOOL;  	// if TRUE, the instance afterwards gets moved into the copy code (online change)
+	ipAddrInit				: UDINT;
+	udpRemotePortInit		: UINT;
+	udpLocalPortInit		: UINT;
+	nDataSendInit 			: UDINT;
+	pDataSendInit			: PVOID;
+	nDataReceiveInit 		: UDINT;
+	pDataReceiveInit		: PVOID;
+END_VAR
+VAR
+	ipSrv: ITComObjectServer;
+	hr : HRESULT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Initilize the IP adress and ports
+ipAddr 			:= ipAddrInit;
+udpRemotePort 	:= udpRemotePortInit;
+udpLocalPort 	:= udpLocalPortInit;
+
+nDataSend 		:= nDataSendInit;
+pDataSend 		:= pDataSendInit;
+
+nDataRecv	 	:= nDataReceiveInit;
+pDataRecv	 	:= pDataReceiveInit;
+
+	
+
+
+IF NOT bInCopyCode THEN // no online change
+	IF ipUdp = 0 THEN
+	    hr := FW_ObjMgr_GetObjectInstance(oid:=oid, iid:=TC_GLOBAL_IID_LIST.IID_ITcIoUdpProtocol, pipUnk:=ADR(ipUdp) );
+		
+		IF ( SUCCEEDED(hr) AND ipUdp.RegisterReceiver(udpLocalPort, THIS^) = 0 ) THEN //open port
+			FB_init := TRUE;
+		ELSE
+			FB_init := FALSE;			
+			FW_SafeRelease(ADR(ipUdp));
+		END_IF				
+	END_IF
+END_IF
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_reinit" Id="{66939437-b33c-4df8-9f7a-3e0c70f62f92}">
+      <Declaration><![CDATA[METHOD FB_reinit : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF (ipUdp <> 0) THEN 
+  ipUdp.RegisterReceiver(udpLocalPort, THIS^);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ReceiveData" Id="{7dce7718-4ce6-4a0e-ad98-5a92a9efc6d8}">
+      <Declaration><![CDATA[{attribute 'object_name' := 'ReceiveData'}
+{attribute 'c++_compatible'}
+{attribute 'signature_flag' := '33554688'}
+{attribute 'pack_mode' := '4'}
+{attribute 'show'}
+{attribute 'minimal_input_size' := '4'}
+METHOD ReceiveData : HRESULT
+VAR_INPUT
+	ipAddr			: UDINT;
+	udpDestPort		: UINT;
+	udpSrcPort		: UINT;
+	nData			: UDINT;
+	pData			: PVOID;
+	pVlan			: POINTER TO ETYPE_VLAN_HEADER := 0;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+IF (nData = nDataRecv) THEN
+	// Copy recieved pData to user defined data struct pDataRecieve
+	MEMCPY(pDataRecv, pData, nDataRecv);
+	// Count number of recieved UDP packets
+	nRecvPackets := nRecvPackets + 1;
+END_IF;	
+
+	
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TcAddRef" Id="{385cb3fb-2528-4a49-a1d9-2f59a2536442}">
+      <Declaration><![CDATA[{attribute 'object_name' := 'TcAddRef'}
+{attribute 'c++_compatible'}
+{attribute 'signature_flag' := '33554688'}
+{attribute 'pack_mode' := '4'}
+{attribute 'show'}
+{attribute 'minimal_input_size' := '4'}
+METHOD TcAddRef : UDINT
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TcQueryInterface" Id="{f13a51c9-6680-47a5-8080-162ce85f3b6f}">
+      <Declaration><![CDATA[{attribute 'object_name' := 'TcQueryInterface'}
+{attribute 'c++_compatible'}
+{attribute 'signature_flag' := '33554688'}
+{attribute 'pack_mode' := '4'}
+{attribute 'show'}
+{attribute 'minimal_input_size' := '4'}
+METHOD TcQueryInterface : HRESULT
+VAR_INPUT
+	iid	: REFERENCE TO IID;
+	pipItf	: POINTER TO PVOID;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TcRelease" Id="{14b8981e-74dc-4099-a2e8-e07e9c737fc9}">
+      <Declaration><![CDATA[{attribute 'object_name' := 'TcRelease'}
+{attribute 'c++_compatible'}
+{attribute 'signature_flag' := '33554688'}
+{attribute 'pack_mode' := '4'}
+{attribute 'show'}
+{attribute 'minimal_input_size' := '4'}
+METHOD TcRelease : UDINT
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="UdpClient">
+      <LineId Id="3" Count="5" />
+      <LineId Id="47" Count="0" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="9" Count="1" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="11" Count="5" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="UdpClient.FB_exit">
+      <LineId Id="3" Count="5" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="UdpClient.FB_init">
+      <LineId Id="3" Count="7" />
+      <LineId Id="44" Count="2" />
+      <LineId Id="12" Count="15" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="UdpClient.FB_reinit">
+      <LineId Id="3" Count="1" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="UdpClient.ReceiveData">
+      <LineId Id="34" Count="0" />
+      <LineId Id="29" Count="1" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="37" Count="0" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="9" Count="1" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="UdpClient.TcAddRef">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="UdpClient.TcQueryInterface">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="UdpClient.TcRelease">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

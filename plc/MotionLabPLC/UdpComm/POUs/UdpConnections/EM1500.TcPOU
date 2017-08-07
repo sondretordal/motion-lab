@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
+  <POU Name="EM1500" Id="{f4d547fd-021c-4c08-9d60-b0346b71a862}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM EM1500
+VAR	
+	_Control	: StewartControl;
+	UdpIO		: UdpClient(3232258591, 50031, 50041, SIZEOF(_Control), ADR(_Control), SIZEOF(Feedback), ADR(Feedback));
+	
+	Pi 			: REAL := 3.141592653589793;
+END_VAR
+
+VAR_INPUT
+	Control		: StewartControl;
+END_VAR
+
+VAR_OUTPUT
+	Feedback	: StewartFeedback;
+END_VAR
+
+
+
+
+
+	
+
+
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+
+// Assign Control to local _Control
+_Control.CMND := Control.CMND;
+
+// Addd maximum limit to udp input _Control
+_Control.X_EXTRA 		:= LIMIT(-0.3, Control.X_EXTRA, 0.3);
+_Control.Y_EXTRA 		:= LIMIT(-0.3, Control.Y_EXTRA, 0.3);
+_Control.Z_EXTRA 		:= LIMIT(-0.3, Control.Z_EXTRA, 0.3);
+
+_Control.PSI_EXTRA 		:= LIMIT(-10.0/180.0*Pi, Control.PSI_EXTRA, 10.0/180.0*Pi);
+_Control.THETA_EXTRA 	:= LIMIT(-10.0/180.0*Pi, Control.THETA_EXTRA, 10.0/180.0*Pi);
+_Control.PHI_EXTRA 		:= LIMIT(-10.0/180.0*Pi, Control.PHI_EXTRA, 10.0/180.0*Pi);
+
+
+_Control.COUNT := _Control.COUNT + 1;
+
+
+UdpIO();
+
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="EM1500">
+      <LineId Id="91" Count="20" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

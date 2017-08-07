@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
+  <DUT Name="MruData" Id="{c591c6c9-18f3-4b8c-a87b-05f5cdc43433}">
+    <Declaration><![CDATA[TYPE MruData :
+STRUCT
+	mruOK			: SINT;					// 113 (ASCII: q) means the mru is OK!
+	dataLength		: SINT;
+	token			: SINT;
+	Roll			: REAL;
+	Pitch			: REAL;
+	PosMru_D		: REAL;
+	VelMru_D		: REAL;
+	AngRate_D		: REAL;
+	VelMru_R		: REAL;
+	VelMru_P		: REAL;
+	VelMru_Y		: REAL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

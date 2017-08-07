@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
+  <POU Name="COMAU" Id="{8fd6d73c-762f-45cc-b515-1dd8eede1bc5}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM COMAU
+VAR
+	_Control	: ComauControl;
+	
+	UdpIO		: UdpClient(3232258592, 50032, 50042, SIZEOF(_Control), ADR(_Control), SIZEOF(Feedback), ADR(Feedback));
+
+END_VAR
+
+VAR_INPUT
+	Control		: ComauControl;
+END_VAR
+
+VAR_OUTPUT
+	Feedback	: ComauFeedback;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+// Decide access from Control to _Control here!!
+_Control.udp_key		:= 32;
+_Control.mode 			:= Control.mode;
+_Control.beta			:= Control.beta;
+_Control.omega			:= Control.omega;
+_Control.q1				:= Control.q1;
+_Control.q2				:= Control.q2;
+_Control.q3				:= Control.q3;
+_Control.q4				:= Control.q4;
+_Control.q5				:= Control.q5;
+_Control.q6				:= Control.q6;
+
+
+
+UdpIO();]]></ST>
+    </Implementation>
+    <LineIds Name="COMAU">
+      <LineId Id="17" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="52" Count="8" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="19" Count="1" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

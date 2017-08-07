@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
+  <POU Name="HMI" Id="{92c9e502-42e5-4c53-8e84-6f6172dad33a}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM HMI
+VAR
+	Feedback		: HmiFeedback;
+	Control			: HmiControl;
+	
+	NULL			: PVOID;
+	UdpIO			: UdpClient(3232258620, 50160, 50150, SIZEOF(Feedback), ADR(Feedback), SIZEOF(Control), ADR(Control));
+	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+Feedback.Feedback 	:=  REMOTE.Feedback;
+Feedback.Control 	:=  REMOTE.Control;
+
+
+UdpIO();
+
+(*
+IF hmi_counter <> hmi_counter_old THEN
+	hmi_flag := 0;
+	hmi_counter_old := hmi_counter;
+ELSE
+	hmi_flag := hmi_flag + 1;
+END_IF
+*)
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="HMI">
+      <LineId Id="42" Count="0" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="40" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="21" Count="1" />
+      <LineId Id="16" Count="4" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="23" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

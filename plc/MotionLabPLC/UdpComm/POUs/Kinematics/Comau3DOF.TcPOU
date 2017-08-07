@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.6">
+  <POU Name="Comau3DOF" Id="{bd7e244c-d090-42da-8414-0a0b9a11f14f}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK Comau3DOF
+VAR_INPUT
+    x: REAL := 1.843;
+    y: REAL := 0.0;
+    z: REAL := 2.030;
+END_VAR
+VAR_OUTPUT
+	q1: REAL;
+    q2: REAL;
+    q3: REAL;
+END_VAR
+VAR
+END_VAR
+VAR_TEMP
+  	q: ARRAY [0..5] OF REAL;
+    P1: ARRAY [0..3] OF REAL;
+    A1: ARRAY [0..15] OF REAL;
+    b_D: REAL;
+    alpha: REAL;
+    invH: ARRAY [0..15] OF REAL;
+    i: DINT;
+    A1_0: ARRAY [0..8] OF REAL;
+    P1_0: REAL;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(* MATLAB Function: '<Root>/MATLAB Function' incorporates:
+ *  Inport: '<Root>/x'
+ *  Inport: '<Root>/y' *)
+(* MATLAB Function 'MATLAB Function': '<S1>:1' *)
+(* '<S1>:1:4' cart.x = x; *)
+(* '<S1>:1:5' cart.y = y; *)
+(* '<S1>:1:6' cart.z = z; *)
+(* '<S1>:1:8' q = ComauIK(cart,'comau','cartesian','3DOF'); *)
+(* q = ComauIK(input,angleType,inputType,type) *)
+(* input         : struct or matrix *)
+(* angleType     : 'comau' or 'serial' *)
+(* inputType     : 'cartesian' or 'matrix' *)
+(* type          : '6DOF' or '3DOF' *)
+(* q             : output joint angles *)
+(* Comau S5 NJ-110 3.0 geomtric parameters *)
+(* 'ComauIK:12' a1 = 0.350; *)
+(* 'ComauIK:13' a2 = 1.160; *)
+(* 'ComauIK:14' a3 = 0.250; *)
+(* 'ComauIK:15' d1 = 0.830; *)
+(* 'ComauIK:16' d4 = 1.4922; *)
+(* 'ComauIK:17' d6 = 0.210; *)
+(* Initialize output *)
+(* 'ComauIK:21' if strcmp(inputType,'cartesian') *)
+(* 'ComauIK:22' N = length(input.x); *)
+(* 'ComauIK:23' q = zeros(6,N); *)
+(* 'ComauIK:29' for i = 1:N *)
+(* Chose number of DOF to be solved *)
+(* 'ComauIK:31' if strcmp(type,'3DOF') *)
+(* Define the final position and orientation matrix *)
+(* 'ComauIK:33' if strcmp(inputType,'cartesian') *)
+(* 'ComauIK:34' p0 = [input.x(i);input.y(i);input.z(i)]; *)
+(* End effector point relative to frame 0 *)
+(* 'ComauIK:40' P0 = [p0;1]; *)
+(* Calculate the first joint angle q(1) *)
+(* 'ComauIK:43' q(1,i) = atan2(P0(2),P0(1)); *)
+q[0] := rt_atan2d(u0 := y, u1 := x);
+(* Transform P0 from frame 0 to frame 1 *)
+(* 'ComauIK:46' A1 = TransDH(a1,pi/2,d1,q(1,i)); *)
+(* A = transDH(a,alpha,d,theta) *)
+(* 'TransDH:5' A = [cos(theta),-sin(theta)*cos(alpha), sin(theta)*sin(alpha),a*cos(theta); *)
+(* 'TransDH:6'      sin(theta), cos(theta)*cos(alpha),-cos(theta)*sin(alpha),a*sin(theta); *)
+(* 'TransDH:7'      0         ,sin(alpha)            ,cos(alpha)            ,d           ; *)
+(* 'TransDH:8'      0         ,0                     ,0                     ,1           ]; *)
+A1[0] := COS(q[0]);
+A1[4] := ( -SIN(q[0])) * 6.123233995736766E-17;
+A1[8] := SIN(q[0]);
+A1[12] := 0.35 * COS(q[0]);
+A1[1] := SIN(q[0]);
+A1[5] := COS(q[0]) * 6.123233995736766E-17;
+A1[9] :=  -COS(q[0]);
+A1[13] := 0.35 * SIN(q[0]);
+A1[2] := 0.0;
+A1[3] := 0.0;
+A1[6] := 1.0;
+A1[7] := 0.0;
+A1[10] := 6.123233995736766E-17;
+A1[11] := 0.0;
+A1[14] := 0.83;
+A1[15] := 1.0;
+(* 'ComauIK:47' P1 = InvH(A1)*P0; *)
+(* invH = ReverseRigidMotion(H) *)
+(* 'InvH:5' R = H(1:3,1:3); *)
+(* 'InvH:6' d = H(1:3,4); *)
+(* 'InvH:8' invH = eye(4,4); *)
+(* MATLAB Function: '<Root>/MATLAB Function' *)
+FOR i := 0 TO 15 DO 
+    invH[i] := 0.0;
+END_FOR;
+invH[0] := 1.0;
+invH[5] := 1.0;
+invH[10] := 1.0;
+invH[15] := 1.0;
+(* 'InvH:10' invH(1:3,1:3) = R'; *)
+(* 'InvH:11' invH(1:3,4) = -R'*d; *)
+FOR i := 0 TO 2 DO 
+    invH[i * 4] := A1[i];
+    A1_0[3 * i] :=  -A1[i];
+    invH[1 + (i * 4)] := A1[i + 4];
+    A1_0[1 + (3 * i)] :=  -A1[i + 4];
+    invH[2 + (i * 4)] := A1[i + 8];
+    A1_0[2 + (3 * i)] :=  -A1[i + 8];
+END_FOR;
+FOR i := 0 TO 2 DO 
+    invH[12 + i] := 0.0;
+    invH[12 + i] := invH[12 + i] + (A1_0[i] * A1[12]);
+    invH[12 + i] := (A1_0[i + 3] * A1[13]) + invH[12 + i];
+    invH[12 + i] := (A1_0[i + 6] * 0.83) + invH[12 + i];
+END_FOR;
+(* 'InvH:13' invH(4,1:4) = [0,0,0,1]; *)
+invH[3] := 0.0;
+invH[7] := 0.0;
+invH[11] := 0.0;
+invH[15] := 1.0;
+(* MATLAB Function: '<Root>/MATLAB Function' incorporates:
+ *  Inport: '<Root>/x'
+ *  Inport: '<Root>/y'
+ *  Inport: '<Root>/z' *)
+FOR i := 0 TO 3 DO 
+    P1_0 := invH[i + 12] + ((invH[i + 8] * z) + ((invH[i + 4] * y) + (invH[i] * x)));
+    P1[i] := P1_0;
+END_FOR;
+(* Kinematic position decoupling *)
+(* 'ComauIK:50' r = sqrt(a3^2+(d4+d6)^2); *)
+(* 'ComauIK:51' D = (P1(1)^2+P1(2)^2-a2^2-r^2)/(2*a2*r); *)
+b_D := ((((P1[0] * P1[0]) + (P1[1] * P1[1])) - 1.3456) - 2.9599848399999993) / 3.9914687024723112;
+(* 'ComauIK:52' alpha = atan2(-sqrt(1-D^2),D); *)
+alpha := rt_atan2d(u0 :=  -SQRT(1.0 - (b_D * b_D)), u1 := b_D);
+(* 'ComauIK:53' dalpha = atan2(a3,d4+d6); *)
+(* Calcualate joint angles q(2) and q(3) *)
+(* 'ComauIK:56' q(2,i) = atan2(P1(2),P1(1)) - atan2(r*sin(alpha),a2+r*cos(alpha)); *)
+q[1] := rt_atan2d(u0 := P1[1], u1 := P1[0]) - rt_atan2d(u0 := 1.7204606476173756 * SIN(alpha), u1 := (1.7204606476173756 * COS(alpha)) + 1.16);
+(* 'ComauIK:57' q(3,i) = alpha + pi/2 - dalpha; *)
+(* Last three joint q(4),q(5) and q(6) angles are zero *)
+(* 'ComauIK:60' q(4,i) = 0; *)
+(* 'ComauIK:61' q(5,i) = 0; *)
+(* 'ComauIK:62' q(6,i) = 0; *)
+(* 'ComauIK:139' if strcmp(angleType,'comau') *)
+(* Conversion between seriell and comau angles *)
+(* 'ComauIK:141' q(1,:) = -q(1,:); *)
+q[0] :=  -q[0];
+(* 'ComauIK:142' q(2,:) = -q(2,:) + pi/2; *)
+q[1] := ( -q[1]) + 1.5707963267948966;
+(* 'ComauIK:143' q(3,:) =  q(3,:) - q(2,:) - pi/2; *)
+q[2] := (((alpha + 1.5707963267948966) - 0.14582621057245915) - q[1]) - 1.5707963267948966;
+(* 'ComauIK:144' q(4,:) = -q(4,:); *)
+q[3] := -0.0;
+(* 'ComauIK:145' q(5,:) = -q(5,:); *)
+q[4] := -0.0;
+(* 'ComauIK:146' q(6,:) = -q(6,:); *)
+q[5] := -0.0;
+(* Convert to deg *)
+(* '<S1>:1:11' q = q/pi*180; *)
+FOR i := 0 TO 5 DO 
+    q[i] := (q[i] / 3.1415926535897931) * 180.0;
+END_FOR;
+
+(* f = [t2.*(-2.734045491069284e-1)-t3.*8.531270316158288e-2+t10.*t34+t8.*t40+t16.*t46;t4.*1.245914952053578+t2.*t5.*8.531270316158288e-2-t3.*t5.*2.734045491069284e-1-t10.*t19+t8.*t23+t16.*t26;t5.*1.245914952053578-t2.*t4.*8.531270316158288e-2+t3.*t4.*2.734045491069284e-1-t10.*(t5.*3.030197452095313e-1-t2.*t4.*7.665644730957888e-1+t3.*t4.*5.661783664186811e-1)-t16.*(t5.*3.96329666734815e-1+t2.*t4.*6.416642226993152e-1+t3.*t4.*6.566504553973551e-1)-t8.*(t5.*(-8.666613117469947e-1)+t2.*t4.*2.541522958894854e-2+t3.*t4.*4.982491714252218e-1);-atan((t31.*(t19.*t37+t23.*t43-t26.*t54)-t48.*(-t19.*t50+t23.*t53+t26.*t52))./(t31.*(t34.*t37-t40.*t43+t46.*t54)+t48.*(t34.*t50+t40.*t53+t46.*t52)))]; *)
+(* dx = f(1,1); *)
+(* dy = f(2,1); *)
+(* dz = f(3,1); *)
+(* dphi = f(4,1); *)
+(* end *)
+(* function [dv_x,dv_y,dv_z] = TransformVel(VelMru_R_1,VelMru_P_1,VelMru_Y_1,VelMru_R_2,VelMru_P_2,VelMru_Y_2,Roll_1,Pitch_1,Roll_2,Pitch_2,phi) *)
+(* v1p = [VelMru_R_1,VelMru_P_1,VelMru_Y_1]'; *)
+(* v2p = [VelMru_R_2,VelMru_P_2,VelMru_Y_2]'; *)
+(* % Transform local velocites *)
+(* R1 = Rx(Roll_1)*Ry(Pitch_1); *)
+(* v1 = R1(1:3,1:3)*v1p(:,1); *)
+(* R2 = Rz(phi)*Rx(Roll_2)*Ry(Pitch_2); *)
+(* v2 = R2(1:3,1:3)*v2p(:,1); *)
+(* dv = v2 - v1; *)
+(* dv_x = dv(1,1); *)
+(* dv_y = dv(2,1); *)
+(* dv_z = dv(3,1); *)
+(* Outport: '<Root>/q1' incorporates:
+ *  MATLAB Function: '<Root>/MATLAB Function' *)
+q1 := q[0];
+(* Outport: '<Root>/q2' incorporates:
+ *  MATLAB Function: '<Root>/MATLAB Function' *)
+q2 := q[1];
+(* Outport: '<Root>/q3' incorporates:
+ *  MATLAB Function: '<Root>/MATLAB Function' *)
+q3 := q[2];]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

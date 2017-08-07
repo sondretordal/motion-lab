@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
+  <POU Name="Main" Id="{841967ed-ee1e-4fd2-acd5-2d10c3ac666f}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM Main
+VAR
+	// Leica Variables
+	AngleHz			AT %I* : LREAL := 0.0;
+	AngleVt			AT %I* : LREAL := 0.0;
+	Distance		AT %I* : LREAL := 0.0;
+	q0				AT %I* : LREAL := 0.0;
+	q1				AT %I* : LREAL := 0.0;
+	q2				AT %I* : LREAL := 0.0;
+	q3				AT %I* : LREAL := 0.0;
+	Timestamp		AT %I* : ULINT := 0;
+	x				: LREAL := 0.0;
+	y				: LREAL := 0.0;
+	z				: LREAL := 0.0;
+	
+	counter			: UDINT := 0;
+END_VAR
+	]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+// Leica transform to x,y and z coordinates
+x := Distance*SIN(AngleVt)*SIN(AngleHz);
+y := Distance*SIN(AngleVt)*COS(AngleHz);
+z := Distance*COS(AngleVt);
+
+counter := counter + 1;
+
+
+
+
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="Main">
+      <LineId Id="3" Count="0" />
+      <LineId Id="85" Count="2" />
+      <LineId Id="401" Count="0" />
+      <LineId Id="126" Count="0" />
+      <LineId Id="114" Count="0" />
+      <LineId Id="4" Count="0" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="6" Count="0" />
+      <LineId Id="51" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

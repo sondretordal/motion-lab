@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
+  <POU Name="REMOTE" Id="{4e291570-ebe0-4ba9-b795-df8674c1b54e}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM REMOTE
+VAR
+	Feedback		: RemoteFeedback;	
+	Control			: RemoteControl;
+	
+	UdpIO			: UdpClient(3232258620, 50060, 50050, SIZEOF(Feedback), ADR(Feedback), SIZEOF(Control), ADR(Control));
+	
+	
+	enabled			: BOOL := FALSE;
+	
+END_VAR
+
+VAR_INPUT
+	
+END_VAR
+
+VAR_OUTPUT
+	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+
+
+
+// Control data
+IF (Control.udp_key <> 81549300) AND enabled THEN
+	// EM1500
+		
+END_IF
+
+// Time with overflow check
+Feedback.t := Feedback.t + 1.0/1000.0;
+IF Feedback.t >= 32765.0 THEN
+	Feedback.t := 0.0;
+END_IF
+
+// Feedback data
+// EM1500
+Feedback.EM1500.x				:= EM1500.Feedback.Actual_platform_position_surge;
+Feedback.EM1500.y				:= EM1500.Feedback.Actual_platform_position_sway;
+Feedback.EM1500.z				:= EM1500.Feedback.Actual_platform_position_heave;
+Feedback.EM1500.roll			:= EM1500.Feedback.Actual_platform_position_roll;
+Feedback.EM1500.pitch			:= EM1500.Feedback.Actual_platform_position_pitch;
+Feedback.EM1500.yaw				:= EM1500.Feedback.Actual_platform_position_yaw;
+Feedback.EM1500.x_t				:= EM1500.Feedback.Actual_platform_velocity_surge;
+Feedback.EM1500.y_t				:= EM1500.Feedback.Actual_platform_velocity_sway;
+Feedback.EM1500.z_t				:= EM1500.Feedback.Actual_platform_velocity_heave;
+Feedback.EM1500.roll_t			:= EM1500.Feedback.Actual_platform_velocity_roll;
+Feedback.EM1500.pitch_t			:= EM1500.Feedback.Actual_platform_velocity_pitch;
+Feedback.EM1500.yaw_t			:= EM1500.Feedback.Actual_platform_velocity_yaw;
+Feedback.EM1500.x_tt			:= EM1500.Feedback.Actual_platform_acceleration_surge;
+Feedback.EM1500.y_tt			:= EM1500.Feedback.Actual_platform_acceleration_sway;
+Feedback.EM1500.z_tt			:= EM1500.Feedback.Actual_platform_acceleration_heave;
+Feedback.EM1500.roll_tt			:= EM1500.Feedback.Actual_platform_acceleration_roll;
+Feedback.EM1500.pitch_tt		:= EM1500.Feedback.Actual_platform_acceleration_pitch;
+Feedback.EM1500.yaw_tt			:= EM1500.Feedback.Actual_platform_acceleration_yaw;
+Feedback.EM1500.L1				:= EM1500.Feedback.Actual_position_actuator_1;
+Feedback.EM1500.L2				:= EM1500.Feedback.Actual_position_actuator_2;
+Feedback.EM1500.L3				:= EM1500.Feedback.Actual_position_actuator_3;
+Feedback.EM1500.L4				:= EM1500.Feedback.Actual_position_actuator_4;
+Feedback.EM1500.L5				:= EM1500.Feedback.Actual_position_actuator_5;
+Feedback.EM1500.L6				:= EM1500.Feedback.Actual_position_actuator_6;
+
+// EM8000
+Feedback.EM8000.x				:= EM8000.Feedback.Actual_platform_position_surge;
+Feedback.EM8000.y				:= EM8000.Feedback.Actual_platform_position_sway;
+//Feedback.EM8000.z				:= EM8000.Feedback.Actual_platform_position_heave;
+Feedback.EM8000.z				:= Sin(2*3.14*Feedback.t);
+Feedback.EM8000.roll			:= EM8000.Feedback.Actual_platform_position_roll;
+Feedback.EM8000.pitch			:= EM8000.Feedback.Actual_platform_position_pitch;
+Feedback.EM8000.yaw				:= EM8000.Feedback.Actual_platform_position_yaw;
+Feedback.EM8000.x_t				:= EM8000.Feedback.Actual_platform_velocity_surge;
+Feedback.EM8000.y_t				:= EM8000.Feedback.Actual_platform_velocity_sway;
+Feedback.EM8000.z_t				:= EM8000.Feedback.Actual_platform_velocity_heave;
+Feedback.EM8000.roll_t			:= EM8000.Feedback.Actual_platform_velocity_roll;
+Feedback.EM8000.pitch_t			:= EM8000.Feedback.Actual_platform_velocity_pitch;
+Feedback.EM8000.yaw_t			:= EM8000.Feedback.Actual_platform_velocity_yaw;
+Feedback.EM8000.x_tt			:= EM8000.Feedback.Actual_platform_acceleration_surge;
+Feedback.EM8000.y_tt			:= EM8000.Feedback.Actual_platform_acceleration_sway;
+Feedback.EM8000.z_tt			:= EM8000.Feedback.Actual_platform_acceleration_heave;
+Feedback.EM8000.roll_tt			:= EM8000.Feedback.Actual_platform_acceleration_roll;
+Feedback.EM8000.pitch_tt		:= EM8000.Feedback.Actual_platform_acceleration_pitch;
+Feedback.EM8000.yaw_tt			:= EM8000.Feedback.Actual_platform_acceleration_yaw;
+Feedback.EM8000.L1				:= EM8000.Feedback.Actual_position_actuator_1;
+Feedback.EM8000.L2				:= EM8000.Feedback.Actual_position_actuator_2;
+Feedback.EM8000.L3				:= EM8000.Feedback.Actual_position_actuator_3;
+Feedback.EM8000.L4				:= EM8000.Feedback.Actual_position_actuator_4;
+Feedback.EM8000.L5				:= EM8000.Feedback.Actual_position_actuator_5;
+Feedback.EM8000.L6				:= EM8000.Feedback.Actual_position_actuator_6;
+
+// COAMU
+Feedback.COMAU.q1   			:= COMAU.Feedback.q1;
+Feedback.COMAU.q2   			:= COMAU.Feedback.q2;
+Feedback.COMAU.q3   			:= COMAU.Feedback.q3;
+Feedback.COMAU.q4   			:= COMAU.Feedback.q4;
+Feedback.COMAU.q5   			:= COMAU.Feedback.q5;
+Feedback.COMAU.q6   			:= COMAU.Feedback.q6;
+Feedback.COMAU.q1_t   			:= COMAU.Feedback.q1_t;
+Feedback.COMAU.q2_t   			:= COMAU.Feedback.q2_t;
+Feedback.COMAU.q3_t   			:= COMAU.Feedback.q3_t;
+Feedback.COMAU.q4_t   			:= COMAU.Feedback.q4_t;
+Feedback.COMAU.q5_t   			:= COMAU.Feedback.q5_t;
+Feedback.COMAU.q6_t   			:= COMAU.Feedback.q6_t;
+Feedback.COMAU.q1_tt   			:= COMAU.Feedback.q1_tt;
+Feedback.COMAU.q2_tt   			:= COMAU.Feedback.q2_tt;
+Feedback.COMAU.q3_tt   			:= COMAU.Feedback.q3_tt;
+Feedback.COMAU.q4_tt   			:= COMAU.Feedback.q4_tt;
+Feedback.COMAU.q5_tt   			:= COMAU.Feedback.q5_tt;
+Feedback.COMAU.q6_tt   			:= COMAU.Feedback.q6_tt;
+
+// AT960 TODO !!!!!!!
+
+
+UdpIO();
+]]></ST>
+    </Implementation>
+    <LineIds Name="REMOTE">
+      <LineId Id="449" Count="0" />
+      <LineId Id="559" Count="0" />
+      <LineId Id="528" Count="5" />
+      <LineId Id="560" Count="37" />
+      <LineId Id="642" Count="0" />
+      <LineId Id="598" Count="43" />
+      <LineId Id="534" Count="0" />
+      <LineId Id="536" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

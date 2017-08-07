@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
+  <DUT Name="RemoteControl" Id="{29bd4065-27db-41d4-a2e0-a691c6f50e4d}">
+    <Declaration><![CDATA[TYPE RemoteControl :
+STRUCT
+	udp_key		: DINT;
+	COMAU		: RemoteControlComau;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

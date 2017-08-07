@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.6">
+  <POU Name="rt_atan2d" Id="{6db26e1a-94aa-44a0-8d77-3dd956691d62}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION rt_atan2d : REAL
+VAR_INPUT
+	u0: REAL;
+    u1: REAL;
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF u1 > 0.0 THEN 
+    rt_atan2d := ATAN(u0 / u1);
+ELSIF u1 < 0.0 THEN 
+    IF u0 < 0.0 THEN 
+        rt_atan2d := -1.0;
+    ELSIF u0 > 0.0 THEN 
+        rt_atan2d := 1.0;
+    ELSE 
+        rt_atan2d := u0;
+    END_IF;
+    rt_atan2d := ATAN(u0 / u1) + (rt_atan2d * 3.1415926535897931);
+ELSE 
+    IF u0 < 0.0 THEN 
+        rt_atan2d := -1.0;
+    ELSIF u0 > 0.0 THEN 
+        rt_atan2d := 1.0;
+    ELSE 
+        rt_atan2d := u0;
+    END_IF;
+    rt_atan2d := rt_atan2d * 1.5707963267948966;
+END_IF;]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>
