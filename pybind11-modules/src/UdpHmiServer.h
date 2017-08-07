@@ -1,11 +1,13 @@
 #pragma once
+#include <pybind11/pybind11.h>
 
 #include <iostream>
+#include <vector>
 #include <thread>
 #include <mutex>
 #include <winsock2.h>
 
-#include "RemoteData.h"
+#include "DataStructures.h"
 
 #define WIN32_LEAN_AND_MEAN
 #pragma comment(lib,"ws2_32.lib")
@@ -42,6 +44,8 @@ private:
 	std::thread run_thread;
 	std::mutex mtx;
 
+	std::vector<pybind11::object> list;
+
 	void run();
 
 public:
@@ -54,6 +58,8 @@ public:
     UdpHmiServer(unsigned int port);
 	~UdpHmiServer();
 
+
 	void start();
 	void close();
+
 };

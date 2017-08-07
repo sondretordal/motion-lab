@@ -4,6 +4,7 @@
 // Classes
 #include "UdpServer.h"
 #include "UdpHmiServer.h"
+#include "DataLogger.h"
 
 namespace py = pybind11;
 
@@ -104,7 +105,7 @@ PYBIND11_PLUGIN(MotionLab) {
 		.def(py::init<>())
 		.def_readwrite("udp_key", &RemoteControl::udp_key)
 		.def_readwrite("COMAU", &RemoteControl::COMAU);
-	// Udp server class define
+	// Udp server class 
 	py::class_<UdpServer>(m, "UdpServer")
 		.def(py::init<unsigned int>())
 		.def("start", &UdpServer::start)
@@ -120,7 +121,7 @@ PYBIND11_PLUGIN(MotionLab) {
 		.def(py::init<>())
 		.def_readonly("Feedback", &HmiFeedback::Feedback)
 		.def_readonly("Control", &HmiFeedback::Control);
-	// Udp hmi server class define
+	// Udp hmi server class
 	py::class_<UdpHmiServer>(m, "UdpHmiServer")
 		.def(py::init<unsigned int>())
 		.def("start", &UdpHmiServer::start)
@@ -128,6 +129,11 @@ PYBIND11_PLUGIN(MotionLab) {
 		.def_readwrite("counter", &UdpHmiServer::counter)
 		.def_readonly("Feedback", &UdpHmiServer::Feedback)
 		.def_readonly("Control", &UdpHmiServer::Control);
+	// Data logger class
+	py::class_<DataLogger>(m, "DataLogger")
+		.def(py::init<std::string>())
+		.def("save", &DataLogger::save)
+		.def("close", &DataLogger::close);
 
 	// Return module
 	return m.ptr();
@@ -135,6 +141,5 @@ PYBIND11_PLUGIN(MotionLab) {
 
 int main(int argc, char** argv)
 {
-	
 	return 0;
 }

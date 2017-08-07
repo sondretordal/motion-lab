@@ -5,7 +5,7 @@
 #include <mutex>
 #include <winsock2.h>
 
-#include "RemoteData.h"
+#include "DataStructures.h"
 
 #define WIN32_LEAN_AND_MEAN
 #pragma comment(lib,"ws2_32.lib")
