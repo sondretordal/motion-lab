@@ -14,6 +14,11 @@ _templates/
 # TwinCAT ignores
 *.bak
 *.tclrs
+*.sln.~u
+*.v12.suo
+*.tmc
+*.tpy
+
 _Boot/
 _Config/
 _Compileinfo/
