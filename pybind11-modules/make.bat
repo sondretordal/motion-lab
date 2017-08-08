@@ -8,10 +8,14 @@ echo on
 
 
 :COMPILE
-cd build
-cmake --build . --config Release
-cd ..
-echo Compile done!
+if exist build (
+    cd build
+    cmake --build . --config Release
+    cd ..
+    echo Compile done!
+) else (
+    echo Run "make config" before running "make" command!
+)
 goto DONE
 
 :CLEAN
