@@ -6,6 +6,8 @@
 #include "UdpHmiServer.h"
 #include "DataLogger.h"
 
+
+
 namespace py = pybind11;
 
 PYBIND11_PLUGIN(MotionLab) {
@@ -126,15 +128,13 @@ PYBIND11_PLUGIN(MotionLab) {
 		.def(py::init<unsigned int>())
 		.def("start", &UdpHmiServer::start)
 		.def("close", &UdpHmiServer::close)
+		.def("start_log", &UdpHmiServer::start_log)
+		.def("clear_log", &UdpHmiServer::clear_log)
+		.def("save_log", &UdpHmiServer::save_log)
 		.def_readwrite("counter", &UdpHmiServer::counter)
 		.def_readonly("Feedback", &UdpHmiServer::Feedback)
 		.def_readonly("Control", &UdpHmiServer::Control);
-	// Data logger class
-	py::class_<DataLogger>(m, "DataLogger")
-		.def(py::init<std::string>())
-		.def("save", &DataLogger::save)
-		.def("close", &DataLogger::close);
-
+	
 	// Return module
 	return m.ptr();
 }

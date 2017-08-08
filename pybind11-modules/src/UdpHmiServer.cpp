@@ -46,6 +46,11 @@ void UdpHmiServer::run() {
         Control = rx_data->Control;
         Feedback = rx_data->Feedback;
 
+        if (logging) {
+            log_data.Control.push_back(Control);
+            log_data.Feedback.push_back(Feedback);
+        }
+
         mtx.unlock();
 
         if (rx_size == SOCKET_ERROR) {

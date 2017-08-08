@@ -29,7 +29,7 @@ END_VAR
 // Control data
 IF (Control.udp_key <> 81549300) AND enabled THEN
 	// EM1500
-		
+	
 END_IF
 
 // Time with overflow check
