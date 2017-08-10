@@ -4,8 +4,7 @@
 // Classes
 #include "UdpServer.h"
 #include "RemoteInterface.h"
-#include "UdpHmiServer.h"
-#include "DataLogger.h"
+#include "HmiInterface.h"
 
 
 
@@ -111,12 +110,16 @@ PYBIND11_PLUGIN(MotionLab) {
 		.def_readwrite("COMAU", &RemoteControl::COMAU);
 	
 	// Remote interface
-	// py::class_<RemoteInterface>(m, "RemoteInterface")
-	// 	.def(py::init<unsigned int>())
-	// 	.def("start", &RemoteInterface::start)
-	// 	.def("close", &RemoteInterface::close)
-	// 	.def_readonly("Feedback", &RemoteInterface::Feedback)
-	// 	.def_readwrite("Control", &RemoteInterface::Control);
+	py::class_<RemoteInterface>(m, "RemoteInterface")
+		.def(py::init<unsigned int>())
+		.def("start", &RemoteInterface::start)
+		.def("close", &RemoteInterface::close)
+		.def("update", &RemoteInterface::update)
+		.def("start_log", &RemoteInterface::start_log)
+		.def("clear_log", &RemoteInterface::clear_log)
+		.def("save_log", &RemoteInterface::save_log)
+		.def_readonly("Feedback", &RemoteInterface::Feedback)
+		.def_readwrite("Control", &RemoteInterface::Control);
 	
 	// Return module
 	return m.ptr();
@@ -125,19 +128,14 @@ PYBIND11_PLUGIN(MotionLab) {
 
 int main(int argc, char** argv)
 {	
-	// RemoteFeedback feedback;
-	// RemoteControl control;
-	// UdpServer server(50060, &feedback, sizeof(feedback), &control, sizeof(control));
 
-	// server.start();
+	RemoteInterface rt(50060);
 
-	// for (int i = 0; i < 100; i++) {
-	// 	Sleep(100);
-	// 	std::cout << feedback.t << std::endl;
-	// 	control.udp_key = i;
-	// }
+	rt.start();
 	
-	// server.close();
+	Sleep(2000);
+
+	rt.close();
 
 
 	return 0;

@@ -9,9 +9,9 @@ include_directories(
 add_executable(main
   main.cpp
   UdpServer.cpp
-  UdpHmiServer.cpp
-  DataLogger.cpp
+  HmiInterface.cpp
   RemoteInterface.cpp
+  JsonLogger.cpp
 )
 
 target_link_libraries(main
@@ -22,9 +22,9 @@ target_link_libraries(main
 add_library(${CMAKE_PROJECT_NAME} SHARED
   main.cpp
   UdpServer.cpp
-  UdpHmiServer.cpp
-  DataLogger.cpp
+  HmiInterface.cpp
   RemoteInterface.cpp
+  JsonLogger.cpp
 )
 
 target_link_libraries(${CMAKE_PROJECT_NAME}

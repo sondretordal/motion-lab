@@ -1,11 +1,11 @@
 #include "UdpServer.h"
 
-UdpServer::UdpServer(unsigned int port, void *rx_data, unsigned int rx_size, void *tx_data, unsigned int tx_size)
-    : run_thread(), rx_data(rx_data), rx_size(rx_size), tx_data(tx_data), tx_size(tx_size) {
+UdpServer::UdpServer(unsigned int port, unsigned int rx_size, unsigned int tx_size) :
+    rx_size(rx_size), tx_size(tx_size) {
 
-    si_server.sin_family = AF_INET;
-    si_server.sin_addr.s_addr = INADDR_ANY;
-    si_server.sin_port = htons(port);
+    server.sin_family = AF_INET;
+    server.sin_addr.s_addr = INADDR_ANY;
+    server.sin_port = htons(port);
     
     if (max(rx_size, tx_size) > MAX_BUFFER_SIZE) {
         std::cout << "Error: Max send/receive buffer is " << MAX_BUFFER_SIZE << " bytes" << std::endl;
@@ -27,7 +27,7 @@ UdpServer::UdpServer(unsigned int port, void *rx_data, unsigned int rx_size, voi
     }
     std::cout << "Socket created" << std::endl;
 
-    if (bind(sock, (struct sockaddr*) &si_server, sizeof(si_server)) == SOCKET_ERROR)
+    if (bind(sock, (struct sockaddr*) &server, sizeof(server)) == SOCKET_ERROR)
     {
         std::cout << "Bind failed with error code: " << WSAGetLastError() << std::endl;
         WSACleanup();
@@ -37,44 +37,20 @@ UdpServer::UdpServer(unsigned int port, void *rx_data, unsigned int rx_size, voi
 }
 
 UdpServer::~UdpServer() {
-    close();
+    WSACleanup();
+    closesocket(sock);
 }
 
-void UdpServer::run() {
-    while (running) {
-        mtx.lock();
-        if (recvfrom(sock, rx_buff, rx_size, 0, (struct sockaddr*) &si_client, &slen) == SOCKET_ERROR) {
-            std::cout << "recvfrom() failed with error code: " << WSAGetLastError() << std::endl;
-            WSACleanup();
-            exit(EXIT_FAILURE);
-        }
-
-        memcpy(rx_data, &rx_buff, rx_size);
-        memcpy(&tx_buff, tx_data, tx_size);
-
-        if (sendto(sock, tx_buff, tx_size, 0, (struct sockaddr*) &si_client, slen) == SOCKET_ERROR) {
-            std::cout << "sendto() failed with error code: " << WSAGetLastError() << std::endl;
-            WSACleanup();
-            exit(EXIT_FAILURE);
-        }
-        mtx.unlock();
-
-
-    }
-}
-
-void UdpServer::start() {
-    running = true;
-    run_thread = std::thread(&UdpServer::run, this);
-}
-
-void UdpServer::close() {
-    running = false;
-    if (run_thread.joinable()) {
-        run_thread.join();
-        std::cout << "UDP thread joined sucessfully!" << std::endl;
-
+void UdpServer::check_received() {
+    if (recvfrom(sock, rx_buff, rx_size, 0, (struct sockaddr*) &client, &slen) == SOCKET_ERROR) {
+        std::cout << "recvfrom() failed with error code: " << WSAGetLastError() << std::endl;
         WSACleanup();
-        closesocket(sock);
+        exit(EXIT_FAILURE);
+    }
+    
+    if (sendto(sock, tx_buff, tx_size, 0, (struct sockaddr*) &client, slen) == SOCKET_ERROR) {
+        std::cout << "sendto() failed with error code: " << WSAGetLastError() << std::endl;
+        WSACleanup();
+        exit(EXIT_FAILURE);
     }
 }

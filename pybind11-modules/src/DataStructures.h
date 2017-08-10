@@ -1,7 +1,5 @@
 #pragma once
 
-#include <vector>
-
 // Control structs
 struct RemoteControlComau {
 	float q1;
@@ -94,20 +92,4 @@ struct RemoteFeedback {
 	RemoteFeedbackStewart EM8000;
 	RemoteFeedbackComau COMAU;
 	RemoteFeedbackLeica AT960;
-};
-
-// HMI data structures
-struct HmiFeedback {
-	RemoteControl Control;
-	RemoteFeedback Feedback;
-};
-
-struct HmiControl {
-	unsigned int counter;
-};
-
-// JSON logg data;
-struct LogData {
-	std::vector<RemoteControl> Control;
-	std::vector<RemoteFeedback> Feedback;
 };
