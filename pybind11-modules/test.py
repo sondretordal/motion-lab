@@ -13,7 +13,7 @@ rt.start()
 
 
 
-dt = 0.1
+dt = 0.01
 T = 5
 N = int(T/dt)
 tic = time.time()

@@ -2,7 +2,7 @@
 
 
 RemoteInterface::RemoteInterface(unsigned int port) :
-thread(), logger(), server(port, sizeof(Feedback), sizeof(Control)) {
+thread(), logger(), server(port, &rx_data, sizeof(rx_data), &tx_data, sizeof(tx_data)) {
 
 }
 
@@ -42,20 +42,21 @@ void RemoteInterface::update() {
 
 void RemoteInterface::run() {
     while (running) {
+        mutex.lock();
         server.check_received();
+        mutex.unlock();
 
         if (update_data) {
-            mutex.lock();
-            // Copy data to and from udp buffers
-            memcpy(&Feedback, &server.rx_buff, sizeof(Feedback));
-            memcpy(&server.tx_buff, &Control, sizeof(Control));
-            
+            // Update public Feedback and Control data
+            Feedback = rx_data;
+            Control = tx_data;
+
             // Append new data to JSON log
             logger.Feedback.push_back(Feedback);
             logger.Control.push_back(Control);
-            mutex.unlock();
-
+            
             update_data = false;
+
         }
         
     }

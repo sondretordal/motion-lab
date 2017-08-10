@@ -120,6 +120,18 @@ PYBIND11_PLUGIN(MotionLab) {
 		.def("save_log", &RemoteInterface::save_log)
 		.def_readonly("Feedback", &RemoteInterface::Feedback)
 		.def_readwrite("Control", &RemoteInterface::Control);
+
+	// Hmi interface
+	py::class_<HmiInterface>(m, "HmiInterface")
+		.def(py::init<unsigned int>())
+		.def("start", &HmiInterface::start)
+		.def("close", &HmiInterface::close)
+		.def("update", &HmiInterface::update)
+		.def("start_log", &HmiInterface::start_log)
+		.def("clear_log", &HmiInterface::clear_log)
+		.def("save_log", &HmiInterface::save_log)
+		.def_readonly("Feedback", &HmiInterface::Feedback)
+		.def_readwrite("Control", &HmiInterface::Control);
 	
 	// Return module
 	return m.ptr();
@@ -129,13 +141,7 @@ PYBIND11_PLUGIN(MotionLab) {
 int main(int argc, char** argv)
 {	
 
-	RemoteInterface rt(50060);
 
-	rt.start();
-	
-	Sleep(2000);
-
-	rt.close();
 
 
 	return 0;

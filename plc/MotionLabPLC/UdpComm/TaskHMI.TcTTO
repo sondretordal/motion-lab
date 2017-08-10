@@ -2,8 +2,8 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
   <Task Name="TaskHMI" Id="{daf3d07a-58ba-40fd-a6a7-8be48259b54c}">
     <!--CycleTime in micro seconds.-->
-    <CycleTime>10000</CycleTime>
-    <Priority>31</Priority>
+    <CycleTime>1000</CycleTime>
+    <Priority>24</Priority>
     <PouCall>
       <Name>HMI</Name>
     </PouCall>

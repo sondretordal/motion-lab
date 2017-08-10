@@ -20,6 +20,10 @@ private:
     // Logging feature
     JsonLogger logger;
     bool update_data = false;
+
+    // Remote interface data
+    RemoteFeedback rx_data;
+    RemoteControl tx_data;
     
 public:
     // IO data

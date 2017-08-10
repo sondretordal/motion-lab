@@ -4,6 +4,8 @@ if "%1" == "" goto COMPILE
 if "%1" == "clean" goto CLEAN
 
 if "%1" == "config" goto CONFIG
+
+if "%1" == "update" goto UPDATE
 echo on
 
 
@@ -36,5 +38,15 @@ type NUL > __init__.py
 cd ..
 echo Config done!
 goto DONE
+
+:UPDATE
+if exist build  (
+    cd build
+    cp MotionLab.pyd ../../hmi/src/MotionLab.pyd
+    cd ..
+    echo Python module updated
+    goto DONE
+)
+
 
 :DONE

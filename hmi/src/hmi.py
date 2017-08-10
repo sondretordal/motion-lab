@@ -144,7 +144,7 @@ class GUI(QMainWindow, gui_main):
 
         # UDP server interface from pybind11
         #self.udp = UdpClient('192.168.90.50', 50150)
-        self.udp = MotionLab.UdpHmiServer(50160)
+        self.udp = MotionLab.HmiInterface(50160)
         self.udp.start()
 
         # Real-time plots
@@ -266,6 +266,8 @@ class GUI(QMainWindow, gui_main):
 
     # Update data and plot
     def update_data(self):
+        #self.udp.update()
+
         # Update real time plots
         self.EM1500_1.time_range = self.time_range
         self.EM1500_1.update(self.udp.Feedback.t, [

@@ -863,7 +863,7 @@
 				<Task Id="7" Priority="22" CycleTime="10000" AmsPort="354" Affinity="#x00000008">
 					<Name>TaskCOMAU</Name>
 				</Task>
-				<Task Id="8" Priority="31" CycleTime="100000" AmsPort="355">
+				<Task Id="8" Priority="24" CycleTime="10000" AmsPort="355" Affinity="#x00000002">
 					<Name>TaskHMI</Name>
 				</Task>
 			</Tasks>
@@ -890,9 +890,6 @@
 							<Name>Main.Distance</Name>
 							<Type>LREAL</Type>
 						</Var>
-					</Vars>
-					<Vars VarGrpType="1">
-						<Name>TaskHMI Inputs</Name>
 						<Var>
 							<Name>Main.q0</Name>
 							<Type>LREAL</Type>
@@ -942,7 +939,6 @@
 						</InitSymbol>
 					</InitSymbols>
 					<TaskPouOids>
-						<TaskPouOid Prio="31" OTCID="#x01010015"/>
 						<TaskPouOid Prio="22" OTCID="#x01010013"/>
 						<TaskPouOid Prio="30" OTCID="#x01010016"/>
 						<TaskPouOid Prio="21" OTCID="#x01010011"/>
@@ -3615,18 +3611,17 @@
 		</Io>
 	</Project>
 	<Mappings>
-		<MappingInfo Identifier="{01010015-0040-0304-1000-010140000403}" Id="#x02030020" Watchdog="00000000000000000000000000000000"/>
 		<MappingInfo Identifier="{00000000-0016-0101-1000-010140000403}" Id="#x02030010"/>
 		<OwnerA Name="TIPC^UdpComm^UdpComm Instance">
 			<OwnerB Name="TIID^LeicaAT960 (EtherCAT)^Box 1 (Leica-RT-Output)">
-				<Link VarA="TaskHMI Inputs^Main.Timestamp" VarB="Cyclic Measurements^TimeStamp"/>
-				<Link VarA="TaskHMI Inputs^Main.q0" VarB="Cyclic Measurements^Quaternion0"/>
-				<Link VarA="TaskHMI Inputs^Main.q1" VarB="Cyclic Measurements^Quaternion1"/>
-				<Link VarA="TaskHMI Inputs^Main.q2" VarB="Cyclic Measurements^Quaternion2"/>
-				<Link VarA="TaskHMI Inputs^Main.q3" VarB="Cyclic Measurements^Quaternion3"/>
 				<Link VarA="TaskMain Inputs^Main.AngleHz" VarB="Cyclic Measurements^AngleHz"/>
 				<Link VarA="TaskMain Inputs^Main.AngleVt" VarB="Cyclic Measurements^AngleVt"/>
 				<Link VarA="TaskMain Inputs^Main.Distance" VarB="Cyclic Measurements^Distance"/>
+				<Link VarA="TaskMain Inputs^Main.Timestamp" VarB="Cyclic Measurements^TimeStamp"/>
+				<Link VarA="TaskMain Inputs^Main.q0" VarB="Cyclic Measurements^Quaternion0"/>
+				<Link VarA="TaskMain Inputs^Main.q1" VarB="Cyclic Measurements^Quaternion1"/>
+				<Link VarA="TaskMain Inputs^Main.q2" VarB="Cyclic Measurements^Quaternion2"/>
+				<Link VarA="TaskMain Inputs^Main.q3" VarB="Cyclic Measurements^Quaternion3"/>
 			</OwnerB>
 		</OwnerA>
 	</Mappings>

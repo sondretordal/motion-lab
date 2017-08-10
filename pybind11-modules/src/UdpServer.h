@@ -20,15 +20,20 @@ private:
 	struct sockaddr_in server, client;
 	int slen = sizeof(client);
 
-	unsigned int rx_size;
-	unsigned int tx_size;
-public:
 	// Receive and send buffers and data pointers
 	char rx_buff[MAX_BUFFER_SIZE];
 	char tx_buff[MAX_BUFFER_SIZE];
 
+	unsigned int rx_size;
+	unsigned int tx_size;
+
+	void *rx_data;
+	void *tx_data;
+public:
+	
+
 	// Constructor and destructor
-    UdpServer(unsigned int port, unsigned int rx_size, unsigned int tx_size);
+    UdpServer(unsigned int port, void *rx_data, unsigned int rx_size, void *tx_data, unsigned int tx_size);
 	~UdpServer();
 
 	// Check received
