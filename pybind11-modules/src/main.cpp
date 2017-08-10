@@ -3,8 +3,10 @@
 
 // Classes
 #include "UdpServer.h"
+#include "RemoteInterface.h"
 #include "UdpHmiServer.h"
 #include "DataLogger.h"
+
 
 
 
@@ -107,39 +109,36 @@ PYBIND11_PLUGIN(MotionLab) {
 		.def(py::init<>())
 		.def_readwrite("udp_key", &RemoteControl::udp_key)
 		.def_readwrite("COMAU", &RemoteControl::COMAU);
-	// Udp server class 
-	py::class_<UdpServer>(m, "UdpServer")
-		.def(py::init<unsigned int>())
-		.def("start", &UdpServer::start)
-		.def("close", &UdpServer::close)
-		.def_readonly("Feedback", &UdpServer::Feedback)
-		.def_readwrite("Control", &UdpServer::Control);
-	// Hmi feedback struct
-	py::class_<HmiControl>(m, "HmiControl")
-		.def(py::init<>())
-		.def_readwrite("counter", &HmiControl::counter);
-	// Hmi control struct
-	py::class_<HmiFeedback>(m, "HmiFeedback")
-		.def(py::init<>())
-		.def_readonly("Feedback", &HmiFeedback::Feedback)
-		.def_readonly("Control", &HmiFeedback::Control);
-	// Udp hmi server class
-	py::class_<UdpHmiServer>(m, "UdpHmiServer")
-		.def(py::init<unsigned int>())
-		.def("start", &UdpHmiServer::start)
-		.def("close", &UdpHmiServer::close)
-		.def("start_log", &UdpHmiServer::start_log)
-		.def("clear_log", &UdpHmiServer::clear_log)
-		.def("save_log", &UdpHmiServer::save_log)
-		.def_readwrite("counter", &UdpHmiServer::counter)
-		.def_readonly("Feedback", &UdpHmiServer::Feedback)
-		.def_readonly("Control", &UdpHmiServer::Control);
+	
+	// Remote interface
+	// py::class_<RemoteInterface>(m, "RemoteInterface")
+	// 	.def(py::init<unsigned int>())
+	// 	.def("start", &RemoteInterface::start)
+	// 	.def("close", &RemoteInterface::close)
+	// 	.def_readonly("Feedback", &RemoteInterface::Feedback)
+	// 	.def_readwrite("Control", &RemoteInterface::Control);
 	
 	// Return module
 	return m.ptr();
 }
 
+
 int main(int argc, char** argv)
-{
+{	
+	// RemoteFeedback feedback;
+	// RemoteControl control;
+	// UdpServer server(50060, &feedback, sizeof(feedback), &control, sizeof(control));
+
+	// server.start();
+
+	// for (int i = 0; i < 100; i++) {
+	// 	Sleep(100);
+	// 	std::cout << feedback.t << std::endl;
+	// 	control.udp_key = i;
+	// }
+	
+	// server.close();
+
+
 	return 0;
 }

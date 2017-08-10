@@ -13,8 +13,10 @@ using json = nlohmann::json;
 class DataLogger
 {
 private:
+    // Log file
     std::ofstream file;
 
+    // Json file
     json j;
 
 public:

@@ -11,6 +11,7 @@ add_executable(main
   UdpServer.cpp
   UdpHmiServer.cpp
   DataLogger.cpp
+  RemoteInterface.cpp
 )
 
 target_link_libraries(main
@@ -23,6 +24,7 @@ add_library(${CMAKE_PROJECT_NAME} SHARED
   UdpServer.cpp
   UdpHmiServer.cpp
   DataLogger.cpp
+  RemoteInterface.cpp
 )
 
 target_link_libraries(${CMAKE_PROJECT_NAME}

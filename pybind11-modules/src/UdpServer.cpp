@@ -1,10 +1,16 @@
 #include "UdpServer.h"
 
-UdpServer::UdpServer(unsigned int port) : run_thread() {
-    slen = sizeof(si_client);
+UdpServer::UdpServer(unsigned int port, void *rx_data, unsigned int rx_size, void *tx_data, unsigned int tx_size)
+    : run_thread(), rx_data(rx_data), rx_size(rx_size), tx_data(tx_data), tx_size(tx_size) {
 
-    Feedback = reinterpret_cast<RemoteFeedback*>(rx_buff);
-    Control = reinterpret_cast<RemoteControl*>(tx_buff);
+    si_server.sin_family = AF_INET;
+    si_server.sin_addr.s_addr = INADDR_ANY;
+    si_server.sin_port = htons(port);
+    
+    if (max(rx_size, tx_size) > MAX_BUFFER_SIZE) {
+        std::cout << "Error: Max send/receive buffer is " << MAX_BUFFER_SIZE << " bytes" << std::endl;
+        exit(EXIT_FAILURE);
+    }
 
     if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0)
     {
@@ -20,10 +26,6 @@ UdpServer::UdpServer(unsigned int port) : run_thread() {
         exit(EXIT_FAILURE);
     }
     std::cout << "Socket created" << std::endl;
-
-    si_server.sin_family = AF_INET;
-    si_server.sin_addr.s_addr = INADDR_ANY;
-    si_server.sin_port = htons(port);
 
     if (bind(sock, (struct sockaddr*) &si_server, sizeof(si_server)) == SOCKET_ERROR)
     {
@@ -41,24 +43,23 @@ UdpServer::~UdpServer() {
 void UdpServer::run() {
     while (running) {
         mtx.lock();
-        rx_size = recvfrom(sock, rx_buff, sizeof(rx_buff), 0, (struct sockaddr*) &si_client, &slen);
-        mtx.unlock();
-
-        if (rx_size == SOCKET_ERROR) {
+        if (recvfrom(sock, rx_buff, rx_size, 0, (struct sockaddr*) &si_client, &slen) == SOCKET_ERROR) {
             std::cout << "recvfrom() failed with error code: " << WSAGetLastError() << std::endl;
             WSACleanup();
             exit(EXIT_FAILURE);
         }
 
-        mtx.lock();
-        tx_size = sendto(sock, tx_buff, sizeof(tx_buff), 0, (struct sockaddr*) &si_client, slen);
-        mtx.unlock();
+        memcpy(rx_data, &rx_buff, rx_size);
+        memcpy(&tx_buff, tx_data, tx_size);
 
-        if (tx_size == SOCKET_ERROR) {
+        if (sendto(sock, tx_buff, tx_size, 0, (struct sockaddr*) &si_client, slen) == SOCKET_ERROR) {
             std::cout << "sendto() failed with error code: " << WSAGetLastError() << std::endl;
             WSACleanup();
             exit(EXIT_FAILURE);
         }
+        mtx.unlock();
+
+
     }
 }
 
