@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
+  <Task Name="TaskMRU1" Id="{d0f6b3d2-0931-4fe2-bc24-cec5e33742ea}">
+    <!--CycleTime in micro seconds.-->
+    <CycleTime>5000</CycleTime>
+    <Priority>23</Priority>
+    <PouCall>
+      <Name>MRU1</Name>
+    </PouCall>
+    <TaskFBGuid>{190d13bd-3a54-4bcc-aab0-2f4239f0770c}</TaskFBGuid>
+    <Fb_init>{510b6da8-c789-4689-a950-0429011e4061}</Fb_init>
+    <Fb_exit>{d86cf69c-915b-4b26-a5f6-8edd540a427d}</Fb_exit>
+    <CycleUpdate>{155320c7-12ca-4110-98e5-dede39e14e42}</CycleUpdate>
+    <PostCycleUpdate>{782c0d43-0079-48a4-9bb7-d5e8bc723a5c}</PostCycleUpdate>
+  </Task>
+</TcPlcObject>

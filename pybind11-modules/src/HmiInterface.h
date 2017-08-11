@@ -27,7 +27,6 @@ private:
 
     // Logging feature
     JsonLogger logger;
-    unsigned int update_freq = 10;
     bool update_data = false;
 
     // Hmi data

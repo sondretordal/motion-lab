@@ -24,10 +24,10 @@
     <Compile Include="DUTs\HmiFeedback.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\MruData.TcDUT">
+    <Compile Include="DUTs\HmiControl.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\HmiControl.TcDUT">
+    <Compile Include="DUTs\MruFeedback.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\RemoteControl.TcDUT">
@@ -43,6 +43,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\RemoteFeedbackComau.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\RemoteFeedbackMru.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\RemoteFeedbackStewart.TcDUT">
@@ -87,6 +90,12 @@
     <Compile Include="POUs\UdpConnections\HMI.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\UdpConnections\MRU1.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\UdpConnections\MRU2.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\UdpConnections\REMOTE.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -109,6 +118,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="TaskMain.TcTTO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TaskMRU1.TcTTO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TaskMRU2.TcTTO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="TaskREMOTE.TcTTO">

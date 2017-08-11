@@ -3,7 +3,7 @@
   <Task Name="TaskHMI" Id="{daf3d07a-58ba-40fd-a6a7-8be48259b54c}">
     <!--CycleTime in micro seconds.-->
     <CycleTime>1000</CycleTime>
-    <Priority>24</Priority>
+    <Priority>26</Priority>
     <PouCall>
       <Name>HMI</Name>
     </PouCall>

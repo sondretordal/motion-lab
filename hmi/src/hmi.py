@@ -212,7 +212,7 @@ class GUI(QMainWindow, gui_main):
         # Timer function for plot update
         self.timer = QTimer()
         self.timer.timeout.connect(self.update_data)
-        self.timer.start(25)
+        self.timer.start(35)
 
         # Set the relative path to the Sphinx docs
         dir1 = os.path.dirname(__file__)

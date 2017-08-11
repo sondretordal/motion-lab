@@ -51,10 +51,13 @@ void HmiInterface::run() {
         // Update public Feedback and Control data
         Feedback = rx_data.Feedback;
         Control = rx_data.Control;
-
-        // // Append new data to JSON log
-        logger.Feedback.push_back(rx_data.Feedback);
-        logger.Control.push_back(rx_data.Control);
+        
+        if (update_data) {
+            // Append new data to JSON log
+            logger.Feedback.push_back(rx_data.Feedback);
+            logger.Control.push_back(rx_data.Control);
+        }
+        
         
     }
 }

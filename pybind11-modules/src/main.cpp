@@ -140,8 +140,16 @@ PYBIND11_PLUGIN(MotionLab) {
 
 int main(int argc, char** argv)
 {	
-
-
+	// Check for little or big endian
+	int num = 1;
+	if(*(char *)&num == 1)
+	{	
+		printf("\nLittle-Endian\n");
+	}
+	else
+	{
+		printf("Big-Endian\n");
+	}
 
 
 	return 0;

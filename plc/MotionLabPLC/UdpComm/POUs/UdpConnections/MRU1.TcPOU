@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
+  <POU Name="MRU1" Id="{bc58be35-4d76-4ddf-bb8d-a3823b2a964f}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MRU1
+VAR
+	data			: ARRAY [1..1024] OF BYTE;
+
+	NULL			: PVOID;
+	UdpIO			: UdpServer(7551, 0, NULL, SIZEOF(Feedback), ADR(data));
+		
+	temp			: ARRAY [0..3] OF BYTE;
+	N				: DINT;
+END_VAR
+
+VAR_OUTPUT
+	Feedback		: MruFeedback;
+END_VAR
+
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+UdpIO();
+
+Feedback.mruOK := data[1];
+Feedback.dataLength := data[2];
+Feedback.token := data[3];
+Feedback.check := data[4];
+
+
+// Big to little endian conversions
+N := 1;
+temp[3] := data[N*4];
+temp[2] := data[N*4 + 1];
+temp[1] := data[N*4 + 2];
+temp[0] := data[N*4 + 3]; 
+MEMCPY(ADR(Feedback.Temperature), ADR(temp), 4);
+
+N := 2;
+temp[3] := data[N*4];
+temp[2] := data[N*4 + 1];
+temp[1] := data[N*4 + 2];
+temp[0] := data[N*4 + 3]; 
+MEMCPY(ADR(Feedback.PosMru_D), ADR(temp), 4);
+
+N := 3;
+temp[3] := data[N*4];
+temp[2] := data[N*4 + 1];
+temp[1] := data[N*4 + 2];
+temp[0] := data[N*4 + 3];
+MEMCPY(ADR(Feedback.VelMru_D), ADR(temp), 4);
+
+N := 4;
+temp[3] := data[N*4];
+temp[2] := data[N*4 + 1];
+temp[1] := data[N*4 + 2];
+temp[0] := data[N*4 + 3];
+MEMCPY(ADR(Feedback.AccMru_D), ADR(temp), 4);
+
+N := 5;
+temp[3] := data[N*4];
+temp[2] := data[N*4 + 1];
+temp[1] := data[N*4 + 2];
+temp[0] := data[N*4 + 3];
+MEMCPY(ADR(Feedback.AngRate_D), ADR(temp), 4);
+
+N := 6;
+temp[3] := data[N*4];
+temp[2] := data[N*4 + 1];
+temp[1] := data[N*4 + 2];
+temp[0] := data[N*4 + 3];
+MEMCPY(ADR(Feedback.Roll), ADR(temp), 4);
+
+N := 7;
+temp[3] := data[N*4];
+temp[2] := data[N*4 + 1];
+temp[1] := data[N*4 + 2];
+temp[0] := data[N*4 + 3];
+MEMCPY(ADR(Feedback.Pitch), ADR(temp), 4);
+
+N := 8;
+temp[3] := data[N*4];
+temp[2] := data[N*4 + 1];
+temp[1] := data[N*4 + 2];
+temp[0] := data[N*4 + 3];
+MEMCPY(ADR(Feedback.Yaw), ADR(temp), 4);
+
+N := 9;
+temp[3] := data[N*4];
+temp[2] := data[N*4 + 1];
+temp[1] := data[N*4 + 2];
+temp[0] := data[N*4 + 3];
+MEMCPY(ADR(Feedback.AngRate_R), ADR(temp), 4);
+
+N := 10;
+temp[3] := data[N*4];
+temp[2] := data[N*4 + 1];
+temp[1] := data[N*4 + 2];
+temp[0] := data[N*4 + 3];
+MEMCPY(ADR(Feedback.AngRate_P), ADR(temp), 4);
+
+N := 11;
+temp[3] := data[N*4];
+temp[2] := data[N*4 + 1];
+temp[1] := data[N*4 + 2];
+temp[0] := data[N*4 + 3];
+MEMCPY(ADR(Feedback.AngRate_Y), ADR(temp), 4);
+
+N := 12;
+temp[3] := data[N*4];
+temp[2] := data[N*4 + 1];
+temp[1] := data[N*4 + 2];
+temp[0] := data[N*4 + 3];
+MEMCPY(ADR(Feedback.AngAcc_R), ADR(temp), 4);
+
+N := 13;
+temp[3] := data[N*4];
+temp[2] := data[N*4 + 1];
+temp[1] := data[N*4 + 2];
+temp[0] := data[N*4 + 3];
+MEMCPY(ADR(Feedback.AngAcc_P), ADR(temp), 4);
+
+N := 14;
+temp[3] := data[N*4];
+temp[2] := data[N*4 + 1];
+temp[1] := data[N*4 + 2];
+temp[0] := data[N*4 + 3];
+MEMCPY(ADR(Feedback.AngAcc_Y), ADR(temp), 4);
+
+N := 15;
+temp[3] := data[N*4];
+temp[2] := data[N*4 + 1];
+temp[1] := data[N*4 + 2];
+temp[0] := data[N*4 + 3];
+MEMCPY(ADR(Feedback.VelMru_R), ADR(temp), 4);
+
+N := 16;
+temp[3] := data[N*4];
+temp[2] := data[N*4 + 1];
+temp[1] := data[N*4 + 2];
+temp[0] := data[N*4 + 3];
+MEMCPY(ADR(Feedback.VelMru_P), ADR(temp), 4);
+
+N := 17;
+temp[3] := data[N*4];
+temp[2] := data[N*4 + 1];
+temp[1] := data[N*4 + 2];
+temp[0] := data[N*4 + 3];
+MEMCPY(ADR(Feedback.VelMru_Y), ADR(temp), 4);
+
+N := 18;
+temp[3] := data[N*4];
+temp[2] := data[N*4 + 1];
+temp[1] := data[N*4 + 2];
+temp[0] := data[N*4 + 3];
+MEMCPY(ADR(Feedback.AccMru_R), ADR(temp), 4);
+
+N := 19;
+temp[3] := data[N*4];
+temp[2] := data[N*4 + 1];
+temp[1] := data[N*4 + 2];
+temp[0] := data[N*4 + 3];
+MEMCPY(ADR(Feedback.AccMru_P), ADR(temp), 4);
+
+N := 20;
+temp[3] := data[N*4];
+temp[2] := data[N*4 + 1];
+temp[1] := data[N*4 + 2];
+temp[0] := data[N*4 + 3];
+MEMCPY(ADR(Feedback.AccMru_Y), ADR(temp), 4);
+
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="MRU1">
+      <LineId Id="46" Count="150" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

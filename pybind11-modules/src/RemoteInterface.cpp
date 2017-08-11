@@ -50,7 +50,7 @@ void RemoteInterface::run() {
             // Update public Feedback and Control data
             Feedback = rx_data;
             Control = tx_data;
-
+        
             // Append new data to JSON log
             logger.Feedback.push_back(Feedback);
             logger.Control.push_back(Control);

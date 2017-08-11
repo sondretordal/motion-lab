@@ -1,0 +1,231 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
+  <POU Name="MRU2" Id="{76aeb5d9-7025-4781-8e97-1cc2a072ff52}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MRU2
+VAR
+	data			: ARRAY [1..1024] OF BYTE;
+
+	NULL			: PVOID;
+	UdpIO			: UdpServer(7552, 0, NULL, SIZEOF(Feedback), ADR(data));
+		
+	temp			: ARRAY [0..3] OF BYTE;
+	N				: DINT;
+END_VAR
+
+VAR_OUTPUT
+	Feedback		: MruFeedback;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+UdpIO();
+
+Feedback.mruOK := data[1];
+Feedback.dataLength := data[2];
+Feedback.token := data[3];
+Feedback.check := data[4];
+
+
+// Big to little endian conversions
+N := 1;
+temp[3] := data[N*4];
+temp[2] := data[N*4 + 1];
+temp[1] := data[N*4 + 2];
+temp[0] := data[N*4 + 3]; 
+MEMCPY(ADR(Feedback.Temperature), ADR(temp), 4);
+
+N := 2;
+temp[3] := data[N*4];
+temp[2] := data[N*4 + 1];
+temp[1] := data[N*4 + 2];
+temp[0] := data[N*4 + 3]; 
+MEMCPY(ADR(Feedback.PosMru_D), ADR(temp), 4);
+
+N := 3;
+temp[3] := data[N*4];
+temp[2] := data[N*4 + 1];
+temp[1] := data[N*4 + 2];
+temp[0] := data[N*4 + 3];
+MEMCPY(ADR(Feedback.VelMru_D), ADR(temp), 4);
+
+N := 4;
+temp[3] := data[N*4];
+temp[2] := data[N*4 + 1];
+temp[1] := data[N*4 + 2];
+temp[0] := data[N*4 + 3];
+MEMCPY(ADR(Feedback.AccMru_D), ADR(temp), 4);
+
+N := 5;
+temp[3] := data[N*4];
+temp[2] := data[N*4 + 1];
+temp[1] := data[N*4 + 2];
+temp[0] := data[N*4 + 3];
+MEMCPY(ADR(Feedback.AngRate_D), ADR(temp), 4);
+
+N := 6;
+temp[3] := data[N*4];
+temp[2] := data[N*4 + 1];
+temp[1] := data[N*4 + 2];
+temp[0] := data[N*4 + 3];
+MEMCPY(ADR(Feedback.Roll), ADR(temp), 4);
+
+N := 7;
+temp[3] := data[N*4];
+temp[2] := data[N*4 + 1];
+temp[1] := data[N*4 + 2];
+temp[0] := data[N*4 + 3];
+MEMCPY(ADR(Feedback.Pitch), ADR(temp), 4);
+
+N := 8;
+temp[3] := data[N*4];
+temp[2] := data[N*4 + 1];
+temp[1] := data[N*4 + 2];
+temp[0] := data[N*4 + 3];
+MEMCPY(ADR(Feedback.Yaw), ADR(temp), 4);
+
+N := 9;
+temp[3] := data[N*4];
+temp[2] := data[N*4 + 1];
+temp[1] := data[N*4 + 2];
+temp[0] := data[N*4 + 3];
+MEMCPY(ADR(Feedback.AngRate_R), ADR(temp), 4);
+
+N := 10;
+temp[3] := data[N*4];
+temp[2] := data[N*4 + 1];
+temp[1] := data[N*4 + 2];
+temp[0] := data[N*4 + 3];
+MEMCPY(ADR(Feedback.AngRate_P), ADR(temp), 4);
+
+N := 11;
+temp[3] := data[N*4];
+temp[2] := data[N*4 + 1];
+temp[1] := data[N*4 + 2];
+temp[0] := data[N*4 + 3];
+MEMCPY(ADR(Feedback.AngRate_Y), ADR(temp), 4);
+
+N := 12;
+temp[3] := data[N*4];
+temp[2] := data[N*4 + 1];
+temp[1] := data[N*4 + 2];
+temp[0] := data[N*4 + 3];
+MEMCPY(ADR(Feedback.AngAcc_R), ADR(temp), 4);
+
+N := 13;
+temp[3] := data[N*4];
+temp[2] := data[N*4 + 1];
+temp[1] := data[N*4 + 2];
+temp[0] := data[N*4 + 3];
+MEMCPY(ADR(Feedback.AngAcc_P), ADR(temp), 4);
+
+N := 14;
+temp[3] := data[N*4];
+temp[2] := data[N*4 + 1];
+temp[1] := data[N*4 + 2];
+temp[0] := data[N*4 + 3];
+MEMCPY(ADR(Feedback.AngAcc_Y), ADR(temp), 4);
+
+N := 15;
+temp[3] := data[N*4];
+temp[2] := data[N*4 + 1];
+temp[1] := data[N*4 + 2];
+temp[0] := data[N*4 + 3];
+MEMCPY(ADR(Feedback.VelMru_R), ADR(temp), 4);
+
+N := 16;
+temp[3] := data[N*4];
+temp[2] := data[N*4 + 1];
+temp[1] := data[N*4 + 2];
+temp[0] := data[N*4 + 3];
+MEMCPY(ADR(Feedback.VelMru_P), ADR(temp), 4);
+
+N := 17;
+temp[3] := data[N*4];
+temp[2] := data[N*4 + 1];
+temp[1] := data[N*4 + 2];
+temp[0] := data[N*4 + 3];
+MEMCPY(ADR(Feedback.VelMru_Y), ADR(temp), 4);
+
+N := 18;
+temp[3] := data[N*4];
+temp[2] := data[N*4 + 1];
+temp[1] := data[N*4 + 2];
+temp[0] := data[N*4 + 3];
+MEMCPY(ADR(Feedback.AccMru_R), ADR(temp), 4);
+
+N := 19;
+temp[3] := data[N*4];
+temp[2] := data[N*4 + 1];
+temp[1] := data[N*4 + 2];
+temp[0] := data[N*4 + 3];
+MEMCPY(ADR(Feedback.AccMru_P), ADR(temp), 4);
+
+N := 20;
+temp[3] := data[N*4];
+temp[2] := data[N*4 + 1];
+temp[1] := data[N*4 + 2];
+temp[0] := data[N*4 + 3];
+MEMCPY(ADR(Feedback.AccMru_Y), ADR(temp), 4);
+
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="MRU2">
+      <LineId Id="38" Count="1" />
+      <LineId Id="350" Count="1" />
+      <LineId Id="353" Count="1" />
+      <LineId Id="352" Count="0" />
+      <LineId Id="109" Count="0" />
+      <LineId Id="108" Count="0" />
+      <LineId Id="101" Count="0" />
+      <LineId Id="90" Count="3" />
+      <LineId Id="89" Count="0" />
+      <LineId Id="94" Count="0" />
+      <LineId Id="236" Count="4" />
+      <LineId Id="95" Count="0" />
+      <LineId Id="241" Count="1" />
+      <LineId Id="244" Count="3" />
+      <LineId Id="218" Count="0" />
+      <LineId Id="248" Count="5" />
+      <LineId Id="219" Count="0" />
+      <LineId Id="254" Count="5" />
+      <LineId Id="220" Count="1" />
+      <LineId Id="261" Count="0" />
+      <LineId Id="263" Count="3" />
+      <LineId Id="262" Count="0" />
+      <LineId Id="260" Count="0" />
+      <LineId Id="267" Count="4" />
+      <LineId Id="222" Count="0" />
+      <LineId Id="272" Count="5" />
+      <LineId Id="223" Count="0" />
+      <LineId Id="278" Count="5" />
+      <LineId Id="224" Count="0" />
+      <LineId Id="284" Count="5" />
+      <LineId Id="225" Count="0" />
+      <LineId Id="290" Count="5" />
+      <LineId Id="226" Count="0" />
+      <LineId Id="296" Count="5" />
+      <LineId Id="227" Count="0" />
+      <LineId Id="302" Count="5" />
+      <LineId Id="228" Count="0" />
+      <LineId Id="308" Count="5" />
+      <LineId Id="229" Count="0" />
+      <LineId Id="314" Count="5" />
+      <LineId Id="230" Count="0" />
+      <LineId Id="320" Count="5" />
+      <LineId Id="231" Count="0" />
+      <LineId Id="326" Count="5" />
+      <LineId Id="232" Count="0" />
+      <LineId Id="332" Count="5" />
+      <LineId Id="233" Count="0" />
+      <LineId Id="338" Count="5" />
+      <LineId Id="234" Count="0" />
+      <LineId Id="344" Count="5" />
+      <LineId Id="235" Count="0" />
+      <LineId Id="119" Count="0" />
+      <LineId Id="75" Count="0" />
+      <LineId Id="54" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

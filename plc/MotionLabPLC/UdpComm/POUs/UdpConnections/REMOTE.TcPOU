@@ -41,7 +41,8 @@ END_IF
 // Feedback data
 // EM1500
 Feedback.EM1500.x				:= EM1500.Feedback.Actual_platform_position_surge;
-Feedback.EM1500.y				:= EM1500.Feedback.Actual_platform_position_sway;
+//Feedback.EM1500.y				:= EM1500.Feedback.Actual_platform_position_sway;
+Feedback.EM1500.y				:= MRU2.Feedback.PosMru_D;
 Feedback.EM1500.z				:= EM1500.Feedback.Actual_platform_position_heave;
 Feedback.EM1500.roll			:= EM1500.Feedback.Actual_platform_position_roll;
 Feedback.EM1500.pitch			:= EM1500.Feedback.Actual_platform_position_pitch;
@@ -66,12 +67,9 @@ Feedback.EM1500.L5				:= EM1500.Feedback.Actual_position_actuator_5;
 Feedback.EM1500.L6				:= EM1500.Feedback.Actual_position_actuator_6;
 
 // EM8000
-//Feedback.EM8000.x				:= EM8000.Feedback.Actual_platform_position_surge;
-//Feedback.EM8000.y				:= EM8000.Feedback.Actual_platform_position_sway;
-//Feedback.EM8000.z				:= EM8000.Feedback.Actual_platform_position_heave;
-Feedback.EM8000.x				:= SIN(0.5*2*3.14*Feedback.t);
-Feedback.EM8000.y				:= COS(0.2*2*3.14*Feedback.t);
-Feedback.EM8000.z				:= SIN(0.8*2*3.14*Feedback.t);
+Feedback.EM8000.x				:= EM8000.Feedback.Actual_platform_position_surge;
+Feedback.EM8000.y				:= EM8000.Feedback.Actual_platform_position_sway;
+Feedback.EM8000.z				:= EM8000.Feedback.Actual_platform_position_heave;
 Feedback.EM8000.roll			:= EM8000.Feedback.Actual_platform_position_roll;
 Feedback.EM8000.pitch			:= EM8000.Feedback.Actual_platform_position_pitch;
 Feedback.EM8000.yaw				:= EM8000.Feedback.Actual_platform_position_yaw;
@@ -124,10 +122,9 @@ UdpIO();
       <LineId Id="449" Count="0" />
       <LineId Id="559" Count="0" />
       <LineId Id="528" Count="5" />
-      <LineId Id="560" Count="37" />
-      <LineId Id="642" Count="0" />
-      <LineId Id="662" Count="1" />
-      <LineId Id="598" Count="43" />
+      <LineId Id="560" Count="10" />
+      <LineId Id="684" Count="0" />
+      <LineId Id="571" Count="70" />
       <LineId Id="534" Count="0" />
       <LineId Id="536" Count="1" />
       <LineId Id="5" Count="0" />

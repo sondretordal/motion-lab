@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
+  <DUT Name="MruFeedback" Id="{493418d2-51f9-43f7-a596-17ed6df73eb4}">
+    <Declaration><![CDATA[TYPE MruFeedback :
+STRUCT
+	mruOK				: BYTE;
+	dataLength			: BYTE;
+	token				: BYTE;
+	check				: BYTE;
+	Temperature			: REAL;
+	PosMru_D			: REAL;
+	VelMru_D			: REAL;
+	AccMru_D			: REAL;
+	AngRate_D			: REAL;
+	Roll				: REAL;
+	Pitch				: REAL;
+	Yaw					: REAL;
+	AngRate_R			: REAL;
+	AngRate_P			: REAL;
+	AngRate_Y			: REAL;
+	AngAcc_R			: REAL;
+	AngAcc_P			: REAL;
+	AngAcc_Y			: REAL;
+	VelMru_R			: REAL;
+	VelMru_P			: REAL;
+	VelMru_Y			: REAL;
+	AccMru_R			: REAL;
+	AccMru_P			: REAL;
+	AccMru_Y			: REAL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>
