@@ -3,13 +3,13 @@
   <DUT Name="RemoteFeedbackLeica" Id="{753df343-d8a4-4be5-aa7a-1ee5fc5c7942}">
     <Declaration><![CDATA[TYPE RemoteFeedbackLeica :
 STRUCT
-	x				: REAL;
-	y				: REAL;
-	z				: REAL;
-	q0				: REAL;
-	q1				: REAL;
-	q2				: REAL;
-	q3				: REAL;
+	x : REAL;
+	y : REAL;
+	z : REAL;
+	q0 : REAL;
+	q1 : REAL;
+	q2 : REAL;
+	q3 : REAL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

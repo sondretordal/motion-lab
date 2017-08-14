@@ -3,7 +3,25 @@
   <DUT Name="RemoteFeedbackMru" Id="{e5da7f68-9b82-4c49-ac9c-e08f2e5a864f}">
     <Declaration><![CDATA[TYPE RemoteFeedbackMru :
 STRUCT
-
+	heave : REAL;
+	heave_t : REAL;
+	heave_tt : REAL;
+	turn_rate : REAL;
+	roll : REAL;
+	pitch : REAL;
+	yaw : REAL;
+	wx : REAL;
+	wy : REAL;
+	wz : REAL;
+	wx_t : REAL;
+	wy_t : REAL;
+	wz_t : REAL;
+	x_t : REAL;
+	y_t : REAL;
+	z_t : REAL;
+	x_tt : REAL;
+	y_tt : REAL;
+	z_tt : REAL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

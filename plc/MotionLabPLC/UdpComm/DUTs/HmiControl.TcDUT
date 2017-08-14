@@ -3,7 +3,7 @@
   <DUT Name="HmiControl" Id="{277bad6a-a1eb-42d6-a5ae-8450c2594cd2}">
     <Declaration><![CDATA[TYPE HmiControl :
 STRUCT
-	counter		: UDINT;
+	counter	: UDINT;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

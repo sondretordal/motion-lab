@@ -19,8 +19,8 @@ private:
     // Json file
     json j, j2;
 public:
-    std::vector<RemoteFeedback> Feedback;
-    std::vector<RemoteControl> Control;
+    std::vector<RemoteFeedback> feedback;
+    std::vector<RemoteControl> control;
 
     JsonLogger() {
         clear();
@@ -31,111 +31,111 @@ public:
     };
 
     void clear() {
-        Feedback.clear();
-        Control.clear();
+        feedback.clear();
+        control.clear();
     }
 
     void save(std::string path) {
-        for (unsigned int i = 0; i < Feedback.size(); i++) {
-            // Save Feedback data
-            j["Feedback"]["t"].push_back(Feedback[i].t);
+        for (unsigned int i = 0; i < feedback.size(); i++) {
+            // Save feedback data
+            j["feedback"]["t"].push_back(feedback[i].t);
 
-            j["Feedback"]["EM1500"]["x"].push_back(Feedback[i].EM1500.x);
-            j["Feedback"]["EM1500"]["y"].push_back(Feedback[i].EM1500.y);
-            j["Feedback"]["EM1500"]["z"].push_back(Feedback[i].EM1500.z);
-            j["Feedback"]["EM1500"]["roll"].push_back(Feedback[i].EM1500.roll);
-            j["Feedback"]["EM1500"]["pitch"].push_back(Feedback[i].EM1500.pitch);
-            j["Feedback"]["EM1500"]["yaw"].push_back(Feedback[i].EM1500.yaw);
-            j["Feedback"]["EM1500"]["x_t"].push_back(Feedback[i].EM1500.x_t);
-            j["Feedback"]["EM1500"]["y_t"].push_back(Feedback[i].EM1500.y_t);
-            j["Feedback"]["EM1500"]["z_t"].push_back(Feedback[i].EM1500.z_t);
-            j["Feedback"]["EM1500"]["roll_t"].push_back(Feedback[i].EM1500.roll_t);
-            j["Feedback"]["EM1500"]["pitch_t"].push_back(Feedback[i].EM1500.pitch_t);
-            j["Feedback"]["EM1500"]["yaw_t"].push_back(Feedback[i].EM1500.yaw_t);
-            j["Feedback"]["EM1500"]["x_tt"].push_back(Feedback[i].EM1500.x_tt);
-            j["Feedback"]["EM1500"]["y_tt"].push_back(Feedback[i].EM1500.y_tt);
-            j["Feedback"]["EM1500"]["z_tt"].push_back(Feedback[i].EM1500.z_tt);
-            j["Feedback"]["EM1500"]["roll_tt"].push_back(Feedback[i].EM1500.roll_tt);
-            j["Feedback"]["EM1500"]["pitch_tt"].push_back(Feedback[i].EM1500.pitch_tt);
-            j["Feedback"]["EM1500"]["yaw_tt"].push_back(Feedback[i].EM1500.yaw_tt);
-            j["Feedback"]["EM1500"]["L1"].push_back(Feedback[i].EM1500.L1);
-            j["Feedback"]["EM1500"]["L2"].push_back(Feedback[i].EM1500.L2);
-            j["Feedback"]["EM1500"]["L3"].push_back(Feedback[i].EM1500.L3);
-            j["Feedback"]["EM1500"]["L4"].push_back(Feedback[i].EM1500.L4);
-            j["Feedback"]["EM1500"]["L5"].push_back(Feedback[i].EM1500.L5);
-            j["Feedback"]["EM1500"]["L6"].push_back(Feedback[i].EM1500.L6);
+            j["feedback"]["em1500"]["x"].push_back(feedback[i].em1500.x);
+            j["feedback"]["em1500"]["y"].push_back(feedback[i].em1500.y);
+            j["feedback"]["em1500"]["z"].push_back(feedback[i].em1500.z);
+            j["feedback"]["em1500"]["roll"].push_back(feedback[i].em1500.roll);
+            j["feedback"]["em1500"]["pitch"].push_back(feedback[i].em1500.pitch);
+            j["feedback"]["em1500"]["yaw"].push_back(feedback[i].em1500.yaw);
+            j["feedback"]["em1500"]["x_t"].push_back(feedback[i].em1500.x_t);
+            j["feedback"]["em1500"]["y_t"].push_back(feedback[i].em1500.y_t);
+            j["feedback"]["em1500"]["z_t"].push_back(feedback[i].em1500.z_t);
+            j["feedback"]["em1500"]["roll_t"].push_back(feedback[i].em1500.roll_t);
+            j["feedback"]["em1500"]["pitch_t"].push_back(feedback[i].em1500.pitch_t);
+            j["feedback"]["em1500"]["yaw_t"].push_back(feedback[i].em1500.yaw_t);
+            j["feedback"]["em1500"]["x_tt"].push_back(feedback[i].em1500.x_tt);
+            j["feedback"]["em1500"]["y_tt"].push_back(feedback[i].em1500.y_tt);
+            j["feedback"]["em1500"]["z_tt"].push_back(feedback[i].em1500.z_tt);
+            j["feedback"]["em1500"]["roll_tt"].push_back(feedback[i].em1500.roll_tt);
+            j["feedback"]["em1500"]["pitch_tt"].push_back(feedback[i].em1500.pitch_tt);
+            j["feedback"]["em1500"]["yaw_tt"].push_back(feedback[i].em1500.yaw_tt);
+            j["feedback"]["em1500"]["L1"].push_back(feedback[i].em1500.L1);
+            j["feedback"]["em1500"]["L2"].push_back(feedback[i].em1500.L2);
+            j["feedback"]["em1500"]["L3"].push_back(feedback[i].em1500.L3);
+            j["feedback"]["em1500"]["L4"].push_back(feedback[i].em1500.L4);
+            j["feedback"]["em1500"]["L5"].push_back(feedback[i].em1500.L5);
+            j["feedback"]["em1500"]["L6"].push_back(feedback[i].em1500.L6);
 
-            j["Feedback"]["EM8000"]["x"].push_back(Feedback[i].EM8000.x);
-            j["Feedback"]["EM8000"]["y"].push_back(Feedback[i].EM8000.y);
-            j["Feedback"]["EM8000"]["z"].push_back(Feedback[i].EM8000.z);
-            j["Feedback"]["EM8000"]["roll"].push_back(Feedback[i].EM8000.roll);
-            j["Feedback"]["EM8000"]["pitch"].push_back(Feedback[i].EM8000.pitch);
-            j["Feedback"]["EM8000"]["yaw"].push_back(Feedback[i].EM8000.yaw);
-            j["Feedback"]["EM8000"]["x_t"].push_back(Feedback[i].EM8000.x_t);
-            j["Feedback"]["EM8000"]["y_t"].push_back(Feedback[i].EM8000.y_t);
-            j["Feedback"]["EM8000"]["z_t"].push_back(Feedback[i].EM8000.z_t);
-            j["Feedback"]["EM8000"]["roll_t"].push_back(Feedback[i].EM8000.roll_t);
-            j["Feedback"]["EM8000"]["pitch_t"].push_back(Feedback[i].EM8000.pitch_t);
-            j["Feedback"]["EM8000"]["yaw_t"].push_back(Feedback[i].EM8000.yaw_t);
-            j["Feedback"]["EM8000"]["x_tt"].push_back(Feedback[i].EM8000.x_tt);
-            j["Feedback"]["EM8000"]["y_tt"].push_back(Feedback[i].EM8000.y_tt);
-            j["Feedback"]["EM8000"]["z_tt"].push_back(Feedback[i].EM8000.z_tt);
-            j["Feedback"]["EM8000"]["roll_tt"].push_back(Feedback[i].EM8000.roll_tt);
-            j["Feedback"]["EM8000"]["pitch_tt"].push_back(Feedback[i].EM8000.pitch_tt);
-            j["Feedback"]["EM8000"]["yaw_tt"].push_back(Feedback[i].EM8000.yaw_tt);
-            j["Feedback"]["EM8000"]["L1"].push_back(Feedback[i].EM8000.L1);
-            j["Feedback"]["EM8000"]["L2"].push_back(Feedback[i].EM8000.L2);
-            j["Feedback"]["EM8000"]["L3"].push_back(Feedback[i].EM8000.L3);
-            j["Feedback"]["EM8000"]["L4"].push_back(Feedback[i].EM8000.L4);
-            j["Feedback"]["EM8000"]["L5"].push_back(Feedback[i].EM8000.L5);
-            j["Feedback"]["EM8000"]["L6"].push_back(Feedback[i].EM8000.L6);
+            j["feedback"]["em8000"]["x"].push_back(feedback[i].em8000.x);
+            j["feedback"]["em8000"]["y"].push_back(feedback[i].em8000.y);
+            j["feedback"]["em8000"]["z"].push_back(feedback[i].em8000.z);
+            j["feedback"]["em8000"]["roll"].push_back(feedback[i].em8000.roll);
+            j["feedback"]["em8000"]["pitch"].push_back(feedback[i].em8000.pitch);
+            j["feedback"]["em8000"]["yaw"].push_back(feedback[i].em8000.yaw);
+            j["feedback"]["em8000"]["x_t"].push_back(feedback[i].em8000.x_t);
+            j["feedback"]["em8000"]["y_t"].push_back(feedback[i].em8000.y_t);
+            j["feedback"]["em8000"]["z_t"].push_back(feedback[i].em8000.z_t);
+            j["feedback"]["em8000"]["roll_t"].push_back(feedback[i].em8000.roll_t);
+            j["feedback"]["em8000"]["pitch_t"].push_back(feedback[i].em8000.pitch_t);
+            j["feedback"]["em8000"]["yaw_t"].push_back(feedback[i].em8000.yaw_t);
+            j["feedback"]["em8000"]["x_tt"].push_back(feedback[i].em8000.x_tt);
+            j["feedback"]["em8000"]["y_tt"].push_back(feedback[i].em8000.y_tt);
+            j["feedback"]["em8000"]["z_tt"].push_back(feedback[i].em8000.z_tt);
+            j["feedback"]["em8000"]["roll_tt"].push_back(feedback[i].em8000.roll_tt);
+            j["feedback"]["em8000"]["pitch_tt"].push_back(feedback[i].em8000.pitch_tt);
+            j["feedback"]["em8000"]["yaw_tt"].push_back(feedback[i].em8000.yaw_tt);
+            j["feedback"]["em8000"]["L1"].push_back(feedback[i].em8000.L1);
+            j["feedback"]["em8000"]["L2"].push_back(feedback[i].em8000.L2);
+            j["feedback"]["em8000"]["L3"].push_back(feedback[i].em8000.L3);
+            j["feedback"]["em8000"]["L4"].push_back(feedback[i].em8000.L4);
+            j["feedback"]["em8000"]["L5"].push_back(feedback[i].em8000.L5);
+            j["feedback"]["em8000"]["L6"].push_back(feedback[i].em8000.L6);
 
-            j["Feedback"]["COMAU"]["q1"].push_back(Feedback[i].COMAU.q1);
-            j["Feedback"]["COMAU"]["q2"].push_back(Feedback[i].COMAU.q2);
-            j["Feedback"]["COMAU"]["q3"].push_back(Feedback[i].COMAU.q3);
-            j["Feedback"]["COMAU"]["q4"].push_back(Feedback[i].COMAU.q4);
-            j["Feedback"]["COMAU"]["q5"].push_back(Feedback[i].COMAU.q5);
-            j["Feedback"]["COMAU"]["q6"].push_back(Feedback[i].COMAU.q6);
-            j["Feedback"]["COMAU"]["q1_t"].push_back(Feedback[i].COMAU.q1_t);
-            j["Feedback"]["COMAU"]["q2_t"].push_back(Feedback[i].COMAU.q2_t);
-            j["Feedback"]["COMAU"]["q3_t"].push_back(Feedback[i].COMAU.q3_t);
-            j["Feedback"]["COMAU"]["q4_t"].push_back(Feedback[i].COMAU.q4_t);
-            j["Feedback"]["COMAU"]["q5_t"].push_back(Feedback[i].COMAU.q5_t);
-            j["Feedback"]["COMAU"]["q6_t"].push_back(Feedback[i].COMAU.q6_t);
-            j["Feedback"]["COMAU"]["q1_tt"].push_back(Feedback[i].COMAU.q1_tt);
-            j["Feedback"]["COMAU"]["q2_tt"].push_back(Feedback[i].COMAU.q2_tt);
-            j["Feedback"]["COMAU"]["q3_tt"].push_back(Feedback[i].COMAU.q3_tt);
-            j["Feedback"]["COMAU"]["q4_tt"].push_back(Feedback[i].COMAU.q4_tt);
-            j["Feedback"]["COMAU"]["q5_tt"].push_back(Feedback[i].COMAU.q5_tt);
-            j["Feedback"]["COMAU"]["q6_tt"].push_back(Feedback[i].COMAU.q6_tt);
+            j["feedback"]["comau"]["q1"].push_back(feedback[i].comau.q1);
+            j["feedback"]["comau"]["q2"].push_back(feedback[i].comau.q2);
+            j["feedback"]["comau"]["q3"].push_back(feedback[i].comau.q3);
+            j["feedback"]["comau"]["q4"].push_back(feedback[i].comau.q4);
+            j["feedback"]["comau"]["q5"].push_back(feedback[i].comau.q5);
+            j["feedback"]["comau"]["q6"].push_back(feedback[i].comau.q6);
+            j["feedback"]["comau"]["q1_t"].push_back(feedback[i].comau.q1_t);
+            j["feedback"]["comau"]["q2_t"].push_back(feedback[i].comau.q2_t);
+            j["feedback"]["comau"]["q3_t"].push_back(feedback[i].comau.q3_t);
+            j["feedback"]["comau"]["q4_t"].push_back(feedback[i].comau.q4_t);
+            j["feedback"]["comau"]["q5_t"].push_back(feedback[i].comau.q5_t);
+            j["feedback"]["comau"]["q6_t"].push_back(feedback[i].comau.q6_t);
+            j["feedback"]["comau"]["q1_tt"].push_back(feedback[i].comau.q1_tt);
+            j["feedback"]["comau"]["q2_tt"].push_back(feedback[i].comau.q2_tt);
+            j["feedback"]["comau"]["q3_tt"].push_back(feedback[i].comau.q3_tt);
+            j["feedback"]["comau"]["q4_tt"].push_back(feedback[i].comau.q4_tt);
+            j["feedback"]["comau"]["q5_tt"].push_back(feedback[i].comau.q5_tt);
+            j["feedback"]["comau"]["q6_tt"].push_back(feedback[i].comau.q6_tt);
 
-            j["Feedback"]["AT960"]["x"].push_back(Feedback[i].AT960.x);
-            j["Feedback"]["AT960"]["y"].push_back(Feedback[i].AT960.y);
-            j["Feedback"]["AT960"]["z"].push_back(Feedback[i].AT960.z);
-            j["Feedback"]["AT960"]["q0"].push_back(Feedback[i].AT960.q0);
-            j["Feedback"]["AT960"]["q1"].push_back(Feedback[i].AT960.q1);
-            j["Feedback"]["AT960"]["q2"].push_back(Feedback[i].AT960.q2);
-            j["Feedback"]["AT960"]["q3"].push_back(Feedback[i].AT960.q3);
+            j["feedback"]["at960"]["x"].push_back(feedback[i].at960.x);
+            j["feedback"]["at960"]["y"].push_back(feedback[i].at960.y);
+            j["feedback"]["at960"]["z"].push_back(feedback[i].at960.z);
+            j["feedback"]["at960"]["q0"].push_back(feedback[i].at960.q0);
+            j["feedback"]["at960"]["q1"].push_back(feedback[i].at960.q1);
+            j["feedback"]["at960"]["q2"].push_back(feedback[i].at960.q2);
+            j["feedback"]["at960"]["q3"].push_back(feedback[i].at960.q3);
             
-            // Save Control data
-            j["Control"]["COMAU"]["q1"].push_back(Control[i].COMAU.q1);
-            j["Control"]["COMAU"]["q2"].push_back(Control[i].COMAU.q2);
-            j["Control"]["COMAU"]["q3"].push_back(Control[i].COMAU.q3);
-            j["Control"]["COMAU"]["q4"].push_back(Control[i].COMAU.q4);
-            j["Control"]["COMAU"]["q5"].push_back(Control[i].COMAU.q5);
-            j["Control"]["COMAU"]["q6"].push_back(Control[i].COMAU.q6);
-            j["Control"]["COMAU"]["q1_t"].push_back(Control[i].COMAU.q1_t);
-            j["Control"]["COMAU"]["q2_t"].push_back(Control[i].COMAU.q2_t);
-            j["Control"]["COMAU"]["q3_t"].push_back(Control[i].COMAU.q3_t);
-            j["Control"]["COMAU"]["q4_t"].push_back(Control[i].COMAU.q4_t);
-            j["Control"]["COMAU"]["q5_t"].push_back(Control[i].COMAU.q5_t);
-            j["Control"]["COMAU"]["q6_t"].push_back(Control[i].COMAU.q6_t);
-            j["Control"]["COMAU"]["q1_tt"].push_back(Control[i].COMAU.q1_tt);
-            j["Control"]["COMAU"]["q2_tt"].push_back(Control[i].COMAU.q2_tt);
-            j["Control"]["COMAU"]["q3_tt"].push_back(Control[i].COMAU.q3_tt);
-            j["Control"]["COMAU"]["q4_tt"].push_back(Control[i].COMAU.q4_tt);
-            j["Control"]["COMAU"]["q5_tt"].push_back(Control[i].COMAU.q5_tt);
-            j["Control"]["COMAU"]["q6_tt"].push_back(Control[i].COMAU.q6_tt);
+            // Save control data
+            j["control"]["comau"]["q1"].push_back(control[i].comau.q1);
+            j["control"]["comau"]["q2"].push_back(control[i].comau.q2);
+            j["control"]["comau"]["q3"].push_back(control[i].comau.q3);
+            j["control"]["comau"]["q4"].push_back(control[i].comau.q4);
+            j["control"]["comau"]["q5"].push_back(control[i].comau.q5);
+            j["control"]["comau"]["q6"].push_back(control[i].comau.q6);
+            j["control"]["comau"]["q1_t"].push_back(control[i].comau.q1_t);
+            j["control"]["comau"]["q2_t"].push_back(control[i].comau.q2_t);
+            j["control"]["comau"]["q3_t"].push_back(control[i].comau.q3_t);
+            j["control"]["comau"]["q4_t"].push_back(control[i].comau.q4_t);
+            j["control"]["comau"]["q5_t"].push_back(control[i].comau.q5_t);
+            j["control"]["comau"]["q6_t"].push_back(control[i].comau.q6_t);
+            j["control"]["comau"]["q1_tt"].push_back(control[i].comau.q1_tt);
+            j["control"]["comau"]["q2_tt"].push_back(control[i].comau.q2_tt);
+            j["control"]["comau"]["q3_tt"].push_back(control[i].comau.q3_tt);
+            j["control"]["comau"]["q4_tt"].push_back(control[i].comau.q4_tt);
+            j["control"]["comau"]["q5_tt"].push_back(control[i].comau.q5_tt);
+            j["control"]["comau"]["q6_tt"].push_back(control[i].comau.q6_tt);
         }
 
         // Write json data to .json text file

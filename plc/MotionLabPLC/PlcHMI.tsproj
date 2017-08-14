@@ -880,22 +880,7 @@
 					<Name>UdpComm Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1">
-						<Name>TaskMain Inputs</Name>
-						<Var>
-							<Name>Main.AngleHz</Name>
-							<Comment>
-								<![CDATA[ Leica Variables]]>
-							</Comment>
-							<Type>LREAL</Type>
-						</Var>
-						<Var>
-							<Name>Main.AngleVt</Name>
-							<Type>LREAL</Type>
-						</Var>
-						<Var>
-							<Name>Main.Distance</Name>
-							<Type>LREAL</Type>
-						</Var>
+						<Name>TaskREMOTE Inputs</Name>
 						<Var>
 							<Name>Main.q0</Name>
 							<Type>LREAL</Type>
@@ -910,6 +895,24 @@
 						</Var>
 						<Var>
 							<Name>Main.q3</Name>
+							<Type>LREAL</Type>
+						</Var>
+					</Vars>
+					<Vars VarGrpType="1">
+						<Name>TaskMain Inputs</Name>
+						<Var>
+							<Name>Main.AngleHz</Name>
+							<Comment>
+								<![CDATA[ Leica Variables]]>
+							</Comment>
+							<Type>LREAL</Type>
+						</Var>
+						<Var>
+							<Name>Main.AngleVt</Name>
+							<Type>LREAL</Type>
+						</Var>
+						<Var>
+							<Name>Main.Distance</Name>
 							<Type>LREAL</Type>
 						</Var>
 						<Var>
@@ -3630,17 +3633,18 @@
 		</Io>
 	</Project>
 	<Mappings>
-		<MappingInfo Identifier="{00000000-0018-0101-1000-010140000403}" Id="#x02030010"/>
+		<MappingInfo Identifier="{01010018-0040-0304-1000-010140000403}" Id="#x02030020" Watchdog="04000000040000000400000004000000"/>
+		<MappingInfo Identifier="{00000000-0016-0101-1000-010140000403}" Id="#x02030010"/>
 		<OwnerA Name="TIPC^UdpComm^UdpComm Instance">
 			<OwnerB Name="TIID^LeicaAT960 (EtherCAT)^Box 1 (Leica-RT-Output)">
 				<Link VarA="TaskMain Inputs^Main.AngleHz" VarB="Cyclic Measurements^AngleHz"/>
 				<Link VarA="TaskMain Inputs^Main.AngleVt" VarB="Cyclic Measurements^AngleVt"/>
 				<Link VarA="TaskMain Inputs^Main.Distance" VarB="Cyclic Measurements^Distance"/>
 				<Link VarA="TaskMain Inputs^Main.Timestamp" VarB="Cyclic Measurements^TimeStamp"/>
-				<Link VarA="TaskMain Inputs^Main.q0" VarB="Cyclic Measurements^Quaternion0"/>
-				<Link VarA="TaskMain Inputs^Main.q1" VarB="Cyclic Measurements^Quaternion1"/>
-				<Link VarA="TaskMain Inputs^Main.q2" VarB="Cyclic Measurements^Quaternion2"/>
-				<Link VarA="TaskMain Inputs^Main.q3" VarB="Cyclic Measurements^Quaternion3"/>
+				<Link VarA="TaskREMOTE Inputs^Main.q0" VarB="Cyclic Measurements^Quaternion0"/>
+				<Link VarA="TaskREMOTE Inputs^Main.q1" VarB="Cyclic Measurements^Quaternion1"/>
+				<Link VarA="TaskREMOTE Inputs^Main.q2" VarB="Cyclic Measurements^Quaternion2"/>
+				<Link VarA="TaskREMOTE Inputs^Main.q3" VarB="Cyclic Measurements^Quaternion3"/>
 			</OwnerB>
 		</OwnerA>
 	</Mappings>

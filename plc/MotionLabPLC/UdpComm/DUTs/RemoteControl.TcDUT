@@ -3,8 +3,8 @@
   <DUT Name="RemoteControl" Id="{29bd4065-27db-41d4-a2e0-a691c6f50e4d}">
     <Declaration><![CDATA[TYPE RemoteControl :
 STRUCT
-	udp_key		: DINT;
-	COMAU		: RemoteControlComau;
+	udp_key	: DINT;
+	comau : RemoteControlComau;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

@@ -3,33 +3,33 @@
   <POU Name="COMAU" Id="{8fd6d73c-762f-45cc-b515-1dd8eede1bc5}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM COMAU
 VAR
-	_Control	: ComauControl;
+	_control	: ComauControl;
 	
-	UdpIO		: UdpClient(3232258592, 50032, 50042, SIZEOF(_Control), ADR(_Control), SIZEOF(Feedback), ADR(Feedback));
+	UdpIO		: UdpClient(3232258592, 50032, 50042, SIZEOF(_control), ADR(_control), SIZEOF(feedback), ADR(feedback));
 
 END_VAR
 
 VAR_INPUT
-	Control		: ComauControl;
+	control		: comauControl;
 END_VAR
 
 VAR_OUTPUT
-	Feedback	: ComauFeedback;
+	feedback	: comauFeedback;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[
-// Decide access from Control to _Control here!!
-_Control.udp_key		:= 32;
-_Control.mode 			:= Control.mode;
-_Control.beta			:= Control.beta;
-_Control.omega			:= Control.omega;
-_Control.q1				:= Control.q1;
-_Control.q2				:= Control.q2;
-_Control.q3				:= Control.q3;
-_Control.q4				:= Control.q4;
-_Control.q5				:= Control.q5;
-_Control.q6				:= Control.q6;
+// Decide access from control to _control here!!
+_control.udp_key		:= 32;
+_control.mode 			:= control.mode;
+_control.beta 			:= control.beta;
+_control.omega 			:= control.omega;
+_control.q1			 	:= control.q1;
+_control.q2				:= control.q2;
+_control.q3				:= control.q3;
+_control.q4				:= control.q4;
+_control.q5				:= control.q5;
+_control.q6				:= control.q6;
 
 
 

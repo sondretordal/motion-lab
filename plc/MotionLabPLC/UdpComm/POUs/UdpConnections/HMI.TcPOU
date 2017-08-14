@@ -3,18 +3,17 @@
   <POU Name="HMI" Id="{92c9e502-42e5-4c53-8e84-6f6172dad33a}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM HMI
 VAR
-	Feedback		: HmiFeedback;
-	Control			: HmiControl;
+	feedback		: HmiFeedback;
+	control			: HmiControl;
 	
 	NULL			: PVOID;
-	UdpIO			: UdpClient(3232258620, 50160, 50150, SIZEOF(Feedback), ADR(Feedback), SIZEOF(Control), ADR(Control));
-	
+	UdpIO			: UdpClient(3232258620, 50160, 50150, SIZEOF(feedback), ADR(feedback), SIZEOF(control), ADR(control));	
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[
-Feedback.Feedback 	:=  REMOTE.Feedback;
-Feedback.Control 	:=  REMOTE.Control;
+feedback.feedback 	:=  REMOTE.feedback;
+feedback.control 	:=  REMOTE.control;
 
 
 UdpIO();

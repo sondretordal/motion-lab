@@ -5,8 +5,8 @@
 #include "DataStructures.h"
 
 struct RxData {
-    RemoteControl Control;
-    RemoteFeedback Feedback;
+    RemoteControl control;
+    RemoteFeedback feedback;
 };
 
 struct TxData {
@@ -34,9 +34,9 @@ private:
 	TxData tx_data;
     
 public:
-    // Control and Feedback data
-    RemoteFeedback Feedback;
-    RemoteControl Control;
+    // control and feedback data
+    RemoteFeedback feedback;
+    RemoteControl control;
 
     // Constructor and destructor
     HmiInterface(unsigned int port);

@@ -35,7 +35,7 @@ void RemoteInterface::close() {
         std::cout << "Thread joined sucessfully!" << std::endl;
     }
 }
-
+    
 void RemoteInterface::update() {
     update_data = true;
 }
@@ -47,13 +47,13 @@ void RemoteInterface::run() {
         mutex.unlock();
 
         if (update_data) {
-            // Update public Feedback and Control data
-            Feedback = rx_data;
-            Control = tx_data;
+            // Update public feedback and control data
+            feedback = rx_data;
+            tx_data = control;
         
             // Append new data to JSON log
-            logger.Feedback.push_back(Feedback);
-            logger.Control.push_back(Control);
+            logger.feedback.push_back(feedback);
+            logger.control.push_back(control);
             
             update_data = false;
 

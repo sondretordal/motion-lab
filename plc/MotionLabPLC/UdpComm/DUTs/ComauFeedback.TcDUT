@@ -3,31 +3,31 @@
   <DUT Name="ComauFeedback" Id="{d6181842-8fe2-442a-b8e7-f3a35eeada92}">
     <Declaration><![CDATA[TYPE ComauFeedback :
 STRUCT
-	modalityActive	: DINT;
-	q1_ref			: REAL;
-	q2_ref			: REAL;
-	q3_ref			: REAL;
-	q4_ref			: REAL;
-	q5_ref			: REAL; 
-	q6_ref			: REAL;
-	q1				: REAL;
-	q2				: REAL;
-	q3				: REAL;
-	q4				: REAL;
-	q5				: REAL; 
-	q6				: REAL;
-	q1_t			: REAL;
-	q2_t			: REAL;
-	q3_t			: REAL;
-	q4_t			: REAL;
-	q5_t			: REAL;
-	q6_t			: REAL;
-	q1_tt			: REAL;
-	q2_tt			: REAL;
-	q3_tt			: REAL;
-	q4_tt			: REAL;
-	q5_tt			: REAL;
-	q6_tt			: REAL;
+	modalityActive : DINT;
+	q1_ref : REAL;
+	q2_ref : REAL;
+	q3_ref : REAL;
+	q4_ref : REAL;
+	q5_ref : REAL; 
+	q6_ref : REAL;
+	q1 : REAL;
+	q2 : REAL;
+	q3 : REAL;
+	q4 : REAL;
+	q5 : REAL; 
+	q6 : REAL;
+	q1_t : REAL;
+	q2_t : REAL;
+	q3_t : REAL;
+	q4_t : REAL;
+	q5_t : REAL;
+	q6_t : REAL;
+	q1_tt : REAL;
+	q2_tt : REAL;
+	q3_tt : REAL;
+	q4_tt : REAL;
+	q5_tt : REAL;
+	q6_tt : REAL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

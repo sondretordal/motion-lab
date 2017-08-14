@@ -24,7 +24,7 @@ struct RemoteControlComau {
 
 struct RemoteControl {
 	int	udp_key;
-	RemoteControlComau COMAU;
+	RemoteControlComau comau;
 };
 
 // Feedback structs
@@ -86,10 +86,34 @@ struct RemoteFeedbackLeica {
 	float q3;
 };
 
-struct RemoteFeedback {
+struct RemoteFeedbackMru {
+	float heave;
+	float heave_t;
+	float heave_tt;
+	float turn_rate;
+	float roll;
+	float pitch;
+	float yaw;
+	float wx;
+	float wy;
+	float wz;
+	float wx_t;
+	float wy_t;
+	float wz_t;
+	float x_t;
+	float y_t;
+	float z_t;
+	float x_tt;
+	float y_tt;
+	float z_tt;
+};
+
+struct RemoteFeedback	 {
 	float t;
-	RemoteFeedbackStewart EM1500;
-	RemoteFeedbackStewart EM8000;
-	RemoteFeedbackComau COMAU;
-	RemoteFeedbackLeica AT960;
+	RemoteFeedbackStewart em8000;
+	RemoteFeedbackStewart em1500;
+	RemoteFeedbackComau comau;
+	RemoteFeedbackLeica at960;
+	RemoteFeedbackMru mru1;
+	RemoteFeedbackMru mru2;
 };

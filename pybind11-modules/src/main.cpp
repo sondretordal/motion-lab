@@ -74,13 +74,39 @@ PYBIND11_PLUGIN(MotionLab) {
 		.def_readonly("q2", &RemoteFeedbackLeica::q2)
 		.def_readonly("q3", &RemoteFeedbackLeica::q3);
 
+	py::class_<RemoteFeedbackMru>(m, "RemoteFeedbackMru")
+		.def(py::init<>())
+		.def_readonly("heave",&RemoteFeedbackMru::heave)
+		.def_readonly("heave_t",&RemoteFeedbackMru::heave_t)
+		.def_readonly("heave_tt",&RemoteFeedbackMru::heave_tt)
+		.def_readonly("turn_rate",&RemoteFeedbackMru::turn_rate)
+		.def_readonly("roll",&RemoteFeedbackMru::roll)
+		.def_readonly("pitch",&RemoteFeedbackMru::pitch)
+		.def_readonly("yaw",&RemoteFeedbackMru::yaw)
+		.def_readonly("wx",&RemoteFeedbackMru::wx)
+		.def_readonly("wy",&RemoteFeedbackMru::wy)
+		.def_readonly("wz",&RemoteFeedbackMru::wz)
+		.def_readonly("wx_t",&RemoteFeedbackMru::wx_t)
+		.def_readonly("wy_t",&RemoteFeedbackMru::wy_t)
+		.def_readonly("wz_t",&RemoteFeedbackMru::wz_t)
+		.def_readonly("x_t",&RemoteFeedbackMru::x_t)
+		.def_readonly("y_t",&RemoteFeedbackMru::y_t)
+		.def_readonly("z_t",&RemoteFeedbackMru::z_t)
+		.def_readonly("x_tt",&RemoteFeedbackMru::x_tt)
+		.def_readonly("y_tt",&RemoteFeedbackMru::y_tt)
+		.def_readonly("z_tt",&RemoteFeedbackMru::z_tt);
+	
 	py::class_<RemoteFeedback>(m, "RemoteFeedback")
 		.def(py::init<>())
 		.def_readonly("t", &RemoteFeedback::t)
-		.def_readonly("EM1500", &RemoteFeedback::EM1500)
-		.def_readonly("EM8000", &RemoteFeedback::EM8000)
-		.def_readonly("COMAU", &RemoteFeedback::COMAU)
-		.def_readonly("AT960", &RemoteFeedback::AT960);
+		.def_readonly("em8000", &RemoteFeedback::em8000)
+		.def_readonly("em1500", &RemoteFeedback::em1500)
+		.def_readonly("comau", &RemoteFeedback::comau)
+		.def_readonly("at960", &RemoteFeedback::at960)
+		.def_readonly("mru1", &RemoteFeedback::mru1)
+		.def_readonly("mru2", &RemoteFeedback::mru2);
+
+
 
 	// Control structs
 	py::class_<RemoteControlComau>(m, "RemoteControlComau")
@@ -107,7 +133,7 @@ PYBIND11_PLUGIN(MotionLab) {
 	py::class_<RemoteControl>(m, "RemoteControl")
 		.def(py::init<>())
 		.def_readwrite("udp_key", &RemoteControl::udp_key)
-		.def_readwrite("COMAU", &RemoteControl::COMAU);
+		.def_readwrite("comau", &RemoteControl::comau);
 	
 	// Remote interface
 	py::class_<RemoteInterface>(m, "RemoteInterface")
@@ -118,8 +144,8 @@ PYBIND11_PLUGIN(MotionLab) {
 		.def("start_log", &RemoteInterface::start_log)
 		.def("clear_log", &RemoteInterface::clear_log)
 		.def("save_log", &RemoteInterface::save_log)
-		.def_readonly("Feedback", &RemoteInterface::Feedback)
-		.def_readwrite("Control", &RemoteInterface::Control);
+		.def_readonly("feedback", &RemoteInterface::feedback)
+		.def_readwrite("control", &RemoteInterface::control);
 
 	// Hmi interface
 	py::class_<HmiInterface>(m, "HmiInterface")
@@ -130,8 +156,8 @@ PYBIND11_PLUGIN(MotionLab) {
 		.def("start_log", &HmiInterface::start_log)
 		.def("clear_log", &HmiInterface::clear_log)
 		.def("save_log", &HmiInterface::save_log)
-		.def_readonly("Feedback", &HmiInterface::Feedback)
-		.def_readwrite("Control", &HmiInterface::Control);
+		.def_readonly("feedback", &HmiInterface::feedback)
+		.def_readwrite("control", &HmiInterface::control);
 	
 	// Return module
 	return m.ptr();

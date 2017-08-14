@@ -3,8 +3,8 @@
   <DUT Name="HmiFeedback" Id="{d464d86d-062f-4988-a6e1-4ba556c79c34}">
     <Declaration><![CDATA[TYPE HmiFeedback :
 STRUCT
-	Control		: RemoteControl;
-	Feedback	: RemoteFeedback;
+	control	: RemoteControl;
+	feedback : RemoteFeedback;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

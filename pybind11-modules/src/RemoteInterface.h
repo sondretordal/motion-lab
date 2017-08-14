@@ -27,8 +27,8 @@ private:
     
 public:
     // IO data
-    RemoteFeedback Feedback;
-	RemoteControl Control;
+    RemoteFeedback feedback;
+	RemoteControl control;
 
     // Constructor and destructor
     RemoteInterface(unsigned int port);

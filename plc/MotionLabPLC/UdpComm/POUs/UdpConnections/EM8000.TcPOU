@@ -3,18 +3,18 @@
   <POU Name="EM8000" Id="{c87bca3c-ddc6-4566-91d0-aa31a9002397}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM EM8000
 VAR	
-	_Control	: StewartControl;
-	UdpIO		: UdpClient(3232258590, 50030, 50040, SIZEOF(_Control), ADR(_Control), SIZEOF(Feedback), ADR(Feedback));
+	_control	: StewartControl;
+	UdpIO		: UdpClient(3232258590, 50030, 50040, SIZEOF(_control), ADR(_control), SIZEOF(feedback), ADR(feedback));
 	
 	Pi 			: REAL := 3.141592653589793;
 END_VAR
 
 VAR_INPUT
-	Control		: StewartControl;
+	control		: StewartControl;
 END_VAR
 
 VAR_OUTPUT
-	Feedback	: StewartFeedback;
+	feedback	: StewartFeedback;
 END_VAR
 
 
@@ -28,19 +28,19 @@ END_VAR
     <Implementation>
       <ST><![CDATA[
 
-// Assign Control to local _Control
-_Control.CMND := Control.CMND;
+// Assign c0ntrol to local _control
+_control.CMND := control.CMND;
 
-// Addd maximum limit to udp input _Control
-_Control.X_EXTRA 		:= LIMIT(-0.6, Control.X_EXTRA, 0.6);
-_Control.Y_EXTRA 		:= LIMIT(-0.6, Control.Y_EXTRA, 0.6);
-_Control.Z_EXTRA 		:= LIMIT(-0.6, Control.Z_EXTRA, 0.6);
+// Addd maximum limit to udp input _control
+_control.X_EXTRA 		:= LIMIT(-0.6, control.X_EXTRA, 0.6);
+_control.Y_EXTRA 		:= LIMIT(-0.6, control.Y_EXTRA, 0.6);
+_control.Z_EXTRA 		:= LIMIT(-0.6, control.Z_EXTRA, 0.6);
 
-_Control.PSI_EXTRA 		:= LIMIT(-10.0/180.0*Pi, Control.PSI_EXTRA, 10.0/180.0*Pi);
-_Control.THETA_EXTRA 	:= LIMIT(-10.0/180.0*Pi, Control.THETA_EXTRA, 10.0/180.0*Pi);
-_Control.PHI_EXTRA 		:= LIMIT(-10.0/180.0*Pi, Control.PHI_EXTRA, 10.0/180.0*Pi);
+_control.PSI_EXTRA 		:= LIMIT(-10.0/180.0*Pi, control.PSI_EXTRA, 10.0/180.0*Pi);
+_control.THETA_EXTRA 	:= LIMIT(-10.0/180.0*Pi, control.THETA_EXTRA, 10.0/180.0*Pi);
+_control.PHI_EXTRA 		:= LIMIT(-10.0/180.0*Pi, control.PHI_EXTRA, 10.0/180.0*Pi);
 
-_Control.COUNT := _Control.COUNT + 1;
+_control.COUNT 			:= _control.COUNT + 1;
 
 UdpIO();
 
@@ -48,7 +48,10 @@ UdpIO();
 ]]></ST>
     </Implementation>
     <LineIds Name="EM8000">
-      <LineId Id="95" Count="18" />
+      <LineId Id="95" Count="7" />
+      <LineId Id="104" Count="0" />
+      <LineId Id="137" Count="0" />
+      <LineId Id="105" Count="8" />
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
