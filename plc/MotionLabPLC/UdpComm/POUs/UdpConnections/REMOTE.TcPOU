@@ -8,19 +8,32 @@ VAR
 	
 	UdpIO			: UdpClient(3232258620, 50060, 50050, SIZEOF(feedback), ADR(feedback), SIZEOF(control), ADR(control));
 	
-	
 	enabled			: BOOL := FALSE;
-	test:REAL;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[// Control data
 IF (control.udp_key <> 81549300) AND enabled THEN
-	// EM1500
-	
+	// COMAU
+	COMAU.control.q1 := control.comau.q1;
+	COMAU.control.q2 := control.comau.q2;
+	COMAU.control.q3 := control.comau.q3;
+	COMAU.control.q4 := control.comau.q4;
+	COMAU.control.q5 := control.comau.q5;
+	COMAU.control.q6 := control.comau.q6;
+	COMAU.control.q1_t := control.comau.q1_t;
+	COMAU.control.q2_t := control.comau.q2_t;
+	COMAU.control.q3_t := control.comau.q3_t;
+	COMAU.control.q4_t := control.comau.q4_t;
+	COMAU.control.q5_t := control.comau.q5_t;
+	COMAU.control.q6_t := control.comau.q6_t;
+	COMAU.control.q1_tt := control.comau.q1_tt;
+	COMAU.control.q2_tt := control.comau.q2_tt;
+	COMAU.control.q3_tt := control.comau.q3_tt;
+	COMAU.control.q4_tt := control.comau.q4_tt;
+	COMAU.control.q5_tt := control.comau.q5_tt;
+	COMAU.control.q6_tt := control.comau.q6_tt;
 END_IF
-
-test := pi;
 
 // Time with overflow check
 feedback.t := feedback.t + 1.0/1000.0;
@@ -32,8 +45,7 @@ END_IF
 // EM8000
 feedback.em8000.x := EM8000.feedback.Actual_platform_position_surge;
 feedback.em8000.y := EM8000.feedback.Actual_platform_position_sway;
-//feedback.em8000.z := EM8000.feedback.Actual_platform_position_heave;
-feedback.em8000.z := SIN(2*3.14*feedback.t);
+feedback.em8000.z := EM8000.feedback.Actual_platform_position_heave;
 feedback.em8000.roll := EM8000.feedback.Actual_platform_position_roll;
 feedback.em8000.pitch := EM8000.feedback.Actual_platform_position_pitch;
 feedback.em8000.yaw	:= EM8000.feedback.Actual_platform_position_yaw;
@@ -153,18 +165,18 @@ feedback.mru2.x_tt := MRU2.feedback.AccMru_R;
 feedback.mru2.y_tt := MRU2.feedback.AccMru_P;
 feedback.mru2.z_tt := MRU2.feedback.AccMru_Y;
 
-
 UdpIO();
 ]]></ST>
     </Implementation>
     <LineIds Name="REMOTE">
-      <LineId Id="530" Count="3" />
-      <LineId Id="871" Count="1" />
-      <LineId Id="560" Count="7" />
+      <LineId Id="530" Count="1" />
+      <LineId Id="873" Count="0" />
+      <LineId Id="892" Count="16" />
+      <LineId Id="533" Count="0" />
+      <LineId Id="871" Count="0" />
+      <LineId Id="561" Count="6" />
       <LineId Id="704" Count="0" />
-      <LineId Id="833" Count="2" />
-      <LineId Id="870" Count="0" />
-      <LineId Id="836" Count="20" />
+      <LineId Id="833" Count="23" />
       <LineId Id="705" Count="0" />
       <LineId Id="568" Count="0" />
       <LineId Id="809" Count="23" />
@@ -176,7 +188,6 @@ UdpIO();
       <LineId Id="730" Count="21" />
       <LineId Id="772" Count="19" />
       <LineId Id="752" Count="0" />
-      <LineId Id="534" Count="0" />
       <LineId Id="536" Count="1" />
       <LineId Id="5" Count="0" />
     </LineIds>

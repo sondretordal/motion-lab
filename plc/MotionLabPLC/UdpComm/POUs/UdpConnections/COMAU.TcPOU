@@ -24,12 +24,27 @@ _control.udp_key		:= 32;
 _control.mode 			:= control.mode;
 _control.beta 			:= control.beta;
 _control.omega 			:= control.omega;
+
 _control.q1			 	:= control.q1;
 _control.q2				:= control.q2;
 _control.q3				:= control.q3;
 _control.q4				:= control.q4;
 _control.q5				:= control.q5;
 _control.q6				:= control.q6;
+
+_control.q1_t			:= control.q1_t;
+_control.q2_t			:= control.q2_t;
+_control.q3_t			:= control.q3_t;
+_control.q4_t			:= control.q4_t;
+_control.q5_t			:= control.q5_t;
+_control.q6_t			:= control.q6_t;
+
+_control.q1_tt		 	:= control.q1_tt;
+_control.q2_tt			:= control.q2_tt;
+_control.q3_tt			:= control.q3_tt;
+_control.q4_tt			:= control.q4_tt;
+_control.q5_tt			:= control.q5_tt;
+_control.q6_tt			:= control.q6_tt;
 
 
 
@@ -38,7 +53,10 @@ UdpIO();]]></ST>
     <LineIds Name="COMAU">
       <LineId Id="17" Count="0" />
       <LineId Id="21" Count="0" />
-      <LineId Id="52" Count="8" />
+      <LineId Id="52" Count="2" />
+      <LineId Id="76" Count="0" />
+      <LineId Id="55" Count="5" />
+      <LineId Id="77" Count="13" />
       <LineId Id="23" Count="0" />
       <LineId Id="19" Count="1" />
       <LineId Id="18" Count="0" />
