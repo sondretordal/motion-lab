@@ -11,6 +11,7 @@ JsonLogger::~JsonLogger() {
 void JsonLogger::clear() {
     feedback.clear();
     control.clear();
+    json_log.clear();
 }
 
 void JsonLogger::save(std::string path) {

@@ -13,16 +13,19 @@ HmiInterface::~HmiInterface() {
     clear_log();
 }
 
-void HmiInterface::start_log() {
-    update_data = true;
+void HmiInterface::start_log(std::string update_rate) {
+    ms_rate = static_cast<unsigned int>(std::stoi(update_rate));
+    logging = true;
 }
+
 void HmiInterface::clear_log() {
-    update_data = false;
+    logging = false;
     logger.clear();
 }
 void HmiInterface::save_log(std::string path) {
-    update_data = false;
+    logging = false;
     logger.save(path);
+    logger.clear();
 }
 
 void HmiInterface::start() {
@@ -48,16 +51,19 @@ void HmiInterface::run() {
         server.check_received();
         mutex.unlock();
 
+        // Update ms_counter
+        ms_counter++;
+      
         // Update public feedback and control data
         feedback = rx_data.feedback;
         rx_data.control = control;
         
-        if (update_data) {
+        if (logging && (ms_counter >= ms_rate)) {
             // Append new data to JSON log
             logger.feedback.push_back(rx_data.feedback);
             logger.control.push_back(rx_data.control);
+
+            ms_counter = 0;
         }
-        
-        
     }
 }

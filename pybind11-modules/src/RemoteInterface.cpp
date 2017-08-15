@@ -12,14 +12,14 @@ RemoteInterface::~RemoteInterface() {
 }
 
 void RemoteInterface::start_log() {
-    update_data = true;
+    logging = true;
 }
 void RemoteInterface::clear_log() {
-    update_data = false;
+    logging = false;
     logger.clear();
 }
 void RemoteInterface::save_log(std::string path) {
-    update_data = false;
+    logging = false;
     logger.save(path);
 }
 
@@ -50,10 +50,12 @@ void RemoteInterface::run() {
             // Update public feedback and control data
             feedback = rx_data;
             tx_data = control;
-        
-            // Append new data to JSON log
-            logger.feedback.push_back(feedback);
-            logger.control.push_back(control);
+            
+            if (logging) {
+                // Append new data to JSON log
+                logger.feedback.push_back(feedback);
+                logger.control.push_back(control);
+            }
             
             update_data = false;
 

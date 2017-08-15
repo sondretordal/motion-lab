@@ -27,7 +27,9 @@ private:
 
     // Logging feature
     JsonLogger logger;
-    bool update_data = false;
+    bool logging = false;
+    unsigned int ms_counter = 0;
+    unsigned int ms_rate = 1;
 
     // Hmi data
     RxData rx_data;
@@ -47,7 +49,7 @@ public:
     void close();
     void update();
 
-    void start_log();
+    void start_log(std::string update_rate);
     void clear_log();
     void save_log(std::string path);
 };

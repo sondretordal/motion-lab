@@ -19,6 +19,7 @@ private:
 
     // Logging feature
     JsonLogger logger;
+    bool logging = false;
     bool update_data = false;
 
     // Remote interface data

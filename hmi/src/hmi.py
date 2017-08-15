@@ -129,6 +129,7 @@ class GUI(QMainWindow, gui_main):
         self.EM1500_plot.nextRow()
 
         self.EM1500_2 = RealTimePlot(self.EM1500_plot.addPlot())
+        self.EM1500_2.plot.setYRange(-5, 5)
         self.EM1500_2.plot.setLabel('left', 'Angle', 'deg')
         self.EM1500_2.add_curves(['r', 'g', 'b'], ['Roll', 'Pitch', 'Yaw'])
         self.EM1500_2.add_text_displays([self.EM1500_output_ang_r, self.EM1500_output_ang_p, self.EM1500_output_ang_y])
@@ -142,6 +143,7 @@ class GUI(QMainWindow, gui_main):
 
         self.EM8000_2 = RealTimePlot(self.EM8000_plot.addPlot())
         self.EM8000_2.plot.setLabel('left', 'Angle', 'deg')
+        self.EM8000_2.plot.setYRange(-5, 5)
         self.EM8000_2.add_curves(['r', 'g', 'b'], ['Roll', 'Pitch', 'Yaw'])
         self.EM8000_2.add_text_displays([self.EM8000_output_ang_r, self.EM8000_output_ang_p, self.EM8000_output_ang_y])
 
@@ -231,16 +233,12 @@ class GUI(QMainWindow, gui_main):
 
         # Logging Tab:
         #----------------------------------------------------------#
-        # Testing checkBox and groupBox functions
-        self.checkBox_general.stateChanged.connect(self.checkbox_func)
-        self.checkBox_EM8000.stateChanged.connect(self.checkbox_func)
-        self.checkBox_EM1500.stateChanged.connect(self.checkbox_func)
-        self.checkBox_COMAU.stateChanged.connect(self.checkbox_func)
+        self.start_log_btn.clicked.connect(lambda: self.udp.start_log(self.log_ms_rate.currentText()))
+        self.clear_log_btn.clicked.connect(lambda: self.udp.clear_log())
+        self.save_log_btn.clicked.connect(lambda: self.udp.save_log(self.log_path.toPlainText()))
 
     # Update data and plot
     def update_data(self):
-        #self.udp.update()
-
         # Update real time plots
         self.EM1500_1.time_range = self.time_range
         self.EM1500_1.update(self.udp.feedback.t, [
@@ -248,7 +246,9 @@ class GUI(QMainWindow, gui_main):
             ])
         self.EM1500_2.time_range = self.time_range
         self.EM1500_2.update(self.udp.feedback.t, [
-                self.udp.feedback.em1500.roll, self.udp.feedback.em1500.pitch, self.udp.feedback.em1500.yaw
+                self.udp.feedback.em1500.roll/np.pi*180.0,
+                self.udp.feedback.em1500.pitch/np.pi*180.0,
+                self.udp.feedback.em1500.yaw/np.pi*180.0
             ])
 
         self.EM8000_1.time_range = self.time_range
@@ -257,7 +257,9 @@ class GUI(QMainWindow, gui_main):
             ])
         self.EM8000_2.time_range = self.time_range
         self.EM8000_2.update(self.udp.feedback.t, [
-                self.udp.feedback.em8000.roll, self.udp.feedback.em8000.pitch, self.udp.feedback.em8000.yaw
+                self.udp.feedback.em8000.roll/np.pi*180.0,
+                self.udp.feedback.em8000.pitch/np.pi*180.0,
+                self.udp.feedback.em8000.yaw/np.pi*180.0
             ])
         
         self.COMAU.time_range = self.time_range
@@ -300,40 +302,6 @@ class GUI(QMainWindow, gui_main):
         self.EM1500_plot_time_range.setCurrentIndex(val)
         self.COMAU_plot_time_range.setCurrentIndex(val)
 
-    # Logging tab checkboxes
-    def checkbox_func(self):
-        selected_box = self.sender()
-
-        if selected_box.text() == "General":
-            if selected_box.isChecked() == True:
-                
-                self.groupBox_log_general.setEnabled(True)
-            else:
-                
-                self.groupBox_log_general.setEnabled(False)
-        if selected_box.text() == "EM8000":
-            if selected_box.isChecked() == True:
-                
-                self.groupBox_log_EM8000.setEnabled(True)
-            else:
-                
-                self.groupBox_log_EM8000.setEnabled(False)
-        if selected_box.text() == "EM1500":
-            if selected_box.isChecked() == True:
-                
-                self.groupBox_log_EM1500.setEnabled(True)
-            else:
-                
-                self.groupBox_log_EM1500.setEnabled(False)
-
-        if selected_box.text() == "COMAU":
-            if selected_box.isChecked() == True:
-                
-                self.groupBox_log_COMAU.setEnabled(True)
-            else:
-                
-                self.groupBox_log_COMAU.setEnabled(False)
-
     # Main Tab selector
     # (with password protection on admin-tab)
     def tab_selector(self):
@@ -361,7 +329,10 @@ class GUI(QMainWindow, gui_main):
                 msg.setWindowTitle("Access Denied")
                 msg.exec_()
                 return False
-        
+    # Log functions
+    def start_log(self):
+        udp.start_log()
+
     # EM 8000 button functions
     def EM8000_settled(self):
         self.EM8000_settled_btn.setStyleSheet("background-color: #cccccc")
