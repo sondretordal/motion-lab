@@ -1,8 +1,6 @@
 #pragma once
 
 #include <iostream>
-#include <thread>
-#include <mutex>
 #include <winsock2.h>
 
 #define WIN32_LEAN_AND_MEAN

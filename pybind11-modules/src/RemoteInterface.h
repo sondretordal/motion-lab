@@ -1,5 +1,8 @@
 #pragma once
 
+#include <thread>
+#include <mutex>
+
 #include "UdpServer.h"
 #include "JsonLogger.h"
 #include "DataStructures.h"

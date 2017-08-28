@@ -28,15 +28,15 @@ ShipSimulator::ShipSimulator() : dist(mean, stddev) {
 }
 
 ShipSimulator::~ShipSimulator() {
-
+    stop();
 }
 
-void ShipSimulator::simulate() {
+void ShipSimulator::integrate() {
     // Apply numerical integration using RK4 solver
-    k1 = ode_fun(t, states);
-    k2 = ode_fun(t + dt/2, states + dt/2*k1);
-    k3 = ode_fun(t + dt/2, states + dt/2*k2);
-    k4 = ode_fun(t + dt, states + dt*k3);
+    k1 = ode(t, states);
+    k2 = ode(t + dt/2, states + dt/2*k1);
+    k3 = ode(t + dt/2, states + dt/2*k2);
+    k4 = ode(t + dt, states + dt*k3);
     states = states + dt/6*(k1 + 2*k2 + 2*k3 + k4);
 
     // Increment time by time step
@@ -59,7 +59,7 @@ void ShipSimulator::simulate() {
     r = states(11);
 }
 
-Eigen::VectorXd ShipSimulator::ode_fun(double t, Eigen::VectorXd y) {
+Eigen::VectorXd ShipSimulator::ode(double t, Eigen::VectorXd y) {
     Eigen::VectorXd y_t;
     Eigen::VectorXd eta, eta_t;
     Eigen::VectorXd v, v_t;

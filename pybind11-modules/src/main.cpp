@@ -160,7 +160,8 @@ PYBIND11_PLUGIN(MotionLab) {
 	// Ship simulator
 	py::class_<ShipSimulator>(m, "ShipSimulator")
 		.def(py::init<>())
-		.def("simulate", &ShipSimulator::simulate)
+		.def("start", &ShipSimulator::start)
+		.def("stop", &ShipSimulator::stop)
 		.def_readonly("x", &ShipSimulator::x)
 		.def_readonly("y", &ShipSimulator::y)
 		.def_readonly("z", &ShipSimulator::z)
@@ -185,10 +186,5 @@ int main(int argc, char** argv)
 {	
 	
 
-	ShipSimulator s;
-	
-	while (s.t <= 15.0) {
-		s.simulate();
-	}
 	
 }
