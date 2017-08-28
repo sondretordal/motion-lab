@@ -5,9 +5,7 @@
 #include "UdpServer.h"
 #include "RemoteInterface.h"
 #include "HmiInterface.h"
-
-
-
+#include "ShipSimulator.h"
 
 namespace py = pybind11;
 
@@ -159,6 +157,25 @@ PYBIND11_PLUGIN(MotionLab) {
 		.def_readonly("feedback", &HmiInterface::feedback)
 		.def_readwrite("control", &HmiInterface::control);
 	
+	// Ship simulator
+	py::class_<ShipSimulator>(m, "ShipSimulator")
+		.def(py::init<>())
+		.def("simulate", &ShipSimulator::simulate)
+		.def_readonly("x", &ShipSimulator::x)
+		.def_readonly("y", &ShipSimulator::y)
+		.def_readonly("z", &ShipSimulator::z)
+		.def_readonly("roll", &ShipSimulator::roll)
+		.def_readonly("pitch", &ShipSimulator::pitch)
+		.def_readonly("yaw", &ShipSimulator::yaw)
+		.def_readonly("u", &ShipSimulator::u)
+		.def_readonly("v", &ShipSimulator::v)
+		.def_readonly("w", &ShipSimulator::w)
+		.def_readonly("p", &ShipSimulator::p)
+		.def_readonly("q", &ShipSimulator::q)
+		.def_readonly("r", &ShipSimulator::r);
+		
+
+
 	// Return module
 	return m.ptr();
 }
@@ -166,17 +183,12 @@ PYBIND11_PLUGIN(MotionLab) {
 
 int main(int argc, char** argv)
 {	
-	// Check for little or big endian
-	int num = 1;
-	if(*(char *)&num == 1)
-	{	
-		printf("\nLittle-Endian\n");
-	}
-	else
-	{
-		printf("Big-Endian\n");
-	}
+	
 
-
-	return 0;
+	ShipSimulator s;
+	
+	while (s.t <= 15.0) {
+		s.simulate();
+	}
+	
 }

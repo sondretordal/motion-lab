@@ -12,6 +12,7 @@ add_executable(main
   HmiInterface.cpp
   RemoteInterface.cpp
   JsonLogger.cpp
+  ShipSimulator.cpp
 )
 
 target_link_libraries(main
@@ -25,6 +26,7 @@ add_library(${CMAKE_PROJECT_NAME} SHARED
   HmiInterface.cpp
   RemoteInterface.cpp
   JsonLogger.cpp
+  ShipSimulator.cpp
 )
 
 target_link_libraries(${CMAKE_PROJECT_NAME}
