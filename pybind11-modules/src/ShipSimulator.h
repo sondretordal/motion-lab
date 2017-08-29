@@ -2,6 +2,7 @@
 #include <iostream>
 #include <iterator>
 #include <chrono>
+#include <ctime>
 #include <random>
 #include <thread>
 #include <mutex>
@@ -24,13 +25,19 @@ private:
     // Inverse mass matrix
     Eigen::MatrixXd Minv = Eigen::MatrixXd::Zero(6, 6);
 
+    // Linearized wave force model
+    Eigen::Matrix2d A = Eigen::MatrixXd::Zero(2, 2);
+    Eigen::Vector2d B = Eigen::MatrixXd::Zero(2, 1);
+    Eigen::RowVector2d C = Eigen::MatrixXd::Zero(1, 2);
+    Eigen::VectorXd K = Eigen::MatrixXd::Zero(6, 1);
+
     // Simulation time step
     const double dt = 5.0/1000.0;
-    typedef std::chrono::high_resolution_clock time;
-    typedef std::chrono::milliseconds milliseconds;
-    typedef std::chrono::duration<float> duration;
-    duration elapsed;
-    milliseconds dt_ms;
+    typedef std::chrono::steady_clock clock;
+
+    std::chrono::duration<double> elapsed;
+    std::chrono::time_point<std::chrono::steady_clock> t0, t1;
+    std::time_t time;
     
     // Kinematic functions
     Eigen::Matrix3d Rx(double x);
@@ -59,6 +66,17 @@ public:
     // Constructor and destructor
     ShipSimulator();
     ~ShipSimulator();
+
+    // Linearized wave parameters
+    double w0 = 0.43567;
+    double Lambda = 0.10190;
+    double sigma = 5.33101;
+    double K1 = 0.0;
+    double K2 = 0.0;
+    double K3 = 1.6e8;
+    double K4 = 2e7;
+    double K5 = 5e6;
+    double K6 = 0.0;
 
     // Simulation results
     double t = 0.0;

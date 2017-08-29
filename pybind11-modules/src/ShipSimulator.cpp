@@ -25,11 +25,6 @@ ShipSimulator::ShipSimulator() : dist(mean, stddev), thread() {
 
     // Calculate inverse mass matrix
     Minv = M.inverse();
-
-    states(2) = 10.0;
-
-    // Cast time step into chrono milliseconds format
-    dt_ms = std::chrono::duration_cast<milliseconds>(static_cast<duration>(dt));
 }
 
 ShipSimulator::~ShipSimulator() {
@@ -43,49 +38,49 @@ void ShipSimulator::run() {
     Eigen::VectorXd k3;
     Eigen::VectorXd k4;
     
-    
+    // Start time
+    t0 = clock::now();
+
     while (running) {
-        // Start time
-        auto t0 = time::now();
+        t1 = clock::now();
+        elapsed = t1 - t0;
 
-        // Apply numerical integration using RK4 solver
-        k1 = ode(t, states);
-        k2 = ode(t + dt/2, states + dt/2*k1);
-        k3 = ode(t + dt/2, states + dt/2*k2);
-        k4 = ode(t + dt, states + dt*k3);
-        states = states + dt/6*(k1 + 2*k2 + 2*k3 + k4);
+        
 
-        // Assign public data
-        mutex.lock();
-            // Update time
-            t = t + dt;
-            
-            // Position states
-            x = states(0);
-            y = states(1);
-            z = states(2);
-            roll = states(3);
-            pitch = states(4);
-            yaw = states(5);
+        if (elapsed.count() > 0.0) {
+            if (elapsed.count() >= t) {
+                // Apply numerical integration using RK4 solver
+                k1 = ode(t, states);
+                k2 = ode(t + dt/2, states + dt/2*k1);
+                k3 = ode(t + dt/2, states + dt/2*k2);
+                k4 = ode(t + dt, states + dt*k3);
+                states = states + dt/6*(k1 + 2*k2 + 2*k3 + k4);
 
-            // Velocity states
-            u = states(6);
-            v = states(7);
-            w = states(8);
-            p = states(9);
-            q = states(10);
-            r = states(11);
-        mutex.unlock();
+                // Assign public data
+                mutex.lock();
+                // Update time
+                t = t + dt;
+                
+                // Position states
+                x = states(0);
+                y = states(1);
+                z = states(2);
+                roll = states(3);
+                pitch = states(4);
+                yaw = states(5);
 
-        // Calculate elapsed simulation time
-        auto t1 = time::now();
-        elapsed = abs(t1 - t0);
-
-        // Synchronize loop to real time
-        if (elapsed < dt_ms) {   
-            std::this_thread::sleep_for(dt_ms - elapsed);
+                // Velocity states
+                u = states(6);
+                v = states(7);
+                w = states(8);
+                p = states(9);
+                q = states(10);
+                r = states(11);
+                mutex.unlock();
+            }
         } else {
-            std::cout << "Timestep violated" << std::endl;
+            // Set all wave gains to zero in case of time overflow
+            
         }
     }
 }
@@ -109,6 +104,26 @@ Eigen::VectorXd ShipSimulator::ode(double t, Eigen::VectorXd y) {
     eta = y.block<6, 1>(0, 0);
     v = y.block<6, 1>(6, 0);
     x = y.block<12, 1>(12, 0);
+
+    // Calcualate wave spectrum
+    A(0, 1) = 1.0;
+    A(1, 0) = -w0*w0;
+    A(1, 1) = -2.0*abs(Lambda*w0);
+    B(1, 0) = 2.0*abs(Lambda*w0*sigma);
+    C(0, 1) = 1.0;
+
+    // Assing wave gains
+    K[0] = K1;
+    K[1] = K2;
+    K[2] = K3;
+    K[3] = K4;
+    K[4] = K5;
+    K[5] = K6;
+
+    for (int dof = 0; dof < tau_wave.rows(); dof++) {
+        tau_wave(dof, 0) = K(dof)*C*x.block<2, 1>(dof*2, 0);
+        x_t.block<2, 1>(dof*2, 0) = A*x.block<2, 1>(dof*2, 0) + B*dist(generator);
+    }
     
     // Apply rigid ship body kienamtics
     phi = eta.block<3, 1>(3, 0);
