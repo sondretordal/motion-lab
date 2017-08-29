@@ -1,6 +1,7 @@
 // Pybind includes
 #include <pybind11/pybind11.h>
 
+
 // Classes
 #include "UdpServer.h"
 #include "RemoteInterface.h"
@@ -161,7 +162,8 @@ PYBIND11_PLUGIN(MotionLab) {
 	py::class_<ShipSimulator>(m, "ShipSimulator")
 		.def(py::init<>())
 		.def("start", &ShipSimulator::start)
-		.def("stop", &ShipSimulator::stop)
+		.def("close", &ShipSimulator::close)
+		.def_readonly("t", &ShipSimulator::t)
 		.def_readonly("x", &ShipSimulator::x)
 		.def_readonly("y", &ShipSimulator::y)
 		.def_readonly("z", &ShipSimulator::z)
@@ -186,5 +188,4 @@ int main(int argc, char** argv)
 {	
 	
 
-	
 }

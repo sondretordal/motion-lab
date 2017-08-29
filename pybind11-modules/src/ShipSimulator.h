@@ -25,7 +25,12 @@ private:
     Eigen::MatrixXd Minv = Eigen::MatrixXd::Zero(6, 6);
 
     // Simulation time step
-    const double dt = 10.0/1000.0;
+    const double dt = 5.0/1000.0;
+    typedef std::chrono::high_resolution_clock time;
+    typedef std::chrono::milliseconds milliseconds;
+    typedef std::chrono::duration<float> duration;
+    duration elapsed;
+    milliseconds dt_ms;
     
     // Kinematic functions
     Eigen::Matrix3d Rx(double x);
@@ -39,13 +44,7 @@ private:
     Eigen::VectorXd ode(double t, Eigen::VectorXd y);
 
     // Execute simulation for one time step dt
-    void integrate();
-
-    // Temp data for Runge Kutta 4 solver
-    Eigen::VectorXd k1;
-    Eigen::VectorXd k2;
-    Eigen::VectorXd k3;
-    Eigen::VectorXd k4;
+    void run();
 
     // Zero mean gaussian noise
     const double mean = 0.0;
@@ -77,9 +76,15 @@ public:
     double r = 0.0;
 
     void start() {
-
+        running = true;
+        thread = std::thread(&ShipSimulator::run, this);
     }
-    void stop() {
 
+    void close() {
+        running = false;
+        if (thread.joinable()) {
+            thread.join();
+            std::cout << "Thread joined sucessfully!" << std::endl;
+        }
     }
 };

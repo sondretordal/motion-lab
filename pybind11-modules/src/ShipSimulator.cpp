@@ -1,6 +1,6 @@
 #include "ShipSimulator.h"
 
-ShipSimulator::ShipSimulator() : dist(mean, stddev) {
+ShipSimulator::ShipSimulator() : dist(mean, stddev), thread() {
     // Fill constant model matrices according to supply.mat form Fossen's work
     M <<  6.82e+06,   0.00e+00,   0.00e+00,   0.00e+00,  -8.27e+06,  0.00e+00,
           0.00e+00,   7.88e+06,   0.00e+00,   1.13e+07,   0.00e+00, -2.60e+06,
@@ -25,38 +25,69 @@ ShipSimulator::ShipSimulator() : dist(mean, stddev) {
 
     // Calculate inverse mass matrix
     Minv = M.inverse();
+
+    states(2) = 10.0;
+
+    // Cast time step into chrono milliseconds format
+    dt_ms = std::chrono::duration_cast<milliseconds>(static_cast<duration>(dt));
 }
 
 ShipSimulator::~ShipSimulator() {
-    stop();
+    close();
 }
 
-void ShipSimulator::integrate() {
-    // Apply numerical integration using RK4 solver
-    k1 = ode(t, states);
-    k2 = ode(t + dt/2, states + dt/2*k1);
-    k3 = ode(t + dt/2, states + dt/2*k2);
-    k4 = ode(t + dt, states + dt*k3);
-    states = states + dt/6*(k1 + 2*k2 + 2*k3 + k4);
+void ShipSimulator::run() {
+    // Temp data for runge kutta solver
+    Eigen::VectorXd k1;
+    Eigen::VectorXd k2;
+    Eigen::VectorXd k3;
+    Eigen::VectorXd k4;
+    
+    
+    while (running) {
+        // Start time
+        auto t0 = time::now();
 
-    // Increment time by time step
-    t = t + dt;
+        // Apply numerical integration using RK4 solver
+        k1 = ode(t, states);
+        k2 = ode(t + dt/2, states + dt/2*k1);
+        k3 = ode(t + dt/2, states + dt/2*k2);
+        k4 = ode(t + dt, states + dt*k3);
+        states = states + dt/6*(k1 + 2*k2 + 2*k3 + k4);
 
-    // Position states
-    x = states(0);
-    y = states(1);
-    z = states(2);
-    roll = states(3);
-    pitch = states(4);
-    yaw = states(5);
+        // Assign public data
+        mutex.lock();
+            // Update time
+            t = t + dt;
+            
+            // Position states
+            x = states(0);
+            y = states(1);
+            z = states(2);
+            roll = states(3);
+            pitch = states(4);
+            yaw = states(5);
 
-    // Velocity states
-    u = states(6);
-    v = states(7);
-    w = states(8);
-    p = states(9);
-    q = states(10);
-    r = states(11);
+            // Velocity states
+            u = states(6);
+            v = states(7);
+            w = states(8);
+            p = states(9);
+            q = states(10);
+            r = states(11);
+        mutex.unlock();
+
+        // Calculate elapsed simulation time
+        auto t1 = time::now();
+        elapsed = abs(t1 - t0);
+
+        // Synchronize loop to real time
+        if (elapsed < dt_ms) {   
+            std::this_thread::sleep_for(dt_ms - elapsed);
+        } else {
+            std::cout << "Timestep violated" << std::endl;
+        }
+    }
 }
 
 Eigen::VectorXd ShipSimulator::ode(double t, Eigen::VectorXd y) {
