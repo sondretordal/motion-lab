@@ -1,6 +1,6 @@
 #include "ShipSimulator.h"
 
-ShipSimulator::ShipSimulator() : dist(mean, stddev), thread() {
+ShipSimulator::ShipSimulator() : thread() {
     // Fill constant model matrices according to supply.mat form Fossen's work
     M <<  6.82e+06,   0.00e+00,   0.00e+00,   0.00e+00,  -8.27e+06,  0.00e+00,
           0.00e+00,   7.88e+06,   0.00e+00,   1.13e+07,   0.00e+00, -2.60e+06,
@@ -23,12 +23,28 @@ ShipSimulator::ShipSimulator() : dist(mean, stddev), thread() {
           0.00e+00,   0.00e+00,   7.07e+07,   0.00e+00,   6.47e+09,  0.00e+00,
           0.00e+00,   0.00e+00,   0.00e+00,   0.00e+00,   0.00e+00,  0.00e+00;
 
+    // Set all states to zero
+    states = Eigen::VectorXd::Zero(24, 1);
+
     // Calculate inverse mass matrix
     Minv = M.inverse();
 }
 
 ShipSimulator::~ShipSimulator() {
     close();
+}
+
+void ShipSimulator::start() {
+    running = true;
+    thread = std::thread(&ShipSimulator::run, this);
+}
+
+void ShipSimulator::close()  {
+    running = false;
+    if (thread.joinable()) {
+        thread.join();
+        std::cout << "Thread joined sucessfully!" << std::endl;
+    }
 }
 
 void ShipSimulator::run() {
@@ -42,55 +58,47 @@ void ShipSimulator::run() {
     t0 = clock::now();
 
     while (running) {
+        // Apply numerical integration using RK4 solver
+        k1 = ode(t, states);
+        k2 = ode(t + dt/2, states + dt/2*k1);
+        k3 = ode(t + dt/2, states + dt/2*k2);
+        k4 = ode(t + dt, states + dt*k3);
+        states = states + dt/6*(k1 + 2*k2 + 2*k3 + k4);
+
         t1 = clock::now();
         elapsed = t1 - t0;
 
-        
-
-        if (elapsed.count() > 0.0) {
-            if (elapsed.count() >= t) {
-                // Apply numerical integration using RK4 solver
-                k1 = ode(t, states);
-                k2 = ode(t + dt/2, states + dt/2*k1);
-                k3 = ode(t + dt/2, states + dt/2*k2);
-                k4 = ode(t + dt, states + dt*k3);
-                states = states + dt/6*(k1 + 2*k2 + 2*k3 + k4);
-
-                // Assign public data
-                mutex.lock();
-                // Update time
-                t = t + dt;
-                
-                // Position states
-                x = states(0);
-                y = states(1);
-                z = states(2);
-                roll = states(3);
-                pitch = states(4);
-                yaw = states(5);
-
-                // Velocity states
-                u = states(6);
-                v = states(7);
-                w = states(8);
-                p = states(9);
-                q = states(10);
-                r = states(11);
-                mutex.unlock();
-            }
-        } else {
-            // Set all wave gains to zero in case of time overflow
+        // Assign public data
+        mutex.lock();
+            // Update time
+            t = elapsed.count();
             
-        }
+            // Position states
+            x = states(0);
+            y = states(1);
+            z = states(2);
+            roll = states(3);
+            pitch = states(4);
+            yaw = states(5);
+
+            // Velocity states
+            u = states(6);
+            v = states(7);
+            w = states(8);
+            p = states(9);
+            q = states(10);
+            r = states(11);
+        mutex.unlock();
+
+        // Sleep loop
+        std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<unsigned int>(dt*1000.0)));
     }
 }
 
-Eigen::VectorXd ShipSimulator::ode(double t, Eigen::VectorXd y) {
-    Eigen::VectorXd y_t;
-    Eigen::VectorXd eta, eta_t;
-    Eigen::VectorXd v, v_t;
-    Eigen::VectorXd x, x_t;
-    Eigen::VectorXd tau, tau_wave;
+Eigen::Matrix<double, 24, 1> ShipSimulator::ode(double t, Eigen::Matrix<double, 24, 1> y) {
+    Eigen::Matrix<double, 24, 1> y_t;
+    Eigen::Matrix<double, 12, 1> x, x_t;
+    Eigen::Matrix<double, 6, 1> eta, eta_t, v, v_t, tau, tau_wave;
     Eigen::Vector3d phi;
 
     // Fill x_t with zeros to define size
@@ -143,8 +151,8 @@ Eigen::VectorXd ShipSimulator::ode(double t, Eigen::VectorXd y) {
 }
 
 // Kinematics functions
-Eigen::Matrix3d ShipSimulator::Rx(double x) {
-    Eigen::Matrix3d R;
+Eigen::Matrix<double, 3, 3> ShipSimulator::Rx(double x) {
+    Eigen::Matrix<double, 3, 3> R;
 
     R <<  1,       0,       0,
           0,  cos(x), -sin(x),
@@ -153,8 +161,8 @@ Eigen::Matrix3d ShipSimulator::Rx(double x) {
     return R;
 }
 
-Eigen::Matrix3d ShipSimulator::Ry(double x) {
-    Eigen::Matrix3d R;
+Eigen::Matrix<double, 3, 3> ShipSimulator::Ry(double x) {
+    Eigen::Matrix<double, 3, 3> R;
 
     R <<  cos(x),  0,  sin(x),
                0,  1,       0,
@@ -163,8 +171,8 @@ Eigen::Matrix3d ShipSimulator::Ry(double x) {
     return R;
 }
 
-Eigen::Matrix3d ShipSimulator::Rz(double x) {
-    Eigen::Matrix3d R;
+Eigen::Matrix<double, 3, 3> ShipSimulator::Rz(double x) {
+    Eigen::Matrix<double, 3, 3> R;
 
     R <<  cos(x), -sin(x),  0,
           sin(x),  cos(x),  0,
@@ -173,8 +181,8 @@ Eigen::Matrix3d ShipSimulator::Rz(double x) {
     return R;
 }
 
-Eigen::Matrix3d ShipSimulator::Rnb(Eigen::Vector3d phi) {
-    Eigen::Matrix3d R;
+Eigen::Matrix<double, 3, 3> ShipSimulator::Rnb(Eigen::Vector3d phi) {
+    Eigen::Matrix<double, 3, 3> R;
 
     double rx = phi(0);
     double ry = phi(1);
@@ -185,8 +193,8 @@ Eigen::Matrix3d ShipSimulator::Rnb(Eigen::Vector3d phi) {
     return R;
 }
 
-Eigen::Matrix3d ShipSimulator::Tphi(Eigen::Vector3d phi) {
-    Eigen::Matrix3d T;
+Eigen::Matrix<double, 3, 3> ShipSimulator::Tphi(Eigen::Vector3d phi) {
+    Eigen::Matrix<double, 3, 3> T;
 
     double rx = phi(0);
     double ry = phi(1);
@@ -198,8 +206,8 @@ Eigen::Matrix3d ShipSimulator::Tphi(Eigen::Vector3d phi) {
     return T;
 }
 
-Eigen::MatrixXd ShipSimulator::Jphi(Eigen::Vector3d phi) {
-    Eigen::MatrixXd J = Eigen::MatrixXd::Zero(6, 6);
+Eigen::Matrix<double, 6, 6> ShipSimulator::Jphi(Eigen::Vector3d phi) {
+    Eigen::Matrix<double, 6, 6> J = Eigen::MatrixXd::Zero(6, 6);
 
     if (cos(phi(1)) == 0.0) {
         std::cout << "Singular for theta = +-90 degrees" << std::endl;

@@ -9,8 +9,8 @@ import json
 s = MotionLab.ShipSimulator()
 
 s.start()
-dt = 0.05
-T = 5.0
+
+T = 240.0
 
 t = []
 x = []
@@ -32,7 +32,7 @@ while (time.time() - tS) <= T:
     pitch.append(s.pitch)
     yaw.append(s.yaw)
 
-    time.sleep(0.01)
+    time.sleep(0.1)
 
 s.close()
 

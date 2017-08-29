@@ -18,40 +18,38 @@ private:
     bool running = false;
 
     // Linearized model matrices
-    Eigen::MatrixXd M = Eigen::MatrixXd::Zero(6, 6);
-    Eigen::MatrixXd D = Eigen::MatrixXd::Zero(6, 6);
-    Eigen::MatrixXd G = Eigen::MatrixXd::Zero(6, 6);
+    Eigen::Matrix<double, 6, 6> M;
+    Eigen::Matrix<double, 6, 6> D;
+    Eigen::Matrix<double, 6, 6> G;
 
     // Inverse mass matrix
-    Eigen::MatrixXd Minv = Eigen::MatrixXd::Zero(6, 6);
+    Eigen::Matrix<double, 6, 6> Minv;
 
     // Linearized wave force model
-    Eigen::Matrix2d A = Eigen::MatrixXd::Zero(2, 2);
-    Eigen::Vector2d B = Eigen::MatrixXd::Zero(2, 1);
-    Eigen::RowVector2d C = Eigen::MatrixXd::Zero(1, 2);
-    Eigen::VectorXd K = Eigen::MatrixXd::Zero(6, 1);
+    Eigen::Matrix<double, 2, 2> A = Eigen::MatrixXd::Zero(2, 2);
+    Eigen::Matrix<double, 2, 1> B = Eigen::MatrixXd::Zero(2, 1);
+    Eigen::Matrix<double, 1, 2> C = Eigen::MatrixXd::Zero(1, 2);
+    Eigen::Matrix<double, 6, 1> K = Eigen::MatrixXd::Zero(6, 1);
 
     // Simulation time step
-    const double dt = 5.0/1000.0;
+    double dt = 5.0/1000.0;
     typedef std::chrono::steady_clock clock;
-
-    std::chrono::duration<double> elapsed;
     std::chrono::time_point<std::chrono::steady_clock> t0, t1;
-    std::time_t time;
-    
+    std::chrono::duration<double> elapsed;
+
     // Kinematic functions
-    Eigen::Matrix3d Rx(double x);
-    Eigen::Matrix3d Ry(double x);
-    Eigen::Matrix3d Rz(double x);
-    Eigen::Matrix3d Rnb(Eigen::Vector3d phi);
-    Eigen::Matrix3d Tphi(Eigen::Vector3d phi);
-    Eigen::MatrixXd Jphi(Eigen::Vector3d phi);
+    Eigen::Matrix<double, 3, 3> Rx(double x);
+    Eigen::Matrix<double, 3, 3> Ry(double x);
+    Eigen::Matrix<double, 3, 3> Rz(double x);
+    Eigen::Matrix<double, 3, 3> Rnb(Eigen::Vector3d phi);
+    Eigen::Matrix<double, 3, 3> Tphi(Eigen::Vector3d phi);
+    Eigen::Matrix<double, 6, 6> Jphi(Eigen::Vector3d phi);
 
     // System of ODEs function
-    Eigen::VectorXd ode(double t, Eigen::VectorXd y);
+    Eigen::Matrix<double, 24, 1> ode(double t, Eigen::Matrix<double, 24, 1> y);
 
-    // Execute simulation for one time step dt
-    void run();
+    // Simulation state vector
+    Eigen::Matrix<double, 24, 1> states;
 
     // Zero mean gaussian noise
     const double mean = 0.0;
@@ -59,8 +57,8 @@ private:
     std::default_random_engine generator;
     std::normal_distribution<double> dist;
 
-    // Simulation state vector
-    Eigen::VectorXd states = Eigen::VectorXd::Zero(24, 1);
+    // Execute simulation for one time step dt
+    void run();
 
 public:
     // Constructor and destructor
@@ -71,12 +69,12 @@ public:
     double w0 = 0.43567;
     double Lambda = 0.10190;
     double sigma = 5.33101;
-    double K1 = 0.0;
-    double K2 = 0.0;
+    double K1 = 2e7;
+    double K2 = 2e7;
     double K3 = 1.6e8;
     double K4 = 2e7;
     double K5 = 5e6;
-    double K6 = 0.0;
+    double K6 = 1e8;
 
     // Simulation results
     double t = 0.0;
@@ -93,16 +91,6 @@ public:
     double q = 0.0;
     double r = 0.0;
 
-    void start() {
-        running = true;
-        thread = std::thread(&ShipSimulator::run, this);
-    }
-
-    void close() {
-        running = false;
-        if (thread.joinable()) {
-            thread.join();
-            std::cout << "Thread joined sucessfully!" << std::endl;
-        }
-    }
+    void start();
+    void close();
 };
