@@ -46,10 +46,10 @@ private:
     Eigen::Matrix<double, 6, 6> Jphi(Eigen::Vector3d phi);
 
     // System of ODEs function
-    Eigen::Matrix<double, 24, 1> ode(double t, Eigen::Matrix<double, 24, 1> y);
+    Eigen::Matrix<double, 30, 1> ode(double t, Eigen::Matrix<double, 30, 1> y);
 
     // Simulation state vector
-    Eigen::Matrix<double, 24, 1> states;
+    Eigen::Matrix<double, 30, 1> states;
 
     // Zero mean gaussian noise
     const double mean = 0.0;
@@ -69,12 +69,12 @@ public:
     double w0 = 0.43567;
     double Lambda = 0.10190;
     double sigma = 5.33101;
-    double K1 = 2e7;
-    double K2 = 2e7;
+    double K1 = 1e6;
+    double K2 = 1e6;
     double K3 = 1.6e8;
     double K4 = 2e7;
-    double K5 = 5e6;
-    double K6 = 1e8;
+    double K5 = 1e6;
+    double K6 = 1e6;
 
     // Simulation results
     double t = 0.0;
@@ -90,6 +90,15 @@ public:
     double p = 0.0;
     double q = 0.0;
     double r = 0.0;
+
+    // DP inputs
+    double Kp = 1e3;
+    double Kd = 1e2;
+    double zeta = 0.7;
+    double omega = 2.0*M_PI;
+    double x_d = 0.0;
+    double y_d = 0.0;
+    double yaw_d = 0.0;
 
     void start();
     void close();

@@ -24,7 +24,7 @@ ShipSimulator::ShipSimulator() : thread() {
           0.00e+00,   0.00e+00,   0.00e+00,   0.00e+00,   0.00e+00,  0.00e+00;
 
     // Set all states to zero
-    states = Eigen::VectorXd::Zero(24, 1);
+    states = Eigen::VectorXd::Zero(30, 1);
 
     // Calculate inverse mass matrix
     Minv = M.inverse();
@@ -95,10 +95,13 @@ void ShipSimulator::run() {
     }
 }
 
-Eigen::Matrix<double, 24, 1> ShipSimulator::ode(double t, Eigen::Matrix<double, 24, 1> y) {
-    Eigen::Matrix<double, 24, 1> y_t;
+Eigen::Matrix<double, 30, 1> ShipSimulator::ode(double t, Eigen::Matrix<double, 30, 1> y) {
+    Eigen::Matrix<double, 30, 1> y_t;
     Eigen::Matrix<double, 12, 1> x, x_t;
-    Eigen::Matrix<double, 6, 1> eta, eta_t, v, v_t, tau, tau_wave;
+    Eigen::Matrix<double, 6, 1> eta, eta_t;
+    Eigen::Matrix<double, 6, 1> v, v_t;
+    Eigen::Matrix<double, 6, 1> tau, tau_wave;
+    Eigen::Vector3d d, d_t, d_tt, r, e, e_t;
     Eigen::Vector3d phi;
 
     // Fill x_t with zeros to define size
@@ -108,10 +111,12 @@ Eigen::Matrix<double, 24, 1> ShipSimulator::ode(double t, Eigen::Matrix<double, 
     tau = Eigen::MatrixXd::Zero(6, 1);
     tau_wave = Eigen::MatrixXd::Zero(6, 1);
 
-    // Convert vectorized states to eta, v and x
+    // Convert vectorized states to local state vectors
     eta = y.block<6, 1>(0, 0);
     v = y.block<6, 1>(6, 0);
     x = y.block<12, 1>(12, 0);
+    d = y.block<3, 1>(24, 0);
+    d_t = y.block<3, 1>(27, 0);
 
     // Calcualate wave spectrum
     A(0, 1) = 1.0;
@@ -137,15 +142,35 @@ Eigen::Matrix<double, 24, 1> ShipSimulator::ode(double t, Eigen::Matrix<double, 
     phi = eta.block<3, 1>(3, 0);
     eta_t = Jphi(phi)*v;
 
+    // Generate desired trajectory
+    r(0, 0) = x_d;
+    r(1, 0) = y_d;
+    r(2, 0) = yaw_d;
+    d_tt = -abs(2*zeta*omega)*d_t - omega*omega*d + omega*omega*r;
+
+    // PD controller fro surge, sway and heave
+    e(0, 0) = d(0, 0) - eta(0, 0);
+    e(1, 0) = d(1, 0) - eta(1, 0);
+    e(2, 0) = d(2, 0) - eta(5, 0);
+    e_t(0, 0) =  d_t(0, 0) - eta_t(0, 0);
+    e_t(1, 0) =  d_t(1, 0) - eta_t(1, 0);
+    e_t(2, 0) =  d_t(2, 0) - eta_t(5, 0);
+
+    tau(0, 0) = Kp*e(0, 0) + Kd*e_t(0, 0);
+    tau(1, 0) = Kp*e(1, 0) + Kd*e_t(1, 0);
+    tau(5, 0) = Kp*e(2, 0) + Kd*e_t(2, 0);
+
     // System of ODEs for ship
     v_t = Minv*(-D*v - G*eta + tau + tau_wave);
 
     // Return system of 1. order ODEs
-    y_t = Eigen::MatrixXd::Zero(24, 1);
+    y_t = Eigen::MatrixXd::Zero(30, 1);
 
     y_t.block<6, 1>(0, 0) = eta_t;
     y_t.block<6, 1>(6, 0) = v_t;
     y_t.block<12, 1>(12, 0) = x_t;
+    y_t.block<3, 1>(24, 0) = d_t;
+    y_t.block<3, 1>(27, 0) = d_tt;
 
     return y_t;
 }

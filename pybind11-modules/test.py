@@ -20,10 +20,18 @@ roll = []
 pitch = []
 yaw = []
 
+s.Kp = 1e6
+s.Kd = 1e4
+
 tS = time.time()
 while (time.time() - tS) <= T:
     # t.append(time.time() - tS)
     t.append(s.t)
+    
+    if t[-1] > 20.0:
+        s.x_d = 2.0
+        s.y_d = 3.0
+        s.yaw_d = 5.0/180.0*np.pi
 
     x.append(s.x)
     y.append(s.y)

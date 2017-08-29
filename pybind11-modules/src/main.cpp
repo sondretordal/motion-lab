@@ -163,6 +163,16 @@ PYBIND11_PLUGIN(MotionLab) {
 		.def(py::init<>())
 		.def("start", &ShipSimulator::start)
 		.def("close", &ShipSimulator::close)
+		.def_readwrite("w0", &ShipSimulator::w0)
+		.def_readwrite("Lambda", &ShipSimulator::Lambda)
+		.def_readwrite("sigma", &ShipSimulator::sigma)
+		.def_readwrite("Kp", &ShipSimulator::Kp)
+		.def_readwrite("Kd", &ShipSimulator::Kd)
+		.def_readwrite("zeta", &ShipSimulator::zeta)
+		.def_readwrite("omega", &ShipSimulator::omega)
+		.def_readwrite("x_d", &ShipSimulator::x_d)
+		.def_readwrite("y_d", &ShipSimulator::y_d)
+		.def_readwrite("yaw_d", &ShipSimulator::yaw_d)
 		.def_readonly("t", &ShipSimulator::t)
 		.def_readonly("x", &ShipSimulator::x)
 		.def_readonly("y", &ShipSimulator::y)
@@ -176,6 +186,7 @@ PYBIND11_PLUGIN(MotionLab) {
 		.def_readonly("p", &ShipSimulator::p)
 		.def_readonly("q", &ShipSimulator::q)
 		.def_readonly("r", &ShipSimulator::r);
+		
 		
 
 
