@@ -94,7 +94,7 @@ public:
     double Kp = 0.0;
     double Kd = 0.0;
     double zeta = 0.7;
-    double omega = 2.0*M_PI;
+    double omega = 0.1*2.0*M_PI;
     double x_d = 0.0;
     double y_d = 0.0;
     double yaw_d = 0.0;

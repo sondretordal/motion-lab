@@ -125,9 +125,6 @@ StateVector ShipSimulator::ode(double t, StateVector y) {
     Eigen::Matrix<double, 6, 1> tau, tau_wave, K;
     Eigen::Matrix<double, 6, 1> d, d_t, d_tt, r, e, e_t;
 
-    // Fill x_t with zeros to define size
-    x_t = Eigen::MatrixXd::Zero(12, 1);
-    
     // Fill tau and tau_wave with zeros
     tau = Eigen::MatrixXd::Zero(6, 1);
     tau_wave = Eigen::MatrixXd::Zero(6, 1);
@@ -168,10 +165,10 @@ StateVector ShipSimulator::ode(double t, StateVector y) {
     r = Eigen::MatrixXd::Zero(6, 1);
     r(0, 0) = x_d;
     r(1, 0) = y_d;
-    r(5, 0) = yaw_d;
+    r(2, 0) = yaw_d;
     d_tt = -abs(2*zeta*omega)*d_t - omega*omega*d + omega*omega*r;
 
-    // PD controller fro surge, sway and heave
+    // // PD controller fro surge, sway and heave
     e(0, 0) = d(0, 0) - eta(0, 0);
     e(1, 0) = d(1, 0) - eta(1, 0);
     e(2, 0) = d(2, 0) - eta(5, 0);
@@ -179,9 +176,13 @@ StateVector ShipSimulator::ode(double t, StateVector y) {
     e_t(1, 0) =  d_t(1, 0) - eta_t(1, 0);
     e_t(2, 0) =  d_t(2, 0) - eta_t(5, 0);
 
-    tau(0, 0) = Kp*e(0, 0) + Kd*e_t(0, 0);
-    tau(1, 0) = Kp*e(1, 0) + Kd*e_t(1, 0);
-    tau(5, 0) = Kp*e(2, 0) + Kd*e_t(2, 0);
+    tau(0, 0) = 10531466*e(0, 0) + 16171357*e_t(0, 0);
+    tau(1, 0) = 13921034*e(1, 0) + 20232786*e_t(1, 0);
+    tau(5, 0) = 5694491468*e(2, 0) + 8184871937*e_t(2, 0);
+
+    // if (t >= 10.0) {
+    //     tau(5, 0) = 1e6;
+    // }
 
     // System of ODEs for ship
     v_t = Minv*(-D*v - G*eta + tau + tau_wave);
