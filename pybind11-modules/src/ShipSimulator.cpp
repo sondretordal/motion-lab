@@ -1,6 +1,11 @@
 #include "ShipSimulator.h"
 
-ShipSimulator::ShipSimulator() : thread() {
+ShipSimulator::ShipSimulator(unsigned int seed)
+: thread()
+, seed(seed)
+, dist(mean, stddev)
+, generator(seed) 
+{
     // Fill constant model matrices according to supply.mat form Fossen's work
     M <<  6.82e+06,   0.00e+00,   0.00e+00,   0.00e+00,  -8.27e+06,  0.00e+00,
           0.00e+00,   7.88e+06,   0.00e+00,   1.13e+07,   0.00e+00, -2.60e+06,
@@ -24,10 +29,16 @@ ShipSimulator::ShipSimulator() : thread() {
           0.00e+00,   0.00e+00,   0.00e+00,   0.00e+00,   0.00e+00,  0.00e+00;
 
     // Set all states to zero
-    states = Eigen::VectorXd::Zero(30, 1);
+    states = Eigen::VectorXd::Zero(36, 1);
 
     // Calculate inverse mass matrix
     Minv = M.inverse();
+
+    // Define default wave spectrum
+    // wavespectrum(Hs=8.0, T1=12.0, spec='JONSWAP')
+    w0 =  0.43567172549;
+    Lambda =  0.101904641875;
+    sigma =  5.3310138243;
 }
 
 ShipSimulator::~ShipSimulator() {
@@ -47,47 +58,41 @@ void ShipSimulator::close()  {
     }
 }
 
+void ShipSimulator::convert_states() {
+    // Write states to variables
+    x = states(0);
+    y = states(1);
+    z = states(2);
+    roll = states(3);
+    pitch = states(4);
+    yaw = states(5);
+
+    u = states(6);
+    v = states(7);
+    w = states(8);
+    p = states(9);
+    q = states(10);
+    r = states(11);
+}
+
+
 void ShipSimulator::run() {
-    // Temp data for runge kutta solver
-    Eigen::VectorXd k1;
-    Eigen::VectorXd k2;
-    Eigen::VectorXd k3;
-    Eigen::VectorXd k4;
-    
     // Start time
     t0 = clock::now();
 
+    
     while (running) {
-        // Apply numerical integration using RK4 solver
-        k1 = ode(t, states);
-        k2 = ode(t + dt/2, states + dt/2*k1);
-        k3 = ode(t + dt/2, states + dt/2*k2);
-        k4 = ode(t + dt, states + dt*k3);
-        states = states + dt/6*(k1 + 2*k2 + 2*k3 + k4);
-
+        // Integrate solution
+        integrate();
+        
+        // Update time
         t1 = clock::now();
         elapsed = t1 - t0;
 
-        // Assign public data
+        // Update states
         mutex.lock();
-            // Update time
             t = elapsed.count();
-            
-            // Position states
-            x = states(0);
-            y = states(1);
-            z = states(2);
-            roll = states(3);
-            pitch = states(4);
-            yaw = states(5);
-
-            // Velocity states
-            u = states(6);
-            v = states(7);
-            w = states(8);
-            p = states(9);
-            q = states(10);
-            r = states(11);
+            convert_states();        
         mutex.unlock();
 
         // Sleep loop
@@ -95,14 +100,30 @@ void ShipSimulator::run() {
     }
 }
 
-Eigen::Matrix<double, 30, 1> ShipSimulator::ode(double t, Eigen::Matrix<double, 30, 1> y) {
-    Eigen::Matrix<double, 30, 1> y_t;
+void ShipSimulator::integrate() {
+    // Apply numerical integration using RK4 solver
+    StateVector k1, k2, k3, k4;
+    
+    k1 = ode(t, states);
+    k2 = ode(t + dt/2, states + dt/2*k1);
+    k3 = ode(t + dt/2, states + dt/2*k2);
+    k4 = ode(t + dt, states + dt*k3);
+    
+    states = states + dt/6*(k1 + 2*k2 + 2*k3 + k4);
+
+    if (!running) {
+        t = t + dt;
+        convert_states();
+    }
+}
+
+StateVector ShipSimulator::ode(double t, StateVector y) {
+    StateVector y_t;
     Eigen::Matrix<double, 12, 1> x, x_t;
     Eigen::Matrix<double, 6, 1> eta, eta_t;
     Eigen::Matrix<double, 6, 1> v, v_t;
-    Eigen::Matrix<double, 6, 1> tau, tau_wave;
-    Eigen::Vector3d d, d_t, d_tt, r, e, e_t;
-    Eigen::Vector3d phi;
+    Eigen::Matrix<double, 6, 1> tau, tau_wave, K;
+    Eigen::Matrix<double, 6, 1> d, d_t, d_tt, r, e, e_t;
 
     // Fill x_t with zeros to define size
     x_t = Eigen::MatrixXd::Zero(12, 1);
@@ -115,8 +136,8 @@ Eigen::Matrix<double, 30, 1> ShipSimulator::ode(double t, Eigen::Matrix<double, 
     eta = y.block<6, 1>(0, 0);
     v = y.block<6, 1>(6, 0);
     x = y.block<12, 1>(12, 0);
-    d = y.block<3, 1>(24, 0);
-    d_t = y.block<3, 1>(27, 0);
+    d = y.block<6, 1>(24, 0);
+    d_t = y.block<6, 1>(30, 0);
 
     // Calcualate wave spectrum
     A(0, 1) = 1.0;
@@ -126,26 +147,28 @@ Eigen::Matrix<double, 30, 1> ShipSimulator::ode(double t, Eigen::Matrix<double, 
     C(0, 1) = 1.0;
 
     // Assing wave gains
-    K[0] = K1;
-    K[1] = K2;
-    K[2] = K3;
-    K[3] = K4;
-    K[4] = K5;
-    K[5] = K6;
+    K(0, 0) = 1e5;
+    K(1, 0) = 1e5;
+    K(2, 0) = 2.5e8;
+    K(3, 0) = 4e7;
+    K(4, 0) = 1e5;
+    K(5, 0) = 1e5;
+    
 
+    // Simualte wave forces acting on the ship
     for (int dof = 0; dof < tau_wave.rows(); dof++) {
-        tau_wave(dof, 0) = K(dof)*C*x.block<2, 1>(dof*2, 0);
+        tau_wave(dof, 0) = K(dof, 0)*C*x.block<2, 1>(dof*2, 0);
         x_t.block<2, 1>(dof*2, 0) = A*x.block<2, 1>(dof*2, 0) + B*dist(generator);
     }
     
     // Apply rigid ship body kienamtics
-    phi = eta.block<3, 1>(3, 0);
-    eta_t = Jphi(phi)*v;
+    eta_t = Jphi(eta.block<3, 1>(3, 0))*v;
 
     // Generate desired trajectory
+    r = Eigen::MatrixXd::Zero(6, 1);
     r(0, 0) = x_d;
     r(1, 0) = y_d;
-    r(2, 0) = yaw_d;
+    r(5, 0) = yaw_d;
     d_tt = -abs(2*zeta*omega)*d_t - omega*omega*d + omega*omega*r;
 
     // PD controller fro surge, sway and heave
@@ -164,13 +187,11 @@ Eigen::Matrix<double, 30, 1> ShipSimulator::ode(double t, Eigen::Matrix<double, 
     v_t = Minv*(-D*v - G*eta + tau + tau_wave);
 
     // Return system of 1. order ODEs
-    y_t = Eigen::MatrixXd::Zero(30, 1);
-
     y_t.block<6, 1>(0, 0) = eta_t;
     y_t.block<6, 1>(6, 0) = v_t;
     y_t.block<12, 1>(12, 0) = x_t;
-    y_t.block<3, 1>(24, 0) = d_t;
-    y_t.block<3, 1>(27, 0) = d_tt;
+    y_t.block<6, 1>(24, 0) = d_t;
+    y_t.block<6, 1>(30, 0) = d_tt;
 
     return y_t;
 }

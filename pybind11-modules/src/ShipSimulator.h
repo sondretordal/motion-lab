@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <iterator>
+
 #include <chrono>
 #include <ctime>
 #include <random>
@@ -8,6 +9,9 @@
 #include <mutex>
 
 #include <Eigen/Dense>
+
+// Eigen typedefs
+typedef Eigen::Matrix<double, 36, 1> StateVector;
 
 class ShipSimulator
 {
@@ -22,14 +26,13 @@ private:
     Eigen::Matrix<double, 6, 6> D;
     Eigen::Matrix<double, 6, 6> G;
 
-    // Inverse mass matrix
+    // Inverse mass matrix1
     Eigen::Matrix<double, 6, 6> Minv;
 
     // Linearized wave force model
     Eigen::Matrix<double, 2, 2> A = Eigen::MatrixXd::Zero(2, 2);
     Eigen::Matrix<double, 2, 1> B = Eigen::MatrixXd::Zero(2, 1);
     Eigen::Matrix<double, 1, 2> C = Eigen::MatrixXd::Zero(1, 2);
-    Eigen::Matrix<double, 6, 1> K = Eigen::MatrixXd::Zero(6, 1);
 
     // Simulation time step
     double dt = 5.0/1000.0;
@@ -46,35 +49,31 @@ private:
     Eigen::Matrix<double, 6, 6> Jphi(Eigen::Vector3d phi);
 
     // System of ODEs function
-    Eigen::Matrix<double, 30, 1> ode(double t, Eigen::Matrix<double, 30, 1> y);
+    StateVector ode(double t, StateVector y);
 
     // Simulation state vector
-    Eigen::Matrix<double, 30, 1> states;
+    StateVector states;
 
     // Zero mean gaussian noise
     const double mean = 0.0;
     const double stddev = 1.0;
+    const unsigned int seed;    
     std::default_random_engine generator;
     std::normal_distribution<double> dist;
 
-    // Execute simulation for one time step dt
+    // RT simulation run function
     void run();
+    void convert_states();
 
 public:
     // Constructor and destructor
-    ShipSimulator();
+    ShipSimulator(unsigned int seed);
     ~ShipSimulator();
 
     // Linearized wave parameters
-    double w0 = 0.43567;
-    double Lambda = 0.10190;
-    double sigma = 5.33101;
-    double K1 = 1e6;
-    double K2 = 1e6;
-    double K3 = 1.6e8;
-    double K4 = 2e7;
-    double K5 = 1e6;
-    double K6 = 1e6;
+    double w0;
+    double Lambda;
+    double sigma;
 
     // Simulation results
     double t = 0.0;
@@ -92,14 +91,15 @@ public:
     double r = 0.0;
 
     // DP inputs
-    double Kp = 1e3;
-    double Kd = 1e2;
+    double Kp = 0.0;
+    double Kd = 0.0;
     double zeta = 0.7;
     double omega = 2.0*M_PI;
     double x_d = 0.0;
     double y_d = 0.0;
     double yaw_d = 0.0;
 
+    void integrate();
     void start();
     void close();
 };

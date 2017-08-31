@@ -120,7 +120,23 @@ class GUI(QMainWindow, gui_main):
         self.udp = MotionLab.HmiInterface(50160)
         self.udp.start()
 
+        # Ship DP simulator
+        self.sim1 = MotionLab.ShipSimulator()
+        self.sim1.start()
+
         # Real-time plots
+        self.DP_1 = RealTimePlot(self.DP_SimStates.addPlot())
+        self.DP_1.plot.setLabel('left', 'Position', 'm')
+        self.DP_1.plot.setYRange(-8, 8)
+        self.DP_1.add_curves(['r', 'g', 'b','k','k'], ['Surge', 'Sway', 'Heave','Surge SP','Sway SP'])
+
+        self.DP_SimStates.nextRow()
+
+        self.DP_2 = RealTimePlot(self.DP_SimStates.addPlot())
+        self.DP_2.plot.setLabel('left', 'Angle', 'deg')
+        self.DP_2.plot.setYRange(-10, 10)
+        self.DP_2.add_curves(['r', 'g', 'b'], ['Roll', 'Pitch', 'Yaw'])
+
         self.EM1500_1 = RealTimePlot(self.EM1500_plot.addPlot())
         self.EM1500_1.plot.setLabel('left', 'Position', 'm')
         self.EM1500_1.add_curves(['r', 'g', 'b'], ['Surge', 'Sway', 'Heave'])
@@ -187,7 +203,7 @@ class GUI(QMainWindow, gui_main):
         # Timer function for plot update
         self.timer = QTimer()
         self.timer.timeout.connect(self.update_data)
-        self.timer.start(30)
+        self.timer.start(50)
 
         # Set the relative path to the Sphinx docs
         dir1 = os.path.dirname(__file__)
@@ -240,6 +256,17 @@ class GUI(QMainWindow, gui_main):
     # Update data and plot
     def update_data(self):
         # Update real time plots
+        self.sim1.Kp = 1e6
+        self.sim1.Kd = 1e4
+        self.sim1.x_d = 5.0*float(self.DP_setX.value())/100.0
+        self.sim1.y_d = 5.0*float(self.DP_setY.value())/100.0
+
+        self.DP_1.time_range = self.time_range
+        self.DP_1.update(self.sim1.t, [self.sim1.x, self.sim1.y, self.sim1.z, self.sim1.x_d, self.sim1.y_d])
+        
+        self.DP_2.time_range = self.time_range
+        self.DP_2.update(self.sim1.t, [self.sim1.roll/np.pi*180.0, self.sim1.pitch/np.pi*180.0, self.sim1.yaw/np.pi*180.0])
+
         self.EM1500_1.time_range = self.time_range
         self.EM1500_1.update(self.udp.feedback.t, [
                 self.udp.feedback.em1500.x, self.udp.feedback.em1500.y, self.udp.feedback.em1500.z
@@ -443,6 +470,9 @@ class GUI(QMainWindow, gui_main):
             # CLose udp connection
             self.udp.close()
             print 'HMI Udp Connection Closed'
+
+            # Close DP simualtors
+            self.sim1.close()
 
             event.accept()
         else:

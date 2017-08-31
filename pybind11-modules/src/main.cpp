@@ -1,5 +1,6 @@
 // Pybind includes
 #include <pybind11/pybind11.h>
+#include <pybind11/eigen.h>
 
 
 // Classes
@@ -160,9 +161,10 @@ PYBIND11_PLUGIN(MotionLab) {
 	
 	// Ship simulator
 	py::class_<ShipSimulator>(m, "ShipSimulator")
-		.def(py::init<>())
+		.def(py::init<unsigned int>())
 		.def("start", &ShipSimulator::start)
 		.def("close", &ShipSimulator::close)
+		.def("integrate", &ShipSimulator::integrate)
 		.def_readwrite("w0", &ShipSimulator::w0)
 		.def_readwrite("Lambda", &ShipSimulator::Lambda)
 		.def_readwrite("sigma", &ShipSimulator::sigma)
