@@ -11,7 +11,7 @@
 #include <Eigen/Dense>
 
 // Eigen typedefs
-typedef Eigen::Matrix<double, 36, 1> StateVector;
+typedef Eigen::Matrix<double, 24, 1> StateVector;
 
 class ShipSimulator
 {
@@ -30,9 +30,14 @@ private:
     Eigen::Matrix<double, 6, 6> Minv;
 
     // Linearized wave force model
-    Eigen::Matrix<double, 2, 2> A = Eigen::MatrixXd::Zero(2, 2);
-    Eigen::Matrix<double, 2, 1> B = Eigen::MatrixXd::Zero(2, 1);
-    Eigen::Matrix<double, 1, 2> C = Eigen::MatrixXd::Zero(1, 2);
+    Eigen::Matrix<double, 6, 1> K;
+    Eigen::Matrix<double, 2, 2> A;
+    Eigen::Matrix<double, 2, 1> B;
+    Eigen::Matrix<double, 1, 2> C;
+
+    // Time constant from step response
+    double Ts_x, Ts_y, Ts_yaw;
+    double K_x, K_y, K_yaw;
 
     // Simulation time step
     double dt = 5.0/1000.0;
@@ -91,13 +96,7 @@ public:
     double r = 0.0;
 
     // DP inputs
-    double Kp = 0.0;
-    double Kd = 0.0;
-    double zeta = 0.7;
-    double omega = 0.1*2.0*M_PI;
-    double x_d = 0.0;
-    double y_d = 0.0;
-    double yaw_d = 0.0;
+    double poles = 0.3;
 
     void integrate();
     void start();

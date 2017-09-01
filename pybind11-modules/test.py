@@ -78,7 +78,7 @@ def wavespectrum(Hs=8.0, T1=12.0, spec='JONSWAP', plot=False):
     # Save linearized wave spectrum parameters
     return w0, Lambda, sigma
 
-s = MotionLab.ShipSimulator(0)
+s = MotionLab.ShipSimulator(200)
 
 t = []
 
@@ -101,13 +101,12 @@ s.w0 = w0
 s.Lambda = Lambda
 s.sigma = sigma
 
-while s.t <= 150.0:
-    s.integrate()
+s.poles = 0.3
+while s.t <= 10*60.0:
 
-    if s.t > 10.0:
-        s.x_d = 5.0
-        s.yaw_d = -10.0/180.0*np.pi
-    
+
+
+    s.integrate()
     t.append(s.t)
     x.append(s.x)
     y.append(s.y)
@@ -119,55 +118,54 @@ while s.t <= 150.0:
     out.append(s.r)
 
 
-out = np.array(out)
+# out = np.array(out)
 
 
-# Settling time
-upper = out[-1]*1.02
-lower = out[-1]*0.98
+# # Settling time
+# upper = out[-1]*1.02
+# lower = out[-1]*0.98
 
-for i in range(0, len(t)):
-    if out[i] >= lower:
-        i_settled = i
-        break
+# for i in range(0, len(t)):
+#     if out[i] >= lower:
+#         i_settled = i
+#         break
 
-u = 1e6
-Ts = t[i_settled] - 10.0
-a = 4.0/Ts
-K = a*out[-1]/u
-print 'Ts = ', Ts
-print 'K = ', K
-
-
-# Calculate PID gains, pole placement
-p = 0.2*2*np.pi
-Kp = p**2/K
-Kd = (2*p-a)/K
+# u = 1e6
+# Ts = t[i_settled] - 10.0
+# a = 4.0/Ts
+# K = a*out[-1]/u
+# print 'Ts = ', Ts
+# print 'K = ', K
 
 
-print 'Kp = ', Kp
-print 'Kd = ', Kd
+# # Calculate PID gains, pole placement
+# p = 0.2*2*np.pi
+# Kp = p**2/K
+# Kd = (2*p-a)/K
+
+# print 'Kp = ', Kp
+# print 'Kd = ', Kd
 
 
-dt = t[1] - t[0]
-out_s = np.zeros(len(t))
-for i in range(0, len(t)-1):
-    if t[i] < 10.0:
-        out_s_t = -a*out_s[i]
-    else:
-        out_s_t = K*u-a*out_s[i]
+# dt = t[1] - t[0]
+# out_s = np.zeros(len(t))
+# for i in range(0, len(t)-1):
+#     if t[i] < 10.0:
+#         out_s_t = -a*out_s[i]
+#     else:
+#         out_s_t = K*u-a*out_s[i]
 
-    out_s[i+1] = out_s[i] + out_s_t*dt
+#     out_s[i+1] = out_s[i] + out_s_t*dt
 
 
 
-plt.figure()
-plt.plot(t, out, 'b')
-plt.plot(t, out_s, 'r--')
-plt.plot(t, lower*np.ones(out.shape), 'k--')
-plt.plot(t, upper*np.ones(out.shape), 'k--')
-plt.plot(t[i_settled], out[i_settled], 'r*')
-plt.grid()
+# plt.figure()
+# plt.plot(t, out, 'b')
+# plt.plot(t, out_s, 'r--')
+# plt.plot(t, lower*np.ones(out.shape), 'k--')
+# plt.plot(t, upper*np.ones(out.shape), 'k--')
+# plt.plot(t[i_settled], out[i_settled], 'r*')
+# plt.grid()
 
 plt.figure()
 plt.subplot(211)

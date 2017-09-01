@@ -4,7 +4,7 @@ ShipSimulator::ShipSimulator(unsigned int seed)
 : thread()
 , seed(seed)
 , dist(mean, stddev)
-, generator(seed) 
+, generator(seed)
 {
     // Fill constant model matrices according to supply.mat form Fossen's work
     M <<  6.82e+06,   0.00e+00,   0.00e+00,   0.00e+00,  -8.27e+06,  0.00e+00,
@@ -34,11 +34,27 @@ ShipSimulator::ShipSimulator(unsigned int seed)
     // Calculate inverse mass matrix
     Minv = M.inverse();
 
-    // Define default wave spectrum
-    // wavespectrum(Hs=8.0, T1=12.0, spec='JONSWAP')
+    // Assing wave gains
+    K(0, 0) = 1e5;
+    K(1, 0) = 1e5;
+    K(2, 0) = 2.5e8;
+    K(3, 0) = 4e7;
+    K(4, 0) = 1e5;
+    K(5, 0) = 1e5;
+
+    // Default wavespectrum(Hs=8.0, T1=12.0, spec='JONSWAP')
     w0 =  0.43567172549;
     Lambda =  0.101904641875;
     sigma =  5.3310138243;
+
+    // Define system dynamics (Kss, Ts) for surge sway and heave
+    Ts_x = 45.215;
+    Ts_y = 18.335;
+    Ts_yaw = 16.425;
+
+    K_x = 1.49944614059e-07;
+    K_y = 1.13435297558e-07;
+    K_yaw = 2.77309521498e-10;
 }
 
 ShipSimulator::~ShipSimulator() {
@@ -75,12 +91,10 @@ void ShipSimulator::convert_states() {
     r = states(11);
 }
 
-
 void ShipSimulator::run() {
     // Start time
     t0 = clock::now();
 
-    
     while (running) {
         // Integrate solution
         integrate();
@@ -122,8 +136,8 @@ StateVector ShipSimulator::ode(double t, StateVector y) {
     Eigen::Matrix<double, 12, 1> x, x_t;
     Eigen::Matrix<double, 6, 1> eta, eta_t;
     Eigen::Matrix<double, 6, 1> v, v_t;
-    Eigen::Matrix<double, 6, 1> tau, tau_wave, K;
-    Eigen::Matrix<double, 6, 1> d, d_t, d_tt, r, e, e_t;
+    Eigen::Matrix<double, 6, 1> tau, tau_wave;
+    double Kp, Kd;
 
     // Fill tau and tau_wave with zeros
     tau = Eigen::MatrixXd::Zero(6, 1);
@@ -133,8 +147,6 @@ StateVector ShipSimulator::ode(double t, StateVector y) {
     eta = y.block<6, 1>(0, 0);
     v = y.block<6, 1>(6, 0);
     x = y.block<12, 1>(12, 0);
-    d = y.block<6, 1>(24, 0);
-    d_t = y.block<6, 1>(30, 0);
 
     // Calcualate wave spectrum
     A(0, 1) = 1.0;
@@ -143,17 +155,8 @@ StateVector ShipSimulator::ode(double t, StateVector y) {
     B(1, 0) = 2.0*abs(Lambda*w0*sigma);
     C(0, 1) = 1.0;
 
-    // Assing wave gains
-    K(0, 0) = 1e5;
-    K(1, 0) = 1e5;
-    K(2, 0) = 2.5e8;
-    K(3, 0) = 4e7;
-    K(4, 0) = 1e5;
-    K(5, 0) = 1e5;
-    
-
     // Simualte wave forces acting on the ship
-    for (int dof = 0; dof < tau_wave.rows(); dof++) {
+    for (unsigned int dof = 0; dof < tau_wave.rows(); dof++) {
         tau_wave(dof, 0) = K(dof, 0)*C*x.block<2, 1>(dof*2, 0);
         x_t.block<2, 1>(dof*2, 0) = A*x.block<2, 1>(dof*2, 0) + B*dist(generator);
     }
@@ -161,29 +164,19 @@ StateVector ShipSimulator::ode(double t, StateVector y) {
     // Apply rigid ship body kienamtics
     eta_t = Jphi(eta.block<3, 1>(3, 0))*v;
 
-    // Generate desired trajectory
-    r = Eigen::MatrixXd::Zero(6, 1);
-    r(0, 0) = x_d;
-    r(1, 0) = y_d;
-    r(2, 0) = yaw_d;
-    d_tt = -abs(2*zeta*omega)*d_t - omega*omega*d + omega*omega*r;
+    // PD controller fro surge, sway and heav
+    Kp = poles*poles*2.0/K_x;
+    Kd = (2.0*abs(poles)-4.0/Ts_x)/K_x;
+    tau(0, 0) = -(Kp*eta(0, 0) + Kd*eta_t(0, 0));
 
-    // // PD controller fro surge, sway and heave
-    e(0, 0) = d(0, 0) - eta(0, 0);
-    e(1, 0) = d(1, 0) - eta(1, 0);
-    e(2, 0) = d(2, 0) - eta(5, 0);
-    e_t(0, 0) =  d_t(0, 0) - eta_t(0, 0);
-    e_t(1, 0) =  d_t(1, 0) - eta_t(1, 0);
-    e_t(2, 0) =  d_t(2, 0) - eta_t(5, 0);
+    Kp = poles*poles*2.0/K_y;
+    Kd = (2.0*abs(poles)-4.0/Ts_y)/K_y;
+    tau(1, 0) = -(Kp*eta(1, 0) + Kd*eta_t(1, 0));
 
-    tau(0, 0) = 10531466*e(0, 0) + 16171357*e_t(0, 0);
-    tau(1, 0) = 13921034*e(1, 0) + 20232786*e_t(1, 0);
-    tau(5, 0) = 5694491468*e(2, 0) + 8184871937*e_t(2, 0);
-
-    // if (t >= 10.0) {
-    //     tau(5, 0) = 1e6;
-    // }
-
+    Kp = poles*poles*2.0/K_yaw;
+    Kd = (2.0*abs(poles)-4.0/Ts_yaw)/K_yaw;
+    tau(5, 0) = -(Kp*eta(5, 0) + Kd*eta_t(5, 0));
+    
     // System of ODEs for ship
     v_t = Minv*(-D*v - G*eta + tau + tau_wave);
 
@@ -191,8 +184,6 @@ StateVector ShipSimulator::ode(double t, StateVector y) {
     y_t.block<6, 1>(0, 0) = eta_t;
     y_t.block<6, 1>(6, 0) = v_t;
     y_t.block<12, 1>(12, 0) = x_t;
-    y_t.block<6, 1>(24, 0) = d_t;
-    y_t.block<6, 1>(30, 0) = d_tt;
 
     return y_t;
 }
