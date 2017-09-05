@@ -15,7 +15,7 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
+    <item row="0" column="1">
      <widget class="QTabWidget" name="tabWidget">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -2210,6 +2210,25 @@ color: rgb(255, 255, 255);
             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
            </property>
           </widget>
+          <zorder>EM8000_output_pos_y</zorder>
+          <zorder>label_65</zorder>
+          <zorder>label_84</zorder>
+          <zorder>EM8000_output_pos_z</zorder>
+          <zorder>label_85</zorder>
+          <zorder>EM8000_output_pos_x</zorder>
+          <zorder>label_86</zorder>
+          <zorder>EM8000_output_ang_y</zorder>
+          <zorder>label_87</zorder>
+          <zorder>EM8000_output_ang_r</zorder>
+          <zorder>label_88</zorder>
+          <zorder>EM8000_output_ang_p</zorder>
+          <zorder>label_89</zorder>
+          <zorder>label_90</zorder>
+          <zorder>label_91</zorder>
+          <zorder>label_92</zorder>
+          <zorder>label_93</zorder>
+          <zorder>label_94</zorder>
+          <zorder>DP_off</zorder>
          </widget>
          <widget class="QGroupBox" name="groupBox_13">
           <property name="geometry">
@@ -3857,80 +3876,6 @@ color: rgb(255, 255, 255);
           <width>251</width>
           <height>261</height>
          </rect>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label_10">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>80</y>
-          <width>91</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>10</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Setpoint X:</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label_11">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>130</y>
-          <width>91</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>10</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Setpoint Y:</string>
-        </property>
-       </widget>
-       <widget class="QSlider" name="DP_setX">
-        <property name="geometry">
-         <rect>
-          <x>100</x>
-          <y>80</y>
-          <width>160</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <property name="minimum">
-         <number>-100</number>
-        </property>
-        <property name="maximum">
-         <number>100</number>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-       <widget class="QSlider" name="DP_setY">
-        <property name="geometry">
-         <rect>
-          <x>100</x>
-          <y>130</y>
-          <width>160</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <property name="minimum">
-         <number>-100</number>
-        </property>
-        <property name="maximum">
-         <number>100</number>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
         </property>
        </widget>
        <widget class="GraphicsLayoutWidget" name="DP_SimStates">

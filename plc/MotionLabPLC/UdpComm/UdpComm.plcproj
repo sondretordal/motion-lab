@@ -75,7 +75,13 @@
     <Compile Include="POUs\Main.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\StocWave.TcPOU">
+    <Compile Include="POUs\Ship Simulation\ShipSimulator.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Ship Simulation\StocWave.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\SIMULATOR.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\UdpConnections\COMAU.TcPOU">
@@ -129,6 +135,9 @@
     <Compile Include="TaskREMOTE.TcTTO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TaskSIMULATOR.TcTTO">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Visualization Manager.TcVMO">
       <SubType>Code</SubType>
     </Compile>
@@ -141,6 +150,7 @@
     <Folder Include="DUTs" />
     <Folder Include="GVLs" />
     <Folder Include="POUs\Kinematics" />
+    <Folder Include="POUs\Ship Simulation" />
     <Folder Include="POUs\UdpConnections" />
     <Folder Include="POUs\UdpFBs" />
     <Folder Include="VISUs" />

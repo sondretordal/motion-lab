@@ -1,10 +1,6 @@
 #include "ShipSimulator.h"
 
-ShipSimulator::ShipSimulator(unsigned int seed)
-: thread()
-, seed(seed)
-, dist(mean, stddev)
-, generator(seed)
+ShipSimulator::ShipSimulator() : thread()
 {
     // Fill constant model matrices according to supply.mat form Fossen's work
     M <<  6.82e+06,   0.00e+00,   0.00e+00,   0.00e+00,  -8.27e+06,  0.00e+00,
@@ -29,7 +25,7 @@ ShipSimulator::ShipSimulator(unsigned int seed)
           0.00e+00,   0.00e+00,   0.00e+00,   0.00e+00,   0.00e+00,  0.00e+00;
 
     // Set all states to zero
-    states = Eigen::VectorXd::Zero(36, 1);
+    states = Eigen::VectorXd::Zero(24, 1);
 
     // Calculate inverse mass matrix
     Minv = M.inverse();
@@ -37,10 +33,10 @@ ShipSimulator::ShipSimulator(unsigned int seed)
     // Assing wave gains
     K(0, 0) = 1e5;
     K(1, 0) = 1e5;
-    K(2, 0) = 2.5e8;
-    K(3, 0) = 4e7;
+    K(2, 0) = 5e8;
+    K(3, 0) = 1e8;
     K(4, 0) = 1e5;
-    K(5, 0) = 1e5;
+    K(5, 0) = 1e6;
 
     // Default wavespectrum(Hs=8.0, T1=12.0, spec='JONSWAP')
     w0 =  0.43567172549;
@@ -106,7 +102,7 @@ void ShipSimulator::run() {
         // Update states
         mutex.lock();
             t = elapsed.count();
-            convert_states();        
+            convert_states();
         mutex.unlock();
 
         // Sleep loop
@@ -158,9 +154,9 @@ StateVector ShipSimulator::ode(double t, StateVector y) {
     // Simualte wave forces acting on the ship
     for (unsigned int dof = 0; dof < tau_wave.rows(); dof++) {
         tau_wave(dof, 0) = K(dof, 0)*C*x.block<2, 1>(dof*2, 0);
-        x_t.block<2, 1>(dof*2, 0) = A*x.block<2, 1>(dof*2, 0) + B*dist(generator);
+        x_t.block<2, 1>(dof*2, 0) = A*x.block<2, 1>(dof*2, 0) + B*(drand()*2.0 - 1.0);
     }
-    
+
     // Apply rigid ship body kienamtics
     eta_t = Jphi(eta.block<3, 1>(3, 0))*v;
 

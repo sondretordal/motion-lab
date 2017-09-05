@@ -17,6 +17,9 @@ VAR
 	z				: LREAL := 0.0;
 	
 	counter			: UDINT := 0;
+	
+	
+	
 END_VAR
 	]]></Declaration>
     <Implementation>
@@ -32,6 +35,11 @@ counter := counter + 1;
 
 
 
+
+
+
+
+
 ]]></ST>
     </Implementation>
     <LineIds Name="Main">
@@ -39,7 +47,11 @@ counter := counter + 1;
       <LineId Id="85" Count="2" />
       <LineId Id="401" Count="0" />
       <LineId Id="126" Count="0" />
-      <LineId Id="114" Count="0" />
+      <LineId Id="421" Count="0" />
+      <LineId Id="465" Count="1" />
+      <LineId Id="444" Count="0" />
+      <LineId Id="422" Count="0" />
+      <LineId Id="441" Count="0" />
       <LineId Id="4" Count="0" />
       <LineId Id="52" Count="0" />
       <LineId Id="27" Count="0" />

@@ -872,6 +872,9 @@
 				<Task Id="10" Priority="24" CycleTime="50000" AmsPort="357" Affinity="#x00000002">
 					<Name>TaskMRU2</Name>
 				</Task>
+				<Task Id="11" Priority="27" CycleTime="10000" AmsPort="358" Affinity="#x00000002">
+					<Name>TaskSIMULATOR</Name>
+				</Task>
 			</Tasks>
 		</System>
 		<Plc>
@@ -960,7 +963,8 @@
 					<TaskPouOids>
 						<TaskPouOid Prio="25" OTCID="#x01010016"/>
 						<TaskPouOid Prio="22" OTCID="#x01010013"/>
-						<TaskPouOid Prio="30" OTCID="#x01010018"/>
+						<TaskPouOid Prio="30" OTCID="#x01010019"/>
+						<TaskPouOid Prio="27" OTCID="#x01010018"/>
 						<TaskPouOid Prio="24" OTCID="#x01010015"/>
 						<TaskPouOid Prio="21" OTCID="#x01010011"/>
 						<TaskPouOid Prio="26" OTCID="#x01010017"/>
@@ -3633,7 +3637,7 @@
 		</Io>
 	</Project>
 	<Mappings>
-		<MappingInfo Identifier="{01010018-0040-0304-1000-010140000403}" Id="#x02030020" Watchdog="04000000040000000400000004000000"/>
+		<MappingInfo Identifier="{01010019-0040-0304-1000-010140000403}" Id="#x02030020" Watchdog="04000000040000000400000004000000"/>
 		<MappingInfo Identifier="{00000000-0016-0101-1000-010140000403}" Id="#x02030010"/>
 		<OwnerA Name="TIPC^UdpComm^UdpComm Instance">
 			<OwnerB Name="TIID^LeicaAT960 (EtherCAT)^Box 1 (Leica-RT-Output)">

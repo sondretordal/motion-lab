@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <iterator>
+#include <cstdlib>
 
 #include <chrono>
 #include <ctime>
@@ -59,20 +60,20 @@ private:
     // Simulation state vector
     StateVector states;
 
-    // Zero mean gaussian noise
-    const double mean = 0.0;
-    const double stddev = 1.0;
-    const unsigned int seed;    
-    std::default_random_engine generator;
-    std::normal_distribution<double> dist;
-
     // RT simulation run function
     void run();
     void convert_states();
 
+    
+
 public:
+
+    double drand() {
+        return static_cast<double>(rand())/static_cast<double>(RAND_MAX);
+    }
+
     // Constructor and destructor
-    ShipSimulator(unsigned int seed);
+    ShipSimulator();
     ~ShipSimulator();
 
     // Linearized wave parameters
@@ -95,7 +96,7 @@ public:
     double q = 0.0;
     double r = 0.0;
 
-    // DP inputs
+    // PD controller pole placement
     double poles = 0.3;
 
     void integrate();

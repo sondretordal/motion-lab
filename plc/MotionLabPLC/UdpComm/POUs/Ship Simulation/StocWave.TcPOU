@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.6">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
   <POU Name="StocWave" Id="{8c3d10e4-a66c-4e52-99e3-64c2b76a027a}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION StocWave : REAL
 VAR_INPUT
@@ -62,5 +62,9 @@ StocWave := x;
 
 ]]></ST>
     </Implementation>
+    <LineIds Name="StocWave">
+      <LineId Id="3" Count="33" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
   </POU>
 </TcPlcObject>

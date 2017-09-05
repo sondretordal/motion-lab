@@ -78,7 +78,7 @@ def wavespectrum(Hs=8.0, T1=12.0, spec='JONSWAP', plot=False):
     # Save linearized wave spectrum parameters
     return w0, Lambda, sigma
 
-s = MotionLab.ShipSimulator(200)
+s = MotionLab.ShipSimulator()
 
 t = []
 
@@ -91,18 +91,17 @@ yaw = []
 
 out = []
 
-w0, Lambda, sigma = wavespectrum(Hs=8.0, T1=12.0, plot=False)
+# w0, Lambda, sigma = wavespectrum(Hs=8.0, T1=12.0, plot=False)
 
-print 'w0 = ', w0
-print 'Lambda = ', Lambda
-print 'sigma = ', sigma
+# print 'w0 = ', w0
+# print 'Lambda = ', Lambda
+# print 'sigma = ', sigma
 
-s.w0 = w0
-s.Lambda = Lambda
-s.sigma = sigma
+# s.w0 = w0
+# s.Lambda = Lambda
+# s.sigma = sigma
 
-s.poles = 0.3
-while s.t <= 10*60.0:
+while s.t <= 6*60.0:
 
 
 
@@ -117,6 +116,7 @@ while s.t <= 10*60.0:
 
     out.append(s.r)
 
+print 'Hs = ', 4*np.std(z)
 
 # out = np.array(out)
 

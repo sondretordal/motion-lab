@@ -1,0 +1,366 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
+  <POU Name="ShipSimulator" Id="{85434e00-1347-4491-8ec3-e6b62d823d0a}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK ShipSimulator
+VAR_INPUT
+	timestep : LREAL := 0.001;
+	
+	// Default wavespectrum(Hs=8.0, T1=12.0, spec='JONSWAP')
+    w0 : LREAL :=  0.43567172549;
+    lambda : LREAL :=  0.101904641875;
+    sigma : LREAL :=  5.3310138243;
+	
+	// PD Contoroller poles
+	poles : LREAL := 0.3;
+	
+END_VAR
+VAR_OUTPUT
+	t : LREAL := 0.0;
+	
+	x : LREAL;
+	y : LREAL;
+	z : LREAL;
+	roll : LREAL;
+	pitch : LREAL;
+	yaw : LREAL;
+END_VAR
+VAR
+	// Random generator
+	rand : DRAND;	
+
+	//  Ship 1st order dynamics from system identification
+	Ts_x : LREAL := 45.215;
+    Ts_y : LREAL := 18.335;
+    Ts_yaw : LREAL := 16.425;
+
+    K_x : LREAL := 1.49944614059E-07;
+    K_y : LREAL := 1.13435297558E-07;
+    K_yaw : LREAL := 2.77309521498E-10;
+	
+	// Wave simulation seed number
+	seed : INT;
+	
+	// Significant wave height
+	sum : LREAL := 0.0;
+	Hs : LREAL;
+	counter : UDINT := 0;
+	
+	// State vector
+	states : ARRAY [0..23] OF LREAL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+rand.Seed := seed;
+
+//integrate_rk4();
+integrate();
+
+x := states[0];
+y := states[1];
+z := states[2];
+roll := states[3];
+pitch := states[4];
+yaw := states[5];
+
+// Calculate significant wave height
+sum := sum + z*z;
+counter := counter + 1;
+
+IF counter > 2 THEN
+	Hs := 4.0*sum/(counter-1);	
+END_IF
+
+
+]]></ST>
+    </Implementation>
+    <Method Name="FB_init" Id="{ddd63b4f-29d3-45b7-99d6-e67689b58916}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	
+	seedInit : INT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[seed := seedInit;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="integrate" Id="{e39bc7d8-e772-4ea7-92c8-70edc9febc13}">
+      <Declaration><![CDATA[METHOD PRIVATE integrate : BOOL
+VAR_INPUT
+END_VAR
+
+VAR
+	i : DINT;
+	
+	states_t : ARRAY [0..23] OF LREAL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+
+states_t := ode(states);
+
+FOR i := 0 TO 23 DO
+	states[i] := states[i] + states_t[i]*timestep;
+END_FOR
+
+t := t + timestep;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="integrate_rk4" Id="{871a2898-f54e-4179-8a59-335e84fd8867}">
+      <Declaration><![CDATA[METHOD PRIVATE integrate_rk4 : BOOL
+VAR_INPUT
+END_VAR
+
+VAR
+	i : DINT;
+	k1 : ARRAY [0..23] OF LREAL;
+	k2 : ARRAY [0..23] OF LREAL;
+	k3 : ARRAY [0..23] OF LREAL;
+	k4 : ARRAY [0..23] OF LREAL;
+	
+	temp : ARRAY [0..23] OF LREAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+// Integrate state vector using Runge-Kutta 4 solver
+
+temp := states;
+k1 := ode(states);
+
+FOR i := 0 TO 23 DO
+	temp[i] := states[i] + timestep/2.0*k1[i];
+END_FOR
+k2 := ode(temp);
+
+
+FOR i := 0 TO 23 DO
+	temp[i] := states[i] + timestep/2.0*k2[i];
+END_FOR
+k3 := ode(temp);
+
+
+FOR i := 0 TO 23 DO
+	temp[i] := states[i] + timestep*k3[i];
+END_FOR
+k4 := ode(temp);
+
+FOR i := 0 TO 23 DO
+	states[i] := states[i] + timestep/6.0*(k1[i] + 2*k2[i] + 2*k3[i] + k4[i]); 
+END_FOR
+
+
+t := t + timestep;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="kinematics" Id="{4049487d-e70f-4fac-bc42-aabe50acbc7f}">
+      <Declaration><![CDATA[METHOD PRIVATE kinematics : ARRAY [0..5] OF LREAL;
+VAR_INPUT
+	eta : ARRAY [0..5] OF LREAL;
+	v : ARRAY [0..5] OF LREAL;
+END_VAR
+
+VAR
+	eta_t : ARRAY[0..5] OF LREAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+IF COS(eta[4]) <> 0.0 THEN
+	eta_t[0] := -v[1]*(COS(eta[3])*SIN(eta[5])-COS(eta[5])*SIN(eta[3])*SIN(eta[4]))+v[2]*(SIN(eta[3])*SIN(eta[5])+COS(eta[3])*COS(eta[5])*SIN(eta[4]))+v[0]*COS(eta[4])*COS(eta[5]);
+	eta_t[1] := v[1]*(COS(eta[3])*COS(eta[5])+SIN(eta[3])*SIN(eta[4])*SIN(eta[5]))-v[2]*(COS(eta[5])*SIN(eta[3])-COS(eta[3])*SIN(eta[4])*SIN(eta[5]))+v[0]*COS(eta[4])*SIN(eta[5]);
+	eta_t[2] := -v[0]*SIN(eta[4])+v[2]*COS(eta[3])*COS(eta[4])+v[1]*COS(eta[4])*SIN(eta[3]);
+	eta_t[3] := v[3]+(v[5]*COS(eta[3])*SIN(eta[4]))/COS(eta[4])+(v[4]*SIN(eta[3])*SIN(eta[4]))/COS(eta[4]);
+	eta_t[4] := v[4]*COS(eta[3])-v[5]*SIN(eta[3]);
+	eta_t[5] := (v[5]*COS(eta[3]))/COS(eta[4])+(v[4]*SIN(eta[3]))/COS(eta[4]);
+	
+	kinematics := eta_t;
+END_IF;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ode" Id="{ab802e49-7ed0-46de-bc34-d6e3e0339237}">
+      <Declaration><![CDATA[METHOD PRIVATE ode : ARRAY [0..23] OF LREAL
+VAR_INPUT
+	y : ARRAY [0..23] OF LREAL;
+END_VAR
+
+VAR
+	K : ARRAY [0..5] OF LREAL := [1E5, 1E5, 4E8, 1E8, 1E5, 1E6];	
+
+	Kp : LREAL;
+	Kd : LREAL;	
+
+	w : LREAL;
+	i : UINT;
+	
+	eta : ARRAY [0..5] OF LREAL;
+	eta_t : ARRAY [0..5] OF LREAL;
+	
+	v : ARRAY [0..5] OF LREAL;
+	v_t : ARRAY [0..5] OF LREAL;
+	
+	x : ARRAY [0..11] OF LREAL;
+	x_t : ARRAY [0..11] OF LREAL;
+	
+	tau : ARRAY [0..5] OF LREAL;
+	tau_wave : ARRAY [0..5] OF LREAL;
+	tau_tot : ARRAY [0..5] OF LREAL;
+
+	y_t : ARRAY [0..23] OF LREAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Rigid body states
+FOR i := 0 TO 5 DO
+	eta[i] := y[i];
+	v[i] := y[i+6];
+END_FOR; 
+
+// Wave simulation states
+FOR i := 0 TO 11 DO
+	x[i] := y[i+12];
+END_FOR
+
+//*******************************************************************//
+
+// Kinematics
+eta_t := kinematics(eta, v);
+
+// Wave forces driven by random process
+FOR i := 0 TO 5 DO
+	rand();
+	w := rand.Num*2.0 - 1.0;
+	
+	x_t[0 + 2*i] := x[1 + 2*i];
+	x_t[1 + 2*i] := 2*w*ABS(lambda*sigma*w0) - w0*w0*x[0 + 2*i] - 2*x[1 + 2*i]*ABS(lambda*w0);
+	tau_wave[i] := ABS(K[i])*x[1 + 2*i];	
+END_FOR;
+
+// PD Controller for DP simulation in surge, sway and yaw directions
+Kp := poles*poles*2.0/K_x;
+Kd := (2.0*ABS(poles) - 4.0/Ts_x)/K_x;
+tau[0] := -(Kp*eta[0] + Kd*eta_t[0]);
+
+Kp := poles*poles*2.0/K_y;
+Kd := (2.0*ABS(poles) - 4.0/Ts_y)/K_y;
+tau[1] := -(Kp*eta[1] + Kd*eta_t[1]);
+
+Kp := poles*poles*2.0/K_yaw;
+Kd := (2.0*ABS(poles) - 4.0/Ts_yaw)/K_yaw;
+tau[5] := -(Kp*eta[5] + Kd*eta_t[5]);
+
+
+// Total forces
+tau_tot[0] := tau[0] + tau_wave[0];
+tau_tot[1] := tau[1] + tau_wave[1];
+tau_tot[2] := tau[2] + tau_wave[2];
+tau_tot[3] := tau[3] + tau_wave[3];
+tau_tot[4] := tau[4] + tau_wave[4];
+tau_tot[5] := tau[5] + tau_wave[5];
+
+// Rigid ship ODE >> v_t = Minv*(-D*v - G*eta + tau + tau_wave)
+v_t[0] := 0.000000146900537469*tau_tot[0] - 1.15779191741*eta[4] - 0.00633181020913*eta[2] - 0.000000000481800095922*tau_tot[2] + 0.000000000184278003677*tau_tot[4] - 0.0866236024535*v[0] - 0.00613744736768*v[2] - 0.274323279079*v[4];
+v_t[1] := 0.55557891964*eta[3] + 0.000000132912419336*tau_tot[1] - 0.00000000415239105737*tau_tot[3] + 0.0000000000224611856126*tau_tot[5] - 0.253122582192*v[1] - 0.104731972248*v[3] - 0.980405576225*v[5];
+v_t[2] := 0.0000000575501415202*tau_tot[2] - 1.50179843329*eta[4] - 0.000000000481800095922*tau_tot[0] - 0.772453112071*eta[2] - 0.000000000397149205293*tau_tot[4] + 0.000284105563467*v[0] - 0.0741429429368*v[2] - 1.51936619529*v[4];
+v_t[3] := 0.00000000289648823017*tau_tot[3] - 0.00000000415239105737*tau_tot[1] - 0.387542449503*eta[3] + 0.000000000048718802883*tau_tot[5] + 0.00236474400079*v[1] - 0.0922339025763*v[3] + 0.117970498295*v[5];
+v_t[4] := 0.000000000184278003677*tau_tot[0] - 0.954371208694*eta[4] - 0.00521932937313*eta[2] - 0.000000000397149205293*tau_tot[2] + 0.000000000151900888631*tau_tot[4] - 0.00010866416697*v[0] - 0.00505911552371*v[2] - 0.226125468221*v[4];
+v_t[5] := 0.0000000000224611856126*tau_tot[1] - 0.00651844672092*eta[3] + 0.000000000048718802883*tau_tot[3] + 0.000000000280999799559*tau_tot[5] - 0.0017495572239*v[1] + 0.0115949285132*v[3] - 0.249188054934*v[5];
+
+
+
+//*******************************************************************//
+
+// Rigid body states
+FOR i := 0 TO 5 DO
+	y_t[i] := eta_t[i];
+	y_t[i+6] := v_t[i];
+END_FOR; 
+
+// Wave simulation states
+FOR i := 0 TO 11 DO
+	y_t[i+12] := x_t[i];
+END_FOR
+
+// Return y_t
+ode := y_t;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="ShipSimulator">
+      <LineId Id="123" Count="2" />
+      <LineId Id="134" Count="0" />
+      <LineId Id="126" Count="6" />
+      <LineId Id="139" Count="2" />
+      <LineId Id="147" Count="0" />
+      <LineId Id="151" Count="0" />
+      <LineId Id="148" Count="2" />
+      <LineId Id="143" Count="0" />
+      <LineId Id="145" Count="1" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="ShipSimulator.FB_init">
+      <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="ShipSimulator.integrate">
+      <LineId Id="9" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="13" Count="1" />
+      <LineId Id="17" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="ShipSimulator.integrate_rk4">
+      <LineId Id="22" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="54" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="30" Count="1" />
+      <LineId Id="33" Count="1" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="47" Count="0" />
+      <LineId Id="38" Count="4" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="43" Count="3" />
+      <LineId Id="37" Count="0" />
+      <LineId Id="49" Count="0" />
+      <LineId Id="51" Count="1" />
+      <LineId Id="50" Count="0" />
+      <LineId Id="53" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="ShipSimulator.kinematics">
+      <LineId Id="21" Count="0" />
+      <LineId Id="12" Count="8" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="ShipSimulator.ode">
+      <LineId Id="25" Count="10" />
+      <LineId Id="72" Count="1" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="79" Count="1" />
+      <LineId Id="86" Count="0" />
+      <LineId Id="91" Count="2" />
+      <LineId Id="87" Count="0" />
+      <LineId Id="89" Count="1" />
+      <LineId Id="88" Count="0" />
+      <LineId Id="81" Count="0" />
+      <LineId Id="97" Count="0" />
+      <LineId Id="99" Count="6" />
+      <LineId Id="107" Count="4" />
+      <LineId Id="98" Count="0" />
+      <LineId Id="71" Count="0" />
+      <LineId Id="56" Count="5" />
+      <LineId Id="63" Count="0" />
+      <LineId Id="74" Count="0" />
+      <LineId Id="64" Count="6" />
+      <LineId Id="38" Count="13" />
+      <LineId Id="76" Count="2" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

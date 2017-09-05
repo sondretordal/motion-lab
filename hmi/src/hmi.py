@@ -128,7 +128,7 @@ class GUI(QMainWindow, gui_main):
         self.DP_1 = RealTimePlot(self.DP_SimStates.addPlot())
         self.DP_1.plot.setLabel('left', 'Position', 'm')
         self.DP_1.plot.setYRange(-8, 8)
-        self.DP_1.add_curves(['r', 'g', 'b','k','k'], ['Surge', 'Sway', 'Heave','Surge SP','Sway SP'])
+        self.DP_1.add_curves(['r', 'g', 'b'], ['Surge', 'Sway', 'Heave'])
 
         self.DP_SimStates.nextRow()
 
@@ -256,13 +256,9 @@ class GUI(QMainWindow, gui_main):
     # Update data and plot
     def update_data(self):
         # Update real time plots
-        self.sim1.Kp = 1e6
-        self.sim1.Kd = 1e4
-        self.sim1.x_d = 5.0*float(self.DP_setX.value())/100.0
-        self.sim1.y_d = 5.0*float(self.DP_setY.value())/100.0
 
         self.DP_1.time_range = self.time_range
-        self.DP_1.update(self.sim1.t, [self.sim1.x, self.sim1.y, self.sim1.z, self.sim1.x_d, self.sim1.y_d])
+        self.DP_1.update(self.sim1.t, [self.sim1.x, self.sim1.y, self.sim1.z])
         
         self.DP_2.time_range = self.time_range
         self.DP_2.update(self.sim1.t, [self.sim1.roll/np.pi*180.0, self.sim1.pitch/np.pi*180.0, self.sim1.yaw/np.pi*180.0])

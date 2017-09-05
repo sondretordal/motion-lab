@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
+  <POU Name="SIMULATOR" Id="{b537270b-d5b9-4044-8e1f-03b2cd92e219}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM SIMULATOR
+VAR
+	ship1 : ShipSimulator(0);
+	ship2 : ShipSimulator(20);
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+ship1();
+
+ship2();]]></ST>
+    </Implementation>
+    <LineIds Name="SIMULATOR">
+      <LineId Id="7" Count="0" />
+      <LineId Id="10" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -43,12 +43,21 @@ END_IF
 
 // Feedback data
 // EM8000
+(*
 feedback.em8000.x := EM8000.feedback.Actual_platform_position_surge;
 feedback.em8000.y := EM8000.feedback.Actual_platform_position_sway;
 feedback.em8000.z := EM8000.feedback.Actual_platform_position_heave;
 feedback.em8000.roll := EM8000.feedback.Actual_platform_position_roll;
 feedback.em8000.pitch := EM8000.feedback.Actual_platform_position_pitch;
 feedback.em8000.yaw	:= EM8000.feedback.Actual_platform_position_yaw;
+*)
+feedback.em8000.x := SIMULATOR.ship1.x;
+feedback.em8000.y := SIMULATOR.ship1.y;
+feedback.em8000.z := SIMULATOR.ship1.z;
+feedback.em8000.roll := SIMULATOR.ship1.roll;
+feedback.em8000.pitch := SIMULATOR.ship1.pitch;
+feedback.em8000.yaw	:= SIMULATOR.ship1.yaw;
+
 feedback.em8000.x_t	:= EM8000.feedback.Actual_platform_velocity_surge;
 feedback.em8000.y_t	:= EM8000.feedback.Actual_platform_velocity_sway;
 feedback.em8000.z_t	:= EM8000.feedback.Actual_platform_velocity_heave;
@@ -114,7 +123,7 @@ feedback.comau.q4_tt := COMAU.feedback.q4_tt;
 feedback.comau.q5_tt := COMAU.feedback.q5_tt;
 feedback.comau.q6_tt := COMAU.feedback.q6_tt;
 
-// AT960 TODO !!!!!!!
+// AT960
 feedback.at960.x := LREAL_TO_REAL(Main.x);
 feedback.at960.y := LREAL_TO_REAL(Main.y);
 feedback.at960.z := LREAL_TO_REAL(Main.z);
@@ -176,7 +185,16 @@ UdpIO();
       <LineId Id="871" Count="0" />
       <LineId Id="561" Count="6" />
       <LineId Id="704" Count="0" />
-      <LineId Id="833" Count="23" />
+      <LineId Id="918" Count="0" />
+      <LineId Id="833" Count="0" />
+      <LineId Id="926" Count="0" />
+      <LineId Id="835" Count="3" />
+      <LineId Id="919" Count="0" />
+      <LineId Id="927" Count="0" />
+      <LineId Id="920" Count="0" />
+      <LineId Id="922" Count="3" />
+      <LineId Id="921" Count="0" />
+      <LineId Id="839" Count="17" />
       <LineId Id="705" Count="0" />
       <LineId Id="568" Count="0" />
       <LineId Id="809" Count="23" />

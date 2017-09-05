@@ -161,7 +161,7 @@ PYBIND11_PLUGIN(MotionLab) {
 	
 	// Ship simulator
 	py::class_<ShipSimulator>(m, "ShipSimulator")
-		.def(py::init<unsigned int>())
+		.def(py::init<>())
 		.def("start", &ShipSimulator::start)
 		.def("close", &ShipSimulator::close)
 		.def("integrate", &ShipSimulator::integrate)
@@ -193,6 +193,15 @@ PYBIND11_PLUGIN(MotionLab) {
 
 int main(int argc, char** argv)
 {	
-	
+	ShipSimulator s;
 
+	double sum = 0.0;
+	unsigned int i;
+
+
+	for (i = 0; i < 1000000000; i++) {
+		sum = sum + (s.drand()*2.0-1.0);
+	}
+
+	std::cout << sum/static_cast<double>(i) << std::endl;
 }
