@@ -2210,25 +2210,6 @@ color: rgb(255, 255, 255);
             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
            </property>
           </widget>
-          <zorder>EM8000_output_pos_y</zorder>
-          <zorder>label_65</zorder>
-          <zorder>label_84</zorder>
-          <zorder>EM8000_output_pos_z</zorder>
-          <zorder>label_85</zorder>
-          <zorder>EM8000_output_pos_x</zorder>
-          <zorder>label_86</zorder>
-          <zorder>EM8000_output_ang_y</zorder>
-          <zorder>label_87</zorder>
-          <zorder>EM8000_output_ang_r</zorder>
-          <zorder>label_88</zorder>
-          <zorder>EM8000_output_ang_p</zorder>
-          <zorder>label_89</zorder>
-          <zorder>label_90</zorder>
-          <zorder>label_91</zorder>
-          <zorder>label_92</zorder>
-          <zorder>label_93</zorder>
-          <zorder>label_94</zorder>
-          <zorder>DP_off</zorder>
          </widget>
          <widget class="QGroupBox" name="groupBox_13">
           <property name="geometry">
@@ -2268,24 +2249,14 @@ color: rgb(255, 255, 255);
             </rect>
            </property>
            <property name="currentText">
-            <string>20</string>
+            <string>10</string>
            </property>
            <property name="currentIndex">
-            <number>3</number>
+            <number>0</number>
            </property>
-           <item>
-            <property name="text">
-             <string>5</string>
-            </property>
-           </item>
            <item>
             <property name="text">
              <string>10</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>15</string>
             </property>
            </item>
            <item>
@@ -2295,12 +2266,22 @@ color: rgb(255, 255, 255);
            </item>
            <item>
             <property name="text">
-             <string>25</string>
+             <string>30</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>30</string>
+             <string>40</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>50</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>60</string>
             </property>
            </item>
           </widget>
@@ -3022,24 +3003,14 @@ color: rgb(255, 255, 255);
             </rect>
            </property>
            <property name="currentText">
-            <string>20</string>
+            <string>10</string>
            </property>
            <property name="currentIndex">
-            <number>3</number>
+            <number>0</number>
            </property>
-           <item>
-            <property name="text">
-             <string>5</string>
-            </property>
-           </item>
            <item>
             <property name="text">
              <string>10</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>15</string>
             </property>
            </item>
            <item>
@@ -3049,12 +3020,22 @@ color: rgb(255, 255, 255);
            </item>
            <item>
             <property name="text">
-             <string>25</string>
+             <string>30</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>30</string>
+             <string>40</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>50</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>60</string>
             </property>
            </item>
           </widget>
@@ -3775,24 +3756,14 @@ color: rgb(255, 255, 255);
             </rect>
            </property>
            <property name="currentText">
-            <string>20</string>
+            <string>10</string>
            </property>
            <property name="currentIndex">
-            <number>3</number>
+            <number>0</number>
            </property>
-           <item>
-            <property name="text">
-             <string>5</string>
-            </property>
-           </item>
            <item>
             <property name="text">
              <string>10</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>15</string>
             </property>
            </item>
            <item>
@@ -3802,12 +3773,22 @@ color: rgb(255, 255, 255);
            </item>
            <item>
             <property name="text">
-             <string>25</string>
+             <string>30</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>30</string>
+             <string>40</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>50</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>60</string>
             </property>
            </item>
           </widget>
@@ -3945,7 +3926,7 @@ color: rgb(255, 255, 255);
             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
            </property>
           </widget>
-          <widget class="QComboBox" name="EM8000_plot_time_range_2">
+          <widget class="QComboBox" name="EM8000_plot_time_range_ship">
            <property name="geometry">
             <rect>
              <x>130</x>
@@ -3955,24 +3936,14 @@ color: rgb(255, 255, 255);
             </rect>
            </property>
            <property name="currentText">
-            <string>20</string>
+            <string>10</string>
            </property>
            <property name="currentIndex">
-            <number>3</number>
+            <number>0</number>
            </property>
-           <item>
-            <property name="text">
-             <string>5</string>
-            </property>
-           </item>
            <item>
             <property name="text">
              <string>10</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>15</string>
             </property>
            </item>
            <item>
@@ -3982,12 +3953,22 @@ color: rgb(255, 255, 255);
            </item>
            <item>
             <property name="text">
-             <string>25</string>
+             <string>30</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>30</string>
+             <string>40</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>50</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>60</string>
             </property>
            </item>
           </widget>
@@ -4028,6 +4009,151 @@ color: rgb(255, 255, 255);
            </rect>
           </property>
          </widget>
+         <widget class="QGroupBox" name="groupBox_23">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>10</y>
+            <width>261</width>
+            <height>211</height>
+           </rect>
+          </property>
+          <property name="title">
+           <string>Wave Spectrum Settings</string>
+          </property>
+          <widget class="QLabel" name="label_149">
+           <property name="geometry">
+            <rect>
+             <x>210</x>
+             <y>60</y>
+             <width>31</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>[s]</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_151">
+           <property name="geometry">
+            <rect>
+             <x>210</x>
+             <y>30</y>
+             <width>31</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>[m]</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_152">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>31</y>
+             <width>151</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Significant Wave Height :</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_159">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>60</y>
+             <width>151</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Wave Time Period :</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_160">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>150</y>
+             <width>141</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Ocean-Wave Spectra :</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QComboBox" name="wave_spectra">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>180</y>
+             <width>131</width>
+             <height>22</height>
+            </rect>
+           </property>
+           <property name="currentText">
+            <string>JONSWAP</string>
+           </property>
+           <property name="currentIndex">
+            <number>0</number>
+           </property>
+           <item>
+            <property name="text">
+             <string>JONSWAP</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Pierson-Moskowitz</string>
+            </property>
+           </item>
+          </widget>
+          <widget class="QLineEdit" name="line_test">
+           <property name="geometry">
+            <rect>
+             <x>160</x>
+             <y>30</y>
+             <width>41</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="clearButtonEnabled">
+            <bool>false</bool>
+           </property>
+          </widget>
+          <widget class="QLineEdit" name="line_test2">
+           <property name="geometry">
+            <rect>
+             <x>160</x>
+             <y>60</y>
+             <width>41</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="clearButtonEnabled">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </widget>
         </widget>
         <widget class="QWidget" name="tab_7">
          <attribute name="title">
@@ -4061,7 +4187,7 @@ color: rgb(255, 255, 255);
             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
            </property>
           </widget>
-          <widget class="QComboBox" name="EM1500_plot_time_range_2">
+          <widget class="QComboBox" name="EM1500_plot_time_range_ship">
            <property name="geometry">
             <rect>
              <x>130</x>
@@ -4071,24 +4197,14 @@ color: rgb(255, 255, 255);
             </rect>
            </property>
            <property name="currentText">
-            <string>20</string>
+            <string>10</string>
            </property>
            <property name="currentIndex">
-            <number>3</number>
+            <number>0</number>
            </property>
-           <item>
-            <property name="text">
-             <string>5</string>
-            </property>
-           </item>
            <item>
             <property name="text">
              <string>10</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>15</string>
             </property>
            </item>
            <item>
@@ -4098,12 +4214,22 @@ color: rgb(255, 255, 255);
            </item>
            <item>
             <property name="text">
-             <string>25</string>
+             <string>30</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>30</string>
+             <string>40</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>50</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>60</string>
             </property>
            </item>
           </widget>

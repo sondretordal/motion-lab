@@ -147,55 +147,101 @@ class GUI(QMainWindow, gui_main):
         self.EM1500_1.plot.setYRange(-0.4, 0.4)
         self.EM1500_1.plot.setLabel('left', 'Position', 'm')
         self.EM1500_1.add_curves(['r', 'g', 'b'], ['Surge', 'Sway', 'Heave'])
-        self.EM1500_1.add_text_displays([self.EM1500_output_pos_x, self.EM1500_output_pos_y, self.EM1500_output_pos_z])
+        self.EM1500_1.add_text_displays([
+            self.EM1500_output_pos_x, 
+            self.EM1500_output_pos_y, 
+            self.EM1500_output_pos_z])
         self.EM1500_plot.nextRow()
         self.EM1500_2 = RealTimePlot(self.EM1500_plot.addPlot())
         self.EM1500_2.plot.setYRange(-5, 5)
         self.EM1500_2.plot.setLabel('left', 'Angle', 'deg')
         self.EM1500_2.add_curves(['r', 'g', 'b'], ['Roll', 'Pitch', 'Yaw'])
-        self.EM1500_2.add_text_displays([self.EM1500_output_ang_r, self.EM1500_output_ang_p, self.EM1500_output_ang_y])
+        self.EM1500_2.add_text_displays([
+            self.EM1500_output_ang_r, 
+            self.EM1500_output_ang_p, 
+            self.EM1500_output_ang_y])
         
         self.EM8000_1 = RealTimePlot(self.EM8000_plot.addPlot())
         self.EM8000_1.plot.setYRange(-0.6, 0.6)
         self.EM8000_1.plot.setLabel('left', 'Position', 'm')
         self.EM8000_1.add_curves(['r', 'g', 'b'], ['Surge', 'Sway', 'Heave'])
-        self.EM8000_1.add_text_displays([self.EM8000_output_pos_x, self.EM8000_output_pos_y, self.EM8000_output_pos_z])
+        self.EM8000_1.add_text_displays([
+            self.EM8000_output_pos_x, 
+            self.EM8000_output_pos_y, 
+            self.EM8000_output_pos_z])
         self.EM8000_plot.nextRow()
         self.EM8000_2 = RealTimePlot(self.EM8000_plot.addPlot())
         self.EM8000_2.plot.setLabel('left', 'Angle', 'deg')
         self.EM8000_2.plot.setYRange(-5, 5)
         self.EM8000_2.add_curves(['r', 'g', 'b'], ['Roll', 'Pitch', 'Yaw'])
-        self.EM8000_2.add_text_displays([self.EM8000_output_ang_r, self.EM8000_output_ang_p, self.EM8000_output_ang_y])
+        self.EM8000_2.add_text_displays([
+            self.EM8000_output_ang_r, 
+            self.EM8000_output_ang_p, 
+            self.EM8000_output_ang_y])
 
         self.COMAU = RealTimePlot(self.COMAU_plot.addPlot())
         self.COMAU.plot.setYRange(-180, 180)
         self.COMAU.plot.setLabel('left', 'Angle', 'deg')
         self.COMAU.add_curves(['r', 'g', 'b', 'y', 'm', 'c'], ['q1', 'q2', 'q3', 'q4', 'q5', 'q6'])
         self.COMAU.add_text_displays([
-                self.COMAU_output_pos_j1, self.COMAU_output_pos_j2, self.COMAU_output_pos_j3,
-                self.COMAU_output_pos_j4, self.COMAU_output_pos_j5, self.COMAU_output_pos_j6
+                self.COMAU_output_pos_j1, 
+                self.COMAU_output_pos_j2, 
+                self.COMAU_output_pos_j3,
+                self.COMAU_output_pos_j4, 
+                self.COMAU_output_pos_j5, 
+                self.COMAU_output_pos_j6
             ])
 
         # Joint stroke bar indicators
         self.EM1500_bars = RealTimeBar()
         self.EM1500_bars.max_values = [0.395]*12
         self.EM1500_bars.bars = [
-                self.EM1500_bar1_l1, self.EM1500_bar1_l2, self.EM1500_bar1_l3, self.EM1500_bar1_l4, self.EM1500_bar1_l5, self.EM1500_bar1_l6,
-                self.EM1500_bar2_l1, self.EM1500_bar2_l2, self.EM1500_bar2_l3, self.EM1500_bar2_l4, self.EM1500_bar2_l5, self.EM1500_bar2_l6
+                self.EM1500_bar1_l1, 
+                self.EM1500_bar1_l2, 
+                self.EM1500_bar1_l3, 
+                self.EM1500_bar1_l4, 
+                self.EM1500_bar1_l5, 
+                self.EM1500_bar1_l6,
+                self.EM1500_bar2_l1, 
+                self.EM1500_bar2_l2, 
+                self.EM1500_bar2_l3, 
+                self.EM1500_bar2_l4, 
+                self.EM1500_bar2_l5, 
+                self.EM1500_bar2_l6
             ]
         
         self.EM8000_bars = RealTimeBar()
         self.EM8000_bars.max_values = [0.776]*12
         self.EM8000_bars.bars = [
-                self.EM8000_bar1_l1, self.EM8000_bar1_l2, self.EM8000_bar1_l3, self.EM8000_bar1_l4, self.EM8000_bar1_l5, self.EM8000_bar1_l6,
-                self.EM8000_bar2_l1, self.EM8000_bar2_l2, self.EM8000_bar2_l3, self.EM8000_bar2_l4, self.EM8000_bar2_l5, self.EM8000_bar2_l6
+                self.EM8000_bar1_l1, 
+                self.EM8000_bar1_l2, 
+                self.EM8000_bar1_l3, 
+                self.EM8000_bar1_l4, 
+                self.EM8000_bar1_l5, 
+                self.EM8000_bar1_l6,
+                self.EM8000_bar2_l1, 
+                self.EM8000_bar2_l2, 
+                self.EM8000_bar2_l3, 
+                self.EM8000_bar2_l4, 
+                self.EM8000_bar2_l5, 
+                self.EM8000_bar2_l6
             ]
         
         self.COMAU_bars = RealTimeBar()
         self.COMAU_bars.max_values = [180]*12
         self.COMAU_bars.bars = [
-                self.COMAU_bar1_j1, self.COMAU_bar1_j2, self.COMAU_bar1_j3, self.COMAU_bar1_j4, self.COMAU_bar1_j5, self.COMAU_bar1_j6,
-                self.COMAU_bar2_j1, self.COMAU_bar2_j2, self.COMAU_bar2_j3, self.COMAU_bar2_j4, self.COMAU_bar2_j5, self.COMAU_bar2_j6
+                self.COMAU_bar1_j1, 
+                self.COMAU_bar1_j2, 
+                self.COMAU_bar1_j3,
+                self.COMAU_bar1_j4, 
+                self.COMAU_bar1_j5, 
+                self.COMAU_bar1_j6,
+                self.COMAU_bar2_j1, 
+                self.COMAU_bar2_j2, 
+                self.COMAU_bar2_j3, 
+                self.COMAU_bar2_j4, 
+                self.COMAU_bar2_j5, 
+                self.COMAU_bar2_j6
             ]
 
         # Plot time range setting
@@ -216,9 +262,22 @@ class GUI(QMainWindow, gui_main):
         dir4 = os.path.abspath(dir3 + '\docs\_build\html\index.html')
         self.docView.load(QUrl.fromLocalFile(dir4))
 
+        self.validator = QDoubleValidator()
+        self.line_test.setValidator(self.validator)
+        self.line_test.returnPressed.connect(self.test_func)
+        
         # Show UI
         self.show()
 
+    def test_func(self):
+            sender = self.sender()
+            first = sender.text()
+            print "first"
+            print first
+            #print "float"
+            #print float(sender.text())
+            #self.line_test2.setText(sender.text())
+            #self.plc.write_by_name('SIMULATOR.ship1.x_max', 0.2, pyads.PLCTYPE_LREAL)
     # UI connections
     def ui_connect(self):
         # Password Protection of Tabs
@@ -250,6 +309,11 @@ class GUI(QMainWindow, gui_main):
         self.EM1500_plot_time_range.currentIndexChanged.connect(self.plot_time_axis_range)
         self.EM8000_plot_time_range.currentIndexChanged.connect(self.plot_time_axis_range)
         self.COMAU_plot_time_range.currentIndexChanged.connect(self.plot_time_axis_range)
+
+        # Ship Simulator tab:
+        #----------------------------------------------------------#
+        self.EM1500_plot_time_range_ship.currentIndexChanged.connect(self.plot_time_axis_range)
+        self.EM8000_plot_time_range_ship.currentIndexChanged.connect(self.plot_time_axis_range)
 
         # Logging Tab:
         #----------------------------------------------------------#
@@ -371,16 +435,21 @@ class GUI(QMainWindow, gui_main):
 
     # Function to change the time axis range of the plots
     def plot_time_axis_range(self):
-    # (This function is universal for all combobox objects in the plot tabs)
+        # (This function is universal for all combobox objects in the plot tabs)
 
         # Set the time_range equal to combobox-object text
         self.time_range = int(self.sender().currentText())
 
         # Find and set the selected index to all combobox objects in the plot tabs
         val = self.sender().currentIndex()
+        # Plotting tab:
         self.EM8000_plot_time_range.setCurrentIndex(val)
         self.EM1500_plot_time_range.setCurrentIndex(val)
         self.COMAU_plot_time_range.setCurrentIndex(val)
+
+        # Ship Simulator tab:
+        self.EM8000_plot_time_range_ship.setCurrentIndex(val)
+        self.EM1500_plot_time_range_ship.setCurrentIndex(val)
 
     # Main Tab selector
     # (with password protection on admin-tab)
