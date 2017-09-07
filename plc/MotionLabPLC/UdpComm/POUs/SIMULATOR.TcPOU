@@ -4,17 +4,19 @@
     <Declaration><![CDATA[PROGRAM SIMULATOR
 VAR
 	ship1 : ShipSimulator(0);
-	ship2 : ShipSimulator(20);
+	ship2 : ShipSimulator(2342);
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[
 ship1();
+ship2();
 
-ship2();]]></ST>
+]]></ST>
     </Implementation>
     <LineIds Name="SIMULATOR">
       <LineId Id="7" Count="0" />
+      <LineId Id="12" Count="0" />
       <LineId Id="10" Count="1" />
       <LineId Id="5" Count="0" />
     </LineIds>

@@ -11,6 +11,8 @@ import csv
 import time
 import socket
 from ctypes import sizeof, memmove, byref, c_uint
+from scipy.optimize import curve_fit
+
 
 from remotedata import TxData, RxData
 import MotionLab
@@ -120,30 +122,33 @@ class GUI(QMainWindow, gui_main):
         self.udp = MotionLab.HmiInterface(50160)
         self.udp.start()
 
-        # Ship DP simulator
-        self.sim1 = MotionLab.ShipSimulator()
-        self.sim1.start()
-
         # Real-time plots
-        self.DP_1 = RealTimePlot(self.DP_SimStates.addPlot())
-        self.DP_1.plot.setLabel('left', 'Position', 'm')
-        self.DP_1.plot.setYRange(-8, 8)
-        self.DP_1.add_curves(['r', 'g', 'b'], ['Surge', 'Sway', 'Heave'])
+        self.DP1_1 = RealTimePlot(self.DP1_SimStates.addPlot())
+        self.DP1_1.plot.setLabel('left', 'Position', 'm')
+        self.DP1_1.plot.setYRange(-0.4, 0.4)
+        self.DP1_1.add_curves(['r', 'g', 'b'], ['Surge', 'Sway', 'Heave'])
+        self.DP1_SimStates.nextRow()
+        self.DP1_2 = RealTimePlot(self.DP1_SimStates.addPlot())
+        self.DP1_2.plot.setLabel('left', 'Angle', 'deg')
+        self.DP1_2.plot.setYRange(-5.0, 5.0)
+        self.DP1_2.add_curves(['r', 'g', 'b'], ['Roll', 'Pitch', 'Yaw'])
 
-        self.DP_SimStates.nextRow()
-
-        self.DP_2 = RealTimePlot(self.DP_SimStates.addPlot())
-        self.DP_2.plot.setLabel('left', 'Angle', 'deg')
-        self.DP_2.plot.setYRange(-10, 10)
-        self.DP_2.add_curves(['r', 'g', 'b'], ['Roll', 'Pitch', 'Yaw'])
+        self.DP2_1 = RealTimePlot(self.DP2_SimStates.addPlot())
+        self.DP2_1.plot.setLabel('left', 'Position', 'm')
+        self.DP2_1.plot.setYRange(-0.4, 0.4)
+        self.DP2_1.add_curves(['r', 'g', 'b'], ['Surge', 'Sway', 'Heave'])
+        self.DP2_SimStates.nextRow()
+        self.DP2_2 = RealTimePlot(self.DP2_SimStates.addPlot())
+        self.DP2_2.plot.setLabel('left', 'Angle', 'deg')
+        self.DP2_2.plot.setYRange(-5.0, 5.0)
+        self.DP2_2.add_curves(['r', 'g', 'b'], ['Roll', 'Pitch', 'Yaw'])
 
         self.EM1500_1 = RealTimePlot(self.EM1500_plot.addPlot())
+        self.EM1500_1.plot.setYRange(-0.4, 0.4)
         self.EM1500_1.plot.setLabel('left', 'Position', 'm')
         self.EM1500_1.add_curves(['r', 'g', 'b'], ['Surge', 'Sway', 'Heave'])
         self.EM1500_1.add_text_displays([self.EM1500_output_pos_x, self.EM1500_output_pos_y, self.EM1500_output_pos_z])
-
         self.EM1500_plot.nextRow()
-
         self.EM1500_2 = RealTimePlot(self.EM1500_plot.addPlot())
         self.EM1500_2.plot.setYRange(-5, 5)
         self.EM1500_2.plot.setLabel('left', 'Angle', 'deg')
@@ -151,12 +156,11 @@ class GUI(QMainWindow, gui_main):
         self.EM1500_2.add_text_displays([self.EM1500_output_ang_r, self.EM1500_output_ang_p, self.EM1500_output_ang_y])
         
         self.EM8000_1 = RealTimePlot(self.EM8000_plot.addPlot())
+        self.EM8000_1.plot.setYRange(-0.6, 0.6)
         self.EM8000_1.plot.setLabel('left', 'Position', 'm')
         self.EM8000_1.add_curves(['r', 'g', 'b'], ['Surge', 'Sway', 'Heave'])
         self.EM8000_1.add_text_displays([self.EM8000_output_pos_x, self.EM8000_output_pos_y, self.EM8000_output_pos_z])
-
         self.EM8000_plot.nextRow()
-
         self.EM8000_2 = RealTimePlot(self.EM8000_plot.addPlot())
         self.EM8000_2.plot.setLabel('left', 'Angle', 'deg')
         self.EM8000_2.plot.setYRange(-5, 5)
@@ -256,16 +260,39 @@ class GUI(QMainWindow, gui_main):
     # Update data and plot
     def update_data(self):
         # Update real time plots
-
-        self.DP_1.time_range = self.time_range
-        self.DP_1.update(self.sim1.t, [self.sim1.x, self.sim1.y, self.sim1.z])
+        self.DP1_1.time_range = self.time_range
+        self.DP1_1.update(self.udp.feedback.t, [
+                self.udp.feedback.ship1.x,
+                self.udp.feedback.ship1.y,
+                self.udp.feedback.ship1.z
+            ])
         
-        self.DP_2.time_range = self.time_range
-        self.DP_2.update(self.sim1.t, [self.sim1.roll/np.pi*180.0, self.sim1.pitch/np.pi*180.0, self.sim1.yaw/np.pi*180.0])
+        self.DP1_2.time_range = self.time_range
+        self.DP1_2.update(self.udp.feedback.t, [
+                self.udp.feedback.ship1.roll/np.pi*180.0,
+                self.udp.feedback.ship1.pitch/np.pi*180.0,
+                self.udp.feedback.ship1.yaw/np.pi*180.0
+            ])
+ 
+        self.DP2_1.time_range = self.time_range
+        self.DP2_1.update(self.udp.feedback.t, [
+                self.udp.feedback.ship2.x,
+                self.udp.feedback.ship2.y,
+                self.udp.feedback.ship2.z
+            ])
+        
+        self.DP2_2.time_range = self.time_range
+        self.DP2_2.update(self.udp.feedback.t, [
+                self.udp.feedback.ship2.roll/np.pi*180.0,
+                self.udp.feedback.ship2.pitch/np.pi*180.0,
+                self.udp.feedback.ship2.yaw/np.pi*180.0
+            ])
 
         self.EM1500_1.time_range = self.time_range
         self.EM1500_1.update(self.udp.feedback.t, [
-                self.udp.feedback.em1500.x, self.udp.feedback.em1500.y, self.udp.feedback.em1500.z
+                self.udp.feedback.em1500.x,
+                self.udp.feedback.em1500.y,
+                self.udp.feedback.em1500.z
             ])
         self.EM1500_2.time_range = self.time_range
         self.EM1500_2.update(self.udp.feedback.t, [
@@ -276,7 +303,9 @@ class GUI(QMainWindow, gui_main):
 
         self.EM8000_1.time_range = self.time_range
         self.EM8000_1.update(self.udp.feedback.t, [
-                self.udp.feedback.em8000.x, self.udp.feedback.em8000.y, self.udp.feedback.em8000.z
+                self.udp.feedback.em8000.x,
+                self.udp.feedback.em8000.y,
+                self.udp.feedback.em8000.z
             ])
         self.EM8000_2.time_range = self.time_range
         self.EM8000_2.update(self.udp.feedback.t, [
@@ -287,29 +316,57 @@ class GUI(QMainWindow, gui_main):
         
         self.COMAU.time_range = self.time_range
         self.COMAU.update(self.udp.feedback.t, [
-                self.udp.feedback.comau.q1, self.udp.feedback.comau.q2, self.udp.feedback.comau.q3,
-                self.udp.feedback.comau.q4, self.udp.feedback.comau.q5, self.udp.feedback.comau.q6
+                self.udp.feedback.comau.q1, 
+                self.udp.feedback.comau.q2, 
+                self.udp.feedback.comau.q3,
+                self.udp.feedback.comau.q4, 
+                self.udp.feedback.comau.q5, 
+                self.udp.feedback.comau.q6
             ])
         
         self.EM8000_bars.update([
-                self.udp.feedback.em8000.L1, self.udp.feedback.em8000.L2, self.udp.feedback.em8000.L3,
-                self.udp.feedback.em8000.L4, self.udp.feedback.em8000.L5, self.udp.feedback.em8000.L6,
-                self.udp.feedback.em8000.L1, self.udp.feedback.em8000.L2, self.udp.feedback.em8000.L3,
-                self.udp.feedback.em8000.L4, self.udp.feedback.em8000.L5, self.udp.feedback.em8000.L6
+                self.udp.feedback.em8000.L1, 
+                self.udp.feedback.em8000.L2, 
+                self.udp.feedback.em8000.L3,
+                self.udp.feedback.em8000.L4, 
+                self.udp.feedback.em8000.L5, 
+                self.udp.feedback.em8000.L6,
+                self.udp.feedback.em8000.L1, 
+                self.udp.feedback.em8000.L2, 
+                self.udp.feedback.em8000.L3,
+                self.udp.feedback.em8000.L4, 
+                self.udp.feedback.em8000.L5, 
+                self.udp.feedback.em8000.L6
             ])
 
         self.EM1500_bars.update([
-                self.udp.feedback.em1500.L1, self.udp.feedback.em1500.L2, self.udp.feedback.em1500.L3,
-                self.udp.feedback.em1500.L4, self.udp.feedback.em1500.L5, self.udp.feedback.em1500.L6,
-                self.udp.feedback.em1500.L1, self.udp.feedback.em1500.L2, self.udp.feedback.em1500.L3,
-                self.udp.feedback.em1500.L4, self.udp.feedback.em1500.L5, self.udp.feedback.em1500.L6
+                self.udp.feedback.em1500.L1, 
+                self.udp.feedback.em1500.L2, 
+                self.udp.feedback.em1500.L3,
+                self.udp.feedback.em1500.L4, 
+                self.udp.feedback.em1500.L5, 
+                self.udp.feedback.em1500.L6,
+                self.udp.feedback.em1500.L1, 
+                self.udp.feedback.em1500.L2, 
+                self.udp.feedback.em1500.L3,
+                self.udp.feedback.em1500.L4, 
+                self.udp.feedback.em1500.L5, 
+                self.udp.feedback.em1500.L6
             ])
 
         self.COMAU_bars.update([
-                self.udp.feedback.comau.q1, self.udp.feedback.comau.q2, self.udp.feedback.comau.q3,
-                self.udp.feedback.comau.q4, self.udp.feedback.comau.q5, self.udp.feedback.comau.q6,
-                self.udp.feedback.comau.q1, self.udp.feedback.comau.q2, self.udp.feedback.comau.q3,
-                self.udp.feedback.comau.q4, self.udp.feedback.comau.q5, self.udp.feedback.comau.q6
+                self.udp.feedback.comau.q1, 
+                self.udp.feedback.comau.q2, 
+                self.udp.feedback.comau.q3,
+                self.udp.feedback.comau.q4, 
+                self.udp.feedback.comau.q5, 
+                self.udp.feedback.comau.q6,
+                self.udp.feedback.comau.q1, 
+                self.udp.feedback.comau.q2, 
+                self.udp.feedback.comau.q3,
+                self.udp.feedback.comau.q4, 
+                self.udp.feedback.comau.q5, 
+                self.udp.feedback.comau.q6
             ])
 
     # Function to change the time axis range of the plots
@@ -466,9 +523,6 @@ class GUI(QMainWindow, gui_main):
             # CLose udp connection
             self.udp.close()
             print 'HMI Udp Connection Closed'
-
-            # Close DP simualtors
-            self.sim1.close()
 
             event.accept()
         else:

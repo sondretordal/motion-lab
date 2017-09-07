@@ -108,6 +108,15 @@ struct RemoteFeedbackMru {
 	float z_tt;
 };
 
+struct RemoteFeedbackShipSim {
+	float x;
+	float y;
+	float z;
+	float roll;
+	float pitch;
+	float yaw;
+};
+
 struct RemoteFeedback	 {
 	float t;
 	RemoteFeedbackStewart em8000;
@@ -116,4 +125,6 @@ struct RemoteFeedback	 {
 	RemoteFeedbackLeica at960;
 	RemoteFeedbackMru mru1;
 	RemoteFeedbackMru mru2;
+	RemoteFeedbackShipSim ship1;
+	RemoteFeedbackShipSim ship2;
 };

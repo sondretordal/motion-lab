@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
+  <DUT Name="RemoteFeedbackShipSim" Id="{9f0dba80-a44d-4a78-9683-b10f3d70d80c}">
+    <Declaration><![CDATA[TYPE RemoteFeedbackShipSim :
+STRUCT
+	x : REAL;
+	y : REAL;
+	z : REAL;
+	roll : REAL;
+	pitch : REAL;
+	yaw : REAL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

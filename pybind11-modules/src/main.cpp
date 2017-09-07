@@ -96,6 +96,15 @@ PYBIND11_PLUGIN(MotionLab) {
 		.def_readonly("y_tt",&RemoteFeedbackMru::y_tt)
 		.def_readonly("z_tt",&RemoteFeedbackMru::z_tt);
 	
+	py::class_<RemoteFeedbackShipSim>(m, "RemoteFeedbackShipSim")
+		.def(py::init<>())
+		.def_readonly("x",&RemoteFeedbackShipSim::x)
+		.def_readonly("y",&RemoteFeedbackShipSim::y)
+		.def_readonly("z",&RemoteFeedbackShipSim::z)
+		.def_readonly("roll",&RemoteFeedbackShipSim::roll)
+		.def_readonly("pitch",&RemoteFeedbackShipSim::pitch)
+		.def_readonly("yaw",&RemoteFeedbackShipSim::yaw);
+
 	py::class_<RemoteFeedback>(m, "RemoteFeedback")
 		.def(py::init<>())
 		.def_readonly("t", &RemoteFeedback::t)
@@ -104,7 +113,9 @@ PYBIND11_PLUGIN(MotionLab) {
 		.def_readonly("comau", &RemoteFeedback::comau)
 		.def_readonly("at960", &RemoteFeedback::at960)
 		.def_readonly("mru1", &RemoteFeedback::mru1)
-		.def_readonly("mru2", &RemoteFeedback::mru2);
+		.def_readonly("mru2", &RemoteFeedback::mru2)
+		.def_readonly("ship1", &RemoteFeedback::ship1)
+		.def_readonly("ship2", &RemoteFeedback::ship2);
 
 
 

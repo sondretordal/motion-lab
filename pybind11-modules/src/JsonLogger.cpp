@@ -95,6 +95,20 @@ void JsonLogger::save(std::string path) {
         json_log["feedback"]["at960"]["q1"].push_back(feedback[i].at960.q1);
         json_log["feedback"]["at960"]["q2"].push_back(feedback[i].at960.q2);
         json_log["feedback"]["at960"]["q3"].push_back(feedback[i].at960.q3);
+
+        json_log["feedback"]["ship1"]["x"].push_back(feedback[i].ship1.x);
+        json_log["feedback"]["ship1"]["y"].push_back(feedback[i].ship1.y);
+        json_log["feedback"]["ship1"]["z"].push_back(feedback[i].ship1.z);
+        json_log["feedback"]["ship1"]["roll"].push_back(feedback[i].ship1.roll);
+        json_log["feedback"]["ship1"]["pitch"].push_back(feedback[i].ship1.pitch);
+        json_log["feedback"]["ship1"]["yaw"].push_back(feedback[i].ship1.yaw);
+
+        json_log["feedback"]["ship2"]["x"].push_back(feedback[i].ship2.x);
+        json_log["feedback"]["ship2"]["y"].push_back(feedback[i].ship2.y);
+        json_log["feedback"]["ship2"]["z"].push_back(feedback[i].ship2.z);
+        json_log["feedback"]["ship2"]["roll"].push_back(feedback[i].ship2.roll);
+        json_log["feedback"]["ship2"]["pitch"].push_back(feedback[i].ship2.pitch);
+        json_log["feedback"]["ship2"]["yaw"].push_back(feedback[i].ship2.yaw);
         
         // Save control data
         json_log["control"]["comau"]["q1"].push_back(control[i].comau.q1);

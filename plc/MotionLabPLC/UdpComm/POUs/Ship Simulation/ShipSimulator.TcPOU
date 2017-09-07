@@ -13,6 +13,15 @@ VAR_INPUT
 	// PD Contoroller poles
 	poles : LREAL := 0.3;
 	
+	// Max output states allowed
+	x_max : LREAL := 0.2;
+	y_max : LREAL := 0.2;
+	z_max : LREAL := 0.4;
+	roll_max : LREAL := 5.0/180.0*pi;
+	pitch_max : LREAL := 5.0/180.0*pi;
+	yaw_max : LREAL := 5.0/180.0*pi;
+	
+	
 END_VAR
 VAR_OUTPUT
 	t : LREAL := 0.0;
@@ -25,51 +34,60 @@ VAR_OUTPUT
 	yaw : LREAL;
 END_VAR
 VAR
-	// Random generator
-	rand : DRAND;	
+	// Counter variable
+	dof : UINT;
+	
+	// Random generator, initialized in FB_init
+	rand : DRAND;
 
 	//  Ship 1st order dynamics from system identification
 	Ts_x : LREAL := 45.215;
     Ts_y : LREAL := 18.335;
     Ts_yaw : LREAL := 16.425;
-
     K_x : LREAL := 1.49944614059E-07;
     K_y : LREAL := 1.13435297558E-07;
     K_yaw : LREAL := 2.77309521498E-10;
 	
-	// Wave simulation seed number
-	seed : INT;
-	
-	// Significant wave height
-	sum : LREAL := 0.0;
-	Hs : LREAL;
-	counter : UDINT := 0;
-	
-	// State vector
+	// State vectors
 	states : ARRAY [0..23] OF LREAL;
+	eta : ARRAY [0..5] OF LREAL;
+	
+	// Scaling gains
+	eta_max : ARRAY [0..5] OF LREAL;
+	Ks : ARRAY [0..5] OF LREAL := [1.0, 1.0, 1.0, 1.0, 1.0, 1.0];
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[
-rand.Seed := seed;
-
-//integrate_rk4();
+      <ST><![CDATA[// Integrate solution by one timestep
 integrate();
 
-x := states[0];
-y := states[1];
-z := states[2];
-roll := states[3];
-pitch := states[4];
-yaw := states[5];
+// Red max settings
+eta_max[0] := ABS(x_max);
+eta_max[1] := ABS(y_max);
+eta_max[2] := ABS(z_max);
+eta_max[3] := ABS(roll_max);
+eta_max[4] := ABS(pitch_max);
+eta_max[5] := ABS(yaw_max);
 
-// Calculate significant wave height
-sum := sum + z*z;
-counter := counter + 1;
+// Adapt output to fit defined maximum limits
+FOR dof := 0 TO 5 DO
+	IF ABS(Ks[dof]*states[dof]) >= ABS(eta_max[dof]) THEN
+		IF ABS(states[dof]) <> 0.0 THEN
+			Ks[dof] := eta_max[dof]/ABS(states[dof]);
+		END_IF	
+	END_IF	
+END_FOR
 
-IF counter > 2 THEN
-	Hs := 4.0*sum/(counter-1);	
-END_IF
+
+x := Ks[0]*states[0];
+y := Ks[1]*states[1];
+z := Ks[2]*states[2];
+roll := Ks[3]*states[3];
+pitch := Ks[4]*states[4];
+yaw := Ks[5]*states[5];
+
+
+
 
 
 ]]></ST>
@@ -80,11 +98,12 @@ VAR_INPUT
 	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
 	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
 	
-	seedInit : INT;
+	seed : INT;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[seed := seedInit;]]></ST>
+        <ST><![CDATA[// Define seed number for stochastic wave
+rand.Seed := seed;]]></ST>
       </Implementation>
     </Method>
     <Method Name="integrate" Id="{e39bc7d8-e772-4ea7-92c8-70edc9febc13}">
@@ -105,53 +124,6 @@ states_t := ode(states);
 FOR i := 0 TO 23 DO
 	states[i] := states[i] + states_t[i]*timestep;
 END_FOR
-
-t := t + timestep;]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="integrate_rk4" Id="{871a2898-f54e-4179-8a59-335e84fd8867}">
-      <Declaration><![CDATA[METHOD PRIVATE integrate_rk4 : BOOL
-VAR_INPUT
-END_VAR
-
-VAR
-	i : DINT;
-	k1 : ARRAY [0..23] OF LREAL;
-	k2 : ARRAY [0..23] OF LREAL;
-	k3 : ARRAY [0..23] OF LREAL;
-	k4 : ARRAY [0..23] OF LREAL;
-	
-	temp : ARRAY [0..23] OF LREAL;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[
-// Integrate state vector using Runge-Kutta 4 solver
-
-temp := states;
-k1 := ode(states);
-
-FOR i := 0 TO 23 DO
-	temp[i] := states[i] + timestep/2.0*k1[i];
-END_FOR
-k2 := ode(temp);
-
-
-FOR i := 0 TO 23 DO
-	temp[i] := states[i] + timestep/2.0*k2[i];
-END_FOR
-k3 := ode(temp);
-
-
-FOR i := 0 TO 23 DO
-	temp[i] := states[i] + timestep*k3[i];
-END_FOR
-k4 := ode(temp);
-
-FOR i := 0 TO 23 DO
-	states[i] := states[i] + timestep/6.0*(k1[i] + 2*k2[i] + 2*k3[i] + k4[i]); 
-END_FOR
-
 
 t := t + timestep;]]></ST>
       </Implementation>
@@ -188,11 +160,13 @@ VAR_INPUT
 END_VAR
 
 VAR
-	K : ARRAY [0..5] OF LREAL := [1E5, 1E5, 4E8, 1E8, 1E5, 1E6];	
-
+	// Wave component gains
+	K : ARRAY [0..5] OF LREAL := [1E4, 1E4, 4E8, 1E8, 1E5, 1E7];	
+	
+	// PD Controller gains
 	Kp : LREAL;
 	Kd : LREAL;	
-
+	
 	w : LREAL;
 	i : UINT;
 	
@@ -289,18 +263,26 @@ ode := y_t;]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="ShipSimulator">
-      <LineId Id="123" Count="2" />
       <LineId Id="134" Count="0" />
-      <LineId Id="126" Count="6" />
-      <LineId Id="139" Count="2" />
-      <LineId Id="147" Count="0" />
-      <LineId Id="151" Count="0" />
-      <LineId Id="148" Count="2" />
+      <LineId Id="202" Count="0" />
+      <LineId Id="210" Count="0" />
+      <LineId Id="203" Count="5" />
+      <LineId Id="126" Count="0" />
+      <LineId Id="211" Count="2" />
+      <LineId Id="215" Count="3" />
+      <LineId Id="214" Count="0" />
+      <LineId Id="186" Count="0" />
+      <LineId Id="185" Count="0" />
+      <LineId Id="127" Count="5" />
+      <LineId Id="139" Count="0" />
+      <LineId Id="184" Count="0" />
+      <LineId Id="140" Count="0" />
       <LineId Id="143" Count="0" />
       <LineId Id="145" Count="1" />
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="ShipSimulator.FB_init">
+      <LineId Id="10" Count="0" />
       <LineId Id="7" Count="0" />
     </LineIds>
     <LineIds Name="ShipSimulator.integrate">
@@ -310,27 +292,6 @@ ode := y_t;]]></ST>
       <LineId Id="10" Count="0" />
       <LineId Id="13" Count="1" />
       <LineId Id="17" Count="1" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="ShipSimulator.integrate_rk4">
-      <LineId Id="22" Count="0" />
-      <LineId Id="13" Count="0" />
-      <LineId Id="54" Count="0" />
-      <LineId Id="14" Count="0" />
-      <LineId Id="30" Count="1" />
-      <LineId Id="33" Count="1" />
-      <LineId Id="36" Count="0" />
-      <LineId Id="27" Count="0" />
-      <LineId Id="47" Count="0" />
-      <LineId Id="38" Count="4" />
-      <LineId Id="48" Count="0" />
-      <LineId Id="43" Count="3" />
-      <LineId Id="37" Count="0" />
-      <LineId Id="49" Count="0" />
-      <LineId Id="51" Count="1" />
-      <LineId Id="50" Count="0" />
-      <LineId Id="53" Count="0" />
-      <LineId Id="26" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="ShipSimulator.kinematics">

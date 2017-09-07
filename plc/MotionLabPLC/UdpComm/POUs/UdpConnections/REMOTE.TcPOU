@@ -43,21 +43,13 @@ END_IF
 
 // Feedback data
 // EM8000
-(*
+
 feedback.em8000.x := EM8000.feedback.Actual_platform_position_surge;
 feedback.em8000.y := EM8000.feedback.Actual_platform_position_sway;
 feedback.em8000.z := EM8000.feedback.Actual_platform_position_heave;
 feedback.em8000.roll := EM8000.feedback.Actual_platform_position_roll;
 feedback.em8000.pitch := EM8000.feedback.Actual_platform_position_pitch;
 feedback.em8000.yaw	:= EM8000.feedback.Actual_platform_position_yaw;
-*)
-feedback.em8000.x := SIMULATOR.ship1.x;
-feedback.em8000.y := SIMULATOR.ship1.y;
-feedback.em8000.z := SIMULATOR.ship1.z;
-feedback.em8000.roll := SIMULATOR.ship1.roll;
-feedback.em8000.pitch := SIMULATOR.ship1.pitch;
-feedback.em8000.yaw	:= SIMULATOR.ship1.yaw;
-
 feedback.em8000.x_t	:= EM8000.feedback.Actual_platform_velocity_surge;
 feedback.em8000.y_t	:= EM8000.feedback.Actual_platform_velocity_sway;
 feedback.em8000.z_t	:= EM8000.feedback.Actual_platform_velocity_heave;
@@ -174,6 +166,23 @@ feedback.mru2.x_tt := MRU2.feedback.AccMru_R;
 feedback.mru2.y_tt := MRU2.feedback.AccMru_P;
 feedback.mru2.z_tt := MRU2.feedback.AccMru_Y;
 
+// Ship 1
+feedback.ship1.x := LREAL_TO_REAL(SIMULATOR.ship1.x);
+feedback.ship1.y := LREAL_TO_REAL(SIMULATOR.ship1.y);
+feedback.ship1.z := LREAL_TO_REAL(SIMULATOR.ship1.z);
+feedback.ship1.roll := LREAL_TO_REAL(SIMULATOR.ship1.roll);
+feedback.ship1.pitch := LREAL_TO_REAL(SIMULATOR.ship1.pitch);
+feedback.ship1.yaw := LREAL_TO_REAL(SIMULATOR.ship1.yaw);
+
+// Ship 2
+feedback.ship2.x := LREAL_TO_REAL(SIMULATOR.ship2.x);
+feedback.ship2.y := LREAL_TO_REAL(SIMULATOR.ship2.y);
+feedback.ship2.z := LREAL_TO_REAL(SIMULATOR.ship2.z);
+feedback.ship2.roll := LREAL_TO_REAL(SIMULATOR.ship2.roll);
+feedback.ship2.pitch := LREAL_TO_REAL(SIMULATOR.ship2.pitch);
+feedback.ship2.yaw := LREAL_TO_REAL(SIMULATOR.ship2.yaw);
+
+
 UdpIO();
 ]]></ST>
     </Implementation>
@@ -188,13 +197,7 @@ UdpIO();
       <LineId Id="918" Count="0" />
       <LineId Id="833" Count="0" />
       <LineId Id="926" Count="0" />
-      <LineId Id="835" Count="3" />
-      <LineId Id="919" Count="0" />
-      <LineId Id="927" Count="0" />
-      <LineId Id="920" Count="0" />
-      <LineId Id="922" Count="3" />
-      <LineId Id="921" Count="0" />
-      <LineId Id="839" Count="17" />
+      <LineId Id="835" Count="21" />
       <LineId Id="705" Count="0" />
       <LineId Id="568" Count="0" />
       <LineId Id="809" Count="23" />
@@ -205,6 +208,9 @@ UdpIO();
       <LineId Id="864" Count="5" />
       <LineId Id="730" Count="21" />
       <LineId Id="772" Count="19" />
+      <LineId Id="928" Count="1" />
+      <LineId Id="931" Count="13" />
+      <LineId Id="930" Count="0" />
       <LineId Id="752" Count="0" />
       <LineId Id="536" Count="1" />
       <LineId Id="5" Count="0" />

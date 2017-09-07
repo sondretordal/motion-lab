@@ -48,6 +48,9 @@
     <Compile Include="DUTs\RemoteFeedbackMru.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\RemoteFeedbackShipSim.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\RemoteFeedbackStewart.TcDUT">
       <SubType>Code</SubType>
     </Compile>

@@ -10,6 +10,8 @@ STRUCT
 	at960 : RemoteFeedbackLeica;
 	mru1 : RemoteFeedbackMru;
 	mru2 : RemoteFeedbackMru;
+	ship1 : RemoteFeedbackShipSim;
+	ship2 : RemoteFeedbackShipSim;
 END_STRUCT
 END_TYPE
 ]]></Declaration>
