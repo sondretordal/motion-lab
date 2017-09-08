@@ -13,6 +13,8 @@ import socket
 from ctypes import sizeof, memmove, byref, c_uint
 from scipy.optimize import curve_fit
 
+from src.hydro.kinematics import *
+from src.hydro.kinetics import *
 
 from remotedata import TxData, RxData
 import MotionLab
@@ -83,6 +85,11 @@ class RealTimePlot:
 
         else:
             print "Dimension mismatch"
+
+    def static_plot(self, t, y):
+        for i in range(0, len(self.data)):
+            self.curves[i].setData(t, y[i])
+            
 ##
 class RealTimeBar:
     def __init__(self):
@@ -95,8 +102,6 @@ class RealTimeBar:
                 self.bars[i].setValue(values[i]/self.max_values[i]*100.0)
         else:
             print "Dimension mismatch"
-
-
 
 ##
 class GUI(QMainWindow, gui_main):
@@ -122,7 +127,78 @@ class GUI(QMainWindow, gui_main):
         self.udp = MotionLab.HmiInterface(50160)
         self.udp.start()
 
-        # Real-time plots
+        # Connect the interaction functionality of the GUI
+        self.ui_connect()
+
+        # Setup of the different plots
+        self.plot_setup()
+
+        # Timer function for plot update
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.update_data)
+        self.timer.start(50)
+
+        # Set the relative path to the Sphinx docs
+        dir1 = os.path.dirname(__file__)
+        dir2 = os.path.dirname(dir1)
+        dir3 = os.path.dirname(dir2)
+        dir4 = os.path.abspath(dir3 + '\docs\_build\html\index.html')
+        self.docView.load(QUrl.fromLocalFile(dir4))
+
+        # Plot Ship Simulator - Wave Spectrum
+        self.Hs = 8.0
+        self.T1 = 12.0
+        self.spec = "JONSWAP"
+        self.s1 = Vessel6DOF('src/mss/supply_mss.mat')
+
+        w, s, slin, w0, sigma, Lambda = self.s1.wavespectrum(self.Hs, self.T1, self.spec)
+        self.DP1_spectrum.static_plot(w, [s, slin])
+        
+        # Show UI
+        self.show()
+
+    # EM1800 Wave Settings
+    def EM8000_wave(self):
+
+            if self.sender().objectName() == "EM8000_wave_spectra":
+                self.spec = str(self.sender().currentText())
+
+                if self.spec == "PMS":
+                    self.DP1_spectrum.plot.setYRange(0, 25)
+
+                elif self.spec == "JONSWAP":
+                    self.DP1_spectrum.plot.setYRange(0, 45)
+
+                else:
+                    print "ERROR"
+
+            elif self.sender().objectName() == "EM8000_wave_height":
+                self.Hs = int(self.sender().text())
+
+            elif self.sender().objectName() == "EM8000_wave_period":
+                self.T1 = int(self.sender().text())
+
+            else:
+                print "ERROR"
+
+            w, s, slin, w0, sigma, Lambda = self.s1.wavespectrum(self.Hs, self.T1, self.spec)
+            self.DP1_spectrum.static_plot(w, [s, slin])
+            
+            # Write to PLC
+            # self.plc.write_by_name('SIMULATOR.ship1.w0', w0, pyads.PLCTYPE_LREAL)
+            # self.plc.write_by_name('SIMULATOR.ship1.sigma', sigma, pyads.PLCTYPE_LREAL)
+            # self.plc.write_by_name('SIMULATOR.ship1.lambda', Lambda, pyads.PLCTYPE_LREAL)
+
+    # Plot setup
+    def plot_setup(self):
+
+        # Plot time range setting
+        self.time_range = 15
+
+        # Ship Simulator tab:
+        #------------------------------------------------------#
+
+        # EM8000
         self.DP1_1 = RealTimePlot(self.DP1_SimStates.addPlot())
         self.DP1_1.plot.setLabel('left', 'Position', 'm')
         self.DP1_1.plot.setYRange(-0.4, 0.4)
@@ -133,6 +209,13 @@ class GUI(QMainWindow, gui_main):
         self.DP1_2.plot.setYRange(-5.0, 5.0)
         self.DP1_2.add_curves(['r', 'g', 'b'], ['Roll', 'Pitch', 'Yaw'])
 
+        self.DP1_spectrum = RealTimePlot(self.DP1_wavespectrum.addPlot())
+        self.DP1_spectrum.plot.setLabel('left', 'Spectrum Energy', '-')
+        self.DP1_spectrum.plot.setLabel('bottom', 'Wave Period', 'rad/s')
+        self.DP1_spectrum.plot.setYRange(0, 30)
+        self.DP1_spectrum.add_curves(['r','b'], ['Wave Spectrum', 'Linear Spectrum'])
+
+        # EM1500
         self.DP2_1 = RealTimePlot(self.DP2_SimStates.addPlot())
         self.DP2_1.plot.setLabel('left', 'Position', 'm')
         self.DP2_1.plot.setYRange(-0.4, 0.4)
@@ -143,41 +226,53 @@ class GUI(QMainWindow, gui_main):
         self.DP2_2.plot.setYRange(-5.0, 5.0)
         self.DP2_2.add_curves(['r', 'g', 'b'], ['Roll', 'Pitch', 'Yaw'])
 
+        self.DP2_spectrum = RealTimePlot(self.DP2_wavespectrum.addPlot())
+        self.DP2_spectrum.plot.setLabel('left', 'Spectrum Energy', '-')
+        self.DP2_spectrum.plot.setLabel('bottom', 'Wave Period', 'rad/s')
+        self.DP2_spectrum.plot.setYRange(0, 15)
+        self.DP2_spectrum.add_curves(['r','b'], ['Wave Spectrum', 'Linear Spectrum'])
+
+        # Plot tab
+        #------------------------------------------------------#
         self.EM1500_1 = RealTimePlot(self.EM1500_plot.addPlot())
         self.EM1500_1.plot.setYRange(-0.4, 0.4)
         self.EM1500_1.plot.setLabel('left', 'Position', 'm')
         self.EM1500_1.add_curves(['r', 'g', 'b'], ['Surge', 'Sway', 'Heave'])
         self.EM1500_1.add_text_displays([
-            self.EM1500_output_pos_x, 
-            self.EM1500_output_pos_y, 
-            self.EM1500_output_pos_z])
+                self.EM1500_output_pos_x, 
+                self.EM1500_output_pos_y, 
+                self.EM1500_output_pos_z
+            ])
         self.EM1500_plot.nextRow()
         self.EM1500_2 = RealTimePlot(self.EM1500_plot.addPlot())
         self.EM1500_2.plot.setYRange(-5, 5)
         self.EM1500_2.plot.setLabel('left', 'Angle', 'deg')
         self.EM1500_2.add_curves(['r', 'g', 'b'], ['Roll', 'Pitch', 'Yaw'])
         self.EM1500_2.add_text_displays([
-            self.EM1500_output_ang_r, 
-            self.EM1500_output_ang_p, 
-            self.EM1500_output_ang_y])
+                self.EM1500_output_ang_r, 
+                self.EM1500_output_ang_p, 
+                self.EM1500_output_ang_y
+            ])
         
         self.EM8000_1 = RealTimePlot(self.EM8000_plot.addPlot())
         self.EM8000_1.plot.setYRange(-0.6, 0.6)
         self.EM8000_1.plot.setLabel('left', 'Position', 'm')
         self.EM8000_1.add_curves(['r', 'g', 'b'], ['Surge', 'Sway', 'Heave'])
         self.EM8000_1.add_text_displays([
-            self.EM8000_output_pos_x, 
-            self.EM8000_output_pos_y, 
-            self.EM8000_output_pos_z])
+                self.EM8000_output_pos_x, 
+                self.EM8000_output_pos_y, 
+                self.EM8000_output_pos_z
+            ])
         self.EM8000_plot.nextRow()
         self.EM8000_2 = RealTimePlot(self.EM8000_plot.addPlot())
         self.EM8000_2.plot.setLabel('left', 'Angle', 'deg')
         self.EM8000_2.plot.setYRange(-5, 5)
         self.EM8000_2.add_curves(['r', 'g', 'b'], ['Roll', 'Pitch', 'Yaw'])
         self.EM8000_2.add_text_displays([
-            self.EM8000_output_ang_r, 
-            self.EM8000_output_ang_p, 
-            self.EM8000_output_ang_y])
+                self.EM8000_output_ang_r, 
+                self.EM8000_output_ang_p, 
+                self.EM8000_output_ang_y
+            ])
 
         self.COMAU = RealTimePlot(self.COMAU_plot.addPlot())
         self.COMAU.plot.setYRange(-180, 180)
@@ -244,40 +339,6 @@ class GUI(QMainWindow, gui_main):
                 self.COMAU_bar2_j6
             ]
 
-        # Plot time range setting
-        self.time_range = 15
-
-        # Connect the interaction functionality of the GUI
-        self.ui_connect()
-
-        # Timer function for plot update
-        self.timer = QTimer()
-        self.timer.timeout.connect(self.update_data)
-        self.timer.start(50)
-
-        # Set the relative path to the Sphinx docs
-        dir1 = os.path.dirname(__file__)
-        dir2 = os.path.dirname(dir1)
-        dir3 = os.path.dirname(dir2)
-        dir4 = os.path.abspath(dir3 + '\docs\_build\html\index.html')
-        self.docView.load(QUrl.fromLocalFile(dir4))
-
-        self.validator = QDoubleValidator()
-        self.line_test.setValidator(self.validator)
-        self.line_test.returnPressed.connect(self.test_func)
-        
-        # Show UI
-        self.show()
-
-    def test_func(self):
-            sender = self.sender()
-            first = sender.text()
-            print "first"
-            print first
-            #print "float"
-            #print float(sender.text())
-            #self.line_test2.setText(sender.text())
-            #self.plc.write_by_name('SIMULATOR.ship1.x_max', 0.2, pyads.PLCTYPE_LREAL)
     # UI connections
     def ui_connect(self):
         # Password Protection of Tabs
@@ -315,6 +376,21 @@ class GUI(QMainWindow, gui_main):
         self.EM1500_plot_time_range_ship.currentIndexChanged.connect(self.plot_time_axis_range)
         self.EM8000_plot_time_range_ship.currentIndexChanged.connect(self.plot_time_axis_range)
 
+        self.validator_height = QIntValidator(1, 10)
+        self.validator_period = QIntValidator(1, 15)
+
+        self.EM8000_wave_height.setValidator(self.validator_height)
+        self.EM8000_wave_period.setValidator(self.validator_period)
+        self.EM8000_wave_height.returnPressed.connect(self.EM8000_wave)
+        self.EM8000_wave_period.returnPressed.connect(self.EM8000_wave)
+        self.EM8000_wave_spectra.currentIndexChanged.connect(self.EM8000_wave)
+
+        # self.EM1500_wave_height.setValidator(self.validator_height)
+        # self.EM1500_wave_period.setValidator(self.validator_period)
+        # self.EM1500_wave_height.returnPressed.connect(self.EM1500_wave)
+        # self.EM1500_wave_period.returnPressed.connect(self.EM1500_wave)
+        # self.EM1500_wave_spectra.currentIndexChanged.connect(self.EM1500_wave)
+
         # Logging Tab:
         #----------------------------------------------------------#
         self.start_log_btn.clicked.connect(lambda: self.udp.start_log(self.log_ms_rate.currentText()))
@@ -324,6 +400,7 @@ class GUI(QMainWindow, gui_main):
     # Update data and plot
     def update_data(self):
         # Update real time plots
+
         self.DP1_1.time_range = self.time_range
         self.DP1_1.update(self.udp.feedback.t, [
                 self.udp.feedback.ship1.x,

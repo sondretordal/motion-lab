@@ -4101,7 +4101,7 @@ color: rgb(255, 255, 255);
             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
            </property>
           </widget>
-          <widget class="QComboBox" name="wave_spectra">
+          <widget class="QComboBox" name="EM8000_wave_spectra">
            <property name="geometry">
             <rect>
              <x>10</x>
@@ -4123,11 +4123,11 @@ color: rgb(255, 255, 255);
            </item>
            <item>
             <property name="text">
-             <string>Pierson-Moskowitz</string>
+             <string>PMS</string>
             </property>
            </item>
           </widget>
-          <widget class="QLineEdit" name="line_test">
+          <widget class="QLineEdit" name="EM8000_wave_height">
            <property name="geometry">
             <rect>
              <x>160</x>
@@ -4140,7 +4140,7 @@ color: rgb(255, 255, 255);
             <bool>false</bool>
            </property>
           </widget>
-          <widget class="QLineEdit" name="line_test2">
+          <widget class="QLineEdit" name="EM8000_wave_period">
            <property name="geometry">
             <rect>
              <x>160</x>
@@ -4269,6 +4269,151 @@ color: rgb(255, 255, 255);
             <height>291</height>
            </rect>
           </property>
+         </widget>
+         <widget class="QGroupBox" name="groupBox_24">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>10</y>
+            <width>261</width>
+            <height>211</height>
+           </rect>
+          </property>
+          <property name="title">
+           <string>Wave Spectrum Settings</string>
+          </property>
+          <widget class="QLabel" name="label_150">
+           <property name="geometry">
+            <rect>
+             <x>210</x>
+             <y>60</y>
+             <width>31</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>[s]</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_153">
+           <property name="geometry">
+            <rect>
+             <x>210</x>
+             <y>30</y>
+             <width>31</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>[m]</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_154">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>31</y>
+             <width>151</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Significant Wave Height :</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_161">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>60</y>
+             <width>151</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Wave Time Period :</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_162">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>150</y>
+             <width>141</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Ocean-Wave Spectra :</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+          <widget class="QComboBox" name="EM1500_wave_spectra">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>180</y>
+             <width>131</width>
+             <height>22</height>
+            </rect>
+           </property>
+           <property name="currentText">
+            <string>JONSWAP</string>
+           </property>
+           <property name="currentIndex">
+            <number>0</number>
+           </property>
+           <item>
+            <property name="text">
+             <string>JONSWAP</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>PMS</string>
+            </property>
+           </item>
+          </widget>
+          <widget class="QLineEdit" name="EM1500_wave_height">
+           <property name="geometry">
+            <rect>
+             <x>160</x>
+             <y>30</y>
+             <width>41</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="clearButtonEnabled">
+            <bool>false</bool>
+           </property>
+          </widget>
+          <widget class="QLineEdit" name="EM1500_wave_period">
+           <property name="geometry">
+            <rect>
+             <x>160</x>
+             <y>60</y>
+             <width>41</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="clearButtonEnabled">
+            <bool>false</bool>
+           </property>
+          </widget>
          </widget>
         </widget>
         <widget class="QWidget" name="tab_8">
