@@ -13,8 +13,11 @@ import socket
 from ctypes import sizeof, memmove, byref, c_uint
 from scipy.optimize import curve_fit
 
-from src.hydro.kinematics import *
-from src.hydro.kinetics import *
+from numpy import sin, cos, tan, pi, matrix, array, eye, zeros, ones, exp, sqrt
+from numpy import linspace, argmax, random
+
+# from src.hydro.kinematics import *
+# from src.hydro.kinetics import *
 
 from remotedata import TxData, RxData
 import MotionLab
@@ -146,12 +149,21 @@ class GUI(QMainWindow, gui_main):
         self.docView.load(QUrl.fromLocalFile(dir4))
 
         # Plot Ship Simulator - Wave Spectrum
+
+        # Linear wave spectrum model
+        self.w0 = []
+        self.sigma = []
+        self.Lambda = []
+        self.A = matrix(zeros([2,2]))
+        self.B = matrix(zeros([2,1]))
+        self.C = matrix(zeros([1,2]))
+
+        # Default function values
         self.Hs = 8.0
         self.T1 = 12.0
         self.spec = "JONSWAP"
-        self.s1 = Vessel6DOF('src/mss/supply_mss.mat')
 
-        w, s, slin, w0, sigma, Lambda = self.s1.wavespectrum(self.Hs, self.T1, self.spec)
+        w, s, slin, w0, sigma, Lambda = self.wavespectrum(self.Hs, self.T1, self.spec)
         self.DP1_spectrum.static_plot(w, [s, slin])
         
         # Show UI
@@ -181,13 +193,88 @@ class GUI(QMainWindow, gui_main):
             else:
                 print "ERROR"
 
-            w, s, slin, w0, sigma, Lambda = self.s1.wavespectrum(self.Hs, self.T1, self.spec)
+            w, s, slin, w0, sigma, Lambda = self.wavespectrum(self.Hs, self.T1, self.spec)
             self.DP1_spectrum.static_plot(w, [s, slin])
             
             # Write to PLC
             # self.plc.write_by_name('SIMULATOR.ship1.w0', w0, pyads.PLCTYPE_LREAL)
             # self.plc.write_by_name('SIMULATOR.ship1.sigma', sigma, pyads.PLCTYPE_LREAL)
             # self.plc.write_by_name('SIMULATOR.ship1.lambda', Lambda, pyads.PLCTYPE_LREAL)
+
+    def wavespectrum(self, Hs=8.0, T1=12.0, spec='JONSWAP'):
+        # Inital frequency range
+        N = 100
+        w_min = 0.01
+        w_max = pi/2
+        
+        w = linspace(w_min, w_max, N)
+        S = zeros(N)            
+        # Calculate wavespectrum
+        if spec == 'PMS':
+            for k in range(0, N):
+                # From average wave period to zero crossing period
+                Tz = 0.921*T1
+                
+                # PM constants
+                A = 4*pi**3*Hs**2/(Tz**4)
+                B = 16*pi**3/(Tz**4)
+                
+                # Calculate wave spectrum 
+                S[k] = A/(w[k]**5)*exp(-B/(w[k]**4))
+                
+        elif spec == 'JONSWAP':
+            for k in range(0, N):
+                if w[k] <= 5.24/T1:
+                    sigma = 0.07
+                else:
+                    sigma = 0.09
+                    
+                Y = exp(-((0.191*w[k]*T1-1)/(sqrt(2)*sigma))**2)
+                
+                # Calculate wave spectrum
+                S[k] = 155*Hs**2/(T1**4*w[k]**5)*exp(-944/(T1**4*w[k]**4))*3.3**Y
+        
+        # Update frequency range
+        w0 = w[argmax(S)]
+
+            
+        # Approximate linear wave spectrum
+        def linear_spectrum(w, p, w0, sigma):
+            S = zeros(len(w))
+            for k in range(0, len(w)):
+                S[k] = 4*(p*w0*sigma*w[k])**2/((w0**2-w[k]**2)**2+4*(p*w0*w[k])**2)
+                
+            return S
+        
+        sigma = sqrt(max(S))
+        
+        # Find linearized curve parameters
+        func = lambda w, p: linear_spectrum(w, p, w0, sigma)
+        popt, pcov = curve_fit(func, w, S)
+        
+        # Ensure popt is positive
+        Lambda = abs(popt[0])
+        
+        # Calculate linear approximated spectrum
+        Slin = linear_spectrum(w, Lambda, w0, sigma)
+        
+        # Save linearized wave spectrum parameters
+        self.w0 = w0
+        self.sigma = sigma
+        self.Lambda = Lambda
+        
+        # Fill SS model representing linear wave spectrum
+        self.A[0,1] = 1.0
+        self.A[1,0] = -w0**2
+        self.A[1,1] = -2*abs(Lambda*w0)
+        
+        Kw = 2*abs(Lambda*w0*sigma)
+        self.B[1,0] = Kw
+
+        self.C[0,1] = 1.0
+        
+        # Added by Jan
+        return w, S, Slin, w0, sigma, Lambda
 
     # Plot setup
     def plot_setup(self):
