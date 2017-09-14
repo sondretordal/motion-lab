@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>main_window</class>
- <widget class="QMainWindow" name="main_window">
+ <class>main</class>
+ <widget class="QMainWindow" name="main">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -38,7 +38,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>6</number>
       </property>
       <widget class="QWidget" name="tab_interface">
        <attribute name="title">
@@ -5351,21 +5351,6 @@ p, li { white-space: pre-wrap; }
        <attribute name="title">
         <string>Documentation</string>
        </attribute>
-       <widget class="QWebView" name="docView">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>10</y>
-          <width>1081</width>
-          <height>681</height>
-         </rect>
-        </property>
-        <property name="url">
-         <url>
-          <string>about:blank</string>
-         </url>
-        </property>
-       </widget>
       </widget>
      </widget>
     </item>
@@ -5396,11 +5381,6 @@ p, li { white-space: pre-wrap; }
   </action>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>QWebView</class>
-   <extends>QWidget</extends>
-   <header>QtWebKitWidgets/QWebView</header>
-  </customwidget>
   <customwidget>
    <class>GraphicsLayoutWidget</class>
    <extends>QGraphicsView</extends>

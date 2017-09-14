@@ -1,4 +1,6 @@
-from src import *
+import sys
+from src.hmi import *
+
 
 # Main function
 def main():

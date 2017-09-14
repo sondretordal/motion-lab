@@ -1,115 +1,26 @@
-import sys
-import os
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5 import uic
-import numpy as np
 import pyqtgraph as pg
 import pyads
-import csv
-import time
-import socket
-from ctypes import sizeof, memmove, byref, c_uint
+import numpy as np
 from scipy.optimize import curve_fit
 
-from numpy import sin, cos, tan, pi, matrix, array, eye, zeros, ones, exp, sqrt
-from numpy import linspace, argmax, random
 
-# from src.hydro.kinematics import *
-# from src.hydro.kinetics import *
-
-from remotedata import TxData, RxData
-import MotionLab
+from src import MotionLab
+from src.classes import RealTimePlot, RealTimeBar
+from src.gui import Ui_main
 
 # Background color pyqtgraph
 pg.setConfigOption('background', 'w')
 pg.setConfigOption('foreground', 'k')
 pg.setConfigOptions(antialias=True)
 
-# Load Qt Designer UI file
-gui_main_file = './src/main.ui'
-gui_main, QtBaseClass = uic.loadUiType(gui_main_file)
-
-##
-class RealTimePlot:
-    def __init__(self, plot):
-        self.plot = plot
-        self.curves = []
-        self.text_displays = []
-        self.buffer_size = 1000
-        self.time = np.zeros(self.buffer_size)
-        self.data = []
-        self.time_range = 20
-        self.precision = 4
-
-        # Default setup for plot
-        self.plot.showGrid(x=True, y=True)
-        self.plot.addLegend(size=None, offset=(10, 10))
-        self.plot.setLabel('bottom', 'Time - (s)')
-        self.plot.setYRange(-1, 1)
-
-    def add_curves(self, colors, names):
-        if len(colors) == len(names):
-            for i in range(0, len(colors)):
-                curve = self.plot.plot(pen=colors[i], name=names[i])
-                self.curves.append(curve)
-
-                y = np.zeros(self.buffer_size)
-                self.data.append(y)
-        else:
-            print "Dimension mismatch"
-
-    def add_text_displays(self, displays):
-        if len(self.curves) != 0:
-            if len(displays) == len(self.curves):
-                for i in range(0, len(displays)):
-                    self.text_displays.append(displays[i])
-            else:
-                print "Dimension mismatch"
-        else:
-            print "Add curves before adding text displays"
-
-    def update(self, t, y):
-        self.time[0:-1] = self.time[1:]
-        self.time[-1] = t
-
-        self.plot.setXRange(self.time[-1] - self.time_range, self.time[-1])
-        
-        if len(y) == len(self.data):
-            for i in range(0, len(self.data)):
-                self.data[i][0:-1] = self.data[i][1:]
-                self.data[i][-1] = y[i]
-                
-                self.curves[i].setData(self.time, self.data[i])
-
-                if len(self.text_displays) == len(self.curves):
-                    self.text_displays[i].setText(str(round(self.data[i][-1], self.precision)))
-
-        else:
-            print "Dimension mismatch"
-
-    def static_plot(self, t, y):
-        for i in range(0, len(self.data)):
-            self.curves[i].setData(t, y[i])
-            
-##
-class RealTimeBar:
-    def __init__(self):
-        self.bars = []
-        self.max_values = []
-
-    def update(self, values):
-        if len(values) == len(self.bars):
-            for i in range(0, len(self.bars)):
-                self.bars[i].setValue(values[i]/self.max_values[i]*100.0)
-        else:
-            print "Dimension mismatch"
-
-##
-class GUI(QMainWindow, gui_main):
+class GUI(QMainWindow, Ui_main):
     def __init__(self):
         super(GUI, self).__init__()
+        Ui_main.__init__(self)
         # Calling the initUI function
         self.initUI()
 
@@ -121,7 +32,7 @@ class GUI(QMainWindow, gui_main):
         # Start ADS communication
         self.plc = pyads.Connection('192.168.90.150.1.1', 851)
         self.plc.open()
-        print "Beckhoff ADS Connection Open"
+        print("Beckhoff ADS Connection Open")
         
         # Set PLC time to zero
         self.plc.write_by_name('REMOTE.feedback.t', 0.0, pyads.PLCTYPE_REAL)
@@ -140,23 +51,15 @@ class GUI(QMainWindow, gui_main):
         self.timer = QTimer()
         self.timer.timeout.connect(self.update_data)
         self.timer.start(50)
-
-        # Set the relative path to the Sphinx docs
-        dir1 = os.path.dirname(__file__)
-        dir2 = os.path.dirname(dir1)
-        dir3 = os.path.dirname(dir2)
-        dir4 = os.path.abspath(dir3 + '\docs\_build\html\index.html')
-        self.docView.load(QUrl.fromLocalFile(dir4))
-
+        
         # Plot Ship Simulator - Wave Spectrum
-
         # Linear wave spectrum model
         self.w0 = []
         self.sigma = []
         self.Lambda = []
-        self.A = matrix(zeros([2,2]))
-        self.B = matrix(zeros([2,1]))
-        self.C = matrix(zeros([1,2]))
+        self.A = np.matrix(np.zeros([2,2]))
+        self.B = np.matrix(np.zeros([2,1]))
+        self.C = np.matrix(np.zeros([1,2]))
 
         # Default function values
         self.Hs = 8.0
@@ -182,7 +85,7 @@ class GUI(QMainWindow, gui_main):
                     self.DP1_spectrum.plot.setYRange(0, 45)
 
                 else:
-                    print "ERROR"
+                    print("ERROR")
 
             elif self.sender().objectName() == "EM8000_wave_height":
                 self.Hs = int(self.sender().text())
@@ -191,7 +94,7 @@ class GUI(QMainWindow, gui_main):
                 self.T1 = int(self.sender().text())
 
             else:
-                print "ERROR"
+                print("ERROR")
 
             w, s, slin, w0, sigma, Lambda = self.wavespectrum(self.Hs, self.T1, self.spec)
             self.DP1_spectrum.static_plot(w, [s, slin])
@@ -205,10 +108,10 @@ class GUI(QMainWindow, gui_main):
         # Inital frequency range
         N = 100
         w_min = 0.01
-        w_max = pi/2
+        w_max = np.pi/2
         
-        w = linspace(w_min, w_max, N)
-        S = zeros(N)            
+        w = np.linspace(w_min, w_max, N)
+        S = np.zeros(N)            
         # Calculate wavespectrum
         if spec == 'PMS':
             for k in range(0, N):
@@ -216,11 +119,11 @@ class GUI(QMainWindow, gui_main):
                 Tz = 0.921*T1
                 
                 # PM constants
-                A = 4*pi**3*Hs**2/(Tz**4)
-                B = 16*pi**3/(Tz**4)
+                A = 4*np.pi**3*Hs**2/(Tz**4)
+                B = 16*np.pi**3/(Tz**4)
                 
                 # Calculate wave spectrum 
-                S[k] = A/(w[k]**5)*exp(-B/(w[k]**4))
+                S[k] = A/(w[k]**5)*np.exp(-B/(w[k]**4))
                 
         elif spec == 'JONSWAP':
             for k in range(0, N):
@@ -229,24 +132,24 @@ class GUI(QMainWindow, gui_main):
                 else:
                     sigma = 0.09
                     
-                Y = exp(-((0.191*w[k]*T1-1)/(sqrt(2)*sigma))**2)
+                Y = np.exp(-((0.191*w[k]*T1-1)/(np.sqrt(2)*sigma))**2)
                 
                 # Calculate wave spectrum
-                S[k] = 155*Hs**2/(T1**4*w[k]**5)*exp(-944/(T1**4*w[k]**4))*3.3**Y
+                S[k] = 155*Hs**2/(T1**4*w[k]**5)*np.exp(-944/(T1**4*w[k]**4))*3.3**Y
         
         # Update frequency range
-        w0 = w[argmax(S)]
+        w0 = w[np.argmax(S)]
 
             
         # Approximate linear wave spectrum
         def linear_spectrum(w, p, w0, sigma):
-            S = zeros(len(w))
+            S = np.zeros(len(w))
             for k in range(0, len(w)):
                 S[k] = 4*(p*w0*sigma*w[k])**2/((w0**2-w[k]**2)**2+4*(p*w0*w[k])**2)
                 
             return S
         
-        sigma = sqrt(max(S))
+        sigma = np.sqrt(max(S))
         
         # Find linearized curve parameters
         func = lambda w, p: linear_spectrum(w, p, w0, sigma)
@@ -738,7 +641,7 @@ class GUI(QMainWindow, gui_main):
     def stop_all(self):
 
         self.SYSTEM_stop()
-        print 'APPLICATION STOPPED'
+        print('APPLICATION STOPPED')
 
     # Function to handle the closing event of to the application
     def closeEvent(self, event):
@@ -751,11 +654,11 @@ class GUI(QMainWindow, gui_main):
             
             # Close ADS port
             self.plc.close()
-            print 'Beckhoff ADS Connection Closed'
+            print('Beckhoff ADS Connection Closed')
 
             # CLose udp connection
             self.udp.close()
-            print 'HMI Udp Connection Closed'
+            print('HMI Udp Connection Closed')
 
             event.accept()
         else:
