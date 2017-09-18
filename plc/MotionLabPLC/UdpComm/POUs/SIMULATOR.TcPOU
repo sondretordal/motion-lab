@@ -5,19 +5,37 @@
 VAR
 	ship1 : ShipSimulator(0);
 	ship2 : ShipSimulator(2342);
+	
+	
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[
 ship1();
+
+
+
 ship2();
+
+EM1500.control.X_EXTRA := LREAL_TO_REAL(ship2.x);
+EM1500.control.Y_EXTRA := LREAL_TO_REAL(ship2.y);
+EM1500.control.Z_EXTRA := LREAL_TO_REAL(ship2.z);
+
+EM1500.control.PHI_EXTRA := LREAL_TO_REAL(ship2.roll);
+EM1500.control.THETA_EXTRA := LREAL_TO_REAL(ship2.pitch);
+EM1500.control.PSI_EXTRA := LREAL_TO_REAL(ship2.yaw);
 
 ]]></ST>
     </Implementation>
     <LineIds Name="SIMULATOR">
       <LineId Id="7" Count="0" />
       <LineId Id="12" Count="0" />
-      <LineId Id="10" Count="1" />
+      <LineId Id="22" Count="2" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="25" Count="5" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="11" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
   </POU>

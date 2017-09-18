@@ -96,6 +96,46 @@ void JsonLogger::save(std::string path) {
         json_log["feedback"]["at960"]["q2"].push_back(feedback[i].at960.q2);
         json_log["feedback"]["at960"]["q3"].push_back(feedback[i].at960.q3);
 
+        json_log["feedback"]["mru1"]["heave"].push_back(feedback[i].mru1.heave);
+        json_log["feedback"]["mru1"]["heave_t"].push_back(feedback[i].mru1.heave_t);
+        json_log["feedback"]["mru1"]["heave_tt"].push_back(feedback[i].mru1.heave_tt);
+        json_log["feedback"]["mru1"]["turn_rate"].push_back(feedback[i].mru1.turn_rate);
+        json_log["feedback"]["mru1"]["roll"].push_back(feedback[i].mru1.roll);
+        json_log["feedback"]["mru1"]["pitch"].push_back(feedback[i].mru1.pitch);
+        json_log["feedback"]["mru1"]["yaw"].push_back(feedback[i].mru1.yaw);
+        json_log["feedback"]["mru1"]["wx"].push_back(feedback[i].mru1.wx);
+        json_log["feedback"]["mru1"]["wy"].push_back(feedback[i].mru1.wy);
+        json_log["feedback"]["mru1"]["wz"].push_back(feedback[i].mru1.wz);
+        json_log["feedback"]["mru1"]["wx_t"].push_back(feedback[i].mru1.wx_t);
+        json_log["feedback"]["mru1"]["wy_t"].push_back(feedback[i].mru1.wy_t);
+        json_log["feedback"]["mru1"]["wz_t"].push_back(feedback[i].mru1.wz_t);
+        json_log["feedback"]["mru1"]["x_t"].push_back(feedback[i].mru1.x_t);
+        json_log["feedback"]["mru1"]["y_t"].push_back(feedback[i].mru1.y_t);
+        json_log["feedback"]["mru1"]["z_t"].push_back(feedback[i].mru1.z_t);
+        json_log["feedback"]["mru1"]["x_tt"].push_back(feedback[i].mru1.x_tt);
+        json_log["feedback"]["mru1"]["y_tt"].push_back(feedback[i].mru1.y_tt);
+        json_log["feedback"]["mru1"]["z_tt"].push_back(feedback[i].mru1.z_tt);
+
+        json_log["feedback"]["mru2"]["heave"].push_back(feedback[i].mru2.heave);
+        json_log["feedback"]["mru2"]["heave_t"].push_back(feedback[i].mru2.heave_t);
+        json_log["feedback"]["mru2"]["heave_tt"].push_back(feedback[i].mru2.heave_tt);
+        json_log["feedback"]["mru2"]["turn_rate"].push_back(feedback[i].mru2.turn_rate);
+        json_log["feedback"]["mru2"]["roll"].push_back(feedback[i].mru2.roll);
+        json_log["feedback"]["mru2"]["pitch"].push_back(feedback[i].mru2.pitch);
+        json_log["feedback"]["mru2"]["yaw"].push_back(feedback[i].mru2.yaw);
+        json_log["feedback"]["mru2"]["wx"].push_back(feedback[i].mru2.wx);
+        json_log["feedback"]["mru2"]["wy"].push_back(feedback[i].mru2.wy);
+        json_log["feedback"]["mru2"]["wz"].push_back(feedback[i].mru2.wz);
+        json_log["feedback"]["mru2"]["wx_t"].push_back(feedback[i].mru2.wx_t);
+        json_log["feedback"]["mru2"]["wy_t"].push_back(feedback[i].mru2.wy_t);
+        json_log["feedback"]["mru2"]["wz_t"].push_back(feedback[i].mru2.wz_t);
+        json_log["feedback"]["mru2"]["x_t"].push_back(feedback[i].mru2.x_t);
+        json_log["feedback"]["mru2"]["y_t"].push_back(feedback[i].mru2.y_t);
+        json_log["feedback"]["mru2"]["z_t"].push_back(feedback[i].mru2.z_t);
+        json_log["feedback"]["mru2"]["x_tt"].push_back(feedback[i].mru2.x_tt);
+        json_log["feedback"]["mru2"]["y_tt"].push_back(feedback[i].mru2.y_tt);
+        json_log["feedback"]["mru2"]["z_tt"].push_back(feedback[i].mru2.z_tt);
+
         json_log["feedback"]["ship1"]["x"].push_back(feedback[i].ship1.x);
         json_log["feedback"]["ship1"]["y"].push_back(feedback[i].ship1.y);
         json_log["feedback"]["ship1"]["z"].push_back(feedback[i].ship1.z);
