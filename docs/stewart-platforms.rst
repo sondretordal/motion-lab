@@ -16,7 +16,7 @@ The orientation and position of the Stewart platforms are given as:
     y \\
     z
     \end{bmatrix} \in \mathbb{R}^3
-    \hspace{5mm}
+    \hspace{10mm}
     \bm{\Theta}_{nb} =
     \begin{bmatrix}
     \phi \\
@@ -33,26 +33,12 @@ where the notation used :math:`\bm{p}^n_{b/n}` is the position of the Stewart pl
     v \\
     w
     \end{bmatrix} \in \mathbb{R}^3
-    \hspace{5mm}
-    \dot{\bm{v}}^b_{b/n} =
-    \begin{bmatrix}
-    \dot{u} \\
-    \dot{v} \\
-    \dot{w}
-    \end{bmatrix} \in \mathbb{R}^3
-    \hspace{5mm}
+    \hspace{10mm}
     \bm{\omega}^b_{b/n} =
     \begin{bmatrix}
     p \\
     q \\
     r
-    \end{bmatrix} \in \mathbb{R}^3
-    \hspace{5mm}
-    \dot{\bm{\omega}}^b_{b/n} =
-    \begin{bmatrix}
-    \dot{p} \\
-    \dot{q} \\
-    \dot{r}
     \end{bmatrix} \in \mathbb{R}^3
 
 The Euler angle sequence is defined by conventional rotation matrices. The explicit rotation sequence is given as:
@@ -81,4 +67,4 @@ The accompanying transformation between time derivatives of the Euler angles :ma
     \end{bmatrix} \\
 
 
-The feedback signals accessible through the remote interface is described in the :ref:`remote-io`.
+The feedback signals accessible as described in the :ref:`remote-io-interface`.

@@ -173,8 +173,11 @@ Available systems are listed in the table below, with the related port number.
 +-------------------------------+--------------+
 
 
+.. _remote-io-interface:
+
 Remote UDP Interface
 --------------------
+
 The motion-lab can be operated using the dedicated remote UDP interface. Using this
 iterface, the essential control and feedback signals can be utilized.
 
