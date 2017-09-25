@@ -117,7 +117,7 @@ struct RemoteFeedbackShipSim {
 	float yaw;
 };
 
-struct RemoteFeedback	 {
+struct RemoteFeedback {
 	float t;
 	RemoteFeedbackStewart em8000;
 	RemoteFeedbackStewart em1500;

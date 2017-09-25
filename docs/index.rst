@@ -12,8 +12,9 @@ Norwegian Motion-laboratory documentation
    
     about
     code
-    com
+    remote-io
     comau
+    stewart-platforms
     publications
 
 Indices and tables

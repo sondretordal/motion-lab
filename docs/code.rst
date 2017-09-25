@@ -30,6 +30,9 @@ Python
 Test
 ----
 
-.. literalinclude:: ../hmi/main.py
-    :lines: 25-40
+.. literalinclude:: ../hmi/src/classes.py
+    :pyobject: RealTimePlot
+
+.. literalinclude:: ../hmi/src/classes.py
+    :pyobject: RealTimePlot.update
 
