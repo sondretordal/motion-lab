@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
+  <POU Name="EulerToBody" Id="{c257be1f-55b7-49fc-9e40-9565df3fd57c}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK EulerToBody
+VAR_INPUT
+	phi : ARRAY [0..2] OF REAL;
+	phi_t : ARRAY [0..2] OF REAL;
+	phi_tt : ARRAY [0..2] OF REAL;
+END_VAR
+VAR_OUTPUT
+	w : ARRAY [0..2] OF REAL;
+	w_t : ARRAY [0..2] OF REAL;
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Transform from phi_t to w
+w[0] := phi_t[1]*SIN(phi[2]) + phi_t[0]*COS(phi[1])*COS(phi[2]);
+w[1] := phi_t[1]*COS(phi[2]) - phi_t[0]*COS(phi[1])*SIN(phi[2]);
+w[2] := phi_t[2] + phi_t[0]*SIN(phi[1]);
+
+// Transform from phi_tt to w_t
+w_t[0] := SIN(phi[2])*phi_tt[1] + COS(phi[2])*phi_t[1]*phi_t[2] + COS(phi[1])*COS(phi[2])*phi_tt[0] - COS(phi[2])*SIN(phi[1])*phi_t[0]*phi_t[1] - COS(phi[1])*SIN(phi[2])*phi_t[0]*phi_t[2];
+w_t[1] := COS(phi[2])*phi_tt[1] - SIN(phi[2])*phi_t[1]*phi_t[2] - COS(phi[1])*SIN(phi[2])*phi_tt[0] - COS(phi[1])*COS(phi[2])*phi_t[0]*phi_t[2] + SIN(phi[1])*SIN(phi[2])*phi_t[0]*phi_t[1];
+w_t[2] := SIN(phi[1])*phi_tt[0] + phi_tt[2] + COS(phi[1])*phi_t[0]*phi_t[1];]]></ST>
+    </Implementation>
+    <LineIds Name="EulerToBody">
+      <LineId Id="17" Count="0" />
+      <LineId Id="15" Count="1" />
+      <LineId Id="18" Count="4" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
