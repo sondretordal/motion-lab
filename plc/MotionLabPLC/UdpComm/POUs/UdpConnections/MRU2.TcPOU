@@ -3,11 +3,11 @@
   <POU Name="MRU2" Id="{76aeb5d9-7025-4781-8e97-1cc2a072ff52}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MRU2
 VAR
-	buffer			: ARRAY [1..1024] OF BYTE;
-	_feedback		: MruFeedback;
+	rx_buffer		: ARRAY [1..1024] OF BYTE;
+	rx_data			: MruFeedback;
 	
 	NULL			: PVOID;
-	UdpIO			: UdpServer(7552, 0, NULL, SIZEOF(_feedback), ADR(buffer));
+	UdpIO			: UdpServer(7552, 0, NULL, SIZEOF(rx_data), ADR(rx_buffer));
 		
 	temp			: ARRAY [0..3] OF BYTE;
 	N				: DINT;
@@ -21,178 +21,177 @@ END_VAR
       <ST><![CDATA[
 UdpIO();
 
-_feedback.mruOK := buffer[1];
-_feedback.dataLength := buffer[2];
-_feedback.token := buffer[3];
-
+rx_data.mruOK := rx_buffer[1];
+rx_data.dataLength := rx_buffer[2];
+rx_data.token := rx_buffer[3];
 
 // Big to little endian conversions
 N := 1;
-temp[3] := buffer[N*4];
-temp[2] := buffer[N*4 + 1];
-temp[1] := buffer[N*4 + 2];
-temp[0] := buffer[N*4 + 3]; 
-MEMCPY(ADR(_feedback.Temperature), ADR(temp), 4);
+temp[3] := rx_buffer[N*4];
+temp[2] := rx_buffer[N*4 + 1];
+temp[1] := rx_buffer[N*4 + 2];
+temp[0] := rx_buffer[N*4 + 3]; 
+MEMCPY(ADR(rx_data.Temperature), ADR(temp), 4);
 
 N := 2;
-temp[3] := buffer[N*4];
-temp[2] := buffer[N*4 + 1];
-temp[1] := buffer[N*4 + 2];
-temp[0] := buffer[N*4 + 3]; 
-MEMCPY(ADR(_feedback.PosMru_D), ADR(temp), 4);
+temp[3] := rx_buffer[N*4];
+temp[2] := rx_buffer[N*4 + 1];
+temp[1] := rx_buffer[N*4 + 2];
+temp[0] := rx_buffer[N*4 + 3]; 
+MEMCPY(ADR(rx_data.PosMru_D), ADR(temp), 4);
 
 N := 3;
-temp[3] := buffer[N*4];
-temp[2] := buffer[N*4 + 1];
-temp[1] := buffer[N*4 + 2];
-temp[0] := buffer[N*4 + 3];
-MEMCPY(ADR(_feedback.VelMru_D), ADR(temp), 4);
+temp[3] := rx_buffer[N*4];
+temp[2] := rx_buffer[N*4 + 1];
+temp[1] := rx_buffer[N*4 + 2];
+temp[0] := rx_buffer[N*4 + 3];
+MEMCPY(ADR(rx_data.VelMru_D), ADR(temp), 4);
 
 N := 4;
-temp[3] := buffer[N*4];
-temp[2] := buffer[N*4 + 1];
-temp[1] := buffer[N*4 + 2];
-temp[0] := buffer[N*4 + 3];
-MEMCPY(ADR(_feedback.AccMru_D), ADR(temp), 4);
+temp[3] := rx_buffer[N*4];
+temp[2] := rx_buffer[N*4 + 1];
+temp[1] := rx_buffer[N*4 + 2];
+temp[0] := rx_buffer[N*4 + 3];
+MEMCPY(ADR(rx_data.AccMru_D), ADR(temp), 4);
 
 N := 5;
-temp[3] := buffer[N*4];
-temp[2] := buffer[N*4 + 1];
-temp[1] := buffer[N*4 + 2];
-temp[0] := buffer[N*4 + 3];
-MEMCPY(ADR(_feedback.AngRate_D), ADR(temp), 4);
+temp[3] := rx_buffer[N*4];
+temp[2] := rx_buffer[N*4 + 1];
+temp[1] := rx_buffer[N*4 + 2];
+temp[0] := rx_buffer[N*4 + 3];
+MEMCPY(ADR(rx_data.AngRate_D), ADR(temp), 4);
 
 N := 6;
-temp[3] := buffer[N*4];
-temp[2] := buffer[N*4 + 1];
-temp[1] := buffer[N*4 + 2];
-temp[0] := buffer[N*4 + 3];
-MEMCPY(ADR(_feedback.Roll), ADR(temp), 4);
+temp[3] := rx_buffer[N*4];
+temp[2] := rx_buffer[N*4 + 1];
+temp[1] := rx_buffer[N*4 + 2];
+temp[0] := rx_buffer[N*4 + 3];
+MEMCPY(ADR(rx_data.Roll), ADR(temp), 4);
 
 N := 7;
-temp[3] := buffer[N*4];
-temp[2] := buffer[N*4 + 1];
-temp[1] := buffer[N*4 + 2];
-temp[0] := buffer[N*4 + 3];
-MEMCPY(ADR(_feedback.Pitch), ADR(temp), 4);
+temp[3] := rx_buffer[N*4];
+temp[2] := rx_buffer[N*4 + 1];
+temp[1] := rx_buffer[N*4 + 2];
+temp[0] := rx_buffer[N*4 + 3];
+MEMCPY(ADR(rx_data.Pitch), ADR(temp), 4);
 
 N := 8;
-temp[3] := buffer[N*4];
-temp[2] := buffer[N*4 + 1];
-temp[1] := buffer[N*4 + 2];
-temp[0] := buffer[N*4 + 3];
-MEMCPY(ADR(_feedback.Yaw), ADR(temp), 4);
+temp[3] := rx_buffer[N*4];
+temp[2] := rx_buffer[N*4 + 1];
+temp[1] := rx_buffer[N*4 + 2];
+temp[0] := rx_buffer[N*4 + 3];
+MEMCPY(ADR(rx_data.Yaw), ADR(temp), 4);
 
 N := 9;
-temp[3] := buffer[N*4];
-temp[2] := buffer[N*4 + 1];
-temp[1] := buffer[N*4 + 2];
-temp[0] := buffer[N*4 + 3];
-MEMCPY(ADR(_feedback.AngRate_R), ADR(temp), 4);
+temp[3] := rx_buffer[N*4];
+temp[2] := rx_buffer[N*4 + 1];
+temp[1] := rx_buffer[N*4 + 2];
+temp[0] := rx_buffer[N*4 + 3];
+MEMCPY(ADR(rx_data.AngRate_R), ADR(temp), 4);
 
 N := 10;
-temp[3] := buffer[N*4];
-temp[2] := buffer[N*4 + 1];
-temp[1] := buffer[N*4 + 2];
-temp[0] := buffer[N*4 + 3];
-MEMCPY(ADR(_feedback.AngRate_P), ADR(temp), 4);
+temp[3] := rx_buffer[N*4];
+temp[2] := rx_buffer[N*4 + 1];
+temp[1] := rx_buffer[N*4 + 2];
+temp[0] := rx_buffer[N*4 + 3];
+MEMCPY(ADR(rx_data.AngRate_P), ADR(temp), 4);
 
 N := 11;
-temp[3] := buffer[N*4];
-temp[2] := buffer[N*4 + 1];
-temp[1] := buffer[N*4 + 2];
-temp[0] := buffer[N*4 + 3];
-MEMCPY(ADR(_feedback.AngRate_Y), ADR(temp), 4);
+temp[3] := rx_buffer[N*4];
+temp[2] := rx_buffer[N*4 + 1];
+temp[1] := rx_buffer[N*4 + 2];
+temp[0] := rx_buffer[N*4 + 3];
+MEMCPY(ADR(rx_data.AngRate_Y), ADR(temp), 4);
 
 N := 12;
-temp[3] := buffer[N*4];
-temp[2] := buffer[N*4 + 1];
-temp[1] := buffer[N*4 + 2];
-temp[0] := buffer[N*4 + 3];
-MEMCPY(ADR(_feedback.AngAcc_R), ADR(temp), 4);
+temp[3] := rx_buffer[N*4];
+temp[2] := rx_buffer[N*4 + 1];
+temp[1] := rx_buffer[N*4 + 2];
+temp[0] := rx_buffer[N*4 + 3];
+MEMCPY(ADR(rx_data.AngAcc_R), ADR(temp), 4);
 
 N := 13;
-temp[3] := buffer[N*4];
-temp[2] := buffer[N*4 + 1];
-temp[1] := buffer[N*4 + 2];
-temp[0] := buffer[N*4 + 3];
-MEMCPY(ADR(_feedback.AngAcc_P), ADR(temp), 4);
+temp[3] := rx_buffer[N*4];
+temp[2] := rx_buffer[N*4 + 1];
+temp[1] := rx_buffer[N*4 + 2];
+temp[0] := rx_buffer[N*4 + 3];
+MEMCPY(ADR(rx_data.AngAcc_P), ADR(temp), 4);
 
 N := 14;
-temp[3] := buffer[N*4];
-temp[2] := buffer[N*4 + 1];
-temp[1] := buffer[N*4 + 2];
-temp[0] := buffer[N*4 + 3];
-MEMCPY(ADR(_feedback.AngAcc_Y), ADR(temp), 4);
+temp[3] := rx_buffer[N*4];
+temp[2] := rx_buffer[N*4 + 1];
+temp[1] := rx_buffer[N*4 + 2];
+temp[0] := rx_buffer[N*4 + 3];
+MEMCPY(ADR(rx_data.AngAcc_Y), ADR(temp), 4);
 
 N := 15;
-temp[3] := buffer[N*4];
-temp[2] := buffer[N*4 + 1];
-temp[1] := buffer[N*4 + 2];
-temp[0] := buffer[N*4 + 3];
-MEMCPY(ADR(_feedback.VelMru_R), ADR(temp), 4);
+temp[3] := rx_buffer[N*4];
+temp[2] := rx_buffer[N*4 + 1];
+temp[1] := rx_buffer[N*4 + 2];
+temp[0] := rx_buffer[N*4 + 3];
+MEMCPY(ADR(rx_data.VelMru_R), ADR(temp), 4);
 
 N := 16;
-temp[3] := buffer[N*4];
-temp[2] := buffer[N*4 + 1];
-temp[1] := buffer[N*4 + 2];
-temp[0] := buffer[N*4 + 3];
-MEMCPY(ADR(_feedback.VelMru_P), ADR(temp), 4);
+temp[3] := rx_buffer[N*4];
+temp[2] := rx_buffer[N*4 + 1];
+temp[1] := rx_buffer[N*4 + 2];
+temp[0] := rx_buffer[N*4 + 3];
+MEMCPY(ADR(rx_data.VelMru_P), ADR(temp), 4);
 
 N := 17;
-temp[3] := buffer[N*4];
-temp[2] := buffer[N*4 + 1];
-temp[1] := buffer[N*4 + 2];
-temp[0] := buffer[N*4 + 3];
-MEMCPY(ADR(_feedback.VelMru_Y), ADR(temp), 4);
+temp[3] := rx_buffer[N*4];
+temp[2] := rx_buffer[N*4 + 1];
+temp[1] := rx_buffer[N*4 + 2];
+temp[0] := rx_buffer[N*4 + 3];
+MEMCPY(ADR(rx_data.VelMru_Y), ADR(temp), 4);
 
 N := 18;
-temp[3] := buffer[N*4];
-temp[2] := buffer[N*4 + 1];
-temp[1] := buffer[N*4 + 2];
-temp[0] := buffer[N*4 + 3];
-MEMCPY(ADR(_feedback.AccMru_R), ADR(temp), 4);
+temp[3] := rx_buffer[N*4];
+temp[2] := rx_buffer[N*4 + 1];
+temp[1] := rx_buffer[N*4 + 2];
+temp[0] := rx_buffer[N*4 + 3];
+MEMCPY(ADR(rx_data.AccMru_R), ADR(temp), 4);
 
 N := 19;
-temp[3] := buffer[N*4];
-temp[2] := buffer[N*4 + 1];
-temp[1] := buffer[N*4 + 2];
-temp[0] := buffer[N*4 + 3];
-MEMCPY(ADR(_feedback.AccMru_P), ADR(temp), 4);
+temp[3] := rx_buffer[N*4];
+temp[2] := rx_buffer[N*4 + 1];
+temp[1] := rx_buffer[N*4 + 2];
+temp[0] := rx_buffer[N*4 + 3];
+MEMCPY(ADR(rx_data.AccMru_P), ADR(temp), 4);
 
 N := 20;
-temp[3] := buffer[N*4];
-temp[2] := buffer[N*4 + 1];
-temp[1] := buffer[N*4 + 2];
-temp[0] := buffer[N*4 + 3];
-MEMCPY(ADR(_feedback.AccMru_Y), ADR(temp), 4);
+temp[3] := rx_buffer[N*4];
+temp[2] := rx_buffer[N*4 + 1];
+temp[1] := rx_buffer[N*4 + 2];
+temp[0] := rx_buffer[N*4 + 3];
+MEMCPY(ADR(rx_data.AccMru_Y), ADR(temp), 4);
 
 // Convert data to remote feedback
-feedback.heave := _feedback.PosMru_D;
-feedback.heave_t := _feedback.VelMru_D;
-feedback.heave_tt := _feedback.AccMru_D;
-feedback.turn_rate := _feedback.AngRate_D;
-feedback.roll := _feedback.Roll;
-feedback.pitch := _feedback.Pitch;
-feedback.yaw := _feedback.Yaw;
-feedback.wx := _feedback.AngRate_R;
-feedback.wy := _feedback.AngRate_P;
-feedback.wz := _feedback.AngRate_Y;
-feedback.wx_t := _feedback.AngAcc_R;
-feedback.wy_t := _feedback.AngAcc_P;
-feedback.wz_t := _feedback.AngAcc_Y;
-feedback.x_t := _feedback.VelMru_R;
-feedback.y_t := _feedback.VelMru_P;
-feedback.z_t := _feedback.VelMru_Y;
-feedback.x_tt := _feedback.AccMru_R;
-feedback.y_tt := _feedback.AccMru_P;
-feedback.z_tt := _feedback.AccMru_Y;
+feedback.heave := rx_data.PosMru_D;
+feedback.heave_t := rx_data.VelMru_D;
+feedback.heave_tt := rx_data.AccMru_D;
+feedback.turn_rate := rx_data.AngRate_D;
+feedback.roll := rx_data.Roll;
+feedback.pitch := rx_data.Pitch;
+feedback.yaw := rx_data.Yaw;
+feedback.wx := rx_data.AngRate_R;
+feedback.wy := rx_data.AngRate_P;
+feedback.wz := rx_data.AngRate_Y;
+feedback.wx_t := rx_data.AngAcc_R;
+feedback.wy_t := rx_data.AngAcc_P;
+feedback.wz_t := rx_data.AngAcc_Y;
+feedback.x_t := rx_data.VelMru_R;
+feedback.y_t := rx_data.VelMru_P;
+feedback.z_t := rx_data.VelMru_Y;
+feedback.x_tt := rx_data.AccMru_R;
+feedback.y_tt := rx_data.AccMru_P;
+feedback.z_tt := rx_data.AccMru_Y;
 ]]></ST>
     </Implementation>
     <LineIds Name="MRU2">
       <LineId Id="38" Count="1" />
       <LineId Id="350" Count="1" />
-      <LineId Id="353" Count="1" />
+      <LineId Id="353" Count="0" />
       <LineId Id="109" Count="0" />
       <LineId Id="108" Count="0" />
       <LineId Id="101" Count="0" />

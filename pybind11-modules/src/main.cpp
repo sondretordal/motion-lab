@@ -6,7 +6,6 @@
 // Classes
 #include "UdpServer.h"
 #include "RemoteInterface.h"
-#include "ShipSimulator.h"
 
 namespace py = pybind11;
 
@@ -149,35 +148,12 @@ PYBIND11_PLUGIN(motionlab) {
 		.def("start", &RemoteInterface::start)
 		.def("close", &RemoteInterface::close)
 		.def("update", &RemoteInterface::update)
-		.def("start_log", &RemoteInterface::start_log)
+		.def("log", &RemoteInterface::log, "Start synchronous logging")
+		.def("async_log", &RemoteInterface::async_log, "Start asynchronous logging", py::arg("cycletime"))
 		.def("clear_log", &RemoteInterface::clear_log)
 		.def("save_log", &RemoteInterface::save_log)
 		.def_readonly("feedback", &RemoteInterface::feedback)
 		.def_readwrite("control", &RemoteInterface::control);
-	
-	// Ship simulator
-	py::class_<ShipSimulator>(m, "ShipSimulator")
-		.def(py::init<>())
-		.def("start", &ShipSimulator::start)
-		.def("close", &ShipSimulator::close)
-		.def("integrate", &ShipSimulator::integrate)
-		.def_readwrite("w0", &ShipSimulator::w0)
-		.def_readwrite("Lambda", &ShipSimulator::Lambda)
-		.def_readwrite("sigma", &ShipSimulator::sigma)
-		.def_readwrite("poles", &ShipSimulator::poles)
-		.def_readonly("t", &ShipSimulator::t)
-		.def_readonly("x", &ShipSimulator::x)
-		.def_readonly("y", &ShipSimulator::y)
-		.def_readonly("z", &ShipSimulator::z)
-		.def_readonly("roll", &ShipSimulator::roll)
-		.def_readonly("pitch", &ShipSimulator::pitch)
-		.def_readonly("yaw", &ShipSimulator::yaw)
-		.def_readonly("u", &ShipSimulator::u)
-		.def_readonly("v", &ShipSimulator::v)
-		.def_readonly("w", &ShipSimulator::w)
-		.def_readonly("p", &ShipSimulator::p)
-		.def_readonly("q", &ShipSimulator::q)
-		.def_readonly("r", &ShipSimulator::r);
 
 	// Return module
 	return m.ptr();

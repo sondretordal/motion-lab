@@ -11,15 +11,22 @@ RemoteInterface::~RemoteInterface() {
     clear_log();
 }
 
-void RemoteInterface::start_log() {
-    logging = true;
+void RemoteInterface::log() {
+    log_mode = 1;
 }
+
+void RemoteInterface::async_log(unsigned int cycletime) {
+    log_mode = 2;
+    cycletime = cycletime;
+}
+
 void RemoteInterface::clear_log() {
-    logging = false;
+    log_mode = 0;
     logger.clear();
 }
+
 void RemoteInterface::save_log(std::string path) {
-    logging = false;
+    log_mode = 0;
     logger.save(path);
 }
 
@@ -37,29 +44,36 @@ void RemoteInterface::close() {
 }
     
 void RemoteInterface::update() {
-    update_data = true;
+    // Update public feedback and control data
+    feedback = rx_data;
+    tx_data = control;
+
+    if (log_mode == 1) {
+        // Append new data to JSON log
+        logger.feedback.push_back(rx_data);
+        logger.control.push_back(tx_data);
+    }
+    
 }
 
 void RemoteInterface::run() {
     while (running) {
+        // Check for new recieved data
         mutex.lock();
         server.check_received();
         mutex.unlock();
 
-        if (update_data) {
-            // Update public feedback and control data
-            feedback = rx_data;
-            tx_data = control;
-            
-            if (logging) {
-                // Append new data to JSON log
-                logger.feedback.push_back(feedback);
-                logger.control.push_back(control);
-            }
-            
-            update_data = false;
+        // Increment cycletime counter
+        counter++;
 
+        if ((log_mode == 2) && (counter >= 100)) {
+            // Append new data to JSON log
+            logger.feedback.push_back(rx_data);
+            logger.control.push_back(tx_data);
+
+            // Reset counter
+            counter = 0;
         }
-        
+            
     }
 }

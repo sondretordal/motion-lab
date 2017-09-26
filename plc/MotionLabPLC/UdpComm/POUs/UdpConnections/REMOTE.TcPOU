@@ -41,10 +41,6 @@ feedback.at960.q1 := LREAL_TO_REAL(Main.q1);
 feedback.at960.q2 := LREAL_TO_REAL(Main.q2);
 feedback.at960.q3 := LREAL_TO_REAL(Main.q3);
 
-
-
-
-
 // Ship 1
 feedback.ship1.surge := LREAL_TO_REAL(SIMULATOR.ship1.surge);
 feedback.ship1.sway := LREAL_TO_REAL(SIMULATOR.ship1.sway);
@@ -82,10 +78,8 @@ UdpIO();
       <LineId Id="964" Count="0" />
       <LineId Id="640" Count="1" />
       <LineId Id="864" Count="5" />
-      <LineId Id="730" Count="1" />
-      <LineId Id="751" Count="0" />
-      <LineId Id="772" Count="0" />
-      <LineId Id="928" Count="1" />
+      <LineId Id="730" Count="0" />
+      <LineId Id="929" Count="0" />
       <LineId Id="931" Count="13" />
       <LineId Id="930" Count="0" />
       <LineId Id="752" Count="0" />

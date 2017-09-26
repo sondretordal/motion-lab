@@ -3,9 +3,9 @@
   <POU Name="COMAU" Id="{8fd6d73c-762f-45cc-b515-1dd8eede1bc5}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM COMAU
 VAR
-	_control	: ComauControl;
-	_feedback	: ComauFeedback;
-	UdpIO		: UdpClient(3232258592, 50032, 50042, SIZEOF(_control), ADR(_control), SIZEOF(_feedback), ADR(_feedback));
+	tx_data		: ComauControl;
+	rx_data		: ComauFeedback;
+	UdpIO		: UdpClient(3232258592, 50032, 50042, SIZEOF(tx_data), ADR(tx_data), SIZEOF(rx_data), ADR(rx_data));
 	
 	
 END_VAR
@@ -25,32 +25,32 @@ END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[
-// Decide access from control to _control here!!
-_control.udp_key		:= udp_key;
-_control.cmnd 			:= cmnd;
-_control.beta 			:= beta;
-_control.omega 			:= omega;
+// Decide access from control to tx_data here!!
+tx_data.udp_key			:= udp_key;
+tx_data.cmnd 			:= cmnd;
+tx_data.beta 			:= beta;
+tx_data.omega 			:= omega;
 
-_control.q1			 	:= control.q1;
-_control.q2				:= control.q2;
-_control.q3				:= control.q3;
-_control.q4				:= control.q4;
-_control.q5				:= control.q5;
-_control.q6				:= control.q6;
+tx_data.q1			 	:= control.q1;
+tx_data.q2				:= control.q2;
+tx_data.q3				:= control.q3;
+tx_data.q4				:= control.q4;
+tx_data.q5				:= control.q5;
+tx_data.q6				:= control.q6;
 
-_control.q1_t			:= control.q1_t;
-_control.q2_t			:= control.q2_t;
-_control.q3_t			:= control.q3_t;
-_control.q4_t			:= control.q4_t;
-_control.q5_t			:= control.q5_t;
-_control.q6_t			:= control.q6_t;
+tx_data.q1_t			:= control.q1_t;
+tx_data.q2_t			:= control.q2_t;
+tx_data.q3_t			:= control.q3_t;
+tx_data.q4_t			:= control.q4_t;
+tx_data.q5_t			:= control.q5_t;
+tx_data.q6_t			:= control.q6_t;
 
-_control.q1_tt		 	:= control.q1_tt;
-_control.q2_tt			:= control.q2_tt;
-_control.q3_tt			:= control.q3_tt;
-_control.q4_tt			:= control.q4_tt;
-_control.q5_tt			:= control.q5_tt;
-_control.q6_tt			:= control.q6_tt;
+tx_data.q1_tt		 	:= control.q1_tt;
+tx_data.q2_tt			:= control.q2_tt;
+tx_data.q3_tt			:= control.q3_tt;
+tx_data.q4_tt			:= control.q4_tt;
+tx_data.q5_tt			:= control.q5_tt;
+tx_data.q6_tt			:= control.q6_tt;
 
 
 

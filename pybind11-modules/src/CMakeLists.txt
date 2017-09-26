@@ -11,7 +11,6 @@ add_library(${CMAKE_PROJECT_NAME} SHARED
   UdpServer.cpp
   RemoteInterface.cpp
   JsonLogger.cpp
-  ShipSimulator.cpp
 )
 
 target_link_libraries(${CMAKE_PROJECT_NAME}

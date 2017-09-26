@@ -3,9 +3,9 @@
   <POU Name="EM1500" Id="{f4d547fd-021c-4c08-9d60-b0346b71a862}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM EM1500
 VAR	
-	_control	: StewartControl;
-	_feedback	: StewartFeedback;
-	UdpIO		: UdpClient(3232258591, 50031, 50041, SIZEOF(_control), ADR(_control), SIZEOF(_feedback), ADR(_feedback));
+	tx_data		: StewartControl;
+	rx_data		: StewartFeedback;
+	UdpIO		: UdpClient(3232258591, 50031, 50041, SIZEOF(tx_data), ADR(tx_data), SIZEOF(rx_data), ADR(rx_data));
 	
 	pi			: REAL := 3.141592653589793;
 	
@@ -32,57 +32,57 @@ END_VAR
     <Implementation>
       <ST><![CDATA[
 
-// Assign control to local _control
-_control.CMND := cmnd;
+// Assign control to local tx_data
+tx_data.CMND := cmnd;
 
 // Add maximum limit to control input
-_control.X_EXTRA := LIMIT(-0.3, control.surge, 0.3);
-_control.Y_EXTRA := LIMIT(-0.3, control.sway, 0.3);
-_control.Z_EXTRA := LIMIT(-0.3, control.heave, 0.3);
+tx_data.X_EXTRA := LIMIT(-0.3, control.surge, 0.3);
+tx_data.Y_EXTRA := LIMIT(-0.3, control.sway, 0.3);
+tx_data.Z_EXTRA := LIMIT(-0.3, control.heave, 0.3);
 
-_control.PHI_EXTRA := LIMIT(-10.0/180.0*pi, control.roll, 10.0/180.0*pi);
-_control.THETA_EXTRA := LIMIT(-10.0/180.0*pi, control.pitch, 10.0/180.0*pi);
-_control.PSI_EXTRA := LIMIT(-10.0/180.0*pi, control.yaw, 10.0/180.0*pi);
+tx_data.PHI_EXTRA := LIMIT(-10.0/180.0*pi, control.roll, 10.0/180.0*pi);
+tx_data.THETA_EXTRA := LIMIT(-10.0/180.0*pi, control.pitch, 10.0/180.0*pi);
+tx_data.PSI_EXTRA := LIMIT(-10.0/180.0*pi, control.yaw, 10.0/180.0*pi);
 
 // Update control counter
-_control.COUNT := _control.COUNT + 1;
+tx_data.COUNT := tx_data.COUNT + 1;
 
 // Exchange data
 UdpIO();
 
 // Transform from phi_t and phi_tt to w and w_t
-euler2body.roll := _feedback.Actual_platform_position_roll;
-euler2body.pitch := _feedback.Actual_platform_position_pitch;
-euler2body.yaw := _feedback.Actual_platform_position_yaw;
+euler2body.roll := rx_data.Actual_platform_position_roll;
+euler2body.pitch := rx_data.Actual_platform_position_pitch;
+euler2body.yaw := rx_data.Actual_platform_position_yaw;
 
-euler2body.roll_t := _feedback.Actual_platform_velocity_roll;
-euler2body.pitch_t := _feedback.Actual_platform_velocity_pitch;
-euler2body.yaw_t := _feedback.Actual_platform_velocity_yaw;
+euler2body.roll_t := rx_data.Actual_platform_velocity_roll;
+euler2body.pitch_t := rx_data.Actual_platform_velocity_pitch;
+euler2body.yaw_t := rx_data.Actual_platform_velocity_yaw;
 
-euler2body.roll_tt := _feedback.Actual_platform_acceleration_roll;
-euler2body.pitch_tt := _feedback.Actual_platform_acceleration_pitch;
-euler2body.yaw_tt := _feedback.Actual_platform_acceleration_yaw;
+euler2body.roll_tt := rx_data.Actual_platform_acceleration_roll;
+euler2body.pitch_tt := rx_data.Actual_platform_acceleration_pitch;
+euler2body.yaw_tt := rx_data.Actual_platform_acceleration_yaw;
 
 euler2body();
 
 // Assign feedback data
-feedback.surge := _feedback.Actual_platform_position_surge;
-feedback.sway := _feedback.Actual_platform_position_sway;
-feedback.heave := _feedback.Actual_platform_position_heave;
-feedback.roll := _feedback.Actual_platform_position_roll;
-feedback.pitch := _feedback.Actual_platform_position_pitch;
-feedback.yaw := _feedback.Actual_platform_position_yaw;
+feedback.surge := rx_data.Actual_platform_position_surge;
+feedback.sway := rx_data.Actual_platform_position_sway;
+feedback.heave := rx_data.Actual_platform_position_heave;
+feedback.roll := rx_data.Actual_platform_position_roll;
+feedback.pitch := rx_data.Actual_platform_position_pitch;
+feedback.yaw := rx_data.Actual_platform_position_yaw;
 
-feedback.surge_t := _feedback.Actual_platform_velocity_surge;
-feedback.sway_t := _feedback.Actual_platform_velocity_sway;
-feedback.heave_t := _feedback.Actual_platform_velocity_heave;
+feedback.surge_t := rx_data.Actual_platform_velocity_surge;
+feedback.sway_t := rx_data.Actual_platform_velocity_sway;
+feedback.heave_t := rx_data.Actual_platform_velocity_heave;
 feedback.wx := euler2body.wx;
 feedback.wy := euler2body.wy;
 feedback.wz := euler2body.wz;
 
-feedback.surge_tt := _feedback.Actual_platform_acceleration_surge;
-feedback.sway_tt := _feedback.Actual_platform_acceleration_sway;
-feedback.heave_tt := _feedback.Actual_platform_acceleration_heave;
+feedback.surge_tt := rx_data.Actual_platform_acceleration_surge;
+feedback.sway_tt := rx_data.Actual_platform_acceleration_sway;
+feedback.heave_tt := rx_data.Actual_platform_acceleration_heave;
 feedback.wx_t := euler2body.wx_t;
 feedback.wy_t := euler2body.wy_t;
 feedback.wz_t := euler2body.wz_t;

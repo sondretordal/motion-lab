@@ -22,14 +22,15 @@ private:
 
     // Logging feature
     JsonLogger logger;
-    bool logging = false;
-    bool update_data = false;
+    unsigned int cycletime = 10;
+    unsigned int log_mode = 0;
+    unsigned int counter = 0;
 
     // Remote interface data
     RemoteFeedback rx_data;
     RemoteControl tx_data;
-    
 public:
+
     // IO data
     RemoteFeedback feedback;
 	RemoteControl control;
@@ -43,7 +44,8 @@ public:
     void close();
     void update();
 
-    void start_log();
+    void log();
+    void async_log(unsigned int cycletime);
     void clear_log();
     void save_log(std::string path);
 };
