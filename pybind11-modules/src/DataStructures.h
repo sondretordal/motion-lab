@@ -29,24 +29,24 @@ struct RemoteControl {
 
 // Feedback structs
 struct RemoteFeedbackStewart {
-	float x;
-	float y;
-	float z;
+	float surge;
+	float sway;
+	float heave;
 	float roll;
 	float pitch;
 	float yaw;
-	float x_t;
-	float y_t;
-	float z_t;
-	float roll_t;
-	float pitch_t;
-	float yaw_t;
-	float x_tt;
-	float y_tt;
-	float z_tt;
-	float roll_tt;
-	float pitch_tt;
-	float yaw_tt;
+	float surge_t;
+	float sway_t;
+	float heave_t;
+	float wx;
+	float wy;
+	float wz;
+	float surge_tt;
+	float sway_tt;
+	float heave_tt;
+	float wx_t;
+	float wy_t;
+	float wz_t;
 	float L1;
 	float L2;
 	float L3;
@@ -109,9 +109,9 @@ struct RemoteFeedbackMru {
 };
 
 struct RemoteFeedbackShipSim {
-	float x;
-	float y;
-	float z;
+	float surge;
+	float sway;
+	float heave;
 	float roll;
 	float pitch;
 	float yaw;

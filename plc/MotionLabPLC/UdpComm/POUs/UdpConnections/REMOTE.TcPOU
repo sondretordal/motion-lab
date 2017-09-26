@@ -12,108 +12,25 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// Control data
-IF (control.udp_key <> 81549300) AND enabled THEN
-	// COMAU
-	COMAU.control.q1 := control.comau.q1;
-	COMAU.control.q2 := control.comau.q2;
-	COMAU.control.q3 := control.comau.q3;
-	COMAU.control.q4 := control.comau.q4;
-	COMAU.control.q5 := control.comau.q5;
-	COMAU.control.q6 := control.comau.q6;
-	COMAU.control.q1_t := control.comau.q1_t;
-	COMAU.control.q2_t := control.comau.q2_t;
-	COMAU.control.q3_t := control.comau.q3_t;
-	COMAU.control.q4_t := control.comau.q4_t;
-	COMAU.control.q5_t := control.comau.q5_t;
-	COMAU.control.q6_t := control.comau.q6_t;
-	COMAU.control.q1_tt := control.comau.q1_tt;
-	COMAU.control.q2_tt := control.comau.q2_tt;
-	COMAU.control.q3_tt := control.comau.q3_tt;
-	COMAU.control.q4_tt := control.comau.q4_tt;
-	COMAU.control.q5_tt := control.comau.q5_tt;
-	COMAU.control.q6_tt := control.comau.q6_tt;
-END_IF
-
-// Time with overflow check
+      <ST><![CDATA[// Time with overflow check
 feedback.t := feedback.t + 1.0/1000.0;
 IF feedback.t >= 32765.0 THEN
 	feedback.t := 0.0;
 END_IF
 
+// Control data
+IF (control.udp_key <> 81549300) AND enabled THEN
+	// COMAU
+	COMAU.control := control.comau;
+END_IF
+
 // Feedback data
-// EM8000
+feedback.em8000 := EM8000.feedback;
+feedback.em1500 := EM1500.feedback;
+feedback.comau := COMAU.feedback;
 
-feedback.em8000.x := EM8000.feedback.Actual_platform_position_surge;
-feedback.em8000.y := EM8000.feedback.Actual_platform_position_sway;
-feedback.em8000.z := EM8000.feedback.Actual_platform_position_heave;
-feedback.em8000.roll := EM8000.feedback.Actual_platform_position_roll;
-feedback.em8000.pitch := EM8000.feedback.Actual_platform_position_pitch;
-feedback.em8000.yaw	:= EM8000.feedback.Actual_platform_position_yaw;
-feedback.em8000.x_t	:= EM8000.feedback.Actual_platform_velocity_surge;
-feedback.em8000.y_t	:= EM8000.feedback.Actual_platform_velocity_sway;
-feedback.em8000.z_t	:= EM8000.feedback.Actual_platform_velocity_heave;
-feedback.em8000.roll_t := EM8000.feedback.Actual_platform_velocity_roll;
-feedback.em8000.pitch_t := EM8000.feedback.Actual_platform_velocity_pitch;
-feedback.em8000.yaw_t := EM8000.feedback.Actual_platform_velocity_yaw;
-feedback.em8000.x_tt := EM8000.feedback.Actual_platform_acceleration_surge;
-feedback.em8000.y_tt := EM8000.feedback.Actual_platform_acceleration_sway;
-feedback.em8000.z_tt := EM8000.feedback.Actual_platform_acceleration_heave;
-feedback.em8000.roll_tt := EM8000.feedback.Actual_platform_acceleration_roll;
-feedback.em8000.pitch_tt := EM8000.feedback.Actual_platform_acceleration_pitch;
-feedback.em8000.yaw_tt := EM8000.feedback.Actual_platform_acceleration_yaw;
-feedback.em8000.L1 := EM8000.feedback.Actual_position_actuator_1;
-feedback.em8000.L2 := EM8000.feedback.Actual_position_actuator_2;
-feedback.em8000.L3 := EM8000.feedback.Actual_position_actuator_3;
-feedback.em8000.L4 := EM8000.feedback.Actual_position_actuator_4;
-feedback.em8000.L5 := EM8000.feedback.Actual_position_actuator_5;
-feedback.em8000.L6 := EM8000.feedback.Actual_position_actuator_6;
-
-// EM1500
-feedback.em1500.x := EM1500.feedback.Actual_platform_position_surge;
-feedback.em1500.y := EM1500.feedback.Actual_platform_position_sway;
-feedback.em1500.z := EM1500.feedback.Actual_platform_position_heave;
-feedback.em1500.roll := EM1500.feedback.Actual_platform_position_roll;
-feedback.em1500.pitch := EM1500.feedback.Actual_platform_position_pitch;
-feedback.em1500.yaw	:= EM1500.feedback.Actual_platform_position_yaw;
-feedback.em1500.x_t	:= EM1500.feedback.Actual_platform_velocity_surge;
-feedback.em1500.y_t	:= EM1500.feedback.Actual_platform_velocity_sway;
-feedback.em1500.z_t	:= EM1500.feedback.Actual_platform_velocity_heave;
-feedback.em1500.roll_t := EM1500.feedback.Actual_platform_velocity_roll;
-feedback.em1500.pitch_t := EM1500.feedback.Actual_platform_velocity_pitch;
-feedback.em1500.yaw_t := EM1500.feedback.Actual_platform_velocity_yaw;
-feedback.em1500.x_tt := EM1500.feedback.Actual_platform_acceleration_surge;
-feedback.em1500.y_tt := EM1500.feedback.Actual_platform_acceleration_sway;
-feedback.em1500.z_tt := EM1500.feedback.Actual_platform_acceleration_heave;
-feedback.em1500.roll_tt := EM1500.feedback.Actual_platform_acceleration_roll;
-feedback.em1500.pitch_tt := EM1500.feedback.Actual_platform_acceleration_pitch;
-feedback.em1500.yaw_tt := EM1500.feedback.Actual_platform_acceleration_yaw;
-feedback.em1500.L1 := EM1500.feedback.Actual_position_actuator_1;
-feedback.em1500.L2 := EM1500.feedback.Actual_position_actuator_2;
-feedback.em1500.L3 := EM1500.feedback.Actual_position_actuator_3;
-feedback.em1500.L4 := EM1500.feedback.Actual_position_actuator_4;
-feedback.em1500.L5 := EM1500.feedback.Actual_position_actuator_5;
-feedback.em1500.L6 := EM1500.feedback.Actual_position_actuator_6;
-
-// COAMU
-feedback.comau.q1 := COMAU.feedback.q1;
-feedback.comau.q2 := COMAU.feedback.q2;
-feedback.comau.q3 := COMAU.feedback.q3;
-feedback.comau.q4 := COMAU.feedback.q4;
-feedback.comau.q5 := COMAU.feedback.q5;
-feedback.comau.q6 := COMAU.feedback.q6;
-feedback.comau.q1_t := COMAU.feedback.q1_t;
-feedback.comau.q2_t := COMAU.feedback.q2_t;
-feedback.comau.q3_t := COMAU.feedback.q3_t;
-feedback.comau.q4_t := COMAU.feedback.q4_t;
-feedback.comau.q5_t := COMAU.feedback.q5_t;
-feedback.comau.q6_t := COMAU.feedback.q6_t;
-feedback.comau.q1_tt := COMAU.feedback.q1_tt;
-feedback.comau.q2_tt := COMAU.feedback.q2_tt;
-feedback.comau.q3_tt := COMAU.feedback.q3_tt;
-feedback.comau.q4_tt := COMAU.feedback.q4_tt;
-feedback.comau.q5_tt := COMAU.feedback.q5_tt;
-feedback.comau.q6_tt := COMAU.feedback.q6_tt;
+feedback.mru1 := MRU1.feedback;
+feedback.mru2 := MRU2.feedback;
 
 // AT960
 feedback.at960.x := LREAL_TO_REAL(Main.x);
@@ -124,94 +41,55 @@ feedback.at960.q1 := LREAL_TO_REAL(Main.q1);
 feedback.at960.q2 := LREAL_TO_REAL(Main.q2);
 feedback.at960.q3 := LREAL_TO_REAL(Main.q3);
 
-// MRU1
-feedback.mru1.heave := MRU1.feedback.PosMru_D;
-feedback.mru1.heave_t := MRU1.feedback.VelMru_D;
-feedback.mru1.heave_tt := MRU1.feedback.AccMru_D;
-feedback.mru1.turn_rate := MRU1.feedback.AngRate_D;
-feedback.mru1.roll := MRU1.feedback.Roll;
-feedback.mru1.pitch := MRU1.feedback.Pitch;
-feedback.mru1.yaw := MRU1.feedback.Yaw;
-feedback.mru1.wx := MRU1.feedback.AngRate_R;
-feedback.mru1.wy := MRU1.feedback.AngRate_P;
-feedback.mru1.wz := MRU1.feedback.AngRate_Y;
-feedback.mru1.wx_t := MRU1.feedback.AngAcc_R;
-feedback.mru1.wy_t := MRU1.feedback.AngAcc_P;
-feedback.mru1.wz_t := MRU1.feedback.AngAcc_Y;
-feedback.mru1.x_t := MRU1.feedback.VelMru_R;
-feedback.mru1.y_t := MRU1.feedback.VelMru_P;
-feedback.mru1.z_t := MRU1.feedback.VelMru_Y;
-feedback.mru1.x_tt := MRU1.feedback.AccMru_R;
-feedback.mru1.y_tt := MRU1.feedback.AccMru_P;
-feedback.mru1.z_tt := MRU1.feedback.AccMru_Y;
 
-// MRU2
-feedback.mru2.heave := MRU2.feedback.PosMru_D;
-feedback.mru2.heave_t := MRU2.feedback.VelMru_D;
-feedback.mru2.heave_tt := MRU2.feedback.AccMru_D;
-feedback.mru2.turn_rate := MRU2.feedback.AngRate_D;
-feedback.mru2.roll := MRU2.feedback.Roll;
-feedback.mru2.pitch := MRU2.feedback.Pitch;
-feedback.mru2.yaw := MRU2.feedback.Yaw;
-feedback.mru2.wx := MRU2.feedback.AngRate_R;
-feedback.mru2.wy := MRU2.feedback.AngRate_P;
-feedback.mru2.wz := MRU2.feedback.AngRate_Y;
-feedback.mru2.wx_t := MRU2.feedback.AngAcc_R;
-feedback.mru2.wy_t := MRU2.feedback.AngAcc_P;
-feedback.mru2.wz_t := MRU2.feedback.AngAcc_Y;
-feedback.mru2.x_t := MRU2.feedback.VelMru_R;
-feedback.mru2.y_t := MRU2.feedback.VelMru_P;
-feedback.mru2.z_t := MRU2.feedback.VelMru_Y;
-feedback.mru2.x_tt := MRU2.feedback.AccMru_R;
-feedback.mru2.y_tt := MRU2.feedback.AccMru_P;
-feedback.mru2.z_tt := MRU2.feedback.AccMru_Y;
+
+
 
 // Ship 1
-feedback.ship1.x := LREAL_TO_REAL(SIMULATOR.ship1.x);
-feedback.ship1.y := LREAL_TO_REAL(SIMULATOR.ship1.y);
-feedback.ship1.z := LREAL_TO_REAL(SIMULATOR.ship1.z);
+feedback.ship1.surge := LREAL_TO_REAL(SIMULATOR.ship1.surge);
+feedback.ship1.sway := LREAL_TO_REAL(SIMULATOR.ship1.sway);
+feedback.ship1.heave := LREAL_TO_REAL(SIMULATOR.ship1.heave);
 feedback.ship1.roll := LREAL_TO_REAL(SIMULATOR.ship1.roll);
 feedback.ship1.pitch := LREAL_TO_REAL(SIMULATOR.ship1.pitch);
 feedback.ship1.yaw := LREAL_TO_REAL(SIMULATOR.ship1.yaw);
 
 // Ship 2
-feedback.ship2.x := LREAL_TO_REAL(SIMULATOR.ship2.x);
-feedback.ship2.y := LREAL_TO_REAL(SIMULATOR.ship2.y);
-feedback.ship2.z := LREAL_TO_REAL(SIMULATOR.ship2.z);
+feedback.ship2.surge := LREAL_TO_REAL(SIMULATOR.ship2.surge);
+feedback.ship2.sway := LREAL_TO_REAL(SIMULATOR.ship2.sway);
+feedback.ship2.heave := LREAL_TO_REAL(SIMULATOR.ship2.heave);
 feedback.ship2.roll := LREAL_TO_REAL(SIMULATOR.ship2.roll);
 feedback.ship2.pitch := LREAL_TO_REAL(SIMULATOR.ship2.pitch);
 feedback.ship2.yaw := LREAL_TO_REAL(SIMULATOR.ship2.yaw);
+
 
 
 UdpIO();
 ]]></ST>
     </Implementation>
     <LineIds Name="REMOTE">
+      <LineId Id="969" Count="3" />
+      <LineId Id="954" Count="1" />
       <LineId Id="530" Count="1" />
       <LineId Id="873" Count="0" />
-      <LineId Id="892" Count="16" />
       <LineId Id="533" Count="0" />
       <LineId Id="871" Count="0" />
-      <LineId Id="561" Count="6" />
+      <LineId Id="567" Count="0" />
       <LineId Id="704" Count="0" />
-      <LineId Id="918" Count="0" />
-      <LineId Id="833" Count="0" />
-      <LineId Id="926" Count="0" />
-      <LineId Id="835" Count="21" />
-      <LineId Id="705" Count="0" />
-      <LineId Id="568" Count="0" />
-      <LineId Id="809" Count="23" />
-      <LineId Id="593" Count="0" />
-      <LineId Id="620" Count="1" />
-      <LineId Id="792" Count="16" />
-      <LineId Id="639" Count="2" />
+      <LineId Id="957" Count="0" />
+      <LineId Id="959" Count="0" />
+      <LineId Id="639" Count="0" />
+      <LineId Id="965" Count="1" />
+      <LineId Id="964" Count="0" />
+      <LineId Id="640" Count="1" />
       <LineId Id="864" Count="5" />
-      <LineId Id="730" Count="21" />
-      <LineId Id="772" Count="19" />
+      <LineId Id="730" Count="1" />
+      <LineId Id="751" Count="0" />
+      <LineId Id="772" Count="0" />
       <LineId Id="928" Count="1" />
       <LineId Id="931" Count="13" />
       <LineId Id="930" Count="0" />
       <LineId Id="752" Count="0" />
+      <LineId Id="956" Count="0" />
       <LineId Id="536" Count="1" />
       <LineId Id="5" Count="0" />
     </LineIds>

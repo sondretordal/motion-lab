@@ -17,13 +17,13 @@ ship1();
 
 ship2();
 
-EM1500.control.X_EXTRA := LREAL_TO_REAL(ship2.x);
-EM1500.control.Y_EXTRA := LREAL_TO_REAL(ship2.y);
-EM1500.control.Z_EXTRA := LREAL_TO_REAL(ship2.z);
+EM1500.control.surge := LREAL_TO_REAL(ship2.surge);
+EM1500.control.sway := LREAL_TO_REAL(ship2.sway);
+EM1500.control.heave := LREAL_TO_REAL(ship2.heave);
 
-EM1500.control.PHI_EXTRA := LREAL_TO_REAL(ship2.roll);
-EM1500.control.THETA_EXTRA := LREAL_TO_REAL(ship2.pitch);
-EM1500.control.PSI_EXTRA := LREAL_TO_REAL(ship2.yaw);
+EM1500.control.roll := LREAL_TO_REAL(ship2.roll);
+EM1500.control.pitch := LREAL_TO_REAL(ship2.pitch);
+EM1500.control.yaw := LREAL_TO_REAL(ship2.yaw);
 
 ]]></ST>
     </Implementation>

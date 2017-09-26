@@ -863,9 +863,6 @@
 				<Task Id="7" Priority="22" CycleTime="10000" AmsPort="354" Affinity="#x00000008">
 					<Name>TaskCOMAU</Name>
 				</Task>
-				<Task Id="8" Priority="26" CycleTime="10000" AmsPort="355" Affinity="#x00000002">
-					<Name>TaskHMI</Name>
-				</Task>
 				<Task Id="9" Priority="23" CycleTime="50000" AmsPort="356" Affinity="#x00000002">
 					<Name>TaskMRU1</Name>
 				</Task>
@@ -954,20 +951,13 @@
 							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
 							<Data>50000101</Data>
 						</InitSymbol>
-						<InitSymbol>
-							<Name>HMI.UdpIO.oid</Name>
-							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
-							<Data>50000101</Data>
-						</InitSymbol>
 					</InitSymbols>
 					<TaskPouOids>
 						<TaskPouOid Prio="25" OTCID="#x01010016"/>
 						<TaskPouOid Prio="22" OTCID="#x01010013"/>
-						<TaskPouOid Prio="30" OTCID="#x01010019"/>
-						<TaskPouOid Prio="27" OTCID="#x01010018"/>
+						<TaskPouOid Prio="30" OTCID="#x01010017"/>
 						<TaskPouOid Prio="24" OTCID="#x01010015"/>
 						<TaskPouOid Prio="21" OTCID="#x01010011"/>
-						<TaskPouOid Prio="26" OTCID="#x01010017"/>
 						<TaskPouOid Prio="23" OTCID="#x01010014"/>
 						<TaskPouOid Prio="20" OTCID="#x01010012"/>
 					</TaskPouOids>

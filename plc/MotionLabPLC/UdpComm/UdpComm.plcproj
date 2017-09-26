@@ -21,12 +21,6 @@
     <Compile Include="DUTs\ComauControl.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\HmiFeedback.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DUTs\HmiControl.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="DUTs\MruFeedback.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -34,6 +28,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\RemoteControlComau.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\RemoteControlStewart.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\RemoteFeedback.TcDUT">
@@ -87,9 +84,6 @@
     <Compile Include="POUs\UdpConnections\EM8000.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\UdpConnections\HMI.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="POUs\UdpConnections\MRU1.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -112,9 +106,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="TaskEM8000.TcTTO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TaskHMI.TcTTO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="TaskMain.TcTTO">

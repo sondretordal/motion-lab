@@ -3,9 +3,9 @@
   <DUT Name="RemoteFeedbackShipSim" Id="{9f0dba80-a44d-4a78-9683-b10f3d70d80c}">
     <Declaration><![CDATA[TYPE RemoteFeedbackShipSim :
 STRUCT
-	x : REAL;
-	y : REAL;
-	z : REAL;
+	surge : REAL;
+	sway : REAL;
+	heave : REAL;
 	roll : REAL;
 	pitch : REAL;
 	yaw : REAL;

@@ -14,9 +14,9 @@ VAR_INPUT
 	poles : LREAL := 0.3;
 	
 	// Max output states allowed
-	x_max : LREAL := 0.2;
-	y_max : LREAL := 0.2;
-	z_max : LREAL := 0.4;
+	surge_max : LREAL := 0.2;
+	sway_max : LREAL := 0.2;
+	heave_max : LREAL := 0.4;
 	roll_max : LREAL := 5.0/180.0*pi;
 	pitch_max : LREAL := 5.0/180.0*pi;
 	yaw_max : LREAL := 5.0/180.0*pi;
@@ -26,9 +26,9 @@ END_VAR
 VAR_OUTPUT
 	t : LREAL := 0.0;
 	
-	x : LREAL;
-	y : LREAL;
-	z : LREAL;
+	surge : LREAL;
+	sway : LREAL;
+	heave : LREAL;
 	roll : LREAL;
 	pitch : LREAL;
 	yaw : LREAL;
@@ -62,9 +62,9 @@ END_VAR
 integrate();
 
 // Red max settings
-eta_max[0] := ABS(x_max);
-eta_max[1] := ABS(y_max);
-eta_max[2] := ABS(z_max);
+eta_max[0] := ABS(surge_max);
+eta_max[1] := ABS(sway_max);
+eta_max[2] := ABS(heave_max);
 eta_max[3] := ABS(roll_max);
 eta_max[4] := ABS(pitch_max);
 eta_max[5] := ABS(yaw_max);
@@ -79,9 +79,9 @@ FOR dof := 0 TO 5 DO
 END_FOR
 
 
-x := Ks[0]*states[0];
-y := Ks[1]*states[1];
-z := Ks[2]*states[2];
+surge := Ks[0]*states[0];
+sway := Ks[1]*states[1];
+heave := Ks[2]*states[2];
 roll := Ks[3]*states[3];
 pitch := Ks[4]*states[4];
 yaw := Ks[5]*states[5];

@@ -4,7 +4,7 @@
     <Declaration><![CDATA[TYPE ComauControl :
 STRUCT
 	udp_key	: DINT := 0;
-	mode : DINT := 0;
+	cmnd : DINT := 0;
 	omega : REAL := 1.0;
 	beta : REAL := 1.0;
 	q1 : REAL := 0.0;

@@ -3,24 +3,24 @@
   <DUT Name="RemoteFeedbackStewart" Id="{dbe9f13a-90b3-482d-a35b-3c357fc25569}">
     <Declaration><![CDATA[TYPE RemoteFeedbackStewart :
 STRUCT
-	x : REAL;
-	y : REAL;
-	z : REAL;
+	surge : REAL;
+	sway : REAL;
+	heave : REAL;
 	roll : REAL;
 	pitch : REAL;
 	yaw	: REAL;
-	x_t	: REAL;
-	y_t	: REAL;
-	z_t	: REAL;
-	roll_t : REAL;
-	pitch_t	: REAL;
-	yaw_t : REAL;
-	x_tt : REAL;
-	y_tt : REAL;
-	z_tt : REAL;
-	roll_tt	: REAL;
-	pitch_tt : REAL;
-	yaw_tt : REAL;
+	surge_t	: REAL;
+	sway_t	: REAL;
+	heave_t	: REAL;
+	wx : REAL;
+	wy	: REAL;
+	wz : REAL;
+	surge_tt : REAL;
+	sway_tt : REAL;
+	heave_tt : REAL;
+	wx_t	: REAL;
+	wy_t : REAL;
+	wz_t : REAL;
 	L1 : REAL;
 	L2 : REAL;
 	L3 : REAL;

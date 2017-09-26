@@ -4,26 +4,32 @@
     <Declaration><![CDATA[PROGRAM COMAU
 VAR
 	_control	: ComauControl;
+	_feedback	: ComauFeedback;
+	UdpIO		: UdpClient(3232258592, 50032, 50042, SIZEOF(_control), ADR(_control), SIZEOF(_feedback), ADR(_feedback));
 	
-	UdpIO		: UdpClient(3232258592, 50032, 50042, SIZEOF(_control), ADR(_control), SIZEOF(feedback), ADR(feedback));
-
+	
 END_VAR
 
 VAR_INPUT
-	control		: comauControl;
+	udp_key 	: DINT := 32;
+	cmnd		: DINT := 0;
+	beta		: REAL := 1.0;
+	omega		: REAL := 1.0;
+	
+	control		: RemoteControlComau;
 END_VAR
 
 VAR_OUTPUT
-	feedback	: comauFeedback;
+	feedback	: RemoteFeedbackComau;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[
 // Decide access from control to _control here!!
-_control.udp_key		:= 32;
-_control.mode 			:= control.mode;
-_control.beta 			:= control.beta;
-_control.omega 			:= control.omega;
+_control.udp_key		:= udp_key;
+_control.cmnd 			:= cmnd;
+_control.beta 			:= beta;
+_control.omega 			:= omega;
 
 _control.q1			 	:= control.q1;
 _control.q2				:= control.q2;

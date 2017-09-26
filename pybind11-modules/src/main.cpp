@@ -6,36 +6,35 @@
 // Classes
 #include "UdpServer.h"
 #include "RemoteInterface.h"
-#include "HmiInterface.h"
 #include "ShipSimulator.h"
 
 namespace py = pybind11;
 
-PYBIND11_PLUGIN(MotionLab) {
+PYBIND11_PLUGIN(motionlab) {
 	// Module
-	py::module m("MotionLab", "Udp server and client utilites");
+	py::module m("motionlab", "Interface for operating and using the Motion Laboratory through Python");
 
 	// Feedback structs
 	py::class_<RemoteFeedbackStewart>(m, "RemoteFeedbackStewart")
 		.def(py::init<>())
-		.def_readonly("x", &RemoteFeedbackStewart::x)
-		.def_readonly("y", &RemoteFeedbackStewart::y)
-		.def_readonly("z", &RemoteFeedbackStewart::z)
+		.def_readonly("surge", &RemoteFeedbackStewart::surge)
+		.def_readonly("sway", &RemoteFeedbackStewart::sway)
+		.def_readonly("heave", &RemoteFeedbackStewart::heave)
 		.def_readonly("roll", &RemoteFeedbackStewart::roll)
 		.def_readonly("pitch", &RemoteFeedbackStewart::pitch)
 		.def_readonly("yaw", &RemoteFeedbackStewart::yaw)
-		.def_readonly("x_t", &RemoteFeedbackStewart::x_t)
-		.def_readonly("y_t", &RemoteFeedbackStewart::y_t)
-		.def_readonly("z_t", &RemoteFeedbackStewart::z_t)
-		.def_readonly("roll_t", &RemoteFeedbackStewart::roll_t)
-		.def_readonly("pitch_t", &RemoteFeedbackStewart::pitch_t)
-		.def_readonly("yaw_t", &RemoteFeedbackStewart::yaw_t)
-		.def_readonly("x_tt", &RemoteFeedbackStewart::x_tt)
-		.def_readonly("y_tt", &RemoteFeedbackStewart::y_tt)
-		.def_readonly("z_tt", &RemoteFeedbackStewart::z_tt)
-		.def_readonly("roll_tt", &RemoteFeedbackStewart::roll_tt)
-		.def_readonly("pitch_tt", &RemoteFeedbackStewart::pitch_tt)
-		.def_readonly("yaw_tt", &RemoteFeedbackStewart::yaw_tt)
+		.def_readonly("surge_t", &RemoteFeedbackStewart::surge_t)
+		.def_readonly("sway_t", &RemoteFeedbackStewart::sway_t)
+		.def_readonly("heave_t", &RemoteFeedbackStewart::heave_t)
+		.def_readonly("wx", &RemoteFeedbackStewart::wx)
+		.def_readonly("wy", &RemoteFeedbackStewart::wy)
+		.def_readonly("wz", &RemoteFeedbackStewart::wz)
+		.def_readonly("surge_tt", &RemoteFeedbackStewart::surge_tt)
+		.def_readonly("sway_tt", &RemoteFeedbackStewart::sway_tt)
+		.def_readonly("heave_tt", &RemoteFeedbackStewart::heave_tt)
+		.def_readonly("wx_t", &RemoteFeedbackStewart::wx_t)
+		.def_readonly("wy_t", &RemoteFeedbackStewart::wy_t)
+		.def_readonly("wz_t", &RemoteFeedbackStewart::wz_t)
 		.def_readonly("L1", &RemoteFeedbackStewart::L1)
 		.def_readonly("L2", &RemoteFeedbackStewart::L2)
 		.def_readonly("L3", &RemoteFeedbackStewart::L3)
@@ -98,9 +97,9 @@ PYBIND11_PLUGIN(MotionLab) {
 	
 	py::class_<RemoteFeedbackShipSim>(m, "RemoteFeedbackShipSim")
 		.def(py::init<>())
-		.def_readonly("x",&RemoteFeedbackShipSim::x)
-		.def_readonly("y",&RemoteFeedbackShipSim::y)
-		.def_readonly("z",&RemoteFeedbackShipSim::z)
+		.def_readonly("surge",&RemoteFeedbackShipSim::surge)
+		.def_readonly("sway",&RemoteFeedbackShipSim::sway)
+		.def_readonly("heave",&RemoteFeedbackShipSim::heave)
 		.def_readonly("roll",&RemoteFeedbackShipSim::roll)
 		.def_readonly("pitch",&RemoteFeedbackShipSim::pitch)
 		.def_readonly("yaw",&RemoteFeedbackShipSim::yaw);
@@ -116,8 +115,6 @@ PYBIND11_PLUGIN(MotionLab) {
 		.def_readonly("mru2", &RemoteFeedback::mru2)
 		.def_readonly("ship1", &RemoteFeedback::ship1)
 		.def_readonly("ship2", &RemoteFeedback::ship2);
-
-
 
 	// Control structs
 	py::class_<RemoteControlComau>(m, "RemoteControlComau")
@@ -157,18 +154,6 @@ PYBIND11_PLUGIN(MotionLab) {
 		.def("save_log", &RemoteInterface::save_log)
 		.def_readonly("feedback", &RemoteInterface::feedback)
 		.def_readwrite("control", &RemoteInterface::control);
-
-	// Hmi interface
-	py::class_<HmiInterface>(m, "HmiInterface")
-		.def(py::init<unsigned int>())
-		.def("start", &HmiInterface::start)
-		.def("close", &HmiInterface::close)
-		.def("update", &HmiInterface::update)
-		.def("start_log", &HmiInterface::start_log)
-		.def("clear_log", &HmiInterface::clear_log)
-		.def("save_log", &HmiInterface::save_log)
-		.def_readonly("feedback", &HmiInterface::feedback)
-		.def_readwrite("control", &HmiInterface::control);
 	
 	// Ship simulator
 	py::class_<ShipSimulator>(m, "ShipSimulator")
@@ -193,26 +178,10 @@ PYBIND11_PLUGIN(MotionLab) {
 		.def_readonly("p", &ShipSimulator::p)
 		.def_readonly("q", &ShipSimulator::q)
 		.def_readonly("r", &ShipSimulator::r);
-		
-		
-
 
 	// Return module
 	return m.ptr();
 }
 
 
-int main(int argc, char** argv)
-{	
-	ShipSimulator s;
 
-	double sum = 0.0;
-	unsigned int i;
-
-
-	for (i = 0; i < 1000000000; i++) {
-		sum = sum + (s.drand()*2.0-1.0);
-	}
-
-	std::cout << sum/static_cast<double>(i) << std::endl;
-}

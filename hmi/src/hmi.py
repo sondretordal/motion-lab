@@ -8,8 +8,8 @@ import numpy as np
 from scipy.optimize import curve_fit
 
 
-from src import MotionLab
 from src.classes import RealTimePlot, RealTimeBar
+from src.datastructures import RemoteFeedback, RemoteControl
 from src.gui import Ui_main
 
 # Background color pyqtgraph
@@ -36,11 +36,7 @@ class GUI(QMainWindow, Ui_main):
         
         # Set PLC time to zero
         self.plc.write_by_name('REMOTE.feedback.t', 0.0, pyads.PLCTYPE_REAL)
-
-        # UDP server interface from pybind11    
-        self.udp = MotionLab.HmiInterface(50160)
-        self.udp.start()
-
+    
         # Connect the interaction functionality of the GUI
         self.ui_connect()
 
@@ -50,7 +46,7 @@ class GUI(QMainWindow, Ui_main):
         # Timer function for plot update
         self.timer = QTimer()
         self.timer.timeout.connect(self.update_data)
-        self.timer.start(50)
+        self.timer.start(25)
         
         # Plot Ship Simulator - Wave Spectrum
         # Linear wave spectrum model
@@ -389,115 +385,116 @@ class GUI(QMainWindow, Ui_main):
 
     # Update data and plot
     def update_data(self):
-        # Update real time plots
+        # Read latest data from ADS into RemoteFeedback ctypes struct
+        feedback = self.plc.read_by_name('REMOTE.feedback', RemoteFeedback)
 
         self.DP1_1.time_range = self.time_range
-        self.DP1_1.update(self.udp.feedback.t, [
-                self.udp.feedback.ship1.x,
-                self.udp.feedback.ship1.y,
-                self.udp.feedback.ship1.z
+        self.DP1_1.update(feedback.t, [
+                feedback.ship1.surge,
+                feedback.ship1.sway,
+                feedback.ship1.heave
             ])
         
         self.DP1_2.time_range = self.time_range
-        self.DP1_2.update(self.udp.feedback.t, [
-                self.udp.feedback.ship1.roll/np.pi*180.0,
-                self.udp.feedback.ship1.pitch/np.pi*180.0,
-                self.udp.feedback.ship1.yaw/np.pi*180.0
+        self.DP1_2.update(feedback.t, [
+                feedback.ship1.roll/np.pi*180.0,
+                feedback.ship1.pitch/np.pi*180.0,
+                feedback.ship1.yaw/np.pi*180.0
             ])
  
         self.DP2_1.time_range = self.time_range
-        self.DP2_1.update(self.udp.feedback.t, [
-                self.udp.feedback.ship2.x,
-                self.udp.feedback.ship2.y,
-                self.udp.feedback.ship2.z
+        self.DP2_1.update(feedback.t, [
+                feedback.ship2.surge,
+                feedback.ship2.sway,
+                feedback.ship2.heave
             ])
         
         self.DP2_2.time_range = self.time_range
-        self.DP2_2.update(self.udp.feedback.t, [
-                self.udp.feedback.ship2.roll/np.pi*180.0,
-                self.udp.feedback.ship2.pitch/np.pi*180.0,
-                self.udp.feedback.ship2.yaw/np.pi*180.0
+        self.DP2_2.update(feedback.t, [
+                feedback.ship2.roll/np.pi*180.0,
+                feedback.ship2.pitch/np.pi*180.0,
+                feedback.ship2.yaw/np.pi*180.0
             ])
 
         self.EM1500_1.time_range = self.time_range
-        self.EM1500_1.update(self.udp.feedback.t, [
-                self.udp.feedback.em1500.x,
-                self.udp.feedback.em1500.y,
-                self.udp.feedback.em1500.z
+        self.EM1500_1.update(feedback.t, [
+                feedback.em1500.surge,
+                feedback.em1500.sway,
+                feedback.em1500.heave
             ])
         self.EM1500_2.time_range = self.time_range
-        self.EM1500_2.update(self.udp.feedback.t, [
-                self.udp.feedback.em1500.roll/np.pi*180.0,
-                self.udp.feedback.em1500.pitch/np.pi*180.0,
-                self.udp.feedback.em1500.yaw/np.pi*180.0
+        self.EM1500_2.update(feedback.t, [
+                feedback.em1500.roll/np.pi*180.0,
+                feedback.em1500.pitch/np.pi*180.0,
+                feedback.em1500.yaw/np.pi*180.0
             ])
 
         self.EM8000_1.time_range = self.time_range
-        self.EM8000_1.update(self.udp.feedback.t, [
-                self.udp.feedback.em8000.x,
-                self.udp.feedback.em8000.y,
-                self.udp.feedback.em8000.z
+        self.EM8000_1.update(feedback.t, [
+                feedback.em8000.surge,
+                feedback.em8000.sway,
+                feedback.em8000.heave
             ])
         self.EM8000_2.time_range = self.time_range
-        self.EM8000_2.update(self.udp.feedback.t, [
-                self.udp.feedback.em8000.roll/np.pi*180.0,
-                self.udp.feedback.em8000.pitch/np.pi*180.0,
-                self.udp.feedback.em8000.yaw/np.pi*180.0
+        self.EM8000_2.update(feedback.t, [
+                feedback.em8000.roll/np.pi*180.0,
+                feedback.em8000.pitch/np.pi*180.0,
+                feedback.em8000.yaw/np.pi*180.0
             ])
         
         self.COMAU.time_range = self.time_range
-        self.COMAU.update(self.udp.feedback.t, [
-                self.udp.feedback.comau.q1, 
-                self.udp.feedback.comau.q2, 
-                self.udp.feedback.comau.q3,
-                self.udp.feedback.comau.q4, 
-                self.udp.feedback.comau.q5, 
-                self.udp.feedback.comau.q6
+        self.COMAU.update(feedback.t, [
+                feedback.comau.q1, 
+                feedback.comau.q2, 
+                feedback.comau.q3,
+                feedback.comau.q4, 
+                feedback.comau.q5, 
+                feedback.comau.q6
             ])
         
         self.EM8000_bars.update([
-                self.udp.feedback.em8000.L1, 
-                self.udp.feedback.em8000.L2, 
-                self.udp.feedback.em8000.L3,
-                self.udp.feedback.em8000.L4, 
-                self.udp.feedback.em8000.L5, 
-                self.udp.feedback.em8000.L6,
-                self.udp.feedback.em8000.L1, 
-                self.udp.feedback.em8000.L2, 
-                self.udp.feedback.em8000.L3,
-                self.udp.feedback.em8000.L4, 
-                self.udp.feedback.em8000.L5, 
-                self.udp.feedback.em8000.L6
+                feedback.em8000.L1, 
+                feedback.em8000.L2, 
+                feedback.em8000.L3,
+                feedback.em8000.L4, 
+                feedback.em8000.L5, 
+                feedback.em8000.L6,
+                feedback.em8000.L1, 
+                feedback.em8000.L2, 
+                feedback.em8000.L3,
+                feedback.em8000.L4, 
+                feedback.em8000.L5, 
+                feedback.em8000.L6
             ])
 
         self.EM1500_bars.update([
-                self.udp.feedback.em1500.L1, 
-                self.udp.feedback.em1500.L2, 
-                self.udp.feedback.em1500.L3,
-                self.udp.feedback.em1500.L4, 
-                self.udp.feedback.em1500.L5, 
-                self.udp.feedback.em1500.L6,
-                self.udp.feedback.em1500.L1, 
-                self.udp.feedback.em1500.L2, 
-                self.udp.feedback.em1500.L3,
-                self.udp.feedback.em1500.L4, 
-                self.udp.feedback.em1500.L5, 
-                self.udp.feedback.em1500.L6
+                feedback.em1500.L1, 
+                feedback.em1500.L2, 
+                feedback.em1500.L3,
+                feedback.em1500.L4, 
+                feedback.em1500.L5, 
+                feedback.em1500.L6,
+                feedback.em1500.L1, 
+                feedback.em1500.L2, 
+                feedback.em1500.L3,
+                feedback.em1500.L4, 
+                feedback.em1500.L5, 
+                feedback.em1500.L6
             ])
 
         self.COMAU_bars.update([
-                self.udp.feedback.comau.q1, 
-                self.udp.feedback.comau.q2, 
-                self.udp.feedback.comau.q3,
-                self.udp.feedback.comau.q4, 
-                self.udp.feedback.comau.q5, 
-                self.udp.feedback.comau.q6,
-                self.udp.feedback.comau.q1, 
-                self.udp.feedback.comau.q2, 
-                self.udp.feedback.comau.q3,
-                self.udp.feedback.comau.q4, 
-                self.udp.feedback.comau.q5, 
-                self.udp.feedback.comau.q6
+                feedback.comau.q1, 
+                feedback.comau.q2, 
+                feedback.comau.q3,
+                feedback.comau.q4, 
+                feedback.comau.q5, 
+                feedback.comau.q6,
+                feedback.comau.q1, 
+                feedback.comau.q2, 
+                feedback.comau.q3,
+                feedback.comau.q4, 
+                feedback.comau.q5, 
+                feedback.comau.q6
             ])
 
     # Function to change the time axis range of the plots
@@ -556,7 +553,7 @@ class GUI(QMainWindow, Ui_main):
         self.EM8000_engaged_btn.setStyleSheet("background-color: none   ")
 
         # Write to PLC: EM8000 settled = 1
-        self.plc.write_by_name('EM8000.control.CMND', 1, pyads.PLCTYPE_DINT)
+        self.plc.write_by_name('EM8000.cmnd', 1, pyads.PLCTYPE_DINT)
 
     def EM8000_neutral(self):
         self.EM8000_settled_btn.setStyleSheet("background-color: none   ")
@@ -564,7 +561,7 @@ class GUI(QMainWindow, Ui_main):
         self.EM8000_engaged_btn.setStyleSheet("background-color: none   ")
 
         # Write to PLC: EM8000 neutral = 3
-        self.plc.write_by_name('EM8000.control.CMND', 3, pyads.PLCTYPE_DINT)
+        self.plc.write_by_name('EM8000.cmnd', 3, pyads.PLCTYPE_DINT)
 
     def EM8000_engaged(self):
         self.EM8000_settled_btn.setStyleSheet("background-color: none   ")
@@ -572,7 +569,7 @@ class GUI(QMainWindow, Ui_main):
         self.EM8000_engaged_btn.setStyleSheet("background-color: #cccccc")
 
         # Write to PLC: EM8000 engaged = 7
-        self.plc.write_by_name('EM8000.control.CMND', 7, pyads.PLCTYPE_DINT)
+        self.plc.write_by_name('EM8000.cmnd', 7, pyads.PLCTYPE_DINT)
 
     # EM 1500 button functions
     def EM1500_settled(self):
@@ -581,7 +578,7 @@ class GUI(QMainWindow, Ui_main):
         self.EM1500_engaged_btn.setStyleSheet("background-color: none")
 
         # Write to PLC: EM1500 settled = 1
-        self.plc.write_by_name('EM1500.control.CMND', 1, pyads.PLCTYPE_DINT)
+        self.plc.write_by_name('EM1500.cmnd', 1, pyads.PLCTYPE_DINT)
 
     def EM1500_neutral(self):
         self.EM1500_settled_btn.setStyleSheet("background-color: none   ")
@@ -589,7 +586,7 @@ class GUI(QMainWindow, Ui_main):
         self.EM1500_engaged_btn.setStyleSheet("background-color: none   ")
 
         # Write to PLC: EM1500 neutral = 3
-        self.plc.write_by_name('EM1500.control.CMND', 3, pyads.PLCTYPE_DINT)
+        self.plc.write_by_name('EM1500.cmnd', 3, pyads.PLCTYPE_DINT)
 
     def EM1500_engaged(self):
         self.EM1500_settled_btn.setStyleSheet("background-color: none   ")
@@ -597,7 +594,7 @@ class GUI(QMainWindow, Ui_main):
         self.EM1500_engaged_btn.setStyleSheet("background-color: #cccccc")
 
         # Write to PLC: EM1500 engaged = 7
-        self.plc.write_by_name('EM1500.control.CMND', 7, pyads.PLCTYPE_DINT)
+        self.plc.write_by_name('EM1500.cmnd', 7, pyads.PLCTYPE_DINT)
 
     # COMAU button functions
     def COMAU_settled(self):
@@ -606,7 +603,7 @@ class GUI(QMainWindow, Ui_main):
         self.COMAU_engaged_fast_btn.setStyleSheet("background-color: none")
 
         # Write to PLC: COMAU settled = 1
-        self.plc.write_by_name('COMAU.control.mode', 0, pyads.PLCTYPE_DINT)
+        self.plc.write_by_name('COMAU.cmnd', 0, pyads.PLCTYPE_DINT)
 
     def COMAU_engaged(self):
         self.COMAU_settled_btn.setStyleSheet("background-color: none   ")
@@ -614,7 +611,7 @@ class GUI(QMainWindow, Ui_main):
         self.COMAU_engaged_fast_btn.setStyleSheet("background-color: none")
 
         # Write to PLC: COMAU engaged = 1
-        self.plc.write_by_name('COMAU.control.mode', 1, pyads.PLCTYPE_DINT)
+        self.plc.write_by_name('COMAU.cmnd', 1, pyads.PLCTYPE_DINT)
 
     def COMAU_engaged_fast(self):
         self.COMAU_settled_btn.setStyleSheet("background-color: none")
@@ -622,7 +619,7 @@ class GUI(QMainWindow, Ui_main):
         self.COMAU_engaged_fast_btn.setStyleSheet("background-color: #cccccc")
 
         # Write to PLC: COMAU engaged-fast = 2
-        self.plc.write_by_name('COMAU.control.mode', 2, pyads.PLCTYPE_DINT)
+        self.plc.write_by_name('COMAU.cmnd', 2, pyads.PLCTYPE_DINT)
 
     # SYSTEM button functions
     def SYSTEM_settled(self):
@@ -652,13 +649,12 @@ class GUI(QMainWindow, Ui_main):
         if reply == QMessageBox.Yes:
             self.stop_all()
             
+            # Stop timed data read
+            self.timer.stop()
+
             # Close ADS port
             self.plc.close()
             print('Beckhoff ADS Connection Closed')
-
-            # CLose udp connection
-            self.udp.close()
-            print('HMI Udp Connection Closed')
 
             event.accept()
         else:
