@@ -85,6 +85,13 @@ feedback.heave_tt := rx_data.Actual_platform_acceleration_heave;
 feedback.wx_t := euler2body.wx_t;
 feedback.wy_t := euler2body.wy_t;
 feedback.wz_t := euler2body.wz_t;
+
+feedback.L1 := rx_data.Actual_position_actuator_1;
+feedback.L2 := rx_data.Actual_position_actuator_2;
+feedback.L3 := rx_data.Actual_position_actuator_3;
+feedback.L4 := rx_data.Actual_position_actuator_4;
+feedback.L5 := rx_data.Actual_position_actuator_5;
+feedback.L6 := rx_data.Actual_position_actuator_6;
 ]]></ST>
     </Implementation>
     <LineIds Name="EM8000">
@@ -95,6 +102,7 @@ feedback.wz_t := euler2body.wz_t;
       <LineId Id="106" Count="4" />
       <LineId Id="164" Count="37" />
       <LineId Id="113" Count="0" />
+      <LineId Id="229" Count="6" />
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>

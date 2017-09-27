@@ -66,7 +66,7 @@ void RemoteInterface::run() {
         // Increment cycletime counter
         counter++;
 
-        if ((log_mode == 2) && (counter >= 100)) {
+        if ((log_mode == 2) && (counter >= cycletime)) {
             // Append new data to JSON log
             logger.feedback.push_back(rx_data);
             logger.control.push_back(tx_data);
