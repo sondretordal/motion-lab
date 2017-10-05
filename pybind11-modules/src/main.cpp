@@ -6,6 +6,7 @@
 // Classes
 #include "UdpServer.h"
 #include "RemoteInterface.h"
+#include "ParticleFilter.h"
 
 namespace py = pybind11;
 
@@ -154,6 +155,11 @@ PYBIND11_PLUGIN(motionlab) {
 		.def("save_log", &RemoteInterface::save_log)
 		.def_readonly("feedback", &RemoteInterface::feedback)
 		.def_readwrite("control", &RemoteInterface::control);
+
+	// Particle filter
+	py::class_<ParticleFilter>(m, "ParticleFilter")
+		.def(py::init<>());
+
 
 	// Return module
 	return m.ptr();

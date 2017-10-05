@@ -14,7 +14,7 @@ END_VAR
     <Implementation>
       <ST><![CDATA[
 // Time with overflow check
-feedback.t := feedback.t + 1.0/1000.0;
+feedback.t := feedback.t + 10.0/1000.0;
 IF feedback.t >= 32765.0 THEN
 	feedback.t := 0.0;
 END_IF
@@ -26,7 +26,29 @@ IF (control.udp_key <> 81549300) AND enabled THEN
 END_IF
 
 // Feedback data
-feedback.em8000 := EM8000.feedback;
+feedback.em8000.surge := EM8000.rx_data.Actual_platform_position_surge;
+feedback.em8000.sway := EM8000.rx_data.Actual_platform_position_sway;
+feedback.em8000.heave := EM8000.rx_data.Actual_platform_position_heave;
+feedback.em8000.roll := EM8000.rx_data.Actual_platform_position_roll;
+feedback.em8000.pitch := EM8000.rx_data.Actual_platform_position_pitch;
+feedback.em8000.yaw := EM8000.rx_data.Actual_platform_position_yaw;
+
+feedback.em8000.surge_t := EM8000.rx_data.Actual_platform_velocity_surge;
+feedback.em8000.sway_t := EM8000.rx_data.Actual_platform_velocity_sway;
+feedback.em8000.heave_t := EM8000.rx_data.Actual_platform_velocity_heave;
+feedback.em8000.wx := EM8000.rx_data.Actual_platform_velocity_roll;
+feedback.em8000.wy := EM8000.rx_data.Actual_platform_velocity_pitch;
+feedback.em8000.wz := EM8000.rx_data.Actual_platform_velocity_yaw;
+
+feedback.em8000.surge_tt := EM8000.rx_data.Actual_platform_acceleration_surge;
+feedback.em8000.sway_tt := EM8000.rx_data.Actual_platform_acceleration_sway;
+feedback.em8000.heave_tt := EM8000.rx_data.Actual_platform_acceleration_heave;
+feedback.em8000.wx_t := EM8000.rx_data.Actual_platform_acceleration_roll;
+feedback.em8000.wy_t := EM8000.rx_data.Actual_platform_acceleration_pitch;
+feedback.em8000.wz_t := EM8000.rx_data.Actual_platform_acceleration_yaw;
+
+
+//feedback.em8000 := EM8000.feedback;
 feedback.em1500 := EM1500.feedback;
 feedback.comau := COMAU.feedback;
 
@@ -72,6 +94,11 @@ UdpIO();
       <LineId Id="533" Count="0" />
       <LineId Id="871" Count="0" />
       <LineId Id="567" Count="0" />
+      <LineId Id="983" Count="5" />
+      <LineId Id="990" Count="7" />
+      <LineId Id="999" Count="5" />
+      <LineId Id="998" Count="0" />
+      <LineId Id="989" Count="0" />
       <LineId Id="704" Count="0" />
       <LineId Id="957" Count="0" />
       <LineId Id="959" Count="0" />
