@@ -63,6 +63,15 @@
     <Compile Include="POUs\Kinematics\EulerToBody.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\Kinematics\StewartTransform.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Kinematics\xyz2zyx.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Kinematics\zyx2xyz.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\Main.TcPOU">
       <SubType>Code</SubType>
     </Compile>

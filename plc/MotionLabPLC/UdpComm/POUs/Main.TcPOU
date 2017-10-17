@@ -18,7 +18,9 @@ VAR
 	
 	counter			: UDINT := 0;
 	
-	
+	phi1 : ARRAY [0..2] OF REAL;
+	phi2 : ARRAY [0..2] OF REAL;
+	phi3 : ARRAY [0..2] OF REAL;
 	
 END_VAR
 	]]></Declaration>
@@ -33,7 +35,14 @@ counter := counter + 1;
 
 
 
+phi1[0] := 01.553343;
+phi1[1] := 1.553343;
+phi1[2] := 1.553343;
 
+
+phi2 := xyz2zyx(phi1);
+
+phi3 := zyx2xyz(phi2);
 
 
 
@@ -50,6 +59,8 @@ counter := counter + 1;
       <LineId Id="421" Count="0" />
       <LineId Id="465" Count="1" />
       <LineId Id="444" Count="0" />
+      <LineId Id="487" Count="1" />
+      <LineId Id="490" Count="4" />
       <LineId Id="422" Count="0" />
       <LineId Id="441" Count="0" />
       <LineId Id="4" Count="0" />

@@ -857,7 +857,7 @@
 				<Task Id="5" Priority="20" CycleTime="40000" AmsPort="351" Affinity="#x00000008">
 					<Name>TaskEM8000</Name>
 				</Task>
-				<Task Id="6" Priority="25" CycleTime="100000" AmsPort="353" Affinity="#x00000002">
+				<Task Id="6" Priority="25" CycleTime="50000" AmsPort="353" Affinity="#x00000002">
 					<Name>TaskREMOTE</Name>
 				</Task>
 				<Task Id="7" Priority="22" CycleTime="10000" AmsPort="354" Affinity="#x00000008">
@@ -3628,7 +3628,7 @@
 		</Io>
 	</Project>
 	<Mappings>
-		<MappingInfo Identifier="{01010017-0040-0304-1000-010140000403}" Id="#x02030020" Watchdog="04000000040000000400000004000000"/>
+		<MappingInfo Identifier="{01010017-0040-0304-1000-010140000403}" Id="#x02030020" Watchdog="14000000040000000400000004000000"/>
 		<MappingInfo Identifier="{00000000-0016-0101-1000-010140000403}" Id="#x02030010"/>
 		<OwnerA Name="TIPC^UdpComm^UdpComm Instance">
 			<OwnerB Name="TIID^LeicaAT960 (EtherCAT)^Box 1 (Leica-RT-Output)">

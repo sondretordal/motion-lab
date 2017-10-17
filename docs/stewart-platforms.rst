@@ -45,6 +45,8 @@ The Euler angle sequence is defined by conventional rotation matrices. The expli
 
 .. math::
     \bm{R}^n_b(\bm{\Theta}_{nb}) = \bm{R}_x(\phi)\bm{R}_y(\theta)\bm{R}_z(\psi)
+    \hspace{5mm} \text{or} \hspace{5mm}
+    \bm{R}_z(\psi)\bm{R}_y(\theta)\bm{R}_x(\phi)
 
 The accompanying transformation between time derivatives of the Euler angles :math:`\dot{\bm{\Theta}}_{nb}` and the local body-fixed rotational velocities :math:`\bm{\omega}^b_{b/n}` is given by the following two equations:
 
@@ -65,6 +67,24 @@ The accompanying transformation between time derivatives of the Euler angles :ma
     \begin{bmatrix}
     0 \\ 0 \\ \dot{\psi}
     \end{bmatrix} \\
+
+.. math::
+    \underbrace{
+    \left[ \begin {array}{ccc} \cos \left( \psi \right) \cos \left( 
+    \theta \right) &-\sin \left( \psi \right) \cos \left( \theta \right) &
+    \sin \left( \theta \right) \\ \noalign{\medskip}\cos \left( \psi
+    \right) \sin \left( \theta \right) \sin \left( \phi \right) +\sin
+    \left( \psi \right) \cos \left( \phi \right) &-\sin \left( \psi
+    \right) \sin \left( \theta \right) \sin \left( \phi \right) +\cos
+    \left( \psi \right) \cos \left( \phi \right) &-\cos \left( \theta
+    \right) \sin \left( \phi \right) \\ \noalign{\medskip}-\cos \left( 
+    \psi \right) \sin \left( \theta \right) \cos \left( \phi \right) +\sin
+    \left( \psi \right) \sin \left( \phi \right) &\sin \left( \psi
+    \right) \sin \left( \theta \right) \cos \left( \phi \right) +\cos
+    \left( \psi \right) \sin \left( \phi \right) &\cos \left( \theta
+    \right) \cos \left( \phi \right) \end {array} \right]
+    }_{\bm{R}_{xyz}}
+
 
 
 The feedback signals accessible as described in the :ref:`remote-io-interface`.
