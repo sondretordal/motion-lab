@@ -848,29 +848,8 @@
 				<Cpu CpuId="3"/>
 			</Settings>
 			<Tasks>
-				<Task Id="4" Priority="30" CycleTime="10000" AmsPort="350" Affinity="#x00000004">
-					<Name>TaskMain</Name>
-				</Task>
-				<Task Id="3" Priority="21" CycleTime="40000" AmsPort="352" Affinity="#x00000008">
-					<Name>TaskEM1500</Name>
-				</Task>
-				<Task Id="5" Priority="20" CycleTime="40000" AmsPort="351" Affinity="#x00000008">
-					<Name>TaskEM8000</Name>
-				</Task>
-				<Task Id="6" Priority="25" CycleTime="50000" AmsPort="353" Affinity="#x00000002">
-					<Name>TaskREMOTE</Name>
-				</Task>
-				<Task Id="7" Priority="22" CycleTime="10000" AmsPort="354" Affinity="#x00000008">
-					<Name>TaskCOMAU</Name>
-				</Task>
-				<Task Id="9" Priority="23" CycleTime="50000" AmsPort="356" Affinity="#x00000002">
-					<Name>TaskMRU1</Name>
-				</Task>
-				<Task Id="10" Priority="24" CycleTime="50000" AmsPort="357" Affinity="#x00000002">
-					<Name>TaskMRU2</Name>
-				</Task>
-				<Task Id="11" Priority="27" CycleTime="10000" AmsPort="358" Affinity="#x00000002">
-					<Name>TaskSIMULATOR</Name>
+				<Task Id="3" Priority="20" CycleTime="50000" AmsPort="350">
+					<Name>TaskMAIN</Name>
 				</Task>
 			</Tasks>
 		</System>
@@ -880,94 +859,84 @@
 					<Name>UdpComm Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1">
-						<Name>TaskREMOTE Inputs</Name>
+						<Name>TaskMAIN Inputs</Name>
 						<Var>
-							<Name>Main.q0</Name>
-							<Type>LREAL</Type>
-						</Var>
-						<Var>
-							<Name>Main.q1</Name>
-							<Type>LREAL</Type>
-						</Var>
-						<Var>
-							<Name>Main.q2</Name>
-							<Type>LREAL</Type>
-						</Var>
-						<Var>
-							<Name>Main.q3</Name>
-							<Type>LREAL</Type>
-						</Var>
-					</Vars>
-					<Vars VarGrpType="1">
-						<Name>TaskMain Inputs</Name>
-						<Var>
-							<Name>Main.AngleHz</Name>
+							<Name>MAIN.at960.AngleHz</Name>
 							<Comment>
 								<![CDATA[ Leica Variables]]>
 							</Comment>
 							<Type>LREAL</Type>
 						</Var>
 						<Var>
-							<Name>Main.AngleVt</Name>
+							<Name>MAIN.at960.AngleVt</Name>
 							<Type>LREAL</Type>
 						</Var>
 						<Var>
-							<Name>Main.Distance</Name>
+							<Name>MAIN.at960.Distance</Name>
 							<Type>LREAL</Type>
 						</Var>
 						<Var>
-							<Name>Main.Timestamp</Name>
+							<Name>MAIN.at960.q0</Name>
+							<Type>LREAL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.at960.q1</Name>
+							<Type>LREAL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.at960.q2</Name>
+							<Type>LREAL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.at960.q3</Name>
+							<Type>LREAL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.at960.TimeStamp</Name>
 							<Type>ULINT</Type>
 						</Var>
 					</Vars>
 					<InitSymbols>
 						<InitSymbol>
-							<Name>EM8000.UdpIO.oid</Name>
+							<Name>MAIN.remote.udpClient.oid</Name>
 							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
-							<Data>30000101</Data>
+							<Data>50000101</Data>
 						</InitSymbol>
 						<InitSymbol>
-							<Name>EM1500.UdpIO.oid</Name>
+							<Name>MAIN.em1500.udpClient.oid</Name>
 							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
 							<Data>20000101</Data>
 						</InitSymbol>
 						<InitSymbol>
-							<Name>COMAU.UdpIO.oid</Name>
+							<Name>MAIN.em8000.udpClient.oid</Name>
+							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
+							<Data>30000101</Data>
+						</InitSymbol>
+						<InitSymbol>
+							<Name>MAIN.comau.udpClient.oid</Name>
 							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
 							<Data>40000101</Data>
 						</InitSymbol>
 						<InitSymbol>
-							<Name>MRU1.UdpIO.oid</Name>
+							<Name>MAIN.mru1.udpServer.oid</Name>
 							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
 							<Data>70000101</Data>
 						</InitSymbol>
 						<InitSymbol>
-							<Name>MRU2.UdpIO.oid</Name>
+							<Name>MAIN.mru2.udpServer.oid</Name>
 							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
 							<Data>60000101</Data>
 						</InitSymbol>
-						<InitSymbol>
-							<Name>REMOTE.UdpIO.oid</Name>
-							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
-							<Data>50000101</Data>
-						</InitSymbol>
 					</InitSymbols>
 					<TaskPouOids>
-						<TaskPouOid Prio="25" OTCID="#x01010016"/>
-						<TaskPouOid Prio="22" OTCID="#x01010013"/>
-						<TaskPouOid Prio="30" OTCID="#x01010017"/>
-						<TaskPouOid Prio="27" OTCID="#x01010018"/>
-						<TaskPouOid Prio="24" OTCID="#x01010015"/>
-						<TaskPouOid Prio="21" OTCID="#x01010011"/>
-						<TaskPouOid Prio="23" OTCID="#x01010014"/>
-						<TaskPouOid Prio="20" OTCID="#x01010012"/>
+						<TaskPouOid Prio="20" OTCID="#x01010015"/>
 					</TaskPouOids>
 				</Instance>
 			</Project>
 		</Plc>
 		<Io>
 			<Device DevType="109" DevFlags="#x0004" Id="1">
-				<Name>EthernetEM1500 (RT-Ethernet Adapter)</Name>
+				<Name>EM1500 (RT-Ethernet Adapter)</Name>
 				<AddressInfo>
 					<Pnp>
 						<DeviceDesc>M1X601 EM1500 (TwinCAT-Intel PCI Ethernet Adapter (</DeviceDesc>
@@ -976,7 +945,7 @@
 					</Pnp>
 				</AddressInfo>
 				<Module Id="#x01010020">
-					<Name>EthernetEM1500 (RT-Ethernet Adapter)_Obj1 (TCP/UDP RT)</Name>
+					<Name>EM1500 (RT-Ethernet Adapter)_Obj1 (TCP/UDP RT)</Name>
 					<ImageId>1000</ImageId>
 					<TmcDesc GUID="{080D0399-6A65-408D-80E1-18D8F699496A}">
 						<Name>TCP/UDP RT</Name>
@@ -1391,7 +1360,7 @@
 				</Ethernet>
 			</Device>
 			<Device DevType="109" DevFlags="#x0004" Id="2">
-				<Name>EthernetEM8000 (RT-Ethernet Adapter)</Name>
+				<Name>EM8000 (RT-Ethernet Adapter)</Name>
 				<AddressInfo>
 					<Pnp>
 						<DeviceDesc>M1X600 EM8000 (TwinCAT-Intel PCI Ethernet Adapter (</DeviceDesc>
@@ -1400,7 +1369,7 @@
 					</Pnp>
 				</AddressInfo>
 				<Module Id="#x01010030">
-					<Name>EthernetEM8000 (RT-Ethernet Adapter)_Obj1 (TCP/UDP RT)</Name>
+					<Name>EM8000 (RT-Ethernet Adapter)_Obj1 (TCP/UDP RT)</Name>
 					<ImageId>1000</ImageId>
 					<TmcDesc GUID="{080D0399-6A65-408D-80E1-18D8F699496A}">
 						<Name>TCP/UDP RT</Name>
@@ -1815,7 +1784,7 @@
 				</Ethernet>
 			</Device>
 			<Device DevType="109" DevFlags="#x0004" Id="3">
-				<Name>EthernetCOMAU (RT-Ethernet Adapter)</Name>
+				<Name>COMAU (RT-Ethernet Adapter)</Name>
 				<AddressInfo>
 					<Pnp>
 						<DeviceDesc>M2X600 COMAU (TwinCAT-Intel PCI Ethernet Adapter (G</DeviceDesc>
@@ -1824,7 +1793,7 @@
 					</Pnp>
 				</AddressInfo>
 				<Module Id="#x01010040">
-					<Name>EthernetCOMAU (RT-Ethernet Adapter)_Obj1 (TCP/UDP RT)</Name>
+					<Name>COMAU (RT-Ethernet Adapter)_Obj1 (TCP/UDP RT)</Name>
 					<ImageId>1000</ImageId>
 					<TmcDesc GUID="{080D0399-6A65-408D-80E1-18D8F699496A}">
 						<Name>TCP/UDP RT</Name>
@@ -2239,7 +2208,7 @@
 				</Ethernet>
 			</Device>
 			<Device DevType="109" DevFlags="#x0004" Id="4">
-				<Name>EthernetREMOTE (RT-Ethernet Adapter)</Name>
+				<Name>REMOTE (RT-Ethernet Adapter)</Name>
 				<AddressInfo>
 					<Pnp>
 						<DeviceDesc>M0X001 REMOTE (TwinCAT-Intel PCI Ethernet Adapter (</DeviceDesc>
@@ -2248,7 +2217,7 @@
 					</Pnp>
 				</AddressInfo>
 				<Module Id="#x01010050">
-					<Name>EthernetREMOTE (RT-Ethernet Adapter)_Obj1 (TCP/UDP RT)</Name>
+					<Name>REMOTE (RT-Ethernet Adapter)_Obj1 (TCP/UDP RT)</Name>
 					<ImageId>1000</ImageId>
 					<TmcDesc GUID="{080D0399-6A65-408D-80E1-18D8F699496A}">
 						<Name>TCP/UDP RT</Name>
@@ -2663,7 +2632,7 @@
 				</Ethernet>
 			</Device>
 			<Device DevType="109" DevFlags="#x0004" Id="5">
-				<Name>EthernetMRU2 (RT-Ethernet Adapter)</Name>
+				<Name>MRU2 (RT-Ethernet Adapter)</Name>
 				<AddressInfo>
 					<Pnp>
 						<DeviceDesc>M3X601 MRU2 (TwinCAT-Intel PCI Ethernet Adapter (Gi</DeviceDesc>
@@ -2672,7 +2641,7 @@
 					</Pnp>
 				</AddressInfo>
 				<Module Id="#x01010060">
-					<Name>EthernetMRU2 (RT-Ethernet Adapter)_Obj1 (TCP/UDP RT)</Name>
+					<Name>MRU2 (RT-Ethernet Adapter)_Obj1 (TCP/UDP RT)</Name>
 					<ImageId>1000</ImageId>
 					<TmcDesc GUID="{080D0399-6A65-408D-80E1-18D8F699496A}">
 						<Name>TCP/UDP RT</Name>
@@ -3087,7 +3056,7 @@
 				</Ethernet>
 			</Device>
 			<Device DevType="109" DevFlags="#x0004" Id="6">
-				<Name>EthernetMRU1 (RT-Ethernet Adapter)</Name>
+				<Name>MRU1 (RT-Ethernet Adapter)</Name>
 				<AddressInfo>
 					<Pnp>
 						<DeviceDesc>M3X600 MRU1 (TwinCAT-Intel PCI Ethernet Adapter (Gi</DeviceDesc>
@@ -3096,7 +3065,7 @@
 					</Pnp>
 				</AddressInfo>
 				<Module Id="#x01010070">
-					<Name>EthernetMRU1 (RT-Ethernet Adapter)_Obj1 (TCP/UDP RT)</Name>
+					<Name>MRU1 (RT-Ethernet Adapter)_Obj1 (TCP/UDP RT)</Name>
 					<ImageId>1000</ImageId>
 					<TmcDesc GUID="{080D0399-6A65-408D-80E1-18D8F699496A}">
 						<Name>TCP/UDP RT</Name>
@@ -3628,18 +3597,17 @@
 		</Io>
 	</Project>
 	<Mappings>
-		<MappingInfo Identifier="{01010017-0040-0304-1000-010140000403}" Id="#x02030020" Watchdog="14000000040000000400000004000000"/>
-		<MappingInfo Identifier="{00000000-0016-0101-1000-010140000403}" Id="#x02030010"/>
+		<MappingInfo Identifier="{00000000-0015-0101-1000-010140000403}" Id="#x02030010"/>
 		<OwnerA Name="TIPC^UdpComm^UdpComm Instance">
 			<OwnerB Name="TIID^LeicaAT960 (EtherCAT)^Box 1 (Leica-RT-Output)">
-				<Link VarA="TaskMain Inputs^Main.AngleHz" VarB="Cyclic Measurements^AngleHz"/>
-				<Link VarA="TaskMain Inputs^Main.AngleVt" VarB="Cyclic Measurements^AngleVt"/>
-				<Link VarA="TaskMain Inputs^Main.Distance" VarB="Cyclic Measurements^Distance"/>
-				<Link VarA="TaskMain Inputs^Main.Timestamp" VarB="Cyclic Measurements^TimeStamp"/>
-				<Link VarA="TaskREMOTE Inputs^Main.q0" VarB="Cyclic Measurements^Quaternion0"/>
-				<Link VarA="TaskREMOTE Inputs^Main.q1" VarB="Cyclic Measurements^Quaternion1"/>
-				<Link VarA="TaskREMOTE Inputs^Main.q2" VarB="Cyclic Measurements^Quaternion2"/>
-				<Link VarA="TaskREMOTE Inputs^Main.q3" VarB="Cyclic Measurements^Quaternion3"/>
+				<Link VarA="TaskMAIN Inputs^MAIN.at960.AngleHz" VarB="Cyclic Measurements^AngleHz"/>
+				<Link VarA="TaskMAIN Inputs^MAIN.at960.AngleVt" VarB="Cyclic Measurements^AngleVt"/>
+				<Link VarA="TaskMAIN Inputs^MAIN.at960.Distance" VarB="Cyclic Measurements^Distance"/>
+				<Link VarA="TaskMAIN Inputs^MAIN.at960.TimeStamp" VarB="Cyclic Measurements^TimeStamp"/>
+				<Link VarA="TaskMAIN Inputs^MAIN.at960.q0" VarB="Cyclic Measurements^Quaternion0"/>
+				<Link VarA="TaskMAIN Inputs^MAIN.at960.q1" VarB="Cyclic Measurements^Quaternion1"/>
+				<Link VarA="TaskMAIN Inputs^MAIN.at960.q2" VarB="Cyclic Measurements^Quaternion2"/>
+				<Link VarA="TaskMAIN Inputs^MAIN.at960.q3" VarB="Cyclic Measurements^Quaternion3"/>
 			</OwnerB>
 		</OwnerA>
 	</Mappings>

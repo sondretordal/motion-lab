@@ -1,0 +1,243 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
+  <POU Name="FB_MotionReferenceUnit" Id="{37c28233-65ff-4bfc-a679-1cd8072f7c6a}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_MotionReferenceUnit
+VAR_INPUT
+
+END_VAR
+VAR_OUTPUT
+
+END_VAR
+VAR
+	NULL				: PVOID;	
+
+	rxBuffer			: ARRAY [1..1024] OF BYTE;
+	rxData				: RxMru;
+	
+	localPort 			: UINT;
+	udpServer 			: FB_UdpServer(localPort, 0, NULL, SIZEOF(rxBuffer), ADR(rxBuffer));
+	
+	
+	temp				: ARRAY [0..3] OF BYTE;
+	N					: DINT;
+	
+END_VAR
+
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+// Exchange udp data
+udpServer();
+
+// MRU Status
+rxData.mruOK := rxBuffer[1];
+rxData.dataLength := rxBuffer[2];
+rxData.token := rxBuffer[3];
+
+// Big to little endian conversions
+N := 1;
+temp[3] := rxBuffer[N*4];
+temp[2] := rxBuffer[N*4 + 1];
+temp[1] := rxBuffer[N*4 + 2];
+temp[0] := rxBuffer[N*4 + 3]; 
+MEMCPY(ADR(rxData.Temperature), ADR(temp), 4);
+
+N := 2;
+temp[3] := rxBuffer[N*4];
+temp[2] := rxBuffer[N*4 + 1];
+temp[1] := rxBuffer[N*4 + 2];
+temp[0] := rxBuffer[N*4 + 3]; 
+MEMCPY(ADR(rxData.PosMru_D), ADR(temp), 4);
+
+N := 3;
+temp[3] := rxBuffer[N*4];
+temp[2] := rxBuffer[N*4 + 1];
+temp[1] := rxBuffer[N*4 + 2];
+temp[0] := rxBuffer[N*4 + 3];
+MEMCPY(ADR(rxData.VelMru_D), ADR(temp), 4);
+
+N := 4;
+temp[3] := rxBuffer[N*4];
+temp[2] := rxBuffer[N*4 + 1];
+temp[1] := rxBuffer[N*4 + 2];
+temp[0] := rxBuffer[N*4 + 3];
+MEMCPY(ADR(rxData.AccMru_D), ADR(temp), 4);
+
+N := 5;
+temp[3] := rxBuffer[N*4];
+temp[2] := rxBuffer[N*4 + 1];
+temp[1] := rxBuffer[N*4 + 2];
+temp[0] := rxBuffer[N*4 + 3];
+MEMCPY(ADR(rxData.AngRate_D), ADR(temp), 4);
+
+N := 6;
+temp[3] := rxBuffer[N*4];
+temp[2] := rxBuffer[N*4 + 1];
+temp[1] := rxBuffer[N*4 + 2];
+temp[0] := rxBuffer[N*4 + 3];
+MEMCPY(ADR(rxData.Roll), ADR(temp), 4);
+
+N := 7;
+temp[3] := rxBuffer[N*4];
+temp[2] := rxBuffer[N*4 + 1];
+temp[1] := rxBuffer[N*4 + 2];
+temp[0] := rxBuffer[N*4 + 3];
+MEMCPY(ADR(rxData.Pitch), ADR(temp), 4);
+
+N := 8;
+temp[3] := rxBuffer[N*4];
+temp[2] := rxBuffer[N*4 + 1];
+temp[1] := rxBuffer[N*4 + 2];
+temp[0] := rxBuffer[N*4 + 3];
+MEMCPY(ADR(rxData.Yaw), ADR(temp), 4);
+
+N := 9;
+temp[3] := rxBuffer[N*4];
+temp[2] := rxBuffer[N*4 + 1];
+temp[1] := rxBuffer[N*4 + 2];
+temp[0] := rxBuffer[N*4 + 3];
+MEMCPY(ADR(rxData.AngRate_R), ADR(temp), 4);
+
+N := 10;
+temp[3] := rxBuffer[N*4];
+temp[2] := rxBuffer[N*4 + 1];
+temp[1] := rxBuffer[N*4 + 2];
+temp[0] := rxBuffer[N*4 + 3];
+MEMCPY(ADR(rxData.AngRate_P), ADR(temp), 4);
+
+N := 11;
+temp[3] := rxBuffer[N*4];
+temp[2] := rxBuffer[N*4 + 1];
+temp[1] := rxBuffer[N*4 + 2];
+temp[0] := rxBuffer[N*4 + 3];
+MEMCPY(ADR(rxData.AngRate_Y), ADR(temp), 4);
+
+N := 12;
+temp[3] := rxBuffer[N*4];
+temp[2] := rxBuffer[N*4 + 1];
+temp[1] := rxBuffer[N*4 + 2];
+temp[0] := rxBuffer[N*4 + 3];
+MEMCPY(ADR(rxData.AngAcc_R), ADR(temp), 4);
+
+N := 13;
+temp[3] := rxBuffer[N*4];
+temp[2] := rxBuffer[N*4 + 1];
+temp[1] := rxBuffer[N*4 + 2];
+temp[0] := rxBuffer[N*4 + 3];
+MEMCPY(ADR(rxData.AngAcc_P), ADR(temp), 4);
+
+N := 14;
+temp[3] := rxBuffer[N*4];
+temp[2] := rxBuffer[N*4 + 1];
+temp[1] := rxBuffer[N*4 + 2];
+temp[0] := rxBuffer[N*4 + 3];
+MEMCPY(ADR(rxData.AngAcc_Y), ADR(temp), 4);
+
+N := 15;
+temp[3] := rxBuffer[N*4];
+temp[2] := rxBuffer[N*4 + 1];
+temp[1] := rxBuffer[N*4 + 2];
+temp[0] := rxBuffer[N*4 + 3];
+MEMCPY(ADR(rxData.VelMru_R), ADR(temp), 4);
+
+N := 16;
+temp[3] := rxBuffer[N*4];
+temp[2] := rxBuffer[N*4 + 1];
+temp[1] := rxBuffer[N*4 + 2];
+temp[0] := rxBuffer[N*4 + 3];
+MEMCPY(ADR(rxData.VelMru_P), ADR(temp), 4);
+
+N := 17;
+temp[3] := rxBuffer[N*4];
+temp[2] := rxBuffer[N*4 + 1];
+temp[1] := rxBuffer[N*4 + 2];
+temp[0] := rxBuffer[N*4 + 3];
+MEMCPY(ADR(rxData.VelMru_Y), ADR(temp), 4);
+
+N := 18;
+temp[3] := rxBuffer[N*4];
+temp[2] := rxBuffer[N*4 + 1];
+temp[1] := rxBuffer[N*4 + 2];
+temp[0] := rxBuffer[N*4 + 3];
+MEMCPY(ADR(rxData.AccMru_R), ADR(temp), 4);
+
+N := 19;
+temp[3] := rxBuffer[N*4];
+temp[2] := rxBuffer[N*4 + 1];
+temp[1] := rxBuffer[N*4 + 2];
+temp[0] := rxBuffer[N*4 + 3];
+MEMCPY(ADR(rxData.AccMru_P), ADR(temp), 4);
+
+N := 20;
+temp[3] := rxBuffer[N*4];
+temp[2] := rxBuffer[N*4 + 1];
+temp[1] := rxBuffer[N*4 + 2];
+temp[0] := rxBuffer[N*4 + 3];
+MEMCPY(ADR(rxData.AccMru_Y), ADR(temp), 4);
+
+(*
+// Convert data to remote feedback
+feedback.heave := rxData.PosMru_D;
+feedback.heave_t := rxData.VelMru_D;
+feedback.heave_tt := rxData.AccMru_D;
+feedback.turn_rate := rxData.AngRate_D;
+feedback.roll := rxData.Roll;
+feedback.pitch := rxData.Pitch;
+feedback.yaw := rxData.Yaw;
+feedback.wx := rxData.AngRate_R;
+feedback.wy := rxData.AngRate_P;
+feedback.wz := rxData.AngRate_Y;
+feedback.wx_t := rxData.AngAcc_R;
+feedback.wy_t := rxData.AngAcc_P;
+feedback.wz_t := rxData.AngAcc_Y;
+feedback.x_t := rxData.VelMru_R;
+feedback.y_t := rxData.VelMru_P;
+feedback.z_t := rxData.VelMru_Y;
+feedback.x_tt := rxData.AccMru_R;
+feedback.y_tt := rxData.AccMru_P;
+feedback.z_tt := rxData.AccMru_Y;
+*)]]></ST>
+    </Implementation>
+    <Method Name="FB_init" Id="{5eb1cd80-1484-4464-b0ac-719d03818352}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	
+	// Contructor arguments
+	_localPort 			: UINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Initilize parameters
+localPort := _localPort;
+
+// Construct FB_UdpClient
+udpServer.FB_init(bInitRetains, bInCopyCode, localPort, 0, NULL, SIZEOF(rxBuffer), ADR(rxBuffer));
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_MotionReferenceUnit">
+      <LineId Id="81" Count="0" />
+      <LineId Id="80" Count="0" />
+      <LineId Id="92" Count="0" />
+      <LineId Id="424" Count="0" />
+      <LineId Id="93" Count="0" />
+      <LineId Id="258" Count="143" />
+      <LineId Id="422" Count="0" />
+      <LineId Id="402" Count="19" />
+      <LineId Id="423" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_MotionReferenceUnit.FB_init">
+      <LineId Id="26" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

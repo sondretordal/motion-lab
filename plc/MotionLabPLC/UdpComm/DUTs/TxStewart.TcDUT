@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
-  <DUT Name="StewartControl" Id="{1caffa04-8f47-405b-adeb-9674471b6d92}">
-    <Declaration><![CDATA[TYPE StewartControl :
+  <DUT Name="TxStewart" Id="{1caffa04-8f47-405b-adeb-9674471b6d92}">
+    <Declaration><![CDATA[TYPE TxStewart :
 STRUCT
 	COUNT : DINT := 0;
 	CMND : DINT := 0;

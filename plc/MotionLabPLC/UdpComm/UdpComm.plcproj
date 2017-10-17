@@ -15,13 +15,13 @@
     <LibraryReferences>{d8d5f2f6-bc84-4775-8792-0b2228eab916}</LibraryReferences>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="DUTs\ComauFeedback.TcDUT">
+    <Compile Include="DUTs\RxComau.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\ComauControl.TcDUT">
+    <Compile Include="DUTs\TxComau.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\MruFeedback.TcDUT">
+    <Compile Include="DUTs\RxMru.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\RemoteControl.TcDUT">
@@ -51,13 +51,16 @@
     <Compile Include="DUTs\RemoteFeedbackStewart.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\StewartControl.TcDUT">
+    <Compile Include="DUTs\TxStewart.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\StewartFeedback.TcDUT">
+    <Compile Include="DUTs\RxStewart.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GlobalTextList.TcGTLO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\EtherCatEquipement\FB_Leica.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\Kinematics\EulerToBody.TcPOU">
@@ -72,7 +75,7 @@
     <Compile Include="POUs\Kinematics\zyx2xyz.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\Main.TcPOU">
+    <Compile Include="POUs\MAIN.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\Ship Simulation\ShipSimulator.TcPOU">
@@ -81,55 +84,25 @@
     <Compile Include="POUs\Ship Simulation\StocWave.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\SIMULATOR.TcPOU">
+    <Compile Include="POUs\UdpEquipement\FB_Remote.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\UdpConnections\COMAU.TcPOU">
+    <Compile Include="POUs\UdpEquipement\FB_MotionReferenceUnit.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\UdpConnections\EM1500.TcPOU">
+    <Compile Include="POUs\UdpEquipement\FB_Comau.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\UdpConnections\EM8000.TcPOU">
+    <Compile Include="POUs\UdpEquipement\FB_Stewart.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\UdpConnections\MRU1.TcPOU">
+    <Compile Include="POUs\UdpEquipement\FB_UdpClient.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\UdpConnections\MRU2.TcPOU">
+    <Compile Include="POUs\UdpEquipement\FB_UdpServer.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\UdpConnections\REMOTE.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\UdpFBs\UdpClient.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\UdpFBs\UdpServer.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TaskCOMAU.TcTTO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TaskEM1500.TcTTO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TaskEM8000.TcTTO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TaskMain.TcTTO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TaskMRU1.TcTTO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TaskMRU2.TcTTO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TaskREMOTE.TcTTO">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TaskSIMULATOR.TcTTO">
+    <Compile Include="TaskMAIN.TcTTO">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Visualization Manager.TcVMO">
@@ -144,9 +117,9 @@
     <Folder Include="DUTs" />
     <Folder Include="GVLs" />
     <Folder Include="POUs\Kinematics" />
+    <Folder Include="POUs\EtherCatEquipement" />
     <Folder Include="POUs\Ship Simulation" />
-    <Folder Include="POUs\UdpConnections" />
-    <Folder Include="POUs\UdpFBs" />
+    <Folder Include="POUs\UdpEquipement" />
     <Folder Include="VISUs" />
     <Folder Include="POUs" />
   </ItemGroup>

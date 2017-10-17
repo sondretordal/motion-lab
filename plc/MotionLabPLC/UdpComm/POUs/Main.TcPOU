@@ -1,49 +1,43 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
-  <POU Name="Main" Id="{841967ed-ee1e-4fd2-acd5-2d10c3ac666f}" SpecialFunc="None">
-    <Declaration><![CDATA[PROGRAM Main
+  <POU Name="MAIN" Id="{841967ed-ee1e-4fd2-acd5-2d10c3ac666f}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
 VAR
-	// Leica Variables
-	AngleHz			AT %I* : LREAL := 0.0;
-	AngleVt			AT %I* : LREAL := 0.0;
-	Distance		AT %I* : LREAL := 0.0;
-	q0				AT %I* : LREAL := 0.0;
-	q1				AT %I* : LREAL := 0.0;
-	q2				AT %I* : LREAL := 0.0;
-	q3				AT %I* : LREAL := 0.0;
-	Timestamp		AT %I* : ULINT := 0;
-	x				: LREAL := 0.0;
-	y				: LREAL := 0.0;
-	z				: LREAL := 0.0;
+	// Remote Interface	
+	remote				: FB_Remote(3232258620, 50060, 50050);
 	
-	counter			: UDINT := 0;
+	// EtherCAT equipment
+	at960				: FB_Leica;
 	
-	phi1 : ARRAY [0..2] OF REAL;
-	phi2 : ARRAY [0..2] OF REAL;
-	phi3 : ARRAY [0..2] OF REAL;
+	// UDP Equipment
+	em1500				: FB_Stewart(3232258591, 50031, 50041);
+	em8000				: FB_Stewart(3232258590, 50030, 50040);
+	comau				: FB_Comau(3232258592, 50032, 50042);
+	mru1				: FB_MotionReferenceUnit(7551);
+	mru2				: FB_MotionReferenceUnit(7552);
+	
+	
+	counter				: UDINT := 0;
+
 	
 END_VAR
 	]]></Declaration>
     <Implementation>
-      <ST><![CDATA[
-// Leica transform to x,y and z coordinates
-x := Distance*SIN(AngleVt)*SIN(AngleHz);
-y := Distance*SIN(AngleVt)*COS(AngleHz);
-z := Distance*COS(AngleVt);
+      <ST><![CDATA[// Exchange remote data
+remote();
 
+// Update EtherCAT equipment
+at960();
+
+// Update UDP equipment
+em1500();
+em8000();
+comau();
+mru1();
+mru2();
+
+// Increment main counter
 counter := counter + 1;
-
-
-
-phi1[0] := 01.553343;
-phi1[1] := 1.553343;
-phi1[2] := 1.553343;
-
-
-phi2 := xyz2zyx(phi1);
-
-phi3 := zyx2xyz(phi2);
-
 
 
 
@@ -51,19 +45,20 @@ phi3 := zyx2xyz(phi2);
 
 ]]></ST>
     </Implementation>
-    <LineIds Name="Main">
+    <LineIds Name="MAIN">
+      <LineId Id="534" Count="0" />
+      <LineId Id="532" Count="1" />
       <LineId Id="3" Count="0" />
-      <LineId Id="85" Count="2" />
       <LineId Id="401" Count="0" />
+      <LineId Id="531" Count="0" />
+      <LineId Id="530" Count="0" />
+      <LineId Id="539" Count="0" />
+      <LineId Id="545" Count="0" />
+      <LineId Id="542" Count="1" />
+      <LineId Id="536" Count="1" />
       <LineId Id="126" Count="0" />
       <LineId Id="421" Count="0" />
-      <LineId Id="465" Count="1" />
-      <LineId Id="444" Count="0" />
-      <LineId Id="487" Count="1" />
-      <LineId Id="490" Count="4" />
-      <LineId Id="422" Count="0" />
-      <LineId Id="441" Count="0" />
-      <LineId Id="4" Count="0" />
+      <LineId Id="465" Count="0" />
       <LineId Id="52" Count="0" />
       <LineId Id="27" Count="0" />
       <LineId Id="6" Count="0" />

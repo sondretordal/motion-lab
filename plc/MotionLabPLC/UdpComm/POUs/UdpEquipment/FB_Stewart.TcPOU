@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
+  <POU Name="FB_Stewart" Id="{c939fb9b-18fc-49a0-acdf-554ae7fa888b}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Stewart
+VAR_INPUT
+
+END_VAR
+VAR_OUTPUT
+
+END_VAR
+VAR
+	txData				: TxStewart;
+	rxData				: RxStewart;
+	
+	ipAddr 				: UDINT;
+	remotePort 			: UINT;
+	localPort 			: UINT;
+	
+	udpClient 			: FB_UdpClient(ipAddr, remotePort, localPort, SIZEOF(txData), ADR(txData), SIZEOF(rxData), ADR(rxData));
+	
+	pi					: REAL := 3.141592653589793;
+	
+END_VAR
+
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+
+// Update counter
+txData.COUNT := txData.COUNT + 1;
+
+// Exhange data using UDP connection
+udpClient();]]></ST>
+    </Implementation>
+    <Method Name="FB_init" Id="{4975fdc8-91bb-4f8a-803d-234e9d5a5bf6}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	
+	// Contructor arguments
+	_ipAddr 			: UDINT;
+	_remotePort 		: UINT;
+	_localPort 		: UINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Initilize parameters
+ipAddr := _ipAddr;
+remotePort := _remotePort;
+localPort := _localPort;
+
+// Construct FB_UdpClient
+udpClient.FB_init(bInitRetains, bInCopyCode, ipAddr, remotePort, localPort, SIZEOF(txData), ADR(txData), SIZEOF(rxData), ADR(rxData));
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_Stewart">
+      <LineId Id="81" Count="0" />
+      <LineId Id="86" Count="3" />
+      <LineId Id="80" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Stewart.FB_init">
+      <LineId Id="27" Count="0" />
+      <LineId Id="25" Count="1" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

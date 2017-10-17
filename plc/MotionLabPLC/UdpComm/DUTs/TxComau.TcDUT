@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
-  <DUT Name="ComauControl" Id="{17e3e05b-7a2d-4934-b6b4-b106fae15aec}">
-    <Declaration><![CDATA[TYPE ComauControl :
+  <DUT Name="TxComau" Id="{17e3e05b-7a2d-4934-b6b4-b106fae15aec}">
+    <Declaration><![CDATA[TYPE TxComau :
 STRUCT
 	udp_key	: DINT := 0;
 	cmnd : DINT := 0;
