@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
-  <POU Name="ShipSimulator" Id="{85434e00-1347-4491-8ec3-e6b62d823d0a}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK ShipSimulator
+  <POU Name="FB_ShipSimulator" Id="{85434e00-1347-4491-8ec3-e6b62d823d0a}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_ShipSimulator
 VAR_INPUT
 	timestep : LREAL := 0.001;
 	
@@ -262,7 +262,7 @@ END_FOR
 ode := y_t;]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="ShipSimulator">
+    <LineIds Name="FB_ShipSimulator">
       <LineId Id="134" Count="0" />
       <LineId Id="202" Count="0" />
       <LineId Id="210" Count="0" />
@@ -281,11 +281,11 @@ ode := y_t;]]></ST>
       <LineId Id="145" Count="1" />
       <LineId Id="9" Count="0" />
     </LineIds>
-    <LineIds Name="ShipSimulator.FB_init">
+    <LineIds Name="FB_ShipSimulator.FB_init">
       <LineId Id="10" Count="0" />
       <LineId Id="7" Count="0" />
     </LineIds>
-    <LineIds Name="ShipSimulator.integrate">
+    <LineIds Name="FB_ShipSimulator.integrate">
       <LineId Id="9" Count="0" />
       <LineId Id="16" Count="0" />
       <LineId Id="15" Count="0" />
@@ -294,12 +294,12 @@ ode := y_t;]]></ST>
       <LineId Id="17" Count="1" />
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="ShipSimulator.kinematics">
+    <LineIds Name="FB_ShipSimulator.kinematics">
       <LineId Id="21" Count="0" />
       <LineId Id="12" Count="8" />
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="ShipSimulator.ode">
+    <LineIds Name="FB_ShipSimulator.ode">
       <LineId Id="25" Count="10" />
       <LineId Id="72" Count="1" />
       <LineId Id="36" Count="0" />

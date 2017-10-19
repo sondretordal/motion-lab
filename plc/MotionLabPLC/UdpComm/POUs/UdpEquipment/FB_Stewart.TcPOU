@@ -3,34 +3,116 @@
   <POU Name="FB_Stewart" Id="{c939fb9b-18fc-49a0-acdf-554ae7fa888b}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_Stewart
 VAR_INPUT
-
+	// Control data
+	control				: RemoteControlStewart;
+	
+	// Max allowable control inputs
+	pi					: REAL := 3.141592653589793;
+	max_surge			: REAL := 0.2;
+	max_sway			: REAL := 0.2;
+	max_heave			: REAL := 0.2;
+	max_phi				: REAL := 5.0/180.0*pi;
+	max_theta			: REAL := 5.0/180.0*pi;
+	max_psi				: REAL := 5.0/180.0*pi;
 END_VAR
 VAR_OUTPUT
-
+	// Feedback data
+	feedback			: RemoteFeedbackStewart;
 END_VAR
 VAR
-	txData				: TxStewart;
-	rxData				: RxStewart;
+	// Udp connection
+	txUdpData			: TxStewart;
+	rxUdpData			: RxStewart;
 	
 	ipAddr 				: UDINT;
 	remotePort 			: UINT;
 	localPort 			: UINT;
 	
-	udpClient 			: FB_UdpClient(ipAddr, remotePort, localPort, SIZEOF(txData), ADR(txData), SIZEOF(rxData), ADR(rxData));
+	udpClient 			: FB_UdpClient(ipAddr, remotePort, localPort, SIZEOF(txUdpData), ADR(txUdpData), SIZEOF(rxUdpData), ADR(rxUdpData));
 	
-	pi					: REAL := 3.141592653589793;
-	
+	// Hmi data address and size
+	pTxHmiData			: POINTER TO TxHmiStewart;
+	txHmiData			: TxHmiStewart;
+
+	// Angle Conversion variables
+	phi_xyz				: ARRAY [0..2] OF REAL;
+	phi_zyx				: ARRAY [0..2] OF REAL;
 END_VAR
 
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[
-
 // Update counter
-txData.COUNT := txData.COUNT + 1;
+txUdpData.COUNT 		:= txUdpData.COUNT + 1;
 
-// Exhange data using UDP connection
-udpClient();]]></ST>
+(*
+// Update Remote control data
+txUdpData.X_EXTRA 		:= LIMIT(-ABS(max_surge), control.surge, ABS(max_surge));
+txUdpData.Y_EXTRA 		:= LIMIT(-ABS(max_sway), control.surge, ABS(max_sway));
+txUdpData.Z_EXTRA 		:= LIMIT(-ABS(max_heave), control.surge, ABS(max_heave));
+
+// Angle conversion zyx -> xyz
+phi_zyx[0]				:= control.phi;
+phi_zyx[1]				:= control.theta;
+phi_zyx[2]				:= control.psi;
+phi_xyz := zyx2xyz(phi_zyx);
+
+txUdpData.PHI_EXTRA 	:= LIMIT(-ABS(max_phi), control.phi, ABS(max_phi));
+txUdpData.THETA_EXTRA 	:= LIMIT(-ABS(max_theta), control.theta, ABS(max_theta));
+txUdpData.PSI_EXTRA 	:= LIMIT(-ABS(max_psi), control.psi, ABS(max_psi));
+*)
+
+udpClient();
+
+// Update global REMOTE feedback data
+feedback.surge 			:= rxUdpData.Actual_platform_position_surge;
+feedback.sway 			:= rxUdpData.Actual_platform_position_sway;
+feedback.heave 			:= rxUdpData.Actual_platform_position_heave;
+feedback.phi 			:= rxUdpData.Actual_platform_position_roll;
+feedback.theta 			:= rxUdpData.Actual_platform_position_pitch;
+feedback.phi 			:= rxUdpData.Actual_platform_position_yaw;
+
+feedback.surge_t		:= rxUdpData.Actual_platform_velocity_surge;
+feedback.sway_t			:= rxUdpData.Actual_platform_velocity_sway;
+feedback.heave_t		:= rxUdpData.Actual_platform_velocity_heave;
+feedback.wx				:= rxUdpData.Actual_platform_velocity_roll;
+feedback.wy				:= rxUdpData.Actual_platform_velocity_pitch;
+feedback.wz				:= rxUdpData.Actual_platform_velocity_yaw;
+
+feedback.surge_tt		:= rxUdpData.Actual_platform_acceleration_surge;
+feedback.sway_tt		:= rxUdpData.Actual_platform_acceleration_sway;
+feedback.heave_tt		:= rxUdpData.Actual_platform_acceleration_heave;
+feedback.wx_t			:= rxUdpData.Actual_platform_acceleration_roll;
+feedback.wy_t			:= rxUdpData.Actual_platform_acceleration_pitch;
+feedback.wz_t			:= rxUdpData.Actual_platform_acceleration_yaw;
+
+// Update global HMI data
+txHmiData.status		:= -1;
+txHmiData.surge			:= rxUdpData.Actual_platform_position_surge;
+txHmiData.sway			:= rxUdpData.Actual_platform_position_sway;
+txHmiData.heave			:= rxUdpData.Actual_platform_position_heave;
+txHmiData.phi			:= rxUdpData.Actual_platform_position_roll;
+txHmiData.theta			:= rxUdpData.Actual_platform_position_pitch;
+txHmiData.psi			:= rxUdpData.Actual_platform_position_heave;
+
+txHmiData.surge_ref		:= rxUdpData.Platform_setpoint_surge;
+txHmiData.sway_ref		:= rxUdpData.Platform_setpoint_sway;
+txHmiData.heave_ref		:= rxUdpData.Platform_setpoint_heave;
+txHmiData.phi_ref		:= rxUdpData.Platform_setpoint_roll;
+txHmiData.theta_ref		:= rxUdpData.Platform_setpoint_pitch;
+txHmiData.psi_ref		:= rxUdpData.Platform_setpoint_yaw;
+
+txHmiData.L1 			:= rxUdpData.Actual_position_actuator_1;
+txHmiData.L2 			:= rxUdpData.Actual_position_actuator_2;
+txHmiData.L3 			:= rxUdpData.Actual_position_actuator_3;
+txHmiData.L4 			:= rxUdpData.Actual_position_actuator_4;
+txHmiData.L5 			:= rxUdpData.Actual_position_actuator_5;
+txHmiData.L6 			:= rxUdpData.Actual_position_actuator_6;
+
+MEMCPY(pTxHmiData, ADR(txHmiData), SIZEOF(txHmiData));
+
+
+]]></ST>
     </Implementation>
     <Method Name="FB_init" Id="{4975fdc8-91bb-4f8a-803d-234e9d5a5bf6}">
       <Declaration><![CDATA[METHOD FB_init : BOOL
@@ -41,7 +123,8 @@ VAR_INPUT
 	// Contructor arguments
 	_ipAddr 			: UDINT;
 	_remotePort 		: UINT;
-	_localPort 		: UINT;
+	_localPort 			: UINT;
+	_pTxHmiData			: POINTER TO TxHmiStewart;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -49,28 +132,148 @@ END_VAR
 ipAddr := _ipAddr;
 remotePort := _remotePort;
 localPort := _localPort;
+pTxHmiData := _pTxHmiData;
 
 // Construct FB_UdpClient
-udpClient.FB_init(bInitRetains, bInCopyCode, ipAddr, remotePort, localPort, SIZEOF(txData), ADR(txData), SIZEOF(rxData), ADR(rxData));
+udpClient.FB_init(
+		bInitRetains, 
+		bInCopyCode, 
+		ipAddr, 
+		remotePort, 
+		localPort, 
+		SIZEOF(txUdpData), 
+		ADR(txUdpData), 
+		SIZEOF(rxUdpData), 
+		ADR(rxUdpData)
+	);
 
 ]]></ST>
       </Implementation>
     </Method>
+    <Method Name="xyz2zyx" Id="{f24a9c2a-84c4-4b96-a64d-6d8462d9a6cf}">
+      <Declaration><![CDATA[METHOD PRIVATE xyz2zyx : ARRAY [0..2] OF REAL
+VAR_INPUT
+	phi : ARRAY [0..2] OF REAL;
+END_VAR
+
+VAR
+	t1: REAL;
+	t2: REAL;
+	t3: REAL;
+	t4: REAL;
+	t5: REAL;
+	t6: REAL;
+	t7: REAL;
+	t8: REAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Maple optimized code
+t1 := COS(phi[0]);
+t2 := SIN(phi[1]);
+t3 := SIN(phi[2]);
+t4 := SIN(phi[0]);
+t5 := COS(phi[2]);
+t6 := t1 * t3;
+t7 := t4 * t5;
+t8 := COS(phi[1]);
+
+xyz2zyx[0] := ATAN((t6 * t2 + t7)/(t1 * t8));
+xyz2zyx[1] := -ASIN(-t1 * t2 * t5 + t3 * t4);
+xyz2zyx[2] := ATAN((t7 * t2 + t6)/(t5 * t8));]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="zyx2xyz" Id="{e1df9cb1-636f-44d5-bef2-19b214a0ce52}">
+      <Declaration><![CDATA[METHOD PRIVATE zyx2xyz : ARRAY [0..2] OF REAL
+VAR_INPUT
+	phi : ARRAY [0..2] OF REAL;
+END_VAR
+
+VAR
+	t1: REAL;
+	t2: REAL;
+	t3: REAL;
+	t4: REAL;
+	t5: REAL;
+	t6: REAL;
+	t7: REAL;
+	t8: REAL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Maple optimized code
+t1 := SIN(phi[0]);
+t2 := COS(phi[2]);
+t3 := COS(phi[0]);
+t4 := SIN(phi[1]);
+t5 := SIN(phi[2]);
+t6 := t3 * t5;
+t7 := t1 * t2;
+t8 := COS(phi[1]);
+
+zyx2xyz[0] := ATAN((-t6 * t4 + t7)/(t3 * t8));
+zyx2xyz[1] := ASIN(t3 * t4 * t2 + t1 * t5);
+zyx2xyz[2] := ATAN((-t7 * t4 + t6)/( t2 * t8));]]></ST>
+      </Implementation>
+    </Method>
     <LineIds Name="FB_Stewart">
       <LineId Id="81" Count="0" />
-      <LineId Id="86" Count="3" />
+      <LineId Id="87" Count="1" />
+      <LineId Id="294" Count="0" />
+      <LineId Id="89" Count="0" />
+      <LineId Id="131" Count="0" />
+      <LineId Id="134" Count="1" />
+      <LineId Id="160" Count="0" />
+      <LineId Id="171" Count="0" />
+      <LineId Id="165" Count="0" />
+      <LineId Id="167" Count="1" />
+      <LineId Id="170" Count="0" />
+      <LineId Id="166" Count="0" />
+      <LineId Id="136" Count="0" />
+      <LineId Id="139" Count="1" />
+      <LineId Id="295" Count="0" />
+      <LineId Id="132" Count="0" />
       <LineId Id="80" Count="0" />
+      <LineId Id="116" Count="0" />
+      <LineId Id="293" Count="0" />
+      <LineId Id="141" Count="3" />
+      <LineId Id="146" Count="5" />
+      <LineId Id="174" Count="2" />
+      <LineId Id="117" Count="0" />
+      <LineId Id="153" Count="0" />
+      <LineId Id="155" Count="1" />
+      <LineId Id="177" Count="2" />
+      <LineId Id="187" Count="1" />
+      <LineId Id="254" Count="0" />
+      <LineId Id="239" Count="2" />
+      <LineId Id="244" Count="9" />
+      <LineId Id="242" Count="0" />
+      <LineId Id="230" Count="3" />
+      <LineId Id="237" Count="1" />
+      <LineId Id="235" Count="1" />
+      <LineId Id="190" Count="0" />
+      <LineId Id="189" Count="0" />
+      <LineId Id="154" Count="0" />
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="FB_Stewart.FB_init">
       <LineId Id="27" Count="0" />
       <LineId Id="25" Count="1" />
-      <LineId Id="23" Count="0" />
+      <LineId Id="43" Count="0" />
+      <LineId Id="46" Count="0" />
       <LineId Id="22" Count="0" />
       <LineId Id="15" Count="0" />
+      <LineId Id="58" Count="9" />
       <LineId Id="17" Count="0" />
       <LineId Id="16" Count="0" />
       <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Stewart.xyz2zyx">
+      <LineId Id="18" Count="11" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_Stewart.zyx2xyz">
+      <LineId Id="17" Count="11" />
+      <LineId Id="5" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

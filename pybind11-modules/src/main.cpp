@@ -6,7 +6,7 @@
 // Classes
 #include "UdpServer.h"
 #include "RemoteInterface.h"
-#include "ParticleFilter.h"
+
 
 namespace py = pybind11;
 
@@ -20,9 +20,9 @@ PYBIND11_PLUGIN(motionlab) {
 		.def_readonly("surge", &RemoteFeedbackStewart::surge)
 		.def_readonly("sway", &RemoteFeedbackStewart::sway)
 		.def_readonly("heave", &RemoteFeedbackStewart::heave)
-		.def_readonly("roll", &RemoteFeedbackStewart::roll)
-		.def_readonly("pitch", &RemoteFeedbackStewart::pitch)
-		.def_readonly("yaw", &RemoteFeedbackStewart::yaw)
+		.def_readonly("phi", &RemoteFeedbackStewart::phi)
+		.def_readonly("theta", &RemoteFeedbackStewart::theta)
+		.def_readonly("psi", &RemoteFeedbackStewart::psi)
 		.def_readonly("surge_t", &RemoteFeedbackStewart::surge_t)
 		.def_readonly("sway_t", &RemoteFeedbackStewart::sway_t)
 		.def_readonly("heave_t", &RemoteFeedbackStewart::heave_t)
@@ -34,13 +34,7 @@ PYBIND11_PLUGIN(motionlab) {
 		.def_readonly("heave_tt", &RemoteFeedbackStewart::heave_tt)
 		.def_readonly("wx_t", &RemoteFeedbackStewart::wx_t)
 		.def_readonly("wy_t", &RemoteFeedbackStewart::wy_t)
-		.def_readonly("wz_t", &RemoteFeedbackStewart::wz_t)
-		.def_readonly("L1", &RemoteFeedbackStewart::L1)
-		.def_readonly("L2", &RemoteFeedbackStewart::L2)
-		.def_readonly("L3", &RemoteFeedbackStewart::L3)
-		.def_readonly("L4", &RemoteFeedbackStewart::L4)
-		.def_readonly("L5", &RemoteFeedbackStewart::L5)
-		.def_readonly("L6", &RemoteFeedbackStewart::L6);
+		.def_readonly("wz_t", &RemoteFeedbackStewart::wz_t);
 
 	py::class_<RemoteFeedbackComau>(m, "RemoteFeedbackComau")
 		.def(py::init<>())
@@ -95,15 +89,7 @@ PYBIND11_PLUGIN(motionlab) {
 		.def_readonly("y_tt",&RemoteFeedbackMru::y_tt)
 		.def_readonly("z_tt",&RemoteFeedbackMru::z_tt);
 	
-	py::class_<RemoteFeedbackShipSim>(m, "RemoteFeedbackShipSim")
-		.def(py::init<>())
-		.def_readonly("surge",&RemoteFeedbackShipSim::surge)
-		.def_readonly("sway",&RemoteFeedbackShipSim::sway)
-		.def_readonly("heave",&RemoteFeedbackShipSim::heave)
-		.def_readonly("roll",&RemoteFeedbackShipSim::roll)
-		.def_readonly("pitch",&RemoteFeedbackShipSim::pitch)
-		.def_readonly("yaw",&RemoteFeedbackShipSim::yaw);
-
+	
 	py::class_<RemoteFeedback>(m, "RemoteFeedback")
 		.def(py::init<>())
 		.def_readonly("t", &RemoteFeedback::t)
@@ -112,9 +98,7 @@ PYBIND11_PLUGIN(motionlab) {
 		.def_readonly("comau", &RemoteFeedback::comau)
 		.def_readonly("at960", &RemoteFeedback::at960)
 		.def_readonly("mru1", &RemoteFeedback::mru1)
-		.def_readonly("mru2", &RemoteFeedback::mru2)
-		.def_readonly("ship1", &RemoteFeedback::ship1)
-		.def_readonly("ship2", &RemoteFeedback::ship2);
+		.def_readonly("mru2", &RemoteFeedback::mru2);
 
 	// Control structs
 	py::class_<RemoteControlComau>(m, "RemoteControlComau")
@@ -156,10 +140,7 @@ PYBIND11_PLUGIN(motionlab) {
 		.def_readonly("feedback", &RemoteInterface::feedback)
 		.def_readwrite("control", &RemoteInterface::control);
 
-	// Particle filter
-	py::class_<ParticleFilter>(m, "ParticleFilter")
-		.def(py::init<>());
-
+	
 
 	// Return module
 	return m.ptr();

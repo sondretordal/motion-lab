@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
   <POU Name="zyx2xyz" Id="{c311c9d7-964a-4f2a-986b-caa2c97e86f2}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION zyx2xyz : ARRAY [0..2] of REAL
+    <Declaration><![CDATA[FUNCTION zyx2xyz : ARRAY [0..2] OF REAL
 VAR_INPUT
 	phi : ARRAY [0..2] of REAL;
 END_VAR

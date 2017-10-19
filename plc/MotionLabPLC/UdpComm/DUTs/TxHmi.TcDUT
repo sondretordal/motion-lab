@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
+  <DUT Name="TxHmi" Id="{396dcbfb-f4ca-4216-b261-f123841ed704}">
+    <Declaration><![CDATA[TYPE TxHmi :
+STRUCT
+	counter : UDINT := 0;
+	em1500 : TxHmiStewart;
+	em8000 : TxHmiStewart; 
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

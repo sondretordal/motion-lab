@@ -95,8 +95,6 @@ pDataSend 		:= pDataSendInit;
 nDataRecv	 	:= nDataRecvInit;
 pDataRecv	 	:= pDataRecvInit;
 
-	
-
 
 IF NOT bInCopyCode THEN // no online change
 	IF ipUdp = 0 THEN
@@ -216,7 +214,7 @@ METHOD TcRelease : UDINT
       <LineId Id="63" Count="0" />
       <LineId Id="4" Count="6" />
       <LineId Id="44" Count="2" />
-      <LineId Id="12" Count="15" />
+      <LineId Id="14" Count="13" />
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_UdpClient.FB_reinit">

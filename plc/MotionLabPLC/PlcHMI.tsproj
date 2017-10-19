@@ -848,7 +848,7 @@
 				<Cpu CpuId="3"/>
 			</Settings>
 			<Tasks>
-				<Task Id="3" Priority="20" CycleTime="50000" AmsPort="350">
+				<Task Id="3" Priority="20" CycleTime="50000" AmsPort="350" Affinity="#x00000002">
 					<Name>TaskMAIN</Name>
 				</Task>
 			</Tasks>

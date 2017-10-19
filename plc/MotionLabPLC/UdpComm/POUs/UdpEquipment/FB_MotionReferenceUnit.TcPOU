@@ -15,7 +15,7 @@ VAR
 	rxData				: RxMru;
 	
 	localPort 			: UINT;
-	udpServer 			: FB_UdpServer(localPort, 0, NULL, SIZEOF(rxBuffer), ADR(rxBuffer));
+	udpServer 			: FB_UdpServer(localPort, 0, NULL, SIZEOF(rxData), ADR(rxBuffer));
 	
 	
 	temp				: ARRAY [0..3] OF BYTE;
@@ -213,7 +213,7 @@ END_VAR
 localPort := _localPort;
 
 // Construct FB_UdpClient
-udpServer.FB_init(bInitRetains, bInCopyCode, localPort, 0, NULL, SIZEOF(rxBuffer), ADR(rxBuffer));
+udpServer.FB_init(bInitRetains, bInCopyCode, localPort, 0, NULL, SIZEOF(rxData), ADR(rxBuffer));
 
 ]]></ST>
       </Implementation>

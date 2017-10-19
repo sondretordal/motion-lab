@@ -3,20 +3,24 @@
   <POU Name="FB_Remote" Id="{26b9ef8a-bd47-4ae3-bad5-31fb25883213}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_Remote
 VAR_INPUT
-	feedback			: RemoteFeedback;
+		
 END_VAR
 VAR_OUTPUT
-	control				: RemoteControl;
+	
 END_VAR
 VAR
-	txData				: RemoteFeedback;	
-	rxData				: RemoteControl;
+	// Udp interface
+	txUdpData			: RemoteFeedback;
+	rxUdpData			: RemoteControl;
 	
 	ipAddr 				: UDINT;
 	remotePort 			: UINT;
 	localPort 			: UINT;
 	
-	udpClient 			: FB_UdpClient(ipAddr, remotePort, localPort, SIZEOF(txData), ADR(txData), SIZEOF(rxData), ADR(rxData));
+	udpClient 			: FB_UdpClient(ipAddr, remotePort, localPort, SIZEOF(txUdpData), ADR(txUdpData), SIZEOF(rxUdpData), ADR(rxUdpData));
+	
+	// Remote data exhange
+	
 	
 END_VAR
 
@@ -24,7 +28,14 @@ END_VAR
     <Implementation>
       <ST><![CDATA[
 
-udpClient();]]></ST>
+txUdpData.em1500 := MAIN.em1500.feedback;
+txUdpData.em8000 := MAIN.em8000.feedback;
+
+udpClient();
+
+
+
+]]></ST>
     </Implementation>
     <Method Name="FB_init" Id="{1759a608-ff26-4666-ba56-016a8cefa645}">
       <Declaration><![CDATA[METHOD FB_init : BOOL
@@ -35,7 +46,7 @@ VAR_INPUT
 	// Contructor arguments
 	_ipAddr 			: UDINT;
 	_remotePort 		: UINT;
-	_localPort 		: UINT;
+	_localPort 			: UINT;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -45,14 +56,29 @@ remotePort := _remotePort;
 localPort := _localPort;
 
 // Construct FB_UdpClient
-udpClient.FB_init(bInitRetains, bInCopyCode, ipAddr, remotePort, localPort, SIZEOF(txData), ADR(txData), SIZEOF(rxData), ADR(rxData));
+udpClient.FB_init(
+		bInitRetains, 
+		bInCopyCode, 
+		ipAddr, 
+		remotePort, 
+		localPort, 
+		SIZEOF(txUdpData), 
+		ADR(txUdpData), 
+		SIZEOF(rxUdpData), 
+		ADR(rxUdpData)
+	);
 
 ]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_Remote">
       <LineId Id="81" Count="0" />
+      <LineId Id="104" Count="0" />
+      <LineId Id="134" Count="0" />
+      <LineId Id="103" Count="0" />
       <LineId Id="80" Count="0" />
+      <LineId Id="106" Count="1" />
+      <LineId Id="101" Count="1" />
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="FB_Remote.FB_init">
@@ -61,6 +87,7 @@ udpClient.FB_init(bInitRetains, bInCopyCode, ipAddr, remotePort, localPort, SIZE
       <LineId Id="23" Count="0" />
       <LineId Id="22" Count="0" />
       <LineId Id="15" Count="0" />
+      <LineId Id="38" Count="9" />
       <LineId Id="17" Count="0" />
       <LineId Id="16" Count="0" />
       <LineId Id="7" Count="0" />

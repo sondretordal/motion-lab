@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
+  <DUT Name="TxHmiStewart" Id="{537cb59b-7788-4cf1-963f-58e6b1732d28}">
+    <Declaration><![CDATA[TYPE TxHmiStewart :
+STRUCT
+	status : DINT;
+	surge : REAL;
+	sway : REAL;
+	heave : REAL;
+	phi : REAL;
+	theta : REAL;
+	psi	: REAL;
+	surge_ref : REAL;
+	sway_ref : REAL;
+	heave_ref : REAL;
+	phi_ref : REAL;
+	theta_ref : REAL;
+	psi_ref	: REAL;
+	L1 : REAL;
+	L2 : REAL;
+	L3 : REAL;
+	L4 : REAL;
+	L5 : REAL;
+	L6 : REAL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

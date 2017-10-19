@@ -10,12 +10,11 @@ VAR
 	at960				: FB_Leica;
 	
 	// UDP Equipment
-	em1500				: FB_Stewart(3232258591, 50031, 50041);
-	em8000				: FB_Stewart(3232258590, 50030, 50040);
+	em1500				: FB_Stewart(3232258591, 50031, 50041, ADR(HMI.feedback.em1500));
+	em8000				: FB_Stewart(3232258590, 50030, 50040, ADR(HMI.feedback.em8000));
 	comau				: FB_Comau(3232258592, 50032, 50042);
 	mru1				: FB_MotionReferenceUnit(7551);
 	mru2				: FB_MotionReferenceUnit(7552);
-	
 	
 	counter				: UDINT := 0;
 

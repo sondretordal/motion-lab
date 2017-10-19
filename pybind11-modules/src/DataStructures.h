@@ -1,5 +1,10 @@
 #pragma once
 
+#include <vector>
+#include <iostream>
+
+typedef std::array<float, 3> array_3;
+
 // Control structs
 struct RemoteControlComau {
 	float q1;
@@ -32,9 +37,9 @@ struct RemoteFeedbackStewart {
 	float surge;
 	float sway;
 	float heave;
-	float roll;
-	float pitch;
-	float yaw;
+	float phi;
+	float theta;
+	float psi;
 	float surge_t;
 	float sway_t;
 	float heave_t;
@@ -47,12 +52,6 @@ struct RemoteFeedbackStewart {
 	float wx_t;
 	float wy_t;
 	float wz_t;
-	float L1;
-	float L2;
-	float L3;
-	float L4;
-	float L5;
-	float L6;
 };
 
 struct RemoteFeedbackComau {
@@ -108,15 +107,6 @@ struct RemoteFeedbackMru {
 	float z_tt;
 };
 
-struct RemoteFeedbackShipSim {
-	float surge;
-	float sway;
-	float heave;
-	float roll;
-	float pitch;
-	float yaw;
-};
-
 struct RemoteFeedback {
 	float t;
 	RemoteFeedbackStewart em8000;
@@ -125,6 +115,4 @@ struct RemoteFeedback {
 	RemoteFeedbackLeica at960;
 	RemoteFeedbackMru mru1;
 	RemoteFeedbackMru mru2;
-	RemoteFeedbackShipSim ship1;
-	RemoteFeedbackShipSim ship2;
 };
