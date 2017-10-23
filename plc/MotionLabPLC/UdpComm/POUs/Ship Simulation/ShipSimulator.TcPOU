@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
-  <POU Name="FB_ShipSimulator" Id="{85434e00-1347-4491-8ec3-e6b62d823d0a}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK FB_ShipSimulator
+  <POU Name="ShipSimulator" Id="{85434e00-1347-4491-8ec3-e6b62d823d0a}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK ShipSimulator
 VAR_INPUT
-	timestep : LREAL := 0.001;
+	timestep : LREAL := 0.005;
 	
 	// Default wavespectrum(Hs=8.0, T1=12.0, spec='JONSWAP')
     w0 : LREAL :=  0.43567172549;
@@ -17,9 +17,9 @@ VAR_INPUT
 	surge_max : LREAL := 0.2;
 	sway_max : LREAL := 0.2;
 	heave_max : LREAL := 0.4;
-	roll_max : LREAL := 5.0/180.0*pi;
-	pitch_max : LREAL := 5.0/180.0*pi;
-	yaw_max : LREAL := 5.0/180.0*pi;
+	phi_max : LREAL := 5.0/180.0*pi;
+	theta_max : LREAL := 5.0/180.0*pi;
+	psi_max : LREAL := 5.0/180.0*pi;
 	
 	
 END_VAR
@@ -29,9 +29,9 @@ VAR_OUTPUT
 	surge : LREAL;
 	sway : LREAL;
 	heave : LREAL;
-	roll : LREAL;
-	pitch : LREAL;
-	yaw : LREAL;
+	phi : LREAL;
+	theta : LREAL;
+	psi : LREAL;
 END_VAR
 VAR
 	// Counter variable
@@ -65,9 +65,9 @@ integrate();
 eta_max[0] := ABS(surge_max);
 eta_max[1] := ABS(sway_max);
 eta_max[2] := ABS(heave_max);
-eta_max[3] := ABS(roll_max);
-eta_max[4] := ABS(pitch_max);
-eta_max[5] := ABS(yaw_max);
+eta_max[3] := ABS(phi_max);
+eta_max[4] := ABS(theta_max);
+eta_max[5] := ABS(psi_max);
 
 // Adapt output to fit defined maximum limits
 FOR dof := 0 TO 5 DO
@@ -82,9 +82,9 @@ END_FOR
 surge := Ks[0]*states[0];
 sway := Ks[1]*states[1];
 heave := Ks[2]*states[2];
-roll := Ks[3]*states[3];
-pitch := Ks[4]*states[4];
-yaw := Ks[5]*states[5];
+phi := Ks[3]*states[3];
+theta := Ks[4]*states[4];
+psi := Ks[5]*states[5];
 
 
 
@@ -262,7 +262,7 @@ END_FOR
 ode := y_t;]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_ShipSimulator">
+    <LineIds Name="ShipSimulator">
       <LineId Id="134" Count="0" />
       <LineId Id="202" Count="0" />
       <LineId Id="210" Count="0" />
@@ -281,11 +281,11 @@ ode := y_t;]]></ST>
       <LineId Id="145" Count="1" />
       <LineId Id="9" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ShipSimulator.FB_init">
+    <LineIds Name="ShipSimulator.FB_init">
       <LineId Id="10" Count="0" />
       <LineId Id="7" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ShipSimulator.integrate">
+    <LineIds Name="ShipSimulator.integrate">
       <LineId Id="9" Count="0" />
       <LineId Id="16" Count="0" />
       <LineId Id="15" Count="0" />
@@ -294,12 +294,12 @@ ode := y_t;]]></ST>
       <LineId Id="17" Count="1" />
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ShipSimulator.kinematics">
+    <LineIds Name="ShipSimulator.kinematics">
       <LineId Id="21" Count="0" />
       <LineId Id="12" Count="8" />
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="FB_ShipSimulator.ode">
+    <LineIds Name="ShipSimulator.ode">
       <LineId Id="25" Count="10" />
       <LineId Id="72" Count="1" />
       <LineId Id="36" Count="0" />

@@ -9,7 +9,7 @@ from scipy.optimize import curve_fit
 
 
 from src.classes import RealTimePlot, RealTimeBar
-from src.datastructures import RemoteFeedback, RemoteControl
+from src.datastructures import TxHmi
 from src.gui import Ui_main
 
 # Background color pyqtgraph
@@ -34,9 +34,6 @@ class GUI(QMainWindow, Ui_main):
         self.plc.open()
         print("Beckhoff ADS Connection Open")
         
-        # Set PLC time to zero
-        self.plc.write_by_name('REMOTE.feedback.t', 0.0, pyads.PLCTYPE_REAL)
-    
         # Connect the interaction functionality of the GUI
         self.ui_connect()
 
@@ -386,115 +383,116 @@ class GUI(QMainWindow, Ui_main):
     # Update data and plot
     def update_data(self):
         # Read latest data from ADS into RemoteFeedback ctypes struct
-        feedback = self.plc.read_by_name('REMOTE.feedback', RemoteFeedback)
+        hmi = self.plc.read_by_name('MAIN.hmi', TxHmi)
 
-        self.DP1_1.time_range = self.time_range
-        self.DP1_1.update(feedback.t, [
-                feedback.ship1.surge,
-                feedback.ship1.sway,
-                feedback.ship1.heave
-            ])
         
-        self.DP1_2.time_range = self.time_range
-        self.DP1_2.update(feedback.t, [
-                feedback.ship1.roll/np.pi*180.0,
-                feedback.ship1.pitch/np.pi*180.0,
-                feedback.ship1.yaw/np.pi*180.0
-            ])
+        # self.DP1_1.time_range = self.time_range
+        # self.DP1_1.update(hmi.t, [
+        #         hmi.ship1.surge,
+        #         hmi.ship1.sway,
+        #         hmi.ship1.heave
+        #     ])
+        
+        # self.DP1_2.time_range = self.time_range
+        # self.DP1_2.update(hmi.t, [
+        #         hmi.ship1.roll/np.pi*180.0,
+        #         hmi.ship1.pitch/np.pi*180.0,
+        #         hmi.ship1.yaw/np.pi*180.0
+        #     ])
  
-        self.DP2_1.time_range = self.time_range
-        self.DP2_1.update(feedback.t, [
-                feedback.ship2.surge,
-                feedback.ship2.sway,
-                feedback.ship2.heave
-            ])
+        # self.DP2_1.time_range = self.time_range
+        # self.DP2_1.update(hmi.t, [
+        #         hmi.ship2.surge,
+        #         hmi.ship2.sway,
+        #         hmi.ship2.heave
+        #     ])
         
-        self.DP2_2.time_range = self.time_range
-        self.DP2_2.update(feedback.t, [
-                feedback.ship2.roll/np.pi*180.0,
-                feedback.ship2.pitch/np.pi*180.0,
-                feedback.ship2.yaw/np.pi*180.0
-            ])
+        # self.DP2_2.time_range = self.time_range
+        # self.DP2_2.update(hmi.t, [
+        #         hmi.ship2.roll/np.pi*180.0,
+        #         hmi.ship2.pitch/np.pi*180.0,
+        #         hmi.ship2.yaw/np.pi*180.0
+        #     ])
 
         self.EM1500_1.time_range = self.time_range
-        self.EM1500_1.update(feedback.t, [
-                feedback.em1500.surge,
-                feedback.em1500.sway,
-                feedback.em1500.heave
+        self.EM1500_1.update(hmi.t, [
+                hmi.em1500.surge,
+                hmi.em1500.sway,
+                hmi.em1500.heave
             ])
         self.EM1500_2.time_range = self.time_range
-        self.EM1500_2.update(feedback.t, [
-                feedback.em1500.roll/np.pi*180.0,
-                feedback.em1500.pitch/np.pi*180.0,
-                feedback.em1500.yaw/np.pi*180.0
+        self.EM1500_2.update(hmi.t, [
+                hmi.em1500.phi/np.pi*180.0,
+                hmi.em1500.theta/np.pi*180.0,
+                hmi.em1500.psi/np.pi*180.0
             ])
 
         self.EM8000_1.time_range = self.time_range
-        self.EM8000_1.update(feedback.t, [
-                feedback.em8000.surge,
-                feedback.em8000.sway,
-                feedback.em8000.heave
+        self.EM8000_1.update(hmi.t, [
+                hmi.em8000.surge,
+                hmi.em8000.sway,
+                hmi.em8000.heave
             ])
         self.EM8000_2.time_range = self.time_range
-        self.EM8000_2.update(feedback.t, [
-                feedback.em8000.roll/np.pi*180.0,
-                feedback.em8000.pitch/np.pi*180.0,
-                feedback.em8000.yaw/np.pi*180.0
+        self.EM8000_2.update(hmi.t, [
+                hmi.em8000.phi/np.pi*180.0,
+                hmi.em8000.theta/np.pi*180.0,
+                hmi.em8000.psi/np.pi*180.0
             ])
         
         self.COMAU.time_range = self.time_range
-        self.COMAU.update(feedback.t, [
-                feedback.comau.q1, 
-                feedback.comau.q2, 
-                feedback.comau.q3,
-                feedback.comau.q4, 
-                feedback.comau.q5, 
-                feedback.comau.q6
+        self.COMAU.update(hmi.t, [
+                hmi.comau.q1, 
+                hmi.comau.q2, 
+                hmi.comau.q3,
+                hmi.comau.q4, 
+                hmi.comau.q5, 
+                hmi.comau.q6
             ])
         
         self.EM8000_bars.update([
-                feedback.em8000.L1, 
-                feedback.em8000.L2, 
-                feedback.em8000.L3,
-                feedback.em8000.L4, 
-                feedback.em8000.L5, 
-                feedback.em8000.L6,
-                feedback.em8000.L1, 
-                feedback.em8000.L2, 
-                feedback.em8000.L3,
-                feedback.em8000.L4, 
-                feedback.em8000.L5, 
-                feedback.em8000.L6
+                hmi.em8000.L1, 
+                hmi.em8000.L2, 
+                hmi.em8000.L3,
+                hmi.em8000.L4, 
+                hmi.em8000.L5, 
+                hmi.em8000.L6,
+                hmi.em8000.L1, 
+                hmi.em8000.L2, 
+                hmi.em8000.L3,
+                hmi.em8000.L4, 
+                hmi.em8000.L5, 
+                hmi.em8000.L6
             ])
 
         self.EM1500_bars.update([
-                feedback.em1500.L1, 
-                feedback.em1500.L2, 
-                feedback.em1500.L3,
-                feedback.em1500.L4, 
-                feedback.em1500.L5, 
-                feedback.em1500.L6,
-                feedback.em1500.L1, 
-                feedback.em1500.L2, 
-                feedback.em1500.L3,
-                feedback.em1500.L4, 
-                feedback.em1500.L5, 
-                feedback.em1500.L6
+                hmi.em1500.L1, 
+                hmi.em1500.L2, 
+                hmi.em1500.L3,
+                hmi.em1500.L4, 
+                hmi.em1500.L5, 
+                hmi.em1500.L6,
+                hmi.em1500.L1, 
+                hmi.em1500.L2, 
+                hmi.em1500.L3,
+                hmi.em1500.L4, 
+                hmi.em1500.L5, 
+                hmi.em1500.L6
             ])
 
         self.COMAU_bars.update([
-                feedback.comau.q1, 
-                feedback.comau.q2, 
-                feedback.comau.q3,
-                feedback.comau.q4, 
-                feedback.comau.q5, 
-                feedback.comau.q6,
-                feedback.comau.q1, 
-                feedback.comau.q2, 
-                feedback.comau.q3,
-                feedback.comau.q4, 
-                feedback.comau.q5, 
-                feedback.comau.q6
+                hmi.comau.q1, 
+                hmi.comau.q2, 
+                hmi.comau.q3,
+                hmi.comau.q4, 
+                hmi.comau.q5, 
+                hmi.comau.q6,
+                hmi.comau.q1, 
+                hmi.comau.q2, 
+                hmi.comau.q3,
+                hmi.comau.q4, 
+                hmi.comau.q5, 
+                hmi.comau.q6
             ])
 
     # Function to change the time axis range of the plots
@@ -553,7 +551,7 @@ class GUI(QMainWindow, Ui_main):
         self.EM8000_engaged_btn.setStyleSheet("background-color: none   ")
 
         # Write to PLC: EM8000 settled = 1
-        self.plc.write_by_name('EM8000.cmnd', 1, pyads.PLCTYPE_DINT)
+        self.plc.write_by_name('MAIN.em8000.cmnd', 1, pyads.PLCTYPE_DINT)
 
     def EM8000_neutral(self):
         self.EM8000_settled_btn.setStyleSheet("background-color: none   ")
@@ -561,7 +559,7 @@ class GUI(QMainWindow, Ui_main):
         self.EM8000_engaged_btn.setStyleSheet("background-color: none   ")
 
         # Write to PLC: EM8000 neutral = 3
-        self.plc.write_by_name('EM8000.cmnd', 3, pyads.PLCTYPE_DINT)
+        self.plc.write_by_name('MAIN.em8000.cmnd', 3, pyads.PLCTYPE_DINT)
 
     def EM8000_engaged(self):
         self.EM8000_settled_btn.setStyleSheet("background-color: none   ")
@@ -569,7 +567,7 @@ class GUI(QMainWindow, Ui_main):
         self.EM8000_engaged_btn.setStyleSheet("background-color: #cccccc")
 
         # Write to PLC: EM8000 engaged = 7
-        self.plc.write_by_name('EM8000.cmnd', 7, pyads.PLCTYPE_DINT)
+        self.plc.write_by_name('MAIN.em8000.cmnd', 7, pyads.PLCTYPE_DINT)
 
     # EM 1500 button functions
     def EM1500_settled(self):
@@ -578,7 +576,7 @@ class GUI(QMainWindow, Ui_main):
         self.EM1500_engaged_btn.setStyleSheet("background-color: none")
 
         # Write to PLC: EM1500 settled = 1
-        self.plc.write_by_name('EM1500.cmnd', 1, pyads.PLCTYPE_DINT)
+        self.plc.write_by_name('MAIN.em1500.cmnd', 1, pyads.PLCTYPE_DINT)
 
     def EM1500_neutral(self):
         self.EM1500_settled_btn.setStyleSheet("background-color: none   ")
@@ -586,7 +584,7 @@ class GUI(QMainWindow, Ui_main):
         self.EM1500_engaged_btn.setStyleSheet("background-color: none   ")
 
         # Write to PLC: EM1500 neutral = 3
-        self.plc.write_by_name('EM1500.cmnd', 3, pyads.PLCTYPE_DINT)
+        self.plc.write_by_name('MAIN.em1500.cmnd', 3, pyads.PLCTYPE_DINT)
 
     def EM1500_engaged(self):
         self.EM1500_settled_btn.setStyleSheet("background-color: none   ")
@@ -594,7 +592,7 @@ class GUI(QMainWindow, Ui_main):
         self.EM1500_engaged_btn.setStyleSheet("background-color: #cccccc")
 
         # Write to PLC: EM1500 engaged = 7
-        self.plc.write_by_name('EM1500.cmnd', 7, pyads.PLCTYPE_DINT)
+        self.plc.write_by_name('MAIN.em1500.cmnd', 7, pyads.PLCTYPE_DINT)
 
     # COMAU button functions
     def COMAU_settled(self):
@@ -603,7 +601,7 @@ class GUI(QMainWindow, Ui_main):
         self.COMAU_engaged_fast_btn.setStyleSheet("background-color: none")
 
         # Write to PLC: COMAU settled = 1
-        self.plc.write_by_name('COMAU.cmnd', 0, pyads.PLCTYPE_DINT)
+        self.plc.write_by_name('MAIN.comau.cmnd', 0, pyads.PLCTYPE_DINT)
 
     def COMAU_engaged(self):
         self.COMAU_settled_btn.setStyleSheet("background-color: none   ")
@@ -611,7 +609,7 @@ class GUI(QMainWindow, Ui_main):
         self.COMAU_engaged_fast_btn.setStyleSheet("background-color: none")
 
         # Write to PLC: COMAU engaged = 1
-        self.plc.write_by_name('COMAU.cmnd', 1, pyads.PLCTYPE_DINT)
+        self.plc.write_by_name('MAIN.comau.cmnd', 1, pyads.PLCTYPE_DINT)
 
     def COMAU_engaged_fast(self):
         self.COMAU_settled_btn.setStyleSheet("background-color: none")
@@ -619,7 +617,7 @@ class GUI(QMainWindow, Ui_main):
         self.COMAU_engaged_fast_btn.setStyleSheet("background-color: #cccccc")
 
         # Write to PLC: COMAU engaged-fast = 2
-        self.plc.write_by_name('COMAU.cmnd', 2, pyads.PLCTYPE_DINT)
+        self.plc.write_by_name('MAIN.comau.cmnd', 2, pyads.PLCTYPE_DINT)
 
     # SYSTEM button functions
     def SYSTEM_settled(self):

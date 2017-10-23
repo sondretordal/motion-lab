@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
   <DUT Name="RxMru" Id="{493418d2-51f9-43f7-a596-17ed6df73eb4}">
-    <Declaration><![CDATA[TYPE RxMru :
+    <Declaration><![CDATA[{attribute 'pack_mode' := '1'}
+TYPE RxMru :
 STRUCT
 	mruOK : BYTE;
 	dataLength : BYTE;
@@ -26,6 +27,7 @@ STRUCT
 	AccMru_R : REAL;
 	AccMru_P : REAL;
 	AccMru_Y : REAL;
+	checksum : BYTE;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

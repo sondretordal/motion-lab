@@ -3,26 +3,35 @@
   <POU Name="MAIN" Id="{841967ed-ee1e-4fd2-acd5-2d10c3ac666f}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
+	// HMI data
+	hmi 				: TxHmi;	
+
 	// Remote Interface	
-	remote				: FB_Remote(3232258620, 50060, 50050);
+	remote				: RemoteInterface(3232258620, 50060, 50050);
 	
 	// EtherCAT equipment
-	at960				: FB_Leica;
+	at960				: LeicaInterface(ADR(hmi.at960));
 	
 	// UDP Equipment
-	em1500				: FB_Stewart(3232258591, 50031, 50041, ADR(HMI.feedback.em1500));
-	em8000				: FB_Stewart(3232258590, 50030, 50040, ADR(HMI.feedback.em8000));
-	comau				: FB_Comau(3232258592, 50032, 50042);
-	mru1				: FB_MotionReferenceUnit(7551);
-	mru2				: FB_MotionReferenceUnit(7552);
+	em1500				: StewartInterface(3232258591, 50031, 50041, 0, ADR(hmi.em1500));
+	em8000				: StewartInterface(3232258590, 50030, 50040, 254, ADR(hmi.em8000));
+	comau				: ComauInterface(3232258592, 50032, 50042, ADR(hmi.comau));
+	
+	mru1				: MruInterface(7551, ADR(hmi.mru1));
+	mru2				: MruInterface(7552, ADR(hmi.mru2));
+	
 	
 	counter				: UDINT := 0;
-
+	
+	
 	
 END_VAR
+
+
+
 	]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// Exchange remote data
+      <ST><![CDATA[// Update remote data
 remote();
 
 // Update EtherCAT equipment
@@ -35,8 +44,8 @@ comau();
 mru1();
 mru2();
 
-// Increment main counter
-counter := counter + 1;
+// Update timer
+hmi.t := hmi.t + 5.0/1000.0;
 
 
 
@@ -54,11 +63,12 @@ counter := counter + 1;
       <LineId Id="539" Count="0" />
       <LineId Id="545" Count="0" />
       <LineId Id="542" Count="1" />
-      <LineId Id="536" Count="1" />
+      <LineId Id="536" Count="0" />
+      <LineId Id="604" Count="0" />
+      <LineId Id="616" Count="0" />
+      <LineId Id="605" Count="0" />
+      <LineId Id="573" Count="0" />
       <LineId Id="126" Count="0" />
-      <LineId Id="421" Count="0" />
-      <LineId Id="465" Count="0" />
-      <LineId Id="52" Count="0" />
       <LineId Id="27" Count="0" />
       <LineId Id="6" Count="0" />
       <LineId Id="51" Count="0" />

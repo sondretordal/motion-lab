@@ -1,0 +1,356 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
+  <POU Name="MruInterface" Id="{37c28233-65ff-4bfc-a679-1cd8072f7c6a}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'c++_compatible'}
+FUNCTION_BLOCK MruInterface IMPLEMENTS ITcIoUdpProtocolRecv
+VAR_INPUT
+	
+END_VAR
+VAR_OUTPUT
+	feedback			: FeedbackMru;
+END_VAR
+VAR	
+	// UDP connection
+	{attribute 'TcInitSymbol'}
+	oid					: OTCID;
+	ipUdp 				: ITcIoUdpProtocol;
+	recvCounter			: UDINT := 0;
+	localUdpPort		: UINT;
+	
+	// UDP raw data structures
+	rxUdpDataBE			: RxMru;	// Big endian data struct
+	rxUdpData			: RxMru;	// Host/little endian data struct
+	
+	// HMI data
+	pTxHmiData			: PVOID;
+	txHmiData			: TxHmiMru;
+END_VAR
+
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Update UDP data
+UpdateUDP();
+
+// Update IO data
+UpdateIO();
+
+// Update HMI data
+UpdateHMI();
+]]></ST>
+    </Implementation>
+    <Method Name="BigToLittleEndian" Id="{416b707d-216b-4813-9456-5553fa3d442d}">
+      <Declaration><![CDATA[METHOD BigToLittleEndian : REAL
+VAR_INPUT
+	realIn		: REAL;
+END_VAR
+
+VAR
+	realOut		: REAL;	
+
+	bytesIn		: ARRAY [0..3] OF BYTE;
+	bytesOut	: ARRAY [0..3] OF BYTE;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Copy to byte array
+MEMCPY(ADR(bytesIn), ADR(realIn), 4);
+
+// Switch bytes
+bytesOut[3] := bytesIn[0];
+bytesOut[2] := bytesIn[1];
+bytesOut[1] := bytesIn[2];
+bytesOut[0] := bytesIn[3];
+
+// Copy switched butes to realOut
+MEMCPY(ADR(realOut), ADR(bytesOut), 4);
+
+// Return switched version of realIn
+BigToLittleEndian := realOut;
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_exit" Id="{394f0e07-dc6c-4427-80e5-29affa6a0a68}">
+      <Declaration><![CDATA[METHOD FB_exit : BOOL
+VAR_INPUT
+	bInCopyCode : BOOL; // if TRUE, the exit method is called for exiting an instance that is copied afterwards (online change).
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF (NOT bInCopyCode AND ipUdp <> 0) THEN //Shutdown
+	ipUdp.UnregisterReceiver(localUdpPort);
+	FW_SafeRelease(ADR(ipUdp));
+	FB_exit := TRUE;
+ELSE
+	FB_exit := FALSE;
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_init" Id="{5eb1cd80-1484-4464-b0ac-719d03818352}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains 		: BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode 		: BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	
+	// Contructor arguments
+	_localUdpPort 		: UINT;
+	_pTxHmiData			: PVOID;
+END_VAR
+
+VAR
+	ipSrv				: ITComObjectServer;
+	hr 					: HRESULT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Initilize parameters
+localUdpPort := _localUdpPort;
+pTxHmiData := _pTxHmiData;
+
+IF NOT bInCopyCode THEN // no online change
+	IF ipUdp = 0 THEN
+	    hr := FW_ObjMgr_GetObjectInstance(oid:=oid, iid:=TC_GLOBAL_IID_LIST.IID_ITcIoUdpProtocol, pipUnk:=ADR(ipUdp) );
+		
+		IF (SUCCEEDED(hr) AND ipUdp.RegisterReceiver(localUdpPort, THIS^) = 0 ) THEN //open local port
+			FB_init := TRUE;
+		ELSE
+			FB_init := FALSE;			
+			FW_SafeRelease(ADR(ipUdp));
+		END_IF				
+	END_IF
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_reinit" Id="{5e5db883-8291-461e-9ca2-4bf5ac87bbdf}">
+      <Declaration><![CDATA[METHOD FB_reinit : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF (ipUdp <> 0) THEN 
+	ipUdp.RegisterReceiver(localUdpPort, THIS^);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ReceiveData" Id="{46c77509-ed4e-493b-b135-d23950772b1d}">
+      <Declaration><![CDATA[{attribute 'c++_compatible'}
+{attribute 'signature_flag' := '33554688'}
+{attribute 'pack_mode' := '1'}
+{attribute 'show'}
+{attribute 'minimal_input_size' := '4'}
+{attribute 'checksuperglobal'}
+METHOD ReceiveData : HRESULT
+VAR_INPUT
+	ipAddr			: UDINT;
+	udpDestPort		: UINT;
+	udpSrcPort		: UINT;
+	nData			: UDINT;
+	pData			: PVOID;
+	pVlan			: POINTER TO ETYPE_VLAN_HEADER := 0;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Send and receive data if the received data size is correct
+IF (nData = SIZEOF(RxMru)) THEN
+	// Count number of recieved UDP packets
+	recvCounter := recvCounter + 1;
+
+	// Copy data to recv buffer
+	MEMCPY(ADR(rxUdpDataBE), pData, nData);
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TcAddRef" Id="{8ef63c0d-b1c2-4674-91a1-6da67289f9a3}">
+      <Declaration><![CDATA[{attribute 'c++_compatible'}
+{attribute 'signature_flag' := '33554688'}
+{attribute 'pack_mode' := '1'}
+{attribute 'show'}
+{attribute 'minimal_input_size' := '4'}
+{attribute 'checksuperglobal'}
+METHOD TcAddRef : UDINT
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TcQueryInterface" Id="{7c72fab3-d1fe-4b3f-b506-2e849de0d9a5}">
+      <Declaration><![CDATA[{attribute 'c++_compatible'}
+{attribute 'signature_flag' := '33554688'}
+{attribute 'pack_mode' := '1'}
+{attribute 'show'}
+{attribute 'minimal_input_size' := '4'}
+{attribute 'checksuperglobal'}
+METHOD TcQueryInterface : HRESULT
+VAR_INPUT
+	iid	: REFERENCE TO IID;
+	pipItf	: POINTER TO PVOID;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TcRelease" Id="{4af70886-7416-4bc3-9a08-7cd45e097ccb}">
+      <Declaration><![CDATA[{attribute 'c++_compatible'}
+{attribute 'signature_flag' := '33554688'}
+{attribute 'pack_mode' := '1'}
+{attribute 'show'}
+{attribute 'minimal_input_size' := '4'}
+{attribute 'checksuperglobal'}
+METHOD TcRelease : UDINT
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="UpdateHMI" Id="{f8f2096c-5401-4415-a0c4-0a80abb13107}">
+      <Declaration><![CDATA[METHOD PRIVATE UpdateHMI : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[txHmiData.status := -1;
+
+
+// Update global HMI data
+MEMCPY(pTxHmiData, ADR(txHmiData), SIZEOF(txHmiData));]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="UpdateIO" Id="{041d36bb-aa8d-418e-bebf-d23d40bbfb46}">
+      <Declaration><![CDATA[METHOD PRIVATE UpdateIO : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Update feedback data
+feedback.heave := rxUdpData.PosMru_D;
+feedback.heave_t := rxUdpData.VelMru_D;
+feedback.heave_tt := rxUdpData.AccMru_D;
+feedback.turn_rate := rxUdpData.AngRate_D;
+feedback.roll := rxUdpData.Roll;
+feedback.pitch := rxUdpData.Pitch;
+feedback.yaw := rxUdpData.Yaw;
+feedback.wx := rxUdpData.AngRate_R;
+feedback.wy := rxUdpData.AngRate_P;
+feedback.wz := rxUdpData.AngRate_Y;
+feedback.wx_t := rxUdpData.AngAcc_R;
+feedback.wy_t := rxUdpData.AngAcc_P;
+feedback.wz_t := rxUdpData.AngAcc_Y;
+feedback.x_t := rxUdpData.VelMru_R;
+feedback.y_t := rxUdpData.VelMru_P;
+feedback.z_t := rxUdpData.VelMru_Y;
+feedback.x_tt := rxUdpData.AccMru_R;
+feedback.y_tt := rxUdpData.AccMru_P;
+feedback.z_tt := rxUdpData.AccMru_Y;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="UpdateUDP" Id="{9d658cbb-018f-4254-bf3c-3f962c07dc24}">
+      <Declaration><![CDATA[METHOD PRIVATE UpdateUDP : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Check for incoming UDP data
+IF ipUdp <> 0 THEN
+	ipUdp.CheckReceived();
+END_IF
+
+// TODO: Fix this ina  more elegant way
+rxUdpData.mruOK := rxUdpDataBE.mruOK;
+rxUdpData.dataLength := rxUdpDataBE.dataLength;
+rxUdpData.token := rxUdpDataBE.token;
+rxUdpData.checksum := rxUdpDataBE.checksum;
+
+// Big to little endian real data conversion
+rxUdpData.Temperature := BigToLittleEndian(rxUdpDataBE.Temperature);
+rxUdpData.PosMru_D := BigToLittleEndian(rxUdpDataBE.PosMru_D);
+rxUdpData.VelMru_D := BigToLittleEndian(rxUdpDataBE.VelMru_D);
+rxUdpData.AccMru_D := BigToLittleEndian(rxUdpDataBE.AccMru_D);
+rxUdpData.AngRate_D := BigToLittleEndian(rxUdpDataBE.AngRate_D);
+rxUdpData.Roll := BigToLittleEndian(rxUdpDataBE.Roll);
+rxUdpData.Pitch := BigToLittleEndian(rxUdpDataBE.Pitch);
+rxUdpData.Yaw := BigToLittleEndian(rxUdpDataBE.Yaw);
+rxUdpData.AngRate_R := BigToLittleEndian(rxUdpDataBE.AngRate_R);
+rxUdpData.AngRate_P := BigToLittleEndian(rxUdpDataBE.AngRate_P);
+rxUdpData.AngRate_Y := BigToLittleEndian(rxUdpDataBE.AngRate_Y);
+rxUdpData.AngAcc_R := BigToLittleEndian(rxUdpDataBE.AngAcc_R);
+rxUdpData.AngAcc_P := BigToLittleEndian(rxUdpDataBE.AngAcc_P);
+rxUdpData.AngAcc_Y := BigToLittleEndian(rxUdpDataBE.AngAcc_Y);
+rxUdpData.VelMru_R := BigToLittleEndian(rxUdpDataBE.VelMru_R);
+rxUdpData.VelMru_P := BigToLittleEndian(rxUdpDataBE.VelMru_P);
+rxUdpData.VelMru_Y := BigToLittleEndian(rxUdpDataBE.VelMru_Y);
+rxUdpData.AccMru_R := BigToLittleEndian(rxUdpDataBE.AccMru_R);
+rxUdpData.AccMru_P := BigToLittleEndian(rxUdpDataBE.AccMru_P);
+rxUdpData.AccMru_Y := BigToLittleEndian(rxUdpDataBE.AccMru_Y);]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="MruInterface">
+      <LineId Id="576" Count="0" />
+      <LineId Id="80" Count="0" />
+      <LineId Id="574" Count="1" />
+      <LineId Id="577" Count="0" />
+      <LineId Id="604" Count="0" />
+      <LineId Id="629" Count="0" />
+      <LineId Id="605" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="MruInterface.BigToLittleEndian">
+      <LineId Id="13" Count="0" />
+      <LineId Id="15" Count="6" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="23" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="MruInterface.FB_exit">
+      <LineId Id="7" Count="5" />
+      <LineId Id="6" Count="0" />
+    </LineIds>
+    <LineIds Name="MruInterface.FB_init">
+      <LineId Id="26" Count="0" />
+      <LineId Id="60" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="35" Count="10" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="MruInterface.FB_reinit">
+      <LineId Id="6" Count="1" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="MruInterface.ReceiveData">
+      <LineId Id="22" Count="0" />
+      <LineId Id="33" Count="2" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="18" Count="0" />
+    </LineIds>
+    <LineIds Name="MruInterface.TcAddRef">
+      <LineId Id="10" Count="0" />
+    </LineIds>
+    <LineIds Name="MruInterface.TcQueryInterface">
+      <LineId Id="14" Count="0" />
+    </LineIds>
+    <LineIds Name="MruInterface.TcRelease">
+      <LineId Id="10" Count="0" />
+    </LineIds>
+    <LineIds Name="MruInterface.UpdateHMI">
+      <LineId Id="9" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="MruInterface.UpdateIO">
+      <LineId Id="7" Count="19" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="MruInterface.UpdateUDP">
+      <LineId Id="6" Count="2" />
+      <LineId Id="12" Count="27" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

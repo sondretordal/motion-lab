@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
-  <DUT Name="RemoteFeedbackStewart" Id="{dbe9f13a-90b3-482d-a35b-3c357fc25569}">
-    <Declaration><![CDATA[TYPE RemoteFeedbackStewart :
+  <DUT Name="FeedbackStewart" Id="{dbe9f13a-90b3-482d-a35b-3c357fc25569}">
+    <Declaration><![CDATA[TYPE FeedbackStewart :
 STRUCT
 	surge : REAL;
 	sway : REAL;
@@ -18,7 +18,7 @@ STRUCT
 	surge_tt : REAL;
 	sway_tt : REAL;
 	heave_tt : REAL;
-	wx_t	: REAL;
+	wx_t : REAL;
 	wy_t : REAL;
 	wz_t : REAL;
 END_STRUCT

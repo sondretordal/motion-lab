@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
-  <DUT Name="RemoteFeedbackLeica" Id="{753df343-d8a4-4be5-aa7a-1ee5fc5c7942}">
-    <Declaration><![CDATA[TYPE RemoteFeedbackLeica :
+  <DUT Name="FeedbackLeica" Id="{753df343-d8a4-4be5-aa7a-1ee5fc5c7942}">
+    <Declaration><![CDATA[TYPE FeedbackLeica :
 STRUCT
 	x : REAL;
 	y : REAL;

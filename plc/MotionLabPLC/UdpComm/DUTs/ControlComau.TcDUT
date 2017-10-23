@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
-  <DUT Name="RemoteControlComau" Id="{85ce5000-ad48-47a4-9587-9bd8d8305d58}">
-    <Declaration><![CDATA[TYPE RemoteControlComau :
+  <DUT Name="ControlComau" Id="{85ce5000-ad48-47a4-9587-9bd8d8305d58}">
+    <Declaration><![CDATA[TYPE ControlComau :
 STRUCT
 	q1 : REAL;
 	q2 : REAL;

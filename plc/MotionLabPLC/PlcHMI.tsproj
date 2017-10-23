@@ -863,7 +863,7 @@
 						<Var>
 							<Name>MAIN.at960.AngleHz</Name>
 							<Comment>
-								<![CDATA[ Leica Variables]]>
+								<![CDATA[ Variables linked to LeicaAT960 Box 1]]>
 							</Comment>
 							<Type>LREAL</Type>
 						</Var>
@@ -876,19 +876,19 @@
 							<Type>LREAL</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.at960.q0</Name>
+							<Name>MAIN.at960.Quaternion0</Name>
 							<Type>LREAL</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.at960.q1</Name>
+							<Name>MAIN.at960.Quaternion1</Name>
 							<Type>LREAL</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.at960.q2</Name>
+							<Name>MAIN.at960.Quaternion2</Name>
 							<Type>LREAL</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.at960.q3</Name>
+							<Name>MAIN.at960.Quaternion3</Name>
 							<Type>LREAL</Type>
 						</Var>
 						<Var>
@@ -898,32 +898,32 @@
 					</Vars>
 					<InitSymbols>
 						<InitSymbol>
-							<Name>MAIN.remote.udpClient.oid</Name>
+							<Name>MAIN.remote.oid</Name>
 							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
 							<Data>50000101</Data>
 						</InitSymbol>
 						<InitSymbol>
-							<Name>MAIN.em1500.udpClient.oid</Name>
+							<Name>MAIN.em1500.oid</Name>
 							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
 							<Data>20000101</Data>
 						</InitSymbol>
 						<InitSymbol>
-							<Name>MAIN.em8000.udpClient.oid</Name>
+							<Name>MAIN.em8000.oid</Name>
 							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
 							<Data>30000101</Data>
 						</InitSymbol>
 						<InitSymbol>
-							<Name>MAIN.comau.udpClient.oid</Name>
+							<Name>MAIN.comau.oid</Name>
 							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
 							<Data>40000101</Data>
 						</InitSymbol>
 						<InitSymbol>
-							<Name>MAIN.mru1.udpServer.oid</Name>
+							<Name>MAIN.mru1.oid</Name>
 							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
 							<Data>70000101</Data>
 						</InitSymbol>
 						<InitSymbol>
-							<Name>MAIN.mru2.udpServer.oid</Name>
+							<Name>MAIN.mru2.oid</Name>
 							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
 							<Data>60000101</Data>
 						</InitSymbol>
@@ -3603,11 +3603,11 @@
 				<Link VarA="TaskMAIN Inputs^MAIN.at960.AngleHz" VarB="Cyclic Measurements^AngleHz"/>
 				<Link VarA="TaskMAIN Inputs^MAIN.at960.AngleVt" VarB="Cyclic Measurements^AngleVt"/>
 				<Link VarA="TaskMAIN Inputs^MAIN.at960.Distance" VarB="Cyclic Measurements^Distance"/>
+				<Link VarA="TaskMAIN Inputs^MAIN.at960.Quaternion0" VarB="Cyclic Measurements^Quaternion0"/>
+				<Link VarA="TaskMAIN Inputs^MAIN.at960.Quaternion1" VarB="Cyclic Measurements^Quaternion1"/>
+				<Link VarA="TaskMAIN Inputs^MAIN.at960.Quaternion2" VarB="Cyclic Measurements^Quaternion2"/>
+				<Link VarA="TaskMAIN Inputs^MAIN.at960.Quaternion3" VarB="Cyclic Measurements^Quaternion3"/>
 				<Link VarA="TaskMAIN Inputs^MAIN.at960.TimeStamp" VarB="Cyclic Measurements^TimeStamp"/>
-				<Link VarA="TaskMAIN Inputs^MAIN.at960.q0" VarB="Cyclic Measurements^Quaternion0"/>
-				<Link VarA="TaskMAIN Inputs^MAIN.at960.q1" VarB="Cyclic Measurements^Quaternion1"/>
-				<Link VarA="TaskMAIN Inputs^MAIN.at960.q2" VarB="Cyclic Measurements^Quaternion2"/>
-				<Link VarA="TaskMAIN Inputs^MAIN.at960.q3" VarB="Cyclic Measurements^Quaternion3"/>
 			</OwnerB>
 		</OwnerA>
 	</Mappings>

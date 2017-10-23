@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
+  <DUT Name="TxRemote" Id="{746c5b97-6b08-42d3-a9c6-1beebe32f68f}">
+    <Declaration><![CDATA[TYPE TxRemote :
+STRUCT
+	t : REAL := 0.0;
+	em8000 : FeedbackStewart;	
+	em1500 : FeedbackStewart;
+	comau : FeedbackComau;
+	at960 : FeedbackLeica;
+	mru1 : FeedbackMru;
+	mru2 : FeedbackMru;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

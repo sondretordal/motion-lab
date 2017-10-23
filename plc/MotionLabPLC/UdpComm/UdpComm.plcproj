@@ -15,16 +15,16 @@
     <LibraryReferences>{d8d5f2f6-bc84-4775-8792-0b2228eab916}</LibraryReferences>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="DUTs\RemoteControl.TcDUT">
+    <Compile Include="DUTs\ModeStewart.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\RemoteControlComau.TcDUT">
+    <Compile Include="DUTs\RxRemote.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\ControlComau.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\RxComau.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DUTs\TxHmi.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\TxComau.TcDUT">
@@ -33,22 +33,34 @@
     <Compile Include="DUTs\RxMru.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\RemoteControlStewart.TcDUT">
+    <Compile Include="DUTs\ControlStewart.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\RemoteFeedback.TcDUT">
+    <Compile Include="DUTs\TxRemote.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\RemoteFeedbackLeica.TcDUT">
+    <Compile Include="DUTs\FeedbackLeica.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\RemoteFeedbackComau.TcDUT">
+    <Compile Include="DUTs\FeedbackComau.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\RemoteFeedbackMru.TcDUT">
+    <Compile Include="DUTs\FeedbackMru.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\RemoteFeedbackStewart.TcDUT">
+    <Compile Include="DUTs\FeedbackStewart.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\TxHmi.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\TxHmiComau.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\TxHmiLeica.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\TxHmiMru.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\TxHmiStewart.TcDUT">
@@ -63,17 +75,6 @@
     <Compile Include="GlobalTextList.TcGTLO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GVLs\HMI.TcGVL">
-      <SubType>Code</SubType>
-      <LinkAlways>true</LinkAlways>
-    </Compile>
-    <Compile Include="GVLs\REMOTE.TcGVL">
-      <SubType>Code</SubType>
-      <LinkAlways>true</LinkAlways>
-    </Compile>
-    <Compile Include="POUs\EtherCatEquipment\FB_Leica.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="POUs\Kinematics\EulerToBody.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -86,31 +87,34 @@
     <Compile Include="POUs\Kinematics\zyx2xyz.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\LabEquipment\LeicaInterface.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\LabEquipment\RemoteInterface.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\MAIN.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\Ship Simulation\FB_ShipSimulator.TcPOU">
+    <Compile Include="POUs\Ship Simulation\ShipSimulator.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\Ship Simulation\StocWave.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\UdpEquipment\FB_Remote.TcPOU">
+    <Compile Include="POUs\LabEquipment\MruInterface.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\UdpEquipment\FB_MotionReferenceUnit.TcPOU">
+    <Compile Include="POUs\LabEquipment\ComauInterface.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\UdpEquipment\FB_Comau.TcPOU">
+    <Compile Include="POUs\LabEquipment\StewartInterface.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\UdpEquipment\FB_Stewart.TcPOU">
+    <Compile Include="POUs\UdpFBs\FB_UdpClient.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\UdpEquipment\FB_UdpClient.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\UdpEquipment\FB_UdpServer.TcPOU">
+    <Compile Include="POUs\UdpFBs\FB_UdpServer.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="TaskMAIN.TcTTO">
@@ -124,55 +128,13 @@
     <Folder Include="DUTs" />
     <Folder Include="GVLs" />
     <Folder Include="POUs\Kinematics" />
-    <Folder Include="POUs\EtherCatEquipment" />
     <Folder Include="POUs\Deprecated" />
+    <Folder Include="POUs\UdpFBs" />
     <Folder Include="POUs\Ship Simulation" />
-    <Folder Include="POUs\UdpEquipment" />
+    <Folder Include="POUs\LabEquipment" />
     <Folder Include="POUs" />
   </ItemGroup>
   <ItemGroup>
-    <PlaceholderReference Include="System_VisuElemMeter">
-      <DefaultResolution>VisuElemMeter, 3.5.8.0 (System)</DefaultResolution>
-      <Namespace>VisuElemMeter</Namespace>
-      <SystemLibrary>true</SystemLibrary>
-      <ResolverGuid>2717eb6a-dd07-4c66-8d8d-cacebd7b18ae</ResolverGuid>
-    </PlaceholderReference>
-    <PlaceholderReference Include="System_VisuElems">
-      <DefaultResolution>VisuElems, 3.5.8.40 (System)</DefaultResolution>
-      <Namespace>VisuElems</Namespace>
-      <SystemLibrary>true</SystemLibrary>
-      <ResolverGuid>2717eb6a-dd07-4c66-8d8d-cacebd7b18ae</ResolverGuid>
-    </PlaceholderReference>
-    <PlaceholderReference Include="System_VisuElemsSpecialControls">
-      <DefaultResolution>VisuElemsSpecialControls, 3.5.8.0 (System)</DefaultResolution>
-      <Namespace>VisuElemsSpecialControls</Namespace>
-      <SystemLibrary>true</SystemLibrary>
-      <ResolverGuid>2717eb6a-dd07-4c66-8d8d-cacebd7b18ae</ResolverGuid>
-    </PlaceholderReference>
-    <PlaceholderReference Include="System_VisuElemsWinControls">
-      <DefaultResolution>VisuElemsWinControls, 3.5.8.40 (System)</DefaultResolution>
-      <Namespace>VisuElemsWinControls</Namespace>
-      <SystemLibrary>true</SystemLibrary>
-      <ResolverGuid>2717eb6a-dd07-4c66-8d8d-cacebd7b18ae</ResolverGuid>
-    </PlaceholderReference>
-    <PlaceholderReference Include="System_VisuElemTextEditor">
-      <DefaultResolution>VisuElemTextEditor, 3.5.8.0 (System)</DefaultResolution>
-      <Namespace>VisuElemTextEditor</Namespace>
-      <SystemLibrary>true</SystemLibrary>
-      <ResolverGuid>2717eb6a-dd07-4c66-8d8d-cacebd7b18ae</ResolverGuid>
-    </PlaceholderReference>
-    <PlaceholderReference Include="system_visuinputs">
-      <DefaultResolution>visuinputs, 3.5.8.0 (system)</DefaultResolution>
-      <Namespace>visuinputs</Namespace>
-      <SystemLibrary>true</SystemLibrary>
-      <ResolverGuid>2717eb6a-dd07-4c66-8d8d-cacebd7b18ae</ResolverGuid>
-    </PlaceholderReference>
-    <PlaceholderReference Include="System_VisuNativeControl">
-      <DefaultResolution>VisuNativeControl, 3.5.8.0 (System)</DefaultResolution>
-      <Namespace>VisuNativeControl</Namespace>
-      <SystemLibrary>true</SystemLibrary>
-      <ResolverGuid>2717eb6a-dd07-4c66-8d8d-cacebd7b18ae</ResolverGuid>
-    </PlaceholderReference>
     <PlaceholderReference Include="Tc2_Standard">
       <DefaultResolution>Tc2_Standard, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_Standard</Namespace>
@@ -180,6 +142,10 @@
     <PlaceholderReference Include="Tc2_System">
       <DefaultResolution>Tc2_System, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_System</Namespace>
+    </PlaceholderReference>
+    <PlaceholderReference Include="Tc2_Utilities">
+      <DefaultResolution>Tc2_Utilities, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc2_Utilities</Namespace>
     </PlaceholderReference>
     <PlaceholderReference Include="Tc3_Interfaces">
       <DefaultResolution>Tc3_Interfaces, * (Beckhoff Automation GmbH)</DefaultResolution>

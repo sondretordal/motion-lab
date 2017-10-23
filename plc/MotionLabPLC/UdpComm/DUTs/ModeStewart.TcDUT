@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
+  <DUT Name="ModeStewart" Id="{469d4b27-71b1-45c9-a720-377c3c11dc49}">
+    <Declaration><![CDATA[
+TYPE ModeStewart :
+(
+	MODE_IDLE := 0,
+	MODE_SIMULATOR,
+	MODE_REMOTE,
+	MODE_TRANSITION,
+	MODE_GENERATOR,
+	MODE_STOP
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

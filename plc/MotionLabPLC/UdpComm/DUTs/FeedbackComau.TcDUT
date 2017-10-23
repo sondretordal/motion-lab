@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
-  <DUT Name="RemoteFeedbackComau" Id="{59c39b26-2a61-45fb-a750-dddd71945521}">
-    <Declaration><![CDATA[TYPE RemoteFeedbackComau :
+  <DUT Name="FeedbackComau" Id="{59c39b26-2a61-45fb-a750-dddd71945521}">
+    <Declaration><![CDATA[TYPE FeedbackComau :
 STRUCT
 	q1 : REAL;
 	q2 : REAL;

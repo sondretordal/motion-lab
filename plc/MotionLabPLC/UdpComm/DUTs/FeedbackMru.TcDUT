@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
-  <DUT Name="RemoteFeedbackMru" Id="{e5da7f68-9b82-4c49-ac9c-e08f2e5a864f}">
-    <Declaration><![CDATA[TYPE RemoteFeedbackMru :
+  <DUT Name="FeedbackMru" Id="{e5da7f68-9b82-4c49-ac9c-e08f2e5a864f}">
+    <Declaration><![CDATA[TYPE FeedbackMru :
 STRUCT
 	heave : REAL;
 	heave_t : REAL;

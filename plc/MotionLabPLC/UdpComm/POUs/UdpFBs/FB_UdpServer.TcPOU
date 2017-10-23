@@ -100,7 +100,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF (ipUdp <> 0) THEN 
-  ipUdp.RegisterReceiver(nLocalPort, THIS^);
+	ipUdp.RegisterReceiver(nLocalPort, THIS^);
 END_IF]]></ST>
       </Implementation>
     </Method>
