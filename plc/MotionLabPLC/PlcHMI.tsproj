@@ -903,14 +903,14 @@
 							<Data>50000101</Data>
 						</InitSymbol>
 						<InitSymbol>
-							<Name>MAIN.em1500.oid</Name>
-							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
-							<Data>20000101</Data>
-						</InitSymbol>
-						<InitSymbol>
 							<Name>MAIN.em8000.oid</Name>
 							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
 							<Data>30000101</Data>
+						</InitSymbol>
+						<InitSymbol>
+							<Name>MAIN.em1500.oid</Name>
+							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
+							<Data>20000101</Data>
 						</InitSymbol>
 						<InitSymbol>
 							<Name>MAIN.comau.oid</Name>

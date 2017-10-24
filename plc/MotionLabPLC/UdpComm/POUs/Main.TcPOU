@@ -13,10 +13,9 @@ VAR
 	at960				: LeicaInterface(ADR(hmi.at960));
 	
 	// UDP Equipment
-	em1500				: StewartInterface(3232258591, 50031, 50041, 0, ADR(hmi.em1500));
 	em8000				: StewartInterface(3232258590, 50030, 50040, 254, ADR(hmi.em8000));
+	em1500				: StewartInterface(3232258591, 50031, 50041, 0, ADR(hmi.em1500));
 	comau				: ComauInterface(3232258592, 50032, 50042, ADR(hmi.comau));
-	
 	mru1				: MruInterface(7551, ADR(hmi.mru1));
 	mru2				: MruInterface(7552, ADR(hmi.mru2));
 	
@@ -32,15 +31,25 @@ END_VAR
 	]]></Declaration>
     <Implementation>
       <ST><![CDATA[// Update remote data
+remote.txUdpData.t := hmi.t;
+remote.txUdpData.em1500 := em1500.feedback;
+remote.txUdpData.em8000 := em8000.feedback;
+remote.txUdpData.comau := comau.feedback;
+remote.txUdpData.at960 := at960.feedback;
+remote.txUdpData.mru1 := mru1.feedback;
+remote.txUdpData.mru2 := mru2.feedback;
 remote();
 
 // Update EtherCAT equipment
 at960();
 
 // Update UDP equipment
-em1500();
 em8000();
+em1500();
+
+comau.control := remote.rxUdpData.comau;
 comau();
+
 mru1();
 mru2();
 
@@ -54,14 +63,21 @@ hmi.t := hmi.t + 5.0/1000.0;
 ]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
+      <LineId Id="660" Count="0" />
+      <LineId Id="647" Count="1" />
+      <LineId Id="650" Count="2" />
+      <LineId Id="654" Count="0" />
       <LineId Id="534" Count="0" />
       <LineId Id="532" Count="1" />
       <LineId Id="3" Count="0" />
       <LineId Id="401" Count="0" />
       <LineId Id="531" Count="0" />
       <LineId Id="530" Count="0" />
+      <LineId Id="662" Count="0" />
       <LineId Id="539" Count="0" />
+      <LineId Id="656" Count="0" />
       <LineId Id="545" Count="0" />
+      <LineId Id="659" Count="0" />
       <LineId Id="542" Count="1" />
       <LineId Id="536" Count="0" />
       <LineId Id="604" Count="0" />

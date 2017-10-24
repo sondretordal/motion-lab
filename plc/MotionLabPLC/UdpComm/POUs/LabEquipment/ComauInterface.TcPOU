@@ -34,14 +34,11 @@ END_VAR
 
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[
-txUdpData.cmnd := cmnd;
+      <ST><![CDATA[// Update IO data
+UpdateIO();
 
 // Update UDP data
 UpdateUDP();
-
-// Update IO data
-UpdateIO();
 
 // Update HMI data
 UpdateHMI();
@@ -215,7 +212,13 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// Control data
+        <ST><![CDATA[// Settings
+txUdpData.udp_key := 32;
+txUdpData.cmnd := cmnd;
+txUdpData.beta := 1.0;
+txUdpData.omega := 1.0;
+
+// Control data
 txUdpData.q1 := control.q1;
 txUdpData.q2 := control.q2;
 txUdpData.q3 := control.q3;
@@ -272,16 +275,14 @@ IF ipUdp <> 0 THEN
 	ipUdp.CheckReceived();
 END_IF
 
-txUdpData.udp_key := 32;
-txUdpData.cmnd := 0;
-txUdpData.beta := 1.0;
-txUdpData.omega := 1.0;]]></ST>
+]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="ComauInterface">
-      <LineId Id="175" Count="1" />
-      <LineId Id="174" Count="0" />
-      <LineId Id="133" Count="3" />
+      <LineId Id="210" Count="0" />
+      <LineId Id="209" Count="0" />
+      <LineId Id="208" Count="0" />
+      <LineId Id="133" Count="0" />
       <LineId Id="96" Count="0" />
       <LineId Id="141" Count="1" />
       <LineId Id="81" Count="0" />
@@ -324,13 +325,17 @@ txUdpData.omega := 1.0;]]></ST>
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="ComauInterface.UpdateIO">
+      <LineId Id="48" Count="0" />
+      <LineId Id="50" Count="2" />
+      <LineId Id="49" Count="0" />
+      <LineId Id="47" Count="0" />
       <LineId Id="6" Count="18" />
       <LineId Id="43" Count="0" />
       <LineId Id="25" Count="17" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="ComauInterface.UpdateUDP">
-      <LineId Id="6" Count="12" />
+      <LineId Id="6" Count="9" />
       <LineId Id="5" Count="0" />
     </LineIds>
   </POU>

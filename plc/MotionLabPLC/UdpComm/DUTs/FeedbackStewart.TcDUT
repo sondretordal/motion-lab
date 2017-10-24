@@ -12,15 +12,15 @@ STRUCT
 	surge_t	: REAL;
 	sway_t	: REAL;
 	heave_t	: REAL;
-	wx : REAL;
-	wy : REAL;
-	wz : REAL;
+	phi_t : REAL;
+	theta_t : REAL;
+	psi_t : REAL;
 	surge_tt : REAL;
 	sway_tt : REAL;
 	heave_tt : REAL;
-	wx_t : REAL;
-	wy_t : REAL;
-	wz_t : REAL;
+	phi_tt : REAL;
+	theta_tt : REAL;
+	psi_tt : REAL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

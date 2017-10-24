@@ -28,11 +28,11 @@ END_VAR
 
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// Update UDP data
-UpdateUDP();
-
-// Update IO data
+      <ST><![CDATA[// Update IO data
 UpdateIO();
+
+// Update UDP data
+UpdateUDP();
 
 // Update HMI data
 UpdateHMI();
@@ -227,9 +227,9 @@ feedback.heave := rxUdpData.PosMru_D;
 feedback.heave_t := rxUdpData.VelMru_D;
 feedback.heave_tt := rxUdpData.AccMru_D;
 feedback.turn_rate := rxUdpData.AngRate_D;
-feedback.roll := rxUdpData.Roll;
-feedback.pitch := rxUdpData.Pitch;
-feedback.yaw := rxUdpData.Yaw;
+feedback.phi := rxUdpData.Roll;
+feedback.theta := rxUdpData.Pitch;
+feedback.psi := rxUdpData.Yaw;
 feedback.wx := rxUdpData.AngRate_R;
 feedback.wy := rxUdpData.AngRate_P;
 feedback.wz := rxUdpData.AngRate_Y;
@@ -286,10 +286,9 @@ rxUdpData.AccMru_Y := BigToLittleEndian(rxUdpDataBE.AccMru_Y);]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="MruInterface">
-      <LineId Id="576" Count="0" />
-      <LineId Id="80" Count="0" />
-      <LineId Id="574" Count="1" />
-      <LineId Id="577" Count="0" />
+      <LineId Id="656" Count="1" />
+      <LineId Id="655" Count="0" />
+      <LineId Id="576" Count="1" />
       <LineId Id="604" Count="0" />
       <LineId Id="629" Count="0" />
       <LineId Id="605" Count="0" />

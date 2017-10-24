@@ -23,3 +23,7 @@ _Boot/
 _Config/
 _Compileinfo/
 _Libraries/
+
+__pycache__/
+*.pyd
+

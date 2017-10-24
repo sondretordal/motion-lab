@@ -3,8 +3,6 @@
 #include <vector>
 #include <iostream>
 
-typedef std::array<float, 3> array_3;
-
 // Control structs
 struct RemoteControlComau {
 	float q1;
@@ -43,15 +41,15 @@ struct RemoteFeedbackStewart {
 	float surge_t;
 	float sway_t;
 	float heave_t;
-	float wx;
-	float wy;
-	float wz;
+	float phi_t;
+	float theta_t;
+	float psi_t;
 	float surge_tt;
 	float sway_tt;
 	float heave_tt;
-	float wx_t;
-	float wy_t;
-	float wz_t;
+	float phi_tt;
+	float theta_tt;
+	float psi_tt;
 };
 
 struct RemoteFeedbackComau {
@@ -90,9 +88,9 @@ struct RemoteFeedbackMru {
 	float heave_t;
 	float heave_tt;
 	float turn_rate;
-	float roll;
-	float pitch;
-	float yaw;
+	float phi;
+	float theta;
+	float psi;
 	float wx;
 	float wy;
 	float wz;

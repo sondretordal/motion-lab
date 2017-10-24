@@ -24,7 +24,6 @@ private:
     JsonLogger logger;
     unsigned int cycletime = 10;
     unsigned int log_mode = 0;
-    unsigned int counter = 0;
 
     // Remote interface data
     RemoteFeedback rx_data;
@@ -45,7 +44,7 @@ public:
     void update();
 
     void log();
-    void async_log(unsigned int cycletime);
+    void async_log();
     void clear_log();
     void save_log(std::string path);
 };

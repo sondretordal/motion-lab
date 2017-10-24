@@ -11,7 +11,7 @@ VAR_INPUT
     sigma : LREAL :=  5.3310138243;
 	
 	// PD Contoroller poles
-	poles : LREAL := 0.3;
+	poles : LREAL := 1.0;
 	
 	// Max output states allowed
 	surge_max : LREAL := 0.2;
@@ -26,12 +26,12 @@ END_VAR
 VAR_OUTPUT
 	t : LREAL := 0.0;
 	
-	surge : LREAL;
-	sway : LREAL;
-	heave : LREAL;
-	phi : LREAL;
-	theta : LREAL;
-	psi : LREAL;
+	surge : REAL;
+	sway : REAL;
+	heave : REAL;
+	phi : REAL;
+	theta : REAL;
+	psi : REAL;
 END_VAR
 VAR
 	// Counter variable
@@ -79,12 +79,12 @@ FOR dof := 0 TO 5 DO
 END_FOR
 
 
-surge := Ks[0]*states[0];
-sway := Ks[1]*states[1];
-heave := Ks[2]*states[2];
-phi := Ks[3]*states[3];
-theta := Ks[4]*states[4];
-psi := Ks[5]*states[5];
+surge := LREAL_TO_REAL(Ks[0]*states[0]);
+sway := LREAL_TO_REAL(Ks[1]*states[1]);
+heave := LREAL_TO_REAL(Ks[2]*states[2]);
+phi := LREAL_TO_REAL(Ks[3]*states[3]);
+theta := LREAL_TO_REAL(Ks[4]*states[4]);
+psi := LREAL_TO_REAL(Ks[5]*states[5]);
 
 
 
@@ -161,7 +161,7 @@ END_VAR
 
 VAR
 	// Wave component gains
-	K : ARRAY [0..5] OF LREAL := [1E4, 1E4, 4E8, 1E8, 1E5, 1E7];	
+	K : ARRAY [0..5] OF LREAL := [5E3, 5E3, 4E8, 1E8, 1E5, 1E7];	
 	
 	// PD Controller gains
 	Kp : LREAL;

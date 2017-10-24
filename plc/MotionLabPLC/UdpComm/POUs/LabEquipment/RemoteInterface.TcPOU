@@ -4,10 +4,10 @@
     <Declaration><![CDATA[{attribute 'c++_compatible'}
 FUNCTION_BLOCK RemoteInterface IMPLEMENTS ITcIoUdpProtocolRecv
 VAR_INPUT
-	feedback			: TxRemote;
+	txUdpData			: TxRemote;
 END_VAR
 VAR_OUTPUT
-	control 			: RxRemote;
+	rxUdpData			: RxRemote;
 END_VAR
 VAR
 	// UDP connection
@@ -17,30 +17,12 @@ VAR
 	recvCounter			: UDINT := 0;
 	sendCounter			: UDINT := 0;
 	remoteUdpPort		: UINT;
-	remoteIpAddr		: UDINT;	
+	remoteIpAddr		: UDINT;
 	localUdpPort		: UINT;
-	
-	// UDP raw data
-	rxUdpData			: RxRemote;
-	txUdpData			: TxRemote;
-	
-
-END_VAR
-
-VAR CONSTANT
-	pi					: REAL := 3.141592653589793;
-END_VAR
-
-]]></Declaration>
+END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[
-feedback.t := main.hmi.t;
-
-// Update UDP data
-UpdateUDP();
-
-// Update IO data
-UpdateIO();]]></ST>
+      <ST><![CDATA[// Update UDP data
+UpdateUDP();]]></ST>
     </Implementation>
     <Method Name="FB_exit" Id="{012b5a9e-ce60-474b-a48d-89190c9ea343}">
       <Declaration><![CDATA[METHOD FB_exit : BOOL
@@ -179,17 +161,6 @@ METHOD TcRelease : UDINT
         <ST><![CDATA[]]></ST>
       </Implementation>
     </Method>
-    <Method Name="UpdateIO" Id="{9763b81c-d299-4a4d-9fbc-fbbef76a3af5}">
-      <Declaration><![CDATA[METHOD PRIVATE UpdateIO : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[
-control := rxUdpData;
-txUdpData := feedback;]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="UpdateUDP" Id="{6099c801-3370-442b-b3c9-50d35e9cdd95}">
       <Declaration><![CDATA[METHOD PRIVATE UpdateUDP : BOOL
 VAR_INPUT
@@ -206,17 +177,11 @@ IF ipUdp <> 0 THEN
 	ipUdp.CheckReceived();
 END_IF
 
-
 ]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="RemoteInterface">
-      <LineId Id="470" Count="1" />
-      <LineId Id="469" Count="0" />
-      <LineId Id="337" Count="0" />
-      <LineId Id="116" Count="0" />
-      <LineId Id="375" Count="0" />
-      <LineId Id="468" Count="0" />
+      <LineId Id="519" Count="0" />
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="RemoteInterface.FB_exit">
@@ -248,14 +213,10 @@ END_IF
     <LineIds Name="RemoteInterface.TcRelease">
       <LineId Id="10" Count="0" />
     </LineIds>
-    <LineIds Name="RemoteInterface.UpdateIO">
-      <LineId Id="6" Count="1" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
     <LineIds Name="RemoteInterface.UpdateUDP">
       <LineId Id="6" Count="7" />
-      <LineId Id="16" Count="0" />
-      <LineId Id="14" Count="1" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="15" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
   </POU>

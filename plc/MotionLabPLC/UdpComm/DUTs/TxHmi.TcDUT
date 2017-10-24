@@ -3,13 +3,13 @@
   <DUT Name="TxHmi" Id="{2cfd4700-2b83-4fe6-81fa-843b179f6b37}">
     <Declaration><![CDATA[TYPE TxHmi :
 STRUCT
-	t : REAL := 0.0;
-	em1500 : TxHmiStewart;
-	em8000 : TxHmiStewart;
-	comau : TxHmiComau;
-	at960 : TxHmiLeica;	
-	mru1 : TxHmiMru;
-	mru2 : TxHmiMru;
+	t : REAL 	:= 0.0;
+	em8000 		: TxHmiStewart;
+	em1500 		: TxHmiStewart;
+	comau 		: TxHmiComau;
+	at960 		: TxHmiLeica;	
+	mru1 		: TxHmiMru;
+	mru2 		: TxHmiMru;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

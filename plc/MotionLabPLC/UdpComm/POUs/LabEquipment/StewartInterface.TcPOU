@@ -41,18 +41,17 @@ END_VAR
 
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[
-// Update Ship simulation
-ship();
+      <ST><![CDATA[// Update IO data
+UpdateIO();
 
 // Update UDP data
 UpdateUDP();
 
-// Update IO data
-UpdateIO();
-
 // Update HMI data
 UpdateHMI();
+
+// Update Ship simulation
+ship();
 
 // State machine
 mode := MODE_SIMULATOR;
@@ -63,12 +62,12 @@ CASE mode OF
 		//
 		txUdpData.CMND := cmnd;
 		
-		txUdpData.X_EXTRA := LREAL_TO_REAL(ship.surge);
-		txUdpData.Y_EXTRA := LREAL_TO_REAL(ship.sway);
-		txUdpData.Z_EXTRA := LREAL_TO_REAL(ship.heave);
-		txUdpData.PHI_EXTRA := LREAL_TO_REAL(ship.phi);
-		txUdpData.THETA_EXTRA := LREAL_TO_REAL(ship.theta);
-		txUdpData.PSI_EXTRA := LREAL_TO_REAL(ship.psi);
+		txUdpData.X_EXTRA := ship.surge;
+		txUdpData.Y_EXTRA := ship.sway;
+		txUdpData.Z_EXTRA := ship.heave;
+		txUdpData.PHI_EXTRA := ship.phi;
+		txUdpData.THETA_EXTRA := ship.theta;
+		txUdpData.PSI_EXTRA := ship.psi;
 		
 	MODE_REMOTE:
 		//
@@ -120,6 +119,8 @@ remoteUdpPort := _remoteUdpPort;
 localUdpPort := _localUdpPort;
 seed := _seed;
 pTxHmiData :=_pTxHmiData;
+
+ship.FB_init(bInitRetains, bInCopyCode, seed);
 
 IF NOT bInCopyCode THEN // no online change
 	IF ipUdp = 0 THEN
@@ -251,6 +252,13 @@ txHmiData.L4 := rxUdpData.Actual_position_actuator_4;
 txHmiData.L5 := rxUdpData.Actual_position_actuator_5;
 txHmiData.L6 := rxUdpData.Actual_position_actuator_6;
 
+txHMiData.surge_sim := ship.surge;
+txHMiData.sway_sim := ship.sway;
+txHMiData.heave_sim := ship.heave;
+txHMiData.phi_sim := ship.phi;
+txHMiData.theta_sim := ship.theta;
+txHMiData.psi_sim := ship.psi;
+
 // Copy data to global HMI struct
 MEMCPY(pTxHmidata, ADR(txHmiData), SIZEOF(TxHmiData));
 
@@ -274,17 +282,26 @@ feedback.phi 			:= rxUdpData.Actual_platform_position_yaw;
 feedback.surge_t		:= rxUdpData.Actual_platform_velocity_surge;
 feedback.sway_t			:= rxUdpData.Actual_platform_velocity_sway;
 feedback.heave_t		:= rxUdpData.Actual_platform_velocity_heave;
-feedback.wx				:= rxUdpData.Actual_platform_velocity_roll;
-feedback.wy				:= rxUdpData.Actual_platform_velocity_pitch;
-feedback.wz				:= rxUdpData.Actual_platform_velocity_yaw;
+feedback.phi_t			:= rxUdpData.Actual_platform_velocity_roll;
+feedback.theta_t		:= rxUdpData.Actual_platform_velocity_pitch;
+feedback.psi_t			:= rxUdpData.Actual_platform_velocity_yaw;
 
 feedback.surge_tt		:= rxUdpData.Actual_platform_acceleration_surge;
 feedback.sway_tt		:= rxUdpData.Actual_platform_acceleration_sway;
 feedback.heave_tt		:= rxUdpData.Actual_platform_acceleration_heave;
-feedback.wx_t			:= rxUdpData.Actual_platform_acceleration_roll;
-feedback.wy_t			:= rxUdpData.Actual_platform_acceleration_pitch;
-feedback.wz_t			:= rxUdpData.Actual_platform_acceleration_yaw;
+feedback.phi_tt			:= rxUdpData.Actual_platform_acceleration_roll;
+feedback.theta_tt		:= rxUdpData.Actual_platform_acceleration_pitch;
+feedback.psi_tt			:= rxUdpData.Actual_platform_acceleration_yaw;
 ]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="UpdateREMOTE" Id="{2940a620-a8dd-4496-9e0d-bfe0a0be433f}">
+      <Declaration><![CDATA[METHOD PRIVATE UpdateREMOTE : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
       </Implementation>
     </Method>
     <Method Name="UpdateUDP" Id="{f77c1d15-1115-4786-8b89-7467216fa00a}">
@@ -304,7 +321,8 @@ IF ipUdp <> 0 THEN
 END_IF
 
 // Update counter
-txUdpData.COUNT 		:= txUdpData.COUNT + 1;
+txUdpData.COUNT := txUdpData.COUNT + 1;
+
 
 ]]></ST>
       </Implementation>
@@ -375,14 +393,12 @@ zyx2xyz[2] := ATAN((-t7 * t4 + t6)/( t2 * t8));]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="StewartInterface">
-      <LineId Id="478" Count="0" />
-      <LineId Id="480" Count="0" />
-      <LineId Id="479" Count="0" />
+      <LineId Id="552" Count="0" />
+      <LineId Id="548" Count="0" />
       <LineId Id="413" Count="0" />
       <LineId Id="337" Count="0" />
-      <LineId Id="116" Count="0" />
-      <LineId Id="335" Count="1" />
       <LineId Id="375" Count="2" />
+      <LineId Id="553" Count="2" />
       <LineId Id="481" Count="0" />
       <LineId Id="498" Count="0" />
       <LineId Id="496" Count="0" />
@@ -405,6 +421,7 @@ zyx2xyz[2] := ATAN((-t7 * t4 + t6)/( t2 * t8));]]></ST>
       <LineId Id="33" Count="1" />
       <LineId Id="66" Count="0" />
       <LineId Id="50" Count="0" />
+      <LineId Id="82" Count="1" />
       <LineId Id="16" Count="12" />
       <LineId Id="7" Count="0" />
     </LineIds>
@@ -433,7 +450,9 @@ zyx2xyz[2] := ATAN((-t7 * t4 + t6)/( t2 * t8));]]></ST>
       <LineId Id="11" Count="2" />
       <LineId Id="15" Count="4" />
       <LineId Id="25" Count="9" />
-      <LineId Id="36" Count="4" />
+      <LineId Id="36" Count="1" />
+      <LineId Id="44" Count="6" />
+      <LineId Id="38" Count="2" />
       <LineId Id="35" Count="0" />
       <LineId Id="20" Count="0" />
       <LineId Id="5" Count="0" />
@@ -442,9 +461,14 @@ zyx2xyz[2] := ATAN((-t7 * t4 + t6)/( t2 * t8));]]></ST>
       <LineId Id="6" Count="20" />
       <LineId Id="5" Count="0" />
     </LineIds>
+    <LineIds Name="StewartInterface.UpdateREMOTE">
+      <LineId Id="5" Count="0" />
+    </LineIds>
     <LineIds Name="StewartInterface.UpdateUDP">
       <LineId Id="6" Count="7" />
-      <LineId Id="16" Count="2" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="22" Count="1" />
+      <LineId Id="17" Count="0" />
       <LineId Id="14" Count="1" />
       <LineId Id="5" Count="0" />
     </LineIds>

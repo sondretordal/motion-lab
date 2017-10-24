@@ -15,9 +15,8 @@ void RemoteInterface::log() {
     log_mode = 1;
 }
 
-void RemoteInterface::async_log(unsigned int cycletime) {
+void RemoteInterface::async_log() {
     log_mode = 2;
-    cycletime = cycletime;
 }
 
 void RemoteInterface::clear_log() {
@@ -63,16 +62,10 @@ void RemoteInterface::run() {
         server.check_received();
         mutex.unlock();
 
-        // Increment cycletime counter
-        counter++;
-
-        if ((log_mode == 2) && (counter >= cycletime)) {
+        if ((log_mode == 2)) {
             // Append new data to JSON log
             logger.feedback.push_back(rx_data);
             logger.control.push_back(tx_data);
-
-            // Reset counter
-            counter = 0;
         }
             
     }

@@ -22,6 +22,12 @@ STRUCT
 	L4 : REAL;
 	L5 : REAL;
 	L6 : REAL;
+	surge_sim : REAL;
+	sway_sim : REAL;
+	heave_sim : REAL;
+	phi_sim : REAL;
+	theta_sim : REAL;
+	psi_sim	: REAL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

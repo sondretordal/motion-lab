@@ -20,7 +20,13 @@ class TxHmiStewart(Structure):
         ('L3', c_float),
         ('L4', c_float),
         ('L5', c_float),
-        ('L6', c_float)
+        ('L6', c_float),
+        ('surge_sim', c_float),
+        ('sway_sim', c_float),
+        ('heave_sim', c_float),
+        ('phi_sim', c_float),
+        ('theta_sim', c_float),
+        ('psi_sim', c_float)
     ]
 
 class TxHmiComau(Structure):

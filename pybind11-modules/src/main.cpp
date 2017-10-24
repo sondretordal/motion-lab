@@ -26,15 +26,15 @@ PYBIND11_PLUGIN(motionlab) {
 		.def_readonly("surge_t", &RemoteFeedbackStewart::surge_t)
 		.def_readonly("sway_t", &RemoteFeedbackStewart::sway_t)
 		.def_readonly("heave_t", &RemoteFeedbackStewart::heave_t)
-		.def_readonly("wx", &RemoteFeedbackStewart::wx)
-		.def_readonly("wy", &RemoteFeedbackStewart::wy)
-		.def_readonly("wz", &RemoteFeedbackStewart::wz)
+		.def_readonly("phi_t", &RemoteFeedbackStewart::phi_t)
+		.def_readonly("theta_t", &RemoteFeedbackStewart::theta_t)
+		.def_readonly("psi_t", &RemoteFeedbackStewart::psi_t)
 		.def_readonly("surge_tt", &RemoteFeedbackStewart::surge_tt)
 		.def_readonly("sway_tt", &RemoteFeedbackStewart::sway_tt)
 		.def_readonly("heave_tt", &RemoteFeedbackStewart::heave_tt)
-		.def_readonly("wx_t", &RemoteFeedbackStewart::wx_t)
-		.def_readonly("wy_t", &RemoteFeedbackStewart::wy_t)
-		.def_readonly("wz_t", &RemoteFeedbackStewart::wz_t);
+		.def_readonly("phi_tt", &RemoteFeedbackStewart::phi_tt)
+		.def_readonly("theta_tt", &RemoteFeedbackStewart::theta_tt)
+		.def_readonly("psi_tt", &RemoteFeedbackStewart::psi_tt);
 
 	py::class_<RemoteFeedbackComau>(m, "RemoteFeedbackComau")
 		.def(py::init<>())
@@ -73,9 +73,9 @@ PYBIND11_PLUGIN(motionlab) {
 		.def_readonly("heave_t",&RemoteFeedbackMru::heave_t)
 		.def_readonly("heave_tt",&RemoteFeedbackMru::heave_tt)
 		.def_readonly("turn_rate",&RemoteFeedbackMru::turn_rate)
-		.def_readonly("roll",&RemoteFeedbackMru::roll)
-		.def_readonly("pitch",&RemoteFeedbackMru::pitch)
-		.def_readonly("yaw",&RemoteFeedbackMru::yaw)
+		.def_readonly("phi",&RemoteFeedbackMru::phi)
+		.def_readonly("theta",&RemoteFeedbackMru::theta)
+		.def_readonly("psi",&RemoteFeedbackMru::psi)
 		.def_readonly("wx",&RemoteFeedbackMru::wx)
 		.def_readonly("wy",&RemoteFeedbackMru::wy)
 		.def_readonly("wz",&RemoteFeedbackMru::wz)
@@ -134,13 +134,11 @@ PYBIND11_PLUGIN(motionlab) {
 		.def("close", &RemoteInterface::close)
 		.def("update", &RemoteInterface::update)
 		.def("log", &RemoteInterface::log, "Start synchronous logging")
-		.def("async_log", &RemoteInterface::async_log, "Start asynchronous logging", py::arg("cycletime"))
+		.def("async_log", &RemoteInterface::async_log, "Start asynchronous logging")
 		.def("clear_log", &RemoteInterface::clear_log)
 		.def("save_log", &RemoteInterface::save_log)
 		.def_readonly("feedback", &RemoteInterface::feedback)
 		.def_readwrite("control", &RemoteInterface::control);
-
-	
 
 	// Return module
 	return m.ptr();

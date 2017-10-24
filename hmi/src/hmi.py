@@ -7,7 +7,6 @@ import pyads
 import numpy as np
 from scipy.optimize import curve_fit
 
-
 from src.classes import RealTimePlot, RealTimeBar
 from src.datastructures import TxHmi
 from src.gui import Ui_main
@@ -374,45 +373,40 @@ class GUI(QMainWindow, Ui_main):
         # self.EM1500_wave_period.returnPressed.connect(self.EM1500_wave)
         # self.EM1500_wave_spectra.currentIndexChanged.connect(self.EM1500_wave)
 
-        # Logging Tab:
-        #----------------------------------------------------------#
-        self.start_log_btn.clicked.connect(lambda: self.udp.start_log(self.log_ms_rate.currentText()))
-        self.clear_log_btn.clicked.connect(lambda: self.udp.clear_log())
-        self.save_log_btn.clicked.connect(lambda: self.udp.save_log(self.log_path.toPlainText()))
-
     # Update data and plot
     def update_data(self):
         # Read latest data from ADS into RemoteFeedback ctypes struct
         hmi = self.plc.read_by_name('MAIN.hmi', TxHmi)
 
+
+    
+        self.DP1_1.time_range = self.time_range
+        self.DP1_1.update(hmi.t, [
+                hmi.em1500.surge_sim,
+                hmi.em1500.sway_sim,
+                hmi.em1500.heave_sim
+            ])
         
-        # self.DP1_1.time_range = self.time_range
-        # self.DP1_1.update(hmi.t, [
-        #         hmi.ship1.surge,
-        #         hmi.ship1.sway,
-        #         hmi.ship1.heave
-        #     ])
-        
-        # self.DP1_2.time_range = self.time_range
-        # self.DP1_2.update(hmi.t, [
-        #         hmi.ship1.roll/np.pi*180.0,
-        #         hmi.ship1.pitch/np.pi*180.0,
-        #         hmi.ship1.yaw/np.pi*180.0
-        #     ])
+        self.DP1_2.time_range = self.time_range
+        self.DP1_2.update(hmi.t, [
+                hmi.em1500.phi_sim/np.pi*180.0,
+                hmi.em1500.theta_sim/np.pi*180.0,
+                hmi.em1500.psi_sim/np.pi*180.0
+            ])
  
-        # self.DP2_1.time_range = self.time_range
-        # self.DP2_1.update(hmi.t, [
-        #         hmi.ship2.surge,
-        #         hmi.ship2.sway,
-        #         hmi.ship2.heave
-        #     ])
+        self.DP2_1.time_range = self.time_range
+        self.DP2_1.update(hmi.t, [
+                hmi.em8000.surge_sim,
+                hmi.em8000.sway_sim,
+                hmi.em8000.heave_sim
+            ])
         
-        # self.DP2_2.time_range = self.time_range
-        # self.DP2_2.update(hmi.t, [
-        #         hmi.ship2.roll/np.pi*180.0,
-        #         hmi.ship2.pitch/np.pi*180.0,
-        #         hmi.ship2.yaw/np.pi*180.0
-        #     ])
+        self.DP2_2.time_range = self.time_range
+        self.DP2_2.update(hmi.t, [
+                hmi.em8000.phi_sim/np.pi*180.0,
+                hmi.em8000.theta_sim/np.pi*180.0,
+                hmi.em8000.psi_sim/np.pi*180.0
+            ])
 
         self.EM1500_1.time_range = self.time_range
         self.EM1500_1.update(hmi.t, [
@@ -540,9 +534,6 @@ class GUI(QMainWindow, Ui_main):
                 msg.setWindowTitle("Access Denied")
                 msg.exec_()
                 return False
-    # Log functions
-    def start_log(self):
-        udp.start_log()
 
     # EM 8000 button functions
     def EM8000_settled(self):

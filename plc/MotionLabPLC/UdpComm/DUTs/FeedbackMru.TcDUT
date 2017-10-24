@@ -7,9 +7,9 @@ STRUCT
 	heave_t : REAL;
 	heave_tt : REAL;
 	turn_rate : REAL;
-	roll : REAL;
-	pitch : REAL;
-	yaw : REAL;
+	phi : REAL;
+	theta : REAL;
+	psi : REAL;
 	wx : REAL;
 	wy : REAL;
 	wz : REAL;
