@@ -21,7 +21,6 @@ VAR_INPUT
 	theta_max : LREAL := 5.0/180.0*pi;
 	psi_max : LREAL := 5.0/180.0*pi;
 	
-	
 END_VAR
 VAR_OUTPUT
 	t : LREAL := 0.0;
