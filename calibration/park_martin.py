@@ -1,5 +1,7 @@
 import numpy as np
 
+# http://folk.ntnu.no/torstem/snippets/robcam_calibration.html#park_martinpy
+
 def log(R):
     # Rotation matrix logarithm
     theta = np.arccos((R[0,0] + R[1,1] + R[2,2] - 1.0)/2.0)
