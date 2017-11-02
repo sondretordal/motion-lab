@@ -67,7 +67,26 @@ calib_data['EM8000_TO_COMAU']['t'] = [
 ################################################################
 
 # EM8000 to MRU1
+with open('./data/mru_calib_em8000.json') as fin:
+    data = json.load(fin)
+
 calib_data['EM8000_TO_MRU1'] = {}
+x0 = [-0.5, 0.5, -0.5, 0, 0, 0]
+R, t = mru_calib.optimize_mru_pose(
+        x0, 
+        0.1, 
+        data['feedback']['t'], 
+        data['feedback']['em8000'],
+        data['feedback']['mru1'],
+        plot=True
+    )
+
+print(R)
+print(t)
+
+calib_data['EM8000_TO_MRU1'] = {}
+calib_data['EM8000_TO_MRU1']['R'] = R.flatten().tolist()
+calib_data['EM8000_TO_MRU1']['t'] = t.tolist()
 
 # EM1500 to MRU2
 with open('./data/mru_calib_em1500.json') as fin:
