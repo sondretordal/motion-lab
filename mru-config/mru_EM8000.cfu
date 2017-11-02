@@ -4,10 +4,10 @@ T051008         # FILE MAGIC NUMBER
 VERSION     2   # version of configuration file.
 
     # This file was written from MRC at:
-DATE        1502469123 = Fri Aug 11 16:32:02 2017
+DATE        1509625917 = Thu Nov 02 12:31:57 2017
 
     # MRC version was:
-MRCVER      MRC+ 5.05.00 17-08-11
+MRCVER      MRC+ 5.05.00 17-11-02
 
     # 80 characters user's annotation, readable from MRU
     #       |--------------------------------------------------------------------------------|
@@ -27,7 +27,7 @@ R_MP2       0.000 0.000 0.000   # MP2
 ALERT_MODE	0
 
     # Mounting angles [radians]
-MOUNT_ANG   3.141593 0.000000 -1.570796
+MOUNT_ANG   0.000000 0.000000 0.000000
 
     # MRU location [meters]
 MRU_LOC     0.000 0.000 0.000
