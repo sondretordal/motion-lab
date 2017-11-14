@@ -1,9 +1,15 @@
 import numpy as np
 import json
+import importlib
 
 # Calibration functions
-import park_martin
 import mru_calib
+import park_martin
+import kinematics as kin
+
+importlib.reload(park_martin)
+
+np.set_printoptions(precision=4, suppress=True)
 
 # Empty dictionary
 calib_data = {}
@@ -66,49 +72,104 @@ calib_data['EM8000_TO_COMAU']['t'] = [
     ]
 ################################################################
 
-# EM8000 to MRU1
-with open('./data/mru_calib_em8000.json') as fin:
-    data = json.load(fin)
+# # EM8000 to MRU1
+# with open('./data/mru_calib_em8000.json') as fin:
+#     data = json.load(fin)
 
-calib_data['EM8000_TO_MRU1'] = {}
-x0 = [-0.5, 0.5, -0.5, 0, 0, 0]
-R, t = mru_calib.optimize_mru_pose(
-        x0, 
-        0.1, 
-        data['feedback']['t'], 
-        data['feedback']['em8000'],
-        data['feedback']['mru1'],
-        plot=True
-    )
+# calib_data['EM8000_TO_MRU1'] = {}
+# x0 = [-0.5, 0.5, -0.5, 0, 0, 0]
+# R, t = mru_calib.optimize_mru_pose(
+#         x0, 
+#         0.1, 
+#         data['feedback']['t'], 
+#         data['feedback']['em8000'],
+#         data['feedback']['mru1'],
+#         plot=True
+#     )
 
-print(R)
-print(t)
+# print(R)
+# print(t)
 
-calib_data['EM8000_TO_MRU1'] = {}
-calib_data['EM8000_TO_MRU1']['R'] = R.flatten().tolist()
-calib_data['EM8000_TO_MRU1']['t'] = t.tolist()
+# calib_data['EM8000_TO_MRU1'] = {}
+# calib_data['EM8000_TO_MRU1']['R'] = R.flatten().tolist()
+# calib_data['EM8000_TO_MRU1']['t'] = t.tolist()
 
-# EM1500 to MRU2
-with open('./data/mru_calib_em1500.json') as fin:
-    data = json.load(fin)
+# # EM1500 to MRU2
+# with open('./data/mru_calib_em1500.json') as fin:
+#     data = json.load(fin)
 
-x0 = [0.5, 0, -0.2, 0, 0, 0]
-R, t = mru_calib.optimize_mru_pose(
-        x0, 
-        0.1, 
-        data['feedback']['t'], 
-        data['feedback']['em1500'],
-        data['feedback']['mru2'],
-        plot=True
-    )
+# x0 = [0.5, 0, -0.2, 0, 0, 0]
+# R, t = mru_calib.optimize_mru_pose(
+#         x0, 
+#         0.1, 
+#         data['feedback']['t'], 
+#         data['feedback']['em1500'],
+#         data['feedback']['mru2'],
+#         plot=True
+#     )
 
-calib_data['EM1500_TO_MRU2'] = {}
-calib_data['EM1500_TO_MRU2']['R'] = R.flatten().tolist()
-calib_data['EM1500_TO_MRU2']['t'] = t.tolist()
+# calib_data['EM1500_TO_MRU2'] = {}
+# calib_data['EM1500_TO_MRU2']['R'] = R.flatten().tolist()
+# calib_data['EM1500_TO_MRU2']['t'] = t.tolist()
 
 
 # Varying paramaters depending on calibration calib_data
 # EM1500 to PROBE
+with open('./data/at960_calib_em8000.json') as fin:
+    data = json.load(fin)
+
+# Build H_at960 and H_em8000
+H_at960 = []
+H_em8000 = []
+for i in range(0, len(data['feedback']['t'])):
+    H =  np.eye(4)
+
+    # Leica data
+    H[0:3,0:3] = kin.Rq([
+            data['feedback']['at960']['q0'][i],
+            data['feedback']['at960']['q1'][i],
+            data['feedback']['at960']['q2'][i],
+            data['feedback']['at960']['q3'][i]
+        ])
+
+    H[0:3,3] = np.array([
+            data['feedback']['at960']['x'][i],
+            data['feedback']['at960']['y'][i],
+            data['feedback']['at960']['z'][i]
+        ])
+
+    print(H)
+    H_at960.append(H.copy())
+    
+    # EM8000 data
+    H[0:3,0:3] = kin.Rxyz([
+            data['feedback']['em8000']['phi'][i],
+            data['feedback']['em8000']['theta'][i],
+            data['feedback']['em8000']['psi'][i]
+        ])
+
+    H[0:3,0:3] = np.reshape(calib_data['WORLD_TO_EM8000']['R'], [3,3]).dot(H[0:3,0:3])
+
+    H[0:3,3] = np.array([
+            data['feedback']['em8000']['surge'][i],
+            data['feedback']['em8000']['sway'][i],
+            data['feedback']['em8000']['heave'][i]
+        ])
+
+    H[0:3,3] = calib_data['WORLD_TO_EM8000']['t'] + H[0:3,3]
+
+    H_em8000.append(H.copy())
+
+
+# Build A and B matrices
+A = []
+B = []
+for i in range(1, len(H_at960)):
+    A.append(np.linalg.inv(H_em8000[i-1]).dot(H_em8000[i]))
+    B.append(H_at960[i-1].dot(np.linalg.inv(H_at960[i])))
+
+R, t = park_martin.calibrate(A, B)
+
 calib_data['EM1500_TO_PROBE'] = {}
 
 # EM1500 to ARUCO

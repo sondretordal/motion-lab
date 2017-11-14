@@ -14,6 +14,7 @@ def invsqrt(mat):
 def calibrate(A, B):
     #transform pairs A_i, B_i
     N = len(A)
+
     M = np.zeros([3,3])
     for i in range(N):
         Ra, Rb = A[i][0:3, 0:3], B[i][0:3, 0:3]
