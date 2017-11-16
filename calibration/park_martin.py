@@ -12,23 +12,34 @@ def invsqrt(mat):
     return u.dot(np.diag(1.0/np.sqrt(s))).dot(v)
 
 def calibrate(A, B):
-    #transform pairs A_i, B_i
+    # Transform pairs A_i, B_i
     N = len(A)
 
     M = np.zeros([3,3])
     for i in range(N):
-        Ra, Rb = A[i][0:3, 0:3], B[i][0:3, 0:3]
+        Ra = A[i][0:3, 0:3]
+        Rb = B[i][0:3, 0:3]
+
         M += np.outer(log(Rb), log(Ra))
 
+    # Resulting rotation matrix
     Rx = np.dot(invsqrt(np.dot(M.T, M)), M.T)
 
     C = np.zeros([3*N, 3])
     d = np.zeros([3*N, 1])
     for i in range(N):
-        Ra,ta = A[i][0:3, 0:3], A[i][0:3, 3]
-        Rb,tb = B[i][0:3, 0:3], B[i][0:3, 3]
-        C[3*i:3*i+3, :] = np.eye(3) - Ra
-        d[3*i:3*i+3, 0] = ta - np.dot(Rx, tb)
+        Ra = A[i][0:3, 0:3]
+        ta = A[i][0:3, 3]
 
+        Rb = B[i][0:3, 0:3]
+        tb = B[i][0:3, 3]
+        
+        C[3*i:3*i+3, :] = np.eye(3) - Ra
+        d[3*i:3*i+3, 0] = ta - Rx.dot(tb)
+        
+    # Check matrix inversion condition. CLose to 1 is good!
+    print("Matrix inversion condition: ", np.linalg.cond(np.dot(C.T, C)))
+    
+    # Solve LS problem
     tx = np.dot(np.linalg.inv(np.dot(C.T, C)), np.dot(C.T, d))
     return Rx, tx.flatten()
