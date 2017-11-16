@@ -7,7 +7,7 @@ import pyads
 import numpy as np
 from scipy.optimize import curve_fit
 
-from src.classes import RealTimePlot, RealTimeBar
+from src.classes import RealTimePlot, RealTimeBar, WaveSpectrum
 from src.datastructures import TxHmi
 from src.gui import Ui_main
 
@@ -54,122 +54,42 @@ class GUI(QMainWindow, Ui_main):
         self.C = np.matrix(np.zeros([1,2]))
 
         # Default function values
-        self.Hs = 8.0
-        self.T1 = 12.0
-        self.spec = "JONSWAP"
+        self.waveSpectrumDP1 = WaveSpectrum()
+        self.waveSpectrumDP2 = WaveSpectrum()
 
-        w, s, slin, w0, sigma, Lambda = self.wavespectrum(self.Hs, self.T1, self.spec)
-        self.DP1_spectrum.static_plot(w, [s, slin])
-        
         # Show UI
         self.show()
 
-    # EM1800 Wave Settings
+    # EM8000 Wave Settings
     def EM8000_wave(self):
+            Hs = self.waveSpectrumDP1.Hs
+            T1 = self.waveSpectrumDP1.T1
+            spec = self.waveSpectrumDP1.spec
 
-            if self.sender().objectName() == "EM8000_wave_spectra":
-                self.spec = str(self.sender().currentText())
+            objectName = self.sender().objectName()
+            
+            if objectName == "EM8000_wave_spectra":
+                spec = str(self.sender().currentText())
 
-                if self.spec == "PMS":
-                    self.DP1_spectrum.plot.setYRange(0, 25)
+            elif objectName == "EM8000_wave_height":
+                Hs = int(self.sender().text())
 
-                elif self.spec == "JONSWAP":
-                    self.DP1_spectrum.plot.setYRange(0, 45)
+            elif objectName == "EM8000_wave_period":
+                T1 = int(self.sender().text())
 
-                else:
-                    print("ERROR")
+            # Update wave spectrum and plot
+            self.waveSpectrumDP1.calculate(Hs, T1, spec)
 
-            elif self.sender().objectName() == "EM8000_wave_height":
-                self.Hs = int(self.sender().text())
-
-            elif self.sender().objectName() == "EM8000_wave_period":
-                self.T1 = int(self.sender().text())
-
-            else:
-                print("ERROR")
-
-            w, s, slin, w0, sigma, Lambda = self.wavespectrum(self.Hs, self.T1, self.spec)
-            self.DP1_spectrum.static_plot(w, [s, slin])
+            self.DP1_spectrum.plot.setYRange(0, max(self.waveSpectrumDP1.S) + 5)
+            self.DP1_spectrum.static_plot(
+                    self.waveSpectrumDP1.w,
+                    [self.waveSpectrumDP1.S, self.waveSpectrumDP1.Slin]
+                )
             
             # Write to PLC
             # self.plc.write_by_name('SIMULATOR.ship1.w0', w0, pyads.PLCTYPE_LREAL)
             # self.plc.write_by_name('SIMULATOR.ship1.sigma', sigma, pyads.PLCTYPE_LREAL)
             # self.plc.write_by_name('SIMULATOR.ship1.lambda', Lambda, pyads.PLCTYPE_LREAL)
-
-    def wavespectrum(self, Hs=8.0, T1=12.0, spec='JONSWAP'):
-        # Inital frequency range
-        N = 100
-        w_min = 0.01
-        w_max = np.pi/2
-        
-        w = np.linspace(w_min, w_max, N)
-        S = np.zeros(N)            
-        # Calculate wavespectrum
-        if spec == 'PMS':
-            for k in range(0, N):
-                # From average wave period to zero crossing period
-                Tz = 0.921*T1
-                
-                # PM constants
-                A = 4*np.pi**3*Hs**2/(Tz**4)
-                B = 16*np.pi**3/(Tz**4)
-                
-                # Calculate wave spectrum 
-                S[k] = A/(w[k]**5)*np.exp(-B/(w[k]**4))
-                
-        elif spec == 'JONSWAP':
-            for k in range(0, N):
-                if w[k] <= 5.24/T1:
-                    sigma = 0.07
-                else:
-                    sigma = 0.09
-                    
-                Y = np.exp(-((0.191*w[k]*T1-1)/(np.sqrt(2)*sigma))**2)
-                
-                # Calculate wave spectrum
-                S[k] = 155*Hs**2/(T1**4*w[k]**5)*np.exp(-944/(T1**4*w[k]**4))*3.3**Y
-        
-        # Update frequency range
-        w0 = w[np.argmax(S)]
-
-            
-        # Approximate linear wave spectrum
-        def linear_spectrum(w, p, w0, sigma):
-            S = np.zeros(len(w))
-            for k in range(0, len(w)):
-                S[k] = 4*(p*w0*sigma*w[k])**2/((w0**2-w[k]**2)**2+4*(p*w0*w[k])**2)
-                
-            return S
-        
-        sigma = np.sqrt(max(S))
-        
-        # Find linearized curve parameters
-        func = lambda w, p: linear_spectrum(w, p, w0, sigma)
-        popt, pcov = curve_fit(func, w, S)
-        
-        # Ensure popt is positive
-        Lambda = abs(popt[0])
-        
-        # Calculate linear approximated spectrum
-        Slin = linear_spectrum(w, Lambda, w0, sigma)
-        
-        # Save linearized wave spectrum parameters
-        self.w0 = w0
-        self.sigma = sigma
-        self.Lambda = Lambda
-        
-        # Fill SS model representing linear wave spectrum
-        self.A[0,1] = 1.0
-        self.A[1,0] = -w0**2
-        self.A[1,1] = -2*abs(Lambda*w0)
-        
-        Kw = 2*abs(Lambda*w0*sigma)
-        self.B[1,0] = Kw
-
-        self.C[0,1] = 1.0
-        
-        # Added by Jan
-        return w, S, Slin, w0, sigma, Lambda
 
     # Plot setup
     def plot_setup(self):
@@ -358,11 +278,13 @@ class GUI(QMainWindow, Ui_main):
         self.EM1500_plot_time_range_ship.currentIndexChanged.connect(self.plot_time_axis_range)
         self.EM8000_plot_time_range_ship.currentIndexChanged.connect(self.plot_time_axis_range)
 
+        # Limit values for input
         self.validator_height = QIntValidator(1, 10)
         self.validator_period = QIntValidator(1, 15)
 
         self.EM8000_wave_height.setValidator(self.validator_height)
         self.EM8000_wave_period.setValidator(self.validator_period)
+
         self.EM8000_wave_height.returnPressed.connect(self.EM8000_wave)
         self.EM8000_wave_period.returnPressed.connect(self.EM8000_wave)
         self.EM8000_wave_spectra.currentIndexChanged.connect(self.EM8000_wave)
@@ -377,8 +299,6 @@ class GUI(QMainWindow, Ui_main):
     def update_data(self):
         # Read latest data from ADS into RemoteFeedback ctypes struct
         hmi = self.plc.read_by_name('MAIN.hmi', TxHmi)
-
-
     
         self.DP1_1.time_range = self.time_range
         self.DP1_1.update(hmi.t, [
