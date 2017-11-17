@@ -84,7 +84,7 @@ R, t = mru_calib.optimize_mru_pose(
         data['feedback']['t'], 
         data['feedback']['em8000'],
         data['feedback']['mru1'],
-        plot=False
+        plot=True
     )
 
 print(R)
@@ -105,7 +105,7 @@ R, t = mru_calib.optimize_mru_pose(
         data['feedback']['t'], 
         data['feedback']['em1500'],
         data['feedback']['mru2'],
-        plot=False
+        plot=True
     )
 
 calib_data['EM1500_TO_MRU2'] = {}
