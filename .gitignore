@@ -18,6 +18,7 @@ _templates/
 *.v12.suo
 *.tmc
 *.tpy
+*.project.~u
 
 _Boot/
 _Config/
