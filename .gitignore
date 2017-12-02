@@ -11,20 +11,6 @@ _build/
 _static/
 _templates/
 
-# TwinCAT ignores
-*.bak
-*.tclrs
-*.sln.~u
-*.v12.suo
-*.tmc
-*.tpy
-*.project.~u
-
-_Boot/
-_Config/
-_Compileinfo/
-_Libraries/
-
 __pycache__/
 *.pyd
 
