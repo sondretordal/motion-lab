@@ -6,13 +6,14 @@
 // Classes
 #include "UdpServer.h"
 #include "RemoteInterface.h"
+#include "XboxController.h"
 
 
 namespace py = pybind11;
 
 PYBIND11_PLUGIN(motionlab) {
 	// Module
-	py::module m("motionlab", "Interface for operating and using the Motion Laboratory through Python");
+	py::module m("motionlab", "Motion Laboratory module made for Python");
 
 	// Feedback structs
 	py::class_<RemoteFeedbackStewart>(m, "RemoteFeedbackStewart")
@@ -139,6 +140,21 @@ PYBIND11_PLUGIN(motionlab) {
 		.def("save_log", &RemoteInterface::save_log)
 		.def_readonly("feedback", &RemoteInterface::feedback)
 		.def_readwrite("control", &RemoteInterface::control);
+
+	// Xbox controller interface
+	py::class_<XboxController>(m, "XboxController")
+		.def(py::init<>())
+		.def_readonly("leftStickX", &XboxController::leftStickX)
+		.def_readonly("leftStickY", &XboxController::leftStickY)
+		.def_readonly("rightStickX", &XboxController::rightStickX)
+		.def_readonly("rightStickY", &XboxController::rightStickY)
+		.def_readonly("leftTrigger", &XboxController::leftTrigger)
+		.def_readonly("rightTrigger", &XboxController::rightTrigger)
+		.def("start", &XboxController::Start)
+		.def("close", &XboxController::Close)
+		.def("check_connection", &XboxController::CheckConnection, "Check if controller is connected")
+		.def("update", &XboxController::Update, "Update joystick values");
+		
 
 	// Return module
 	return m.ptr();

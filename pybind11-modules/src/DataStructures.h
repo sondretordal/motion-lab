@@ -114,3 +114,15 @@ struct RemoteFeedback {
 	RemoteFeedbackMru mru1;
 	RemoteFeedbackMru mru2;
 };
+
+struct XboxData {
+	float leftStickX;
+    float leftStickY;
+    float rightStickX;
+    float rightStickY;
+    float leftTrigger;
+    float rightTrigger;
+
+    bool buttonA = false;
+    bool buttonB = false;
+};
