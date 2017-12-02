@@ -142,18 +142,39 @@ PYBIND11_PLUGIN(motionlab) {
 		.def_readwrite("control", &RemoteInterface::control);
 
 	// Xbox controller interface
+	py::class_<Stick>(m, "Stick")
+		.def(py::init<>())
+		.def_readonly("x", &Stick::x)
+		.def_readonly("y", &Stick::y)
+		.def_readonly("clicked", &Stick::clicked);
+
+	py::class_<Joypad>(m, "Pad")
+		.def(py::init<>())
+		.def_readonly("up", &Joypad::up)
+		.def_readonly("down", &Joypad::down)
+		.def_readonly("left", &Joypad::left)
+		.def_readonly("right", &Joypad::right);
+
 	py::class_<XboxController>(m, "XboxController")
 		.def(py::init<>())
-		.def_readonly("leftStickX", &XboxController::leftStickX)
-		.def_readonly("leftStickY", &XboxController::leftStickY)
-		.def_readonly("rightStickX", &XboxController::rightStickX)
-		.def_readonly("rightStickY", &XboxController::rightStickY)
-		.def_readonly("leftTrigger", &XboxController::leftTrigger)
-		.def_readonly("rightTrigger", &XboxController::rightTrigger)
-		.def("start", &XboxController::Start)
-		.def("close", &XboxController::Close)
-		.def("check_connection", &XboxController::CheckConnection, "Check if controller is connected")
-		.def("update", &XboxController::Update, "Update joystick values");
+		.def_readonly("left", &XboxController::left)
+		.def_readonly("right", &XboxController::right)
+		.def_readonly("joypad", &XboxController::joypad)
+		.def_readonly("LT", &XboxController::LT)
+		.def_readonly("RT", &XboxController::RT)
+		.def_readonly("A", &XboxController::A)
+		.def_readonly("B", &XboxController::B)
+		.def_readonly("X", &XboxController::X)
+		.def_readonly("Y", &XboxController::Y)
+		.def_readonly("LB", &XboxController::LB)
+		.def_readonly("RB", &XboxController::RB)
+		.def_readonly("back", &XboxController::back)
+		.def_readonly("menu", &XboxController::menu)
+		.def("start", &XboxController::start, "Start reading the controller inputs")
+		.def("close", &XboxController::close, "Close the controller connection")
+		.def("vibrate", &XboxController::vibrate, "Set vibration level")
+		.def("battery_level", &XboxController::battery_level, "Print battery status")
+		.def("is_connected", &XboxController::is_connected, "Check if controller is connected");
 		
 
 	// Return module

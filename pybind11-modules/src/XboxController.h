@@ -4,6 +4,7 @@
 
 // We need the Windows Header and the XInput Header
 #include <windows.h>
+#include <iostream>
 #include <cmath>
 #include <chrono>
 #include <thread>
@@ -18,6 +19,20 @@
 #pragma comment(lib, "XInput.lib")
 
 
+struct Stick
+{
+    float x = 0.0f;
+    float y = 0.0f;
+    bool clicked = false;
+};
+
+struct Joypad
+{
+    bool up = false;
+    bool down = false;
+    bool left = false;
+    bool right = false;
+};
 
 // XBOX Controller Class Definition
 class XboxController
@@ -30,40 +45,42 @@ private:
 	std::thread thread;
 	std::mutex mutex;
     bool running = false;
-    void Run();
+    void run();
 
     // Deadzone settings
-    const float deadzoneX;
-    const float deadzoneY;
+    float deadzoneX = 0.1f;
+    float deadzoneY = 0.1f;
  
 public:
-    XboxController() : thread(), deadzoneX(0.02f), deadzoneY(0.02f) {}
-    ~XboxController() {}
+    // Constructor and destructor
+    XboxController();
+    ~XboxController();
     
-    float leftStickX;
-    float leftStickY;
-    float rightStickX;
-    float rightStickY;
-    float leftTrigger;
-    float rightTrigger;
+    // Joystick
+    Stick left, right;
 
-    bool buttonA = false;
-    bool buttonB = false;
+    // Joypad
+    Joypad joypad;
+
+    // Triggers
+    float LT = 0.0f;
+    float RT = 0.0f;
+
+    // Buttons only
+    bool A = false;
+    bool B = false;
+    bool X = false;
+    bool Y = false;
+    bool LB = false;
+    bool RB = false;
+    bool back = false;
+    bool menu = false;
     
-    void Start();
-    void Close();
-
-    XINPUT_GAMEPAD *GetState();
-    int  GetPort();
-    bool CheckConnection();
-    bool Update();
-    bool IsPressed(WORD button);
-
-    bool ButtonA();
-    bool ButtonB();
-    bool ButtonX();
-    bool ButtonY();
-    bool ButtonBack();
-    bool ButtonStart();
-
+    void start();
+    void close();
+    bool update();
+    void vibrate(float left, float right);
+    bool is_connected();
+    void battery_level();
+    
 };
