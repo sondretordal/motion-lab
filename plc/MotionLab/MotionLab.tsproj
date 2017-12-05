@@ -749,6 +749,11 @@
 							<Data>10000101</Data>
 						</InitSymbol>
 						<InitSymbol>
+							<Name>MAIN.COMAU.udpClient.oid</Name>
+							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
+							<Data>50000101</Data>
+						</InitSymbol>
+						<InitSymbol>
 							<Name>MAIN.MRU1.udpServer.oid</Name>
 							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
 							<Data>30000101</Data>
@@ -2459,6 +2464,430 @@
 					</TmcDesc>
 				</Module>
 				<Ethernet DeviceDesc="M2-X601-MRU2 (TwinCAT-Intel PCI Ethernet Adapter (Gigabit) #9)" Ports="1" VLanIds="0a0014001e00280032003c00460050005a00">
+					<Esl SyncSlaveProtocolPort="-1"/>
+				</Ethernet>
+			</Device>
+			<Device DevType="109" DevFlags="#x0004" Id="5">
+				<Name>COMAU (RT-Ethernet Adapter)</Name>
+				<AddressInfo>
+					<Pnp>
+						<DeviceDesc>M1-X600-COMAU (TwinCAT-Intel PCI Ethernet Adapter (</DeviceDesc>
+						<DeviceName>\DEVICE\{ED6D4418-7D88-4650-A24A-1DC751AD91DB}</DeviceName>
+						<DeviceData>000105262986</DeviceData>
+					</Pnp>
+				</AddressInfo>
+				<Module Id="#x01010050" KeepUnrestoredLinks="2">
+					<Name>COMAU (RT-Ethernet Adapter)_Obj1 (TCP/UDP RT)</Name>
+					<ImageId>1000</ImageId>
+					<TmcDesc GUID="{080D0399-6A65-408D-80E1-18D8F699496A}">
+						<Name>TCP/UDP RT</Name>
+						<CLSID ClassFactory="TCIOETH">{03010070-0000-0000-F000-000000000064}</CLSID>
+						<Licenses>
+							<License>
+								<LicenseId>{081AC839-28D0-49CA-9792-72680E1F3249}</LicenseId>
+							</License>
+						</Licenses>
+						<InitSequence>PSO</InitSequence>
+						<Contexts>
+							<Context>
+								<Id>1</Id>
+							</Context>
+						</Contexts>
+						<Interfaces>
+							<Interface>
+								<Type GUID="{00000012-0000-0000-E000-000000000064}">ITComObject</Type>
+							</Interface>
+							<Interface>
+								<Type GUID="{03010035-0000-0000-E000-000000000064}">ITcIoEthProtocol</Type>
+							</Interface>
+							<Interface>
+								<Type GUID="{0301009E-0000-0000-E000-000000000064}">ITcIoArpPing</Type>
+							</Interface>
+							<Interface>
+								<Type GUID="{0301009D-0000-0000-E000-000000000064}">ITcIoIpStackControl</Type>
+							</Interface>
+							<Interface>
+								<Type GUID="{03010097-0000-0000-E000-000000000064}">ITcIoUdpProtocol</Type>
+							</Interface>
+							<Interface>
+								<Type GUID="{03010098-0000-0000-E000-000000000064}">ITcIoTcpProtocol</Type>
+							</Interface>
+						</Interfaces>
+						<Parameters>
+							<Parameter>
+								<Name>TcIoIpSettings</Name>
+								<BitSize>128</BitSize>
+								<SubItem>
+									<Name>IpAddress</Name>
+									<Type GUID="{18071995-0000-0000-0000-00000000003E}">IPADDR</Type>
+									<BitSize>32</BitSize>
+									<BitOffs>0</BitOffs>
+								</SubItem>
+								<SubItem>
+									<Name>SubnetMask</Name>
+									<Type GUID="{18071995-0000-0000-0000-00000000003E}">IPADDR</Type>
+									<BitSize>32</BitSize>
+									<BitOffs>32</BitOffs>
+								</SubItem>
+								<SubItem>
+									<Name>Gateway</Name>
+									<Type GUID="{18071995-0000-0000-0000-00000000003E}">IPADDR</Type>
+									<BitSize>32</BitSize>
+									<BitOffs>64</BitOffs>
+								</SubItem>
+								<SubItem>
+									<Name>DhcpEnable</Name>
+									<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+									<BitSize>8</BitSize>
+									<BitOffs>96</BitOffs>
+								</SubItem>
+								<SubItem>
+									<Name>ManualSettings</Name>
+									<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+									<BitSize>8</BitSize>
+									<BitOffs>104</BitOffs>
+								</SubItem>
+								<PTCID>#x03002050</PTCID>
+							</Parameter>
+							<Parameter>
+								<Name>IpMaxReceivers</Name>
+								<BitSize>32</BitSize>
+								<BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType>
+								<PTCID>#x03011101</PTCID>
+							</Parameter>
+							<Parameter>
+								<Name>IpMaxPendingOnArp</Name>
+								<BitSize>32</BitSize>
+								<BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType>
+								<PTCID>#x03011103</PTCID>
+							</Parameter>
+							<Parameter>
+								<Name>IpMacCacheSize</Name>
+								<BitSize>32</BitSize>
+								<BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType>
+								<PTCID>#x03011104</PTCID>
+							</Parameter>
+							<Parameter>
+								<Name>IpMTU</Name>
+								<BitSize>32</BitSize>
+								<BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType>
+								<PTCID>#x03011105</PTCID>
+							</Parameter>
+							<Parameter>
+								<Name>UdpMaxReceivers</Name>
+								<BitSize>32</BitSize>
+								<BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType>
+								<PTCID>#x03011111</PTCID>
+							</Parameter>
+							<Parameter>
+								<Name>UdpMTU</Name>
+								<BitSize>32</BitSize>
+								<BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType>
+								<PTCID>#x03011112</PTCID>
+							</Parameter>
+							<Parameter>
+								<Name>UdpCheckCrc</Name>
+								<BitSize>8</BitSize>
+								<BaseType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</BaseType>
+								<PTCID>#x03011113</PTCID>
+							</Parameter>
+							<Parameter>
+								<Name>MulticastIpList</Name>
+								<BitSize>0</BitSize>
+								<BaseType GUID="{18071995-0000-0000-0000-00000000003E}">IPADDR</BaseType>
+								<ArrayInfo>
+									<LBound>0</LBound>
+									<Elements Min="0" Max="8">0</Elements>
+								</ArrayInfo>
+								<PTCID>#x0301110d</PTCID>
+							</Parameter>
+							<Parameter>
+								<Name>TcpMTU</Name>
+								<BitSize>32</BitSize>
+								<BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType>
+								<PTCID>#x03011122</PTCID>
+							</Parameter>
+							<Parameter>
+								<Name>TcpCheckCrc</Name>
+								<BitSize>8</BitSize>
+								<BaseType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</BaseType>
+								<PTCID>#x03011123</PTCID>
+							</Parameter>
+							<Parameter>
+								<Name>TcpMaxSocketCount</Name>
+								<BitSize>32</BitSize>
+								<BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType>
+								<PTCID>#x03011124</PTCID>
+							</Parameter>
+							<Parameter>
+								<Name>TcpReceiveBufferSize</Name>
+								<BitSize>32</BitSize>
+								<BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType>
+								<PTCID>#x03011125</PTCID>
+							</Parameter>
+							<Parameter>
+								<Name>TcpTransmitBufferSize</Name>
+								<BitSize>32</BitSize>
+								<BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType>
+								<PTCID>#x03011126</PTCID>
+							</Parameter>
+							<Parameter>
+								<Name>TcpMaxRetry</Name>
+								<BitSize>32</BitSize>
+								<BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType>
+								<PTCID>#x03011127</PTCID>
+							</Parameter>
+							<Parameter>
+								<Name>TcpTimeoutWait</Name>
+								<BitSize>32</BitSize>
+								<BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType>
+								<PTCID>#x03011128</PTCID>
+							</Parameter>
+							<Parameter>
+								<Name>TcpTimeoutCon</Name>
+								<BitSize>32</BitSize>
+								<BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType>
+								<PTCID>#x03011129</PTCID>
+							</Parameter>
+							<Parameter>
+								<Name>TcpTimeoutIdle</Name>
+								<BitSize>32</BitSize>
+								<BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType>
+								<PTCID>#x03011130</PTCID>
+							</Parameter>
+							<Parameter>
+								<Name>TcpRoundTripTime</Name>
+								<BitSize>32</BitSize>
+								<BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType>
+								<PTCID>#x03011131</PTCID>
+							</Parameter>
+							<Parameter OnlineParameter="true">
+								<Name>IpStackDiagnosis</Name>
+								<BitSize>768</BitSize>
+								<BaseType GUID="{38621CD5-4239-4327-97F7-35F1414B7265}">IpStackDiagnosis</BaseType>
+								<PTCID>#x03011108</PTCID>
+							</Parameter>
+						</Parameters>
+						<InterfacePointers>
+							<InterfacePointer>
+								<PTCID>#x03002040</PTCID>
+								<Name>ITcIoEthAdapter</Name>
+								<Type GUID="{03010034-0000-0000-E000-000000000064}"/>
+								<Default>
+									<OTCID>#x03010050</OTCID>
+								</Default>
+							</InterfacePointer>
+						</InterfacePointers>
+						<Properties>
+							<Property>
+								<Name>Category</Name>
+								<Value>NeedEthernetAdapterPort</Value>
+							</Property>
+							<Property>
+								<Name>Category</Name>
+								<Value>NeedIoIdleTask</Value>
+							</Property>
+							<Property>
+								<Name>ChildCategory</Name>
+								<Value>IpProtocol</Value>
+							</Property>
+						</Properties>
+						<ParentOTCID>#x03010050</ParentOTCID>
+						<ParameterValues>
+							<Value>
+								<Name>TcIoIpSettings.IpAddress</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>TcIoIpSettings.SubnetMask</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>TcIoIpSettings.Gateway</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>TcIoIpSettings.DhcpEnable</Name>
+								<EnumText>FALSE</EnumText>
+							</Value>
+							<Value>
+								<Name>TcIoIpSettings.ManualSettings</Name>
+								<EnumText>FALSE</EnumText>
+							</Value>
+							<Value>
+								<Name>IpMaxReceivers</Name>
+								<Value>4</Value>
+							</Value>
+							<Value>
+								<Name>IpMaxPendingOnArp</Name>
+								<Value>40</Value>
+							</Value>
+							<Value>
+								<Name>IpMacCacheSize</Name>
+								<Value>64</Value>
+							</Value>
+							<Value>
+								<Name>IpMTU</Name>
+								<Value>1514</Value>
+							</Value>
+							<Value>
+								<Name>UdpMaxReceivers</Name>
+								<Value>4</Value>
+							</Value>
+							<Value>
+								<Name>UdpMTU</Name>
+								<Value>1514</Value>
+							</Value>
+							<Value>
+								<Name>UdpCheckCrc</Name>
+								<EnumText>TRUE</EnumText>
+							</Value>
+							<Value>
+								<Name>TcpMTU</Name>
+								<Value>1514</Value>
+							</Value>
+							<Value>
+								<Name>TcpCheckCrc</Name>
+								<EnumText>TRUE</EnumText>
+							</Value>
+							<Value>
+								<Name>TcpMaxSocketCount</Name>
+								<Value>32</Value>
+							</Value>
+							<Value>
+								<Name>TcpReceiveBufferSize</Name>
+								<Value>16192</Value>
+							</Value>
+							<Value>
+								<Name>TcpTransmitBufferSize</Name>
+								<Value>16192</Value>
+							</Value>
+							<Value>
+								<Name>TcpMaxRetry</Name>
+								<Value>5</Value>
+							</Value>
+							<Value>
+								<Name>TcpTimeoutWait</Name>
+								<Value>60000</Value>
+							</Value>
+							<Value>
+								<Name>TcpTimeoutCon</Name>
+								<Value>5000</Value>
+							</Value>
+							<Value>
+								<Name>TcpTimeoutIdle</Name>
+								<Value>1000</Value>
+							</Value>
+							<Value>
+								<Name>TcpRoundTripTime</Name>
+								<Value>3000</Value>
+							</Value>
+							<Value>
+								<Name>IpStackDiagnosis.ip.nSendCnt</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>IpStackDiagnosis.ip.nSendFailCnt</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>IpStackDiagnosis.ip.nRecvCnt</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>IpStackDiagnosis.ip.nRecvFailCnt</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>IpStackDiagnosis.arpRequest.nSendCnt</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>IpStackDiagnosis.arpRequest.nSendFailCnt</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>IpStackDiagnosis.arpRequest.nRecvCnt</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>IpStackDiagnosis.arpRequest.nRecvFailCnt</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>IpStackDiagnosis.arpReply.nSendCnt</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>IpStackDiagnosis.arpReply.nSendFailCnt</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>IpStackDiagnosis.arpReply.nRecvCnt</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>IpStackDiagnosis.arpReply.nRecvFailCnt</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>IpStackDiagnosis.pingRequest.nSendCnt</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>IpStackDiagnosis.pingRequest.nSendFailCnt</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>IpStackDiagnosis.pingRequest.nRecvCnt</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>IpStackDiagnosis.pingRequest.nRecvFailCnt</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>IpStackDiagnosis.pingReply.nSendCnt</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>IpStackDiagnosis.pingReply.nSendFailCnt</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>IpStackDiagnosis.pingReply.nRecvCnt</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>IpStackDiagnosis.pingReply.nRecvFailCnt</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>IpStackDiagnosis.nLinkStatusChangedCnt</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>IpStackDiagnosis.nAllocFailCnt</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>IpStackDiagnosis.nArpTimeoutFrames</Name>
+								<Value>0</Value>
+							</Value>
+							<Value>
+								<Name>IpStackDiagnosis.nDroppedFrames</Name>
+								<Value>0</Value>
+							</Value>
+						</ParameterValues>
+						<InterfacePointerValues>
+							<Value>
+								<Name>ITcIoEthAdapter</Name>
+								<OTCID>#x03010050</OTCID>
+							</Value>
+						</InterfacePointerValues>
+					</TmcDesc>
+				</Module>
+				<Ethernet DeviceDesc="M1-X600-COMAU (TwinCAT-Intel PCI Ethernet Adapter (Gigabit) #4)" Ports="1" VLanIds="0a0014001e00280032003c00460050005a00">
 					<Esl SyncSlaveProtocolPort="-1"/>
 				</Ethernet>
 			</Device>

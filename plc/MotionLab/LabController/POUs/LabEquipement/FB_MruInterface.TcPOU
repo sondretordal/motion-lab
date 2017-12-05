@@ -84,7 +84,7 @@ VAR_INPUT
 	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
 	
 	// Init variables
-	_localPort : UINT;
+	localPort : UINT;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -92,7 +92,7 @@ END_VAR
 udpServer.FB_init(
 	bInitRetains,
 	bInCopyCode,
-	_localPort,
+	localPort,
 	SIZEOF(rxUdp),
 	ADR(rxUdp),
 	0,
