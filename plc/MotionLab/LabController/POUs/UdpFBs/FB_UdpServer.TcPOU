@@ -4,11 +4,7 @@
     <Declaration><![CDATA[{attribute 'c++_compatible'}
 FUNCTION_BLOCK FB_UdpServer IMPLEMENTS ITcIoUdpProtocolRecv
 VAR_INPUT
-	// Data storage
-	nRxData : UDINT;
-	pRxData : PVOID;
-	nTxData : UDINT;
-	pTxData : PVOID;
+	
 END_VAR
 VAR_OUTPUT
 END_VAR
@@ -20,6 +16,10 @@ VAR
 	
 	// Initilized variables
 	localPort : UINT;
+	nRxData : UDINT;
+	pRxData : PVOID;
+	nTxData : UDINT;
+	pTxData : PVOID;
 	
 	// Remote specification
 	remoteIpAddr : UDINT;
@@ -68,6 +68,10 @@ VAR_INPUT
 	
 	// Init variables
 	_localPort : UINT;
+	_nRxData : UDINT;
+	_pRxData : PVOID;
+	_nTxData : UDINT;
+	_pTxData : PVOID;
 END_VAR
 VAR
     ipSrv : ITComObjectServer;
@@ -75,6 +79,11 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Initilize member variables
 localPort := _localPort;
+nRxData := _nRxData;
+pRxData := _pRxData;
+nTxData := _nTxData;
+pTxData := _pTxData;
+
 
 IF NOT bInCopyCode THEN // no online change
 	IF ipUdp = 0 THEN
@@ -218,6 +227,8 @@ METHOD TcRelease : UDINT]]></Declaration>
     <LineIds Name="FB_UdpServer.FB_init">
       <LineId Id="69" Count="0" />
       <LineId Id="68" Count="0" />
+      <LineId Id="86" Count="3" />
+      <LineId Id="85" Count="0" />
       <LineId Id="67" Count="0" />
       <LineId Id="50" Count="15" />
       <LineId Id="7" Count="0" />

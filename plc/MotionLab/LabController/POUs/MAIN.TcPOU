@@ -8,7 +8,8 @@ VAR
 	EM8000 : FB_StewartInterface(3232258590, 50030, 50040);
 	EM1500 : FB_StewartInterface(3232258591, 50031, 50041);
 	
-
+	MRU1 : FB_MruInterface(7551);
+	MRU2 : FB_MruInterface(7552);
 	
 END_VAR
 ]]></Declaration>
@@ -17,6 +18,8 @@ END_VAR
 
 EM8000();
 EM1500();
+MRU1();
+MRU2();
 
 
 
@@ -27,6 +30,7 @@ EM1500();
       <LineId Id="127" Count="0" />
       <LineId Id="110" Count="0" />
       <LineId Id="120" Count="0" />
+      <LineId Id="141" Count="1" />
       <LineId Id="129" Count="0" />
       <LineId Id="128" Count="0" />
       <LineId Id="121" Count="0" />

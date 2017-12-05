@@ -11,10 +11,9 @@ VAR_OUTPUT
 
 END_VAR
 VAR	
+	// Udp related
 	{attribute 'tc_no_symbol'}
 	udpClient : FB_UdpClient(0, 0, 0, 0, 0, 0, 0);	// Dummy constructor
-
-	// Udp Rx/Tx data
 	{attribute 'tc_no_symbol'}
 	rxUdp : ST_RxStewart;
 	{attribute 'tc_no_symbol'}

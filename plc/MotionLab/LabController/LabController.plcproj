@@ -18,6 +18,9 @@
     <Compile Include="DUTs\E_StewartMode.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\RxData\ST_RxMru.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\RxData\ST_RxStewart.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -25,6 +28,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\TxData\ST_TxStewart.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\LabEquipement\FB_MruInterface.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\LabEquipement\FB_StewartInterface.TcPOU">

@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.7">
+  <POU Name="FB_MruInterface" Id="{c6b5539c-66b4-48be-8e8d-e330098c72f8}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_MruInterface
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	// Udp related
+	{attribute 'tc_no_symbol'}
+	udpServer : FB_UdpServer(0, 0, 0, 0, 0); // Dummy constructor
+	{attribute 'tc_no_symbol'}
+	rxUdp : ST_RxMru;
+
+
+
+	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Update udpServer
+udpServer();
+
+// Swap bytes of float data
+BigToLittleEndian(ADR(rxUdp), SIZEOF(rxUdp));
+
+
+
+]]></ST>
+    </Implementation>
+    <Method Name="BigToLittleEndian" Id="{55be5d21-786e-44c3-a382-2ff80affc77c}">
+      <Declaration><![CDATA[METHOD BigToLittleEndian : BOOL
+VAR_INPUT
+	pData : PVOID;
+	nData : UINT;
+END_VAR
+
+
+
+VAR
+	pLE : PVOID;
+	n : UINT;
+	pOffset : UINT;
+	bytesBE : ARRAY [0..3] OF BYTE;
+	bytesLE : ARRAY [0..3] OF BYTE;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// NOTE: Only works with ST_RxMru struct!!! Not a genral function
+
+FOR n := 0 TO (nData/4 - 2) DO
+	// Current pointer offset index
+	pOffset := 3 + 4*n;
+	
+	// Swap bytes
+	IF pOffset <= nData THEN
+		MEMCPY(ADR(bytesBE), pData + pOffset, 4);
+	
+		bytesLE[3] := bytesBE[0];
+		bytesLE[2] := bytesBE[1];
+		bytesLE[1] := bytesBE[2];
+		bytesLE[0] := bytesBE[3];
+		
+		MEMCPY(pData + pOffset, ADR(bytesLE), 4);
+	END_IF
+END_FOR]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_exit" Id="{a3e9d2a2-7999-4f51-bfdc-9869126d272a}">
+      <Declaration><![CDATA[METHOD FB_exit : BOOL
+VAR_INPUT
+	bInCopyCode : BOOL; // if TRUE, the exit method is called for exiting an instance that is copied afterwards (online change).
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_init" Id="{3130c499-1695-4075-b5a0-733165c80fd1}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	
+	// Init variables
+	_localPort : UINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Initilize the udpServer
+udpServer.FB_init(
+	bInitRetains,
+	bInCopyCode,
+	_localPort,
+	SIZEOF(rxUdp),
+	ADR(rxUdp),
+	0,
+	0
+);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_reinit" Id="{1faf6911-8283-46ae-9bd2-81f20ae258ae}">
+      <Declaration><![CDATA[METHOD FB_reinit : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_MruInterface">
+      <LineId Id="18" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="44" Count="0" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="40" Count="0" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="47" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_MruInterface.BigToLittleEndian">
+      <LineId Id="8" Count="1" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="50" Count="2" />
+      <LineId Id="40" Count="0" />
+      <LineId Id="43" Count="6" />
+      <LineId Id="41" Count="1" />
+      <LineId Id="16" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_MruInterface.FB_exit">
+      <LineId Id="6" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_MruInterface.FB_init">
+      <LineId Id="7" Count="0" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="14" Count="5" />
+      <LineId Id="13" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_MruInterface.FB_reinit">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
