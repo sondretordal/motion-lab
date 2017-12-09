@@ -13,6 +13,13 @@ VAR
 	MRU1 : FB_MruInterface(7551);
 	MRU2 : FB_MruInterface(7552);
 	
+	
+	
+	u AT%Q* : LREAL;
+	
+	y AT%I* : LREAL;
+	
+	t : LREAL := 0.0;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -25,6 +32,11 @@ MRU1();
 MRU2();
 
 
+t := t + 0.005;
+u := 0.0;
+
+
+
 
 ]]></ST>
     </Implementation>
@@ -35,6 +47,11 @@ MRU2();
       <LineId Id="120" Count="0" />
       <LineId Id="145" Count="0" />
       <LineId Id="141" Count="1" />
+      <LineId Id="169" Count="0" />
+      <LineId Id="172" Count="0" />
+      <LineId Id="170" Count="0" />
+      <LineId Id="168" Count="0" />
+      <LineId Id="193" Count="0" />
       <LineId Id="129" Count="0" />
       <LineId Id="128" Count="0" />
       <LineId Id="121" Count="0" />
