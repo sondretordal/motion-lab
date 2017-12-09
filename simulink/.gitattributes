@@ -1,0 +1,7 @@
+# To avoid corrupting binary model files when diff/merge
+# https://se.mathworks.com/help/simulink/ug/set-up-git-source-control.html#bt7ggm1-1
+
+*.slx -crlf -diff -merge
+*.mdl -crlf -diff -merge
+*.mat -crlf -diff -merge
+*.mlx -crlf -diff -merge
