@@ -28,13 +28,17 @@ class GUI(QMainWindow, Ui_main):
         # Set up the user interface from QT Designer
         self.setupUi(self)
 
-        # Start ADS communication
+        # Start ADS communications
         self.plc = pyads.Connection('192.168.90.150.1.1', 851)
         self.plc.open()
-        print("Beckhoff ADS Connection Open")
-        
-        # Connect the interaction functionality of the GUI
-        self.ui_connect()
+
+        self.tccom = pyads.Connection('192.168.90.150.1.1', 351)
+        self.tccom.open()
+
+        # Default function values
+        self.waveSpectrumDP1 = WaveSpectrum()
+        self.waveSpectrumDP2 = WaveSpectrum()
+
 
         # Setup of the different plots
         self.plot_setup()
@@ -42,54 +46,100 @@ class GUI(QMainWindow, Ui_main):
         # Timer function for plot update
         self.timer = QTimer()
         self.timer.timeout.connect(self.update_data)
-        self.timer.start(25)
-        
-        # Plot Ship Simulator - Wave Spectrum
-        # Linear wave spectrum model
-        self.w0 = []
-        self.sigma = []
-        self.Lambda = []
-        self.A = np.matrix(np.zeros([2,2]))
-        self.B = np.matrix(np.zeros([2,1]))
-        self.C = np.matrix(np.zeros([1,2]))
+        self.timer.start(50)
 
-        # Default function values
-        self.waveSpectrumDP1 = WaveSpectrum()
-        self.waveSpectrumDP2 = WaveSpectrum()
+        # Connect the interaction functionality of the GUI
+        self.ui_connect()
+
+        self.EM8000_wave()
+        self.EM1500_wave()
 
         # Show UI
         self.show()
 
     # EM8000 Wave Settings
     def EM8000_wave(self):
+            # Current wave spectrum data
             Hs = self.waveSpectrumDP1.Hs
             T1 = self.waveSpectrumDP1.T1
             spec = self.waveSpectrumDP1.spec
 
-            objectName = self.sender().objectName()
-            
-            if objectName == "EM8000_wave_spectra":
-                spec = str(self.sender().currentText())
+            try:
+                objectName = self.sender().objectName()
+                if objectName == "EM8000_wave_spectra":
+                    spec = str(self.sender().currentText())
 
-            elif objectName == "EM8000_wave_height":
-                Hs = int(self.sender().text())
+                elif objectName == "EM8000_wave_height":
+                    Hs = int(self.sender().text())
 
-            elif objectName == "EM8000_wave_period":
-                T1 = int(self.sender().text())
+                elif objectName == "EM8000_wave_period":
+                    T1 = int(self.sender().text())
+ 
+            except AttributeError:
+                pass
 
             # Update wave spectrum and plot
             self.waveSpectrumDP1.calculate(Hs, T1, spec)
 
             self.DP1_spectrum.plot.setYRange(0, max(self.waveSpectrumDP1.S) + 5)
-            self.DP1_spectrum.static_plot(
-                    self.waveSpectrumDP1.w,
+            self.DP1_spectrum.static_plot(self.waveSpectrumDP1.w,
                     [self.waveSpectrumDP1.S, self.waveSpectrumDP1.Slin]
                 )
             
-            # Write to PLC
-            # self.plc.write_by_name('SIMULATOR.ship1.w0', w0, pyads.PLCTYPE_LREAL)
-            # self.plc.write_by_name('SIMULATOR.ship1.sigma', sigma, pyads.PLCTYPE_LREAL)
-            # self.plc.write_by_name('SIMULATOR.ship1.lambda', Lambda, pyads.PLCTYPE_LREAL)
+            # Write to TcCOM object containg WaveSimulator
+            self.tccom.write_by_name('WaveSimulatorEM8000.ModelParameters.w0_Value', 
+                    self.waveSpectrumDP1.w0, pyads.PLCTYPE_LREAL
+                )
+
+            self.tccom.write_by_name('WaveSimulatorEM8000.ModelParameters.sigma_Value', 
+                    self.waveSpectrumDP1.sigma, pyads.PLCTYPE_LREAL
+                )
+
+            self.tccom.write_by_name('WaveSimulatorEM8000.ModelParameters.lambda_Value', 
+                    self.waveSpectrumDP1.Lambda, pyads.PLCTYPE_LREAL
+                )
+        
+            # EM8000 Wave Settings
+    def EM1500_wave(self):
+            # Current wave spectrum data
+            Hs = self.waveSpectrumDP2.Hs
+            T1 = self.waveSpectrumDP2.T1
+            spec = self.waveSpectrumDP2.spec
+
+            try:
+                objectName = self.sender().objectName()
+                if objectName == "EM1500_wave_spectra":
+                    spec = str(self.sender().currentText())
+
+                elif objectName == "EM1500_wave_height":
+                    Hs = int(self.sender().text())
+
+                elif objectName == "EM1500_wave_period":
+                    T1 = int(self.sender().text())
+ 
+            except AttributeError:
+                pass
+
+            # Update wave spectrum and plot
+            self.waveSpectrumDP2.calculate(Hs, T1, spec)
+
+            self.DP2_spectrum.plot.setYRange(0, max(self.waveSpectrumDP2.S) + 5)
+            self.DP2_spectrum.static_plot(self.waveSpectrumDP2.w,
+                    [self.waveSpectrumDP2.S, self.waveSpectrumDP2.Slin]
+                )
+            
+            # Write to TcCOM object containg WaveSimulator
+            self.tccom.write_by_name('WaveSimulatorEM1500.ModelParameters.w0_Value', 
+                    self.waveSpectrumDP2.w0, pyads.PLCTYPE_LREAL
+                )
+
+            self.tccom.write_by_name('WaveSimulatorEM1500.ModelParameters.sigma_Value', 
+                    self.waveSpectrumDP2.sigma, pyads.PLCTYPE_LREAL
+                )
+
+            self.tccom.write_by_name('WaveSimulatorEM1500.ModelParameters.lambda_Value', 
+                    self.waveSpectrumDP2.Lambda, pyads.PLCTYPE_LREAL
+                )
 
     # Plot setup
     def plot_setup(self):
@@ -103,12 +153,12 @@ class GUI(QMainWindow, Ui_main):
         # EM8000
         self.DP1_1 = RealTimePlot(self.DP1_SimStates.addPlot())
         self.DP1_1.plot.setLabel('left', 'Position', 'm')
-        self.DP1_1.plot.setYRange(-0.4, 0.4)
+        self.DP1_1.plot.setYRange(-0.5, 0.5)
         self.DP1_1.add_curves(['r', 'g', 'b'], ['Surge', 'Sway', 'Heave'])
         self.DP1_SimStates.nextRow()
         self.DP1_2 = RealTimePlot(self.DP1_SimStates.addPlot())
         self.DP1_2.plot.setLabel('left', 'Angle', 'deg')
-        self.DP1_2.plot.setYRange(-5.0, 5.0)
+        self.DP1_2.plot.setYRange(-6.0, 6.0)
         self.DP1_2.add_curves(['r', 'g', 'b'], ['Roll', 'Pitch', 'Yaw'])
 
         self.DP1_spectrum = RealTimePlot(self.DP1_wavespectrum.addPlot())
@@ -120,12 +170,12 @@ class GUI(QMainWindow, Ui_main):
         # EM1500
         self.DP2_1 = RealTimePlot(self.DP2_SimStates.addPlot())
         self.DP2_1.plot.setLabel('left', 'Position', 'm')
-        self.DP2_1.plot.setYRange(-0.4, 0.4)
+        self.DP2_1.plot.setYRange(-0.5, 0.5)
         self.DP2_1.add_curves(['r', 'g', 'b'], ['Surge', 'Sway', 'Heave'])
         self.DP2_SimStates.nextRow()
         self.DP2_2 = RealTimePlot(self.DP2_SimStates.addPlot())
         self.DP2_2.plot.setLabel('left', 'Angle', 'deg')
-        self.DP2_2.plot.setYRange(-5.0, 5.0)
+        self.DP2_2.plot.setYRange(-6.0, 6.0)
         self.DP2_2.add_curves(['r', 'g', 'b'], ['Roll', 'Pitch', 'Yaw'])
 
         self.DP2_spectrum = RealTimePlot(self.DP2_wavespectrum.addPlot())
@@ -280,133 +330,141 @@ class GUI(QMainWindow, Ui_main):
 
         # Limit values for input
         self.validator_height = QIntValidator(1, 10)
-        self.validator_period = QIntValidator(1, 15)
+        self.validator_period = QIntValidator(1, 20)
 
+        self.EM8000_wave_height.setText(str(self.waveSpectrumDP1.Hs))
         self.EM8000_wave_height.setValidator(self.validator_height)
+
+        self.EM8000_wave_period.setText(str(self.waveSpectrumDP1.T1))
         self.EM8000_wave_period.setValidator(self.validator_period)
 
         self.EM8000_wave_height.returnPressed.connect(self.EM8000_wave)
         self.EM8000_wave_period.returnPressed.connect(self.EM8000_wave)
         self.EM8000_wave_spectra.currentIndexChanged.connect(self.EM8000_wave)
 
-        # self.EM1500_wave_height.setValidator(self.validator_height)
-        # self.EM1500_wave_period.setValidator(self.validator_period)
-        # self.EM1500_wave_height.returnPressed.connect(self.EM1500_wave)
-        # self.EM1500_wave_period.returnPressed.connect(self.EM1500_wave)
-        # self.EM1500_wave_spectra.currentIndexChanged.connect(self.EM1500_wave)
+
+        self.EM1500_wave_height.setText(str(self.waveSpectrumDP2.Hs))
+        self.EM1500_wave_height.setValidator(self.validator_height)
+
+        self.EM1500_wave_period.setText(str(self.waveSpectrumDP2.T1))
+        self.EM1500_wave_period.setValidator(self.validator_period)
+        
+        self.EM1500_wave_height.returnPressed.connect(self.EM1500_wave)
+        self.EM1500_wave_period.returnPressed.connect(self.EM1500_wave)
+        self.EM1500_wave_spectra.currentIndexChanged.connect(self.EM1500_wave)
 
     # Update data and plot
     def update_data(self):
         # Read latest data from ADS into RemoteFeedback ctypes struct
-        hmi = self.plc.read_by_name('MAIN.hmi', TxHmi)
+        txHmi = self.plc.read_by_name('MAIN.txHmi', TxHmi)
     
         self.DP1_1.time_range = self.time_range
-        self.DP1_1.update(hmi.t, [
-                hmi.em1500.surge_sim,
-                hmi.em1500.sway_sim,
-                hmi.em1500.heave_sim
+        self.DP1_1.update(txHmi.t, [
+                txHmi.em1500.u_sim[0],
+                txHmi.em1500.u_sim[1],
+                txHmi.em1500.u_sim[2]
             ])
         
         self.DP1_2.time_range = self.time_range
-        self.DP1_2.update(hmi.t, [
-                hmi.em1500.phi_sim/np.pi*180.0,
-                hmi.em1500.theta_sim/np.pi*180.0,
-                hmi.em1500.psi_sim/np.pi*180.0
+        self.DP1_2.update(txHmi.t, [
+                txHmi.em1500.u_sim[3]/np.pi*180.0,
+                txHmi.em1500.u_sim[4]/np.pi*180.0,
+                txHmi.em1500.u_sim[5]/np.pi*180.0
             ])
  
         self.DP2_1.time_range = self.time_range
-        self.DP2_1.update(hmi.t, [
-                hmi.em8000.surge_sim,
-                hmi.em8000.sway_sim,
-                hmi.em8000.heave_sim
+        self.DP2_1.update(txHmi.t, [
+                txHmi.em8000.u_sim[0],
+                txHmi.em8000.u_sim[1],
+                txHmi.em8000.u_sim[2]
             ])
         
         self.DP2_2.time_range = self.time_range
-        self.DP2_2.update(hmi.t, [
-                hmi.em8000.phi_sim/np.pi*180.0,
-                hmi.em8000.theta_sim/np.pi*180.0,
-                hmi.em8000.psi_sim/np.pi*180.0
+        self.DP2_2.update(txHmi.t, [
+                txHmi.em8000.u_sim[3]/np.pi*180.0,
+                txHmi.em8000.u_sim[4]/np.pi*180.0,
+                txHmi.em8000.u_sim[5]/np.pi*180.0
             ])
 
         self.EM1500_1.time_range = self.time_range
-        self.EM1500_1.update(hmi.t, [
-                hmi.em1500.surge,
-                hmi.em1500.sway,
-                hmi.em1500.heave
+        self.EM1500_1.update(txHmi.t, [
+                txHmi.em1500.eta[0],
+                txHmi.em1500.eta[1],
+                txHmi.em1500.eta[2]
             ])
         self.EM1500_2.time_range = self.time_range
-        self.EM1500_2.update(hmi.t, [
-                hmi.em1500.phi/np.pi*180.0,
-                hmi.em1500.theta/np.pi*180.0,
-                hmi.em1500.psi/np.pi*180.0
+        self.EM1500_2.update(txHmi.t, [
+                txHmi.em1500.eta[3]/np.pi*180.0,
+                txHmi.em1500.eta[4]/np.pi*180.0,
+                txHmi.em1500.eta[5]/np.pi*180.0
             ])
 
         self.EM8000_1.time_range = self.time_range
-        self.EM8000_1.update(hmi.t, [
-                hmi.em8000.surge,
-                hmi.em8000.sway,
-                hmi.em8000.heave
+        self.EM8000_1.update(txHmi.t, [
+                txHmi.em8000.eta[0],
+                txHmi.em8000.eta[1],
+                txHmi.em8000.eta[2]
             ])
         self.EM8000_2.time_range = self.time_range
-        self.EM8000_2.update(hmi.t, [
-                hmi.em8000.phi/np.pi*180.0,
-                hmi.em8000.theta/np.pi*180.0,
-                hmi.em8000.psi/np.pi*180.0
+        self.EM8000_2.update(txHmi.t, [
+                txHmi.em8000.eta[3]/np.pi*180.0,
+                txHmi.em8000.eta[4]/np.pi*180.0,
+                txHmi.em8000.eta[5]/np.pi*180.0
             ])
         
         self.COMAU.time_range = self.time_range
-        self.COMAU.update(hmi.t, [
-                hmi.comau.q1, 
-                hmi.comau.q2, 
-                hmi.comau.q3,
-                hmi.comau.q4, 
-                hmi.comau.q5, 
-                hmi.comau.q6
+        self.COMAU.update(txHmi.t, [
+                txHmi.comau.u[0], 
+                txHmi.comau.u[1], 
+                txHmi.comau.u[2],
+                txHmi.comau.u[3], 
+                txHmi.comau.u[4], 
+                txHmi.comau.u[5]
             ])
         
         self.EM8000_bars.update([
-                hmi.em8000.L1, 
-                hmi.em8000.L2, 
-                hmi.em8000.L3,
-                hmi.em8000.L4, 
-                hmi.em8000.L5, 
-                hmi.em8000.L6,
-                hmi.em8000.L1, 
-                hmi.em8000.L2, 
-                hmi.em8000.L3,
-                hmi.em8000.L4, 
-                hmi.em8000.L5, 
-                hmi.em8000.L6
+                txHmi.em8000.L[0], 
+                txHmi.em8000.L[1], 
+                txHmi.em8000.L[2],
+                txHmi.em8000.L[3], 
+                txHmi.em8000.L[4], 
+                txHmi.em8000.L[5],
+                txHmi.em8000.L[0], 
+                txHmi.em8000.L[1], 
+                txHmi.em8000.L[2],
+                txHmi.em8000.L[3], 
+                txHmi.em8000.L[4], 
+                txHmi.em8000.L[5]
             ])
 
         self.EM1500_bars.update([
-                hmi.em1500.L1, 
-                hmi.em1500.L2, 
-                hmi.em1500.L3,
-                hmi.em1500.L4, 
-                hmi.em1500.L5, 
-                hmi.em1500.L6,
-                hmi.em1500.L1, 
-                hmi.em1500.L2, 
-                hmi.em1500.L3,
-                hmi.em1500.L4, 
-                hmi.em1500.L5, 
-                hmi.em1500.L6
+                txHmi.em1500.L[0], 
+                txHmi.em1500.L[1], 
+                txHmi.em1500.L[2],
+                txHmi.em1500.L[3], 
+                txHmi.em1500.L[4], 
+                txHmi.em1500.L[5],
+                txHmi.em1500.L[0], 
+                txHmi.em1500.L[1], 
+                txHmi.em1500.L[2],
+                txHmi.em1500.L[3], 
+                txHmi.em1500.L[4], 
+                txHmi.em1500.L[5]
             ])
 
         self.COMAU_bars.update([
-                hmi.comau.q1, 
-                hmi.comau.q2, 
-                hmi.comau.q3,
-                hmi.comau.q4, 
-                hmi.comau.q5, 
-                hmi.comau.q6,
-                hmi.comau.q1, 
-                hmi.comau.q2, 
-                hmi.comau.q3,
-                hmi.comau.q4, 
-                hmi.comau.q5, 
-                hmi.comau.q6
+                txHmi.comau.u[0], 
+                txHmi.comau.u[1], 
+                txHmi.comau.u[2],
+                txHmi.comau.u[3], 
+                txHmi.comau.u[4], 
+                txHmi.comau.u[5],
+                txHmi.comau.u[0], 
+                txHmi.comau.u[1], 
+                txHmi.comau.u[2],
+                txHmi.comau.u[3], 
+                txHmi.comau.u[4], 
+                txHmi.comau.u[5]
             ])
 
     # Function to change the time axis range of the plots
@@ -418,6 +476,7 @@ class GUI(QMainWindow, Ui_main):
 
         # Find and set the selected index to all combobox objects in the plot tabs
         val = self.sender().currentIndex()
+        
         # Plotting tab:
         self.EM8000_plot_time_range.setCurrentIndex(val)
         self.EM1500_plot_time_range.setCurrentIndex(val)
@@ -561,8 +620,9 @@ class GUI(QMainWindow, Ui_main):
             # Stop timed data read
             self.timer.stop()
 
-            # Close ADS port
+            # # Close ADS ports
             self.plc.close()
+            self.tccom.close()
             print('Beckhoff ADS Connection Closed')
 
             event.accept()

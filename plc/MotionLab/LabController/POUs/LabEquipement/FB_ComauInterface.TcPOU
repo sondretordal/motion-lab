@@ -3,6 +3,7 @@
   <POU Name="FB_ComauInterface" Id="{7f6fcfb6-ea5d-4e07-bbf6-5b138a56f61f}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_ComauInterface
 VAR_INPUT
+	cmnd : DINT;
 END_VAR
 VAR_OUTPUT
 END_VAR

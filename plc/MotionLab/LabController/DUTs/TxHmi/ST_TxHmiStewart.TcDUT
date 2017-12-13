@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.7">
+  <DUT Name="ST_TxHmiStewart" Id="{43858b3b-cdd3-40fe-a105-ace59f27ced8}">
+    <Declaration><![CDATA[TYPE ST_TxHmiStewart :
+STRUCT
+	status : DINT;
+	u : ARRAY [0..5] OF REAL;
+	u_sim : ARRAY [0..5] OF REAL;
+	eta : ARRAY [0..5] OF REAL;
+	L : ARRAY [0..5] OF REAL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

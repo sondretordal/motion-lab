@@ -18,22 +18,37 @@
     <Compile Include="DUTs\E_StewartMode.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\RxData\ST_RxComau.TcDUT">
+    <Compile Include="DUTs\RxHmi\ST_RxHmi.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\RxData\ST_RxMru.TcDUT">
+    <Compile Include="DUTs\RxUdp\ST_RxComau.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\RxData\ST_RxStewart.TcDUT">
+    <Compile Include="DUTs\RxUdp\ST_RxMru.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\RxData\ST_RxXbox.TcDUT">
+    <Compile Include="DUTs\RxUdp\ST_RxStewart.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\TxData\ST_TxComau.TcDUT">
+    <Compile Include="DUTs\TxHmi\ST_TxHmi.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\TxData\ST_TxStewart.TcDUT">
+    <Compile Include="DUTs\TxHmi\ST_TxHmiLeica.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\TxHmi\ST_TxHmiStewart.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\TxHmi\ST_TxHmiMru.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\TxHmi\ST_TxHmiComau.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\TxUdp\ST_TxComau.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\TxUdp\ST_TxStewart.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\LabEquipement\FB_ComauInterface.TcPOU">
@@ -57,13 +72,19 @@
     <Compile Include="POUs\UdpFBs\FB_UdpClient.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\Utils\FB_BumplessTransfer.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DUTs" />
-    <Folder Include="DUTs\TxData" />
-    <Folder Include="DUTs\RxData" />
+    <Folder Include="DUTs\RxHmi" />
+    <Folder Include="DUTs\TxHmi" />
+    <Folder Include="DUTs\TxUdp" />
+    <Folder Include="DUTs\RxUdp" />
     <Folder Include="GVLs" />
     <Folder Include="POUs\LabEquipement" />
+    <Folder Include="POUs\Utils" />
     <Folder Include="POUs\UdpFBs" />
     <Folder Include="VISUs" />
     <Folder Include="POUs" />

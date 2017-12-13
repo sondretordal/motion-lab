@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.7">
+  <DUT Name="ST_TxHmiLeica" Id="{f9e9f2df-6973-42d8-9bdd-f9a6ea55a77a}">
+    <Declaration><![CDATA[TYPE ST_TxHmiLeica :
+STRUCT
+	status : DINT;
+	x : REAL;
+	y : REAL;
+	z : REAL;
+	q0 : REAL;
+	q1 : REAL;
+	q2 : REAL;
+	q3 : REAL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

@@ -5,7 +5,7 @@
 TYPE E_StewartMode :
 (
 	eIDLE := 0,
-	eTRANSITION,
+	eRESET,
 	eSIMULATION,
 	eXBOX,
 	eERROR

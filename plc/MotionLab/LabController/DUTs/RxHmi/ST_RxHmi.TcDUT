@@ -1,9 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.7">
-  <DUT Name="ST_RxXbox" Id="{42e8ce85-3cdf-47bf-a23a-d02b431ad435}">
-    <Declaration><![CDATA[TYPE ST_RxXbox :
+  <DUT Name="ST_RxHmi" Id="{06727435-d477-4103-8fd5-68737c25d92f}">
+    <Declaration><![CDATA[TYPE ST_RxHmi :
 STRUCT
-	counter : UDINT;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

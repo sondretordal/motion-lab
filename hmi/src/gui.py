@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'gui.ui'
+# Form implementation generated from reading ui file 'src/gui.ui'
 #
-# Created by: PyQt5 UI code generator 5.9
+# Created by: PyQt5 UI code generator 5.6
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -1733,15 +1733,15 @@ class Ui_main(object):
         self.menu_save_file.setObjectName("menu_save_file")
 
         self.retranslateUi(main)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(2)
         self.tab.setCurrentIndex(1)
         self.EM8000_plot_time_range.setCurrentIndex(0)
         self.EM1500_plot_time_range.setCurrentIndex(0)
         self.COMAU_plot_time_range.setCurrentIndex(0)
-        self.tab_6.setCurrentIndex(0)
-        self.EM8000_plot_time_range_ship.setCurrentIndex(0)
+        self.tab_6.setCurrentIndex(1)
+        self.EM8000_plot_time_range_ship.setCurrentIndex(1)
         self.EM8000_wave_spectra.setCurrentIndex(0)
-        self.EM1500_plot_time_range_ship.setCurrentIndex(0)
+        self.EM1500_plot_time_range_ship.setCurrentIndex(1)
         self.EM1500_wave_spectra.setCurrentIndex(0)
         self.tabWidget_2.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(main)
@@ -1894,7 +1894,7 @@ class Ui_main(object):
         self.label_58.setText(_translate("main", "Real-Time Dyanamic Positioning (DP) Simulator - 6DOF"))
         self.groupBox_15.setTitle(_translate("main", "Plot options"))
         self.label_109.setText(_translate("main", "Time axis range:"))
-        self.EM8000_plot_time_range_ship.setCurrentText(_translate("main", "10"))
+        self.EM8000_plot_time_range_ship.setCurrentText(_translate("main", "20"))
         self.EM8000_plot_time_range_ship.setItemText(0, _translate("main", "10"))
         self.EM8000_plot_time_range_ship.setItemText(1, _translate("main", "20"))
         self.EM8000_plot_time_range_ship.setItemText(2, _translate("main", "30"))
@@ -1914,7 +1914,7 @@ class Ui_main(object):
         self.tab_6.setTabText(self.tab_6.indexOf(self.widget_2), _translate("main", "EM 8000"))
         self.groupBox_18.setTitle(_translate("main", "Plot options"))
         self.label_128.setText(_translate("main", "Time axis range:"))
-        self.EM1500_plot_time_range_ship.setCurrentText(_translate("main", "10"))
+        self.EM1500_plot_time_range_ship.setCurrentText(_translate("main", "20"))
         self.EM1500_plot_time_range_ship.setItemText(0, _translate("main", "10"))
         self.EM1500_plot_time_range_ship.setItemText(1, _translate("main", "20"))
         self.EM1500_plot_time_range_ship.setItemText(2, _translate("main", "30"))
