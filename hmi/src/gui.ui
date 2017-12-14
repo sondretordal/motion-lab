@@ -38,7 +38,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="tab_interface">
        <attribute name="title">
@@ -4924,6 +4924,225 @@ color: rgb(255, 255, 255);
            <width>61</width>
            <height>22</height>
           </rect>
+         </property>
+        </widget>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tab_9">
+       <attribute name="title">
+        <string>Xbox Controller</string>
+       </attribute>
+       <widget class="QGroupBox" name="groupBox_14">
+        <property name="geometry">
+         <rect>
+          <x>360</x>
+          <y>170</y>
+          <width>101</width>
+          <height>291</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Left Joystick</string>
+        </property>
+        <widget class="QProgressBar" name="XboxJoystickLeft_x">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>30</y>
+           <width>21</width>
+           <height>221</height>
+          </rect>
+         </property>
+         <property name="minimum">
+          <number>-100</number>
+         </property>
+         <property name="value">
+          <number>0</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="invertedAppearance">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QProgressBar" name="XboxJoystickLeft_y">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>30</y>
+           <width>21</width>
+           <height>221</height>
+          </rect>
+         </property>
+         <property name="minimum">
+          <number>-100</number>
+         </property>
+         <property name="value">
+          <number>0</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="invertedAppearance">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_62">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>260</y>
+           <width>21</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>y</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_97">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>260</y>
+           <width>21</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>x</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="groupBox_16">
+        <property name="geometry">
+         <rect>
+          <x>470</x>
+          <y>170</y>
+          <width>101</width>
+          <height>291</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Right Joystick</string>
+        </property>
+        <widget class="QProgressBar" name="XboxJoystickRight_x">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>30</y>
+           <width>21</width>
+           <height>221</height>
+          </rect>
+         </property>
+         <property name="minimum">
+          <number>-100</number>
+         </property>
+         <property name="value">
+          <number>0</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="invertedAppearance">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QProgressBar" name="XboxJoystickRight_y">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>30</y>
+           <width>21</width>
+           <height>221</height>
+          </rect>
+         </property>
+         <property name="minimum">
+          <number>-100</number>
+         </property>
+         <property name="value">
+          <number>0</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="invertedAppearance">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_100">
+         <property name="geometry">
+          <rect>
+           <x>60</x>
+           <y>260</y>
+           <width>21</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>y</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_101">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>260</y>
+           <width>21</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>x</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </widget>

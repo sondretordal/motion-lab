@@ -11,6 +11,9 @@ from src.classes import RealTimePlot, RealTimeBar, WaveSpectrum
 from src.datastructures import TxHmi
 from src.gui import Ui_main
 
+# Motionlab pybind module
+import src.motionlab as ml
+
 # Background color pyqtgraph
 pg.setConfigOption('background', 'w')
 pg.setConfigOption('foreground', 'k')
@@ -35,6 +38,25 @@ class GUI(QMainWindow, Ui_main):
         self.tccom = pyads.Connection('192.168.90.150.1.1', 351)
         self.tccom.open()
 
+        try:
+            self.plc.read_state()
+            self.plc_active = True
+
+        except pyads.pyads.ADSError:
+            self.plc_active = False
+
+        try:
+            self.tccom.read_state()
+            self.tccom_active = True
+
+        except pyads.pyads.ADSError:
+            self.tccom_active = False
+
+
+        # Xbox controller
+        self.xbox = ml.XboxController()
+        self.xbox.start()
+
         # Default function values
         self.waveSpectrumDP1 = WaveSpectrum()
         self.waveSpectrumDP2 = WaveSpectrum()
@@ -43,19 +65,22 @@ class GUI(QMainWindow, Ui_main):
         # Setup of the different plots
         self.plot_setup()
 
-        # Timer function for plot update
-        self.timer = QTimer()
-        self.timer.timeout.connect(self.update_data)
-        self.timer.start(50)
+        if self.plc_active:
+            # Timer function for plot update
+            self.timer = QTimer()
+            self.timer.timeout.connect(self.update_data)
+            self.timer.start(50)
+
+            self.EM8000_wave()
+            self.EM1500_wave()
+
 
         # Connect the interaction functionality of the GUI
         self.ui_connect()
 
-        self.EM8000_wave()
-        self.EM1500_wave()
-
         # Show UI
         self.show()
+
 
     # EM8000 Wave Settings
     def EM8000_wave(self):
@@ -291,6 +316,17 @@ class GUI(QMainWindow, Ui_main):
                 self.COMAU_bar2_j6
             ]
 
+        # Xbox controller
+        self.XBOX_bars = RealTimeBar()
+        self.XBOX_bars.max_values = [1.0]*4
+        self.XBOX_bars.bars = [
+                self.XboxJoystickLeft_x,
+                self.XboxJoystickLeft_y,
+                self.XboxJoystickRight_x,
+                self.XboxJoystickRight_y,
+            ]
+
+
     # UI connections
     def ui_connect(self):
         # Password Protection of Tabs
@@ -467,6 +503,15 @@ class GUI(QMainWindow, Ui_main):
                 txHmi.comau.u[5]
             ])
 
+        # Xbox data
+        self.XBOX_bars.update([
+                self.xbox.left.x,
+                self.xbox.left.y,
+                self.xbox.right.x,
+                self.xbox.right.y
+            ])
+
+
     # Function to change the time axis range of the plots
     def plot_time_axis_range(self):
         # (This function is universal for all combobox objects in the plot tabs)
@@ -492,7 +537,7 @@ class GUI(QMainWindow, Ui_main):
         # Check if the selected tab is admin-tab
         # If so, call function "password_login(password)"
         main_tab = self.sender()
-        if main_tab.currentIndex() == 4:
+        if main_tab.currentIndex() == 5:
             if self.password_login("1234"):
                 #print "Good Accepted"
                 main_tab.setCurrentIndex(4)
@@ -620,10 +665,14 @@ class GUI(QMainWindow, Ui_main):
             # Stop timed data read
             self.timer.stop()
 
-            # # Close ADS ports
-            self.plc.close()
-            self.tccom.close()
-            print('Beckhoff ADS Connection Closed')
+            if self.plc_active:
+                # # Close ADS ports
+                self.plc.close()
+                self.tccom.close()
+                print('Beckhoff ADS Connection Closed')
+
+            # Stop xbox thread
+            self.xbox.close()
 
             event.accept()
         else:
