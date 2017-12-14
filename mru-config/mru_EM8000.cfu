@@ -4,17 +4,17 @@ T051008         # FILE MAGIC NUMBER
 VERSION     2   # version of configuration file.
 
     # This file was written from MRC at:
-DATE        1509625917 = Thu Nov 02 12:31:57 2017
+DATE        1513189996 = Wed Dec 13 18:33:15 2017
 
     # MRC version was:
-MRCVER      MRC+ 5.05.00 17-11-02
+MRCVER      MRC+ 5.05.00 17-12-13
 
     # 80 characters user's annotation, readable from MRU
     #       |--------------------------------------------------------------------------------|
-ANNOTATION  MRU_EM8000
+ANNOTATION  MRU1_EM8000
 
     # Position of center of gravity [meters]
-R_CG        0.000 0.000 0.000
+R_CG        1.289 -0.576 0.966
 
     # Position of point of measurement [meters]
 R_MP1       0.000 0.000 0.000   # MP1
@@ -30,10 +30,10 @@ ALERT_MODE	0
 MOUNT_ANG   0.000000 0.000000 0.000000
 
     # MRU location [meters]
-MRU_LOC     0.000 0.000 0.000
+MRU_LOC     -1.289 0.576 -0.966
 
     # GNSS location [meters]
-R_GPS       0.000 0.000 0.000
+R_GPS       1.289 -0.576 0.966
 
     # Data Message Out Protocol
     #  MRUBIN = MRU normal
@@ -59,7 +59,7 @@ COM4      9600 8n1 OFF                                           # RS-422 or 232
 COM5    38400 8n1 LISTEN    								 # RS-422 output and PPS input
 
 #CH   port  IP adress      protocol interval token  var....
-UDP1  7551 192.168.90.43   MRUBIN      5 11 31 226 214 202 9 63 64 65 1 2 3 60 61 62 244 245 246 238 239 240
+UDP1  50013 192.168.90.43   MRUBIN      5 11 176 31 9 63 64 65 1 2 3 244 245 246 238 239 240 274 275 276 262 263 264 250 251 252
 UDP2  7552 192.168.90.255  OFF
 UDP3  7553 192.168.90.255  OFF
 UDP4  7554 192.168.90.255  OFF
@@ -67,7 +67,7 @@ UDP5  7555 192.168.90.255  OFF
 
 #        IP adress     Net mask
 MRU_IP   192.168.90.13 255.255.255.0
-GATEWAY  192.168.90.0
+GATEWAY  192.168.1.1
 IP_PORT  7550
 
     # Source for Time Sync
@@ -146,7 +146,7 @@ VFORMAT     Basic
 VDATA       Not defined
 
     # Vessel dimension [meters]
-VDIM        100.000 25.000 22.000
+VDIM        100.000 22.000 25.000
 
     # Vessel reference [meters]
 VREF        0.000 0.000 0.000

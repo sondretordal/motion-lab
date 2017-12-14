@@ -1,110 +1,25 @@
-Include,    VarNumber,  VarName,            DataType,   Unit,       Description
-1,          1,          AngRate_R,          REAL,       [rad/s],    Angular rate in roll axis (b-frame)
-1,          2,          AngRate_P,          REAL,       [rad/s],    Angular rate in pitch axis (b-frame)
-1,          3,          AngRate_Y,          REAL,       [rad/s],    Angular rate in yaw axis (b-frame)
-0,          11,         AccM_Rf,            REAL,       [m/s2],     Low pass filtered measured acceleration in the roll axis in the MRU point (gravity not subtracted)
-0,          12,         AccM_Pf,            REAL,       [m/s2],     Low pass filtered measured acceleration in the pitch axis in the MRU point (gravity not subtracted)
-0,          13,         AccM_Yf,            REAL,       [m/s2],     Low pass filtered measured acceleration in the yaw axis in the MRU point (gravity not subtracted)
-1,          31,         Temprature,         REAL,       [DegC],     Sensor house temperature
-1,          60,         AngAcc_R,           REAL,       [rad/s2],   Angular acceleration in roll axis (b-frame)
-1,          61,         AngAcc_P,           REAL,       [rad/s2],   Angular acceleration in pitch axis (b-frame)
-1,          62,         AngAcc_Y,           REAL,       [rad/s2],   Angular acceleration in yaw axis (b-frame)
-1,          63,         Roll,               REAL,       [rad],      Roll angle (euler angle)
-1,          64,         Pitch,              REAL,       [rad],      Pitch angle (euler angle)
-1,          65,         Yaw,                REAL,       [rad],      Yaw angle (euler angle)
-0,          66,         RollHippy,          REAL,       [-1 1],     Sine of roll angle relative horizontal plane Datawell Hippy compatible
-0,          67,         PitchHippy,         REAL,       [-1 1],     Negative pitch angle sine Datawell Hippy compatible
-1,          68,         Heading,            REAL,       [rad],      Heading (Yaw angle represented in the interval from 0 to 2*pi)
-0,          90,         IntHeave,           REAL,       [m],        Heave in configured measurement point. Integrated heave solution
-0,          91,         IntHeaveVel,        REAL,       [m/s],      Heave velocity in configured measurepoint. Integrated heave solution
-0,          92,         HeaveUnrel,         REAL,       [-],        Heave transient indicator for integrated heave solution
-0,          93,         IntHeight,          REAL,       [m],        Height in configured monitoring point. Integrated heave solution
-1,          129,        AutomaticPeriod,    REAL,       [s],        Heave period used in the automatic heave filter
-1,          159,        HeavePeriod,        REAL,       [s],        Estimated heave period
-0,          160,        ExtSpeed,           REAL,       [m/s],      Speed estimated from external speed input
-0,          161,        ExtSpeedUser,       REAL,       [m/s],      External speed input from user
-0,          162,        ExtHeadUser,        REAL,       [degrees],  External heading input from user
-0,          167,        SampleTime_ms,      REAL,       [ms],       Seconds since 1970 millisecond fraction
-0,          168,        SampleTime_s,       REAL,       [s],        Seconds since 1970.01.01 00:00.00 UTC
-0,          169,        SampleTime_n,       REAL,       [nano],     Seconds since 1970 nanosecond fraction
-0,          173,        Status,             -,          [-],        MRU status bit that indicates its internal status
-1,          176,        SampleTime,         REAL,       [ms],       Sample time in milliseconds since power on
-0,          200,        AccMru_F,           REAL,       [m/s2],     Linear acceleration (raw/unfiltered) at MRU point in forward direction (h-frame)
-0,          201,        AccMru_S,           REAL,       [m/s2],     Linear acceleration (raw/unfiltered) at MRU point in starboard direction (h-frame)
-0,          202,        AccMru_D,           REAL,       [m/s2],     Linear acceleration (raw/unfiltered) at MRU point in down direction (h-frame)
-0,          203,        AccMru_Ff,          REAL,       [m/s2],     Low pass filtered acceleration at MRU point in forward direction (h-frame)
-0,          204,        AccMru_Sf,          REAL,       [m/s2],     Low pass filtered acceleration at MRU point in starboard direction (h-frame)
-0,          205,        AccMru_Df,          REAL,       [m/s2],     Low pass filtered acceleration at MRU point in down direction (h-frame)
-0,          206,        AccMru_N,           REAL,       [m/s2],     Linear acceleration (raw/unfiltered) at MRU point in north direction (g-frame)
-0,          207,        AccMru_E,           REAL,       [m/s2],     Linear acceleration (raw/unfiltered) at MRU point in east direction (g-frame)
-0,          208,        AccMru_D,           REAL,       [m/s2],     Linear acceleration (raw/unfiltered) at MRU point in down direction (g-frame)
-0,          212,        VelMru_F,           REAL,       [m/s],      Linear velocity at MRU point in forward direction (h-frame)
-0,          213,        VelMru_S,           REAL,       [m/s],      Linear velocity at MRU point in starboard direction (h-frame)
-0,          214,        VelMru_D,           REAL,       [m/s],      Linear velocity at MRU point in down direction (h-frame)
-0,          224,        PosMru_F,           REAL,       [m],        Linear position at MRU point in forward direction (h-frame)
-0,          225,        PosMru_S,           REAL,       [m],        Linear position at MRU point in starboard direction (h-frame)
-0,          226,        PosMru_D,           REAL,       [m],        Linear position at MRU point in down direction (h-frame)
-0,          230,        PosMru_N,           REAL,       [m],        Linear position at MRU point in north direction (g-frame)
-0,          231,        PosMru_E,           REAL,       [m],        Linear position at MRU point in east direction (g-frame)
-0,          232,        PosMru_D,           REAL,       [m],        Linear position at MRU point in down direction (g-frame)
-0,          234,        dSurgeMru,          REAL,       [m],        Delayed surge output at MRU point in north direction (g-frame). Output delayed 33 seconds from real-time
-0,          235,        dSwayMru,           REAL,       [m],        Delayed sway output at MRU point in east direction (g-frame). Output delayed 33 seconds from real-time
-0,          236,        dHeaveMru,          REAL,       [m],        Delayed heave output at MRU point in down direction (g-frame). Output delayed 132 seconds from real-time
-1,          238,        AccMru_R,           REAL,       [m/s2],     Linear acceleration (raw/unfiltered) at MRU point in R-direction (b-frame)
-1,          239,        AccMru_P,           REAL,       [m/s2],     Linear acceleration (raw/unfiltered) at MRU point in P-direction (b-frame)
-1,          240,        AccMru_Y,           REAL,       [m/s2],     Linear acceleration (raw/unfiltered) at MRU point in Y-direction (b-frame)
-0,          241,        AccMru_Rf,          REAL,       [m/s2],     Low pass filtered acceleration at MRU point in R-direction (b-frame)
-0,          242,        AccMru_Pf,          REAL,       [m/s2],     Low pass filtered acceleration at MRU point in P-direction (b-frame)
-0,          243,        AccMru_Yf,          REAL,       [m/s2],     Low pass filtered acceleration at MRU point in Y-direction (b-frame)
-1,          244,        VelMru_R,           REAL,       [m/s],      Linear velocity at MRU point in R-direction (b-frame)
-1,          245,        VelMru_P,           REAL,       [m/s],      Linear velocity at MRU point in P-direction (b-frame)
-1,          246,        VelMru_Y,           REAL,       [m/s],      Linear velocity at MRU point in Y-direction (b-frame)
-0,          247,        PosMru_R,           REAL,       [m],        Linear position at MRU point in R-direction (b-frame)
-0,          248,        PosMru_P,           REAL,       [m],        Linear position at MRU point in P-direction (b-frame)
-0,          249,        PosMru_Y,           REAL,       [m],        Linear position at MRU point in Y-direction (b-frame)
-0,          256,        AccCg_N,            REAL,       [m/s2],     Linear acceleration (raw/unfiltered) at CG in north direction (g-frame)
-0,          257,        AccCg_E,            REAL,       [m/s2],     Linear acceleration (raw/unfiltered) at CG in east direction (g-frame)
-0,          258,        AccCg_D,            REAL,       [m/s2],     Linear acceleration (raw/unfiltered) at CG in down direction (g-frame)
-1,          262,        VelCg_F,            REAL,       [m/s],      Linear velocity at CG in forward direction (h-frame)
-1,          263,        VelCg_S,            REAL,       [m/s],      Linear velocity at CG in starboard direction (h-frame)
-1,          264,        VelCg_D,            REAL,       [m/s],      Linear velocity at CG in down direction (h-frame)
-1,          274,        PosCg_F,            REAL,       [m],        Linear position at CG in forward direction (h-frame)
-1,          275,        PosCg_S,            REAL,       [m],        Linear position at CG in starboard direction (h-frame)
-1,          276,        PosCg_D,            REAL,       [m],        Linear position at CG in down direction (h-frame)
-0,          286,        dHeaveCg,           REAL,       [m],        Delayed heave output at Cg in down direction (g-frame)
-0,          300,        AccMp1_F,           REAL,       [m/s2],     Linear acceleration (raw/unfiltered) at the first monitoring point in forward direction (h-frame)
-0,          301,        AccMp1_S,           REAL,       [m/s2],     Linear acceleration (raw/unfiltered) at the first monitoring point in starboard direction (h-frame)
-0,          302,        AccMp1_D,           REAL,       [m/s2],     Linear acceleration (raw/unfiltered) at the first monitoring point in down direction (h-frame)
-0,          303,        AccMp1_Ff,          REAL,       [m/s2],     Low pass filtered acceleration at the first monitoring point in forward direction (h-frame)
-0,          304,        AccMp1_Sf,          REAL,       [m/s2],     Low pass filtered acceleration at the first monitoring point in starboard direction (h-frame)
-0,          305,        AccMp1_Df,          REAL,       [m/s2],     Low pass filtered acceleration at the first monitoring point in down direction (h-frame)
-0,          306,        AccMp1_N,           REAL,       [m/s2],     Linear acceleration (raw/unfiltered) at the first monitoring point in north direction (g-frame)
-0,          307,        AccMp1_E,           REAL,       [m/s2],     Linear acceleration (raw/unfiltered) at the first monitoring point in east direction (g-frame)
-0,          308,        AccMp1_D,           REAL,       [m/s2],     Linear acceleration (raw/unfiltered) at the first monitoring point in down direction (g-frame)
-0,          312,        VelMp1_F,           REAL,       [m/s],      Linear velocity at the first monitoring point in forward direction (h-frame)
-0,          313,        VelMp1_S,           REAL,       [m/s],      Linear velocity at the first monitoring point in starboard direction (h-frame)
-0,          314,        VelMp1_D,           REAL,       [m/s],      Linear velocity at the first monitoring point in down direction (h-frame)
-0,          323,        LA_VelMp1_D,        REAL,       [m/s],      Velocity in down direction (g-frame) at MP1 lever arm compensated from CG. The mean velocity depends on vessel tilt
-0,          324,        PosMp1_F,           REAL,       [m],        Linear position at the first monitoring point in forward direction (h-frame)
-0,          325,        PosMp1_S,           REAL,       [m],        Linear position at the first monitoring point in starboard direction (h-frame)
-0,          326,        PosMp1_D,           REAL,       [m],        Linear position at the first monitoring point in down direction (h-frame)
-0,          335,        LA_PosMp1_D,        REAL,       [m],        Lever arm compensated linear position relative to Cg in the first monitoring point in down direction (g-frame).
-0,          336,        dHeaveMp1,          REAL,       [m],        Delayed heave output at the first monitoring point in down direction (g-frame)
-0,          350,        AccMp2_F,           REAL,       [m/s2],     Linear acceleration (raw/unfiltered) at the second monitoring point in forward direction (h-frame)
-0,          351,        AccMp2_S,           REAL,       [m/s2],     Linear acceleration (raw/unfiltered) at the second monitoring point in starboard direction (h-frame)
-0,          352,        AccMp2_D,           REAL,       [m/s2],     Linear acceleration (raw/unfiltered) at the second monitoring point in down direction (h-frame)
-0,          353,        AccMp2_Ff,          REAL,       [m/s2],     Low pass filtered acceleration at the second monitoring point in forward direction (h-frame)
-0,          354,        AccMp2_Sf,          REAL,       [m/s2],     Low pass filtered acceleration at the second monitoring point in starboard direction (h-frame)
-0,          355,        AccMp2_Df,          REAL,       [m/s2],     Low pass filtered acceleration at the second monitoring point in down direction (h-frame)
-0,          356,        AccMp2_N,           REAL,       [m/s2],     Linear acceleration (raw/unfiltered) at the second monitoring point in north direction (g-frame)
-0,          357,        AccMp2_E,           REAL,       [m/s2],     Linear acceleration (raw/unfiltered) at the second monitoring point in east direction (g-frame)
-0,          358,        AccMp2_D,           REAL,       [m/s2],     Linear acceleration (raw/unfiltered) at the second monitoring point in down direction (g-frame)
-0,          362,        VelMp2_F,           REAL,       [m/s],      Linear velocity at the second monitoring point in forward direction (h-frame)
-0,          363,        VelMp2_S,           REAL,       [m/s],      Linear velocity at the second monitoring point in starboard direction (h-frame)
-0,          364,        VelMp2_D,           REAL,       [m/s],      Linear velocity at the second monitoring point in down direction (h-frame)
-0,          373,        LA_VelMp2_D,        REAL,       [m/s],      Lever arm compensated linear velocity relative to Cg in the second monitoring point in down direction (g-frame).
-0,          374,        PosMp2_F,           REAL,       [m],        Linear position at the second monitoring point in forward direction (h-frame)
-0,          375,        PosMp2_S,           REAL,       [m],        Linear position at the second monitoring point in starboard direction (h-frame)
-0,          376,        PosMp2_D,           REAL,       [m],        Linear position at the second monitoring point in down direction (h-frame)
-0,          385,        LA_PosMp2_D,        REAL,       [m],        Lever arm compensated linear position relative to Cg in the second monitoring point in down direction (g-frame)
-0,          386,        dHeaveMp2,          REAL,       [m],        Delayed heave output at the
+VarNumber,  VarName,            DataType,   Unit,       Description
+176,        SystemTime,         DINT,       [ms],       Sample time in milliseconds since power on
+31,         SensorTemp,         REAL,       [DegC],     Sensor house temprature     
+9,          AngRate_D,          REAL,       [rad/s],    Angular rate in Down direction (h-frame). Turn Rate
+63,         Roll,               REAL,       [rad],      Roll angle (euler angle)
+64,         Pitch,              REAL,       [rad],      Pitch angle (euler angle)
+65,         Yaw,                REAL,       [rad],      Yaw angle (euler angle)
+1,          AngRate_R,          REAL,       [rad/s],    Angular rate in roll axis (b-frame)
+2,          AngRate_P,          REAL,       [rad/s],    Angular rate in pitch axis (b-frame)
+3,          AngRate_Y,          REAL,       [rad/s],    Angular rate in yaw axis (b-frame)
+244,        VelMru_R,           REAL,       [m/s],      Linear velocity at MRU point in R-direction (b-frame)
+245,        VelMru_P,           REAL,       [m/s],      Linear velocity at MRU point in P-direction (b-frame)
+246,        VelMru_Y,           REAL,       [m/s],      Linear velocity at MRU point in Y-direction (b-frame)
+238,        AccMru_R,           REAL,       [m/s],      Linear acceleration at MRU point in R-direction (b-frame)
+239,        AccMru_P,           REAL,       [m/s],      Linear acceleration at MRU point in P-direction (b-frame)
+240,        AccMru_Y,           REAL,       [m/s],      Linear acceleration at MRU point in Y-direction (b-frame)
+274,        PosCg_F,            REAL,       [m],        Linear position at CG in forward direction (h-frame)
+275,        PosCg_S,            REAL,       [m],        Linear position at CG in starboard direction (h-frame)
+276,        PosCg_D,            REAL,       [m],        Linear position at CG in down direction (h-frame)
+262,        VelCg_F,            REAL,       [m/s],      Linear velocity at CG in forward direction (h-frame)
+263,        VelCg_S,            REAL,       [m/s],      Linear velocity at CG in starboard direction (h-frame)
+264,        VelCg_D,            REAL,       [m/s],      Linear velocity at CG in down direction (h-frame)
+250,        AccCg_F,            REAL,       [m/s2],     Linear acceleration (raw/unfiltered) at CG in forward direction (h-frame)
+251,        AccCg_S,            REAL,       [m/s2],     Linear acceleration (raw/unfiltered) at CG in starboard direction (h-frame)
+252,        AccCg_D,            REAL,       [m/s2],     Linear acceleration (raw/unfiltered) at CG in down direction (h-frame)
