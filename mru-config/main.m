@@ -26,6 +26,7 @@ for i = 1:N
     
 end
 
+fprintf(fileRxMru, 'checksum : BYTE; // Data checksum \n');
 
 fclose(fileRxMru);
 fclose(fileVarString);

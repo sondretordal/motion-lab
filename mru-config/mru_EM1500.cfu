@@ -4,7 +4,7 @@ T051008         # FILE MAGIC NUMBER
 VERSION     2   # version of configuration file.
 
     # This file was written from MRC at:
-DATE        1513183823 = Wed Dec 13 16:50:22 2017
+DATE        1513191899 = Wed Dec 13 19:04:58 2017
 
     # MRC version was:
 MRCVER      MRC+ 5.05.00 17-12-13
@@ -59,7 +59,7 @@ COM4      9600 8n1 OFF                                           # RS-422 or 232
 COM5    38400 8n1 LISTEN    								 # RS-422 output and PPS input
 
 #CH   port  IP adress      protocol interval token  var....
-UDP1  50014 192.168.90.44   MRUBIN      5 12 176 31 9 63 64 65 1 2 3 244 245 246 238 239 240 274 275 276 262 263 264 250 251 252
+UDP1  50044 192.168.90.44   MRUBIN      5 12 176 31 9 63 64 65 1 2 3 244 245 246 238 239 240 274 275 276 262 263 264 250 251 252
 UDP2  7552 192.168.90.255  OFF
 UDP3  7553 192.168.90.255  OFF
 UDP4  7554 192.168.90.255  OFF

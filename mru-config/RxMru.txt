@@ -25,3 +25,4 @@ VelCg_D : REAL; // No. 264 - [m/s] - Linear velocity at CG in down direction (h-
 AccCg_F : REAL; // No. 250 - [m/s2] - Linear acceleration (raw/unfiltered) at CG in forward direction (h-frame)
 AccCg_S : REAL; // No. 251 - [m/s2] - Linear acceleration (raw/unfiltered) at CG in starboard direction (h-frame)
 AccCg_D : REAL; // No. 252 - [m/s2] - Linear acceleration (raw/unfiltered) at CG in down direction (h-frame)
+checksum : BYTE; // Data checksum 
