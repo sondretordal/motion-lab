@@ -3761,49 +3761,71 @@
 							<Name>MAIN.em1500.u_sim</Name>
 							<Type GUID="{59CB7A65-AEAB-E588-EB2A-AFE112B8A9C3}">ARRAY [0..5] OF LREAL</Type>
 						</Var>
+						<Var>
+							<Name>MAIN.at960.Status</Name>
+							<Comment>
+								<![CDATA[ Variables linked to LeicaAT960 Box 1]]>
+							</Comment>
+							<Type>UDINT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.at960.TimeStamp</Name>
+							<Type>ULINT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.at960.AngleHz</Name>
+							<Type>LREAL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.at960.AngleVt</Name>
+							<Type>LREAL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.at960.Distance</Name>
+							<Type>LREAL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.at960.Quaternion0</Name>
+							<Type>LREAL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.at960.Quaternion1</Name>
+							<Type>LREAL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.at960.Quaternion2</Name>
+							<Type>LREAL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.at960.Quaternion3</Name>
+							<Type>LREAL</Type>
+						</Var>
 					</Vars>
-					<UnrestoredVarLinks ImportTime="2017-12-13T11:28:33">
-						<OwnerA Name="InputDst" Prefix="TIPC^LabController^LabController Instance" Type="1">
-							<OwnerB Name="TIRC^TcCOM Objects^WaveSimulatorEM1500">
-								<Link VarA="MAIN.EM1500.control^eta" TypeA="ARRAY [0..5] OF LREAL" InOutA="0" ParentTypeA="ST_StewartControl" GuidA="{59CB7A65-AEAB-E588-EB2A-AFE112B8A9C3}" VarB="Output^eta_xyz" RestoreInfo="ANotFound"/>
-							</OwnerB>
-						</OwnerA>
-					</UnrestoredVarLinks>
-					<UnrestoredVarLinks ImportTime="2017-12-13T11:34:40">
-						<OwnerA Name="InputDst" Prefix="TIPC^LabController^LabController Instance" Type="1">
-							<OwnerB Name="TIRC^TcCOM Objects^WaveSimulatorEM1500">
-								<Link VarA="MAIN.EM1500.eta_sim" TypeA="ARRAY [0..5] OF LREAL" InOutA="0" GuidA="{59CB7A65-AEAB-E588-EB2A-AFE112B8A9C3}" VarB="Output^eta_xyz" RestoreInfo="ANotFound"/>
-							</OwnerB>
-							<OwnerB Name="TIRC^TcCOM Objects^WaveSimulatorEM8000">
-								<Link VarA="MAIN.EM8000.eta_sim" TypeA="ARRAY [0..5] OF LREAL" InOutA="0" GuidA="{59CB7A65-AEAB-E588-EB2A-AFE112B8A9C3}" VarB="Output^eta_xyz" RestoreInfo="ANotFound"/>
-							</OwnerB>
-						</OwnerA>
-					</UnrestoredVarLinks>
 					<InitSymbols>
 						<InitSymbol>
 							<Name>MAIN.em8000.udpClient.oid</Name>
 							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
-							<Data>00000000</Data>
+							<Data>20000101</Data>
 						</InitSymbol>
 						<InitSymbol>
 							<Name>MAIN.em1500.udpClient.oid</Name>
 							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
-							<Data>00000000</Data>
+							<Data>10000101</Data>
 						</InitSymbol>
 						<InitSymbol>
 							<Name>MAIN.comau.udpClient.oid</Name>
 							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
-							<Data>00000000</Data>
+							<Data>50000101</Data>
 						</InitSymbol>
 						<InitSymbol>
 							<Name>MAIN.mru1.udpServer.oid</Name>
 							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
-							<Data>00000000</Data>
+							<Data>30000101</Data>
 						</InitSymbol>
 						<InitSymbol>
 							<Name>MAIN.mru2.udpServer.oid</Name>
 							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
-							<Data>00000000</Data>
+							<Data>40000101</Data>
 						</InitSymbol>
 					</InitSymbols>
 					<TaskPouOids>
@@ -5933,12 +5955,138 @@
 					<Esl SyncSlaveProtocolPort="-1"/>
 				</Ethernet>
 			</Device>
+			<Device DevType="111" DevFlags="#x0003" AmsPort="28682" AmsNetId="169.254.76.98.11.1" RemoteName="LeicaAT960 (EtherCAT)" Id="10">
+				<Name>LeicaAT960 (EtherCAT)</Name>
+				<AddressInfo>
+					<Pnp>
+						<DeviceDesc>M1-X601-AT960 (TwinCAT-Intel PCI Ethernet Adapter (</DeviceDesc>
+						<DeviceName>\DEVICE\{D8E45A94-5629-4ED3-9902-39C7B4BAA2DE}</DeviceName>
+						<DeviceData>000105262987</DeviceData>
+					</Pnp>
+				</AddressInfo>
+				<Image Id="4" AddrType="9" ImageType="3">
+					<Name>Image</Name>
+				</Image>
+				<Box BoxType="9099" Id="1">
+					<Name>Box 1 (Leica-RT-Output)</Name>
+					<ImageId>3</ImageId>
+					<EtherCAT SlaveType="2" PdiType="#x3280" MboxDataLinkLayer="true" CycleMBoxPolling="true" CoeType="47" VendorId="#x00000604" ProductCode="#x00000001" RevisionNo="#x0010000a" InfoDataAddr="true" TimeoutStateChange2="9000" TimeoutMailbox2="2000" PortPhys="17" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="Leica RT Output" Desc="Leica-RT-Output" PortABoxInfo="#x00ffffff">
+						<SyncMan>0010800026000100010000002200c0008000001026010000</SyncMan>
+						<SyncMan>0014800022000100020000002200c0008000001422010000</SyncMan>
+						<SyncMan>00181c006400010003000000000000001c00001864010000</SyncMan>
+						<SyncMan>001c58002000010004000000000000005800001c20010000</SyncMan>
+						<Fmmu>0000000000000000001800020100000001000000000000000000000000000000</Fmmu>
+						<Fmmu>0000000000000000001c00010100000002000000000000000000000000000000</Fmmu>
+						<DcMode>4672656552756e0000000000000000004672656552756e00000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000</DcMode>
+						<DcMode>44432d53796e6368726f6e000000000044432d53796e6368726f6e000000000000000000000000000000000000000000000000000000000000000000000000030100000000000000000000000000000000000000000000000000000000000000</DcMode>
+						<Pdo Name="Cyclic Measurements" Index="#x1a00" Flags="#x0000" SyncMan="3">
+							<Entry Name="Status" Index="#x6000">
+								<Type>UDINT</Type>
+							</Entry>
+							<Entry Name="AngleHz" Index="#x6001">
+								<Type>LREAL</Type>
+							</Entry>
+							<Entry Name="AngleVt" Index="#x6002">
+								<Type>LREAL</Type>
+							</Entry>
+							<Entry Name="Distance" Index="#x6003">
+								<Type>LREAL</Type>
+							</Entry>
+							<Entry Name="Quaternion0" Index="#x6004">
+								<Type>LREAL</Type>
+							</Entry>
+							<Entry Name="Quaternion1" Index="#x6005">
+								<Type>LREAL</Type>
+							</Entry>
+							<Entry Name="Quaternion2" Index="#x6006">
+								<Type>LREAL</Type>
+							</Entry>
+							<Entry Name="Quaternion3" Index="#x6007">
+								<Type>LREAL</Type>
+							</Entry>
+							<Entry Name="TimeStamp" Index="#x6008">
+								<Type>ULINT</Type>
+							</Entry>
+						</Pdo>
+						<Pdo Name="CmdIF Response" Index="#x1a01" Flags="#x0000" SyncMan="3">
+							<Entry Name="Command_Version" Index="#x6009">
+								<Type>USINT</Type>
+							</Entry>
+							<Entry Name="Command_ID" Index="#x600a">
+								<Type>USINT</Type>
+							</Entry>
+							<Entry Name="Command_status" Index="#x600b">
+								<Type>BYTE</Type>
+							</Entry>
+							<Entry Name="Command_jobID" Index="#x600c">
+								<Type>USINT</Type>
+							</Entry>
+							<Entry Name="Argument1" Index="#x600d">
+								<Type>UDINT</Type>
+							</Entry>
+							<Entry Name="Argument2" Index="#x600e">
+								<Type>UDINT</Type>
+							</Entry>
+							<Entry Name="Argument3" Index="#x600f">
+								<Type>UDINT</Type>
+							</Entry>
+							<Entry Name="Argument4" Index="#x6010">
+								<Type>UDINT</Type>
+							</Entry>
+						</Pdo>
+						<Pdo Name="CmdIF Request" Index="#x1600" InOut="1" Flags="#x0000" SyncMan="2">
+							<Entry Name="Command_Version" Index="#x6200">
+								<Type>USINT</Type>
+							</Entry>
+							<Entry Name="Command_ID" Index="#x6201">
+								<Type>USINT</Type>
+							</Entry>
+							<Entry Name="Command_Control" Index="#x6202">
+								<Type>BYTE</Type>
+							</Entry>
+							<Entry Name="Command_jobID" Index="#x6203">
+								<Type>USINT</Type>
+							</Entry>
+							<Entry Name="Argument1" Index="#x6204">
+								<Type>UDINT</Type>
+							</Entry>
+							<Entry Name="Argument2" Index="#x6205">
+								<Type>UDINT</Type>
+							</Entry>
+							<Entry Name="Argument3" Index="#x6206">
+								<Type>UDINT</Type>
+							</Entry>
+							<Entry Name="Argument4" Index="#x6207">
+								<Type>UDINT</Type>
+							</Entry>
+							<Entry Name="Argument5" Index="#x6208">
+								<Type>UDINT</Type>
+							</Entry>
+							<Entry Name="Argument6" Index="#x6209">
+								<Type>UDINT</Type>
+							</Entry>
+						</Pdo>
+					</EtherCAT>
+				</Box>
+				<EtherCAT DeviceDesc="M1-X601-AT960 (TwinCAT-Intel PCI Ethernet Adapter (Gigabit) #7)"/>
+			</Device>
 		</Io>
 	</Project>
 	<Mappings>
-		<MappingInfo Identifier="{08502001-0040-0201-0520-500876000101}" Id="#x02030010" Watchdog="04000000040000000400000004000000"/>
-		<MappingInfo Identifier="{08502001-0040-0201-0520-500867000101}" Id="#x02030020" Watchdog="04000000040000000400000004000000"/>
+		<MappingInfo Identifier="{08502001-0040-0201-0720-500878000101}" Id="#x02030010" Watchdog="04000000040000000400000004000000"/>
+		<MappingInfo Identifier="{08502001-0040-0201-0720-500869000101}" Id="#x02030020" Watchdog="04000000040000000400000004000000"/>
 		<OwnerA Name="TIPC^LabController^LabController Instance">
+			<OwnerB Name="TIID^LeicaAT960 (EtherCAT)^Box 1 (Leica-RT-Output)">
+				<Link VarA="PlcTask Inputs^MAIN.at960.AngleHz" VarB="Cyclic Measurements^AngleHz"/>
+				<Link VarA="PlcTask Inputs^MAIN.at960.AngleVt" VarB="Cyclic Measurements^AngleVt"/>
+				<Link VarA="PlcTask Inputs^MAIN.at960.Distance" VarB="Cyclic Measurements^Distance"/>
+				<Link VarA="PlcTask Inputs^MAIN.at960.Quaternion0" VarB="Cyclic Measurements^Quaternion0"/>
+				<Link VarA="PlcTask Inputs^MAIN.at960.Quaternion1" VarB="Cyclic Measurements^Quaternion1"/>
+				<Link VarA="PlcTask Inputs^MAIN.at960.Quaternion2" VarB="Cyclic Measurements^Quaternion2"/>
+				<Link VarA="PlcTask Inputs^MAIN.at960.Quaternion3" VarB="Cyclic Measurements^Quaternion3"/>
+				<Link VarA="PlcTask Inputs^MAIN.at960.Status" VarB="Cyclic Measurements^Status"/>
+				<Link VarA="PlcTask Inputs^MAIN.at960.TimeStamp" VarB="Cyclic Measurements^TimeStamp"/>
+			</OwnerB>
 			<OwnerB Name="TIRC^TcCOM Objects^WaveSimulatorEM1500">
 				<Link VarA="PlcTask Inputs^MAIN.em1500.u_sim" VarB="Output^eta_xyz"/>
 			</OwnerB>

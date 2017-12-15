@@ -54,6 +54,9 @@
     <Compile Include="POUs\LabEquipement\FB_ComauInterface.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\LabEquipement\FB_LeicaInterface.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\LabEquipement\FB_MruInterface.TcPOU">
       <SubType>Code</SubType>
     </Compile>

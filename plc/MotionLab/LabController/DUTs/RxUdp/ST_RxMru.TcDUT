@@ -31,6 +31,7 @@ STRUCT
 	AccCg_F : REAL; // No. 250 - [m/s2] - Linear acceleration (raw/unfiltered) at CG in forward direction (h-frame)
 	AccCg_S : REAL; // No. 251 - [m/s2] - Linear acceleration (raw/unfiltered) at CG in starboard direction (h-frame)
 	AccCg_D : REAL; // No. 252 - [m/s2] - Linear acceleration (raw/unfiltered) at CG in down direction (h-frame)
+	checksum : BYTE; // Data checksum 
 END_STRUCT
 END_TYPE
 ]]></Declaration>

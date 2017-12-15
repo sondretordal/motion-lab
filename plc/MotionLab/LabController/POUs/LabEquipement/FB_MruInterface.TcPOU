@@ -5,6 +5,7 @@
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
+	feedback : ST_RxMru;
 END_VAR
 VAR
 	// Udp related
@@ -25,7 +26,7 @@ udpServer();
 // Swap bytes of float data
 BigToLittleEndian(ADR(rxUdp), SIZEOF(rxUdp));
 
-
+feedback := rxUdp;
 
 ]]></ST>
     </Implementation>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<TcSmItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmItem" TcSmVersion="1.0" TcVersion="3.1.4022.4" ClassName="CDevEtherCATDef" SubType="111">
+	<Device Id="10" DevType="111" DevFlags="#x0003" AmsPort="28682" AmsNetId="169.254.76.98.11.1" RemoteName="LeicaAT960 (EtherCAT)">
+		<Name>__FILENAME__</Name>
+		<AddressInfo>
+			<Pnp>
+				<DeviceDesc>M2X601 AT960 (TwinCAT-Intel PCI Ethernet Adapter (G</DeviceDesc>
+				<DeviceName>\DEVICE\{7E3ABBBA-3ABD-40D6-AED5-AA9D64F53C82}</DeviceName>
+				<DeviceData>000105262987</DeviceData>
+			</Pnp>
+		</AddressInfo>
+		<Image Id="4" AddrType="9" ImageType="3">
+			<Name>Image</Name>
+		</Image>
+		<Box SaveInOwnFile="false" BoxType="9099" Id="1">
+			<Name>Box 1 (Leica-RT-Output)</Name>
+			<ImageId>3</ImageId>
+			<EtherCAT SlaveType="2" PdiType="#x3280" MboxDataLinkLayer="true" CycleMBoxPolling="true" CoeType="47" VendorId="#x00000604" ProductCode="#x00000001" RevisionNo="#x0010000a" InfoDataAddr="true" TimeoutStateChange2="9000" TimeoutMailbox2="2000" PortPhys="17" MaxSlotCount="256" MaxSlotGroupCount="1" SlotPdoIncrement="1" SlotIndexIncrement="16" Type="Leica RT Output" Desc="Leica-RT-Output" PortABoxInfo="#x00ffffff">
+				<SyncMan>0010800026000100010000002200c0008000001026010000</SyncMan>
+				<SyncMan>0014800022000100020000002200c0008000001422010000</SyncMan>
+				<SyncMan>00181c006400010003000000000000001c00001864010000</SyncMan>
+				<SyncMan>001c58002000010004000000000000005800001c20010000</SyncMan>
+				<Fmmu>0000000000000000001800020100000001000000000000000000000000000000</Fmmu>
+				<Fmmu>0000000000000000001c00010100000002000000000000000000000000000000</Fmmu>
+				<DcMode>4672656552756e0000000000000000004672656552756e00000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000</DcMode>
+				<DcMode>44432d53796e6368726f6e000000000044432d53796e6368726f6e000000000000000000000000000000000000000000000000000000000000000000000000030100000000000000000000000000000000000000000000000000000000000000</DcMode>
+				<Pdo Name="Cyclic Measurements" Index="#x1a00" Flags="#x0000" SyncMan="3">
+					<Entry Name="Status" Index="#x6000">
+						<Type>UDINT</Type>
+					</Entry>
+					<Entry Name="AngleHz" Index="#x6001">
+						<Type>LREAL</Type>
+					</Entry>
+					<Entry Name="AngleVt" Index="#x6002">
+						<Type>LREAL</Type>
+					</Entry>
+					<Entry Name="Distance" Index="#x6003">
+						<Type>LREAL</Type>
+					</Entry>
+					<Entry Name="Quaternion0" Index="#x6004">
+						<Type>LREAL</Type>
+					</Entry>
+					<Entry Name="Quaternion1" Index="#x6005">
+						<Type>LREAL</Type>
+					</Entry>
+					<Entry Name="Quaternion2" Index="#x6006">
+						<Type>LREAL</Type>
+					</Entry>
+					<Entry Name="Quaternion3" Index="#x6007">
+						<Type>LREAL</Type>
+					</Entry>
+					<Entry Name="TimeStamp" Index="#x6008">
+						<Type>ULINT</Type>
+					</Entry>
+				</Pdo>
+				<Pdo Name="CmdIF Response" Index="#x1a01" Flags="#x0000" SyncMan="3">
+					<Entry Name="Command_Version" Index="#x6009">
+						<Type>USINT</Type>
+					</Entry>
+					<Entry Name="Command_ID" Index="#x600a">
+						<Type>USINT</Type>
+					</Entry>
+					<Entry Name="Command_status" Index="#x600b">
+						<Type>BYTE</Type>
+					</Entry>
+					<Entry Name="Command_jobID" Index="#x600c">
+						<Type>USINT</Type>
+					</Entry>
+					<Entry Name="Argument1" Index="#x600d">
+						<Type>UDINT</Type>
+					</Entry>
+					<Entry Name="Argument2" Index="#x600e">
+						<Type>UDINT</Type>
+					</Entry>
+					<Entry Name="Argument3" Index="#x600f">
+						<Type>UDINT</Type>
+					</Entry>
+					<Entry Name="Argument4" Index="#x6010">
+						<Type>UDINT</Type>
+					</Entry>
+				</Pdo>
+				<Pdo Name="CmdIF Request" Index="#x1600" InOut="1" Flags="#x0000" SyncMan="2">
+					<Entry Name="Command_Version" Index="#x6200">
+						<Type>USINT</Type>
+					</Entry>
+					<Entry Name="Command_ID" Index="#x6201">
+						<Type>USINT</Type>
+					</Entry>
+					<Entry Name="Command_Control" Index="#x6202">
+						<Type>BYTE</Type>
+					</Entry>
+					<Entry Name="Command_jobID" Index="#x6203">
+						<Type>USINT</Type>
+					</Entry>
+					<Entry Name="Argument1" Index="#x6204">
+						<Type>UDINT</Type>
+					</Entry>
+					<Entry Name="Argument2" Index="#x6205">
+						<Type>UDINT</Type>
+					</Entry>
+					<Entry Name="Argument3" Index="#x6206">
+						<Type>UDINT</Type>
+					</Entry>
+					<Entry Name="Argument4" Index="#x6207">
+						<Type>UDINT</Type>
+					</Entry>
+					<Entry Name="Argument5" Index="#x6208">
+						<Type>UDINT</Type>
+					</Entry>
+					<Entry Name="Argument6" Index="#x6209">
+						<Type>UDINT</Type>
+					</Entry>
+				</Pdo>
+			</EtherCAT>
+		</Box>
+		<EtherCAT DeviceDesc="M2X601 AT960 (TwinCAT-Intel PCI Ethernet Adapter (Gigabit) #4)"/>
+	</Device>
+</TcSmItem>
