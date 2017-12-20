@@ -34,7 +34,6 @@ class TxHmiMru(Structure):
 
 class TxHmi(Structure):
     _fields_ = [
-        ('t', c_float),
         ('em8000', TxHmiStewart),
         ('em1500', TxHmiStewart),
         ('comau', TxHmiComau),

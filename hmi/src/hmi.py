@@ -3,6 +3,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5 import uic
 import pyqtgraph as pg
+import time
 import pyads
 import numpy as np
 from scipy.optimize import curve_fit
@@ -74,6 +75,9 @@ class GUI(QMainWindow, Ui_main):
             self.EM8000_wave()
             self.EM1500_wave()
 
+
+        # Read inition time
+        self.tStart = time.time()
 
         # Connect the interaction functionality of the GUI
         self.ui_connect()
@@ -393,63 +397,65 @@ class GUI(QMainWindow, Ui_main):
     def update_data(self):
         # Read latest data from ADS into RemoteFeedback ctypes struct
         txHmi = self.plc.read_by_name('MAIN.txHmi', TxHmi)
+
+        self.t = time.time() - self.tStart
     
         self.DP1_1.time_range = self.time_range
-        self.DP1_1.update(txHmi.t, [
+        self.DP1_1.update(self.t, [
                 txHmi.em1500.u_sim[0],
                 txHmi.em1500.u_sim[1],
                 txHmi.em1500.u_sim[2]
             ])
         
         self.DP1_2.time_range = self.time_range
-        self.DP1_2.update(txHmi.t, [
+        self.DP1_2.update(self.t, [
                 txHmi.em1500.u_sim[3]/np.pi*180.0,
                 txHmi.em1500.u_sim[4]/np.pi*180.0,
                 txHmi.em1500.u_sim[5]/np.pi*180.0
             ])
  
         self.DP2_1.time_range = self.time_range
-        self.DP2_1.update(txHmi.t, [
+        self.DP2_1.update(self.t, [
                 txHmi.em8000.u_sim[0],
                 txHmi.em8000.u_sim[1],
                 txHmi.em8000.u_sim[2]
             ])
         
         self.DP2_2.time_range = self.time_range
-        self.DP2_2.update(txHmi.t, [
+        self.DP2_2.update(self.t, [
                 txHmi.em8000.u_sim[3]/np.pi*180.0,
                 txHmi.em8000.u_sim[4]/np.pi*180.0,
                 txHmi.em8000.u_sim[5]/np.pi*180.0
             ])
 
         self.EM1500_1.time_range = self.time_range
-        self.EM1500_1.update(txHmi.t, [
+        self.EM1500_1.update(self.t, [
                 txHmi.em1500.eta[0],
                 txHmi.em1500.eta[1],
                 txHmi.em1500.eta[2]
             ])
         self.EM1500_2.time_range = self.time_range
-        self.EM1500_2.update(txHmi.t, [
+        self.EM1500_2.update(self.t, [
                 txHmi.em1500.eta[3]/np.pi*180.0,
                 txHmi.em1500.eta[4]/np.pi*180.0,
                 txHmi.em1500.eta[5]/np.pi*180.0
             ])
 
         self.EM8000_1.time_range = self.time_range
-        self.EM8000_1.update(txHmi.t, [
+        self.EM8000_1.update(self.t, [
                 txHmi.em8000.eta[0],
                 txHmi.em8000.eta[1],
                 txHmi.em8000.eta[2]
             ])
         self.EM8000_2.time_range = self.time_range
-        self.EM8000_2.update(txHmi.t, [
+        self.EM8000_2.update(self.t, [
                 txHmi.em8000.eta[3]/np.pi*180.0,
                 txHmi.em8000.eta[4]/np.pi*180.0,
                 txHmi.em8000.eta[5]/np.pi*180.0
             ])
         
         self.COMAU.time_range = self.time_range
-        self.COMAU.update(txHmi.t, [
+        self.COMAU.update(self.t, [
                 txHmi.comau.u[0], 
                 txHmi.comau.u[1], 
                 txHmi.comau.u[2],
