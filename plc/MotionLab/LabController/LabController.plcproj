@@ -39,6 +39,9 @@
     <Compile Include="DUTs\RxUdp\ST_RxUdpMru.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\RxUdp\ST_RxUdpRemote.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\RxUdp\ST_RxUdpStewart.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -54,6 +57,9 @@
     <Compile Include="DUTs\TxUdp\ST_TxUdpComau.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\TxUdp\ST_TxUdpRemote.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\TxUdp\ST_TxUdpStewart.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -64,6 +70,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\Interfaces\FB_MruInterface.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Interfaces\FB_RemoteInterface.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\Interfaces\FB_StewartInterface.TcPOU">

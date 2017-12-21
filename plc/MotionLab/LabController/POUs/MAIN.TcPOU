@@ -4,7 +4,9 @@
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
 	txHmi : ST_TxHmi;	
-
+	
+	remote : FB_RemoteInterface('192.168.90.60', 50060, 50050);
+	
 	em8000 : FB_StewartInterface('192.168.90.30', 50030, 50040, ADR(txHmi.em8000));
 	em1500 : FB_StewartInterface('192.168.90.31', 50031, 50041, ADR(txHmi.em1500));
 	
@@ -31,6 +33,15 @@ mru1();
 mru2();
 at960();
 
+remote.txUdp.t := remote.txUdp.t + 0.005;
+remote.txUdp.em8000 := em8000.feedback;
+remote.txUdp.em1500 := em1500.feedback;
+remote.txUdp.comau := comau.feedback;
+remote.txUdp.at960 := at960.feedback;
+remote.txUdp.mru1 := mru1.feedback;
+remote.txUdp.mru2 := mru2.feedback;
+remote();
+
 timeStamp100ns := F_GetTaskTime();
 
 // Update Hmi data
@@ -49,8 +60,11 @@ timeStamp100ns := F_GetTaskTime();
       <LineId Id="145" Count="0" />
       <LineId Id="141" Count="1" />
       <LineId Id="214" Count="0" />
-      <LineId Id="239" Count="0" />
-      <LineId Id="238" Count="0" />
+      <LineId Id="276" Count="1" />
+      <LineId Id="275" Count="0" />
+      <LineId Id="279" Count="4" />
+      <LineId Id="274" Count="0" />
+      <LineId Id="284" Count="1" />
       <LineId Id="263" Count="0" />
       <LineId Id="262" Count="0" />
       <LineId Id="269" Count="0" />

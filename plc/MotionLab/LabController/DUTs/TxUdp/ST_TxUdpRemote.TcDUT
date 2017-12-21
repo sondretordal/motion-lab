@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.7">
+  <DUT Name="ST_TxUdpRemote" Id="{e855cfb6-bd67-4fa5-9051-ffcbcaa8ada0}">
+    <Declaration><![CDATA[TYPE ST_TxUdpRemote :
+STRUCT
+	t : REAL;
+	em8000 : ST_FeedbackStewart;
+	em1500 : ST_FeedbackStewart;
+	comau : ST_FeedbackComau;
+	at960 : ST_FeedbackLeica;
+	mru1 : ST_FeedbackMru;
+	mru2 : ST_FeedbackMru;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>
