@@ -3,16 +3,16 @@ from ctypes import Structure, c_float, c_int, c_uint
 class TxHmiStewart(Structure):
     _fields_ = [
         ('status', c_int),
-        ('u', 6*c_float),
-        ('u_sim', 6*c_float),
         ('eta', 6*c_float),
-        ('L', 6*c_float)
+        ('eta_ref', 6*c_float),
+        ('eta_sim', 6*c_float),
+        ('cyl', 6*c_float)
     ]
 
 class TxHmiComau(Structure):
     _fields_ = [
         ('status', c_int),
-        ('u', 6*c_float)
+        ('q', 6*c_float)
     ]
 
 class TxHmiLeica(Structure):
@@ -36,9 +36,9 @@ class TxHmi(Structure):
     _fields_ = [
         ('em8000', TxHmiStewart),
         ('em1500', TxHmiStewart),
-        ('comau', TxHmiComau),
-        ('at960', TxHmiLeica),
-        ('mru1', TxHmiMru),
-        ('mru2', TxHmiMru)
+        ('comau', TxHmiComau)
+        # ('at960', TxHmiLeica),
+        # ('mru1', TxHmiMru),
+        # ('mru2', TxHmiMru)
     ]
 

@@ -71,7 +71,7 @@ VAR_INPUT
 	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
 	
 	// Init variables
-	_remoteIpAddr : UDINT;
+	_remoteIpAddr : T_Ipv4Addr;
 	_remotePort : UINT;
 	_localPort : UINT;
 	_nRxData : UDINT;
@@ -81,10 +81,12 @@ VAR_INPUT
 END_VAR
 VAR
     ipSrv : ITComObjectServer;
+	ipArr : T_IPv4AddrArr;
+	i : UINT;
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Initilize member variables
-remoteIpAddr := _remoteIpAddr;
+remoteIpAddr := IpToLong(_remoteIpAddr);
 remotePort := _remotePort;
 localPort := _localPort;
 nRxData := _nRxData;
@@ -122,6 +124,31 @@ END_VAR
 	ipUdp.RegisterReceiver(localPort, THIS^);
 	FB_reinit := TRUE; 
 END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="IpToLong" Id="{e4cca66b-0819-484f-a8e6-83fc33d50f23}">
+      <Declaration><![CDATA[METHOD IpToLong : UDINT
+VAR_INPUT
+	ipAddr : T_Ipv4Addr;
+END_VAR
+
+VAR
+	ipAddrArr : T_Ipv4AddrArr;
+	ipAddrLong : UDINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Scan ip string to byte array
+ipAddrArr := F_ScanIPv4AddrIds(ipAddr);
+
+// Copy bytes to ipaddrLong in reverse direction
+MEMCPY(ADR(ipAddrLong) + 0, ADR(ipAddrArr) + 3, 1);
+MEMCPY(ADR(ipAddrLong) + 1, ADR(ipAddrArr) + 2, 1);
+MEMCPY(ADR(ipAddrLong) + 2, ADR(ipAddrArr) + 1, 1);
+MEMCPY(ADR(ipAddrLong) + 3, ADR(ipAddrArr) + 0, 1); 
+
+// Return long ip adress
+IpToLong := ipAddrLong;]]></ST>
       </Implementation>
     </Method>
     <Method Name="ReceiveData" Id="{e94ea7b4-e895-4e8d-84f8-a532daf3880f}">
@@ -222,7 +249,7 @@ METHOD TcRelease : UDINT]]></Declaration>
     </LineIds>
     <LineIds Name="FB_UdpClient.FB_init">
       <LineId Id="69" Count="0" />
-      <LineId Id="92" Count="0" />
+      <LineId Id="138" Count="0" />
       <LineId Id="91" Count="0" />
       <LineId Id="68" Count="0" />
       <LineId Id="115" Count="2" />
@@ -233,6 +260,15 @@ METHOD TcRelease : UDINT]]></Declaration>
     </LineIds>
     <LineIds Name="FB_UdpClient.FB_reinit">
       <LineId Id="15" Count="2" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_UdpClient.IpToLong">
+      <LineId Id="19" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="13" Count="4" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="18" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_UdpClient.ReceiveData">

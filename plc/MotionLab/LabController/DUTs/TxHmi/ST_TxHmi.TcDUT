@@ -1,15 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.7">
-  <DUT Name="ST_TxHmi" Id="{9129dcc9-804b-42ce-b1bf-2c70a2baa70b}">
+  <DUT Name="ST_TxHmi" Id="{6be351a3-497e-469d-b641-634e507bcf6c}">
     <Declaration><![CDATA[TYPE ST_TxHmi :
 STRUCT
-	t : REAL := 0.0;
 	em8000 : ST_TxHmiStewart;
 	em1500 : ST_TxHmiStewart;
 	comau : ST_TxHmiComau;
-	at960 : ST_TxHmiLeica;	
-	mru1 : ST_TxHmiMru;
-	mru2 : ST_TxHmiMru;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

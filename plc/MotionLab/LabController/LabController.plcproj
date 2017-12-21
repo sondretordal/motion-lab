@@ -15,52 +15,58 @@
     <LibraryReferences>{aef4fe47-5e6c-4062-a679-76e7b334d805}</LibraryReferences>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="DUTs\E_StewartMode.TcDUT">
+    <Compile Include="DUTs\Control\ST_ControlComau.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\RxHmi\ST_RxHmi.TcDUT">
+    <Compile Include="DUTs\Control\ST_ControlStewart.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\RxUdp\ST_RxComau.TcDUT">
+    <Compile Include="DUTs\Feedback\ST_FeedbackComau.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\RxUdp\ST_RxMru.TcDUT">
+    <Compile Include="DUTs\Feedback\ST_FeedbackLeica.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\RxUdp\ST_RxStewart.TcDUT">
+    <Compile Include="DUTs\Feedback\ST_FeedbackMru.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\Feedback\ST_FeedbackStewart.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\RxUdp\ST_RxUdpComau.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\RxUdp\ST_RxUdpMru.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\RxUdp\ST_RxUdpStewart.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\TxHmi\ST_TxHmi.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\TxHmi\ST_TxHmiLeica.TcDUT">
+    <Compile Include="DUTs\TxHmi\ST_TxHmiComau.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\TxHmi\ST_TxHmiStewart.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\TxHmi\ST_TxHmiMru.TcDUT">
+    <Compile Include="DUTs\TxUdp\ST_TxUdpComau.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\TxHmi\ST_TxHmiComau.TcDUT">
+    <Compile Include="DUTs\TxUdp\ST_TxUdpStewart.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\TxUdp\ST_TxComau.TcDUT">
+    <Compile Include="POUs\Interfaces\FB_ComauInterface.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\TxUdp\ST_TxStewart.TcDUT">
+    <Compile Include="POUs\Interfaces\FB_LeicaInterface.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\LabEquipement\FB_ComauInterface.TcPOU">
+    <Compile Include="POUs\Interfaces\FB_MruInterface.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\LabEquipement\FB_LeicaInterface.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\LabEquipement\FB_MruInterface.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\LabEquipement\FB_StewartInterface.TcPOU">
+    <Compile Include="POUs\Interfaces\FB_StewartInterface.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\MAIN.TcPOU">
@@ -81,12 +87,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DUTs" />
-    <Folder Include="DUTs\RxHmi" />
+    <Folder Include="DUTs\Control" />
+    <Folder Include="DUTs\Feedback" />
     <Folder Include="DUTs\TxHmi" />
     <Folder Include="DUTs\TxUdp" />
     <Folder Include="DUTs\RxUdp" />
     <Folder Include="GVLs" />
-    <Folder Include="POUs\LabEquipement" />
+    <Folder Include="POUs\Interfaces" />
     <Folder Include="POUs\Utils" />
     <Folder Include="POUs\UdpFBs" />
     <Folder Include="VISUs" />

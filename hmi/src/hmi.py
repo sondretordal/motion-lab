@@ -174,7 +174,13 @@ class GUI(QMainWindow, Ui_main):
     def plot_setup(self):
 
         # Plot time range setting
-        self.time_range = 15
+        self.time_range = 20
+
+        # Signal comparator tab:
+        #------------------------------------------------------#
+        self.signalDebugger = RealTimePlot(self.singalDebugWidget.addPlot())
+        self.signalDebugger.plot.setLabel('left', 'Values ')
+        self.signalDebugger.add_curves(['r', 'b'], ['Signal 1', 'Signal 2'])
 
         # Ship Simulator tab:
         #------------------------------------------------------#
@@ -330,11 +336,15 @@ class GUI(QMainWindow, Ui_main):
                 self.XboxJoystickRight_y,
             ]
 
-
+    
     # UI connections
     def ui_connect(self):
         # Password Protection of Tabs
         self.tabWidget.currentChanged.connect(self.tab_selector)
+
+        # Signal compare tab
+        self.autoScale.clicked.connect(self.auto_scale)
+        self.time_range_signalDebugger.currentIndexChanged.connect(self.plot_time_axis_range)
 
         # Interface Tab:
         #----------------------------------------------------------#
@@ -402,30 +412,30 @@ class GUI(QMainWindow, Ui_main):
     
         self.DP1_1.time_range = self.time_range
         self.DP1_1.update(self.t, [
-                txHmi.em1500.u_sim[0],
-                txHmi.em1500.u_sim[1],
-                txHmi.em1500.u_sim[2]
+                txHmi.em1500.eta_sim[0],
+                txHmi.em1500.eta_sim[1],
+                txHmi.em1500.eta_sim[2]
             ])
         
         self.DP1_2.time_range = self.time_range
         self.DP1_2.update(self.t, [
-                txHmi.em1500.u_sim[3]/np.pi*180.0,
-                txHmi.em1500.u_sim[4]/np.pi*180.0,
-                txHmi.em1500.u_sim[5]/np.pi*180.0
+                txHmi.em1500.eta_sim[3]/np.pi*180.0,
+                txHmi.em1500.eta_sim[4]/np.pi*180.0,
+                txHmi.em1500.eta_sim[5]/np.pi*180.0
             ])
  
         self.DP2_1.time_range = self.time_range
         self.DP2_1.update(self.t, [
-                txHmi.em8000.u_sim[0],
-                txHmi.em8000.u_sim[1],
-                txHmi.em8000.u_sim[2]
+                txHmi.em8000.eta_sim[0],
+                txHmi.em8000.eta_sim[1],
+                txHmi.em8000.eta_sim[2]
             ])
         
         self.DP2_2.time_range = self.time_range
         self.DP2_2.update(self.t, [
-                txHmi.em8000.u_sim[3]/np.pi*180.0,
-                txHmi.em8000.u_sim[4]/np.pi*180.0,
-                txHmi.em8000.u_sim[5]/np.pi*180.0
+                txHmi.em8000.eta_sim[3]/np.pi*180.0,
+                txHmi.em8000.eta_sim[4]/np.pi*180.0,
+                txHmi.em8000.eta_sim[5]/np.pi*180.0
             ])
 
         self.EM1500_1.time_range = self.time_range
@@ -456,57 +466,57 @@ class GUI(QMainWindow, Ui_main):
         
         self.COMAU.time_range = self.time_range
         self.COMAU.update(self.t, [
-                txHmi.comau.u[0], 
-                txHmi.comau.u[1], 
-                txHmi.comau.u[2],
-                txHmi.comau.u[3], 
-                txHmi.comau.u[4], 
-                txHmi.comau.u[5]
+                txHmi.comau.q[0], 
+                txHmi.comau.q[1], 
+                txHmi.comau.q[2],
+                txHmi.comau.q[3], 
+                txHmi.comau.q[4], 
+                txHmi.comau.q[5]
             ])
         
         self.EM8000_bars.update([
-                txHmi.em8000.L[0], 
-                txHmi.em8000.L[1], 
-                txHmi.em8000.L[2],
-                txHmi.em8000.L[3], 
-                txHmi.em8000.L[4], 
-                txHmi.em8000.L[5],
-                txHmi.em8000.L[0], 
-                txHmi.em8000.L[1], 
-                txHmi.em8000.L[2],
-                txHmi.em8000.L[3], 
-                txHmi.em8000.L[4], 
-                txHmi.em8000.L[5]
+                txHmi.em8000.cyl[0], 
+                txHmi.em8000.cyl[1], 
+                txHmi.em8000.cyl[2],
+                txHmi.em8000.cyl[3], 
+                txHmi.em8000.cyl[4], 
+                txHmi.em8000.cyl[5],
+                txHmi.em8000.cyl[0], 
+                txHmi.em8000.cyl[1], 
+                txHmi.em8000.cyl[2],
+                txHmi.em8000.cyl[3], 
+                txHmi.em8000.cyl[4], 
+                txHmi.em8000.cyl[5]
             ])
 
         self.EM1500_bars.update([
-                txHmi.em1500.L[0], 
-                txHmi.em1500.L[1], 
-                txHmi.em1500.L[2],
-                txHmi.em1500.L[3], 
-                txHmi.em1500.L[4], 
-                txHmi.em1500.L[5],
-                txHmi.em1500.L[0], 
-                txHmi.em1500.L[1], 
-                txHmi.em1500.L[2],
-                txHmi.em1500.L[3], 
-                txHmi.em1500.L[4], 
-                txHmi.em1500.L[5]
+                txHmi.em1500.cyl[0], 
+                txHmi.em1500.cyl[1], 
+                txHmi.em1500.cyl[2],
+                txHmi.em1500.cyl[3], 
+                txHmi.em1500.cyl[4], 
+                txHmi.em1500.cyl[5],
+                txHmi.em1500.cyl[0], 
+                txHmi.em1500.cyl[1], 
+                txHmi.em1500.cyl[2],
+                txHmi.em1500.cyl[3], 
+                txHmi.em1500.cyl[4], 
+                txHmi.em1500.cyl[5]
             ])
 
         self.COMAU_bars.update([
-                txHmi.comau.u[0], 
-                txHmi.comau.u[1], 
-                txHmi.comau.u[2],
-                txHmi.comau.u[3], 
-                txHmi.comau.u[4], 
-                txHmi.comau.u[5],
-                txHmi.comau.u[0], 
-                txHmi.comau.u[1], 
-                txHmi.comau.u[2],
-                txHmi.comau.u[3], 
-                txHmi.comau.u[4], 
-                txHmi.comau.u[5]
+                txHmi.comau.q[0], 
+                txHmi.comau.q[1], 
+                txHmi.comau.q[2],
+                txHmi.comau.q[3], 
+                txHmi.comau.q[4], 
+                txHmi.comau.q[5],
+                txHmi.comau.q[0], 
+                txHmi.comau.q[1], 
+                txHmi.comau.q[2],
+                txHmi.comau.q[3], 
+                txHmi.comau.q[4], 
+                txHmi.comau.q[5]
             ])
 
         # Xbox data
@@ -516,6 +526,43 @@ class GUI(QMainWindow, Ui_main):
                 self.xbox.right.x,
                 self.xbox.right.y
             ])
+
+        # Signal comparator
+        if self.tabWidget.currentIndex() == 6:
+            
+            try:
+                signal1 = self.plc.read_by_name(self.textSignal_1.toPlainText(), pyads.PLCTYPE_REAL)
+            except pyads.pyads.ADSError:
+                signal1 = 0.0
+
+            try:
+                signal2 = self.plc.read_by_name(self.textSignal_2.toPlainText(), pyads.PLCTYPE_REAL)
+            except pyads.pyads.ADSError:
+                signal2 = 0.0
+    
+            # Update data
+            self.signalDebugger.time_range = self.time_range
+            self.signalDebugger.update(self.t, [
+                        signal1,
+                        signal2
+                    ])
+            
+    def auto_scale(self):
+        t = self.signalDebugger.time
+        loc = np.argmin(np.abs(t - (t[-1] - self.signalDebugger.time_range)))
+        n = len(t) - loc
+
+        max_values = [0.0, 0.0]
+        min_values = [0.0, 0.0]
+
+        for i in range(0, len(max_values)):
+            max_values[i] = np.max(self.signalDebugger.data[i][-n:])
+            min_values[i] = np.min(self.signalDebugger.data[i][-n:])
+        
+        new_range = [np.min(min_values), np.max(max_values)]
+
+        if (new_range[0] != 0.0) and (new_range[1] != 0.0):
+            self.signalDebugger.plot.setYRange(new_range[0], new_range[1])
 
 
     # Function to change the time axis range of the plots
@@ -546,7 +593,7 @@ class GUI(QMainWindow, Ui_main):
         if main_tab.currentIndex() == 5:
             if self.password_login("1234"):
                 #print "Good Accepted"
-                main_tab.setCurrentIndex(4)
+                main_tab.setCurrentIndex(5)
             else:
                 #print "Denied"
                 main_tab.setCurrentIndex(0)

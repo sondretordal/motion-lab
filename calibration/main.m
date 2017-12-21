@@ -2,6 +2,9 @@ close all
 clear all
 clc
 
+% Static calibration data
+calib = static_data();
+
 % EM8000 -> AT960
 text = fileread('./data/at960_em8000.json');
 data = jsondecode(text);
@@ -10,6 +13,7 @@ N = length(data.feedback.t);
 AT960 = zeros(4,4,N);
 EM8000 = zeros(4,4,N);
 for i = 1:N
+    % AT960
     AT960(1:3,1:3,i) = Rq([
         data.feedback.at960.q0(i)
         data.feedback.at960.q1(i)
@@ -25,6 +29,7 @@ for i = 1:N
     
     AT960(4,4,i) = 1;
     
+    % EM8000
     EM8000(1:3,1:3,i) = Rxyz([
         data.feedback.em8000.phi(i)
         data.feedback.em8000.theta(i)
@@ -63,7 +68,9 @@ N = length(data.feedback.t);
 
 AT960 = zeros(4,4,N);
 EM1500 = zeros(4,4,N);
+EM8000 = zeros(4,4,N);
 for i = 1:N
+    % AT960
     AT960(1:3,1:3,i) = Rq([
         data.feedback.at960.q0(i)
         data.feedback.at960.q1(i)
@@ -79,6 +86,7 @@ for i = 1:N
     
     AT960(4,4,i) = 1;
     
+    % EM1500
     EM1500(1:3,1:3,i) = Rxyz([
         data.feedback.em1500.phi(i)
         data.feedback.em1500.theta(i)
@@ -92,6 +100,21 @@ for i = 1:N
     ];
     
     EM1500(4,4,i) = 1;
+    
+    % EM8000
+    EM8000(1:3,1:3,i) = Rxyz([
+        data.feedback.em8000.phi(i)
+        data.feedback.em8000.theta(i)
+        data.feedback.em8000.psi(i)
+    ]);
+
+    EM8000(1:3,4,i) = [
+        data.feedback.em8000.surge(i)
+        data.feedback.em8000.sway(i)
+        data.feedback.em8000.heave(i)
+    ];
+    
+    EM8000(4,4,i) = 1;
 
 end
 
@@ -110,92 +133,107 @@ X2 = HandEyeParkMartin(A, B);
 calib.EM1500_TO_TMAC.quat = rotm2quat(X2(1:3,1:3))';
 calib.EM1500_TO_TMAC.pos = X2(1:3,4);
 
+% Solve X1 from using EM1500 calibration data set
+X = zeros(4,4,N);
+for i = 1:N
+    T01 = eye(4);
+    T01(1:3,1:3) = Rq(calib.WORLD_TO_EM8000.quat);
+    T01(1:3,4) = calib.WORLD_TO_EM8000.pos;
+    
+    T02 = eye(4);
+    T02(1:3,1:3) = Rq(calib.WORLD_TO_EM1500.quat);
+    T02(1:3,4) = calib.WORLD_TO_EM1500.pos;
+    
+    
+    X(:,:,i) = inv(T01*EM8000(:,:,i))*T02*EM1500(:,:,i)*X2*inv(AT960(:,:,i));
+end
 
 
-% #########################################################################
-% WORLD -> EM8000
-calib.WORLD_TO_EM8000.quat = [
-    0.000060198987883
-    0.705931944115000
-    0.708279565403954
-    0.000379322138596
-];
+function calib = static_data()
 
-calib.WORLD_TO_EM8000.pos = [
-    -2.969661622702265
-    1.976311036084776
-    2.662845015592614
-];
+    % WORLD -> EM8000
+    calib.WORLD_TO_EM8000.quat = [
+        0.000060198987883
+        0.705931944115000
+        0.708279565403954
+        0.000379322138596
+    ];
 
-% WORLD -> EM1500
-calib.WORLD_TO_EM1500.quat = [
-    0.000269356973877
-    -0.708291543794578
-    -0.705919386042796
-    -0.000914792257884
-];
+    calib.WORLD_TO_EM8000.pos = [
+        -2.969661622702265
+        1.976311036084776
+        2.662845015592614
+    ];
 
-calib.WORLD_TO_EM1500.pos = [
-    0.391038069269004
-    -1.780959676838664
-    1.689612471594921
-];
+    % WORLD -> EM1500
+    calib.WORLD_TO_EM1500.quat = [
+        0.000269356973877
+        -0.708291543794578
+        -0.705919386042796
+        -0.000914792257884
+    ];
 
-% EM8000 -> EM1500
-calib.EM8000_TO_EM1500.quat = [
-    0.999994233253677
-    -0.000147371685366
-    0.000610386086891
-    0.003337539483092
-];
+    calib.WORLD_TO_EM1500.pos = [
+        0.391038069269004
+        -1.780959676838664
+        1.689612471594921
+    ];
 
-calib.EM8000_TO_EM1500.pos = [
-    -3.768845951221771
-    3.347601117953204
-    0.973619107013598
-];
+    % EM8000 -> EM1500
+    calib.EM8000_TO_EM1500.quat = [
+        0.999994233253677
+        -0.000147371685366
+        0.000610386086891
+        0.003337539483092
+    ];
 
-% EM8000 -> COMAU
-calib.EM8000_TO_COMAU.quat = [
-    0.002461288106714
-    -0.501408337431486
-    -0.865206982556575
-    0.000706081011787
-];
+    calib.EM8000_TO_EM1500.pos = [
+        -3.768845951221771
+        3.347601117953204
+        0.973619107013598
+    ];
 
-calib.EM8000_TO_COMAU.pos = [
-    -1.082024099747949
-     1.536041691521612
-    -1.024461448780775
-];
+    % EM8000 -> COMAU
+    calib.EM8000_TO_COMAU.quat = [
+        0.002461288106714
+        -0.501408337431486
+        -0.865206982556575
+        0.000706081011787
+    ];
 
-% EM8000 -> MRU1
-calib.EM8000_TO_MRU1.quat = [
-    1.0
-    0.0
-    0.0
-    0.0
-];
+    calib.EM8000_TO_COMAU.pos = [
+        -1.082024099747949
+         1.536041691521612
+        -1.024461448780775
+    ];
 
-calib.EM8000_TO_MRU1.pos = [
-    -1.289
-    0.576
-    -0.966
-];
+    % EM8000 -> MRU1
+    calib.EM8000_TO_MRU1.quat = [
+        1.0
+        0.0
+        0.0
+        0.0
+    ];
 
-% EM1500 -> MRU2
-calib.EM1500_TO_MRU1.quat = [
-    1.0
-    0.0
-    0.0
-    0.0
-];
+    calib.EM8000_TO_MRU1.pos = [
+        -1.289
+        0.576
+        -0.966
+    ];
 
-calib.EM1500_TO_MRU1.pos = [
-    0.513
-    0.000
-    -0.169
-];
+    % EM1500 -> MRU2
+    calib.EM1500_TO_MRU1.quat = [
+        1.0
+        0.0
+        0.0
+        0.0
+    ];
 
+    calib.EM1500_TO_MRU1.pos = [
+        0.513
+        0.000
+        -0.169
+    ];
 
+end
 

@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.7">
-  <DUT Name="ST_TxHmiComau" Id="{0b34600d-1183-439f-bd2b-3f486f782212}">
+  <DUT Name="ST_TxHmiComau" Id="{48c5d74a-ce8a-481a-a75e-9ca9e2c912f3}">
     <Declaration><![CDATA[TYPE ST_TxHmiComau :
 STRUCT
 	status : DINT;
-	u : ARRAY [0..5] OF REAL;
+	q : ARRAY [0..5] OF REAL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>
