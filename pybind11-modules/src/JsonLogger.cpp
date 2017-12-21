@@ -84,8 +84,14 @@ void JsonLogger::save(std::string path) {
         json_log["feedback"]["at960"]["q2"].push_back(feedback[i].at960.q2);
         json_log["feedback"]["at960"]["q3"].push_back(feedback[i].at960.q3);
 
+        json_log["feedback"]["mru1"]["surge"].push_back(feedback[i].mru1.surge);
+        json_log["feedback"]["mru1"]["sway"].push_back(feedback[i].mru1.sway);
         json_log["feedback"]["mru1"]["heave"].push_back(feedback[i].mru1.heave);
+        json_log["feedback"]["mru1"]["surge_t"].push_back(feedback[i].mru1.surge_t);
+        json_log["feedback"]["mru1"]["sway_t"].push_back(feedback[i].mru1.sway_t);
         json_log["feedback"]["mru1"]["heave_t"].push_back(feedback[i].mru1.heave_t);
+        json_log["feedback"]["mru1"]["surge_tt"].push_back(feedback[i].mru1.surge_tt);
+        json_log["feedback"]["mru1"]["sway_tt"].push_back(feedback[i].mru1.sway_tt);
         json_log["feedback"]["mru1"]["heave_tt"].push_back(feedback[i].mru1.heave_tt);
         json_log["feedback"]["mru1"]["turn_rate"].push_back(feedback[i].mru1.turn_rate);
         json_log["feedback"]["mru1"]["phi"].push_back(feedback[i].mru1.phi);
@@ -94,18 +100,21 @@ void JsonLogger::save(std::string path) {
         json_log["feedback"]["mru1"]["wx"].push_back(feedback[i].mru1.wx);
         json_log["feedback"]["mru1"]["wy"].push_back(feedback[i].mru1.wy);
         json_log["feedback"]["mru1"]["wz"].push_back(feedback[i].mru1.wz);
-        json_log["feedback"]["mru1"]["wx_t"].push_back(feedback[i].mru1.wx_t);
-        json_log["feedback"]["mru1"]["wy_t"].push_back(feedback[i].mru1.wy_t);
-        json_log["feedback"]["mru1"]["wz_t"].push_back(feedback[i].mru1.wz_t);
         json_log["feedback"]["mru1"]["x_t"].push_back(feedback[i].mru1.x_t);
         json_log["feedback"]["mru1"]["y_t"].push_back(feedback[i].mru1.y_t);
         json_log["feedback"]["mru1"]["z_t"].push_back(feedback[i].mru1.z_t);
         json_log["feedback"]["mru1"]["x_tt"].push_back(feedback[i].mru1.x_tt);
         json_log["feedback"]["mru1"]["y_tt"].push_back(feedback[i].mru1.y_tt);
         json_log["feedback"]["mru1"]["z_tt"].push_back(feedback[i].mru1.z_tt);
-
+        
+        json_log["feedback"]["mru2"]["surge"].push_back(feedback[i].mru2.surge);
+        json_log["feedback"]["mru2"]["sway"].push_back(feedback[i].mru2.sway);
         json_log["feedback"]["mru2"]["heave"].push_back(feedback[i].mru2.heave);
+        json_log["feedback"]["mru2"]["surge_t"].push_back(feedback[i].mru2.surge_t);
+        json_log["feedback"]["mru2"]["sway_t"].push_back(feedback[i].mru2.sway_t);
         json_log["feedback"]["mru2"]["heave_t"].push_back(feedback[i].mru2.heave_t);
+        json_log["feedback"]["mru2"]["surge_tt"].push_back(feedback[i].mru2.surge_tt);
+        json_log["feedback"]["mru2"]["sway_tt"].push_back(feedback[i].mru2.sway_tt);
         json_log["feedback"]["mru2"]["heave_tt"].push_back(feedback[i].mru2.heave_tt);
         json_log["feedback"]["mru2"]["turn_rate"].push_back(feedback[i].mru2.turn_rate);
         json_log["feedback"]["mru2"]["phi"].push_back(feedback[i].mru2.phi);
@@ -114,9 +123,6 @@ void JsonLogger::save(std::string path) {
         json_log["feedback"]["mru2"]["wx"].push_back(feedback[i].mru2.wx);
         json_log["feedback"]["mru2"]["wy"].push_back(feedback[i].mru2.wy);
         json_log["feedback"]["mru2"]["wz"].push_back(feedback[i].mru2.wz);
-        json_log["feedback"]["mru2"]["wx_t"].push_back(feedback[i].mru2.wx_t);
-        json_log["feedback"]["mru2"]["wy_t"].push_back(feedback[i].mru2.wy_t);
-        json_log["feedback"]["mru2"]["wz_t"].push_back(feedback[i].mru2.wz_t);
         json_log["feedback"]["mru2"]["x_t"].push_back(feedback[i].mru2.x_t);
         json_log["feedback"]["mru2"]["y_t"].push_back(feedback[i].mru2.y_t);
         json_log["feedback"]["mru2"]["z_t"].push_back(feedback[i].mru2.z_t);

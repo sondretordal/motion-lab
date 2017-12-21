@@ -26,13 +26,13 @@ private:
     unsigned int log_mode = 0;
 
     // Remote interface data
-    RemoteFeedback rx_data;
-    RemoteControl tx_data;
+    Feedback rx_data;
+    Control tx_data;
 public:
 
     // IO data
-    RemoteFeedback feedback;
-	RemoteControl control;
+    Feedback feedback;
+	Control control;
 
     // Constructor and destructor
     RemoteInterface(unsigned int port);

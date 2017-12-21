@@ -4,34 +4,33 @@
 #include <iostream>
 
 // Control structs
-struct RemoteControlComau {
-	float q1;
-	float q2;
-	float q3;
-	float q4;
-	float q5;
-	float q6;
-	float q1_t;
-	float q2_t;
-	float q3_t;
-	float q4_t;
-	float q5_t;
-	float q6_t;
-	float q1_tt;
-	float q2_tt;
-	float q3_tt;
-	float q4_tt;
-	float q5_tt;
-	float q6_tt;
+struct ControlComau {
+	float q1 = 0.0f;
+	float q2 = 0.0f;
+	float q3 = 0.0f;
+	float q4 = 0.0f;
+	float q5 = 0.0f;
+	float q6 = 0.0f;
+	float q1_t = 0.0f;
+	float q2_t = 0.0f;
+	float q3_t = 0.0f;
+	float q4_t = 0.0f;
+	float q5_t = 0.0f;
+	float q6_t = 0.0f;
+	float q1_tt = 0.0f;
+	float q2_tt = 0.0f;
+	float q3_tt = 0.0f;
+	float q4_tt = 0.0f;
+	float q5_tt = 0.0f;
+	float q6_tt = 0.0f;
 };
 
-struct RemoteControl {
-	int	udp_key;
-	RemoteControlComau comau;
+struct Control {
+	ControlComau comau;
 };
 
 // Feedback structs
-struct RemoteFeedbackStewart {
+struct FeedbackStewart {
 	float surge;
 	float sway;
 	float heave;
@@ -52,7 +51,7 @@ struct RemoteFeedbackStewart {
 	float psi_tt;
 };
 
-struct RemoteFeedbackComau {
+struct FeedbackComau {
 	float q1;
 	float q2;
 	float q3;
@@ -73,7 +72,7 @@ struct RemoteFeedbackComau {
 	float q6_tt;
 };
 
-struct RemoteFeedbackLeica {
+struct FeedbackLeica {
 	float x;
 	float y;
 	float z;
@@ -83,9 +82,15 @@ struct RemoteFeedbackLeica {
 	float q3;
 };
 
-struct RemoteFeedbackMru {
+struct FeedbackMru {
+	float surge;
+	float sway;
 	float heave;
+	float surge_t;
+	float sway_t;
 	float heave_t;
+	float surge_tt;
+	float sway_tt;
 	float heave_tt;
 	float turn_rate;
 	float phi;
@@ -94,9 +99,6 @@ struct RemoteFeedbackMru {
 	float wx;
 	float wy;
 	float wz;
-	float wx_t;
-	float wy_t;
-	float wz_t;
 	float x_t;
 	float y_t;
 	float z_t;
@@ -105,14 +107,14 @@ struct RemoteFeedbackMru {
 	float z_tt;
 };
 
-struct RemoteFeedback {
+struct Feedback {
 	float t;
-	RemoteFeedbackStewart em8000;
-	RemoteFeedbackStewart em1500;
-	RemoteFeedbackComau comau;
-	RemoteFeedbackLeica at960;
-	RemoteFeedbackMru mru1;
-	RemoteFeedbackMru mru2;
+	FeedbackStewart em8000;
+	FeedbackStewart em1500;
+	FeedbackComau comau;
+	FeedbackLeica at960;
+	FeedbackMru mru1;
+	FeedbackMru mru2;
 };
 
 struct XboxData {

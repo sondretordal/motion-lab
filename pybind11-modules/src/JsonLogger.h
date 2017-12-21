@@ -18,8 +18,8 @@ private:
     // Json file
     nlohmann::json json_log;
 public:
-    std::vector<RemoteFeedback> feedback;
-    std::vector<RemoteControl> control;
+    std::vector<Feedback> feedback;
+    std::vector<Control> control;
 
     JsonLogger();
     ~JsonLogger();

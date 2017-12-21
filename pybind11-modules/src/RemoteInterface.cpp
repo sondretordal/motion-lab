@@ -3,7 +3,6 @@
 
 RemoteInterface::RemoteInterface(unsigned int port) :
 thread(), logger(), server(port, &rx_data, sizeof(rx_data), &tx_data, sizeof(tx_data)) {
-
 }
 
 RemoteInterface::~RemoteInterface() {
