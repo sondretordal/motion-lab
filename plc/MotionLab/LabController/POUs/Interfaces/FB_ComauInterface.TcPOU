@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.7">
+  <POU Name="FB_ComauInterface" Id="{7f6fcfb6-ea5d-4e07-bbf6-5b138a56f61f}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_ComauInterface
+VAR_INPUT
+	cmnd : DINT;
+	control : ST_ControlComau;
+END_VAR
+VAR_OUTPUT
+	feedback : ST_FeedbackComau;
+END_VAR
+VAR
+	// Udp related
+	{attribute 'tc_no_symbol'}
+	udpClient : FB_UdpClient('', 0, 0, 0, 0, 0, 0);	// Dummy constructor
+	rxUdp : ST_RxUdpComau;
+	txUdp : ST_TxUdpComau;
+	
+	pTxHmi : POINTER TO ST_TxHmiComau;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Update udpClient
+udpClient();
+
+
+txUdp.udp_key := 32;
+txUdp.beta := 1.0;
+txUdp.omega := 1.0;]]></ST>
+    </Implementation>
+    <Method Name="FB_exit" Id="{f18839c2-6d63-4a3d-ad66-5f830bcc3ab8}">
+      <Declaration><![CDATA[METHOD FB_exit : BOOL
+VAR_INPUT
+	bInCopyCode : BOOL; // if TRUE, the exit method is called for exiting an instance that is copied afterwards (online change).
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_init" Id="{e202aff2-65cb-4030-9293-23617d8046a4}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	
+	// Init variables
+	_remoteIpAddr : T_Ipv4Addr;
+	_remotePort : UINT;
+	_localPort : UINT;
+	_pTxHmi : POINTER TO ST_TxHmiComau;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[pTxHmi := _pTxHmi;
+
+// Initilize udpClient
+udpClient.FB_init(
+	bInitRetains,
+	bInCopyCode,
+	_remoteIpAddr,
+	_remotePort,
+	_localPort,
+	SIZEOF(rxUdp),
+	ADR(rxUdp),
+	SIZEOF(txUdp),
+	ADR(txUdp)
+);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_reinit" Id="{09f56272-fe35-4170-800b-7842448d6227}">
+      <Declaration><![CDATA[METHOD FB_reinit : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="UpdateHMI" Id="{360dfad7-3f26-47be-97c5-29d518768fdd}">
+      <Declaration><![CDATA[METHOD UpdateHMI : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Update HMI Data
+pTxHmi^.status := -1;
+
+pTxHmi^.q[0] := rxUdp.q1;
+pTxHmi^.q[1] := rxUdp.q2;
+pTxHmi^.q[2] := rxUdp.q3;
+pTxHmi^.q[3] := rxUdp.q4;
+pTxHmi^.q[4] := rxUdp.q5;
+pTxHmi^.q[5] := rxUdp.q6;]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_ComauInterface">
+      <LineId Id="9" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="19" Count="2" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="18" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ComauInterface.FB_exit">
+      <LineId Id="6" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ComauInterface.FB_init">
+      <LineId Id="31" Count="0" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="8" Count="10" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ComauInterface.FB_reinit">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_ComauInterface.UpdateHMI">
+      <LineId Id="5" Count="1" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="9" Count="4" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

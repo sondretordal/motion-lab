@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.7">
+  <DUT Name="ST_FeedbackComau" Id="{bcc2c701-71e1-4bd6-822a-79cbfcbaf51c}">
+    <Declaration><![CDATA[TYPE ST_FeedbackComau :
+STRUCT
+	q1 : REAL;
+	q2 : REAL;
+	q3 : REAL;
+	q4 : REAL;
+	q5 : REAL;
+	q6 : REAL;
+	q1_t : REAL;
+	q2_t : REAL;
+	q3_t : REAL;
+	q4_t : REAL;
+	q5_t : REAL;
+	q6_t : REAL;
+	q1_tt : REAL;
+	q2_tt : REAL;
+	q3_tt : REAL;
+	q4_tt : REAL;
+	q5_tt : REAL;
+	q6_tt : REAL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

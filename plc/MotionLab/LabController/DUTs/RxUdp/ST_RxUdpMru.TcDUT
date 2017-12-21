@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.7">
+  <DUT Name="ST_RxUdpMru" Id="{cbdf1de8-c105-4b7a-b143-5df7852332bf}">
+    <Declaration><![CDATA[{attribute 'pack_mode' := '1'}
+TYPE ST_RxUdpMru :
+STRUCT
+	mruOK : BYTE; // Mru Status, 113=OK
+	dataLength : BYTE; // Data length
+	token : BYTE; // MRU token
+	SystemTime : DINT; // No. 176 - [ms] - Sample time in milliseconds since power on
+	SensorTemp : REAL; // No. 31 - [DegC] - Sensor house temprature     
+	AngRate_D : REAL; // No. 9 - [rad/s] - Angular rate in Down direction (h-frame). Turn Rate
+	Roll : REAL; // No. 63 - [rad] - Roll angle (euler angle)
+	Pitch : REAL; // No. 64 - [rad] - Pitch angle (euler angle)
+	Yaw : REAL; // No. 65 - [rad] - Yaw angle (euler angle)
+	AngRate_R : REAL; // No. 1 - [rad/s] - Angular rate in roll axis (b-frame)
+	AngRate_P : REAL; // No. 2 - [rad/s] - Angular rate in pitch axis (b-frame)
+	AngRate_Y : REAL; // No. 3 - [rad/s] - Angular rate in yaw axis (b-frame)
+	VelMru_R : REAL; // No. 244 - [m/s] - Linear velocity at MRU point in R-direction (b-frame)
+	VelMru_P : REAL; // No. 245 - [m/s] - Linear velocity at MRU point in P-direction (b-frame)
+	VelMru_Y : REAL; // No. 246 - [m/s] - Linear velocity at MRU point in Y-direction (b-frame)
+	AccMru_R : REAL; // No. 238 - [m/s] - Linear acceleration at MRU point in R-direction (b-frame)
+	AccMru_P : REAL; // No. 239 - [m/s] - Linear acceleration at MRU point in P-direction (b-frame)
+	AccMru_Y : REAL; // No. 240 - [m/s] - Linear acceleration at MRU point in Y-direction (b-frame)
+	PosCg_F : REAL; // No. 274 - [m] - Linear position at CG in forward direction (h-frame)
+	PosCg_S : REAL; // No. 275 - [m] - Linear position at CG in starboard direction (h-frame)
+	PosCg_D : REAL; // No. 276 - [m] - Linear position at CG in down direction (h-frame)
+	VelCg_F : REAL; // No. 262 - [m/s] - Linear velocity at CG in forward direction (h-frame)
+	VelCg_S : REAL; // No. 263 - [m/s] - Linear velocity at CG in starboard direction (h-frame)
+	VelCg_D : REAL; // No. 264 - [m/s] - Linear velocity at CG in down direction (h-frame)
+	AccCg_F : REAL; // No. 250 - [m/s2] - Linear acceleration (raw/unfiltered) at CG in forward direction (h-frame)
+	AccCg_S : REAL; // No. 251 - [m/s2] - Linear acceleration (raw/unfiltered) at CG in starboard direction (h-frame)
+	AccCg_D : REAL; // No. 252 - [m/s2] - Linear acceleration (raw/unfiltered) at CG in down direction (h-frame)
+	checksum : BYTE; // Data checksum 
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>
