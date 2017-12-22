@@ -3,7 +3,7 @@ clear all
 clc
 
 % Static calibration data
-calib = static_data();
+calib = staticData();
 
 % EM8000 -> AT960
 text = fileread('./data/at960_em8000.json');
@@ -14,7 +14,7 @@ AT960 = zeros(4,4,N);
 EM8000 = zeros(4,4,N);
 for i = 1:N
     % AT960
-    AT960(1:3,1:3,i) = Rq([
+    AT960(1:3,1:3,i) = math3d.Rq([
         data.feedback.at960.q0(i)
         data.feedback.at960.q1(i)
         data.feedback.at960.q2(i)
@@ -30,7 +30,7 @@ for i = 1:N
     AT960(4,4,i) = 1;
     
     % EM8000
-    EM8000(1:3,1:3,i) = Rxyz([
+    EM8000(1:3,1:3,i) = math3d.Rxyz([
         data.feedback.em8000.phi(i)
         data.feedback.em8000.theta(i)
         data.feedback.em8000.psi(i)
@@ -54,7 +54,7 @@ for i = 2:N
 end
 
 % Solve hand eye calibration problem
-X1 = HandEyeParkMartin(A, B);
+X1 = calibration.HandEyeParkMartin(A, B);
 
 calib.EM8000_TO_AT960.quat = rotm2quat(X1(1:3,1:3))';
 calib.EM8000_TO_AT960.pos = X1(1:3,4);
@@ -71,7 +71,7 @@ EM1500 = zeros(4,4,N);
 EM8000 = zeros(4,4,N);
 for i = 1:N
     % AT960
-    AT960(1:3,1:3,i) = Rq([
+    AT960(1:3,1:3,i) = math3d.Rq([
         data.feedback.at960.q0(i)
         data.feedback.at960.q1(i)
         data.feedback.at960.q2(i)
@@ -87,7 +87,7 @@ for i = 1:N
     AT960(4,4,i) = 1;
     
     % EM1500
-    EM1500(1:3,1:3,i) = Rxyz([
+    EM1500(1:3,1:3,i) = math3d.Rxyz([
         data.feedback.em1500.phi(i)
         data.feedback.em1500.theta(i)
         data.feedback.em1500.psi(i)
@@ -102,7 +102,7 @@ for i = 1:N
     EM1500(4,4,i) = 1;
     
     % EM8000
-    EM8000(1:3,1:3,i) = Rxyz([
+    EM8000(1:3,1:3,i) = math3d.Rxyz([
         data.feedback.em8000.phi(i)
         data.feedback.em8000.theta(i)
         data.feedback.em8000.psi(i)
@@ -128,7 +128,7 @@ for i = 2:N
 end
 
 % Solve hand eye calibration problem
-X2 = HandEyeParkMartin(A, B);
+X2 = calibration.HandEyeParkMartin(A, B);
 
 calib.EM1500_TO_TMAC.quat = rotm2quat(X2(1:3,1:3))';
 calib.EM1500_TO_TMAC.pos = X2(1:3,4);
@@ -137,19 +137,43 @@ calib.EM1500_TO_TMAC.pos = X2(1:3,4);
 X = zeros(4,4,N);
 for i = 1:N
     T01 = eye(4);
-    T01(1:3,1:3) = Rq(calib.WORLD_TO_EM8000.quat);
+    T01(1:3,1:3) = math3d.Rq(calib.WORLD_TO_EM8000.quat);
     T01(1:3,4) = calib.WORLD_TO_EM8000.pos;
     
     T02 = eye(4);
-    T02(1:3,1:3) = Rq(calib.WORLD_TO_EM1500.quat);
+    T02(1:3,1:3) = math3d.Rq(calib.WORLD_TO_EM1500.quat);
     T02(1:3,4) = calib.WORLD_TO_EM1500.pos;
     
     
     X(:,:,i) = inv(T01*EM8000(:,:,i))*T02*EM1500(:,:,i)*X2*inv(AT960(:,:,i));
 end
 
+calib = addHomogenousMatrix(calib);
 
-function calib = static_data()
+function calib = addHomogenousMatrix(calib)
+    
+    H = eye(4);
+    
+    fields = fieldnames(calib);
+    for i = 1:length(fields)
+        
+        field = getfield(calib, fields{i});
+        
+        H(1:3,4) = field.pos;
+        
+        
+        q = field.quat'/norm(field.quat);
+        H(1:3,1:3) = quat2rotm(q);
+        
+        field = setfield(field, 'H', H);
+        
+        calib = setfield(calib, fields{i}, field);
+        
+    end
+end
+
+
+function calib = staticData()
 
     % WORLD -> EM8000
     calib.WORLD_TO_EM8000.quat = [
@@ -164,6 +188,8 @@ function calib = static_data()
         1.976311036084776
         2.662845015592614
     ];
+
+    
 
     % WORLD -> EM1500
     calib.WORLD_TO_EM1500.quat = [
