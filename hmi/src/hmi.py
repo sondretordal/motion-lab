@@ -412,30 +412,30 @@ class GUI(QMainWindow, Ui_main):
     
         self.DP1_1.time_range = self.time_range
         self.DP1_1.update(self.t, [
-                txHmi.em1500.eta_sim[0],
-                txHmi.em1500.eta_sim[1],
-                txHmi.em1500.eta_sim[2]
-            ])
-        
-        self.DP1_2.time_range = self.time_range
-        self.DP1_2.update(self.t, [
-                txHmi.em1500.eta_sim[3]/np.pi*180.0,
-                txHmi.em1500.eta_sim[4]/np.pi*180.0,
-                txHmi.em1500.eta_sim[5]/np.pi*180.0
-            ])
- 
-        self.DP2_1.time_range = self.time_range
-        self.DP2_1.update(self.t, [
                 txHmi.em8000.eta_sim[0],
                 txHmi.em8000.eta_sim[1],
                 txHmi.em8000.eta_sim[2]
             ])
         
-        self.DP2_2.time_range = self.time_range
-        self.DP2_2.update(self.t, [
+        self.DP1_2.time_range = self.time_range
+        self.DP1_2.update(self.t, [
                 txHmi.em8000.eta_sim[3]/np.pi*180.0,
                 txHmi.em8000.eta_sim[4]/np.pi*180.0,
                 txHmi.em8000.eta_sim[5]/np.pi*180.0
+            ])
+ 
+        self.DP2_1.time_range = self.time_range
+        self.DP2_1.update(self.t, [
+                txHmi.em1500.eta_sim[0],
+                txHmi.em1500.eta_sim[1],
+                txHmi.em1500.eta_sim[2]
+            ])
+        
+        self.DP2_2.time_range = self.time_range
+        self.DP2_2.update(self.t, [
+                txHmi.em1500.eta_sim[3]/np.pi*180.0,
+                txHmi.em1500.eta_sim[4]/np.pi*180.0,
+                txHmi.em1500.eta_sim[5]/np.pi*180.0
             ])
 
         self.EM1500_1.time_range = self.time_range
