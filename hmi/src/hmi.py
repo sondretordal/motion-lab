@@ -62,6 +62,8 @@ class GUI(QMainWindow, Ui_main):
         self.waveSpectrumDP1 = WaveSpectrum()
         self.waveSpectrumDP2 = WaveSpectrum()
 
+        # HMi data
+        self.rxHmi = RxHmi
 
         # Setup of the different plots
         self.plot_setup()
@@ -403,10 +405,13 @@ class GUI(QMainWindow, Ui_main):
         self.EM1500_wave_period.returnPressed.connect(self.EM1500_wave)
         self.EM1500_wave_spectra.currentIndexChanged.connect(self.EM1500_wave)
 
+    
+
     # Update data and plot
     def update_data(self):
-        # Read latest data from ADS into RemoteFeedback ctypes struct
+        # Update HMI data
         txHmi = self.plc.read_by_name('MAIN.txHmi', TxHmi)
+
 
         self.t = time.time() - self.tStart
     

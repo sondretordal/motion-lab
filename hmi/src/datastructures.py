@@ -1,5 +1,6 @@
 from ctypes import Structure, c_float, c_int, c_uint
 
+# PLC -> HMI
 class TxHmiStewart(Structure):
     _fields_ = [
         ('status', c_int),
@@ -41,4 +42,5 @@ class TxHmi(Structure):
         # ('mru1', TxHmiMru),
         # ('mru2', TxHmiMru)
     ]
+
 
