@@ -62,9 +62,6 @@ class GUI(QMainWindow, Ui_main):
         self.waveSpectrumDP1 = WaveSpectrum()
         self.waveSpectrumDP2 = WaveSpectrum()
 
-        # HMi data
-        self.rxHmi = RxHmi
-
         # Setup of the different plots
         self.plot_setup()
 
