@@ -3,7 +3,9 @@
   <POU Name="MAIN" Id="{4193d1f4-5b8a-4d46-8bb1-f5443e3607b6}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
-	txHmi : ST_TxHmi;	
+	txHmi : ST_TxHmi;
+	
+	//axis1 : AXIS_REF;
 	
 	remote : FB_RemoteInterface('192.168.90.60', 50060, 50050);
 	
