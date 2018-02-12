@@ -16,6 +16,7 @@ void JsonLogger::clear() {
 
 void JsonLogger::save(std::string path) {
     for (unsigned int i = 0; i < feedback.size(); i++) {
+        
         // Save feedback data
         json_log["feedback"]["t"].push_back(feedback[i].t);
 
@@ -129,6 +130,56 @@ void JsonLogger::save(std::string path) {
         json_log["feedback"]["mru2"]["x_tt"].push_back(feedback[i].mru2.x_tt);
         json_log["feedback"]["mru2"]["y_tt"].push_back(feedback[i].mru2.y_tt);
         json_log["feedback"]["mru2"]["z_tt"].push_back(feedback[i].mru2.z_tt);
+
+        json_log["feedback"]["marker1"]["x"].push_back(feedback[i].marker1.x);
+        json_log["feedback"]["marker1"]["y"].push_back(feedback[i].marker1.y);
+        json_log["feedback"]["marker1"]["z"].push_back(feedback[i].marker1.z);
+        json_log["feedback"]["marker1"]["id"].push_back(feedback[i].marker1.id);
+
+        json_log["feedback"]["marker2"]["x"].push_back(feedback[i].marker1.x);
+        json_log["feedback"]["marker2"]["y"].push_back(feedback[i].marker1.y);
+        json_log["feedback"]["marker2"]["z"].push_back(feedback[i].marker1.z);
+        json_log["feedback"]["marker2"]["id"].push_back(feedback[i].marker1.id);
+
+        json_log["feedback"]["marker3"]["x"].push_back(feedback[i].marker1.x);
+        json_log["feedback"]["marker3"]["y"].push_back(feedback[i].marker1.y);
+        json_log["feedback"]["marker3"]["z"].push_back(feedback[i].marker1.z);
+        json_log["feedback"]["marker3"]["id"].push_back(feedback[i].marker1.id);
+
+        json_log["feedback"]["marker4"]["x"].push_back(feedback[i].marker1.x);
+        json_log["feedback"]["marker4"]["y"].push_back(feedback[i].marker1.y);
+        json_log["feedback"]["marker4"]["z"].push_back(feedback[i].marker1.z);
+        json_log["feedback"]["marker4"]["id"].push_back(feedback[i].marker1.id);
+
+        json_log["feedback"]["marker5"]["x"].push_back(feedback[i].marker1.x);
+        json_log["feedback"]["marker5"]["y"].push_back(feedback[i].marker1.y);
+        json_log["feedback"]["marker5"]["z"].push_back(feedback[i].marker1.z);
+        json_log["feedback"]["marker5"]["id"].push_back(feedback[i].marker1.id);
+
+        json_log["feedback"]["marker6"]["x"].push_back(feedback[i].marker1.x);
+        json_log["feedback"]["marker6"]["y"].push_back(feedback[i].marker1.y);
+        json_log["feedback"]["marker6"]["z"].push_back(feedback[i].marker1.z);
+        json_log["feedback"]["marker6"]["id"].push_back(feedback[i].marker1.id);
+
+        json_log["feedback"]["marker7"]["x"].push_back(feedback[i].marker1.x);
+        json_log["feedback"]["marker7"]["y"].push_back(feedback[i].marker1.y);
+        json_log["feedback"]["marker7"]["z"].push_back(feedback[i].marker1.z);
+        json_log["feedback"]["marker7"]["id"].push_back(feedback[i].marker1.id);
+
+        json_log["feedback"]["marker8"]["x"].push_back(feedback[i].marker1.x);
+        json_log["feedback"]["marker8"]["y"].push_back(feedback[i].marker1.y);
+        json_log["feedback"]["marker8"]["z"].push_back(feedback[i].marker1.z);
+        json_log["feedback"]["marker8"]["id"].push_back(feedback[i].marker1.id);
+
+        json_log["feedback"]["marker9"]["x"].push_back(feedback[i].marker1.x);
+        json_log["feedback"]["marker9"]["y"].push_back(feedback[i].marker1.y);
+        json_log["feedback"]["marker9"]["z"].push_back(feedback[i].marker1.z);
+        json_log["feedback"]["marker9"]["id"].push_back(feedback[i].marker1.id);
+
+        json_log["feedback"]["marker10"]["x"].push_back(feedback[i].marker1.x);
+        json_log["feedback"]["marker10"]["y"].push_back(feedback[i].marker1.y);
+        json_log["feedback"]["marker10"]["z"].push_back(feedback[i].marker1.z);
+        json_log["feedback"]["marker10"]["id"].push_back(feedback[i].marker1.id);
         
         // Save control data
         json_log["control"]["comau"]["q1"].push_back(control[i].comau.q1);

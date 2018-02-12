@@ -7,12 +7,14 @@ VAR_INPUT
 	
 END_VAR
 VAR_OUTPUT
+	rxBuffer : ARRAY [0..1023] OF BYTE;
 END_VAR
 VAR
 	// ITcIoUdpProtocolRecv related 
 	{attribute 'TcInitSymbol'}
 	oid : OTCID; 
 	ipUdp : ITcIoUdpProtocol;
+	
 	
 	// Initilized variables
 	localPort : UINT;
@@ -29,6 +31,9 @@ VAR
 	rxCounter : UINT;
 	txCounter : UINT;
 	
+	// Actual rxSize
+	rxSize : UDINT;
+	
 	// Result
 	hrInit : HRESULT;
 	hrSend : HRESULT;
@@ -37,9 +42,7 @@ END_VAR
     <Implementation>
       <ST><![CDATA[IF ipUdp <> 0 THEN
 	// Check for incoming data
-	IF nRxData > 0 THEN
-    	ipUdp.CheckReceived();
-	END_IF
+	ipUdp.CheckReceived();
 END_IF]]></ST>
     </Implementation>
     <Method Name="FB_exit" Id="{6e89435b-7590-4a56-82dc-eaa8d3b613ae}">
@@ -139,10 +142,16 @@ END_VAR
 remoteIpAddr := ipAddr;
 remotePort := udpSrcPort;
 
+rxCounter := rxCounter + 1;
+
+// Actual size fo data recevied
+rxSize := nData;
+MEMCPY(ADR(rxBuffer), pData, nData);
+
 IF nData = nRxData THEN
 	// Copy recived data
 	MEMCPY(pRxData, pData, nRxData);
-	rxCounter := rxCounter + 1;
+	
 END_IF
 
 IF nTxData > 0 THEN
@@ -215,9 +224,7 @@ METHOD TcRelease : UDINT]]></Declaration>
     <LineIds Name="FB_UdpServer">
       <LineId Id="17" Count="0" />
       <LineId Id="92" Count="0" />
-      <LineId Id="89" Count="0" />
-      <LineId Id="18" Count="0" />
-      <LineId Id="91" Count="0" />
+      <LineId Id="132" Count="0" />
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="FB_UdpServer.FB_exit">
@@ -241,7 +248,13 @@ METHOD TcRelease : UDINT]]></Declaration>
       <LineId Id="101" Count="0" />
       <LineId Id="69" Count="0" />
       <LineId Id="68" Count="0" />
+      <LineId Id="118" Count="0" />
+      <LineId Id="117" Count="0" />
+      <LineId Id="120" Count="0" />
+      <LineId Id="119" Count="0" />
       <LineId Id="70" Count="0" />
+      <LineId Id="122" Count="0" />
+      <LineId Id="121" Count="0" />
       <LineId Id="40" Count="0" />
       <LineId Id="75" Count="0" />
       <LineId Id="77" Count="0" />

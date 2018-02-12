@@ -33,10 +33,34 @@
     <Compile Include="DUTs\Feedback\ST_FeedbackStewart.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\QualisysRT\Components\ST_3DMarkerPositionNoLabel.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\QualisysRT\Components\ST_3DMarkerPositionNoLabelComponent.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\QualisysRT\Components\ST_RT6D.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\QualisysRT\Components\ST_RT6DComponent.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\QualisysRT\E_ComponentType.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\QualisysRT\ST_RTComponentData.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\QualisysRT\ST_RTDataQRTPacket.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\RxUdp\ST_RxUdpComau.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\RxUdp\ST_RxUdpMru.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\RxUdp\ST_RxUdpQualisys.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\RxUdp\ST_RxUdpRemote.TcDUT">
@@ -72,6 +96,9 @@
     <Compile Include="POUs\Interfaces\FB_MruInterface.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\Interfaces\FB_QualisysInterface.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\Interfaces\FB_RemoteInterface.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -98,6 +125,8 @@
     <Folder Include="DUTs" />
     <Folder Include="DUTs\Control" />
     <Folder Include="DUTs\Feedback" />
+    <Folder Include="DUTs\QualisysRT" />
+    <Folder Include="DUTs\QualisysRT\Components" />
     <Folder Include="DUTs\TxHmi" />
     <Folder Include="DUTs\TxUdp" />
     <Folder Include="DUTs\RxUdp" />

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.7">
+  <DUT Name="ST_3DMarkerPositionNoLabelComponent" Id="{6371a770-3e6b-4c8a-baa0-3db79ae33888}">
+    <Declaration><![CDATA[TYPE ST_3DMarkerPositionNoLabelComponent :
+STRUCT
+	nSize : UDINT;
+	nType : UDINT;
+	nMarkers : UDINT;
+	nDropRate : INT;
+	nOutOfSyncRate : INT;
+	markers : ARRAY [0..99] OF ST_3DMarkerPositionNoLabel;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

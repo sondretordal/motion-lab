@@ -30,6 +30,13 @@ struct Control {
 };
 
 // Feedback structs
+struct Qtm3DMarkerPositionNoLabel {
+	float x;
+	float y;
+	float z;
+	int id;
+};
+
 struct FeedbackStewart {
 	float surge;
 	float sway;
@@ -115,6 +122,16 @@ struct Feedback {
 	FeedbackLeica at960;
 	FeedbackMru mru1;
 	FeedbackMru mru2;
+	Qtm3DMarkerPositionNoLabel marker1;
+	Qtm3DMarkerPositionNoLabel marker2;
+	Qtm3DMarkerPositionNoLabel marker3;
+	Qtm3DMarkerPositionNoLabel marker4;
+	Qtm3DMarkerPositionNoLabel marker5;
+	Qtm3DMarkerPositionNoLabel marker6;
+	Qtm3DMarkerPositionNoLabel marker7;
+	Qtm3DMarkerPositionNoLabel marker8;
+	Qtm3DMarkerPositionNoLabel marker9;
+	Qtm3DMarkerPositionNoLabel marker10;
 };
 
 struct XboxData {

@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.7">
+  <DUT Name="ST_RT6D" Id="{3167e8f5-29b6-4182-8974-6a201a5fdfda}">
+    <Declaration><![CDATA[TYPE ST_RT6D :
+STRUCT
+	x : REAL;
+	y : REAL;
+	z : REAL;
+	rotMatrix : ARRAY [0..8] OF REAL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

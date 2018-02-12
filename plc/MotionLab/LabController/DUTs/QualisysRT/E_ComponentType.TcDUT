@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.7">
+  <DUT Name="E_ComponentType" Id="{b9f61b3f-094d-443b-a5e6-004066911386}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE E_ComponentType :
+(
+	e3D := 1, // 3D marker data
+	e3DNoLabel := 2, //Unidentified 3D marker data
+	eAnalog := 3, // Analog data from available analog devices
+	eForce := 4, // Force data from available force plates.
+	e6D := 5, // 6D data - position and rotation matrix
+	e6DEuler := 6, // 6D data - position and Euler angles
+	e2D := 7, // 2D marker data
+	e2DLinearized := 8, // Linearized 2D marker data
+	e3DResiduals := 9, // 3D marker data with residuals
+ 	e3DNoLabelsResiduals := 10, // Unidentified 3D marker data with residuals
+	e6DResiduals := 11, // 6D data - position and rotation matrix with residuals
+	e6DEulerResiduals := 12, // 6D data - position and Euler angles with residuals
+	eAnalogSingle := 13, // Analog data from available analog devices. Only one sample per channel and camera frame. The latest sample is used if more than one sample is available.
+	eImage := 14, // Image frame from a specific camera. Image size and format is set with the XML settings, see Image settings.
+	eForceSingle := 15 // Force data from available force plates. Only one sample per plate and camera frame. The latest sample is used if more than one sample is available.
+);
+END_TYPE
+
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

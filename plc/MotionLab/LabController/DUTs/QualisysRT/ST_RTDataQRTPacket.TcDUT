@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.7">
+  <DUT Name="ST_RTDataQRTPacket" Id="{4535a8f2-5c40-44dd-b06a-d381939bf1e8}">
+    <Declaration><![CDATA[TYPE ST_RTDataQRTPacket :
+STRUCT
+	nSize : UDINT;
+	nType : UDINT;
+	nTimestamp : LINT;
+	nFramenumber : UDINT;
+	nComponentCount : UDINT;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

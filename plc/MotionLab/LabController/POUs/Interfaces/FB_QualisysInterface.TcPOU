@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.7">
+  <POU Name="FB_QualisysInterface" Id="{314e7cd5-278b-4ae6-86cd-8f8bb2148757}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_QualisysInterface
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+	stRT6DComponent : ST_RT6DComponent;
+	st3DMarkerPositionNoLabelComponent : ST_3DMarkerPositionNoLabelComponent;
+END_VAR
+VAR
+	// Udp related
+	{attribute 'tc_no_symbol'}
+	udpServer : FB_UdpServer(0, 0, 0, 0, 0); // Dummy constructor
+	{attribute 'tc_no_symbol'}
+
+	// Header 
+	qrtPacket : ST_RTDataQRTPacket;
+	qrtComponent : ARRAY [1..100] OF ST_RTComponentData;
+	
+	offset : UDINT;
+	comp : UDINT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Exchange Udp data
+udpServer();
+
+// Decode Udp packet
+MEMCPY(ADR(qrtPacket), ADR(udpServer.rxBuffer), SIZEOF(ST_RTDataQRTPacket));
+
+offset := SIZEOF(ST_RTDataQRTPacket);
+FOR comp := 1 TO qrtPacket.nComponentCount DO
+	// Read components header
+	MEMCPY(ADR(qrtComponent[comp]), ADR(udpServer.rxBuffer) + offset, SIZEOF(ST_RTComponentData));
+	
+	// Defoce components
+	CASE qrtComponent[comp].nType OF
+		1 : // 3D marker data 
+
+		2 : // Unidentified 3D marker data
+		MEMCPY(ADR(st3DMarkerPositionNoLabelComponent), ADR(udpServer.rxBuffer) + offset, qrtComponent[comp].nSize); 
+		
+		3 : // Analog data from available analog devices
+		
+		4 : // Force data from available force plates.
+		
+		5 : // 6D data - position and rotation matrix
+		MEMCPY(ADR(stRT6DComponent), ADR(udpServer.rxBuffer) + offset, qrtComponent[comp].nSize);
+		
+		6 : // 6D data - position and Euler angles
+		
+		7 : // 2D marker data
+		
+		8 : // Linearized 2D marker data
+		
+		9 : // 3D marker data with residuals
+		
+		10 : // Unidentified 3D marker data with residuals
+		
+		11 : // 6D data - position and rotation matrix with residuals
+		
+		12 : // 6D data - position and Euler angles with residuals
+		
+		13 : // Analog data from available analog devices
+		
+		14 : // Image frame from a specific camera
+		
+		15 : // Force data from available force plates
+		
+	END_CASE
+	
+	// Increment component byte offset
+	offset := offset + SIZEOF(ST_RTComponentData) + qrtComponent[comp].nSize;
+
+END_FOR
+
+
+
+
+]]></ST>
+    </Implementation>
+    <Method Name="FB_exit" Id="{218c743a-0e42-4699-b90a-ee85a516329b}">
+      <Declaration><![CDATA[METHOD FB_exit : BOOL
+VAR_INPUT
+	bInCopyCode : BOOL; // if TRUE, the exit method is called for exiting an instance that is copied afterwards (online change).
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_init" Id="{f7454e96-6d71-45e3-a8c8-afff39670148}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+
+	// Init variables
+	localPort : UINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Initilize the udpServer
+udpServer.FB_init(
+	bInitRetains,
+	bInCopyCode,
+	localPort,
+	0,
+	0,
+	0,
+	0
+);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_reinit" Id="{a77f1cd7-b4fd-4175-afb3-b8ab028ade9c}">
+      <Declaration><![CDATA[METHOD FB_reinit : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Get3DMarkerPositionNoLabel" Id="{b91cc1ab-e463-4d99-979c-5e8290771b32}">
+      <Declaration><![CDATA[METHOD PRIVATE Get3DMarkerPositionNoLabel : ST_RTComponentData
+VAR_INPUT
+	stRTComponentData : ST_RTComponentData;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_QualisysInterface">
+      <LineId Id="9" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="123" Count="0" />
+      <LineId Id="120" Count="0" />
+      <LineId Id="119" Count="0" />
+      <LineId Id="130" Count="0" />
+      <LineId Id="126" Count="0" />
+      <LineId Id="122" Count="0" />
+      <LineId Id="156" Count="0" />
+      <LineId Id="127" Count="0" />
+      <LineId Id="141" Count="0" />
+      <LineId Id="155" Count="0" />
+      <LineId Id="158" Count="1" />
+      <LineId Id="163" Count="1" />
+      <LineId Id="193" Count="0" />
+      <LineId Id="165" Count="6" />
+      <LineId Id="201" Count="0" />
+      <LineId Id="172" Count="0" />
+      <LineId Id="175" Count="17" />
+      <LineId Id="173" Count="0" />
+      <LineId Id="160" Count="0" />
+      <LineId Id="196" Count="2" />
+      <LineId Id="148" Count="0" />
+      <LineId Id="128" Count="0" />
+      <LineId Id="152" Count="0" />
+      <LineId Id="100" Count="0" />
+      <LineId Id="64" Count="0" />
+      <LineId Id="40" Count="0" />
+      <LineId Id="23" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_QualisysInterface.FB_exit">
+      <LineId Id="6" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_QualisysInterface.FB_init">
+      <LineId Id="10" Count="7" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_QualisysInterface.FB_reinit">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_QualisysInterface.Get3DMarkerPositionNoLabel">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

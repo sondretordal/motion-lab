@@ -16,6 +16,13 @@ PYBIND11_PLUGIN(motionlab) {
 	py::module m("motionlab", "Motion Laboratory module made for Python");
 
 	// Feedback structs
+	py::class_<Qtm3DMarkerPositionNoLabel>(m, "Qtm3DMarkerPositionNoLabel")
+		.def(py::init<>())
+		.def_readonly("x", &Qtm3DMarkerPositionNoLabel::x)
+		.def_readonly("y", &Qtm3DMarkerPositionNoLabel::y)
+		.def_readonly("z", &Qtm3DMarkerPositionNoLabel::z)
+		.def_readonly("id", &Qtm3DMarkerPositionNoLabel::id);
+
 	py::class_<FeedbackStewart>(m, "FeedbackStewart")
 		.def(py::init<>())
 		.def_readonly("surge", &FeedbackStewart::surge)
@@ -102,7 +109,18 @@ PYBIND11_PLUGIN(motionlab) {
 		.def_readonly("comau", &Feedback::comau)
 		.def_readonly("at960", &Feedback::at960)
 		.def_readonly("mru1", &Feedback::mru1)
-		.def_readonly("mru2", &Feedback::mru2);
+		.def_readonly("mru2", &Feedback::mru2)
+		.def_readonly("marker1", &Feedback::marker1)
+		.def_readonly("marker2", &Feedback::marker2)
+		.def_readonly("marker3", &Feedback::marker3)
+		.def_readonly("marker4", &Feedback::marker4)
+		.def_readonly("marker5", &Feedback::marker5)
+		.def_readonly("marker6", &Feedback::marker6)
+		.def_readonly("marker7", &Feedback::marker7)
+		.def_readonly("marker8", &Feedback::marker8)
+		.def_readonly("marker9", &Feedback::marker9)
+		.def_readonly("marker10", &Feedback::marker10);
+		
 
 	// Control structs
 	py::class_<ControlComau>(m, "ControlComau")

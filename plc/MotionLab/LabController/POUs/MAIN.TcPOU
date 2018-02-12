@@ -17,8 +17,11 @@ VAR
 	mru1 : FB_MruInterface(50043);
 	mru2 : FB_MruInterface(50044);
 	
+	qtm : FB_QualisysInterface(50199);
+	
 	at960 : FB_LeicaInterface;
 	
+	i : UDINT;
 	
 	timeStamp100ns : ULINT; // System time in 100 ns resolution
 	
@@ -34,6 +37,9 @@ comau();
 mru1();
 mru2();
 at960();
+qtm();
+
+
 
 remote.txUdp.t := remote.txUdp.t + 0.005;
 remote.txUdp.em8000 := em8000.feedback;
@@ -42,6 +48,12 @@ remote.txUdp.comau := comau.feedback;
 remote.txUdp.at960 := at960.feedback;
 remote.txUdp.mru1 := mru1.feedback;
 remote.txUdp.mru2 := mru2.feedback;
+
+// Send marker data
+FOR i := 0 TO 9 DO
+	remote.txUdp.markers[i] := qtm.st3DMarkerPositionNoLabelComponent.markers[i];
+END_FOR
+
 remote();
 
 timeStamp100ns := F_GetTaskTime();
@@ -62,9 +74,16 @@ timeStamp100ns := F_GetTaskTime();
       <LineId Id="145" Count="0" />
       <LineId Id="141" Count="1" />
       <LineId Id="214" Count="0" />
+      <LineId Id="311" Count="0" />
+      <LineId Id="316" Count="0" />
+      <LineId Id="315" Count="0" />
       <LineId Id="276" Count="1" />
       <LineId Id="275" Count="0" />
       <LineId Id="279" Count="4" />
+      <LineId Id="346" Count="0" />
+      <LineId Id="344" Count="1" />
+      <LineId Id="347" Count="1" />
+      <LineId Id="343" Count="0" />
       <LineId Id="274" Count="0" />
       <LineId Id="284" Count="1" />
       <LineId Id="263" Count="0" />
