@@ -23,10 +23,57 @@ END_VAR
       <ST><![CDATA[// Update udpClient
 udpClient();
 
+// Update Hmi data
+UpdateHMI();
 
+// Apply control inputs
+txUdp.cmnd := cmnd;
 txUdp.udp_key := 32;
 txUdp.beta := 1.0;
-txUdp.omega := 1.0;]]></ST>
+txUdp.omega := 1.0;
+
+txUdp.q1 := control.q1;
+txUdp.q2 := control.q2;
+txUdp.q3 := control.q3;
+txUdp.q4 := control.q4;
+txUdp.q5 := control.q5;
+txUdp.q6 := control.q6;
+
+txUdp.q1_t := control.q1_t;
+txUdp.q2_t := control.q2_t;
+txUdp.q3_t := control.q3_t;
+txUdp.q4_t := control.q4_t;
+txUdp.q5_t := control.q5_t;
+txUdp.q6_t := control.q6_t;
+
+txUdp.q1_tt := control.q1_tt;
+txUdp.q2_tt := control.q2_tt;
+txUdp.q3_tt := control.q3_tt;
+txUdp.q4_tt := control.q4_tt;
+txUdp.q5_tt := control.q5_tt;
+txUdp.q6_tt := control.q6_tt;
+
+// Set feedback data
+feedback.q1 := rxUdp.q1;
+feedback.q2 := rxUdp.q2;
+feedback.q3 := rxUdp.q3;
+feedback.q4 := rxUdp.q4;
+feedback.q5 := rxUdp.q5;
+feedback.q6 := rxUdp.q6;
+
+feedback.q1_t := rxUdp.q1_t;
+feedback.q2_t := rxUdp.q2_t;
+feedback.q3_t := rxUdp.q3_t;
+feedback.q4_t := rxUdp.q4_t;
+feedback.q5_t := rxUdp.q5_t;
+feedback.q6_t := rxUdp.q6_t;
+
+feedback.q1_tt := rxUdp.q1_tt;
+feedback.q2_tt := rxUdp.q2_tt;
+feedback.q3_tt := rxUdp.q3_tt;
+feedback.q4_tt := rxUdp.q4_tt;
+feedback.q5_tt := rxUdp.q5_tt;
+feedback.q6_tt := rxUdp.q6_tt;]]></ST>
     </Implementation>
     <Method Name="FB_exit" Id="{f18839c2-6d63-4a3d-ad66-5f830bcc3ab8}">
       <Declaration><![CDATA[METHOD FB_exit : BOOL
@@ -97,9 +144,27 @@ pTxHmi^.q[5] := rxUdp.q6;]]></ST>
     <LineIds Name="FB_ComauInterface">
       <LineId Id="9" Count="0" />
       <LineId Id="17" Count="0" />
-      <LineId Id="19" Count="2" />
+      <LineId Id="65" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="66" Count="1" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="20" Count="1" />
       <LineId Id="23" Count="0" />
       <LineId Id="18" Count="0" />
+      <LineId Id="44" Count="0" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="45" Count="4" />
+      <LineId Id="51" Count="5" />
+      <LineId Id="50" Count="0" />
+      <LineId Id="58" Count="5" />
+      <LineId Id="57" Count="0" />
+      <LineId Id="70" Count="0" />
+      <LineId Id="69" Count="0" />
+      <LineId Id="71" Count="5" />
+      <LineId Id="78" Count="5" />
+      <LineId Id="77" Count="0" />
+      <LineId Id="85" Count="5" />
+      <LineId Id="84" Count="0" />
     </LineIds>
     <LineIds Name="FB_ComauInterface.FB_exit">
       <LineId Id="6" Count="0" />

@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.7">
+  <POU Name="FB_WinchInterface" Id="{04fd987b-6b6d-4a7c-b1e1-6e43123e7fac}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_WinchInterface
+VAR_INPUT
+	enable : BOOL := FALSE;
+	
+	mode : UINT;
+	
+	control : ST_WinchControl;
+	
+	jogUp : BOOL := FALSE;
+	jogDown : BOOL := FALSE;
+	
+	
+END_VAR
+VAR_OUTPUT
+	active : BOOL := FALSE;
+	
+	feedback : ST_FeedbackWinch;
+END_VAR
+VAR
+	axis : AXIS_REF;
+	
+	fbPower : MC_Power;
+	fbReadStatus : MC_ReadStatus;
+	fbReadActualPosition : MC_ReadActualPosition;
+	fbReadActualVelocity : MC_ReadActualVelocity;
+	fbMoveAbsolute : MC_MoveAbsolute;
+	
+	stSetPositionObtions : ST_SetPositionOptions;
+	
+	pTxHmi : POINTER TO ST_TxHmiWinch;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Set power status for drive
+fbPower(
+	Axis := axis,
+	Enable := enable,
+	Enable_Positive := TRUE,
+	Enable_Negative := TRUE,
+);
+
+active := fbPower.Active;
+
+
+CASE mode OF
+0 : 
+	// Neutral Mode
+	fbMoveAbsolute(
+		Axis := axis,
+		Execute := FALSE
+	);
+1 : 
+	// Engaged Mode
+	fbMoveAbsolute(
+		Axis := axis,
+		Execute := FALSE
+	);
+	fbMoveAbsolute(
+		Axis := axis,
+		Execute := TRUE,
+		Position := control.l,
+		Velocity := 500.0,
+		Acceleration := 1000.0,
+		Jerk := 5000.0
+	);
+	
+2 :
+	// Servo mode
+ELSE	
+	// TODO!
+END_CASE
+
+// Read axis status, See "axis.Status" for updated status data
+fbReadStatus(
+	Axis := axis,
+	Enable := TRUE
+);
+
+// Read Actual velocity and positon
+fbReadActualPosition(
+	Axis := axis,
+	Enable := TRUE
+);
+feedback.l := LREAL_TO_REAL(fbReadActualPosition.Position);
+
+fbReadActualVelocity(
+	Axis := axis,
+	Enable := TRUE
+);
+feedback.l_t := LREAL_TO_REAL(fbReadActualVelocity.ActualVelocity);
+
+]]></ST>
+    </Implementation>
+    <Method Name="FB_init" Id="{4ef8ab5f-4b43-4ec7-898b-623c39afb859}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+	
+	// Init variables
+	_pTxHmi : POINTER TO ST_TxHmiStewart;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="UpdateHMI" Id="{66797478-8570-421d-ad5d-4d9d457815e9}">
+      <Declaration><![CDATA[METHOD PRIVATE UpdateHMI : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Update HMI variables]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_WinchInterface">
+      <LineId Id="13" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="16" Count="2" />
+      <LineId Id="64" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="108" Count="0" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="37" Count="0" />
+      <LineId Id="44" Count="1" />
+      <LineId Id="130" Count="2" />
+      <LineId Id="114" Count="0" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="118" Count="0" />
+      <LineId Id="127" Count="2" />
+      <LineId Id="126" Count="0" />
+      <LineId Id="100" Count="3" />
+      <LineId Id="122" Count="3" />
+      <LineId Id="105" Count="0" />
+      <LineId Id="41" Count="1" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="43" Count="0" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="68" Count="0" />
+      <LineId Id="67" Count="0" />
+      <LineId Id="69" Count="0" />
+      <LineId Id="83" Count="0" />
+      <LineId Id="71" Count="1" />
+      <LineId Id="80" Count="0" />
+      <LineId Id="79" Count="0" />
+      <LineId Id="81" Count="1" />
+      <LineId Id="84" Count="1" />
+      <LineId Id="90" Count="0" />
+      <LineId Id="86" Count="3" />
+      <LineId Id="76" Count="0" />
+      <LineId Id="92" Count="0" />
+      <LineId Id="74" Count="0" />
+      <LineId Id="27" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_WinchInterface.FB_init">
+      <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_WinchInterface.UpdateHMI">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -6,6 +6,7 @@ STRUCT
 	em8000 : ST_TxHmiStewart;
 	em1500 : ST_TxHmiStewart;
 	comau : ST_TxHmiComau;
+	winch : ST_TxHmiWinch;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

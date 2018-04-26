@@ -3,34 +3,34 @@
   <POU Name="MAIN" Id="{4193d1f4-5b8a-4d46-8bb1-f5443e3607b6}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
+	// HMI data
 	txHmi : ST_TxHmi;
+	rxHmi : ST_RxHmi;
 	
-	//axis1 : AXIS_REF;
-	
+	// Remote interface
 	remote : FB_RemoteInterface('192.168.90.60', 50060, 50050);
 	
+	// Machinery
 	em8000 : FB_StewartInterface('192.168.90.30', 50030, 50040, ADR(txHmi.em8000));
 	em1500 : FB_StewartInterface('192.168.90.31', 50031, 50041, ADR(txHmi.em1500));
-	
 	comau : FB_ComauInterface('192.168.90.32', 50032, 50042, ADR(txHmi.comau));
+	winch : FB_WinchInterface(ADR(txHmi.winch));
 	
+	// Sensors
 	mru1 : FB_MruInterface(50043);
 	mru2 : FB_MruInterface(50044);
-	
 	qtm : FB_QualisysInterface(50199);
-	
 	at960 : FB_LeicaInterface;
 	
 	i : UDINT;
 	
-	timeStamp100ns : ULINT; // System time in 100 ns resolution
-	
-	
+	t : REAL := 0.0;
+	// System time in 100 ns resolution
+	timeStamp100ns : ULINT; 
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[
-
+      <ST><![CDATA[// Update sensors and equipement
 em8000();
 em1500();
 comau();
@@ -38,9 +38,32 @@ mru1();
 mru2();
 at960();
 qtm();
+winch();
+
+(*
+IF rxHmi.xboxRT >= 0.5 THEN
+	winch.jogUp := TRUE;
+ELSE
+	winch.jogUp := FALSE;	
+END_IF
+
+IF rxHmi.xboxLT >= 0.5 THEN
+	winch.jogDown := TRUE;
+ELSE
+	winch.jogDown := FALSE;	
+END_IF
+*)
+
+t := t + 0.005;
+
+winch.control.l := 5000 + 500*SIN(0.1*2*PI*t);
 
 
+winch.jogUp := rxHmi.winchJogUp;
+winch.jogDown := rxHmi.winchJogDown;
 
+
+//  Remote feedback data
 remote.txUdp.t := remote.txUdp.t + 0.005;
 remote.txUdp.em8000 := em8000.feedback;
 remote.txUdp.em1500 := em1500.feedback;
@@ -48,8 +71,6 @@ remote.txUdp.comau := comau.feedback;
 remote.txUdp.at960 := at960.feedback;
 remote.txUdp.mru1 := mru1.feedback;
 remote.txUdp.mru2 := mru2.feedback;
-
-// Send marker data
 FOR i := 0 TO 9 DO
 	remote.txUdp.markers[i] := qtm.st3DMarkerPositionNoLabelComponent.markers[i];
 END_FOR
@@ -58,7 +79,6 @@ remote();
 
 timeStamp100ns := F_GetTaskTime();
 
-// Update Hmi data
 
 
 
@@ -67,7 +87,6 @@ timeStamp100ns := F_GetTaskTime();
 ]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
-      <LineId Id="109" Count="0" />
       <LineId Id="127" Count="0" />
       <LineId Id="110" Count="0" />
       <LineId Id="120" Count="0" />
@@ -76,17 +95,34 @@ timeStamp100ns := F_GetTaskTime();
       <LineId Id="214" Count="0" />
       <LineId Id="311" Count="0" />
       <LineId Id="316" Count="0" />
+      <LineId Id="394" Count="0" />
+      <LineId Id="397" Count="0" />
+      <LineId Id="395" Count="0" />
+      <LineId Id="398" Count="0" />
+      <LineId Id="400" Count="0" />
+      <LineId Id="402" Count="0" />
+      <LineId Id="399" Count="0" />
+      <LineId Id="404" Count="4" />
+      <LineId Id="403" Count="0" />
+      <LineId Id="413" Count="0" />
+      <LineId Id="415" Count="0" />
+      <LineId Id="409" Count="0" />
+      <LineId Id="417" Count="0" />
+      <LineId Id="416" Count="0" />
+      <LineId Id="418" Count="0" />
+      <LineId Id="411" Count="0" />
+      <LineId Id="410" Count="0" />
+      <LineId Id="412" Count="0" />
+      <LineId Id="396" Count="0" />
       <LineId Id="315" Count="0" />
       <LineId Id="276" Count="1" />
       <LineId Id="275" Count="0" />
       <LineId Id="279" Count="4" />
-      <LineId Id="346" Count="0" />
-      <LineId Id="344" Count="1" />
+      <LineId Id="345" Count="0" />
       <LineId Id="347" Count="1" />
       <LineId Id="343" Count="0" />
       <LineId Id="274" Count="0" />
       <LineId Id="284" Count="1" />
-      <LineId Id="263" Count="0" />
       <LineId Id="262" Count="0" />
       <LineId Id="269" Count="0" />
       <LineId Id="168" Count="0" />

@@ -21,6 +21,9 @@
     <Compile Include="DUTs\Control\ST_ControlStewart.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\Control\ST_WinchControl.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\Feedback\ST_FeedbackComau.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -31,6 +34,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\Feedback\ST_FeedbackStewart.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\Feedback\ST_FeedbackWinch.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\QualisysRT\Components\ST_3DMarkerPositionNoLabel.TcDUT">
@@ -52,6 +58,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\QualisysRT\ST_RTDataQRTPacket.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\RxHmi\ST_RxHmi.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\RxUdp\ST_RxUdpComau.TcDUT">
@@ -76,6 +85,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\TxHmi\ST_TxHmiStewart.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\TxHmi\ST_TxHmiWinch.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\TxUdp\ST_TxUdpComau.TcDUT">
@@ -105,6 +117,9 @@
     <Compile Include="POUs\Interfaces\FB_StewartInterface.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\Interfaces\FB_WinchInterface.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\MAIN.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -125,6 +140,7 @@
     <Folder Include="DUTs" />
     <Folder Include="DUTs\Control" />
     <Folder Include="DUTs\Feedback" />
+    <Folder Include="DUTs\RxHmi" />
     <Folder Include="DUTs\QualisysRT" />
     <Folder Include="DUTs\QualisysRT\Components" />
     <Folder Include="DUTs\TxHmi" />

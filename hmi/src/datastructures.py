@@ -1,4 +1,4 @@
-from ctypes import Structure, c_float, c_int, c_uint
+from ctypes import Structure, c_float, c_int, c_uint, c_bool
 
 # PLC -> HMI
 class TxHmiStewart(Structure):
@@ -33,14 +33,33 @@ class TxHmiMru(Structure):
         ('status', c_int)
     ]
 
+class TxHmiWinch(Structure):
+    _fields_ = [
+        ('status', c_int),
+        ('l', c_float),
+        ('l_t', c_float),
+        ('l_tt', c_float),
+    ]
+
 class TxHmi(Structure):
     _fields_ = [
         ('em8000', TxHmiStewart),
         ('em1500', TxHmiStewart),
-        ('comau', TxHmiComau)
+        ('comau', TxHmiComau),
+        ('winch', TxHmiWinch)
         # ('at960', TxHmiLeica),
         # ('mru1', TxHmiMru),
         # ('mru2', TxHmiMru)
     ]
 
-
+class RxHmi(Structure):
+    _fields_ = [
+        ('winchJogUp', c_bool),
+        ('winchJogDown', c_bool),
+        ('xboxLeftX', c_float),
+        ('xboxLeftY', c_float),
+        ('xboxRightX', c_float),
+        ('xboxRightY', c_float),
+        ('xboxLT', c_float),
+        ('xboxRT', c_float)
+    ]

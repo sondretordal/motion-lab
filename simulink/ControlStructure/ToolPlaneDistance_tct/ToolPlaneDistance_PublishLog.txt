@@ -1,0 +1,147 @@
+Microsoft (R) Build Engine version 14.0.25420.1
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Build started 25.04.2018 10:18:41.
+Project "C:\Users\motionlab\OneDrive - Universitetet i Agder\GitHub\motion-lab\simulink\ControlStructure\ToolPlaneDistance_tct\ToolPlaneDistance.vcxproj" on node 1 (TcPublishModule target(s)).
+TcRemovePublishedModule:
+  Removing directory "C:\TwinCAT\3.1\CustomConfig\Modules\ToolPlaneDistance\".
+TcPublishModule:
+  Publishing module to folder 'C:\TwinCAT\3.1\CustomConfig\Modules\ToolPlaneDistance\' using module installation directory '%SOLUTIONMODULEINSTTPATH%'
+Project "C:\Users\motionlab\OneDrive - Universitetet i Agder\GitHub\motion-lab\simulink\ControlStructure\ToolPlaneDistance_tct\ToolPlaneDistance.vcxproj" (1) is building "C:\Users\motionlab\OneDrive - Universitetet i Agder\GitHub\motion-lab\simulink\ControlStructure\ToolPlaneDistance_tct\ToolPlaneDistance.vcxproj" (1:2) on node 1 (TcPublishModuleBinaries target(s)).
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x86)\Release\MATLAB_R2017b\ToolPlaneDistance\) contains files shared from another project (ToolPlaneDistance.vcxproj).  This can lead to incorrect clean and rebuild behavior. [C:\Users\motionlab\OneDrive - Universitetet i Agder\GitHub\motion-lab\simulink\ControlStructure\ToolPlaneDistance_tct\ToolPlaneDistance.vcxproj]
+  Creating directory "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x86)\Release\MATLAB_R2017b\ToolPlaneDistance\ToolPlan.40fc7c01.tlog\".
+InitializeBuildStatus:
+  Creating "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x86)\Release\MATLAB_R2017b\ToolPlaneDistance\ToolPlan.40fc7c01.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+PreBuildEvent:
+  Description: "C:\TwinCAT\3.1\SDK\\Bin\ExtractVersionInfo" "ToolPlaneDistance" "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x86)\Release\MATLAB_R2017b\ToolPlaneDistance\\ToolPlaneDistance"
+  "C:\TwinCAT\3.1\SDK\\Bin\ExtractVersionInfo" "ToolPlaneDistance" "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x86)\Release\MATLAB_R2017b\ToolPlaneDistance\\ToolPlaneDistance"
+  :VCEnd
+  ExtractVersionInfo header file "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x86)\Release\MATLAB_R2017b\ToolPlaneDistance\\ToolPlaneDistanceVersion.h" is up-to-date!
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /I..\ /IC:\MATLAB\R2017b\simulink\include\sf_runtime\ /IC:\MATLAB\R2017b\extern\include\ /IC:\MATLAB\R2017b\simulink\include\ /IC:\MATLAB\R2017b\rtw\c\src\ /I"C:\Users\motionlab\OneDrive - Universitetet i Agder\GitHub\motion-lab\simulink\ControlStructure\ToolPlaneDistance_tct\TwinCAT RT (x86)\\" /I"C:\Users\motionlab\OneDrive - Universitetet i Agder\GitHub\motion-lab\simulink\ControlStructure\ToolPlaneDistance_tct\TwinCAT RT\\" /I"C:\Users\motionlab\OneDrive - Universitetet i Agder\GitHub\motion-lab\simulink\ControlStructure\ToolPlaneDistance_tct\TwinCAT RT\3.1\\" /I"C:\Users\motionlab\OneDrive - Universitetet i Agder\GitHub\motion-lab\simulink\ControlStructure\ToolPlaneDistance_tct\\" /IC:\MATLAB\R2017b\\rtw\c\src\ext_mode\common /IC:\MATLAB\R2017b\\rtw\c\src /IC:\MATLAB\R2017b\\simulink\include /IC:\MATLAB\R2017b\\extern\include /IC:\TwinCAT\3.1\SDK\\Include /IC:\TwinCAT\3.1\SDK\\Include\Io /IC:\TwinCAT\3.1\SDK\\Include\Nc /IC:\TwinCAT\3.1\SDK\\Include\CM /IC:\TwinCAT\3.1\SDK\\Include\Plc /IC:\TwinCAT\3.1\SDK\\Include\Stl\Stl /I"C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x86)\Release\MATLAB_R2017b\ToolPlaneDistance\\" /IC:\WinDDK\7600.16385.1\\inc\ddk /IC:\WinDDK\7600.16385.1\\inc\crt /IC:\WinDDK\7600.16385.1\\inc\api /IC:\WinDDK\7600.16385.1\\inc\mfc42 /Zi /nologo /W3 /WX- /MP /O2 /Ob2 /Oy- /D "MODEL=\"ToolPlaneDistance\"" /D NUMST=1 /D NCSTATES=0 /D HAVESTDIO /D INTEGER_CODE=0 /D MT=0 /D CLASSIC_INTERFACE=1 /D ALLOCATIONFCN=0 /D ONESTEPFCN=0 /D TERMFCN=1 /D MULTI_INSTANCE_CODE=0 /D TID01EQ=0 /D RT=1 /D USE_RTMODEL /D TC_UNLIMITED_MAP_ENTRIES /D TCMATH_BLOCK_STANDARDLIB=0 /D TC_BUILD=4022 /D USE_CRT_OWN_IMPL /D _X86_ /D i386 /D STD_CALL /D CONDITION_HANDLING /D WIN32_LEAN_AND_MEAN /D _IDWBUILD /D IS_R0 /D WINNT /D _WDM_INCLUDED_ /D _WIN32_WINNT=_WIN32_WINNT_WINXP /D NTDDI_VERSION=NTDDI_WINXPSP2 /D TC_VER=301 /X /GF /Gm- /MT /GS- /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR- /Fo"C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x86)\Release\MATLAB_R2017b\ToolPlaneDistance\\" /Fd"C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x86)\Release\MATLAB_R2017b\ToolPlaneDistance\vc140.pdb" /Gz /TP /analyze- /errorReport:queue /kernel CToolPlaneDistanceClassFactory.cpp CToolPlaneDistance.cpp CToolPlaneDistanceDrv.cpp TcPch.cpp
+  CToolPlaneDistanceClassFactory.cpp
+  CToolPlaneDistance.cpp
+  CToolPlaneDistanceDrv.cpp
+  TcPch.cpp
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /I..\ /IC:\MATLAB\R2017b\simulink\include\sf_runtime\ /IC:\MATLAB\R2017b\extern\include\ /IC:\MATLAB\R2017b\simulink\include\ /IC:\MATLAB\R2017b\rtw\c\src\ /I"C:\Users\motionlab\OneDrive - Universitetet i Agder\GitHub\motion-lab\simulink\ControlStructure\ToolPlaneDistance_tct\TwinCAT RT (x86)\\" /I"C:\Users\motionlab\OneDrive - Universitetet i Agder\GitHub\motion-lab\simulink\ControlStructure\ToolPlaneDistance_tct\TwinCAT RT\\" /I"C:\Users\motionlab\OneDrive - Universitetet i Agder\GitHub\motion-lab\simulink\ControlStructure\ToolPlaneDistance_tct\TwinCAT RT\3.1\\" /I"C:\Users\motionlab\OneDrive - Universitetet i Agder\GitHub\motion-lab\simulink\ControlStructure\ToolPlaneDistance_tct\\" /IC:\MATLAB\R2017b\\rtw\c\src\ext_mode\common /IC:\MATLAB\R2017b\\rtw\c\src /IC:\MATLAB\R2017b\\simulink\include /IC:\MATLAB\R2017b\\extern\include /IC:\TwinCAT\3.1\SDK\\Include /IC:\TwinCAT\3.1\SDK\\Include\Io /IC:\TwinCAT\3.1\SDK\\Include\Nc /IC:\TwinCAT\3.1\SDK\\Include\CM /IC:\TwinCAT\3.1\SDK\\Include\Plc /IC:\TwinCAT\3.1\SDK\\Include\Stl\Stl /I"C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x86)\Release\MATLAB_R2017b\ToolPlaneDistance\\" /IC:\WinDDK\7600.16385.1\\inc\ddk /IC:\WinDDK\7600.16385.1\\inc\crt /IC:\WinDDK\7600.16385.1\\inc\api /IC:\WinDDK\7600.16385.1\\inc\mfc42 /Zi /nologo /W3 /WX- /MP /O2 /Ob2 /Oy- /D "MODEL=\"ToolPlaneDistance\"" /D NUMST=1 /D NCSTATES=0 /D HAVESTDIO /D INTEGER_CODE=0 /D MT=0 /D CLASSIC_INTERFACE=1 /D ALLOCATIONFCN=0 /D ONESTEPFCN=0 /D TERMFCN=1 /D MULTI_INSTANCE_CODE=0 /D TID01EQ=0 /D RT=1 /D USE_RTMODEL /D TC_UNLIMITED_MAP_ENTRIES /D TCMATH_BLOCK_STANDARDLIB=0 /D TC_BUILD=4022 /D USE_CRT_OWN_IMPL /D _X86_ /D i386 /D STD_CALL /D CONDITION_HANDLING /D WIN32_LEAN_AND_MEAN /D _IDWBUILD /D IS_R0 /D WINNT /D _WDM_INCLUDED_ /D _WIN32_WINNT=_WIN32_WINNT_WINXP /D NTDDI_VERSION=NTDDI_WINXPSP2 /D TC_VER=301 /X /GF /Gm- /MT /GS- /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR- /Fo"C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x86)\Release\MATLAB_R2017b\ToolPlaneDistance\\" /Fd"C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x86)\Release\MATLAB_R2017b\ToolPlaneDistance\vc140.pdb" /Gd /TP /analyze- /errorReport:queue /kernel ToolPlaneDistance.cpp ToolPlaneDistance_data.cpp rtGetInf.cpp rtGetNaN.cpp rt_nonfinite.cpp
+  ToolPlaneDistance.cpp
+  ToolPlaneDistance_data.cpp
+  rtGetInf.cpp
+  rtGetNaN.cpp
+  rt_nonfinite.cpp
+ResourceCompile:
+  C:\Program Files (x86)\Windows Kits\8.1\bin\x86\rc.exe /l"0x0409" /nologo /fo"C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x86)\Release\MATLAB_R2017b\ToolPlaneDistance\ToolPlaneDistance.res" ToolPlaneDistance.rc 
+Link:
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:QUEUE /OUT:"C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x86)\Release\MATLAB_R2017b\ToolPlaneDistance.sys" /INCREMENTAL:NO /NOLOGO /LIBPATH:"C:\TwinCAT\3.1\..\Functions\TE1400-TargetForMatlabSimulink\Libraries\TwinCAT RT (x86)\R2017b\Release\\" /LIBPATH:"C:\TwinCAT\3.1\..\Functions\TE1400-TargetForMatlabSimulink\Libraries\TwinCAT RT (x86)\R2017b\\" /LIBPATH:"C:\TwinCAT\3.1\SDK\\lib\TwinCAT RT (x86)" /LIBPATH:"C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x86)\Release\MATLAB_R2017b\\" TcMatSim.lib TcFramework.lib TcDdkHal.lib TcDdkKrnl.lib /NODEFAULTLIB /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x86)\Release\MATLAB_R2017b\ToolPlaneDistance.pdb" /SUBSYSTEM:NATIVE /TLBID:1 /ENTRY:"DriverEntry@8" /BASE:"0x10000" /DYNAMICBASE /NXCOMPAT:NO /MACHINE:X86 /SAFESEH "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x86)\Release\MATLAB_R2017b\ToolPlaneDistance\ToolPlaneDistance.res"
+  "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x86)\Release\MATLAB_R2017b\ToolPlaneDistance\CToolPlaneDistanceClassFactory.obj"
+  "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x86)\Release\MATLAB_R2017b\ToolPlaneDistance\CToolPlaneDistance.obj"
+  "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x86)\Release\MATLAB_R2017b\ToolPlaneDistance\ToolPlaneDistance.obj"
+  "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x86)\Release\MATLAB_R2017b\ToolPlaneDistance\ToolPlaneDistance_data.obj"
+  "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x86)\Release\MATLAB_R2017b\ToolPlaneDistance\rtGetInf.obj"
+  "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x86)\Release\MATLAB_R2017b\ToolPlaneDistance\rtGetNaN.obj"
+  "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x86)\Release\MATLAB_R2017b\ToolPlaneDistance\rt_nonfinite.obj"
+  "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x86)\Release\MATLAB_R2017b\ToolPlaneDistance\CToolPlaneDistanceDrv.obj"
+  "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x86)\Release\MATLAB_R2017b\ToolPlaneDistance\TcPch.obj"
+     Creating library C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x86)\Release\MATLAB_R2017b\ToolPlaneDistance.lib and object C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x86)\Release\MATLAB_R2017b\ToolPlaneDistance.exp
+  ToolPlaneDistance.vcxproj -> C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x86)\Release\MATLAB_R2017b\ToolPlaneDistance.sys
+  ToolPlaneDistance.vcxproj -> C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x86)\Release\MATLAB_R2017b\ToolPlaneDistance.pdb (Full PDB)
+FinalizeBuildStatus:
+  Deleting file "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x86)\Release\MATLAB_R2017b\ToolPlaneDistance\ToolPlan.40fc7c01.tlog\unsuccessfulbuild".
+  Touching "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x86)\Release\MATLAB_R2017b\ToolPlaneDistance\ToolPlan.40fc7c01.tlog\ToolPlaneDistance.lastbuildstate".
+TcPublishModuleBinaries:
+  Creating directory "C:\TwinCAT\3.1\CustomConfig\Modules\ToolPlaneDistance\TwinCAT RT (x86)".
+  Copying file from "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x86)\Release\MATLAB_R2017b\ToolPlaneDistance.sys" to "C:\TwinCAT\3.1\CustomConfig\Modules\ToolPlaneDistance\TwinCAT RT (x86)\ToolPlaneDistance.sys".
+  Copying file from "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x86)\Release\MATLAB_R2017b\ToolPlaneDistance.pdb" to "C:\TwinCAT\3.1\CustomConfig\Modules\ToolPlaneDistance\TwinCAT RT (x86)\ToolPlaneDistance.pdb".
+Done Building Project "C:\Users\motionlab\OneDrive - Universitetet i Agder\GitHub\motion-lab\simulink\ControlStructure\ToolPlaneDistance_tct\ToolPlaneDistance.vcxproj" (TcPublishModuleBinaries target(s)).
+Project "C:\Users\motionlab\OneDrive - Universitetet i Agder\GitHub\motion-lab\simulink\ControlStructure\ToolPlaneDistance_tct\ToolPlaneDistance.vcxproj" (1) is building "C:\Users\motionlab\OneDrive - Universitetet i Agder\GitHub\motion-lab\simulink\ControlStructure\ToolPlaneDistance_tct\ToolPlaneDistance.vcxproj" (1:3) on node 1 (TcPublishModuleBinaries target(s)).
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2017b\ToolPlaneDistance\) contains files shared from another project (ToolPlaneDistance.vcxproj).  This can lead to incorrect clean and rebuild behavior. [C:\Users\motionlab\OneDrive - Universitetet i Agder\GitHub\motion-lab\simulink\ControlStructure\ToolPlaneDistance_tct\ToolPlaneDistance.vcxproj]
+  Creating directory "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2017b\ToolPlaneDistance\ToolPlan.40fc7c01.tlog\".
+InitializeBuildStatus:
+  Creating "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2017b\ToolPlaneDistance\ToolPlan.40fc7c01.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+PreBuildEvent:
+  Description: "C:\TwinCAT\3.1\SDK\\Bin\ExtractVersionInfo" "ToolPlaneDistance" "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2017b\ToolPlaneDistance\\ToolPlaneDistance"
+  "C:\TwinCAT\3.1\SDK\\Bin\ExtractVersionInfo" "ToolPlaneDistance" "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2017b\ToolPlaneDistance\\ToolPlaneDistance"
+  :VCEnd
+  ExtractVersionInfo header file "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2017b\ToolPlaneDistance\\ToolPlaneDistanceVersion.h" is up-to-date!
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /I..\ /IC:\MATLAB\R2017b\simulink\include\sf_runtime\ /IC:\MATLAB\R2017b\extern\include\ /IC:\MATLAB\R2017b\simulink\include\ /IC:\MATLAB\R2017b\rtw\c\src\ /I"C:\Users\motionlab\OneDrive - Universitetet i Agder\GitHub\motion-lab\simulink\ControlStructure\ToolPlaneDistance_tct\TwinCAT RT (x64)\\" /I"C:\Users\motionlab\OneDrive - Universitetet i Agder\GitHub\motion-lab\simulink\ControlStructure\ToolPlaneDistance_tct\TwinCAT RT\\" /I"C:\Users\motionlab\OneDrive - Universitetet i Agder\GitHub\motion-lab\simulink\ControlStructure\ToolPlaneDistance_tct\TwinCAT RT\3.1\\" /I"C:\Users\motionlab\OneDrive - Universitetet i Agder\GitHub\motion-lab\simulink\ControlStructure\ToolPlaneDistance_tct\\" /IC:\MATLAB\R2017b\\rtw\c\src\ext_mode\common /IC:\MATLAB\R2017b\\rtw\c\src /IC:\MATLAB\R2017b\\simulink\include /IC:\MATLAB\R2017b\\extern\include /IC:\TwinCAT\3.1\SDK\\Include /IC:\TwinCAT\3.1\SDK\\Include\Io /IC:\TwinCAT\3.1\SDK\\Include\Nc /IC:\TwinCAT\3.1\SDK\\Include\CM /IC:\TwinCAT\3.1\SDK\\Include\Plc /IC:\TwinCAT\3.1\SDK\\Include\Stl\Stl /IC:\WinDDK\7600.16385.1\\inc\ddk /IC:\WinDDK\7600.16385.1\\inc\crt /IC:\WinDDK\7600.16385.1\\inc\mfc42 /IC:\WinDDK\7600.16385.1\\inc\api /I"C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2017b\ToolPlaneDistance\\" /Zi /nologo /W3 /WX- /MP /O2 /Ob2 /Oy- /D "MODEL=\"ToolPlaneDistance\"" /D NUMST=1 /D NCSTATES=0 /D HAVESTDIO /D INTEGER_CODE=0 /D MT=0 /D CLASSIC_INTERFACE=1 /D ALLOCATIONFCN=0 /D ONESTEPFCN=0 /D TERMFCN=1 /D MULTI_INSTANCE_CODE=0 /D TID01EQ=0 /D RT=1 /D USE_RTMODEL /D TC_UNLIMITED_MAP_ENTRIES /D TCMATH_BLOCK_STANDARDLIB=0 /D TC_BUILD=4022 /D USE_CRT_OWN_IMPL /D _AMD64_ /D _X64_ /D _WIN64 /D STD_CALL /D CONDITION_HANDLING /D WIN32_LEAN_AND_MEAN /D _IDWBUILD /D IS_R0 /D WINNT /D _WDM_INCLUDED_ /D _WIN32_WINNT=_WIN32_WINNT_WINXP /D NTDDI_VERSION=NTDDI_WINXPSP2 /D TC_VER=301 /X /GF /Gm- /MT /GS- /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR- /Fo"C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2017b\ToolPlaneDistance\\" /Fd"C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2017b\ToolPlaneDistance\vc140.pdb" /Gz /TP /analyze- /errorReport:queue /kernel CToolPlaneDistanceClassFactory.cpp CToolPlaneDistance.cpp CToolPlaneDistanceDrv.cpp TcPch.cpp
+  CToolPlaneDistanceClassFactory.cpp
+  CToolPlaneDistance.cpp
+  CToolPlaneDistanceDrv.cpp
+  TcPch.cpp
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\CL.exe /c /I..\ /IC:\MATLAB\R2017b\simulink\include\sf_runtime\ /IC:\MATLAB\R2017b\extern\include\ /IC:\MATLAB\R2017b\simulink\include\ /IC:\MATLAB\R2017b\rtw\c\src\ /I"C:\Users\motionlab\OneDrive - Universitetet i Agder\GitHub\motion-lab\simulink\ControlStructure\ToolPlaneDistance_tct\TwinCAT RT (x64)\\" /I"C:\Users\motionlab\OneDrive - Universitetet i Agder\GitHub\motion-lab\simulink\ControlStructure\ToolPlaneDistance_tct\TwinCAT RT\\" /I"C:\Users\motionlab\OneDrive - Universitetet i Agder\GitHub\motion-lab\simulink\ControlStructure\ToolPlaneDistance_tct\TwinCAT RT\3.1\\" /I"C:\Users\motionlab\OneDrive - Universitetet i Agder\GitHub\motion-lab\simulink\ControlStructure\ToolPlaneDistance_tct\\" /IC:\MATLAB\R2017b\\rtw\c\src\ext_mode\common /IC:\MATLAB\R2017b\\rtw\c\src /IC:\MATLAB\R2017b\\simulink\include /IC:\MATLAB\R2017b\\extern\include /IC:\TwinCAT\3.1\SDK\\Include /IC:\TwinCAT\3.1\SDK\\Include\Io /IC:\TwinCAT\3.1\SDK\\Include\Nc /IC:\TwinCAT\3.1\SDK\\Include\CM /IC:\TwinCAT\3.1\SDK\\Include\Plc /IC:\TwinCAT\3.1\SDK\\Include\Stl\Stl /IC:\WinDDK\7600.16385.1\\inc\ddk /IC:\WinDDK\7600.16385.1\\inc\crt /IC:\WinDDK\7600.16385.1\\inc\mfc42 /IC:\WinDDK\7600.16385.1\\inc\api /I"C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2017b\ToolPlaneDistance\\" /Zi /nologo /W3 /WX- /MP /O2 /Ob2 /Oy- /D "MODEL=\"ToolPlaneDistance\"" /D NUMST=1 /D NCSTATES=0 /D HAVESTDIO /D INTEGER_CODE=0 /D MT=0 /D CLASSIC_INTERFACE=1 /D ALLOCATIONFCN=0 /D ONESTEPFCN=0 /D TERMFCN=1 /D MULTI_INSTANCE_CODE=0 /D TID01EQ=0 /D RT=1 /D USE_RTMODEL /D TC_UNLIMITED_MAP_ENTRIES /D TCMATH_BLOCK_STANDARDLIB=0 /D TC_BUILD=4022 /D USE_CRT_OWN_IMPL /D _AMD64_ /D _X64_ /D _WIN64 /D STD_CALL /D CONDITION_HANDLING /D WIN32_LEAN_AND_MEAN /D _IDWBUILD /D IS_R0 /D WINNT /D _WDM_INCLUDED_ /D _WIN32_WINNT=_WIN32_WINNT_WINXP /D NTDDI_VERSION=NTDDI_WINXPSP2 /D TC_VER=301 /X /GF /Gm- /MT /GS- /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR- /Fo"C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2017b\ToolPlaneDistance\\" /Fd"C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2017b\ToolPlaneDistance\vc140.pdb" /Gd /TP /analyze- /errorReport:queue /kernel ToolPlaneDistance.cpp ToolPlaneDistance_data.cpp rtGetInf.cpp rtGetNaN.cpp rt_nonfinite.cpp
+  ToolPlaneDistance.cpp
+  ToolPlaneDistance_data.cpp
+  rtGetInf.cpp
+  rtGetNaN.cpp
+  rt_nonfinite.cpp
+ResourceCompile:
+  C:\Program Files (x86)\Windows Kits\8.1\bin\x86\rc.exe /l"0x0409" /nologo /fo"C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2017b\ToolPlaneDistance\ToolPlaneDistance.res" ToolPlaneDistance.rc 
+Link:
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:QUEUE /OUT:"C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2017b\ToolPlaneDistance.sys" /NOLOGO /LIBPATH:"C:\TwinCAT\3.1\..\Functions\TE1400-TargetForMatlabSimulink\Libraries\TwinCAT RT (x64)\R2017b\Release\\" /LIBPATH:"C:\TwinCAT\3.1\..\Functions\TE1400-TargetForMatlabSimulink\Libraries\TwinCAT RT (x64)\R2017b\\" /LIBPATH:"C:\TwinCAT\3.1\SDK\\lib\TwinCAT RT (x64)" /LIBPATH:"C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2017b\\" TcMatSim.lib TcFramework.lib TcDdkHal.lib TcDdkKrnl.lib /NODEFAULTLIB /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2017b\ToolPlaneDistance.pdb" /SUBSYSTEM:NATIVE /TLBID:1 /ENTRY:"DriverEntry" /BASE:"0x10000" /DYNAMICBASE /NXCOMPAT:NO /IMPLIB:"C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2017b\ToolPlaneDistance.lib" /MACHINE:X64 "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2017b\ToolPlaneDistance\ToolPlaneDistance.res"
+  "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2017b\ToolPlaneDistance\CToolPlaneDistanceClassFactory.obj"
+  "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2017b\ToolPlaneDistance\CToolPlaneDistance.obj"
+  "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2017b\ToolPlaneDistance\ToolPlaneDistance.obj"
+  "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2017b\ToolPlaneDistance\ToolPlaneDistance_data.obj"
+  "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2017b\ToolPlaneDistance\rtGetInf.obj"
+  "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2017b\ToolPlaneDistance\rtGetNaN.obj"
+  "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2017b\ToolPlaneDistance\rt_nonfinite.obj"
+  "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2017b\ToolPlaneDistance\CToolPlaneDistanceDrv.obj"
+  "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2017b\ToolPlaneDistance\TcPch.obj"
+     Creating library C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2017b\ToolPlaneDistance.lib and object C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2017b\ToolPlaneDistance.exp
+  ToolPlaneDistance.vcxproj -> C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2017b\ToolPlaneDistance.sys
+  ToolPlaneDistance.vcxproj -> C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2017b\ToolPlaneDistance.pdb (Full PDB)
+PostBuildEvent:
+  "C:\WinDDK\7600.16385.1\\bin\x86\signtool" sign /v /s PrivateCertStore /n MyTestSigningCert "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2017b\ToolPlaneDistance.sys"
+  :VCEnd
+  The following certificate was selected:
+      Issued to: MyTestSigningCert
+  
+      Issued by: MyTestSigningCert
+  
+      Expires:   Sun Jan 01 01:59:59 2040
+  
+      SHA1 hash: 9C06FEBC09D574B8F34FABD58D59F5A32CB3A5F2
+  
+  
+  Done Adding Additional Store
+  Successfully signed: C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2017b\ToolPlaneDistance.sys
+  
+  
+  Number of files successfully Signed: 1
+  
+  Number of warnings: 0
+  
+  Number of errors: 0
+  
+FinalizeBuildStatus:
+  Deleting file "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2017b\ToolPlaneDistance\ToolPlan.40fc7c01.tlog\unsuccessfulbuild".
+  Touching "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2017b\ToolPlaneDistance\ToolPlan.40fc7c01.tlog\ToolPlaneDistance.lastbuildstate".
+TcPublishModuleBinaries:
+  Creating directory "C:\TwinCAT\3.1\CustomConfig\Modules\ToolPlaneDistance\TwinCAT RT (x64)".
+  Copying file from "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2017b\ToolPlaneDistance.sys" to "C:\TwinCAT\3.1\CustomConfig\Modules\ToolPlaneDistance\TwinCAT RT (x64)\ToolPlaneDistance.sys".
+  Copying file from "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2017b\ToolPlaneDistance.pdb" to "C:\TwinCAT\3.1\CustomConfig\Modules\ToolPlaneDistance\TwinCAT RT (x64)\ToolPlaneDistance.pdb".
+Done Building Project "C:\Users\motionlab\OneDrive - Universitetet i Agder\GitHub\motion-lab\simulink\ControlStructure\ToolPlaneDistance_tct\ToolPlaneDistance.vcxproj" (TcPublishModuleBinaries target(s)).
+Project "C:\Users\motionlab\OneDrive - Universitetet i Agder\GitHub\motion-lab\simulink\ControlStructure\ToolPlaneDistance_tct\ToolPlaneDistance.vcxproj" (1) is building "C:\Users\motionlab\OneDrive - Universitetet i Agder\GitHub\motion-lab\simulink\ControlStructure\ToolPlaneDistance_tct\ToolPlaneDistance.vcxproj" (1:4) on node 1 (TcPublishAdditionalFiles target(s)).
+TcPublishAdditionalFiles:
+  Copying file from "C:\Users\motionlab\OneDrive - Universitetet i Agder\GitHub\motion-lab\simulink\ControlStructure\ToolPlaneDistance_tct\ToolPlaneDistance_PlcOpenPOUs.xml" to "C:\TwinCAT\3.1\CustomConfig\Modules\ToolPlaneDistance\ToolPlaneDistance_PlcOpenPOUs.xml".
+  Copying file from "C:\Users\motionlab\OneDrive - Universitetet i Agder\GitHub\motion-lab\simulink\ControlStructure\ToolPlaneDistance_tct\ToolPlaneDistance_ModuleInfo.xml" to "C:\TwinCAT\3.1\CustomConfig\Modules\ToolPlaneDistance\ToolPlaneDistance_ModuleInfo.xml".
+Done Building Project "C:\Users\motionlab\OneDrive - Universitetet i Agder\GitHub\motion-lab\simulink\ControlStructure\ToolPlaneDistance_tct\ToolPlaneDistance.vcxproj" (TcPublishAdditionalFiles target(s)).
+Done Building Project "C:\Users\motionlab\OneDrive - Universitetet i Agder\GitHub\motion-lab\simulink\ControlStructure\ToolPlaneDistance_tct\ToolPlaneDistance.vcxproj" (TcPublishModule target(s)).
+
+Build succeeded.
+
+"C:\Users\motionlab\OneDrive - Universitetet i Agder\GitHub\motion-lab\simulink\ControlStructure\ToolPlaneDistance_tct\ToolPlaneDistance.vcxproj" (TcPublishModule target) (1) ->
+"C:\Users\motionlab\OneDrive - Universitetet i Agder\GitHub\motion-lab\simulink\ControlStructure\ToolPlaneDistance_tct\ToolPlaneDistance.vcxproj" (TcPublishModuleBinaries target) (1:2) ->
+(PrepareForBuild target) -> 
+  C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x86)\Release\MATLAB_R2017b\ToolPlaneDistance\) contains files shared from another project (ToolPlaneDistance.vcxproj).  This can lead to incorrect clean and rebuild behavior. [C:\Users\motionlab\OneDrive - Universitetet i Agder\GitHub\motion-lab\simulink\ControlStructure\ToolPlaneDistance_tct\ToolPlaneDistance.vcxproj]
+
+
+"C:\Users\motionlab\OneDrive - Universitetet i Agder\GitHub\motion-lab\simulink\ControlStructure\ToolPlaneDistance_tct\ToolPlaneDistance.vcxproj" (TcPublishModule target) (1) ->
+"C:\Users\motionlab\OneDrive - Universitetet i Agder\GitHub\motion-lab\simulink\ControlStructure\ToolPlaneDistance_tct\ToolPlaneDistance.vcxproj" (TcPublishModuleBinaries target) (1:3) ->
+  C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2017b\ToolPlaneDistance\) contains files shared from another project (ToolPlaneDistance.vcxproj).  This can lead to incorrect clean and rebuild behavior. [C:\Users\motionlab\OneDrive - Universitetet i Agder\GitHub\motion-lab\simulink\ControlStructure\ToolPlaneDistance_tct\ToolPlaneDistance.vcxproj]
+
+    2 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:04.66

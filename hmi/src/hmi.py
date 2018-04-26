@@ -6,10 +6,11 @@ import pyqtgraph as pg
 import time
 import pyads
 import numpy as np
+import ctypes
 from scipy.optimize import curve_fit
 
 from src.classes import RealTimePlot, RealTimeBar, WaveSpectrum
-from src.datastructures import TxHmi
+from src.datastructures import TxHmi, RxHmi
 from src.gui import Ui_main
 
 # Motionlab pybind module
@@ -84,6 +85,9 @@ class GUI(QMainWindow, Ui_main):
         # Show UI
         self.show()
 
+    def buttonAdsToggled(self, btn, adsVar):
+        print('Toggled')
+        
 
     # EM8000 Wave Settings
     def EM8000_wave(self):
@@ -338,8 +342,7 @@ class GUI(QMainWindow, Ui_main):
     
     # UI connections
     def ui_connect(self):
-        # Password Protection of Tabs
-        self.tabWidget.currentChanged.connect(self.tab_selector)
+
 
         # Signal compare tab
         self.autoScale.clicked.connect(self.auto_scale)
@@ -402,14 +405,48 @@ class GUI(QMainWindow, Ui_main):
         self.EM1500_wave_period.returnPressed.connect(self.EM1500_wave)
         self.EM1500_wave_spectra.currentIndexChanged.connect(self.EM1500_wave)
 
-    
+        # Winch related
+        self.winchNeutral.clicked.connect(lambda: self.plc.write_by_name('MAIN.winch.mode', 0, pyads.PLCTYPE_UINT))
+        self.winchEngaged.clicked.connect(lambda: self.plc.write_by_name('MAIN.winch.mode', 1, pyads.PLCTYPE_UINT))
+        self.winchHome.clicked.connect(lambda: self.plc.write_by_name('MAIN.winch.mode', 2, pyads.PLCTYPE_UINT))
+
+        self.winchOff.clicked.connect(lambda: self.plc.write_by_name('MAIN.winch.enable', False, pyads.PLCTYPE_BOOL))
+        self.winchOn.clicked.connect(lambda: self.plc.write_by_name('MAIN.winch.enable', True, pyads.PLCTYPE_BOOL))
+
+        
+
+
 
     # Update data and plot
     def update_data(self):
         # Update HMI data
         txHmi = self.plc.read_by_name('MAIN.txHmi', TxHmi)
 
+        rxHmi = RxHmi()
 
+        
+        
+        if self.winchJogUp.isDown():
+            rxHmi.winchJogUp = True
+        else:
+            rxHmi.winchJogUp = False
+     
+        if self.winchJogDown.isDown():
+            rxHmi.winchJogDown = True
+        else:
+            rxHmi.winchJogDown = False
+
+        rxHmi.xboxLeftX = self.xbox.left.x
+        rxHmi.xboxLeftY = self.xbox.left.y
+        rxHmi.xboxRightX = self.xbox.right.x
+        rxHmi.xboxRightY = self.xbox.right.y
+        rxHmi.xboxLT = self.xbox.LT
+        rxHmi.xboxRT = self.xbox.RT
+        
+        rxBuffer = bytearray(rxHmi)
+        rxSize = len(rxBuffer)*pyads.PLCTYPE_BYTE
+        self.plc.write_by_name('MAIN.rxHmi', rxBuffer, rxSize)
+        
         self.t = time.time() - self.tStart
     
         self.DP1_1.time_range = self.time_range
@@ -586,33 +623,6 @@ class GUI(QMainWindow, Ui_main):
         self.EM8000_plot_time_range_ship.setCurrentIndex(val)
         self.EM1500_plot_time_range_ship.setCurrentIndex(val)
 
-    # Main Tab selector
-    # (with password protection on admin-tab)
-    def tab_selector(self):
-        # Check if the selected tab is admin-tab
-        # If so, call function "password_login(password)"
-        main_tab = self.sender()
-        if main_tab.currentIndex() == 5:
-            if self.password_login("1234"):
-                #print "Good Accepted"
-                main_tab.setCurrentIndex(5)
-            else:
-                #print "Denied"
-                main_tab.setCurrentIndex(0)
-
-    # Password protection on tab
-    def password_login(self, pw):
-        password, ok = QInputDialog.getText(self, "Login", "Please enter Password", QLineEdit.Password)
-        if ok:
-            if password == pw:
-                return True
-            else:
-                msg = QMessageBox(self)
-                msg.setIcon(QMessageBox.Warning)
-                msg.setText("Wrong Password, please try again")
-                msg.setWindowTitle("Access Denied")
-                msg.exec_()
-                return False
 
     # EM 8000 button functions
     def EM8000_settled(self):

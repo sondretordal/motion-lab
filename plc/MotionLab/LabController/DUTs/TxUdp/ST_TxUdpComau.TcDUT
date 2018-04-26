@@ -7,9 +7,9 @@ STRUCT
 	cmnd : DINT := 0;
 	omega : REAL := 1.0;
 	beta : REAL := 1.0;
-	q1 : REAL := 0.0;
+	q1 : REAL := 35.0;
 	q2 : REAL := 0.0;
-	q3 : REAL := -90.0;
+	q3 : REAL := -110.0;
 	q4 : REAL := 0.0;
 	q5 : REAL := 90.0;
 	q6 : REAL := 0.0;
