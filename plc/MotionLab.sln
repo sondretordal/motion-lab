@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{B1E792BE-AA5F-4E3C-8C82-674BF9C0715B}") = "MotionLab", "MotionLab\MotionLab.tsproj", "{68F6CC00-0B05-4CC7-B5A8-5657D44B1730}"
 EndProject
+Project("{FD9F1D59-E000-42F3-8744-88DE1BE93C06}") = "Measurements", "Measurements\Measurements.tcmproj", "{7A548195-2F7E-490B-ABFB-99F308CC48BD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|TwinCAT CE7 (ARMV7) = Debug|TwinCAT CE7 (ARMV7)
@@ -61,6 +63,18 @@ Global
 		{0EFE960F-9BDC-4039-BBCC-77C5BF3D3FA6}.Release|TwinCAT RT (x86).Build.0 = Release|TwinCAT RT (x86)
 		{0EFE960F-9BDC-4039-BBCC-77C5BF3D3FA6}.Release|TwinCAT UM (x64).ActiveCfg = Release|TwinCAT RT (x86)
 		{0EFE960F-9BDC-4039-BBCC-77C5BF3D3FA6}.Release|TwinCAT UM (x86).ActiveCfg = Release|TwinCAT RT (x86)
+		{7A548195-2F7E-490B-ABFB-99F308CC48BD}.Debug|TwinCAT CE7 (ARMV7).ActiveCfg = Debug|TwinCAT CE7 (ARMV7)
+		{7A548195-2F7E-490B-ABFB-99F308CC48BD}.Debug|TwinCAT OS (ARMT2).ActiveCfg = Debug|TwinCAT OS (ARMT2)
+		{7A548195-2F7E-490B-ABFB-99F308CC48BD}.Debug|TwinCAT RT (x64).ActiveCfg = Debug|TwinCAT RT (x64)
+		{7A548195-2F7E-490B-ABFB-99F308CC48BD}.Debug|TwinCAT RT (x86).ActiveCfg = Debug|TwinCAT RT (x86)
+		{7A548195-2F7E-490B-ABFB-99F308CC48BD}.Debug|TwinCAT UM (x64).ActiveCfg = Debug|TwinCAT OS (ARMT2)
+		{7A548195-2F7E-490B-ABFB-99F308CC48BD}.Debug|TwinCAT UM (x86).ActiveCfg = Debug|TwinCAT OS (ARMT2)
+		{7A548195-2F7E-490B-ABFB-99F308CC48BD}.Release|TwinCAT CE7 (ARMV7).ActiveCfg = Release|TwinCAT CE7 (ARMV7)
+		{7A548195-2F7E-490B-ABFB-99F308CC48BD}.Release|TwinCAT OS (ARMT2).ActiveCfg = Release|TwinCAT OS (ARMT2)
+		{7A548195-2F7E-490B-ABFB-99F308CC48BD}.Release|TwinCAT RT (x64).ActiveCfg = Release|TwinCAT RT (x64)
+		{7A548195-2F7E-490B-ABFB-99F308CC48BD}.Release|TwinCAT RT (x86).ActiveCfg = Release|TwinCAT RT (x86)
+		{7A548195-2F7E-490B-ABFB-99F308CC48BD}.Release|TwinCAT UM (x64).ActiveCfg = Release|TwinCAT OS (ARMT2)
+		{7A548195-2F7E-490B-ABFB-99F308CC48BD}.Release|TwinCAT UM (x86).ActiveCfg = Release|TwinCAT OS (ARMT2)
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

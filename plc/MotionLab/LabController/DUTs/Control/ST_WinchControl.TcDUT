@@ -4,6 +4,8 @@
     <Declaration><![CDATA[TYPE ST_WinchControl :
 STRUCT
 	l : REAL;
+	l_t : REAL;
+	l_tt : REAL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

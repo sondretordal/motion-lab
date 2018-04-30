@@ -27,6 +27,9 @@ VAR
 	t : REAL := 0.0;
 	// System time in 100 ns resolution
 	timeStamp100ns : ULINT; 
+	
+	// System call for starting PqQt HMI
+	fbStartProcess : NT_StartProcess;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -56,11 +59,14 @@ END_IF
 
 t := t + 0.005;
 
-winch.control.l := 5000 + 500*SIN(0.1*2*PI*t);
+winch.control.l := 5000 + 200*SIN(0.1*2*PI*t);
+winch.control.l_t := 0.1*2*PI*200*COS(0.1*2*PI*t);
+winch.control.l_tt := -(0.1*2*PI)*(0.1*2*PI)*200*SIN(0.1*2*PI*t);
 
 
-winch.jogUp := rxHmi.winchJogUp;
-winch.jogDown := rxHmi.winchJogDown;
+
+winch.extDisable := rxHmi.winchJogUp;
+winch.extEnable := rxHmi.winchJogDown;
 
 
 //  Remote feedback data
@@ -79,6 +85,10 @@ remote();
 
 timeStamp100ns := F_GetTaskTime();
 
+StartPyQtHMI();
+
+
+
 
 
 
@@ -86,6 +96,18 @@ timeStamp100ns := F_GetTaskTime();
 
 ]]></ST>
     </Implementation>
+    <Action Name="StartPyQtHMI" Id="{9bb8c736-3772-4a32-953f-a2d6b917a904}">
+      <Implementation>
+        <ST><![CDATA[fbStartProcess(
+	NETID := '192.168.90.160.1.1',
+	PATHSTR := 'C:\motion-lab\hmi\startHMI.bat',
+	DIRNAME := 'C:\motion-lab\hmi',
+	COMNDLINE := 'startHMI.bat',
+	START := TRUE
+);
+	]]></ST>
+      </Implementation>
+    </Action>
     <LineIds Name="MAIN">
       <LineId Id="127" Count="0" />
       <LineId Id="110" Count="0" />
@@ -109,7 +131,9 @@ timeStamp100ns := F_GetTaskTime();
       <LineId Id="409" Count="0" />
       <LineId Id="417" Count="0" />
       <LineId Id="416" Count="0" />
-      <LineId Id="418" Count="0" />
+      <LineId Id="418" Count="1" />
+      <LineId Id="456" Count="0" />
+      <LineId Id="420" Count="0" />
       <LineId Id="411" Count="0" />
       <LineId Id="410" Count="0" />
       <LineId Id="412" Count="0" />
@@ -123,6 +147,10 @@ timeStamp100ns := F_GetTaskTime();
       <LineId Id="343" Count="0" />
       <LineId Id="274" Count="0" />
       <LineId Id="284" Count="1" />
+      <LineId Id="454" Count="0" />
+      <LineId Id="453" Count="0" />
+      <LineId Id="449" Count="0" />
+      <LineId Id="448" Count="0" />
       <LineId Id="262" Count="0" />
       <LineId Id="269" Count="0" />
       <LineId Id="168" Count="0" />
@@ -130,6 +158,10 @@ timeStamp100ns := F_GetTaskTime();
       <LineId Id="128" Count="0" />
       <LineId Id="121" Count="0" />
       <LineId Id="17" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.StartPyQtHMI">
+      <LineId Id="2" Count="6" />
+      <LineId Id="1" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

@@ -5,13 +5,17 @@
 VAR_INPUT
 	enable : BOOL := FALSE;
 	
-	mode : UINT;
+	mode : UINT := 0;
 	
 	control : ST_WinchControl;
 	
 	jogUp : BOOL := FALSE;
 	jogDown : BOOL := FALSE;
 	
+	extEnable : BOOL := TRUE;
+	extDisable : BOOL := TRUE;
+	
+	state : UINT := 0;
 	
 END_VAR
 VAR_OUTPUT
@@ -20,77 +24,103 @@ VAR_OUTPUT
 	feedback : ST_FeedbackWinch;
 END_VAR
 VAR
-	axis : AXIS_REF;
-	
-	fbPower : MC_Power;
-	fbReadStatus : MC_ReadStatus;
-	fbReadActualPosition : MC_ReadActualPosition;
-	fbReadActualVelocity : MC_ReadActualVelocity;
-	fbMoveAbsolute : MC_MoveAbsolute;
-	
-	stSetPositionObtions : ST_SetPositionOptions;
-	
+	// HMI feedback	
 	pTxHmi : POINTER TO ST_TxHmiWinch;
+	
+	// MC2 Functions
+	axis : AXIS_REF;
+	fbPower : MC_Power;
+	fbExtSetPointGenEnable : MC_ExtSetPointGenEnable;
+	fbExtSetPointGenDisable : MC_ExtSetPointGenDisable;
+	
+	// Setpoint generation
+	Ts : LREAL := 0.005;
+	
+	omega : LREAL := 1.0;
+	beta : LREAL := 1.0;
+	
+	
+	l : LREAL := 0.0;
+	l_t : LREAL := 0.0;
+	l_tt : LREAL := 0.0;
+	direction : DINT := 0;
+	
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// Set power status for drive
-fbPower(
+      <ST><![CDATA[// Update axis data
+axis();
+
+// Generate trajectory from input filter
+l_tt := control.l_tt + 2*beta*omega*(control.l_t - l_t) + omega*omega*(control.l - l);
+l_t := l_t + l_tt*Ts;
+l := l + l_t*Ts;
+
+// Get direction
+direction := GetDirection(l, l_t, l_tt);
+
+// Feed setpoints to acis interface
+MC_ExtSetPointGenFeed(
 	Axis := axis,
-	Enable := enable,
-	Enable_Positive := TRUE,
-	Enable_Negative := TRUE,
+	Position := l,
+	Velocity := l_t,
+	Acceleration := l_tt,
+	Direction := direction
 );
 
-active := fbPower.Active;
-
-
-CASE mode OF
-0 : 
-	// Neutral Mode
-	fbMoveAbsolute(
+// Check if winch is enbgaged or not
+IF enable THEN
+	
+	// Power on module
+	fbPower(
 		Axis := axis,
-		Execute := FALSE
-	);
-1 : 
-	// Engaged Mode
-	fbMoveAbsolute(
-		Axis := axis,
-		Execute := FALSE
-	);
-	fbMoveAbsolute(
-		Axis := axis,
-		Execute := TRUE,
-		Position := control.l,
-		Velocity := 500.0,
-		Acceleration := 1000.0,
-		Jerk := 5000.0
+		Enable := TRUE,
+		Enable_Positive := TRUE,
+		Enable_Negative := TRUE
 	);
 	
-2 :
-	// Servo mode
-ELSE	
-	// TODO!
-END_CASE
+	IF fbPower.Status THEN
+		// Activate external setpoint
+		fbExtSetPointGenDisable(
+			Axis := axis,
+			Execute := FALSE
+		);
+		fbExtSetPointGenEnable(
+			Axis := axis,
+			Execute := TRUE
+		);
+	END_IF
+	
+ELSE
+	// Copy feedback values to setpoint generator
+	l := axis.NcToPlc.ActPos;
+	l_t := axis.NcToPlc.ActVelo;
+	l_tt := axis.NcToPlc.ActAcc;
+	
+	
+	// Disable external setpoint
+	fbExtSetPointGenDisable(
+		Axis := axis,
+		Execute := TRUE
+	);
+	fbExtSetPointGenEnable(
+		Axis := axis,
+		Execute := FALSE
+	);
+	
+	IF NOT fbExtSetPointGenDisable.Busy AND fbExtSetPointGenDisable.Done THEN
+		// Power off the drive
+		fbPower(
+			Axis := axis,
+			Enable := FALSE,
+			Enable_Positive := FALSE,
+			Enable_Negative := FALSE
+		);
+	END_IF;
+END_IF
 
-// Read axis status, See "axis.Status" for updated status data
-fbReadStatus(
-	Axis := axis,
-	Enable := TRUE
-);
 
-// Read Actual velocity and positon
-fbReadActualPosition(
-	Axis := axis,
-	Enable := TRUE
-);
-feedback.l := LREAL_TO_REAL(fbReadActualPosition.Position);
 
-fbReadActualVelocity(
-	Axis := axis,
-	Enable := TRUE
-);
-feedback.l_t := LREAL_TO_REAL(fbReadActualVelocity.ActualVelocity);
 
 ]]></ST>
     </Implementation>
@@ -105,7 +135,44 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[]]></ST>
+        <ST><![CDATA[// Ensure Power of axis is disbaled at startup
+fbPower(
+	Axis := axis,
+	Enable := FALSE,
+	Enable_Positive := FALSE,
+	Enable_Negative := FALSE
+);
+
+fbExtSetPointGenDisable(
+	Axis := axis,
+	Execute := FALSE
+);
+
+fbExtSetPointGenEnable(
+	Axis := axis,
+	Execute := FALSE
+);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetDirection" Id="{9b772473-0894-4878-884a-86e9d42d9fdc}">
+      <Declaration><![CDATA[METHOD PRIVATE GetDirection : DINT
+VAR_INPUT
+	pos : LREAL;
+	vel : LREAL;
+	acc : LREAL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Set setpoint direction
+IF vel = 0.0 AND acc = 0.0 THEN
+	// Standstill situation
+	GetDirection := 0;
+ELSIF vel >= 0.0 THEN
+	// Positive motion
+	GetDirection := 1;
+ELSE
+	// Negative motion
+	GetDirection := -1;
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="UpdateHMI" Id="{66797478-8570-421d-ad5d-4d9d457815e9}">
@@ -118,48 +185,64 @@ END_VAR
       </Implementation>
     </Method>
     <LineIds Name="FB_WinchInterface">
-      <LineId Id="13" Count="0" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="16" Count="2" />
-      <LineId Id="64" Count="0" />
-      <LineId Id="20" Count="0" />
-      <LineId Id="22" Count="0" />
-      <LineId Id="21" Count="0" />
-      <LineId Id="108" Count="0" />
-      <LineId Id="35" Count="0" />
-      <LineId Id="37" Count="0" />
-      <LineId Id="44" Count="1" />
-      <LineId Id="130" Count="2" />
-      <LineId Id="114" Count="0" />
-      <LineId Id="38" Count="0" />
-      <LineId Id="118" Count="0" />
-      <LineId Id="127" Count="2" />
-      <LineId Id="126" Count="0" />
-      <LineId Id="100" Count="3" />
-      <LineId Id="122" Count="3" />
-      <LineId Id="105" Count="0" />
-      <LineId Id="41" Count="1" />
-      <LineId Id="46" Count="0" />
-      <LineId Id="43" Count="0" />
+      <LineId Id="823" Count="0" />
+      <LineId Id="825" Count="0" />
+      <LineId Id="844" Count="0" />
+      <LineId Id="835" Count="0" />
+      <LineId Id="811" Count="0" />
+      <LineId Id="837" Count="1" />
+      <LineId Id="842" Count="1" />
+      <LineId Id="841" Count="0" />
+      <LineId Id="812" Count="0" />
+      <LineId Id="802" Count="0" />
+      <LineId Id="796" Count="5" />
+      <LineId Id="794" Count="0" />
+      <LineId Id="829" Count="0" />
+      <LineId Id="795" Count="0" />
+      <LineId Id="729" Count="0" />
+      <LineId Id="845" Count="0" />
+      <LineId Id="757" Count="0" />
+      <LineId Id="742" Count="4" />
+      <LineId Id="741" Count="0" />
+      <LineId Id="784" Count="0" />
+      <LineId Id="847" Count="0" />
+      <LineId Id="786" Count="7" />
+      <LineId Id="785" Count="0" />
+      <LineId Id="848" Count="0" />
+      <LineId Id="846" Count="0" />
+      <LineId Id="773" Count="0" />
+      <LineId Id="819" Count="1" />
+      <LineId Id="827" Count="1" />
+      <LineId Id="822" Count="0" />
+      <LineId Id="839" Count="0" />
+      <LineId Id="747" Count="0" />
+      <LineId Id="726" Count="2" />
+      <LineId Id="724" Count="0" />
+      <LineId Id="732" Count="2" />
+      <LineId Id="731" Count="0" />
+      <LineId Id="749" Count="0" />
+      <LineId Id="849" Count="0" />
+      <LineId Id="751" Count="5" />
+      <LineId Id="750" Count="0" />
+      <LineId Id="850" Count="0" />
+      <LineId Id="725" Count="0" />
+      <LineId Id="484" Count="0" />
+      <LineId Id="559" Count="0" />
       <LineId Id="39" Count="0" />
       <LineId Id="68" Count="0" />
-      <LineId Id="67" Count="0" />
-      <LineId Id="69" Count="0" />
-      <LineId Id="83" Count="0" />
-      <LineId Id="71" Count="1" />
-      <LineId Id="80" Count="0" />
-      <LineId Id="79" Count="0" />
-      <LineId Id="81" Count="1" />
-      <LineId Id="84" Count="1" />
-      <LineId Id="90" Count="0" />
-      <LineId Id="86" Count="3" />
-      <LineId Id="76" Count="0" />
-      <LineId Id="92" Count="0" />
-      <LineId Id="74" Count="0" />
       <LineId Id="27" Count="0" />
     </LineIds>
     <LineIds Name="FB_WinchInterface.FB_init">
-      <LineId Id="7" Count="0" />
+      <LineId Id="17" Count="5" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="24" Count="3" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="29" Count="3" />
+      <LineId Id="28" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_WinchInterface.GetDirection">
+      <LineId Id="9" Count="9" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_WinchInterface.UpdateHMI">
       <LineId Id="5" Count="0" />

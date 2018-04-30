@@ -1,0 +1,1 @@
+python C:\motion-lab\hmi\main.py
