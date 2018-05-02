@@ -135,6 +135,9 @@
     <Compile Include="POUs\Utils\FB_BumplessTransfer.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\Utils\FB_SetPointGenerator.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DUTs" />

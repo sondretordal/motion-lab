@@ -406,12 +406,14 @@ class GUI(QMainWindow, Ui_main):
         self.EM1500_wave_spectra.currentIndexChanged.connect(self.EM1500_wave)
 
         # Winch related
-        self.winchNeutral.clicked.connect(lambda: self.plc.write_by_name('MAIN.winch.mode', 0, pyads.PLCTYPE_UINT))
+        self.winchSettled.clicked.connect(lambda: self.plc.write_by_name('MAIN.winch.mode', 0, pyads.PLCTYPE_UINT))
         self.winchEngaged.clicked.connect(lambda: self.plc.write_by_name('MAIN.winch.mode', 1, pyads.PLCTYPE_UINT))
-        self.winchHome.clicked.connect(lambda: self.plc.write_by_name('MAIN.winch.mode', 2, pyads.PLCTYPE_UINT))
+        self.winchEngagedFast.clicked.connect(lambda: self.plc.write_by_name('MAIN.winch.mode', 2, pyads.PLCTYPE_UINT))
 
         self.winchOff.clicked.connect(lambda: self.plc.write_by_name('MAIN.winch.enable', False, pyads.PLCTYPE_BOOL))
         self.winchOn.clicked.connect(lambda: self.plc.write_by_name('MAIN.winch.enable', True, pyads.PLCTYPE_BOOL))
+        self.winchReset.clicked.connect(lambda: self.plc.write_by_name('MAIN.winch.reset', True, pyads.PLCTYPE_BOOL))
+        self.winchStopp.clicked.connect(lambda: self.plc.write_by_name('MAIN.winch.stopp', True, pyads.PLCTYPE_BOOL))
 
         
 
@@ -423,18 +425,6 @@ class GUI(QMainWindow, Ui_main):
         txHmi = self.plc.read_by_name('MAIN.txHmi', TxHmi)
 
         rxHmi = RxHmi()
-
-        
-        
-        if self.winchJogUp.isDown():
-            rxHmi.winchJogUp = True
-        else:
-            rxHmi.winchJogUp = False
-     
-        if self.winchJogDown.isDown():
-            rxHmi.winchJogDown = True
-        else:
-            rxHmi.winchJogDown = False
 
         rxHmi.xboxLeftX = self.xbox.left.x
         rxHmi.xboxLeftY = self.xbox.left.y

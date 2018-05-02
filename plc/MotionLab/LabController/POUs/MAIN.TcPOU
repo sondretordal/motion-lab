@@ -24,12 +24,16 @@ VAR
 	
 	i : UDINT;
 	
-	t : REAL := 0.0;
+	t : LREAL := 0.0;
+	w : LREAL := 0.1*2*PI;
+	A : LREAL := 500;
 	// System time in 100 ns resolution
 	timeStamp100ns : ULINT; 
 	
 	// System call for starting PqQt HMI
 	fbStartProcess : NT_StartProcess;
+	
+	
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -43,30 +47,13 @@ at960();
 qtm();
 winch();
 
-(*
-IF rxHmi.xboxRT >= 0.5 THEN
-	winch.jogUp := TRUE;
-ELSE
-	winch.jogUp := FALSE;	
-END_IF
-
-IF rxHmi.xboxLT >= 0.5 THEN
-	winch.jogDown := TRUE;
-ELSE
-	winch.jogDown := FALSE;	
-END_IF
-*)
 
 t := t + 0.005;
 
-winch.control.l := 5000 + 200*SIN(0.1*2*PI*t);
-winch.control.l_t := 0.1*2*PI*200*COS(0.1*2*PI*t);
-winch.control.l_tt := -(0.1*2*PI)*(0.1*2*PI)*200*SIN(0.1*2*PI*t);
+winch.control.l := 5500 + A*SIN(w*t);
+winch.control.l_t := w*A*COS(w*t);
+winch.control.l_tt := -w*w*A*SIN(w*t);
 
-
-
-winch.extDisable := rxHmi.winchJogUp;
-winch.extEnable := rxHmi.winchJogDown;
 
 
 //  Remote feedback data
@@ -105,7 +92,7 @@ StartPyQtHMI();
 	COMNDLINE := 'startHMI.bat',
 	START := TRUE
 );
-	]]></ST>
+]]></ST>
       </Implementation>
     </Action>
     <LineIds Name="MAIN">
@@ -117,27 +104,14 @@ StartPyQtHMI();
       <LineId Id="214" Count="0" />
       <LineId Id="311" Count="0" />
       <LineId Id="316" Count="0" />
-      <LineId Id="394" Count="0" />
-      <LineId Id="397" Count="0" />
-      <LineId Id="395" Count="0" />
-      <LineId Id="398" Count="0" />
-      <LineId Id="400" Count="0" />
-      <LineId Id="402" Count="0" />
-      <LineId Id="399" Count="0" />
-      <LineId Id="404" Count="4" />
-      <LineId Id="403" Count="0" />
       <LineId Id="413" Count="0" />
       <LineId Id="415" Count="0" />
       <LineId Id="409" Count="0" />
       <LineId Id="417" Count="0" />
       <LineId Id="416" Count="0" />
       <LineId Id="418" Count="1" />
-      <LineId Id="456" Count="0" />
+      <LineId Id="504" Count="0" />
       <LineId Id="420" Count="0" />
-      <LineId Id="411" Count="0" />
-      <LineId Id="410" Count="0" />
-      <LineId Id="412" Count="0" />
-      <LineId Id="396" Count="0" />
       <LineId Id="315" Count="0" />
       <LineId Id="276" Count="1" />
       <LineId Id="275" Count="0" />
@@ -160,8 +134,7 @@ StartPyQtHMI();
       <LineId Id="17" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.StartPyQtHMI">
-      <LineId Id="2" Count="6" />
-      <LineId Id="1" Count="0" />
+      <LineId Id="2" Count="7" />
     </LineIds>
   </POU>
 </TcPlcObject>
