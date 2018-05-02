@@ -8,12 +8,7 @@ int callbackFunction(int period)
 	// Input parameters
 	double beta = 1.0;
 	double omega = 1.0;
-	double maxVel = 10.0;
-
-	// Robot saturation define
-	double maxAngle[6] = { 45, 90, -45, 150, 120, 180};
-	double minAngle[6] = {-45,-35,-180,-150,-120,-180};
-	
+	double maxVel = 10.0/180.0*PI;
 
 	// Modality change notification
 	flag_new_modality = false;
@@ -36,7 +31,7 @@ int callbackFunction(int period)
 	{
 	case CRCOPEN_LISTEN:
 		ORLOPEN_sync_position(&Setpoint.Pos, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
-		ORL_joints_conversion(&Setpoint.Pos, ORL_POSITION_LINK_DEGREE, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
+		ORL_joints_conversion(&Setpoint.Pos, ORL_POSITION_LINK_RAD, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
 
 		for (int i = 0; i < 6; i++) {
 			Setpoint.Vel.value[i] = 0.0;
@@ -55,7 +50,7 @@ int callbackFunction(int period)
 		case STOP_MODE:
 			// Copy current joint angles
 			ORLOPEN_sync_position(&Reference.Pos, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
-			ORL_joints_conversion(&Reference.Pos, ORL_POSITION_LINK_DEGREE, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
+			ORL_joints_conversion(&Reference.Pos, ORL_POSITION_LINK_RAD, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
 
 			for (int i = 0; i < 6; i++) {
 				Reference.Vel.value[i] = 0.0;
@@ -69,7 +64,7 @@ int callbackFunction(int period)
 			{
 				if (udpRecieve->mode == 1)
 				{
-					maxVel = 10.0;
+					maxVel = 10.0/180.0*PI;
 					// Read udp joint values				
 					pthread_mutex_lock(&lock);
 						Reference.Pos.value[0] = (double)udpRecieve->q1;
@@ -82,7 +77,7 @@ int callbackFunction(int period)
 				}
 				else if (udpRecieve->mode == 2)
 				{
-					maxVel = 40.0;
+					maxVel = 40.0/180.0*PI;
 					// Apply filter settings from host
 					pthread_mutex_lock(&lock);
 						beta = (double)abs(udpRecieve->beta);
@@ -101,7 +96,7 @@ int callbackFunction(int period)
 				{
 					// Copy current joint angles
 					ORLOPEN_sync_position(&Reference.Pos, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
-					ORL_joints_conversion(&Reference.Pos, ORL_POSITION_LINK_DEGREE, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
+					ORL_joints_conversion(&Reference.Pos, ORL_POSITION_LINK_RAD, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
 
 					for (int i = 0; i < 6; i++) {
 						Reference.Vel.value[i] = 0.0;
@@ -113,7 +108,7 @@ int callbackFunction(int period)
 			{
 				// Copy current joint angles
 				ORLOPEN_sync_position(&Reference.Pos, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
-				ORL_joints_conversion(&Reference.Pos, ORL_POSITION_LINK_DEGREE, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
+				ORL_joints_conversion(&Reference.Pos, ORL_POSITION_LINK_RAD, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
 
 				for (int i = 0; i < 6; i++) {
 					Reference.Vel.value[i] = 0.0;
@@ -134,11 +129,12 @@ int callbackFunction(int period)
 			Setpoint.Vel.value[i] = Limit(Setpoint.Vel.value[i], maxVel, -maxVel);
 
 			Setpoint.Pos.value[i] = Setpoint.Pos.value[i] + Setpoint.Vel.value[i]*dt;
-			Setpoint.Pos.value[i] = Limit(Setpoint.Pos.value[i], maxAngle[i], minAngle[i]);
 		}
 
 		// Copy and set output joints
 		memcpy(&ControlInput.Pos, &Setpoint.Pos, sizeof(Setpoint.Pos));
+		ORL_joints_conversion(&ControlInput.Pos, ORL_POSITION_LINK_DEGREE, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
+		
 		ORLOPEN_set_absolute_pos_target_degree(&ControlInput.Pos, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
 
 		break;
@@ -156,10 +152,10 @@ int callbackFunction(int period)
 	long mask = ORLOPEN_GetOpenMask(ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
 
 	ORLOPEN_get_pos_measured_mr(&Feedback.Pos, &mask, 0, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
-	ORL_joints_conversion(&Feedback.Pos, ORL_POSITION_LINK_DEGREE, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
+	ORL_joints_conversion(&Feedback.Pos, ORL_POSITION_LINK_RAD, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
 
 	ORLOPEN_get_speed_measured_mrpm(&Feedback.Vel, &mask, 0, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
-	ORL_joints_conversion(&Feedback.Vel, ORL_SPEED_LINK_DEGREE_SEC, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
+	ORL_joints_conversion(&Feedback.Vel, ORL_SPEED_LINK_RAD_SEC, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
 	
 	pthread_mutex_lock(&lock);
 		udpSend.modalityActive = modality_active;
@@ -187,6 +183,14 @@ int callbackFunction(int period)
 		udpSend.q4_t = Feedback.Vel.value[3];
 		udpSend.q5_t = Feedback.Vel.value[4];
 		udpSend.q6_t = Feedback.Vel.value[5];
+
+		// Joint acceleration feedback
+		udpSend.q1_tt = Feedback.Acc.value[0];
+		udpSend.q2_tt = Feedback.Acc.value[1];
+		udpSend.q3_tt = Feedback.Acc.value[2];
+		udpSend.q4_tt = Feedback.Acc.value[3];
+		udpSend.q5_tt = Feedback.Acc.value[4];
+		udpSend.q6_tt = Feedback.Acc.value[5];
 	pthread_mutex_unlock(&lock);
 	
 

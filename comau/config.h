@@ -35,6 +35,9 @@
 #define STOP_MODE										1
 #define UDP_MODE										2
 
+// Define PI
+#define PI												3.14159265359
+
 // Variables in original Demo program
 EXTRN char 												flag_ExitFromOpen;
 EXTRN unsigned int 										modality_active;
