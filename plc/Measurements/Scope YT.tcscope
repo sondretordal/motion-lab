@@ -59,7 +59,7 @@
         <EnabledButtons>RunButton PauseButton Splitter1 DisplaywidthTextBox Splitter2 ScrollBackBig ScrollBackSmall ScrollForwardSmall ScrollForwardBig Splitter3 PositionTextBox Splitter4 UndoButton RedoButton Splitter5 CursorButton PanButton PanXYButton ZoomButton ZoomXYButton UnzoomButton ZoomOutMaxButton OverviewButton Splitter6 MasterLabel</EnabledButtons>
         <EnabledTimeLabels>StartTimeLabel Splitter1 EndTimeLabel Splitter2 PositionLabel Splitter3 AbsTimeLabel Splitter4 DateLabel</EnabledTimeLabels>
         <ShowName>false</ShowName>
-        <VisibleOverview>true</VisibleOverview>
+        <VisibleOverview>false</VisibleOverview>
         <DataPointToolTip>true</DataPointToolTip>
         <ExtendTimeStringFormat>true</ExtendTimeStringFormat>
         <DisplayOverwriteMode>false</DisplayOverwriteMode>
@@ -112,7 +112,7 @@
               <Acquisition>
                 <DataType>REAL32</DataType>
                 <IndexGroup>16448</IndexGroup>
-                <IndexOffset>518920</IndexOffset>
+                <IndexOffset>518936</IndexOffset>
                 <TargetPort>851</TargetPort>
                 <VariableSize>4</VariableSize>
                 <SymbolName>MAIN.winch.control.l</SymbolName>
@@ -181,7 +181,7 @@
               <Acquisition>
                 <DataType>REAL64</DataType>
                 <IndexGroup>16448</IndexGroup>
-                <IndexOffset>522208</IndexOffset>
+                <IndexOffset>522224</IndexOffset>
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.winch.l</SymbolName>
@@ -250,7 +250,7 @@
               <Acquisition>
                 <DataType>REAL64</DataType>
                 <IndexGroup>16448</IndexGroup>
-                <IndexOffset>519136</IndexOffset>
+                <IndexOffset>519152</IndexOffset>
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.winch.axis.NcToPlc.ActPos</SymbolName>
@@ -328,7 +328,7 @@
         <HexValues>false</HexValues>
       </CursorModule>
       <Operating>
-        <DisplayWidth>80000000</DisplayWidth>
+        <DisplayWidth>100000000</DisplayWidth>
       </Operating>
       <ChartType>XT</ChartType>
       <SortPriority>-1</SortPriority>

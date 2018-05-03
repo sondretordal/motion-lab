@@ -25,8 +25,8 @@ VAR
 	i : UDINT;
 	
 	t : LREAL := 0.0;
-	w : LREAL := 0.1*2*PI;
-	A : LREAL := 500;
+	w : LREAL := 0.05*2*PI;
+	A : LREAL := 700;
 	// System time in 100 ns resolution
 	timeStamp100ns : ULINT; 
 	
@@ -50,25 +50,18 @@ winch();
 
 t := t + 0.005;
 
-winch.control.l := 5500 + A*SIN(w*t);
+
+
+winch.control.l := 5000 + A*SIN(w*t);
 winch.control.l_t := w*A*COS(w*t);
 winch.control.l_tt := -w*w*A*SIN(w*t);
 
 
 
-//  Remote feedback data
-remote.txUdp.t := remote.txUdp.t + 0.005;
-remote.txUdp.em8000 := em8000.feedback;
-remote.txUdp.em1500 := em1500.feedback;
-remote.txUdp.comau := comau.feedback;
-remote.txUdp.at960 := at960.feedback;
-remote.txUdp.mru1 := mru1.feedback;
-remote.txUdp.mru2 := mru2.feedback;
-FOR i := 0 TO 9 DO
-	remote.txUdp.markers[i] := qtm.st3DMarkerPositionNoLabelComponent.markers[i];
-END_FOR
+// Update Remote
+UpdateRemote();
 
-remote();
+
 
 timeStamp100ns := F_GetTaskTime();
 
@@ -95,6 +88,28 @@ StartPyQtHMI();
 ]]></ST>
       </Implementation>
     </Action>
+    <Action Name="UpdateRemote" Id="{d58634a5-b70e-4110-93c6-fa70beff1236}">
+      <Implementation>
+        <ST><![CDATA[// Set all the lates data aquired from sensors and machinery
+remote.txUdp.t := remote.txUdp.t + 0.005;
+remote.txUdp.em8000 := em8000.feedback;
+remote.txUdp.em1500 := em1500.feedback;
+remote.txUdp.comau := comau.feedback;
+remote.txUdp.at960 := at960.feedback;
+remote.txUdp.mru1 := mru1.feedback;
+remote.txUdp.mru2 := mru2.feedback;
+
+FOR i := 0 TO 9 DO
+	remote.txUdp.markers[i] := qtm.st3DMarkerPositionNoLabelComponent.markers[i];
+END_FOR
+
+remote.txUdp.winch := winch.feedback;
+
+
+// Update Udp Rx/Tx
+remote();]]></ST>
+      </Implementation>
+    </Action>
     <LineIds Name="MAIN">
       <LineId Id="127" Count="0" />
       <LineId Id="110" Count="0" />
@@ -107,18 +122,17 @@ StartPyQtHMI();
       <LineId Id="413" Count="0" />
       <LineId Id="415" Count="0" />
       <LineId Id="409" Count="0" />
+      <LineId Id="540" Count="0" />
+      <LineId Id="539" Count="0" />
       <LineId Id="417" Count="0" />
       <LineId Id="416" Count="0" />
       <LineId Id="418" Count="1" />
       <LineId Id="504" Count="0" />
       <LineId Id="420" Count="0" />
       <LineId Id="315" Count="0" />
-      <LineId Id="276" Count="1" />
-      <LineId Id="275" Count="0" />
-      <LineId Id="279" Count="4" />
-      <LineId Id="345" Count="0" />
-      <LineId Id="347" Count="1" />
-      <LineId Id="343" Count="0" />
+      <LineId Id="276" Count="0" />
+      <LineId Id="542" Count="0" />
+      <LineId Id="541" Count="0" />
       <LineId Id="274" Count="0" />
       <LineId Id="284" Count="1" />
       <LineId Id="454" Count="0" />
@@ -135,6 +149,18 @@ StartPyQtHMI();
     </LineIds>
     <LineIds Name="MAIN.StartPyQtHMI">
       <LineId Id="2" Count="7" />
+    </LineIds>
+    <LineIds Name="MAIN.UpdateRemote">
+      <LineId Id="13" Count="0" />
+      <LineId Id="2" Count="6" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="9" Count="2" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="1" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

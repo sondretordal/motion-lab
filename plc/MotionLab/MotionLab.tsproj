@@ -8685,6 +8685,7 @@ External Setpoint Generation:
 								</Element>
 								<Element option="0" SortOder="0" SubIdx="0">
 									<Index>384</Index>
+									<Width>114</Width>
 								</Element>
 								<Element option="0" SortOder="0" SubIdx="0">
 									<Index>135</Index>
@@ -8772,6 +8773,7 @@ External Setpoint Generation:
 								</Element>
 								<Element option="0" SortOder="0" SubIdx="0">
 									<Index>32983</Index>
+									<Width>141</Width>
 								</Element>
 							</StatusBar>
 						</AX5XXXDriveTool>

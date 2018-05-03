@@ -11,6 +11,7 @@ STRUCT
 	mru1 : ST_FeedbackMru;
 	mru2 : ST_FeedbackMru;
 	markers : ARRAY [0..9] OF ST_3DMarkerPositionNoLabel;
+	winch : ST_FeedbackWinch;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

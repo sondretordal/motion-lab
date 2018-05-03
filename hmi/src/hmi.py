@@ -233,7 +233,7 @@ class GUI(QMainWindow, Ui_main):
         # Plot tab
         #------------------------------------------------------#
         self.EM1500_1 = RealTimePlot(self.EM1500_plot.addPlot())
-        self.EM1500_1.plot.setYRange(-0.4, 0.4)
+        self.EM1500_1.plot.setYRange(-0.5, 0.5)
         self.EM1500_1.plot.setLabel('left', 'Position', 'm')
         self.EM1500_1.add_curves(['r', 'g', 'b'], ['Surge', 'Sway', 'Heave'])
         self.EM1500_1.add_text_displays([
@@ -253,7 +253,7 @@ class GUI(QMainWindow, Ui_main):
             ])
         
         self.EM8000_1 = RealTimePlot(self.EM8000_plot.addPlot())
-        self.EM8000_1.plot.setYRange(-0.6, 0.6)
+        self.EM8000_1.plot.setYRange(-1, 1)
         self.EM8000_1.plot.setLabel('left', 'Position', 'm')
         self.EM8000_1.add_curves(['r', 'g', 'b'], ['Surge', 'Sway', 'Heave'])
         self.EM8000_1.add_text_displays([
@@ -450,7 +450,21 @@ class GUI(QMainWindow, Ui_main):
             self.visualizer.update()
             
 
+        # Update activity boxes
+        if txHmi.em8000.status == -1:
+            self.activeEM8000.setCheckState(False)
+        else:
+            self.activeEM8000.setCheckState(True)
         
+        if txHmi.em1500.status == -1:
+            self.activeEM1500.setCheckState(False)
+        else:
+            self.activeEM1500.setCheckState(True)
+
+        if txHmi.comau.status == -1:
+            self.activeCOMAU.setCheckState(False)
+        else:
+            self.activeCOMAU.setCheckState(True)
         
         rxBuffer = bytearray(rxHmi)
         rxSize = len(rxBuffer)*pyads.PLCTYPE_BYTE

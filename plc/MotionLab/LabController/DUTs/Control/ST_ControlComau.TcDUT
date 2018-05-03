@@ -3,9 +3,9 @@
   <DUT Name="ST_ControlComau" Id="{2640b3bf-bec6-4af5-a87c-ac0aa0ed2365}">
     <Declaration><![CDATA[TYPE ST_ControlComau :
 STRUCT
-	q1 : REAL := 35.0;
+	q1 : REAL := 0;
 	q2 : REAL := 0.0;;
-	q3 : REAL := -110;
+	q3 : REAL := -1.5708;
 	q4 : REAL := 0.0;
 	q5 : REAL := 0.0;
 	q6 : REAL := 0.0;

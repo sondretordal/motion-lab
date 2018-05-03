@@ -8,6 +8,7 @@ VAR_INPUT
 END_VAR
 VAR_OUTPUT
 	feedback : ST_FeedbackComau;
+	active : BOOL:= FALSE;
 END_VAR
 VAR
 	// Udp related
@@ -17,10 +18,35 @@ VAR
 	txUdp : ST_TxUdpComau;
 	
 	pTxHmi : POINTER TO ST_TxHmiComau;
+	
+	// Actviity monitoring
+	frame : DINT := 0;
+	frameOld : DINT := 0;
+	frameLoss : DINT := 0;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// Update udpClient
+      <ST><![CDATA[// Check activity
+frame := rxUdp.frameCounter;
+IF frame <> frameOld THEN
+	// Update frame old
+	frameOld := frame;
+	
+	// Reset frameLoss
+	frameLoss := 0;
+ELSE
+	// Count frame losses
+	frameLoss := frameLoss + 1;
+END_IF
+
+// Set activity status after 1 second given 5ms in ms
+IF frameLoss > 200 THEN
+	active := FALSE;
+ELSE
+	active := TRUE;
+END_IF
+
+// Update udpClient
 udpClient();
 
 // Update Hmi data
@@ -131,7 +157,11 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Update HMI Data
-pTxHmi^.status := -1;
+IF active THEN
+	pTxHmi^.status := 0;
+ELSE
+	pTxHmi^.status := -1;
+END_IF
 
 pTxHmi^.q[0] := rxUdp.q1;
 pTxHmi^.q[1] := rxUdp.q2;
@@ -142,6 +172,12 @@ pTxHmi^.q[5] := rxUdp.q6;]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_ComauInterface">
+      <LineId Id="116" Count="4" />
+      <LineId Id="132" Count="1" />
+      <LineId Id="131" Count="0" />
+      <LineId Id="121" Count="9" />
+      <LineId Id="115" Count="0" />
+      <LineId Id="114" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="17" Count="0" />
       <LineId Id="65" Count="0" />
@@ -179,7 +215,9 @@ pTxHmi^.q[5] := rxUdp.q6;]]></ST>
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_ComauInterface.UpdateHMI">
-      <LineId Id="5" Count="1" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="18" Count="3" />
+      <LineId Id="6" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="7" Count="0" />
       <LineId Id="9" Count="4" />

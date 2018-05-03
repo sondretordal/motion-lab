@@ -150,6 +150,15 @@ end
 
 calib = addHomogenousMatrix(calib);
 
+% Save as json data
+text = jsonencode(calib);
+fileID = fopen('calib.json');
+fprintf(fileID, text);
+fclose(fileID);
+
+
+
+
 function calib = addHomogenousMatrix(calib)
     
     H = eye(4);
@@ -261,5 +270,18 @@ function calib = staticData()
         -0.169
     ];
 
+    % WORLD -> QTM
+    calib.WORLD_TO_QTM.quat = [
+        0.0000
+        0.7077
+        0.7065
+        0.0004
+    ];
+
+    calib.WORLD_TO_QTM.pos = [
+        0.6925
+       -0.7793
+        1.4229
+    ];
 end
 

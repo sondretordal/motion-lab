@@ -158,7 +158,7 @@ int callbackFunction(int period)
 	ORL_joints_conversion(&Feedback.Vel, ORL_SPEED_LINK_RAD_SEC, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
 	
 	pthread_mutex_lock(&lock);
-		udpSend.modalityActive = modality_active;
+		udpSend.frameCounter += 1;	
 		
 		// Joint Control input after setpoint generator
 		udpSend.q1_ref = Setpoint.Pos.value[0];

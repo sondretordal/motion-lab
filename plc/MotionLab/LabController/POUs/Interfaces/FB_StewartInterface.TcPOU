@@ -19,6 +19,7 @@ VAR_INPUT
 END_VAR
 VAR_OUTPUT
 	feedback : ST_FeedbackStewart;
+	active : BOOL := FALSE;
 END_VAR
 VAR	
 	// Udp connection
@@ -29,9 +30,35 @@ VAR
 	
 	// Hmi connection
 	pTxHmi : POINTER TO ST_TxHmiStewart;
+	
+	// Actviity monitoring
+	frame : DINT := 0;
+	frameOld : DINT := 0;
+	frameLoss : DINT := 0;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[
+      <ST><![CDATA[// Check activity
+frame := rxUdp.Frame_Count;
+IF frame <> frameOld THEN
+	// Update frame old
+	frameOld := frame;
+	
+	// Reset frameLoss
+	frameLoss := 0;
+ELSE
+	// Count frame losses
+	frameLoss := frameLoss + 1;
+END_IF
+
+// Set activity status after 1 second given 5ms in ms
+IF frameLoss > 200 THEN
+	active := FALSE;
+ELSE
+	active := TRUE;
+END_IF
+
+
+// Set command signal
 txUdp.CMND := cmnd;
 
 // Simlation input to control
@@ -92,7 +119,17 @@ udpClient.FB_init(
 	ADR(rxUdp),
 	SIZEOF(txUdp),
 	ADR(txUdp)
-);]]></ST>
+);
+
+// EM8000
+IF _remotePort = 50030 THEN
+	rxUdp.Actual_platform_position_heave := 0.9986208;
+END_IF
+
+// EM15000
+IF _remotePort = 50031 THEN
+	rxUdp.Actual_platform_position_heave := 0.4663845;
+END_IF]]></ST>
       </Implementation>
     </Method>
     <Method Name="FB_reinit" Id="{4b663cd2-46c9-45ec-89d5-bc5feb2a54a3}">
@@ -111,8 +148,12 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// Update global Hmi data 
-pTxHmi^.status := -1;
+        <ST><![CDATA[// Update global Hmi data
+IF active THEN
+	pTxHmi^.status := 0;
+ELSE
+	pTxHmi^.status := -1;
+END_IF
 
 pTxHmi^.eta[0] := rxUdp.Actual_platform_position_surge;
 pTxHmi^.eta[1] := rxUdp.Actual_platform_position_sway;
@@ -194,7 +235,21 @@ feedback.psi_tt := rxUdp.Actual_platform_acceleration_yaw;
       </Implementation>
     </Method>
     <LineIds Name="FB_StewartInterface">
-      <LineId Id="194" Count="0" />
+      <LineId Id="402" Count="0" />
+      <LineId Id="406" Count="0" />
+      <LineId Id="408" Count="0" />
+      <LineId Id="411" Count="0" />
+      <LineId Id="409" Count="0" />
+      <LineId Id="423" Count="2" />
+      <LineId Id="412" Count="2" />
+      <LineId Id="410" Count="0" />
+      <LineId Id="416" Count="0" />
+      <LineId Id="415" Count="0" />
+      <LineId Id="417" Count="1" />
+      <LineId Id="421" Count="1" />
+      <LineId Id="419" Count="0" />
+      <LineId Id="407" Count="0" />
+      <LineId Id="399" Count="1" />
       <LineId Id="265" Count="0" />
       <LineId Id="318" Count="0" />
       <LineId Id="203" Count="0" />
@@ -221,13 +276,21 @@ feedback.psi_tt := rxUdp.Actual_platform_acceleration_yaw;
       <LineId Id="51" Count="2" />
       <LineId Id="50" Count="0" />
       <LineId Id="49" Count="0" />
+      <LineId Id="108" Count="0" />
+      <LineId Id="102" Count="0" />
+      <LineId Id="101" Count="0" />
+      <LineId Id="103" Count="1" />
+      <LineId Id="109" Count="0" />
+      <LineId Id="105" Count="2" />
+      <LineId Id="100" Count="0" />
     </LineIds>
     <LineIds Name="FB_StewartInterface.FB_reinit">
       <LineId Id="6" Count="0" />
     </LineIds>
     <LineIds Name="FB_StewartInterface.UpdateHMI">
       <LineId Id="5" Count="0" />
-      <LineId Id="21" Count="0" />
+      <LineId Id="42" Count="2" />
+      <LineId Id="46" Count="1" />
       <LineId Id="20" Count="0" />
       <LineId Id="6" Count="5" />
       <LineId Id="23" Count="5" />

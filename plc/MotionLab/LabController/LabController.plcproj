@@ -21,7 +21,7 @@
     <Compile Include="DUTs\Control\ST_ControlStewart.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\Control\ST_WinchControl.TcDUT">
+    <Compile Include="DUTs\Control\ST_ControlWinch.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\Feedback\ST_FeedbackComau.TcDUT">

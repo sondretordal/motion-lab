@@ -3,7 +3,7 @@
   <DUT Name="ST_RxUdpComau" Id="{c8927105-2b52-4c62-8440-64ae879b8686}">
     <Declaration><![CDATA[TYPE ST_RxUdpComau :
 STRUCT
-	modalityActive : DINT;
+	frameCounter : DINT := 0;
 	q1_ref : REAL;
 	q2_ref : REAL;
 	q3_ref : REAL;
@@ -12,7 +12,7 @@ STRUCT
 	q6_ref : REAL;
 	q1 : REAL;
 	q2 : REAL;
-	q3 : REAL;
+	q3 : REAL := -1.5708;
 	q4 : REAL;
 	q5 : REAL; 
 	q6 : REAL;

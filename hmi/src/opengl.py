@@ -68,14 +68,12 @@ class MotionLabVisualizer(QtCore.QObject):
         # EM8000
         Tg1 = np.reshape(calib['WORLD_TO_EM8000']['H'], (4, 4))
         self.neutralEM8000.updateTransformation(Tg1)
-
-        Hg1 = Tg1.dot(Txyz(em8000.eta_sim[0:3])).dot(Rxyz(em8000.eta_sim[3:6]))
+        Hg1 = Tg1.dot(Txyz(em8000.eta[0:3])).dot(Rxyz(em8000.eta[3:6]))  
         self.bodyEM8000.updateTransformation(Hg1)
 
         # EM8000
         Tg2 = np.reshape(calib['WORLD_TO_EM1500']['H'], (4, 4))
         self.neutralEM1500.updateTransformation(Tg2)
-
         Hg2 = Tg2.dot(Txyz(em1500.eta[0:3])).dot(Rxyz(em1500.eta[3:6]))
         self.bodyEM1500.updateTransformation(Hg2)
 

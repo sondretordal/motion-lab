@@ -3,7 +3,7 @@
   <DUT Name="ST_TxHmiStewart" Id="{a97cdde8-9053-4a79-afcc-923bad4b3e3d}">
     <Declaration><![CDATA[TYPE ST_TxHmiStewart :
 STRUCT
-	status : DINT;
+	status : DINT := 0;
 	eta : ARRAY [0..5] OF REAL;
 	eta_ref : ARRAY [0..5] OF REAL;
 	eta_sim : ARRAY [0..5] OF REAL;

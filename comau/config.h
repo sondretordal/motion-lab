@@ -99,7 +99,7 @@ struct UdpDataIn
 
 struct UdpDataOut
 {
-	int modalityActive;
+	int frameCounter;
 	float q1_ref;
 	float q2_ref;
 	float q3_ref;
