@@ -1,4 +1,5 @@
 import numpy as np
+import pyqtgraph as pg
 from scipy.optimize import curve_fit
 
 class RealTimePlot(object):

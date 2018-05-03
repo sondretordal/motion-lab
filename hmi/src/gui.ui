@@ -38,7 +38,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab_interface">
        <attribute name="title">
@@ -1449,12 +1449,36 @@ color: rgb(255, 255, 255);
           <enum>Qt::LeftToRight</enum>
          </property>
          <property name="text">
-          <string>Enagaged - Fast</string>
+          <string>Engaged - Fast</string>
          </property>
          <property name="autoDefault">
           <bool>false</bool>
          </property>
         </widget>
+       </widget>
+       <widget class="QPushButton" name="show3dView">
+        <property name="geometry">
+         <rect>
+          <x>910</x>
+          <y>610</y>
+          <width>141</width>
+          <height>30</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
+        <property name="text">
+         <string>Show 3D View</string>
+        </property>
+        <property name="autoDefault">
+         <bool>false</bool>
+        </property>
        </widget>
        <zorder>groupBox_EM8000</zorder>
        <zorder>groupBox_EM1500_2</zorder>
@@ -1475,6 +1499,7 @@ color: rgb(255, 255, 255);
        <zorder>groupBox_8</zorder>
        <zorder>groupBox_10</zorder>
        <zorder>groupBox_EM1500_5</zorder>
+       <zorder>show3dView</zorder>
       </widget>
       <widget class="QWidget" name="tab_plot">
        <attribute name="title">

@@ -7,14 +7,18 @@ import time
 import pyads
 import numpy as np
 import ctypes
+import json
 from scipy.optimize import curve_fit
 
 from src.classes import RealTimePlot, RealTimeBar, WaveSpectrum
 from src.datastructures import TxHmi, RxHmi
 from src.gui import Ui_main
+from src.opengl import MotionLabVisualizer
 
 # Motionlab pybind module
-import src.motionlab as ml
+import lib.motionlab as ml
+
+
 
 # Background color pyqtgraph
 pg.setConfigOption('background', 'w')
@@ -75,6 +79,10 @@ class GUI(QMainWindow, Ui_main):
             self.EM8000_wave()
             self.EM1500_wave()
 
+        # OpenGL
+        text = open('./src/calib.json').read()
+        calib = json.loads(text)
+        self.visualizer = MotionLabVisualizer(calib)
 
         # Read inition time
         self.tStart = time.time()
@@ -415,9 +423,11 @@ class GUI(QMainWindow, Ui_main):
         self.winchReset.clicked.connect(lambda: self.plc.write_by_name('MAIN.winch.reset', True, pyads.PLCTYPE_BOOL))
         self.winchStopp.clicked.connect(lambda: self.plc.write_by_name('MAIN.winch.stopp', True, pyads.PLCTYPE_BOOL))
 
-        
+        # Show 3D visulaization of motion-lab
+        self.show3dView.clicked.connect(self.visualizer.show)
 
-
+    def test(self):
+        print('Pushed')
 
     # Update data and plot
     def update_data(self):
@@ -432,6 +442,15 @@ class GUI(QMainWindow, Ui_main):
         rxHmi.xboxRightY = self.xbox.right.y
         rxHmi.xboxLT = self.xbox.LT
         rxHmi.xboxRT = self.xbox.RT
+
+        # Update visualizer data
+        self.visualizer.setTxHmi(txHmi)
+
+        if self.visualizer.isVisible():
+            self.visualizer.update()
+            
+
+        
         
         rxBuffer = bytearray(rxHmi)
         rxSize = len(rxBuffer)*pyads.PLCTYPE_BYTE
@@ -495,12 +514,12 @@ class GUI(QMainWindow, Ui_main):
         
         self.COMAU.time_range = self.time_range
         self.COMAU.update(self.t, [
-                txHmi.comau.q[0], 
-                txHmi.comau.q[1], 
-                txHmi.comau.q[2],
-                txHmi.comau.q[3], 
-                txHmi.comau.q[4], 
-                txHmi.comau.q[5]
+                txHmi.comau.q[0]/np.pi*180.0, 
+                txHmi.comau.q[1]/np.pi*180.0, 
+                txHmi.comau.q[2]/np.pi*180.0,
+                txHmi.comau.q[3]/np.pi*180.0, 
+                txHmi.comau.q[4]/np.pi*180.0, 
+                txHmi.comau.q[5]/np.pi*180.0
             ])
         
         self.EM8000_bars.update([
@@ -534,18 +553,18 @@ class GUI(QMainWindow, Ui_main):
             ])
 
         self.COMAU_bars.update([
-                txHmi.comau.q[0], 
-                txHmi.comau.q[1], 
-                txHmi.comau.q[2],
-                txHmi.comau.q[3], 
-                txHmi.comau.q[4], 
-                txHmi.comau.q[5],
-                txHmi.comau.q[0], 
-                txHmi.comau.q[1], 
-                txHmi.comau.q[2],
-                txHmi.comau.q[3], 
-                txHmi.comau.q[4], 
-                txHmi.comau.q[5]
+                txHmi.comau.q[0]/np.pi*180.0, 
+                txHmi.comau.q[1]/np.pi*180.0, 
+                txHmi.comau.q[2]/np.pi*180.0,
+                txHmi.comau.q[3]/np.pi*180.0, 
+                txHmi.comau.q[4]/np.pi*180.0, 
+                txHmi.comau.q[5]/np.pi*180.0,
+                txHmi.comau.q[0]/np.pi*180.0, 
+                txHmi.comau.q[1]/np.pi*180.0, 
+                txHmi.comau.q[2]/np.pi*180.0,
+                txHmi.comau.q[3]/np.pi*180.0, 
+                txHmi.comau.q[4]/np.pi*180.0, 
+                txHmi.comau.q[5]/np.pi*180.0
             ])
 
         # Xbox data
