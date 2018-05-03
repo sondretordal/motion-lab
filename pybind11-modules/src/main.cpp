@@ -99,6 +99,12 @@ PYBIND11_PLUGIN(motionlab) {
 		.def_readonly("x_tt", &FeedbackMru::x_tt)
 		.def_readonly("y_tt", &FeedbackMru::y_tt)
 		.def_readonly("z_tt", &FeedbackMru::z_tt);
+
+	py::class_<FeedbackWinch>(m, "FeedbackWinch")
+		.def(py::init<>())
+		.def_readonly("l", &FeedbackWinch::l)
+		.def_readonly("l_t", &FeedbackWinch::l_t)
+		.def_readonly("l_tt", &FeedbackWinch::l_tt);
 	
 	
 	py::class_<Feedback>(m, "Feedback")
@@ -119,7 +125,8 @@ PYBIND11_PLUGIN(motionlab) {
 		.def_readonly("marker7", &Feedback::marker7)
 		.def_readonly("marker8", &Feedback::marker8)
 		.def_readonly("marker9", &Feedback::marker9)
-		.def_readonly("marker10", &Feedback::marker10);
+		.def_readonly("marker10", &Feedback::marker10)
+		.def_readonly("winch", &Feedback::winch);
 		
 
 	// Control structs

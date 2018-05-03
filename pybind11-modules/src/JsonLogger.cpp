@@ -180,6 +180,10 @@ void JsonLogger::save(std::string path) {
         json_log["feedback"]["marker10"]["y"].push_back(feedback[i].marker10.y);
         json_log["feedback"]["marker10"]["z"].push_back(feedback[i].marker10.z);
         json_log["feedback"]["marker10"]["id"].push_back(feedback[i].marker10.id);
+
+        json_log["feedback"]["winch"]["l"].push_back(feedback[i].winch.l);
+        json_log["feedback"]["winch"]["l_t"].push_back(feedback[i].winch.l_t);
+        json_log["feedback"]["winch"]["l_tt"].push_back(feedback[i].winch.l_tt);
         
         // Save control data
         json_log["control"]["comau"]["q1"].push_back(control[i].comau.q1);

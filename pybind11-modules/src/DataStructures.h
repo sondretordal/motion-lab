@@ -114,6 +114,12 @@ struct FeedbackMru {
 	float z_tt;
 };
 
+struct FeedbackWinch {
+	float l;
+	float l_t;
+	float l_tt;
+};
+
 struct Feedback {
 	float t;
 	FeedbackStewart em8000;
@@ -132,6 +138,7 @@ struct Feedback {
 	Qtm3DMarkerPositionNoLabel marker8;
 	Qtm3DMarkerPositionNoLabel marker9;
 	Qtm3DMarkerPositionNoLabel marker10;
+	FeedbackWinch winch;
 };
 
 struct XboxData {
