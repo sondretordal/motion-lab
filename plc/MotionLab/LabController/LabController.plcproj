@@ -33,6 +33,9 @@
     <Compile Include="DUTs\Feedback\ST_FeedbackMru.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\Feedback\ST_FeedbackQualisys.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\Feedback\ST_FeedbackStewart.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -82,6 +85,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\TxHmi\ST_TxHmiComau.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\TxHmi\ST_TxHmiQualisys.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\TxHmi\ST_TxHmiStewart.TcDUT">

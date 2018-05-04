@@ -5766,12 +5766,12 @@ External Setpoint Generation:
 						<![CDATA[Winch placed on top of Comau Robot]]>
 					</Comment>
 					<AxisPara>
-						<Dynamic AccelerationMaximum="2000" DecelerationMaximum="4000"/>
-						<Velo RefSearch="50" RefSync="50" SlowManual="150" FastManual="500" Fast="2327.33624076172" Maximum="1000"/>
+						<Dynamic AccelerationMaximum="2000" DecelerationMaximum="4000" Acceleration="3567.41726765625" Deceleration="3567.41726765625" Jerk="10702.2518029688"/>
+						<Velo RefSearch="23.782781784375" RefSync="23.782781784375" SlowManual="118.913908921875" FastManual="713.48345353125" Fast="2378.2781784375" Maximum="2378.2781784375"/>
 						<OtherSettings AllowMotionCmdToSlave="true"/>
 					</AxisPara>
 					<Encoder Name="Enc" EncType="8">
-						<EncPara ScaleFactorNumerator="21.3628" ScaleFactorDenominator="1048576" MaxCount="#xffffffff">
+						<EncPara ScaleFactorNumerator="21.8304" ScaleFactorDenominator="1048576" MaxCount="#xffffffff">
 							<SoftEndMinControl Enable="true" Range="4300"/>
 							<SoftEndMaxControl Enable="true" Range="7600"/>
 						</EncPara>
@@ -5842,7 +5842,7 @@ External Setpoint Generation:
 					</Encoder>
 					<Drive Name="Drive" DrvType="9">
 						<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00030100">
-							<Analog VeloReferenz="2560.06986483789" VeloScale="1.02400649589962" ScaleFactorActTorque="0.1"/>
+							<Analog VeloReferenz="2616.10599628125" VeloScale="1.02400649589962" ScaleFactorActTorque="0.1"/>
 							<TimeComp TaskDelayCycles="1"/>
 						</DrvPara>
 						<Vars VarGrpType="1">
@@ -8650,9 +8650,6 @@ External Setpoint Generation:
 								<InitCmd DriveNo="0" IDN="32860" MotorDataLevel="1" DisableMode="0"/>
 								<InitCmd DriveNo="0" IDN="32861" MotorDataLevel="1" DisableMode="0"/>
 								<InitCmd DriveNo="0" IDN="32918" MotorDataLevel="1" DisableMode="0"/>
-								<InitCmd DriveNo="0" IDN="33088" MotorDataLevel="0" DisableMode="0">
-									<RetainData>24002400d2000e00ca0002002b9d5b002b9d5b000000000000000000000000000260000000000000</RetainData>
-								</InitCmd>
 								<InitCmd DriveNo="0" IDN="33093" MotorDataLevel="0" DisableMode="0">
 									<RetainData>16001a004465632020382032303136202c2031343a33333a3330</RetainData>
 								</InitCmd>

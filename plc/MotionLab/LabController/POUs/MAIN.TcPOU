@@ -19,14 +19,14 @@ VAR
 	// Sensors
 	mru1 : FB_MruInterface(50043);
 	mru2 : FB_MruInterface(50044);
-	qtm : FB_QualisysInterface(50199);
+	qtm : FB_QualisysInterface(50199, ADR(txHmi.qtm));
 	at960 : FB_LeicaInterface;
 	
 	i : UDINT;
 	
 	t : LREAL := 0.0;
 	w : LREAL := 0.05*2*PI;
-	A : LREAL := 700;
+	A : LREAL := 500;
 	// System time in 100 ns resolution
 	timeStamp100ns : ULINT; 
 	
@@ -52,7 +52,7 @@ t := t + 0.005;
 
 
 
-winch.control.l := 5000 + A*SIN(w*t);
+winch.control.l := 5600 + A*SIN(w*t);
 winch.control.l_t := w*A*COS(w*t);
 winch.control.l_tt := -w*w*A*SIN(w*t);
 
@@ -100,7 +100,7 @@ remote.txUdp.mru1 := mru1.feedback;
 remote.txUdp.mru2 := mru2.feedback;
 
 FOR i := 0 TO 9 DO
-	remote.txUdp.markers[i] := qtm.st3DMarkerPositionNoLabelComponent.markers[i];
+	remote.txUdp.markers[i] := qtm.markerComponent.markers[i];
 END_FOR
 
 remote.txUdp.winch := winch.feedback;

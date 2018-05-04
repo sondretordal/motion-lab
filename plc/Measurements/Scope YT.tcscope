@@ -112,7 +112,7 @@
               <Acquisition>
                 <DataType>REAL32</DataType>
                 <IndexGroup>16448</IndexGroup>
-                <IndexOffset>518936</IndexOffset>
+                <IndexOffset>519000</IndexOffset>
                 <TargetPort>851</TargetPort>
                 <VariableSize>4</VariableSize>
                 <SymbolName>MAIN.winch.control.l</SymbolName>
@@ -181,7 +181,7 @@
               <Acquisition>
                 <DataType>REAL64</DataType>
                 <IndexGroup>16448</IndexGroup>
-                <IndexOffset>522224</IndexOffset>
+                <IndexOffset>522288</IndexOffset>
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.winch.l</SymbolName>
@@ -250,7 +250,7 @@
               <Acquisition>
                 <DataType>REAL64</DataType>
                 <IndexGroup>16448</IndexGroup>
-                <IndexOffset>519152</IndexOffset>
+                <IndexOffset>519216</IndexOffset>
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.winch.axis.NcToPlc.ActPos</SymbolName>
@@ -328,7 +328,7 @@
         <HexValues>false</HexValues>
       </CursorModule>
       <Operating>
-        <DisplayWidth>100000000</DisplayWidth>
+        <DisplayWidth>180000000</DisplayWidth>
       </Operating>
       <ChartType>XT</ChartType>
       <SortPriority>-1</SortPriority>

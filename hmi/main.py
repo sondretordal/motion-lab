@@ -1,5 +1,8 @@
+# Add subfolders to PYTHONPATH
 import sys
 from src.hmi import *
+
+
 
 
 # Main function

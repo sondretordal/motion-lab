@@ -36,9 +36,31 @@ class TxHmiMru(Structure):
 class TxHmiWinch(Structure):
     _fields_ = [
         ('status', c_int),
-        ('l', c_float),
-        ('l_t', c_float),
-        ('l_tt', c_float),
+        ('l', c_float)
+    ]
+
+class ST_3DMarkerPositionNoLabel(Structure):
+    _fields_ = [
+        ('x', c_float),
+        ('y', c_float),
+        ('z', c_float),
+        ('id', c_int)
+    ]
+
+class ST_FeedbackQualisys(Structure):
+    _fields_ = [
+        ('status', c_int),
+        ('d', c_float),
+        ('x', c_float),
+        ('y', c_float),
+        ('z', c_float)
+    ]
+
+class TxHmiQualisys(Structure):
+    _fields_ = [
+        ('status', c_int),
+        ('feedback', ST_FeedbackQualisys),
+        ('markers', 10*ST_3DMarkerPositionNoLabel)
     ]
 
 class TxHmi(Structure):
@@ -46,7 +68,8 @@ class TxHmi(Structure):
         ('em8000', TxHmiStewart),
         ('em1500', TxHmiStewart),
         ('comau', TxHmiComau),
-        ('winch', TxHmiWinch)
+        ('winch', TxHmiWinch),
+        ('qtm', TxHmiQualisys)
         # ('at960', TxHmiLeica),
         # ('mru1', TxHmiMru),
         # ('mru2', TxHmiMru)

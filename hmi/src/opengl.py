@@ -7,6 +7,8 @@ from src.math3d import Txyz, Rxyz, Rzyx, DH
 
 from src.datastructures import TxHmi
 
+
+
 class MotionLabVisualizer(QtCore.QObject):
     def __init__(self, calib, parent=None):
         # Construct super class
@@ -16,23 +18,46 @@ class MotionLabVisualizer(QtCore.QObject):
         self.widget = gl.GLViewWidget()
         self.widget.addItem(gl.GLGridItem())
 
+        # Feedback data
+        self.txHmi = TxHmi()
+
         # Tool length to WEP
         self.dtool = 0.567
 
-        # Coordinate systems
+        # Calibration data
         self.calib = calib
-        self.bodyEM8000 = CoordinatePlot(self.widget)
-        self.bodyMRU1 = CoordinatePlot(self.widget)
-        self.neutralEM8000 = CoordinatePlot(self.widget)
+        self.Tgq = np.reshape(self.calib['WORLD_TO_QTM']['H'], (4, 4))
+        self.Tg1 = np.reshape(self.calib['WORLD_TO_EM8000']['H'], (4, 4))
+        self.Tg2 = np.reshape(self.calib['WORLD_TO_EM1500']['H'], (4, 4))
+        self.T1r = np.reshape(self.calib['EM8000_TO_COMAU']['H'], (4, 4))
         
-        self.bodyEM1500 = CoordinatePlot(self.widget)
-        self.bodyMRU2 = CoordinatePlot(self.widget)
-        self.neutralEM1500 = CoordinatePlot(self.widget)
+        # Static Coordinate systems
+        self.ground = CoordinatePlot(
+            self.widget,
+            np.identity(4)
+        )
+        self.ground.setCoordinateProperties(axWidth=3, axLength=1)
 
+        self.qtm = CoordinatePlot(
+            self.widget,
+            self.Tgq
+        )
+        self.neutralEM8000 = CoordinatePlot(
+            self.widget,
+            self.Tg1
+        )
+        self.neutralEM1500 = CoordinatePlot(
+            self.widget,
+            self.Tg2
+        )
+        
+        # Moving Coordinate systems
+        self.bodyEM8000 = CoordinatePlot(self.widget)
+        self.bodyEM1500 = CoordinatePlot(self.widget)
         self.baseCOMAU = CoordinatePlot(self.widget)
         self.jointsCOMAU = dict()
         self.links = dict()
-
+        
         for i in range(0, 4):
             self.jointsCOMAU[i] = CoordinatePlot(self.widget)
 
@@ -44,13 +69,25 @@ class MotionLabVisualizer(QtCore.QObject):
 
             # Add to widget
             self.widget.addItem(self.links[i])
+    
+        # Measured wire and estimated wire
+        self.wire = gl.GLLinePlotItem(
+            pos = np.zeros([2,3]),
+            color = pg.glColor('g'),
+            width = 2.0
+        )
+        self.wireEstimated = gl.GLLinePlotItem(
+            pos = np.zeros([2,3]),
+            color = pg.glColor('w'),
+            width = 2.0
+        )
+        self.widget.addItem(self.wire)
+        self.widget.addItem(self.wireEstimated)
 
-        
-
-
-
-        # Feedback data
-        self.txHmi = TxHmi()
+        self.markers = dict()
+        for i in range(0, len(self.txHmi.qtm.markers)):
+            self.markers[i] = CoordinatePlot(self.widget)
+            self.markers[i].setCoordinateProperties(axWidth=2, axLength=0.2)
 
     # Public methods
     def setTxHmi(self, txHmi):
@@ -67,13 +104,11 @@ class MotionLabVisualizer(QtCore.QObject):
 
         # EM8000
         Tg1 = np.reshape(calib['WORLD_TO_EM8000']['H'], (4, 4))
-        self.neutralEM8000.updateTransformation(Tg1)
         Hg1 = Tg1.dot(Txyz(em8000.eta[0:3])).dot(Rxyz(em8000.eta[3:6]))  
         self.bodyEM8000.updateTransformation(Hg1)
 
         # EM8000
         Tg2 = np.reshape(calib['WORLD_TO_EM1500']['H'], (4, 4))
-        self.neutralEM1500.updateTransformation(Tg2)
         Hg2 = Tg2.dot(Txyz(em1500.eta[0:3])).dot(Rxyz(em1500.eta[3:6]))
         self.bodyEM1500.updateTransformation(Hg2)
 
@@ -99,10 +134,64 @@ class MotionLabVisualizer(QtCore.QObject):
 
             points = np.vstack((p1, p2))
 
+            # Hook position in {g}
+            Pt = np.array([
+                p2[0],
+                p2[1],
+                p2[2],
+                1
+            ])
 
             self.links[i].setData(
                 pos = points
             )
+
+            
+
+        # Qtm markers
+        if self.txHmi.qtm.status != -1:
+            for i in range(0, len(self.markers)):
+                # Tool point position
+
+                # Hook position
+                Ph = self.Tgq.dot(np.array([
+                    self.txHmi.qtm.feedback.x/1000.0,
+                    self.txHmi.qtm.feedback.y/1000.0,
+                    self.txHmi.qtm.feedback.z/1000.0,
+                    1
+                ]))
+
+                # Set color based on detection mode
+                if self.txHmi.qtm.feedback.status == 1:
+                    color = pg.glColor('g')
+                elif self.txHmi.qtm.feedback.status == 0:
+                    color = pg.glColor('b')
+                else:
+                    color = pg.glColor('r')
+
+                wirePoints = np.vstack((Pt[0:3], Ph[0:3]))
+                self.wire.setData(
+                    pos=wirePoints,
+                    color=color
+                )
+
+
+                # Pm = np.array([
+                #     self.txHmi.qtm.markers[i].x/1000.0,
+                #     self.txHmi.qtm.markers[i].y/1000.0,
+                #     self.txHmi.qtm.markers[i].z/1000.0,
+                #     1
+                # ])
+
+                # Pm = self.Tgq.dot(Pm)
+
+                # Tgm = np.identity(4)
+
+                # Tgm[:,3] = Pm
+
+                # self.markers[i].updateTransformation(Tgm)
+
+        
 
         
     def show(self):
@@ -154,9 +243,10 @@ class MotionLabVisualizer(QtCore.QObject):
 
     
 class CoordinatePlot(object):
-    def __init__(self, glViewWidget):
+    def __init__(self, glViewWidget, H0=np.identity(4)):
         self.widget = glViewWidget
 
+        # Default parameters
         self.colors = [
             pg.glColor('r'),
             pg.glColor('g'),
@@ -168,7 +258,7 @@ class CoordinatePlot(object):
 
 
         # Default location
-        self.H = np.identity(4)
+        self.H = H0
         p0 = self.H[0:3,3]
         for i in range(0, 3):
             p1 = p0 + self.H[0:3,i]*self.axLength
@@ -181,6 +271,21 @@ class CoordinatePlot(object):
             )
 
             self.widget.addItem(self.ax[i])
+
+    def setCoordinateProperties(self, axLength, axWidth):
+        self.axLength = axLength
+        self.axWidth = axWidth
+
+        p0 = self.H[0:3,3]
+        for i in range(0, 3):
+            p1 = p0 + self.H[0:3,i]*self.axLength
+            v = np.vstack((p0, p1))
+
+            self.ax[i].setData(
+                pos=v,
+                width=self.axWidth
+            )
+
             
     def updateTransformation(self, H):
         self.H = H

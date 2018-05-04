@@ -31,7 +31,7 @@ goto DONE
 mkdir build 
 cd build
 conan install ..
-cmake .. -G "Visual Studio 14 2015 Win64"
+cmake .. -G "Visual Studio 15 2017 Win64"
 type NUL > __init__.py
 cd ..
 echo Config done!

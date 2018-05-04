@@ -4,9 +4,7 @@
     <Declaration><![CDATA[TYPE ST_TxHmiWinch :
 STRUCT
 	status : DINT := 0;
-	l : REAL; 
-	l_t : REAL;
-	l_tt : REAL;
+	l : REAL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

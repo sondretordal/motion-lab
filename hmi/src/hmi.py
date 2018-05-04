@@ -16,8 +16,7 @@ from src.gui import Ui_main
 from src.opengl import MotionLabVisualizer
 
 # Motionlab pybind module
-import lib.motionlab as ml
-
+from lib import motionlab as ml
 
 
 # Background color pyqtgraph

@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.7">
+  <POU Name="FB_SetPointGenerator" Id="{fe9902f6-37f1-401e-addb-5933c990711a}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_SetPointGenerator
+VAR_INPUT
+	u : LREAL := 0.0;
+	u_t : LREAL := 0.0;
+	u_tt : LREAL := 0.0;
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	omega : LREAL := 1.0;
+	beta : LREAL := 1.0;
+	
+	Ts : LREAL := 0.005;
+	y : LREAL := 0.0;
+	y_t : LREAL := 0.0;
+	y_tt : LREAL := 0.0;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+y_tt := u_tt + 2*beta*omega*(u_t - y_t) + omega*omega*(u - y);
+    
+y_t := y_t + y_tt*Ts;
+    
+y := y + y_t*Ts;
+]]></ST>
+    </Implementation>
+    <Method Name="Reset" Id="{eca57de5-bf7d-4705-8f61-c9fd3597f754}">
+      <Declaration><![CDATA[METHOD Reset : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[u := 0.0;
+u_t := 0.0;
+u_tt := 0.0;
+
+y := 0.0;
+y_t := 0.0;
+y_tt := 0.0;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetBeta" Id="{054e8021-3bfc-44f4-b38f-da5266ddd1b2}">
+      <Declaration><![CDATA[METHOD SetBeta : BOOL
+VAR_INPUT
+	value : LREAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[beta := ABS(value);
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetOmega" Id="{b817e9a5-d548-431d-b2b3-33fae8ac5011}">
+      <Declaration><![CDATA[METHOD SetOmega : BOOL
+VAR_INPUT
+	value : LREAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[omega := ABS(value);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetTimeStep" Id="{69aaf3fa-9678-4122-8cc1-cc0182620768}">
+      <Declaration><![CDATA[METHOD SetTimeStep : BOOL
+VAR_INPUT
+	timestep : LREAL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Ts := ABS(timestep);]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_SetPointGenerator">
+      <LineId Id="23" Count="1" />
+      <LineId Id="26" Count="1" />
+      <LineId Id="29" Count="1" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_SetPointGenerator.Reset">
+      <LineId Id="5" Count="2" />
+      <LineId Id="9" Count="2" />
+      <LineId Id="8" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_SetPointGenerator.SetBeta">
+      <LineId Id="5" Count="0" />
+      <LineId Id="7" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_SetPointGenerator.SetOmega">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_SetPointGenerator.SetTimeStep">
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
