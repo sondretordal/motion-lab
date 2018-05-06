@@ -3,6 +3,7 @@
   <DUT Name="ST_FeedbackMru" Id="{c563cbff-f807-43aa-97ef-b8752a970c89}">
     <Declaration><![CDATA[TYPE ST_FeedbackMru :
 STRUCT
+	// Rotation Sequence: ZYX
 	surge : REAL;
 	sway : REAL;
 	heave : REAL;

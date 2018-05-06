@@ -3,6 +3,7 @@
   <DUT Name="ST_FeedbackStewart" Id="{69f68918-eb26-4f15-8f87-867ccfe39976}">
     <Declaration><![CDATA[TYPE ST_FeedbackStewart :
 STRUCT
+	// Rotation Sequence: XYZ
 	surge : REAL;
 	sway : REAL;
 	heave : REAL;
