@@ -3,7 +3,8 @@ clear all
 clc
 
 % Create simulink buses
-importInfo  = Simulink.importExternalCTypes('dataTypes.h');
+importPlc = Simulink.importExternalCTypes('plcTypes.h');
+importSim = Simulink.importExternalCTypes('simTypes.h');
 
 % Fundamnetal simulation time step
 Ts = 0.005;
@@ -21,7 +22,7 @@ N = 100;
 [S, w, dw] = hydro.PiersonMoscowitz(Hs, Tp, N,'false');
 [lambda, w0, sigma] = hydro.LinearWaveSpec(S, w, 'true');
 
-
+math3d.Htz(
 
 
 
