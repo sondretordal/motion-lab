@@ -131,55 +131,11 @@ void JsonLogger::save(std::string path) {
         json_log["feedback"]["mru2"]["y_tt"].push_back(feedback[i].mru2.y_tt);
         json_log["feedback"]["mru2"]["z_tt"].push_back(feedback[i].mru2.z_tt);
 
-        json_log["feedback"]["marker1"]["x"].push_back(feedback[i].marker1.x);
-        json_log["feedback"]["marker1"]["y"].push_back(feedback[i].marker1.y);
-        json_log["feedback"]["marker1"]["z"].push_back(feedback[i].marker1.z);
-        json_log["feedback"]["marker1"]["id"].push_back(feedback[i].marker1.id);
-
-        json_log["feedback"]["marker2"]["x"].push_back(feedback[i].marker2.x);
-        json_log["feedback"]["marker2"]["y"].push_back(feedback[i].marker2.y);
-        json_log["feedback"]["marker2"]["z"].push_back(feedback[i].marker2.z);
-        json_log["feedback"]["marker2"]["id"].push_back(feedback[i].marker2.id);
-
-        json_log["feedback"]["marker3"]["x"].push_back(feedback[i].marker3.x);
-        json_log["feedback"]["marker3"]["y"].push_back(feedback[i].marker3.y);
-        json_log["feedback"]["marker3"]["z"].push_back(feedback[i].marker3.z);
-        json_log["feedback"]["marker3"]["id"].push_back(feedback[i].marker3.id);
-
-        json_log["feedback"]["marker4"]["x"].push_back(feedback[i].marker4.x);
-        json_log["feedback"]["marker4"]["y"].push_back(feedback[i].marker4.y);
-        json_log["feedback"]["marker4"]["z"].push_back(feedback[i].marker4.z);
-        json_log["feedback"]["marker4"]["id"].push_back(feedback[i].marker4.id);
-
-        json_log["feedback"]["marker5"]["x"].push_back(feedback[i].marker5.x);
-        json_log["feedback"]["marker5"]["y"].push_back(feedback[i].marker5.y);
-        json_log["feedback"]["marker5"]["z"].push_back(feedback[i].marker5.z);
-        json_log["feedback"]["marker5"]["id"].push_back(feedback[i].marker5.id);
-
-        json_log["feedback"]["marker6"]["x"].push_back(feedback[i].marker6.x);
-        json_log["feedback"]["marker6"]["y"].push_back(feedback[i].marker6.y);
-        json_log["feedback"]["marker6"]["z"].push_back(feedback[i].marker6.z);
-        json_log["feedback"]["marker6"]["id"].push_back(feedback[i].marker6.id);
-
-        json_log["feedback"]["marker7"]["x"].push_back(feedback[i].marker7.x);
-        json_log["feedback"]["marker7"]["y"].push_back(feedback[i].marker7.y);
-        json_log["feedback"]["marker7"]["z"].push_back(feedback[i].marker7.z);
-        json_log["feedback"]["marker7"]["id"].push_back(feedback[i].marker7.id);
-
-        json_log["feedback"]["marker8"]["x"].push_back(feedback[i].marker8.x);
-        json_log["feedback"]["marker8"]["y"].push_back(feedback[i].marker8.y);
-        json_log["feedback"]["marker8"]["z"].push_back(feedback[i].marker8.z);
-        json_log["feedback"]["marker8"]["id"].push_back(feedback[i].marker8.id);
-
-        json_log["feedback"]["marker9"]["x"].push_back(feedback[i].marker9.x);
-        json_log["feedback"]["marker9"]["y"].push_back(feedback[i].marker9.y);
-        json_log["feedback"]["marker9"]["z"].push_back(feedback[i].marker9.z);
-        json_log["feedback"]["marker9"]["id"].push_back(feedback[i].marker9.id);
-
-        json_log["feedback"]["marker10"]["x"].push_back(feedback[i].marker10.x);
-        json_log["feedback"]["marker10"]["y"].push_back(feedback[i].marker10.y);
-        json_log["feedback"]["marker10"]["z"].push_back(feedback[i].marker10.z);
-        json_log["feedback"]["marker10"]["id"].push_back(feedback[i].marker10.id);
+        json_log["feedback"]["qtm"]["status"].push_back(feedback[i].qtm.status);
+        json_log["feedback"]["qtm"]["d"].push_back(feedback[i].qtm.d);
+        json_log["feedback"]["qtm"]["x"].push_back(feedback[i].qtm.x);
+        json_log["feedback"]["qtm"]["y"].push_back(feedback[i].qtm.y);
+        json_log["feedback"]["qtm"]["z"].push_back(feedback[i].qtm.z);
 
         json_log["feedback"]["winch"]["l"].push_back(feedback[i].winch.l);
         json_log["feedback"]["winch"]["l_t"].push_back(feedback[i].winch.l_t);

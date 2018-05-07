@@ -114,6 +114,14 @@ struct FeedbackMru {
 	float z_tt;
 };
 
+struct FeedbackQualisys {
+	int status;
+	float d;
+	float x;
+	float y;
+	float z;
+};
+
 struct FeedbackWinch {
 	float l;
 	float l_t;
@@ -128,16 +136,7 @@ struct Feedback {
 	FeedbackLeica at960;
 	FeedbackMru mru1;
 	FeedbackMru mru2;
-	Qtm3DMarkerPositionNoLabel marker1;
-	Qtm3DMarkerPositionNoLabel marker2;
-	Qtm3DMarkerPositionNoLabel marker3;
-	Qtm3DMarkerPositionNoLabel marker4;
-	Qtm3DMarkerPositionNoLabel marker5;
-	Qtm3DMarkerPositionNoLabel marker6;
-	Qtm3DMarkerPositionNoLabel marker7;
-	Qtm3DMarkerPositionNoLabel marker8;
-	Qtm3DMarkerPositionNoLabel marker9;
-	Qtm3DMarkerPositionNoLabel marker10;
+	FeedbackQualisys qtm;
 	FeedbackWinch winch;
 };
 

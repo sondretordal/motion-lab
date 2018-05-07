@@ -100,6 +100,14 @@ PYBIND11_PLUGIN(motionlab) {
 		.def_readonly("y_tt", &FeedbackMru::y_tt)
 		.def_readonly("z_tt", &FeedbackMru::z_tt);
 
+	py::class_<FeedbackQualisys>(m, "FeedbackQualisys")
+		.def(py::init<>())
+		.def_readonly("status", &FeedbackQualisys::status)
+		.def_readonly("d", &FeedbackQualisys::d)
+		.def_readonly("x", &FeedbackQualisys::x)
+		.def_readonly("y", &FeedbackQualisys::y)
+		.def_readonly("z", &FeedbackQualisys::z);
+
 	py::class_<FeedbackWinch>(m, "FeedbackWinch")
 		.def(py::init<>())
 		.def_readonly("l", &FeedbackWinch::l)
@@ -116,16 +124,7 @@ PYBIND11_PLUGIN(motionlab) {
 		.def_readonly("at960", &Feedback::at960)
 		.def_readonly("mru1", &Feedback::mru1)
 		.def_readonly("mru2", &Feedback::mru2)
-		.def_readonly("marker1", &Feedback::marker1)
-		.def_readonly("marker2", &Feedback::marker2)
-		.def_readonly("marker3", &Feedback::marker3)
-		.def_readonly("marker4", &Feedback::marker4)
-		.def_readonly("marker5", &Feedback::marker5)
-		.def_readonly("marker6", &Feedback::marker6)
-		.def_readonly("marker7", &Feedback::marker7)
-		.def_readonly("marker8", &Feedback::marker8)
-		.def_readonly("marker9", &Feedback::marker9)
-		.def_readonly("marker10", &Feedback::marker10)
+		.def_readonly("qtm", &Feedback::qtm)
 		.def_readonly("winch", &Feedback::winch);
 		
 

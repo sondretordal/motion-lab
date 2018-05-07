@@ -39,13 +39,17 @@ VAR
 	dMarker : REAL := 62.0;
 	eMin : REAL;
 	e : REAL;
-	d : REAL;
 	i : UDINT;
 	j : UDINT;
+	d : REAL;
+	
 	
 	iSave : UDINT;
 	jSave : UDINT;
 	dSave : REAL;
+	xSave : REAL;
+	ySave : REAL;
+	zSave : REAL;
 	
 	iMarker : ST_3DMarkerPositionNoLabel;
 	jMarker : ST_3DMarkerPositionNoLabel;
@@ -158,23 +162,31 @@ IF active THEN
 		
 		// Calculate average marker
 		feedback.status := 1;
+		feedback.d := dSave/1000.0;
 		
-		feedback.d := dSave;
-		feedback.x := (iMarker.x + jMarker.x)/2.0;
-		feedback.y := (iMarker.y + jMarker.y)/2.0;
-		feedback.z := (iMarker.z + jMarker.z)/2.0;
+		xSave := (iMarker.x + jMarker.x)/2.0;
+		ySave := (iMarker.y + jMarker.y)/2.0;
+		zSave := (iMarker.z + jMarker.z)/2.0;
+		
 	ELSIF markerComponent.nMarkers = 1 THEN
 		// Indicate that hook is based on a single marker
 		feedback.status := 0;
 		
-		feedback.x := markerComponent.markers[0].x;
-		feedback.y := markerComponent.markers[0].y;
-		feedback.z := markerComponent.markers[0].z;
+		xSave := markerComponent.markers[0].x;
+		ySave := markerComponent.markers[0].y;
+		zSave := markerComponent.markers[0].z;
 	ELSE	
 		// Indicate that no markers are detected
 		feedback.status := -1;
 	END_IF
+	
+	// mm -> m
+	feedback.x := xSave/1000.0;
+	feedback.y := ySave/1000.0;
+	feedback.z := zSave/1000.0;
+	
 END_IF
+
 	
 	
 	
@@ -331,10 +343,11 @@ END_FOR ]]></ST>
       <LineId Id="307" Count="0" />
       <LineId Id="311" Count="0" />
       <LineId Id="306" Count="0" />
-      <LineId Id="322" Count="2" />
-      <LineId Id="312" Count="0" />
-      <LineId Id="319" Count="2" />
-      <LineId Id="325" Count="0" />
+      <LineId Id="322" Count="1" />
+      <LineId Id="403" Count="0" />
+      <LineId Id="407" Count="0" />
+      <LineId Id="404" Count="2" />
+      <LineId Id="324" Count="1" />
       <LineId Id="327" Count="0" />
       <LineId Id="326" Count="0" />
       <LineId Id="328" Count="0" />
@@ -342,7 +355,12 @@ END_FOR ]]></ST>
       <LineId Id="329" Count="0" />
       <LineId Id="333" Count="2" />
       <LineId Id="288" Count="0" />
+      <LineId Id="397" Count="0" />
+      <LineId Id="400" Count="2" />
+      <LineId Id="399" Count="0" />
+      <LineId Id="398" Count="0" />
       <LineId Id="152" Count="0" />
+      <LineId Id="396" Count="0" />
       <LineId Id="100" Count="0" />
       <LineId Id="64" Count="0" />
       <LineId Id="40" Count="0" />

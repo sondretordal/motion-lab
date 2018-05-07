@@ -16,6 +16,8 @@ VAR_OUTPUT
 	active : BOOL := FALSE;
 	
 	feedback : ST_FeedbackWinch;
+	
+	testL : LREAL := 0.7;
 END_VAR
 VAR
 	// HMI feedback	
@@ -31,6 +33,8 @@ VAR
 	stAxisParameterSet : ST_AxisParameterSet;
 	
 	// Setpoint generation
+	timer : TON;
+	
 	Ts : LREAL := 0.005;
 	
 	omega : LREAL := 1.0;
@@ -42,7 +46,9 @@ VAR
 	l_tt : LREAL := 0.0;
 	direction : DINT := 0;
 	
-	aMax : LREAL := 0.0;
+	
+	// Physical wire length conversion factors
+	
 	
 END_VAR
 ]]></Declaration>
@@ -51,9 +57,9 @@ END_VAR
 axis();
 
 // Return feedback data
-feedback.l := LREAL_TO_REAL(axis.NcToPlc.ActPos);
-feedback.l_t := LREAL_TO_REAL(axis.NcToPlc.ActVelo);
-//feedback.l_tt := LREAL_TO_REAL(axis.NcToPlc.ActAcc);
+feedback.l := (7600.0 - LREAL_TO_REAL(axis.NcToPlc.ActPos) + 626.0)/1000.0;
+feedback.l_t := -LREAL_TO_REAL(axis.NcToPlc.ActVelo)/1000.0;
+feedback.l_tt := -LREAL_TO_REAL(axis.NcToPlc.ActAcc)/1000.0;
 
 
 // Read parameter set
@@ -67,25 +73,6 @@ fbReadParameterSet(
 	Parameter := stAxisParameterSet,
 	Execute := TRUE
 );
-	
-
-// Generate trajectory from input filter
-l_tt := control.l_tt + 2*beta*omega*(control.l_t - l_t) + omega*omega*(control.l - l);
-l_t := l_t + l_tt*Ts;
-l := l + l_t*Ts;
-
-
-// Get direction
-direction := GetDirection(l, l_t, l_tt);
-
-// Feed setpoints to acis interface
-MC_ExtSetPointGenFeed(
-	Axis := axis,
-	Position := l,
-	Velocity := l_t,
-	Acceleration := l_tt,
-	Direction := direction
-);
 
 // Check operation mode
 IF fbPower.Status THEN
@@ -94,29 +81,39 @@ IF fbPower.Status THEN
 		// Settled
 		omega := 1.0;
 		
-		// Copy feedback values to setpoint generator
-		l := axis.NcToPlc.ActPos;
-		l_t := axis.NcToPlc.ActVelo;
-		l_tt := axis.NcToPlc.ActAcc;
-		
-		// Disable external setpoint
-		DisableExtSetPoint();
+		// Disable external setpoint when generator is close to standstill!
+		IF ABS(l_t) < 1.0 AND ABS(l_tt) < 0.1 THEN
+			DisableExtSetPoint();
+		END_IF
 	1 : 
 		// Enagaged
 		omega := 1.0;
-		
+
 		// Enable external setpoint
 		EnableExtSetPoint();
-		
 	2 : 
 		// Enagaged - Fast
 		omega := 10.0;
 		
 		// Enable external setpoint
 		EnableExtSetPoint();
-	
+	ELSE
+		// Return to settled if wrong mode is set!
+		mode := 0;
 	END_CASE
 END_IF
+
+// Generate Trqajectory
+GenerateTrajectory();
+
+// Feed extrenal setpoints to axis interface
+MC_ExtSetPointGenFeed(
+	Axis := axis,
+	Position := l,
+	Velocity := l_t,
+	Acceleration := l_tt,
+	Direction := direction
+);
 
 // Set power status for winch
 IF enable THEN
@@ -209,24 +206,46 @@ fbExtSetPointGenEnable(
 );]]></ST>
       </Implementation>
     </Method>
-    <Method Name="GetDirection" Id="{9b772473-0894-4878-884a-86e9d42d9fdc}">
-      <Declaration><![CDATA[METHOD PRIVATE GetDirection : DINT
+    <Method Name="GenerateTrajectory" Id="{a2b9dbe1-8750-44c6-b8bf-0dc16aa5e2fd}">
+      <Declaration><![CDATA[METHOD PRIVATE GenerateTrajectory : BOOL
 VAR_INPUT
+END_VAR
+
+VAR
+	// Setpoints
 	pos : LREAL;
 	vel : LREAL;
 	acc : LREAL;
-END_VAR]]></Declaration>
+END_VAR
+]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// Set setpoint direction
-IF vel = 0.0 AND acc = 0.0 THEN
-	// Standstill situation
-	GetDirection := 0;
-ELSIF vel >= 0.0 THEN
+        <ST><![CDATA[IF mode = 0 THEN
+	// Settle in last position
+	pos := axis.NcToPlc.ActPos;
+	vel := 0.0;
+	acc := 0.0;
+ELSE
+	// Follow input trajectory
+	pos := 7600.0 + 626.0 - REAL_TO_LREAL(control.l)*1000.0;
+	vel := -REAL_TO_LREAL(control.l_t)*1000.0;
+	acc := -REAL_TO_LREAL(control.l_tt)*1000.0;
+END_IF
+
+// Generate trajectory using trajectory filter
+l_tt := acc + 2*beta*omega*(vel - l_t) + omega*omega*(pos - l);
+l_t := l_t + l_tt*Ts;
+l := l + l_t*Ts;
+
+// Set setpoint direction
+IF l_t = 0.0 AND l_tt = 0.0 THEN
+	// Standstill
+	direction := 0;
+ELSIF l_t >= 0.0 THEN
 	// Positive motion
-	GetDirection := 1;
+	direction := 1;
 ELSE
 	// Negative motion
-	GetDirection := -1;
+	direction := -1;
 END_IF]]></ST>
       </Implementation>
     </Method>
@@ -253,42 +272,36 @@ END_VAR
       <LineId Id="1056" Count="0" />
       <LineId Id="1061" Count="3" />
       <LineId Id="1107" Count="0" />
-      <LineId Id="1059" Count="0" />
-      <LineId Id="835" Count="0" />
-      <LineId Id="811" Count="0" />
-      <LineId Id="837" Count="1" />
-      <LineId Id="1093" Count="0" />
-      <LineId Id="842" Count="1" />
-      <LineId Id="841" Count="0" />
-      <LineId Id="812" Count="0" />
-      <LineId Id="802" Count="0" />
-      <LineId Id="796" Count="5" />
-      <LineId Id="794" Count="0" />
-      <LineId Id="944" Count="0" />
       <LineId Id="943" Count="0" />
       <LineId Id="1032" Count="0" />
       <LineId Id="945" Count="0" />
       <LineId Id="958" Count="0" />
       <LineId Id="1037" Count="0" />
       <LineId Id="1166" Count="0" />
-      <LineId Id="1038" Count="0" />
-      <LineId Id="1015" Count="2" />
-      <LineId Id="1014" Count="0" />
-      <LineId Id="1018" Count="0" />
-      <LineId Id="976" Count="0" />
-      <LineId Id="959" Count="0" />
+      <LineId Id="1260" Count="0" />
+      <LineId Id="1280" Count="0" />
+      <LineId Id="1278" Count="0" />
+      <LineId Id="1262" Count="0" />
+      <LineId Id="1279" Count="0" />
       <LineId Id="995" Count="0" />
       <LineId Id="1029" Count="0" />
       <LineId Id="1164" Count="0" />
       <LineId Id="1039" Count="0" />
       <LineId Id="1036" Count="0" />
       <LineId Id="1028" Count="0" />
-      <LineId Id="1033" Count="2" />
+      <LineId Id="1034" Count="1" />
       <LineId Id="1165" Count="0" />
       <LineId Id="1040" Count="2" />
-      <LineId Id="994" Count="0" />
+      <LineId Id="1266" Count="0" />
+      <LineId Id="1268" Count="0" />
+      <LineId Id="1267" Count="0" />
       <LineId Id="947" Count="0" />
       <LineId Id="897" Count="0" />
+      <LineId Id="1270" Count="0" />
+      <LineId Id="1269" Count="0" />
+      <LineId Id="1271" Count="0" />
+      <LineId Id="1247" Count="7" />
+      <LineId Id="1243" Count="0" />
       <LineId Id="829" Count="0" />
       <LineId Id="795" Count="0" />
       <LineId Id="729" Count="0" />
@@ -326,9 +339,22 @@ END_VAR
       <LineId Id="30" Count="2" />
       <LineId Id="28" Count="0" />
     </LineIds>
-    <LineIds Name="FB_WinchInterface.GetDirection">
-      <LineId Id="9" Count="9" />
+    <LineIds Name="FB_WinchInterface.GenerateTrajectory">
+      <LineId Id="22" Count="0" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="37" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="32" Count="1" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="6" Count="2" />
       <LineId Id="5" Count="0" />
+      <LineId Id="39" Count="10" />
+      <LineId Id="38" Count="0" />
     </LineIds>
     <LineIds Name="FB_WinchInterface.UpdateHMI">
       <LineId Id="5" Count="0" />
