@@ -22,8 +22,8 @@ N = 100;
 [S, w, dw] = hydro.PiersonMoscowitz(Hs, Tp, N,'false');
 [lambda, w0, sigma] = hydro.LinearWaveSpec(S, w, 'true');
 
-% Mru Uncertanities
-
+% Ekf
+ekfPendel = observer.formModel();
 
 
 
