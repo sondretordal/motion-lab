@@ -19,11 +19,11 @@ phi_tt = pendel.formOde();
 Hs = 8.0;
 Tp = 12.0;
 N = 100;
-[S, w, dw] = hydro.PiersonMoscowitz(Hs, Tp, N,'false');
-[lambda, w0, sigma] = hydro.LinearWaveSpec(S, w, 'true');
+[S, w, dw] = hydro.PiersonMoscowitz(Hs, Tp, N, 'false');
+[lambda, w0, sigma] = hydro.LinearWaveSpec(S, w, 'false');
 
 % Ekf
-ekfPendel = observer.formModel();
+% ekfPendel = observer.formModel();
 
 
 

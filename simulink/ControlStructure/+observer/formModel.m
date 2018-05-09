@@ -1,5 +1,10 @@
 function model = formModel()
 
+
+% ** Calibratoin data **
+data = load('+motionlab/calib.mat');
+Hbr = data.calib.EM8000_TO_COMAU.H;
+
 % ** Paramets **
 syms Kdc omega zeta 'real'
 
@@ -43,6 +48,9 @@ x = [
 J = sym(eye(6));
 J(4:6,4:6) = math3d.Tphi(eta(4:6), 'zyx');
 
+% Robot tool acceleration given in {n}
+[pt, pt_t, pt_tt] = pendel.driver(eta, v, v_t, p, p_t, p_tt, Hbr);
+
 % State space ODE
 % {n} -> {b}            
 ode(1:6,1) = J*v;
@@ -60,7 +68,7 @@ ode(28,1) = l_t;
 ode(29,1) = 0;
 ode(30:31,1) = phi_t;
 % ode(32:33,1) = pendel.ode(phi, phi_t, zeros(3,1), l, l_t, c);
-ode(32:33,1) = pendel.ode(phi, phi_t, zeros(3,1), l, l_t, c);
+ode(32:33,1) = pendel.ode(phi, phi_t, pt_tt, l, l_t, c);
 ode(34,1) = 0;
 
 % State transition function and jacobian
@@ -71,15 +79,12 @@ f = simplify(f);
 F = jacobian(f, x);
 F = simplify(F);
 
-% Measurement function
-data = load('+motionlab/calib.mat');
-Hbr = data.calib.EM8000_TO_COMAU.H;
-
-Rnb = math3d.Rzyx(eta(4:6));
-Rnr = Rnb*Hbr(1:3,1:3);
-
-% {t} given in {n}
-pt = eta(1:3) + Rnb*Hbr(1:3,4) + Rnr*p;
+% % Measurement function
+% Rnb = math3d.Rzyx(eta(4:6));
+% Rnr = Rnb*Hbr(1:3,1:3);
+% 
+% % {t} given in {n}
+% pt = eta(1:3) + Rnb*Hbr(1:3,4) + Rnr*p;
 
 h = [    
     eta
