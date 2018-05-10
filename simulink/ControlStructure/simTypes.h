@@ -1,22 +1,35 @@
 typedef struct {
+    // Parameters
+    double c;
+    // Angle feedback
     double phi[2];
     double phi_t[2];
     double phi_tt[2];
-    double c;
-} PendulumStates;
+} SimPendulum;
 
 typedef struct {
-    double l;
-    double l_t;
-    double l_tt;
-    double l_ref;
+    // Parameters
     double Kdc;
     double omega;
     double zeta;
-} WinchStates;
+    // Control input
+    double l_ref;
+    // Wire Length Feedback
+    double l;
+    double l_t;
+    double l_tt;
+} SimWinch;
 
 typedef struct {
+    // Control input
+    double q_ref[3];
+    // Joint Feedback
+    double q[3];
+    double q_t[3];
+    double q_tt[3];
+    // Tool Feedback
     double p[3];
     double p_t[3];
     double p_tt[3];
-} ComauToolPoint;
+} SimComau;
+    

@@ -22,8 +22,20 @@ N = 100;
 [S, w, dw] = hydro.PiersonMoscowitz(Hs, Tp, N, 'false');
 [lambda, w0, sigma] = hydro.LinearWaveSpec(S, w, 'false');
 
-% Ekf
-% ekfPendel = observer.formModel();
+%% Define covarince from experimental data
+load('experiement.mat')
+
+% Stewart simulator covarinces
+sim = simulation.formCovariances(data, 'pos');
+
+% Form observers
+ekfPendel = observer.formParameters();
+ekfPendel.R
+
+
+
+
+
 
 
 

@@ -1,5 +1,4 @@
-function model = formModel()
-
+function formModel()
 
 % ** Calibratoin data **
 data = load('+motionlab/calib.mat');
@@ -64,8 +63,7 @@ ode(25:27,1) = zeros(3,1);
 
 % {t} -> {L} given in {n}
 ode(28,1) = l_t;
-% ode(29,1) = l_ref*Kdc*omega^2 - 2*zeta*omega*l_t - omega^2*l;
-ode(29,1) = 0;
+ode(29,1) = l_ref*Kdc*omega^2 - 2*zeta*omega*l_t - omega^2*l;
 ode(30:31,1) = phi_t;
 % ode(32:33,1) = pendel.ode(phi, phi_t, zeros(3,1), l, l_t, c);
 ode(32:33,1) = pendel.ode(phi, phi_t, pt_tt, l, l_t, c);
@@ -79,13 +77,7 @@ f = simplify(f);
 F = jacobian(f, x);
 F = simplify(F);
 
-% % Measurement function
-% Rnb = math3d.Rzyx(eta(4:6));
-% Rnr = Rnb*Hbr(1:3,1:3);
-% 
-% % {t} given in {n}
-% pt = eta(1:3) + Rnb*Hbr(1:3,4) + Rnr*p;
-
+% Measurement function
 h = [    
     eta
     v
@@ -100,37 +92,6 @@ h = simplify(h);
 
 H = jacobian(h, x);
 H = simplify(H);
-
-% Set default sizes and covariances
-Nx = length(x);
-Nz = length(h);
-
-Q = eye(Nx)*0.0001^2;
-Q(13:18,13:18) = eye(6)*0.05^2;
-Q(25:27,25:27) = eye(3)*0.05^2;
-Q(29,29) = 0.05^2;
-Q(32:33,32:33) = eye(2)*0.1^2;
-Q(34,34) = 0.005^2;
-
-R = eye(Nz)*0.001^2;
-
-P = eye(Nx);
-
-x0 = zeros(Nx,1);
-x0(19:21) = [1.8, -0.5, 1.5];
-x0(28) = 2;
-
-% Return result
-model.f = f;
-model.F = F;
-
-model.h = h;
-model.H = H;
-
-model.x0 = x0;
-model.Q = Q;
-model.R = R;
-model.P = P;
 
 % Make functtions
 matlabFunction(f, 'File', '+observer/f.m', 'Vars', {x, u, Ts, omega, zeta, Kdc});
