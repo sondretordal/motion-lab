@@ -3,8 +3,10 @@ clear all
 clc
 
 % Create simulink buses
-importPlc = Simulink.importExternalCTypes('ioTypes.h');
+importPlc = Simulink.importExternalCTypes('plcTypes.h');
+importIo = Simulink.importExternalCTypes('ioTypes.h');
 importSim = Simulink.importExternalCTypes('simTypes.h');
+
 
 % Fundamnetal simulation time step
 Ts = 0.005;
@@ -26,7 +28,7 @@ N = 100;
 load('experiement.mat')
 
 % Stewart simulator covarinces
-sim = simulation.formCovariances(data, 'pos');
+sim = simulation.formCovariances(data, 'none');
 
 % Form observers
 ekfPendel = observer.formParameters();

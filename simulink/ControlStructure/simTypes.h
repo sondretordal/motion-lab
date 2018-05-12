@@ -1,3 +1,7 @@
+//#include <plcTypes.h>
+
+
+
 typedef struct {
     // Parameters
     double c;

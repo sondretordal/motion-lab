@@ -22,7 +22,7 @@ typedef struct {
 } StewartFeedback;
 
 typedef struct {
-	// Rotation Sequence: ZYX
+	// Rotation Sequence: XYZ
 	double surge;
 	double sway;
 	double heave;
