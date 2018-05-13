@@ -5,7 +5,7 @@ data = load('+motionlab/calib.mat');
 Hbr = data.calib.EM8000_TO_COMAU.H;
 
 % ** Paramets **
-syms Kdc omega zeta 'real'
+syms omega zeta 'real'
 
 % Inputs
 syms l_ref 'real'
@@ -63,7 +63,7 @@ ode(25:27,1) = zeros(3,1);
 
 % {t} -> {L} given in {n}
 ode(28,1) = l_t;
-ode(29,1) = l_ref*Kdc*omega^2 - 2*zeta*omega*l_t - omega^2*l;
+ode(29,1) = l_ref*omega^2 - 2*zeta*omega*l_t - omega^2*l;
 ode(30:31,1) = phi_t;
 % ode(32:33,1) = pendel.ode(phi, phi_t, zeros(3,1), l, l_t, c);
 ode(32:33,1) = pendel.ode(phi, phi_t, pt_tt, l, l_t, c);
@@ -94,8 +94,8 @@ H = jacobian(h, x);
 H = simplify(H);
 
 % Make functtions
-matlabFunction(f, 'File', '+observer/f.m', 'Vars', {x, u, Ts, omega, zeta, Kdc});
-matlabFunction(F, 'File', '+observer/fJacobian.m', 'Vars', {x, u, Ts, omega, zeta, Kdc});
+matlabFunction(f, 'File', '+observer/f.m', 'Vars', {x, u, Ts, omega, zeta});
+matlabFunction(F, 'File', '+observer/fJacobian.m', 'Vars', {x, u, Ts, omega, zeta});
 
 matlabFunction(h, 'File', '+observer/h.m', 'Vars', {x});
 matlabFunction(H, 'File', '+observer/hJacobian.m', 'Vars', {x});

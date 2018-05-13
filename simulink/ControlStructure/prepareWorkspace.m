@@ -11,8 +11,19 @@ importSim = Simulink.importExternalCTypes('simTypes.h');
 % Fundamnetal simulation time step
 Ts = 0.005;
 
-% Measured length to wire exit point WEP
-L = 0.567;
+% Measured distance form {b2} origo to top plate of EM1500
+dz = -0.3;
+
+% Pendulum damping parameter
+c = 0.5;
+
+% Winch Dynamics
+winch.omega = 4*2*pi;
+winch.zeta = 0.7;
+
+% TRobot Joint Dynamics
+robot.omega = 4*2*pi;
+robot.zeta = 0.7;
 
 % Pendulum ODE 
 phi_tt = pendel.formOde();
@@ -32,7 +43,7 @@ sim = simulation.formCovariances(data, 'none');
 
 % Form observers
 ekfPendel = observer.formParameters();
-ekfPendel.R
+
 
 
 
