@@ -4,9 +4,6 @@ clc
 
 % Create simulink buses
 importPlc = Simulink.importExternalCTypes('plcTypes.h');
-importIo = Simulink.importExternalCTypes('ioTypes.h');
-importSim = Simulink.importExternalCTypes('simTypes.h');
-
 
 % Fundamnetal simulation time step
 Ts = 0.005;
@@ -42,7 +39,8 @@ load('experiement.mat')
 sim = simulation.formCovariances(data, 'none');
 
 % Form observers
-ekfPendel = observer.formParameters();
+ekfPendel = pendel.observer.formParameters();
+
 
 
 

@@ -94,11 +94,11 @@ H = jacobian(h, x);
 H = simplify(H);
 
 % Make functtions
-matlabFunction(f, 'File', '+observer/f.m', 'Vars', {x, u, Ts, omega, zeta});
-matlabFunction(F, 'File', '+observer/fJacobian.m', 'Vars', {x, u, Ts, omega, zeta});
+matlabFunction(f, 'File', '+pendel/+observer/f.m', 'Vars', {x, u, Ts, omega, zeta});
+matlabFunction(F, 'File', '+pendel/+observer/fJacobian.m', 'Vars', {x, u, Ts, omega, zeta});
 
-matlabFunction(h, 'File', '+observer/h.m', 'Vars', {x});
-matlabFunction(H, 'File', '+observer/hJacobian.m', 'Vars', {x});
+matlabFunction(h, 'File', '+pendel/+observer/h.m', 'Vars', {x});
+matlabFunction(H, 'File', '+pendel/+observer/hJacobian.m', 'Vars', {x});
 
 
 

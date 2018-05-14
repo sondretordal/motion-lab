@@ -24,9 +24,7 @@ typedef struct {
 
 typedef struct {
     double d;
-    double x;
-    double y;
-    double z;
+    double p[3];
 } ST_QualisysFeedback;
 
 typedef struct {
