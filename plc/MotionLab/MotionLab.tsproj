@@ -429,7 +429,7 @@
 			</ArrayInfo>
 		</DataType>
 		<DataType>
-			<Name GUID="{4396884B-AA11-1E06-AA14-DF88DA38AF07}">ST_StewartFeedback</Name>
+			<Name GUID="{EE9DF6F4-38C6-5E8C-EE01-90DE5F3D8FC5}">StewartFeedback</Name>
 			<BitSize>1152</BitSize>
 			<SubItem>
 				<Name>surge</Name>
@@ -541,7 +541,7 @@
 			</SubItem>
 		</DataType>
 		<DataType>
-			<Name GUID="{B4371764-9AA8-4D90-0453-8C244FF888C1}">ExtU_ToolPlaneDistance_T</Name>
+			<Name GUID="{BCCEBA9D-5E4F-5798-1F79-303266DBBFE2}">ExtU_ToolPlaneDistance_T</Name>
 			<BitSize>2496</BitSize>
 			<SubItem>
 				<Name>q</Name>
@@ -550,18 +550,20 @@
 				<BitOffs>0</BitOffs>
 			</SubItem>
 			<SubItem>
-				<Name>StewartFeedback</Name>
-				<Type GUID="{4396884B-AA11-1E06-AA14-DF88DA38AF07}">ST_StewartFeedback</Type>
+				<Name>StewartFeedback_p</Name>
+				<Type GUID="{EE9DF6F4-38C6-5E8C-EE01-90DE5F3D8FC5}">StewartFeedback</Type>
 				<BitSize>1152</BitSize>
 				<BitOffs>192</BitOffs>
 			</SubItem>
 			<SubItem>
-				<Name>StewartFeedback_h</Name>
-				<Type GUID="{4396884B-AA11-1E06-AA14-DF88DA38AF07}">ST_StewartFeedback</Type>
+				<Name>StewartFeedback_k</Name>
+				<Type GUID="{EE9DF6F4-38C6-5E8C-EE01-90DE5F3D8FC5}">StewartFeedback</Type>
 				<BitSize>1152</BitSize>
 				<BitOffs>1344</BitOffs>
 			</SubItem>
 			<Hides>
+				<Hide GUID="{84729E9B-1787-25F5-46BC-1A13DA29A918}"/>
+				<Hide GUID="{B4371764-9AA8-4D90-0453-8C244FF888C1}"/>
 				<Hide GUID="{57EACEBB-79EF-C1E1-C7A4-3AEC1BD6ABF9}"/>
 			</Hides>
 		</DataType>
@@ -1980,6 +1982,15 @@ External Setpoint Generation:
 			<ArrayInfo>
 				<LBound>0</LBound>
 				<Elements>6</Elements>
+			</ArrayInfo>
+		</DataType>
+		<DataType>
+			<Name GUID="{7F3999D6-1785-057D-88BC-3449B9362C01}" IecBaseType="true" AutoDeleteType="true">ARRAY [0..2] OF LREAL</Name>
+			<BitSize>192</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</BaseType>
+			<ArrayInfo>
+				<LBound>0</LBound>
+				<Elements>3</Elements>
 			</ArrayInfo>
 		</DataType>
 		<DataType>
@@ -5303,9 +5314,9 @@ External Setpoint Generation:
 				<Module Id="#x010100a0" KeepUnrestoredLinks="2">
 					<Name>ToolPlaneDistance</Name>
 					<ImageId>1000</ImageId>
-					<TmcDesc GUID="{E94CBCB6-954F-4FF7-8618-5D7E9142F273}">
+					<TmcDesc GUID="{A6BF469A-54B1-4152-A802-172AD14479A1}">
 						<Name>ToolPlaneDistance</Name>
-						<CLSID ClassFactory="ToolPlaneDistance">{E94CBCB6-954F-4FF7-8618-5D7E9142F273}</CLSID>
+						<CLSID ClassFactory="ToolPlaneDistance">{A6BF469A-54B1-4152-A802-172AD14479A1}</CLSID>
 						<Info>
 							<TabExtension GUID="{BB6DDFDC-900F-473F-83FC-D83513217B55}"/>
 						</Info>
@@ -5394,13 +5405,13 @@ External Setpoint Generation:
 								<BaseType GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</BaseType>
 								<PTCID>#x00000008</PTCID>
 							</Parameter>
-							<Parameter>
+							<Parameter ShowSubItems="true">
 								<Name>Input</Name>
 								<BitSize>2496</BitSize>
-								<BaseType GUID="{B4371764-9AA8-4D90-0453-8C244FF888C1}">ExtU_ToolPlaneDistance_T</BaseType>
+								<BaseType GUID="{BCCEBA9D-5E4F-5798-1F79-303266DBBFE2}">ExtU_ToolPlaneDistance_T</BaseType>
 								<PTCID>#x80000000</PTCID>
 							</Parameter>
-							<Parameter>
+							<Parameter ShowSubItems="true">
 								<Name>ModelParameters</Name>
 								<BitSize>512</BitSize>
 								<BaseType GUID="{8474536E-F3E4-D1AB-DD68-533B58FB3BD1}">P_ToolPlaneDistance_T</BaseType>
@@ -5453,14 +5464,14 @@ External Setpoint Generation:
 								<Symbol CreateSymbol="true">
 									<Name>em8000</Name>
 									<BitSize>1152</BitSize>
-									<BaseType GUID="{4396884B-AA11-1E06-AA14-DF88DA38AF07}">ST_StewartFeedback</BaseType>
+									<BaseType GUID="{EE9DF6F4-38C6-5E8C-EE01-90DE5F3D8FC5}">StewartFeedback</BaseType>
 									<PTCID>#x80000018</PTCID>
 									<BitOffs>192</BitOffs>
 								</Symbol>
 								<Symbol CreateSymbol="true">
 									<Name>em1500</Name>
 									<BitSize>1152</BitSize>
-									<BaseType GUID="{4396884B-AA11-1E06-AA14-DF88DA38AF07}">ST_StewartFeedback</BaseType>
+									<BaseType GUID="{EE9DF6F4-38C6-5E8C-EE01-90DE5F3D8FC5}">StewartFeedback</BaseType>
 									<PTCID>#x800000a8</PTCID>
 									<BitOffs>1344</BitOffs>
 								</Symbol>
@@ -5754,150 +5765,150 @@ External Setpoint Generation:
 							</Value>
 							<Value>
 								<Name>Input.q[2]</Name>
+								<Value>-1.56</Value>
+							</Value>
+							<Value>
+								<Name>Input.StewartFeedback_p.surge</Name>
 								<Value>0</Value>
 							</Value>
 							<Value>
-								<Name>Input.StewartFeedback.surge</Name>
+								<Name>Input.StewartFeedback_p.sway</Name>
 								<Value>0</Value>
 							</Value>
 							<Value>
-								<Name>Input.StewartFeedback.sway</Name>
+								<Name>Input.StewartFeedback_p.heave</Name>
 								<Value>0</Value>
 							</Value>
 							<Value>
-								<Name>Input.StewartFeedback.heave</Name>
+								<Name>Input.StewartFeedback_p.phi</Name>
 								<Value>0</Value>
 							</Value>
 							<Value>
-								<Name>Input.StewartFeedback.phi</Name>
+								<Name>Input.StewartFeedback_p.theta</Name>
 								<Value>0</Value>
 							</Value>
 							<Value>
-								<Name>Input.StewartFeedback.theta</Name>
+								<Name>Input.StewartFeedback_p.psi</Name>
 								<Value>0</Value>
 							</Value>
 							<Value>
-								<Name>Input.StewartFeedback.psi</Name>
+								<Name>Input.StewartFeedback_p.surge_t</Name>
 								<Value>0</Value>
 							</Value>
 							<Value>
-								<Name>Input.StewartFeedback.surge_t</Name>
+								<Name>Input.StewartFeedback_p.sway_t</Name>
 								<Value>0</Value>
 							</Value>
 							<Value>
-								<Name>Input.StewartFeedback.sway_t</Name>
+								<Name>Input.StewartFeedback_p.heave_t</Name>
 								<Value>0</Value>
 							</Value>
 							<Value>
-								<Name>Input.StewartFeedback.heave_t</Name>
+								<Name>Input.StewartFeedback_p.phi_t</Name>
 								<Value>0</Value>
 							</Value>
 							<Value>
-								<Name>Input.StewartFeedback.phi_t</Name>
+								<Name>Input.StewartFeedback_p.theta_t</Name>
 								<Value>0</Value>
 							</Value>
 							<Value>
-								<Name>Input.StewartFeedback.theta_t</Name>
+								<Name>Input.StewartFeedback_p.psi_t</Name>
 								<Value>0</Value>
 							</Value>
 							<Value>
-								<Name>Input.StewartFeedback.psi_t</Name>
+								<Name>Input.StewartFeedback_p.surge_tt</Name>
 								<Value>0</Value>
 							</Value>
 							<Value>
-								<Name>Input.StewartFeedback.surge_tt</Name>
+								<Name>Input.StewartFeedback_p.sway_tt</Name>
 								<Value>0</Value>
 							</Value>
 							<Value>
-								<Name>Input.StewartFeedback.sway_tt</Name>
+								<Name>Input.StewartFeedback_p.heave_tt</Name>
 								<Value>0</Value>
 							</Value>
 							<Value>
-								<Name>Input.StewartFeedback.heave_tt</Name>
+								<Name>Input.StewartFeedback_p.phi_tt</Name>
 								<Value>0</Value>
 							</Value>
 							<Value>
-								<Name>Input.StewartFeedback.phi_tt</Name>
+								<Name>Input.StewartFeedback_p.theta_tt</Name>
 								<Value>0</Value>
 							</Value>
 							<Value>
-								<Name>Input.StewartFeedback.theta_tt</Name>
+								<Name>Input.StewartFeedback_p.psi_tt</Name>
 								<Value>0</Value>
 							</Value>
 							<Value>
-								<Name>Input.StewartFeedback.psi_tt</Name>
+								<Name>Input.StewartFeedback_k.surge</Name>
 								<Value>0</Value>
 							</Value>
 							<Value>
-								<Name>Input.StewartFeedback_h.surge</Name>
+								<Name>Input.StewartFeedback_k.sway</Name>
 								<Value>0</Value>
 							</Value>
 							<Value>
-								<Name>Input.StewartFeedback_h.sway</Name>
+								<Name>Input.StewartFeedback_k.heave</Name>
 								<Value>0</Value>
 							</Value>
 							<Value>
-								<Name>Input.StewartFeedback_h.heave</Name>
+								<Name>Input.StewartFeedback_k.phi</Name>
 								<Value>0</Value>
 							</Value>
 							<Value>
-								<Name>Input.StewartFeedback_h.phi</Name>
+								<Name>Input.StewartFeedback_k.theta</Name>
 								<Value>0</Value>
 							</Value>
 							<Value>
-								<Name>Input.StewartFeedback_h.theta</Name>
+								<Name>Input.StewartFeedback_k.psi</Name>
 								<Value>0</Value>
 							</Value>
 							<Value>
-								<Name>Input.StewartFeedback_h.psi</Name>
+								<Name>Input.StewartFeedback_k.surge_t</Name>
 								<Value>0</Value>
 							</Value>
 							<Value>
-								<Name>Input.StewartFeedback_h.surge_t</Name>
+								<Name>Input.StewartFeedback_k.sway_t</Name>
 								<Value>0</Value>
 							</Value>
 							<Value>
-								<Name>Input.StewartFeedback_h.sway_t</Name>
+								<Name>Input.StewartFeedback_k.heave_t</Name>
 								<Value>0</Value>
 							</Value>
 							<Value>
-								<Name>Input.StewartFeedback_h.heave_t</Name>
+								<Name>Input.StewartFeedback_k.phi_t</Name>
 								<Value>0</Value>
 							</Value>
 							<Value>
-								<Name>Input.StewartFeedback_h.phi_t</Name>
+								<Name>Input.StewartFeedback_k.theta_t</Name>
 								<Value>0</Value>
 							</Value>
 							<Value>
-								<Name>Input.StewartFeedback_h.theta_t</Name>
+								<Name>Input.StewartFeedback_k.psi_t</Name>
 								<Value>0</Value>
 							</Value>
 							<Value>
-								<Name>Input.StewartFeedback_h.psi_t</Name>
+								<Name>Input.StewartFeedback_k.surge_tt</Name>
 								<Value>0</Value>
 							</Value>
 							<Value>
-								<Name>Input.StewartFeedback_h.surge_tt</Name>
+								<Name>Input.StewartFeedback_k.sway_tt</Name>
 								<Value>0</Value>
 							</Value>
 							<Value>
-								<Name>Input.StewartFeedback_h.sway_tt</Name>
+								<Name>Input.StewartFeedback_k.heave_tt</Name>
 								<Value>0</Value>
 							</Value>
 							<Value>
-								<Name>Input.StewartFeedback_h.heave_tt</Name>
+								<Name>Input.StewartFeedback_k.phi_tt</Name>
 								<Value>0</Value>
 							</Value>
 							<Value>
-								<Name>Input.StewartFeedback_h.phi_tt</Name>
+								<Name>Input.StewartFeedback_k.theta_tt</Name>
 								<Value>0</Value>
 							</Value>
 							<Value>
-								<Name>Input.StewartFeedback_h.theta_tt</Name>
-								<Value>0</Value>
-							</Value>
-							<Value>
-								<Name>Input.StewartFeedback_h.psi_tt</Name>
+								<Name>Input.StewartFeedback_k.psi_tt</Name>
 								<Value>0</Value>
 							</Value>
 							<Value>
@@ -6301,12 +6312,71 @@ External Setpoint Generation:
 							<Name>MAIN.at960.Quaternion3</Name>
 							<Type>LREAL</Type>
 						</Var>
+						<Var>
+							<Name>MAIN.dist</Name>
+							<Type>LREAL</Type>
+						</Var>
 					</Vars>
 					<Vars VarGrpType="2">
 						<Name>PlcTask Outputs</Name>
 						<Var>
 							<Name>MAIN.winch.axis.PlcToNc</Name>
 							<Type GUID="{63A84524-72E3-41C8-BEAB-4CCE44690A13}" Namespace="MC">PLCTONC_AXIS_REF</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.q</Name>
+							<Comment>
+								<![CDATA[ Temp solution]]>
+							</Comment>
+							<Type GUID="{7F3999D6-1785-057D-88BC-3449B9362C01}">ARRAY [0..2] OF LREAL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.surge1</Name>
+							<Type>LREAL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.sway1</Name>
+							<Type>LREAL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.heave1</Name>
+							<Type>LREAL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.phi1</Name>
+							<Type>LREAL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.theta1</Name>
+							<Type>LREAL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.psi1</Name>
+							<Type>LREAL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.surge2</Name>
+							<Type>LREAL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.sway2</Name>
+							<Type>LREAL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.heave2</Name>
+							<Type>LREAL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.phi2</Name>
+							<Type>LREAL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.theta2</Name>
+							<Type>LREAL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.psi2</Name>
+							<Type>LREAL</Type>
 						</Var>
 					</Vars>
 					<InitSymbols>
@@ -10034,11 +10104,12 @@ External Setpoint Generation:
 		</Io>
 	</Project>
 	<Mappings>
-		<MappingInfo Identifier="{08502001-0040-0201-0A20-50087B000101}" Id="#x02030030" Watchdog="04000000040000000400000004000000"/>
-		<MappingInfo Identifier="{05000010-2001-0850-2900-04030A205008}" Id="#x02030050" Watchdog="14000000040000000400000004000000"/>
+		<MappingInfo Identifier="{08502001-0040-0201-0A20-50087B000101}" Id="#x02030040" Watchdog="04000000040000000400000004000000"/>
+		<MappingInfo Identifier="{05000010-2001-0850-2900-04030A205008}" Id="#x02030030" Watchdog="14000000040000000400000004000000"/>
+		<MappingInfo Identifier="{08502001-0040-0201-0A20-5008AD000101}" Id="#x02030060" Watchdog="04000000040000000400000004000000"/>
 		<MappingInfo Identifier="{00000000-0010-0304-2900-040318000403}" Id="#x02030020"/>
 		<MappingInfo Identifier="{00000000-0040-0304-2900-040347000403}" Id="#x02030010"/>
-		<MappingInfo Identifier="{08502001-0040-0201-0A20-50086C000101}" Id="#x02030040" Watchdog="04000000040000000400000004000000"/>
+		<MappingInfo Identifier="{08502001-0040-0201-0A20-50086C000101}" Id="#x02030050" Watchdog="04000000040000000400000004000000"/>
 		<OwnerA Name="TINC^NC-Task 1 SAF^Axes^RobotWinch">
 			<OwnerB Name="TIID^EtherCAT^Drive 1 (AX5103-0000-0210)">
 				<Link VarA="Drive^Inputs^In^nDataIn1" VarB="AT^Following distance"/>
@@ -10059,6 +10130,22 @@ External Setpoint Generation:
 			<OwnerB Name="TINC^NC-Task 1 SAF^Axes^RobotWinch">
 				<Link VarA="PlcTask Inputs^MAIN.winch.axis.NcToPlc" VarB="Outputs^ToPlc"/>
 				<Link VarA="PlcTask Outputs^MAIN.winch.axis.PlcToNc" VarB="Inputs^FromPlc"/>
+			</OwnerB>
+			<OwnerB Name="TIRC^TcCOM Objects^ToolPlaneDistance">
+				<Link VarA="PlcTask Inputs^MAIN.dist" VarB="Output^d"/>
+				<Link VarA="PlcTask Outputs^MAIN.heave1" VarB="Input^em8000^heave"/>
+				<Link VarA="PlcTask Outputs^MAIN.heave2" VarB="Input^em1500^heave"/>
+				<Link VarA="PlcTask Outputs^MAIN.phi1" VarB="Input^em8000^phi"/>
+				<Link VarA="PlcTask Outputs^MAIN.phi2" VarB="Input^em1500^phi"/>
+				<Link VarA="PlcTask Outputs^MAIN.psi1" VarB="Input^em8000^psi"/>
+				<Link VarA="PlcTask Outputs^MAIN.psi2" VarB="Input^em1500^psi"/>
+				<Link VarA="PlcTask Outputs^MAIN.q" VarB="Input^q"/>
+				<Link VarA="PlcTask Outputs^MAIN.surge1" VarB="Input^em8000^surge"/>
+				<Link VarA="PlcTask Outputs^MAIN.surge2" VarB="Input^em1500^surge"/>
+				<Link VarA="PlcTask Outputs^MAIN.sway1" VarB="Input^em8000^sway"/>
+				<Link VarA="PlcTask Outputs^MAIN.sway2" VarB="Input^em1500^sway"/>
+				<Link VarA="PlcTask Outputs^MAIN.theta1" VarB="Input^em8000^theta"/>
+				<Link VarA="PlcTask Outputs^MAIN.theta2" VarB="Input^em1500^theta"/>
 			</OwnerB>
 			<OwnerB Name="TIRC^TcCOM Objects^WaveSimulatorEM1500">
 				<Link VarA="PlcTask Inputs^MAIN.em1500.simulator" VarB="Output^eta_xyz"/>

@@ -55,8 +55,6 @@ UpdateHMI();
 // Apply control inputs
 txUdp.cmnd := cmnd;
 txUdp.udp_key := 32;
-txUdp.beta := 1.0;
-txUdp.omega := 1.0;
 
 txUdp.q1 := control.q1;
 txUdp.q2 := control.q2;
@@ -185,8 +183,6 @@ pTxHmi^.q[5] := rxUdp.q6;]]></ST>
       <LineId Id="66" Count="1" />
       <LineId Id="41" Count="0" />
       <LineId Id="20" Count="1" />
-      <LineId Id="23" Count="0" />
-      <LineId Id="18" Count="0" />
       <LineId Id="44" Count="0" />
       <LineId Id="42" Count="0" />
       <LineId Id="45" Count="4" />

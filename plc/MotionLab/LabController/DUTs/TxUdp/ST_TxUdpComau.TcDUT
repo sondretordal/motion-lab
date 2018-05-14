@@ -5,8 +5,6 @@
 STRUCT
 	udp_key	: DINT := 0;
 	cmnd : DINT := 0;
-	omega : REAL := 1.0;
-	beta : REAL := 1.0;
 	q1 : REAL := 0.0;
 	q2 : REAL := 0.0;
 	q3 : REAL := -1.5708;

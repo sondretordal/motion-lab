@@ -30,10 +30,34 @@ VAR
 	// System time in 100 ns resolution
 	timeStamp100ns : ULINT; 
 	
+	Ts : LREAL := 0.005;
+	
 	// System call for starting PqQt HMI
 	fbStartProcess : NT_StartProcess;
 	
+	// Temp solution
+	q AT %Q* : ARRAY [0..2] OF LREAL;
 	
+	surge1 AT %Q* : LREAL;
+	sway1 AT %Q* : LREAL;
+	heave1 AT %Q* : LREAL;
+	phi1 AT %Q* : LREAL;
+	theta1 AT %Q* : LREAL;
+	psi1 AT %Q* : LREAL;
+	
+	surge2 AT %Q* : LREAL;
+	sway2 AT %Q* : LREAL;
+	heave2 AT %Q* : LREAL;
+	phi2 AT %Q* : LREAL;
+	theta2 AT %Q* : LREAL;
+	psi2 AT %Q* : LREAL;
+	
+	dist AT %I* : LREAL;
+	
+	lExtra : LREAL := -0.7;
+	l_tExtra : LREAL;
+	
+
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -48,14 +72,42 @@ qtm();
 winch();
 
 
+// Temp solution
+q[0] := comau.feedback.q1;
+q[1] := comau.feedback.q2;
+q[2] := comau.feedback.q3;
+
+// SFI DEMO
+surge1 := em8000.feedback.surge;
+sway1 := em8000.feedback.sway;
+heave1 := em8000.feedback.heave;
+phi1 := em8000.feedback.phi;
+theta1 := em8000.feedback.theta;
+psi1 := em8000.feedback.psi;
+
+surge2 := em1500.feedback.surge;
+sway2 := em1500.feedback.sway;
+heave2 := em1500.feedback.heave;
+phi2 := em1500.feedback.phi;
+theta2 := em1500.feedback.theta;
+psi2 := em1500.feedback.psi;
+
+l_tExtra := 0.2*(rxHmi.xboxRT - rxHmi.xboxLT);
+lExtra := lExtra + l_tExtra*Ts;
+
+winch.control.l := dist + lExtra;
+winch.control.l_t := l_tExtra;
+winch.control.l_tt := 0.0;
+
+comau.control.q1 := comau.control.q1 + 0.0873*rxHmi.xboxRightX*Ts;
+comau.control.q2 := comau.control.q2 + 0.0873*rxHmi.xboxRightY*Ts;
+comau.control.q3 := comau.control.q3 + 0.0873*rxHmi.xboxLeftY*Ts;
+
+
+
+
+
 t := t + 0.005;
-
-
-
-winch.control.l := 2 + A*SIN(w*t);
-winch.control.l_t := w*A*COS(w*t);
-winch.control.l_tt := -w*w*A*SIN(w*t);
-
 
 
 // Update Remote
@@ -65,7 +117,7 @@ UpdateRemote();
 
 timeStamp100ns := F_GetTaskTime();
 
-StartPyQtHMI();
+//StartPyQtHMI();
 
 
 
@@ -115,15 +167,28 @@ remote();]]></ST>
       <LineId Id="214" Count="0" />
       <LineId Id="311" Count="0" />
       <LineId Id="316" Count="0" />
+      <LineId Id="586" Count="5" />
+      <LineId Id="614" Count="0" />
+      <LineId Id="593" Count="0" />
+      <LineId Id="592" Count="0" />
+      <LineId Id="594" Count="4" />
+      <LineId Id="606" Count="5" />
       <LineId Id="413" Count="0" />
+      <LineId Id="636" Count="0" />
+      <LineId Id="625" Count="0" />
+      <LineId Id="620" Count="0" />
+      <LineId Id="641" Count="0" />
+      <LineId Id="631" Count="1" />
+      <LineId Id="629" Count="0" />
+      <LineId Id="643" Count="0" />
+      <LineId Id="642" Count="0" />
+      <LineId Id="644" Count="1" />
+      <LineId Id="709" Count="0" />
+      <LineId Id="647" Count="0" />
+      <LineId Id="649" Count="0" />
+      <LineId Id="630" Count="0" />
       <LineId Id="415" Count="0" />
       <LineId Id="409" Count="0" />
-      <LineId Id="540" Count="0" />
-      <LineId Id="539" Count="0" />
-      <LineId Id="417" Count="0" />
-      <LineId Id="416" Count="0" />
-      <LineId Id="418" Count="1" />
-      <LineId Id="504" Count="0" />
       <LineId Id="420" Count="0" />
       <LineId Id="315" Count="0" />
       <LineId Id="276" Count="0" />
