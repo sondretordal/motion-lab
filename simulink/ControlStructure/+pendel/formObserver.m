@@ -1,4 +1,4 @@
-function formModel()
+function formObserver()
 
 % ** Calibratoin data **
 data = load('+motionlab/calib.mat');

@@ -1,4 +1,4 @@
-function model = formParameters()
+function model = formEkfMatrices()
 
 % Set default sizes and covariances
 Nx = 34;
