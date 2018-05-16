@@ -22,14 +22,14 @@ END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[// Leica transform to x, y and z coordinates
-feedback.x := LREAL_TO_REAL(Distance*SIN(AngleVt)*SIN(AngleHz));
-feedback.y := LREAL_TO_REAL(Distance*SIN(AngleVt)*COS(AngleHz));
-feedback.z := LREAL_TO_REAL(Distance*COS(AngleVt));
+feedback.p[0] := Distance*SIN(AngleVt)*SIN(AngleHz);
+feedback.p[1] := Distance*SIN(AngleVt)*COS(AngleHz);
+feedback.p[2] := Distance*COS(AngleVt);
 
-feedback.q0 := LREAL_TO_REAL(Quaternion0);
-feedback.q1 := LREAL_TO_REAL(Quaternion1);
-feedback.q2 := LREAL_TO_REAL(Quaternion2);
-feedback.q3 := LREAL_TO_REAL(Quaternion3);
+feedback.q[0] := Quaternion0;
+feedback.q[1] := Quaternion1;
+feedback.q[2] := Quaternion2;
+feedback.q[3] := Quaternion3;
 
 ]]></ST>
     </Implementation>

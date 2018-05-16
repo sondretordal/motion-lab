@@ -38,7 +38,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tab_interface">
        <attribute name="title">
@@ -3926,542 +3926,291 @@ color: rgb(255, 255, 255);
        <widget class="QTabWidget" name="tab_6">
         <property name="geometry">
          <rect>
-          <x>20</x>
-          <y>60</y>
-          <width>1071</width>
+          <x>300</x>
+          <y>70</y>
+          <width>791</width>
           <height>621</height>
          </rect>
         </property>
         <property name="currentIndex">
-         <number>1</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="widget_2">
          <attribute name="title">
           <string>EM 8000</string>
          </attribute>
-         <widget class="QGroupBox" name="groupBox_15">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>230</y>
-            <width>261</width>
-            <height>51</height>
-           </rect>
-          </property>
-          <property name="title">
-           <string>Plot options</string>
-          </property>
-          <widget class="QLabel" name="label_109">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>20</y>
-             <width>101</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Time axis range:</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-          <widget class="QComboBox" name="EM8000_plot_time_range_ship">
-           <property name="geometry">
-            <rect>
-             <x>130</x>
-             <y>20</y>
-             <width>69</width>
-             <height>22</height>
-            </rect>
-           </property>
-           <property name="currentText">
-            <string>20</string>
-           </property>
-           <property name="currentIndex">
-            <number>1</number>
-           </property>
-           <item>
-            <property name="text">
-             <string>10</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>20</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>30</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>40</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>50</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>60</string>
-            </property>
-           </item>
-          </widget>
-          <widget class="QLabel" name="label_110">
-           <property name="geometry">
-            <rect>
-             <x>210</x>
-             <y>20</y>
-             <width>31</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>[s]</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-         </widget>
-         <widget class="GraphicsLayoutWidget" name="DP1_wavespectrum">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>290</y>
-            <width>261</width>
-            <height>291</height>
-           </rect>
-          </property>
-         </widget>
          <widget class="GraphicsLayoutWidget" name="DP1_SimStates">
           <property name="geometry">
            <rect>
-            <x>290</x>
-            <y>20</y>
-            <width>761</width>
-            <height>561</height>
+            <x>0</x>
+            <y>0</y>
+            <width>791</width>
+            <height>591</height>
            </rect>
           </property>
-         </widget>
-         <widget class="QGroupBox" name="groupBox_23">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>10</y>
-            <width>261</width>
-            <height>211</height>
-           </rect>
-          </property>
-          <property name="title">
-           <string>Wave Spectrum Settings</string>
-          </property>
-          <widget class="QLabel" name="label_149">
-           <property name="geometry">
-            <rect>
-             <x>210</x>
-             <y>60</y>
-             <width>31</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>[s]</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-          <widget class="QLabel" name="label_151">
-           <property name="geometry">
-            <rect>
-             <x>210</x>
-             <y>30</y>
-             <width>31</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>[m]</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-          <widget class="QLabel" name="label_152">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>31</y>
-             <width>151</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Significant Wave Height :</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-          <widget class="QLabel" name="label_159">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>60</y>
-             <width>151</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Wave Time Period :</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-          <widget class="QLabel" name="label_160">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>150</y>
-             <width>141</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Ocean-Wave Spectra :</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-          <widget class="QComboBox" name="EM8000_wave_spectra">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>180</y>
-             <width>131</width>
-             <height>22</height>
-            </rect>
-           </property>
-           <property name="currentText">
-            <string>JONSWAP</string>
-           </property>
-           <property name="currentIndex">
-            <number>0</number>
-           </property>
-           <item>
-            <property name="text">
-             <string>JONSWAP</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>PMS</string>
-            </property>
-           </item>
-          </widget>
-          <widget class="QLineEdit" name="EM8000_wave_height">
-           <property name="geometry">
-            <rect>
-             <x>160</x>
-             <y>30</y>
-             <width>41</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="clearButtonEnabled">
-            <bool>false</bool>
-           </property>
-          </widget>
-          <widget class="QLineEdit" name="EM8000_wave_period">
-           <property name="geometry">
-            <rect>
-             <x>160</x>
-             <y>60</y>
-             <width>41</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="clearButtonEnabled">
-            <bool>false</bool>
-           </property>
-          </widget>
          </widget>
         </widget>
         <widget class="QWidget" name="tab_7">
          <attribute name="title">
           <string>EM 1500</string>
          </attribute>
-         <widget class="QGroupBox" name="groupBox_18">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>230</y>
-            <width>261</width>
-            <height>51</height>
-           </rect>
-          </property>
-          <property name="title">
-           <string>Plot options</string>
-          </property>
-          <widget class="QLabel" name="label_128">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>20</y>
-             <width>101</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Time axis range:</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-          <widget class="QComboBox" name="EM1500_plot_time_range_ship">
-           <property name="geometry">
-            <rect>
-             <x>130</x>
-             <y>20</y>
-             <width>69</width>
-             <height>22</height>
-            </rect>
-           </property>
-           <property name="currentText">
-            <string>20</string>
-           </property>
-           <property name="currentIndex">
-            <number>1</number>
-           </property>
-           <item>
-            <property name="text">
-             <string>10</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>20</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>30</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>40</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>50</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>60</string>
-            </property>
-           </item>
-          </widget>
-          <widget class="QLabel" name="label_170">
-           <property name="geometry">
-            <rect>
-             <x>210</x>
-             <y>20</y>
-             <width>31</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>[s]</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-         </widget>
          <widget class="GraphicsLayoutWidget" name="DP2_SimStates">
           <property name="geometry">
            <rect>
-            <x>290</x>
-            <y>20</y>
-            <width>761</width>
-            <height>561</height>
+            <x>0</x>
+            <y>0</y>
+            <width>791</width>
+            <height>591</height>
            </rect>
           </property>
-         </widget>
-         <widget class="GraphicsLayoutWidget" name="DP2_wavespectrum">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>290</y>
-            <width>261</width>
-            <height>291</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="QGroupBox" name="groupBox_24">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>10</y>
-            <width>261</width>
-            <height>211</height>
-           </rect>
-          </property>
-          <property name="title">
-           <string>Wave Spectrum Settings</string>
-          </property>
-          <widget class="QLabel" name="label_150">
-           <property name="geometry">
-            <rect>
-             <x>210</x>
-             <y>60</y>
-             <width>31</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>[s]</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-          <widget class="QLabel" name="label_153">
-           <property name="geometry">
-            <rect>
-             <x>210</x>
-             <y>30</y>
-             <width>31</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>[m]</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-          <widget class="QLabel" name="label_154">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>31</y>
-             <width>151</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Significant Wave Height :</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-          <widget class="QLabel" name="label_161">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>60</y>
-             <width>151</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Wave Time Period :</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-          <widget class="QLabel" name="label_162">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>150</y>
-             <width>141</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Ocean-Wave Spectra :</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-          <widget class="QComboBox" name="EM1500_wave_spectra">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>180</y>
-             <width>131</width>
-             <height>22</height>
-            </rect>
-           </property>
-           <property name="currentText">
-            <string>JONSWAP</string>
-           </property>
-           <property name="currentIndex">
-            <number>0</number>
-           </property>
-           <item>
-            <property name="text">
-             <string>JONSWAP</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>PMS</string>
-            </property>
-           </item>
-          </widget>
-          <widget class="QLineEdit" name="EM1500_wave_height">
-           <property name="geometry">
-            <rect>
-             <x>160</x>
-             <y>30</y>
-             <width>41</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="clearButtonEnabled">
-            <bool>false</bool>
-           </property>
-          </widget>
-          <widget class="QLineEdit" name="EM1500_wave_period">
-           <property name="geometry">
-            <rect>
-             <x>160</x>
-             <y>60</y>
-             <width>41</width>
-             <height>20</height>
-            </rect>
-           </property>
-           <property name="clearButtonEnabled">
-            <bool>false</bool>
-           </property>
-          </widget>
          </widget>
         </widget>
-        <widget class="QWidget" name="tab_8">
-         <attribute name="title">
-          <string>General</string>
-         </attribute>
+       </widget>
+       <widget class="QGroupBox" name="groupBox_23">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>70</y>
+          <width>261</width>
+          <height>231</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Wave Spectrum Settings</string>
+        </property>
+        <widget class="QLabel" name="label_149">
+         <property name="geometry">
+          <rect>
+           <x>210</x>
+           <y>60</y>
+           <width>31</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>[s]</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
         </widget>
+        <widget class="QLabel" name="label_151">
+         <property name="geometry">
+          <rect>
+           <x>210</x>
+           <y>30</y>
+           <width>31</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>[m]</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_152">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>31</y>
+           <width>151</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Significant Wave Height :</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_159">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>60</y>
+           <width>151</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Wave Time Period :</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_160">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>150</y>
+           <width>141</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Ocean-Wave Spectra :</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="EM8000_wave_spectra">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>180</y>
+           <width>131</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="currentText">
+          <string>JONSWAP</string>
+         </property>
+         <property name="currentIndex">
+          <number>0</number>
+         </property>
+         <item>
+          <property name="text">
+           <string>JONSWAP</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>PMS</string>
+          </property>
+         </item>
+        </widget>
+        <widget class="QLineEdit" name="EM8000_wave_height">
+         <property name="geometry">
+          <rect>
+           <x>160</x>
+           <y>30</y>
+           <width>41</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="clearButtonEnabled">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="EM8000_wave_period">
+         <property name="geometry">
+          <rect>
+           <x>160</x>
+           <y>60</y>
+           <width>41</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="clearButtonEnabled">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="groupBox_15">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>310</y>
+          <width>261</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Plot options</string>
+        </property>
+        <widget class="QLabel" name="label_109">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>20</y>
+           <width>101</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Time axis range:</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="EM8000_plot_time_range_ship">
+         <property name="geometry">
+          <rect>
+           <x>130</x>
+           <y>20</y>
+           <width>69</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="currentText">
+          <string>20</string>
+         </property>
+         <property name="currentIndex">
+          <number>1</number>
+         </property>
+         <item>
+          <property name="text">
+           <string>10</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>20</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>30</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>40</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>50</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>60</string>
+          </property>
+         </item>
+        </widget>
+        <widget class="QLabel" name="label_110">
+         <property name="geometry">
+          <rect>
+           <x>210</x>
+           <y>20</y>
+           <width>31</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>[s]</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </widget>
+       <widget class="GraphicsLayoutWidget" name="DP1_wavespectrum">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>380</y>
+          <width>261</width>
+          <height>301</height>
+         </rect>
+        </property>
        </widget>
       </widget>
       <widget class="QWidget" name="tab_settings">

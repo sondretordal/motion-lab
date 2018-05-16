@@ -160,6 +160,10 @@ void JsonLogger::save(std::string path) {
         json_log["control"]["comau"]["q4_tt"].push_back(control[i].comau.q4_tt);
         json_log["control"]["comau"]["q5_tt"].push_back(control[i].comau.q5_tt);
         json_log["control"]["comau"]["q6_tt"].push_back(control[i].comau.q6_tt);
+
+        // Test
+        std::array<int, 3> data = {i, 2*i, 3*i};
+        json_log["test"].push_back(data);
     }
 
     // Write json data to .json text file

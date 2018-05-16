@@ -4,28 +4,8 @@
     <Declaration><![CDATA[TYPE ST_FeedbackMru :
 STRUCT
 	// Rotation Sequence: ZYX
-	surge : REAL;
-	sway : REAL;
-	heave : REAL;
-	surge_t : REAL;
-	sway_t : REAL;
-	heave_t : REAL;
-	surge_tt : REAL;
-	sway_tt : REAL;
-	heave_tt : REAL;
-	turn_rate : REAL;
-	phi : REAL;
-	theta : REAL;
-	psi : REAL;
-	wx : REAL;
-	wy : REAL;
-	wz : REAL;
-	x_t : REAL;
-	y_t : REAL;
-	z_t : REAL;
-	x_tt : REAL;
-	y_tt : REAL;
-	z_tt : REAL;
+	eta : ARRAY [0..5] OF LREAL;
+	v : ARRAY [0..5] OF LREAL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

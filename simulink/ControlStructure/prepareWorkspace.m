@@ -39,7 +39,8 @@ load('experiement.mat')
 sim = simulation.formCovariances(data, 'none');
 
 % Form observers
-ekfPendel = pendel.formEkfMatrices();
+pendelEkf = pendel.formEkfMatrices();
+s2sEkf = s2s.formEkfMatrices();
 
 
 

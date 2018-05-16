@@ -8,9 +8,7 @@ VAR_INPUT
 	stopp : BOOL := FALSE;
 	
 	mode : UINT := 0;
-	control : ST_ControlWinch;
-
-	
+	control : ST_ControlWinch;	
 END_VAR
 VAR_OUTPUT
 	active : BOOL := FALSE;
@@ -57,9 +55,9 @@ END_VAR
 axis();
 
 // Return feedback data
-feedback.l := (7600.0 - LREAL_TO_REAL(axis.NcToPlc.ActPos) + 626.0)/1000.0;
-feedback.l_t := -LREAL_TO_REAL(axis.NcToPlc.ActVelo)/1000.0;
-feedback.l_tt := -LREAL_TO_REAL(axis.NcToPlc.ActAcc)/1000.0;
+feedback.l := (7600.0 - axis.NcToPlc.ActPos + 626.0)/1000.0;
+feedback.l_t := -axis.NcToPlc.ActVelo/1000.0;
+feedback.l_tt := -axis.NcToPlc.ActAcc/1000.0;
 
 
 // Read parameter set
@@ -226,9 +224,9 @@ END_VAR
 	acc := 0.0;
 ELSE
 	// Follow input trajectory
-	pos := 7600.0 + 626.0 - REAL_TO_LREAL(control.l)*1000.0;
-	vel := -REAL_TO_LREAL(control.l_t)*1000.0;
-	acc := -REAL_TO_LREAL(control.l_tt)*1000.0;
+	pos := 7600.0 + 626.0 - control.l*1000.0;
+	vel := -control.l_t*1000.0;
+	acc := -control.l_tt*1000.0;
 END_IF
 
 // Generate trajectory using trajectory filter

@@ -3,24 +3,9 @@
   <DUT Name="ST_ControlComau" Id="{2640b3bf-bec6-4af5-a87c-ac0aa0ed2365}">
     <Declaration><![CDATA[TYPE ST_ControlComau :
 STRUCT
-	q1 : REAL := 0;
-	q2 : REAL := 0.0;;
-	q3 : REAL := -1.5708;
-	q4 : REAL := 0.0;
-	q5 : REAL := 0.0;
-	q6 : REAL := 0.0;
-	q1_t : REAL;
-	q2_t : REAL;
-	q3_t : REAL;
-	q4_t : REAL;
-	q5_t : REAL;
-	q6_t : REAL;
-	q1_tt : REAL;
-	q2_tt : REAL;
-	q3_tt : REAL;
-	q4_tt : REAL;
-	q5_tt : REAL;
-	q6_tt : REAL;
+	q : ARRAY [0..2] OF LREAL := [0.0, 0.0, -1.57];
+	q_t : ARRAY [0..2] OF LREAL;
+	q_tt : ARRAY [0..2] OF LREAL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

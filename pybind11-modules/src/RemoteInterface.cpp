@@ -3,6 +3,20 @@
 
 RemoteInterface::RemoteInterface(unsigned int port) :
 thread(), logger(), server(port, &rx_data, sizeof(rx_data), &tx_data, sizeof(tx_data)) {
+
+    // for (int i = 0; i < 6; i++) {
+    //     test.push_back(static_cast<float>(i));
+    // }
+
+    float arr [3];
+
+    arr[0] = -42.0f;
+    arr[1] = 13.0f;
+    arr[2] = 7.2f;
+
+    memcpy(&test, &arr, sizeof(test));
+
+    std::cout << sizeof(test) << std::endl;
 }
 
 RemoteInterface::~RemoteInterface() {

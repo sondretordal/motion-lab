@@ -3,12 +3,7 @@
   <DUT Name="ST_ControlStewart" Id="{f6680c9a-ba32-4cdf-b6e9-dd2896846b77}">
     <Declaration><![CDATA[TYPE ST_ControlStewart :
 STRUCT
-	surge : REAL := 0.0;
-	sway : REAL := 0.0;
-	heave : REAL := 0.0;
-	phi : REAL := 0.0;
-	theta : REAL := 0.0;
-	psi : REAL := 0.0;
+	eta : ARRAY [0..5] OF LREAL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

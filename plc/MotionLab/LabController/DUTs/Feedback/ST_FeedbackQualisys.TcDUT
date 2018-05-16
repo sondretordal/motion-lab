@@ -3,11 +3,8 @@
   <DUT Name="ST_FeedbackQualisys" Id="{756fa40c-3d23-4fbc-adc0-4f5d1d624e97}">
     <Declaration><![CDATA[TYPE ST_FeedbackQualisys :
 STRUCT
-	status : DINT := -1;
-	d : REAL;
-	x : REAL;
-	y : REAL;
-	z : REAL;
+	d : LREAL;
+	p : ARRAY [0..2] OF LREAL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

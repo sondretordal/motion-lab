@@ -13,19 +13,22 @@ typedef struct {
 typedef struct {
     double q[3];
     double q_t[3];
-    double q_tt[3];
 } ST_ComauFeedback;
 
 typedef struct {
     double l;
     double l_t;
-    double l_tt;
 } ST_WinchFeedback;
 
 typedef struct {
     double d;
     double p[3];
 } ST_QualisysFeedback;
+
+typedef struct {
+    double p[3];
+    double q[4];
+} ST_LeicaFeedback;
 
 typedef struct {
     ST_StewartFeedback em8000;
@@ -35,6 +38,7 @@ typedef struct {
     ST_ComauFeedback comau;
     ST_WinchFeedback winch;
     ST_QualisysFeedback qtm;
+    ST_LeicaFeedback at960;
 } ST_Feedback;
 
 // PLC Control Types

@@ -110,11 +110,11 @@
               <Name>l</Name>
               <IdentHandle>1</IdentHandle>
               <Acquisition>
-                <DataType>REAL32</DataType>
+                <DataType>REAL64</DataType>
                 <IndexGroup>16448</IndexGroup>
-                <IndexOffset>519184</IndexOffset>
+                <IndexOffset>519448</IndexOffset>
                 <TargetPort>851</TargetPort>
-                <VariableSize>4</VariableSize>
+                <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.winch.control.l</SymbolName>
                 <SymbolComment />
                 <IsSymbolBased>true</IsSymbolBased>
@@ -145,7 +145,7 @@
                 <DbId>0</DbId>
               </Acquisition>
               <Style>
-                <ColorValue>-16777088</ColorValue>
+                <ColorValue>-5952982</ColorValue>
                 <SolidLine>true</SolidLine>
                 <Marks>false</Marks>
                 <LineWidth>1</LineWidth>
@@ -154,7 +154,7 @@
                 <BitMask>18446744073709551615</BitMask>
                 <ShowCursorValue>true</ShowCursorValue>
                 <Visible>true</Visible>
-                <MarkColorValue>-16777088</MarkColorValue>
+                <MarkColorValue>-5952982</MarkColorValue>
                 <MarkSize>3</MarkSize>
                 <TimeShift>0</TimeShift>
                 <ScaleFactor>1</ScaleFactor>
@@ -164,7 +164,7 @@
                 <XScaleFactor>1</XScaleFactor>
                 <XBitMask>18446744073709551615</XBitMask>
                 <FillMode>0</FillMode>
-                <FillColorValue>838860928</FillColorValue>
+                <FillColorValue>849685034</FillColorValue>
                 <EndCap>false</EndCap>
                 <StartCap>false</StartCap>
                 <CapSize>3</CapSize>
@@ -179,11 +179,11 @@
               <Name>l(1)</Name>
               <IdentHandle>2</IdentHandle>
               <Acquisition>
-                <DataType>REAL32</DataType>
+                <DataType>REAL64</DataType>
                 <IndexGroup>16448</IndexGroup>
-                <IndexOffset>519200</IndexOffset>
+                <IndexOffset>519480</IndexOffset>
                 <TargetPort>851</TargetPort>
-                <VariableSize>4</VariableSize>
+                <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.winch.feedback.l</SymbolName>
                 <SymbolComment />
                 <IsSymbolBased>true</IsSymbolBased>
@@ -214,7 +214,7 @@
                 <DbId>0</DbId>
               </Acquisition>
               <Style>
-                <ColorValue>-16181</ColorValue>
+                <ColorValue>-9728477</ColorValue>
                 <SolidLine>true</SolidLine>
                 <Marks>false</Marks>
                 <LineWidth>1</LineWidth>
@@ -223,7 +223,7 @@
                 <BitMask>18446744073709551615</BitMask>
                 <ShowCursorValue>true</ShowCursorValue>
                 <Visible>true</Visible>
-                <MarkColorValue>-16181</MarkColorValue>
+                <MarkColorValue>-9728477</MarkColorValue>
                 <MarkSize>3</MarkSize>
                 <TimeShift>0</TimeShift>
                 <ScaleFactor>1</ScaleFactor>
@@ -233,7 +233,7 @@
                 <XScaleFactor>1</XScaleFactor>
                 <XBitMask>18446744073709551615</XBitMask>
                 <FillMode>0</FillMode>
-                <FillColorValue>855621835</FillColorValue>
+                <FillColorValue>845909539</FillColorValue>
                 <EndCap>false</EndCap>
                 <StartCap>false</StartCap>
                 <CapSize>3</CapSize>

@@ -40,8 +40,6 @@ class GUI(QMainWindow, Ui_main):
         self.plc = pyads.Connection('192.168.90.150.1.1', 851)
         self.plc.open()
 
-        self.tccom = pyads.Connection('192.168.90.150.1.1', 351)
-        self.tccom.open()
 
         try:
             self.plc.read_state()
@@ -49,13 +47,6 @@ class GUI(QMainWindow, Ui_main):
 
         except pyads.pyads.ADSError:
             self.plc_active = False
-
-        try:
-            self.tccom.read_state()
-            self.tccom_active = True
-
-        except pyads.pyads.ADSError:
-            self.tccom_active = False
 
 
         # Xbox controller
@@ -76,7 +67,6 @@ class GUI(QMainWindow, Ui_main):
             self.timer.start(50)
 
             self.EM8000_wave()
-            self.EM1500_wave()
 
         # OpenGL
         text = open('./src/calib.json').read()
@@ -124,61 +114,20 @@ class GUI(QMainWindow, Ui_main):
             self.DP1_spectrum.static_plot(self.waveSpectrumDP1.w,
                     [self.waveSpectrumDP1.S, self.waveSpectrumDP1.Slin]
                 )
-            
+
             # Write to TcCOM object containg WaveSimulator
-            self.tccom.write_by_name('WaveSimulatorEM8000.ModelParameters.w0_Value', 
+            self.plc.write_by_name('MAIN.w0', 
                     self.waveSpectrumDP1.w0, pyads.PLCTYPE_LREAL
                 )
 
-            self.tccom.write_by_name('WaveSimulatorEM8000.ModelParameters.sigma_Value', 
+            self.plc.write_by_name('MAIN.sigma', 
                     self.waveSpectrumDP1.sigma, pyads.PLCTYPE_LREAL
                 )
 
-            self.tccom.write_by_name('WaveSimulatorEM8000.ModelParameters.lambda_Value', 
+            self.plc.write_by_name('MAIN.lambda', 
                     self.waveSpectrumDP1.Lambda, pyads.PLCTYPE_LREAL
                 )
-        
-            # EM8000 Wave Settings
-    def EM1500_wave(self):
-            # Current wave spectrum data
-            Hs = self.waveSpectrumDP2.Hs
-            T1 = self.waveSpectrumDP2.T1
-            spec = self.waveSpectrumDP2.spec
-
-            try:
-                objectName = self.sender().objectName()
-                if objectName == "EM1500_wave_spectra":
-                    spec = str(self.sender().currentText())
-
-                elif objectName == "EM1500_wave_height":
-                    Hs = int(self.sender().text())
-
-                elif objectName == "EM1500_wave_period":
-                    T1 = int(self.sender().text())
- 
-            except AttributeError:
-                pass
-
-            # Update wave spectrum and plot
-            self.waveSpectrumDP2.calculate(Hs, T1, spec)
-
-            self.DP2_spectrum.plot.setYRange(0, max(self.waveSpectrumDP2.S) + 5)
-            self.DP2_spectrum.static_plot(self.waveSpectrumDP2.w,
-                    [self.waveSpectrumDP2.S, self.waveSpectrumDP2.Slin]
-                )
-            
-            # Write to TcCOM object containg WaveSimulator
-            self.tccom.write_by_name('WaveSimulatorEM1500.ModelParameters.w0_Value', 
-                    self.waveSpectrumDP2.w0, pyads.PLCTYPE_LREAL
-                )
-
-            self.tccom.write_by_name('WaveSimulatorEM1500.ModelParameters.sigma_Value', 
-                    self.waveSpectrumDP2.sigma, pyads.PLCTYPE_LREAL
-                )
-
-            self.tccom.write_by_name('WaveSimulatorEM1500.ModelParameters.lambda_Value', 
-                    self.waveSpectrumDP2.Lambda, pyads.PLCTYPE_LREAL
-                )
+    
 
     # Plot setup
     def plot_setup(self):
@@ -222,12 +171,6 @@ class GUI(QMainWindow, Ui_main):
         self.DP2_2.plot.setLabel('left', 'Angle', 'deg')
         self.DP2_2.plot.setYRange(-6.0, 6.0)
         self.DP2_2.add_curves(['r', 'g', 'b'], ['Roll', 'Pitch', 'Yaw'])
-
-        self.DP2_spectrum = RealTimePlot(self.DP2_wavespectrum.addPlot())
-        self.DP2_spectrum.plot.setLabel('left', 'Spectrum Energy', '-')
-        self.DP2_spectrum.plot.setLabel('bottom', 'Wave Period', 'rad/s')
-        self.DP2_spectrum.plot.setYRange(0, 15)
-        self.DP2_spectrum.add_curves(['r','b'], ['Wave Spectrum', 'Linear Spectrum'])
 
         # Plot tab
         #------------------------------------------------------#
@@ -384,7 +327,6 @@ class GUI(QMainWindow, Ui_main):
 
         # Ship Simulator tab:
         #----------------------------------------------------------#
-        self.EM1500_plot_time_range_ship.currentIndexChanged.connect(self.plot_time_axis_range)
         self.EM8000_plot_time_range_ship.currentIndexChanged.connect(self.plot_time_axis_range)
 
         # Limit values for input
@@ -400,18 +342,7 @@ class GUI(QMainWindow, Ui_main):
         self.EM8000_wave_height.returnPressed.connect(self.EM8000_wave)
         self.EM8000_wave_period.returnPressed.connect(self.EM8000_wave)
         self.EM8000_wave_spectra.currentIndexChanged.connect(self.EM8000_wave)
-
-
-        self.EM1500_wave_height.setText(str(self.waveSpectrumDP2.Hs))
-        self.EM1500_wave_height.setValidator(self.validator_height)
-
-        self.EM1500_wave_period.setText(str(self.waveSpectrumDP2.T1))
-        self.EM1500_wave_period.setValidator(self.validator_period)
         
-        self.EM1500_wave_height.returnPressed.connect(self.EM1500_wave)
-        self.EM1500_wave_period.returnPressed.connect(self.EM1500_wave)
-        self.EM1500_wave_spectra.currentIndexChanged.connect(self.EM1500_wave)
-
         # Winch related
         self.winchSettled.clicked.connect(lambda: self.plc.write_by_name('MAIN.winch.mode', 0, pyads.PLCTYPE_UINT))
         self.winchEngaged.clicked.connect(lambda: self.plc.write_by_name('MAIN.winch.mode', 1, pyads.PLCTYPE_UINT))
@@ -755,7 +686,6 @@ class GUI(QMainWindow, Ui_main):
             if self.plc_active:
                 # # Close ADS ports
                 self.plc.close()
-                self.tccom.close()
                 print('Beckhoff ADS Connection Closed')
 
             # Stop xbox thread

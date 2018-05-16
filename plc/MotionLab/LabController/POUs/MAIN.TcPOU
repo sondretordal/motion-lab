@@ -3,6 +3,11 @@
   <POU Name="MAIN" Id="{4193d1f4-5b8a-4d46-8bb1-f5443e3607b6}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
+	// Linear wave parameters, Hs = 8 and Tp = 12.0;
+	w0 AT %Q* : LREAL := 0.5457;
+	lambda AT %Q* : LREAL := 0.2405;
+	sigma AT %Q* : LREAL := 1.5012;
+	
 	// HMI data
 	txHmi : ST_TxHmi;
 	rxHmi : ST_RxHmi;
@@ -35,29 +40,13 @@ VAR
 	// System call for starting PqQt HMI
 	fbStartProcess : NT_StartProcess;
 	
-	// Temp solution
-	q AT %Q* : ARRAY [0..2] OF LREAL;
+	// SFI Conference
+	p0 AT %Q*: ARRAY [0..2] OF LREAL := [1.8, -0.7, 1.5];
 	
-	surge1 AT %Q* : LREAL;
-	sway1 AT %Q* : LREAL;
-	heave1 AT %Q* : LREAL;
-	phi1 AT %Q* : LREAL;
-	theta1 AT %Q* : LREAL;
-	psi1 AT %Q* : LREAL;
-	
-	surge2 AT %Q* : LREAL;
-	sway2 AT %Q* : LREAL;
-	heave2 AT %Q* : LREAL;
-	phi2 AT %Q* : LREAL;
-	theta2 AT %Q* : LREAL;
-	psi2 AT %Q* : LREAL;
-	
-	dist AT %I* : LREAL;
-	
-	lExtra : LREAL := -0.7;
-	l_tExtra : LREAL;
-	
-
+	d AT %I* : LREAL;
+	d_t AT %I* : LREAL;
+	dExtra : LREAL := -0.5;
+	d_tExtra: LREAL := 0.0;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -71,43 +60,22 @@ at960();
 qtm();
 winch();
 
+// Tool in {r0}
+p0[0] := p0[0] + 0.1*rxHmi.xboxRightX*Ts;
+p0[1] := p0[1] + 0.1*rxHmi.xboxRightY*Ts;
+p0[2] := p0[2] + 0.1*rxHmi.xboxLeftY*Ts;
 
-// Temp solution
-q[0] := comau.feedback.q1;
-q[1] := comau.feedback.q2;
-q[2] := comau.feedback.q3;
-
-// SFI DEMO
-surge1 := em8000.feedback.surge;
-sway1 := em8000.feedback.sway;
-heave1 := em8000.feedback.heave;
-phi1 := em8000.feedback.phi;
-theta1 := em8000.feedback.theta;
-psi1 := em8000.feedback.psi;
-
-surge2 := em1500.feedback.surge;
-sway2 := em1500.feedback.sway;
-heave2 := em1500.feedback.heave;
-phi2 := em1500.feedback.phi;
-theta2 := em1500.feedback.theta;
-psi2 := em1500.feedback.psi;
-
-l_tExtra := 0.2*(rxHmi.xboxRT - rxHmi.xboxLT);
-lExtra := lExtra + l_tExtra*Ts;
-
-winch.control.l := dist + lExtra;
-winch.control.l_t := l_tExtra;
-winch.control.l_tt := 0.0;
-
-comau.control.q1 := comau.control.q1 + 0.0873*rxHmi.xboxRightX*Ts;
-comau.control.q2 := comau.control.q2 + 0.0873*rxHmi.xboxRightY*Ts;
-comau.control.q3 := comau.control.q3 + 0.0873*rxHmi.xboxLeftY*Ts;
+d_tExtra := 0.3*(rxHmi.xboxRT - rxHmi.xboxLT)*Ts;
+dExtra := dExtra + d_tExtra;
 
 
+winch.control.l := d + dExtra;
+winch.control.l_t := d_t + d_tExtra;
 
 
+t := t + Ts;
 
-t := t + 0.005;
+
 
 
 // Update Remote
@@ -144,6 +112,7 @@ timeStamp100ns := F_GetTaskTime();
       <Implementation>
         <ST><![CDATA[// Set all the lates data aquired from sensors and machinery
 remote.txUdp.t := remote.txUdp.t + 0.005;
+(*
 remote.txUdp.em8000 := em8000.feedback;
 remote.txUdp.em1500 := em1500.feedback;
 remote.txUdp.comau := comau.feedback;
@@ -152,6 +121,7 @@ remote.txUdp.mru1 := mru1.feedback;
 remote.txUdp.mru2 := mru2.feedback;
 remote.txUdp.qtm := qtm.feedback;
 remote.txUdp.winch := winch.feedback;
+*)
 
 
 // Update Udp Rx/Tx
@@ -167,28 +137,21 @@ remote();]]></ST>
       <LineId Id="214" Count="0" />
       <LineId Id="311" Count="0" />
       <LineId Id="316" Count="0" />
-      <LineId Id="586" Count="5" />
-      <LineId Id="614" Count="0" />
-      <LineId Id="593" Count="0" />
-      <LineId Id="592" Count="0" />
-      <LineId Id="594" Count="4" />
-      <LineId Id="606" Count="5" />
-      <LineId Id="413" Count="0" />
-      <LineId Id="636" Count="0" />
-      <LineId Id="625" Count="0" />
-      <LineId Id="620" Count="0" />
-      <LineId Id="641" Count="0" />
-      <LineId Id="631" Count="1" />
-      <LineId Id="629" Count="0" />
+      <LineId Id="778" Count="0" />
       <LineId Id="643" Count="0" />
       <LineId Id="642" Count="0" />
       <LineId Id="644" Count="1" />
+      <LineId Id="792" Count="0" />
       <LineId Id="709" Count="0" />
       <LineId Id="647" Count="0" />
+      <LineId Id="790" Count="1" />
       <LineId Id="649" Count="0" />
+      <LineId Id="794" Count="0" />
       <LineId Id="630" Count="0" />
       <LineId Id="415" Count="0" />
       <LineId Id="409" Count="0" />
+      <LineId Id="789" Count="0" />
+      <LineId Id="788" Count="0" />
       <LineId Id="420" Count="0" />
       <LineId Id="315" Count="0" />
       <LineId Id="276" Count="0" />
@@ -213,9 +176,12 @@ remote();]]></ST>
     </LineIds>
     <LineIds Name="MAIN.UpdateRemote">
       <LineId Id="13" Count="0" />
-      <LineId Id="2" Count="6" />
+      <LineId Id="2" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="3" Count="5" />
       <LineId Id="19" Count="0" />
       <LineId Id="16" Count="0" />
+      <LineId Id="21" Count="0" />
       <LineId Id="15" Count="0" />
       <LineId Id="14" Count="0" />
       <LineId Id="12" Count="0" />

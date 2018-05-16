@@ -7,10 +7,10 @@ VAR_INPUT
 	// Stewart mode input
 	cmnd : UDINT;
 	
-	control : ST_ControlStewart;
+	control AT %I* : ST_ControlStewart;
 	
 	// Ship simulator input
-	simulator AT %I* : ARRAY [0..5] OF LREAL;
+	eta_sim : ARRAY [0..5] OF LREAL;
 	
 	// Max/min settings
 	u_max : ARRAY [0..5] OF REAL := [0.2, 0.2, 0.4, 10.0/180.0*pi, 10.0/180.0*pi, 5.0/180.0*pi];
@@ -18,7 +18,7 @@ VAR_INPUT
 	
 END_VAR
 VAR_OUTPUT
-	feedback : ST_FeedbackStewart;
+	feedback AT %Q* : ST_FeedbackStewart;
 	active : BOOL := FALSE;
 END_VAR
 VAR	
@@ -57,17 +57,8 @@ ELSE
 	active := TRUE;
 END_IF
 
-
 // Set command signal
 txUdp.CMND := cmnd;
-
-// Simlation input to control
-control.surge := LREAL_TO_REAL(simulator[0]);
-control.sway := LREAL_TO_REAL(simulator[1]);
-control.heave := LREAL_TO_REAL(simulator[2]);
-control.phi := LREAL_TO_REAL(simulator[3]);
-control.theta := LREAL_TO_REAL(simulator[4]);
-control.psi := LREAL_TO_REAL(simulator[5]);
 
 // Update UDP data
 UpdateUDP();
@@ -75,9 +66,7 @@ UpdateUDP();
 // UpdateHMI data
 UpdateHMI();
 
-
-
-]]></ST>
+eta_sim := control.eta;]]></ST>
     </Implementation>
     <Method Name="FB_exit" Id="{8ba73825-ee69-4ede-8932-47c54b7f6de6}">
       <Declaration><![CDATA[{attribute 'conditionalshow'}
@@ -169,12 +158,12 @@ pTxHmi^.eta_ref[3] := rxUdp.Platform_setpoint_roll;
 pTxHmi^.eta_ref[4] := rxUdp.Platform_setpoint_pitch;
 pTxHmi^.eta_ref[5] := rxUdp.Platform_setpoint_yaw;
 
-pTxHmi^.eta_sim[0] := LREAL_TO_REAL(simulator[0]);
-pTxHmi^.eta_sim[1] := LREAL_TO_REAL(simulator[1]);
-pTxHmi^.eta_sim[2] := LREAL_TO_REAL(simulator[2]);
-pTxHmi^.eta_sim[3] := LREAL_TO_REAL(simulator[3]);
-pTxHmi^.eta_sim[4] := LREAL_TO_REAL(simulator[4]);
-pTxHmi^.eta_sim[5] := LREAL_TO_REAL(simulator[5]);
+pTxHmi^.eta_sim[0] := LREAL_TO_REAL(eta_sim[0]);
+pTxHmi^.eta_sim[1] := LREAL_TO_REAL(eta_sim[1]);
+pTxHmi^.eta_sim[2] := LREAL_TO_REAL(eta_sim[2]);
+pTxHmi^.eta_sim[3] := LREAL_TO_REAL(eta_sim[3]);
+pTxHmi^.eta_sim[4] := LREAL_TO_REAL(eta_sim[4]);
+pTxHmi^.eta_sim[5] := LREAL_TO_REAL(eta_sim[5]);
 
 pTxHmi^.cyl[0] := rxUdp.Actual_position_actuator_1;
 pTxHmi^.cyl[1] := rxUdp.Actual_position_actuator_2;
@@ -197,37 +186,37 @@ END_VAR
 txUdp.COUNT := txUdp.COUNT + 1;
 
 // Control data with absolute limits applied
-txUdp.X_EXTRA := LIMIT(u_min[0], control.surge, u_max[0]);
-txUdp.Y_EXTRA := LIMIT(u_min[1], control.sway, u_max[1]);
-txUdp.Z_EXTRA := LIMIT(u_min[2], control.heave, u_max[2]);
-txUdp.PHI_EXTRA := LIMIT(u_min[3], control.phi, u_max[3]);
-txUdp.THETA_EXTRA := LIMIT(u_min[4], control.theta, u_max[4]);
-txUdp.PSI_EXTRA := LIMIT(u_min[5], control.psi, u_max[5]);
+txUdp.X_EXTRA := LIMIT(u_min[0], LREAL_TO_REAL(control.eta[0]), u_max[0]);
+txUdp.Y_EXTRA := LIMIT(u_min[1], LREAL_TO_REAL(control.eta[1]), u_max[1]);
+txUdp.Z_EXTRA := LIMIT(u_min[2], LREAL_TO_REAL(control.eta[2]), u_max[2]);
+txUdp.PHI_EXTRA := LIMIT(u_min[3], LREAL_TO_REAL(control.eta[3]), u_max[3]);
+txUdp.THETA_EXTRA := LIMIT(u_min[4], LREAL_TO_REAL(control.eta[4]), u_max[4]);
+txUdp.PSI_EXTRA := LIMIT(u_min[5], LREAL_TO_REAL(control.eta[5]), u_max[5]);
 
 // Update udpClient
 udpClient();
 
 // Feedback data
-feedback.surge := rxUdp.Actual_platform_position_surge;
-feedback.sway := rxUdp.Actual_platform_position_sway;
-feedback.heave := rxUdp.Actual_platform_position_heave;
-feedback.phi := rxUdp.Actual_platform_position_roll;
-feedback.theta := rxUdp.Actual_platform_position_pitch;
-feedback.psi := rxUdp.Actual_platform_position_yaw;
+feedback.eta[0] := REAL_TO_LREAL(rxUdp.Actual_platform_position_surge);
+feedback.eta[1] := REAL_TO_LREAL(rxUdp.Actual_platform_position_sway);
+feedback.eta[2] := REAL_TO_LREAL(rxUdp.Actual_platform_position_heave);
+feedback.eta[3] := REAL_TO_LREAL(rxUdp.Actual_platform_position_roll);
+feedback.eta[4] := REAL_TO_LREAL(rxUdp.Actual_platform_position_pitch);
+feedback.eta[5] := REAL_TO_LREAL(rxUdp.Actual_platform_position_yaw);
 
-feedback.surge_t := rxUdp.Actual_platform_velocity_surge;
-feedback.sway_t := rxUdp.Actual_platform_velocity_sway;
-feedback.heave_t := rxUdp.Actual_platform_velocity_heave;
-feedback.phi_t := rxUdp.Actual_platform_velocity_roll;
-feedback.theta_t := rxUdp.Actual_platform_velocity_pitch;
-feedback.psi_t := rxUdp.Actual_platform_velocity_yaw;
+feedback.eta_t[0] := REAL_TO_LREAL(rxUdp.Actual_platform_velocity_surge);
+feedback.eta_t[1] := REAL_TO_LREAL(rxUdp.Actual_platform_velocity_sway);
+feedback.eta_t[2] := REAL_TO_LREAL(rxUdp.Actual_platform_velocity_heave);
+feedback.eta_t[3] := REAL_TO_LREAL(rxUdp.Actual_platform_velocity_roll);
+feedback.eta_t[4] := REAL_TO_LREAL(rxUdp.Actual_platform_velocity_pitch);
+feedback.eta_t[5] := REAL_TO_LREAL(rxUdp.Actual_platform_velocity_yaw);
 
-feedback.surge_tt := rxUdp.Actual_platform_acceleration_surge;
-feedback.sway_tt := rxUdp.Actual_platform_acceleration_sway;
-feedback.heave_tt := rxUdp.Actual_platform_acceleration_heave;
-feedback.phi_tt := rxUdp.Actual_platform_acceleration_roll;
-feedback.theta_tt := rxUdp.Actual_platform_acceleration_pitch;
-feedback.psi_tt := rxUdp.Actual_platform_acceleration_yaw;
+feedback.eta_tt[0] := REAL_TO_LREAL(rxUdp.Actual_platform_acceleration_surge);
+feedback.eta_tt[1] := REAL_TO_LREAL(rxUdp.Actual_platform_acceleration_sway);
+feedback.eta_tt[2] := REAL_TO_LREAL(rxUdp.Actual_platform_acceleration_heave);
+feedback.eta_tt[3] := REAL_TO_LREAL(rxUdp.Actual_platform_acceleration_roll);
+feedback.eta_tt[4] := REAL_TO_LREAL(rxUdp.Actual_platform_acceleration_pitch);
+feedback.eta_tt[5] := REAL_TO_LREAL(rxUdp.Actual_platform_acceleration_yaw);
 
 
 
@@ -248,20 +237,14 @@ feedback.psi_tt := rxUdp.Actual_platform_acceleration_yaw;
       <LineId Id="417" Count="1" />
       <LineId Id="421" Count="1" />
       <LineId Id="419" Count="0" />
-      <LineId Id="407" Count="0" />
       <LineId Id="399" Count="1" />
       <LineId Id="265" Count="0" />
-      <LineId Id="318" Count="0" />
-      <LineId Id="203" Count="0" />
-      <LineId Id="319" Count="5" />
       <LineId Id="210" Count="2" />
       <LineId Id="325" Count="0" />
       <LineId Id="209" Count="0" />
       <LineId Id="185" Count="0" />
-      <LineId Id="326" Count="0" />
-      <LineId Id="188" Count="0" />
-      <LineId Id="184" Count="0" />
-      <LineId Id="92" Count="0" />
+      <LineId Id="466" Count="0" />
+      <LineId Id="465" Count="0" />
     </LineIds>
     <LineIds Name="FB_StewartInterface.FB_exit">
       <LineId Id="7" Count="0" />

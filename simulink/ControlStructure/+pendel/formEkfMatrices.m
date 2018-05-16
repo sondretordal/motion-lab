@@ -13,7 +13,7 @@ Q(34,34) = 0.005^2;
 
 R = eye(Nz)*0.01^2;
 
-P = eye(Nx);
+P0 = eye(Nx);
 
 x0 = zeros(Nx,1);
 x0(19:21) = [1.8, -0.5, 1.5];
@@ -23,6 +23,6 @@ x0(28) = 2;
 model.x0 = x0;
 model.Q = Q;
 model.R = R;
-model.P = P;
+model.P0 = P0;
 
 end

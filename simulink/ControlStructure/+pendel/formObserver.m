@@ -63,7 +63,8 @@ ode(25:27,1) = zeros(3,1);
 
 % {t} -> {L} given in {n}
 ode(28,1) = l_t;
-ode(29,1) = l_ref*omega^2 - 2*zeta*omega*l_t - omega^2*l;
+% ode(29,1) = l_ref*omega^2 - 2*zeta*omega*l_t - omega^2*l;
+ode(29,1) = 0;
 ode(30:31,1) = phi_t;
 % ode(32:33,1) = pendel.ode(phi, phi_t, zeros(3,1), l, l_t, c);
 ode(32:33,1) = pendel.ode(phi, phi_t, pt_tt, l, l_t, c);
@@ -94,8 +95,8 @@ H = jacobian(h, x);
 H = simplify(H);
 
 % Make functtions
-matlabFunction(f, 'File', '+pendel/+observer/f.m', 'Vars', {x, u, Ts, omega, zeta});
-matlabFunction(F, 'File', '+pendel/+observer/fJacobian.m', 'Vars', {x, u, Ts, omega, zeta});
+matlabFunction(f, 'File', '+pendel/+observer/f.m', 'Vars', {x, Ts});
+matlabFunction(F, 'File', '+pendel/+observer/fJacobian.m', 'Vars', {x, Ts});
 
 matlabFunction(h, 'File', '+pendel/+observer/h.m', 'Vars', {x});
 matlabFunction(H, 'File', '+pendel/+observer/hJacobian.m', 'Vars', {x});

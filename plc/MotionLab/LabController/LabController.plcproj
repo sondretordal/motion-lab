@@ -15,6 +15,9 @@
     <LibraryReferences>{aef4fe47-5e6c-4062-a679-76e7b334d805}</LibraryReferences>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DUTs\Control\ST_Control.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\Control\ST_ControlComau.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -22,6 +25,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\Control\ST_ControlWinch.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\Feedback\ST_Feedback.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\Feedback\ST_FeedbackComau.TcDUT">

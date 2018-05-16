@@ -2,10 +2,12 @@
 
 #include <thread>
 #include <mutex>
+#include <array>
 
 #include "UdpServer.h"
 #include "JsonLogger.h"
 #include "DataStructures.h"
+
 
 
 class RemoteInterface
@@ -29,6 +31,12 @@ private:
     Feedback rx_data;
     Control tx_data;
 public:
+    // Testing
+    std::array<float, 3> test = {1.0f, 2.0f, 3.0f};
+
+    test.
+
+
 
     // IO data
     Feedback feedback;

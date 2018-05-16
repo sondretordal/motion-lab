@@ -3,9 +3,9 @@
   <DUT Name="ST_ControlWinch" Id="{6e438494-5054-4d59-9fe3-52c87297b9ea}">
     <Declaration><![CDATA[TYPE ST_ControlWinch :
 STRUCT
-	l : REAL;
-	l_t : REAL;
-	l_tt : REAL;
+	l : LREAL;
+	l_t : LREAL;
+	l_tt : LREAL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

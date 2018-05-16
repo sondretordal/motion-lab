@@ -1,5 +1,6 @@
 // Pybind includes
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 #include <pybind11/eigen.h>
 
 
@@ -165,7 +166,8 @@ PYBIND11_PLUGIN(motionlab) {
 		.def("clear_log", &RemoteInterface::clear_log)
 		.def("save_log", &RemoteInterface::save_log)
 		.def_readonly("feedback", &RemoteInterface::feedback)
-		.def_readwrite("control", &RemoteInterface::control);
+		.def_readwrite("control", &RemoteInterface::control)
+		.def_readwrite("test", &RemoteInterface::test);
 
 	// Xbox controller interface
 	py::class_<Stick>(m, "Stick")

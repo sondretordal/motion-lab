@@ -3,13 +3,8 @@
   <DUT Name="ST_FeedbackLeica" Id="{b744b7b0-075c-4ef8-942d-c1f105fd7cb0}">
     <Declaration><![CDATA[TYPE ST_FeedbackLeica :
 STRUCT
-	x : REAL;
-	y : REAL;
-	z : REAL;
-	q0 : REAL;
-	q1 : REAL;
-	q2 : REAL;
-	q3 : REAL;
+	p : ARRAY [0..2] OF LREAL;
+	q : ARRAY [0..3] OF LREAL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>
