@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project><!--(*
+ *
+ * File: main.xml
+ *
+ * IEC 61131-3 Structured Text (ST) code generated for subsystem "main/PlcDataTypes"
+ *
+ * Model name                      : main
+ * Model version                   : 1.2986
+ * Model creator                   : motionlab
+ * Model last modified by          : motionlab
+ * Model last modified on          : Fri May 18 10:43:30 2018
+ * Model sample time               : 0.005s
+ * Subsystem name                  : main/PlcDataTypes
+ * Subsystem sample time           : 0.005s
+ * Simulink PLC Coder version      : 2.4 (R2017b) 24-Jul-2017
+ * ST code generated on            : Fri May 18 10:44:27 2018
+ *
+ * Target IDE selection            : Beckhoff TwinCAT 3
+ * Test Bench included             : No
+ *
+ *)
+-->
+   <fileHeader companyName="The Mathworks, Inc." companyURL="www.mathworks.com" contentDescription="" creationDateTime="2018-05-18T10:44:27" productName="Simulink PLC Coder" productRelease="(R2017b)" productVersion="2.4"/>
+   <contentHeader name="main">
+      <coordinateInfo>
+         <fbd>
+            <scaling x="0" y="0"/>
+         </fbd>
+         <ld>
+            <scaling x="0" y="0"/>
+         </ld>
+         <sfc>
+            <scaling x="0" y="0"/>
+         </sfc>
+      </coordinateInfo>
+   </contentHeader>
+   <types>
+      <dataTypes>
+         <dataType name="ST_LeicaFeedback">
+            <baseType>
+               <struct>
+                  <variable name="pos">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="2"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="quat">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="3"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+               </struct>
+            </baseType>
+         </dataType>
+         <dataType name="ST_QualisysFeedback">
+            <baseType>
+               <struct>
+                  <variable name="dist">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="pos">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="2"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+               </struct>
+            </baseType>
+         </dataType>
+         <dataType name="ST_WinchFeedback">
+            <baseType>
+               <struct>
+                  <variable name="length">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="length_t">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+               </struct>
+            </baseType>
+         </dataType>
+         <dataType name="ST_ComauFeedback">
+            <baseType>
+               <struct>
+                  <variable name="q">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="2"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="q_t">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="2"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+               </struct>
+            </baseType>
+         </dataType>
+         <dataType name="ST_MruFeedback">
+            <baseType>
+               <struct>
+                  <variable name="eta">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="5"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="v">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="5"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+               </struct>
+            </baseType>
+         </dataType>
+         <dataType name="ST_StewartFeedback">
+            <baseType>
+               <struct>
+                  <variable name="eta">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="5"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="eta_t">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="5"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="eta_tt">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="5"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+               </struct>
+            </baseType>
+         </dataType>
+         <dataType name="ST_WinchControl">
+            <baseType>
+               <struct>
+                  <variable name="length">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="length_t">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="length_tt">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+               </struct>
+            </baseType>
+         </dataType>
+         <dataType name="ST_ComauControl">
+            <baseType>
+               <struct>
+                  <variable name="q">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="2"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="q_t">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="2"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="q_tt">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="2"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+               </struct>
+            </baseType>
+         </dataType>
+         <dataType name="ST_StewartControl">
+            <baseType>
+               <struct>
+                  <variable name="eta">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="5"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+               </struct>
+            </baseType>
+         </dataType>
+         <dataType name="ST_Feedback">
+            <baseType>
+               <struct>
+                  <variable name="em8000">
+                     <type>
+                        <derived name="ST_StewartFeedback"/>
+                     </type>
+                  </variable>
+                  <variable name="em1500">
+                     <type>
+                        <derived name="ST_StewartFeedback"/>
+                     </type>
+                  </variable>
+                  <variable name="mru1">
+                     <type>
+                        <derived name="ST_MruFeedback"/>
+                     </type>
+                  </variable>
+                  <variable name="mru2">
+                     <type>
+                        <derived name="ST_MruFeedback"/>
+                     </type>
+                  </variable>
+                  <variable name="comau">
+                     <type>
+                        <derived name="ST_ComauFeedback"/>
+                     </type>
+                  </variable>
+                  <variable name="winch">
+                     <type>
+                        <derived name="ST_WinchFeedback"/>
+                     </type>
+                  </variable>
+                  <variable name="qtm">
+                     <type>
+                        <derived name="ST_QualisysFeedback"/>
+                     </type>
+                  </variable>
+                  <variable name="at960">
+                     <type>
+                        <derived name="ST_LeicaFeedback"/>
+                     </type>
+                  </variable>
+               </struct>
+            </baseType>
+         </dataType>
+         <dataType name="ST_Control">
+            <baseType>
+               <struct>
+                  <variable name="em8000">
+                     <type>
+                        <derived name="ST_StewartControl"/>
+                     </type>
+                  </variable>
+                  <variable name="em1500">
+                     <type>
+                        <derived name="ST_StewartControl"/>
+                     </type>
+                  </variable>
+                  <variable name="comau">
+                     <type>
+                        <derived name="ST_ComauControl"/>
+                     </type>
+                  </variable>
+                  <variable name="winch">
+                     <type>
+                        <derived name="ST_WinchControl"/>
+                     </type>
+                  </variable>
+               </struct>
+            </baseType>
+         </dataType>
+      </dataTypes>
+      <pous>
+         <pou name="PlcDataTypes0" pouType="functionBlock">
+            <interface>
+               <inputVars>
+                  <variable name="stControl">
+                     <type>
+                        <derived name="ST_Control"/>
+                     </type>
+                  </variable>
+                  <variable name="stStewartControl">
+                     <type>
+                        <derived name="ST_StewartControl"/>
+                     </type>
+                  </variable>
+                  <variable name="stComauControl">
+                     <type>
+                        <derived name="ST_ComauControl"/>
+                     </type>
+                  </variable>
+                  <variable name="stWinchControl">
+                     <type>
+                        <derived name="ST_WinchControl"/>
+                     </type>
+                  </variable>
+               </inputVars>
+               <outputVars>
+                  <variable name="stFeedback">
+                     <type>
+                        <derived name="ST_Feedback"/>
+                     </type>
+                  </variable>
+                  <variable name="stStewartFeedback">
+                     <type>
+                        <derived name="ST_StewartFeedback"/>
+                     </type>
+                  </variable>
+                  <variable name="stComauFeedback">
+                     <type>
+                        <derived name="ST_ComauFeedback"/>
+                     </type>
+                  </variable>
+                  <variable name="stWinchFeedback">
+                     <type>
+                        <derived name="ST_WinchFeedback"/>
+                     </type>
+                  </variable>
+                  <variable name="stQualisysFeedback">
+                     <type>
+                        <derived name="ST_QualisysFeedback"/>
+                     </type>
+                  </variable>
+                  <variable name="stLeicaFeedback">
+                     <type>
+                        <derived name="ST_LeicaFeedback"/>
+                     </type>
+                  </variable>
+               </outputVars>
+               <localVars>
+                  <variable name="ground">
+                     <type>
+                        <derived name="ST_Feedback"/>
+                     </type>
+                  </variable>
+                  <variable name="b_ground">
+                     <type>
+                        <derived name="ST_StewartFeedback"/>
+                     </type>
+                  </variable>
+                  <variable name="c_ground">
+                     <type>
+                        <derived name="ST_ComauFeedback"/>
+                     </type>
+                  </variable>
+                  <variable name="d_ground">
+                     <type>
+                        <derived name="ST_WinchFeedback"/>
+                     </type>
+                  </variable>
+                  <variable name="e_ground">
+                     <type>
+                        <derived name="ST_QualisysFeedback"/>
+                     </type>
+                  </variable>
+                  <variable name="f_ground">
+                     <type>
+                        <derived name="ST_LeicaFeedback"/>
+                     </type>
+                  </variable>
+               </localVars>
+            </interface>
+            <body>
+               <ST>
+                  <xhtml xmlns="http://www.w3.org/1999/xhtml">
+<![CDATA[
+(* Outport: '<Root>/stFeedback' *)
+stFeedback := ground;
+(* Outport: '<Root>/stStewartFeedback' *)
+stStewartFeedback := b_ground;
+(* Outport: '<Root>/stComauFeedback' *)
+stComauFeedback := c_ground;
+(* Outport: '<Root>/stWinchFeedback' *)
+stWinchFeedback := d_ground;
+(* Outport: '<Root>/stQualisysFeedback' *)
+stQualisysFeedback := e_ground;
+(* Outport: '<Root>/stLeicaFeedback' *)
+stLeicaFeedback := f_ground;
+]]>
+</xhtml>
+               </ST>
+            </body>
+         </pou>
+      </pous>
+   </types>
+   <instances>
+      <configurations/>
+   </instances>
+</project>

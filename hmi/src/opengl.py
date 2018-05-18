@@ -155,17 +155,16 @@ class MotionLabVisualizer(QtCore.QObject):
 
                 # Hook position
                 Ph = self.Tgq.dot(np.array([
-                    self.txHmi.qtm.feedback.x,
-                    self.txHmi.qtm.feedback.y,
-                    self.txHmi.qtm.feedback.z,
+                    self.txHmi.qtm.x,
+                    self.txHmi.qtm.y,
+                    self.txHmi.qtm.z,
                     1
                 ]))
 
-
                 # Set color based on detection mode
-                if self.txHmi.qtm.feedback.status == 1:
+                if self.txHmi.qtm.dist > 0.0:
                     color = pg.glColor('g')
-                elif self.txHmi.qtm.feedback.status == 0:
+                elif self.txHmi.qtm.dist == 0.0:
                     color = pg.glColor('b')
                 else:
                     color = pg.glColor('r')

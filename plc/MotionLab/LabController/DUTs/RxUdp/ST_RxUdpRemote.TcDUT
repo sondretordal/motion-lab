@@ -3,7 +3,7 @@
   <DUT Name="ST_RxUdpRemote" Id="{73287563-87c0-4e8c-8c64-be7e0b2fa243}">
     <Declaration><![CDATA[TYPE ST_RxUdpRemote :
 STRUCT
-	comau : ST_ControlComau;
+	comau : ST_ComauControl;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

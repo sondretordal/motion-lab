@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.7">
+  <DUT Name="ST_QualisysFeedback" Id="{e3b84aff-5a3a-4a53-a846-da0d76c68002}">
+    <Declaration><![CDATA[TYPE ST_QualisysFeedback :
+STRUCT
+	dist: LREAL;
+	pos: ARRAY[0..2] OF LREAL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

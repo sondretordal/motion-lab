@@ -47,19 +47,14 @@ class ST_3DMarkerPositionNoLabel(Structure):
         ('id', c_int)
     ]
 
-class ST_FeedbackQualisys(Structure):
-    _fields_ = [
-        ('status', c_int),
-        ('d', c_float),
-        ('x', c_float),
-        ('y', c_float),
-        ('z', c_float)
-    ]
 
 class TxHmiQualisys(Structure):
     _fields_ = [
         ('status', c_int),
-        ('feedback', ST_FeedbackQualisys),
+        ('dist', c_float),
+        ('x', c_float),
+        ('y', c_float),
+        ('z', c_float),
         ('markers', 10*ST_3DMarkerPositionNoLabel)
     ]
 

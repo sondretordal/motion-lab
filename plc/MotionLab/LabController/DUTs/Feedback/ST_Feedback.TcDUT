@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.7">
-  <DUT Name="ST_Feedback" Id="{7df13609-c6a5-41bf-8c34-f807fab680bb}">
+  <DUT Name="ST_Feedback" Id="{b5ed528e-58e8-4d4d-9abe-9f83bba51440}">
     <Declaration><![CDATA[TYPE ST_Feedback :
 STRUCT
-	em8000 : ST_FeedbackStewart;
-	em1500 : ST_FeedbackStewart;
-	mru1 : ST_FeedbackMru;
-	mru2 : ST_FeedbackMru;
-	comau : ST_FeedbackComau;
-	winch : ST_FeedbackWinch;
-	qtm : ST_FeedbackQualisys;
-	at960 : ST_FeedbackLeica;
+	em8000: ST_StewartFeedback;
+	em1500: ST_StewartFeedback;
+	mru1: ST_MruFeedback;
+	mru2: ST_MruFeedback;
+	comau: ST_ComauFeedback;
+	winch: ST_WinchFeedback;
+	qtm: ST_QualisysFeedback;
+	at960: ST_LeicaFeedback;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.7">
+  <DUT Name="ST_MruFeedback" Id="{b518bd35-56b7-477c-9584-2c5dc12da172}">
+    <Declaration><![CDATA[TYPE ST_MruFeedback :
+STRUCT
+	eta: ARRAY[0..5] OF LREAL;
+	v: ARRAY[0..5] OF LREAL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

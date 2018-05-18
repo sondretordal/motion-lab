@@ -8,7 +8,7 @@ VAR_OUTPUT
 	bodyComponent : ST_RT6DComponent;
 	markerComponent : ST_3DMarkerPositionNoLabelComponent;
 	
-	feedback : ST_FeedbackQualisys;
+	feedback : ST_QualisysFeedback;
 	
 	active : BOOL := FALSE;
 END_VAR
@@ -161,7 +161,7 @@ IF active THEN
 		jMarker := markerComponent.markers[jSave];
 		
 		// Calculate average marker
-		feedback.d := dSave/1000.0;
+		feedback.dist := dSave/1000.0;
 		
 		xSave := (iMarker.x + jMarker.x)/2.0;
 		ySave := (iMarker.y + jMarker.y)/2.0;
@@ -169,19 +169,20 @@ IF active THEN
 		
 	ELSIF markerComponent.nMarkers = 1 THEN
 		// Indicate that hook is based on a single marker
-
+		feedback.dist := 0.0;
+		
 		xSave := markerComponent.markers[0].x;
 		ySave := markerComponent.markers[0].y;
 		zSave := markerComponent.markers[0].z;
 	ELSE	
 		// Indicate that no markers are detected
-		feedback.d := -1.0;
+		feedback.dist := -1.0;
 	END_IF
 	
 	// mm -> m
-	feedback.p[0] := REAL_TO_LREAL(xSave/1000.0);
-	feedback.p[1] := REAL_TO_LREAL(ySave/1000.0);
-	feedback.p[2] := REAL_TO_LREAL(zSave/1000.0);
+	feedback.pos[0] := REAL_TO_LREAL(xSave/1000.0);
+	feedback.pos[1] := REAL_TO_LREAL(ySave/1000.0);
+	feedback.pos[2] := REAL_TO_LREAL(zSave/1000.0);
 	
 END_IF
 
@@ -275,7 +276,10 @@ ELSE
 END_IF
 
 // Update feedback data
-// TODO
+pTxHmi^.dist := LREAL_TO_REAL(feedback.dist);
+pTxHmi^.x := LREAL_TO_REAL(feedback.pos[0]);
+pTxHmi^.y := LREAL_TO_REAL(feedback.pos[1]);
+pTxHmi^.z := LREAL_TO_REAL(feedback.pos[2]);
 
 // Marker data
 FOR i := 0 TO 9 DO
@@ -343,6 +347,7 @@ END_FOR ]]></ST>
       <LineId Id="404" Count="2" />
       <LineId Id="324" Count="1" />
       <LineId Id="327" Count="1" />
+      <LineId Id="517" Count="0" />
       <LineId Id="331" Count="1" />
       <LineId Id="329" Count="0" />
       <LineId Id="333" Count="1" />
@@ -385,6 +390,7 @@ END_FOR ]]></ST>
       <LineId Id="19" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="32" Count="0" />
+      <LineId Id="39" Count="2" />
       <LineId Id="25" Count="0" />
       <LineId Id="12" Count="0" />
       <LineId Id="11" Count="0" />

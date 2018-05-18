@@ -41,36 +41,57 @@ VAR
 	fbStartProcess : NT_StartProcess;
 	
 	// SFI Conference
-	p0 AT %Q*: ARRAY [0..2] OF LREAL := [1.8, -0.7, 1.5];
-	
-	d AT %I* : LREAL;
-	d_t AT %I* : LREAL;
-	dExtra : LREAL := -0.5;
-	d_tExtra: LREAL := 0.0;
+	xRef : LREAL := 2.0;
+	yRef : LREAL := -0.8;
+	zRef : LREAL := 1.5;
+	lengthExtra : LREAL := -1.0;
+	length : LREAL;
+	length_t : LREAL;
+	lengthOld : LREAL := 0.0;
+	fbSfiConference : FB_SfiConference;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[// Update sensors and equipement
 em8000();
 em1500();
-comau();
 mru1();
 mru2();
 at960();
 qtm();
+
+
+// Move with Xbox controller
+xRef := xRef + 0.1*rxHmi.xboxRightX*Ts;
+yRef := yRef + 0.1*rxHmi.xboxRightY*Ts;
+zRef := zRef + 0.1*(rxHmi.xboxRT - rxHmi.xboxLT)*Ts;
+lengthExtra := lengthExtra - 0.2*rxHmi.xboxLeftY*Ts; 
+
+fbSfiConference(
+	xRef := xRef,
+	yRef := yRef,
+	zRef := zRef,
+	feedback_em8000 := em8000.feedback,
+	feedback_em1500 := em1500.feedback,
+	feedback_comau := comau.feedback
+);
+
+comau.control.q := fbSfiConference.control_comau.q;
+
+length := fbSfiConference.control_winch.length + lengthExtra;
+
+length_t := (length - lengthOld)/Ts;
+
+winch.control.length := length;
+winch.control.length_t := length_t;
+
+lengthOld := length; 
+
+
+// Update elemtns to be controlled
+comau();
 winch();
 
-// Tool in {r0}
-p0[0] := p0[0] + 0.1*rxHmi.xboxRightX*Ts;
-p0[1] := p0[1] + 0.1*rxHmi.xboxRightY*Ts;
-p0[2] := p0[2] + 0.1*rxHmi.xboxLeftY*Ts;
-
-d_tExtra := 0.3*(rxHmi.xboxRT - rxHmi.xboxLT)*Ts;
-dExtra := dExtra + d_tExtra;
-
-
-winch.control.l := d + dExtra;
-winch.control.l_t := d_t + d_tExtra;
 
 
 t := t + Ts;
@@ -132,21 +153,36 @@ remote();]]></ST>
       <LineId Id="127" Count="0" />
       <LineId Id="110" Count="0" />
       <LineId Id="120" Count="0" />
+      <LineId Id="847" Count="0" />
+      <LineId Id="846" Count="0" />
+      <LineId Id="849" Count="0" />
+      <LineId Id="848" Count="0" />
+      <LineId Id="844" Count="1" />
+      <LineId Id="843" Count="0" />
+      <LineId Id="857" Count="2" />
+      <LineId Id="861" Count="0" />
+      <LineId Id="860" Count="0" />
+      <LineId Id="852" Count="0" />
+      <LineId Id="862" Count="4" />
+      <LineId Id="868" Count="0" />
+      <LineId Id="867" Count="0" />
+      <LineId Id="870" Count="0" />
+      <LineId Id="869" Count="0" />
+      <LineId Id="873" Count="0" />
+      <LineId Id="872" Count="0" />
+      <LineId Id="883" Count="0" />
+      <LineId Id="882" Count="0" />
+      <LineId Id="879" Count="0" />
+      <LineId Id="871" Count="0" />
+      <LineId Id="884" Count="0" />
+      <LineId Id="880" Count="0" />
+      <LineId Id="876" Count="0" />
+      <LineId Id="875" Count="0" />
+      <LineId Id="851" Count="0" />
+      <LineId Id="850" Count="0" />
       <LineId Id="145" Count="0" />
-      <LineId Id="141" Count="1" />
-      <LineId Id="214" Count="0" />
-      <LineId Id="311" Count="0" />
       <LineId Id="316" Count="0" />
-      <LineId Id="778" Count="0" />
-      <LineId Id="643" Count="0" />
-      <LineId Id="642" Count="0" />
-      <LineId Id="644" Count="1" />
-      <LineId Id="792" Count="0" />
-      <LineId Id="709" Count="0" />
       <LineId Id="647" Count="0" />
-      <LineId Id="790" Count="1" />
-      <LineId Id="649" Count="0" />
-      <LineId Id="794" Count="0" />
       <LineId Id="630" Count="0" />
       <LineId Id="415" Count="0" />
       <LineId Id="409" Count="0" />

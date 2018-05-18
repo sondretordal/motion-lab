@@ -8,12 +8,12 @@ VAR_INPUT
 	stopp : BOOL := FALSE;
 	
 	mode : UINT := 0;
-	control : ST_ControlWinch;	
+	control : ST_WinchControl;	
 END_VAR
 VAR_OUTPUT
 	active : BOOL := FALSE;
 	
-	feedback : ST_FeedbackWinch;
+	feedback : ST_WinchFeedback;
 	
 	testL : LREAL := 0.7;
 END_VAR
@@ -55,10 +55,8 @@ END_VAR
 axis();
 
 // Return feedback data
-feedback.l := (7600.0 - axis.NcToPlc.ActPos + 626.0)/1000.0;
-feedback.l_t := -axis.NcToPlc.ActVelo/1000.0;
-feedback.l_tt := -axis.NcToPlc.ActAcc/1000.0;
-
+feedback.length := (7600.0 - axis.NcToPlc.ActPos + 626.0)/1000.0;
+feedback.length_t := -axis.NcToPlc.ActVelo/1000.0;
 
 // Read parameter set
 fbReadParameterSet(
@@ -224,15 +222,18 @@ END_VAR
 	acc := 0.0;
 ELSE
 	// Follow input trajectory
-	pos := 7600.0 + 626.0 - control.l*1000.0;
-	vel := -control.l_t*1000.0;
-	acc := -control.l_tt*1000.0;
+	pos := 7600.0 + 626.0 - control.length*1000.0;
+	vel := -control.length_t*1000.0;
+	acc := -control.length_tt*1000.0;
 END_IF
 
 // Generate trajectory using trajectory filter
 l_tt := acc + 2*beta*omega*(vel - l_t) + omega*omega*(pos - l);
 l_t := l_t + l_tt*Ts;
 l := l + l_t*Ts;
+
+// Apply limit to length
+l := LIMIT(stAxisParameterSet.fEncSoftEndMin, l, stAxisParameterSet.fEncSoftEndMax);
 
 // Set setpoint direction
 IF l_t = 0.0 AND l_tt = 0.0 THEN
@@ -260,8 +261,7 @@ END_VAR
       <LineId Id="823" Count="0" />
       <LineId Id="825" Count="0" />
       <LineId Id="1177" Count="1" />
-      <LineId Id="1180" Count="2" />
-      <LineId Id="1179" Count="0" />
+      <LineId Id="1180" Count="1" />
       <LineId Id="1054" Count="1" />
       <LineId Id="1084" Count="1" />
       <LineId Id="1088" Count="0" />
@@ -351,6 +351,9 @@ END_VAR
       <LineId Id="35" Count="0" />
       <LineId Id="6" Count="2" />
       <LineId Id="5" Count="0" />
+      <LineId Id="61" Count="0" />
+      <LineId Id="60" Count="0" />
+      <LineId Id="62" Count="0" />
       <LineId Id="39" Count="10" />
       <LineId Id="38" Count="0" />
     </LineIds>

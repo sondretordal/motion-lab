@@ -5,7 +5,7 @@
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
-	feedback : ST_FeedbackMru;
+	feedback : ST_MruFeedback;
 END_VAR
 VAR
 	// Udp related

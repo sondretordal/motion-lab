@@ -5,7 +5,7 @@
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
-	feedback : ST_FeedbackLeica;
+	feedback : ST_LeicaFeedback;
 END_VAR
 VAR
 	// Variables linked to LeicaAT960 Box 1
@@ -22,14 +22,14 @@ END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[// Leica transform to x, y and z coordinates
-feedback.p[0] := Distance*SIN(AngleVt)*SIN(AngleHz);
-feedback.p[1] := Distance*SIN(AngleVt)*COS(AngleHz);
-feedback.p[2] := Distance*COS(AngleVt);
+feedback.pos[0] := Distance*SIN(AngleVt)*SIN(AngleHz);
+feedback.pos[1] := Distance*SIN(AngleVt)*COS(AngleHz);
+feedback.pos[2] := Distance*COS(AngleVt);
 
-feedback.q[0] := Quaternion0;
-feedback.q[1] := Quaternion1;
-feedback.q[2] := Quaternion2;
-feedback.q[3] := Quaternion3;
+feedback.quat[0] := Quaternion0;
+feedback.quat[1] := Quaternion1;
+feedback.quat[2] := Quaternion2;
+feedback.quat[3] := Quaternion3;
 
 ]]></ST>
     </Implementation>

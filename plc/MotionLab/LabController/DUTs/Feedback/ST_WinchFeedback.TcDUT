@@ -1,11 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.7">
-  <DUT Name="ST_ControlWinch" Id="{6e438494-5054-4d59-9fe3-52c87297b9ea}">
-    <Declaration><![CDATA[TYPE ST_ControlWinch :
+  <DUT Name="ST_WinchFeedback" Id="{e40b09e1-f0dd-4f61-8aff-a796c0bcc485}">
+    <Declaration><![CDATA[TYPE ST_WinchFeedback :
 STRUCT
-	l : LREAL;
-	l_t : LREAL;
-	l_tt : LREAL;
+	length: LREAL;
+	length_t: LREAL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

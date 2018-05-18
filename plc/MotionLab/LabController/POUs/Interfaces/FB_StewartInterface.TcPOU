@@ -7,7 +7,7 @@ VAR_INPUT
 	// Stewart mode input
 	cmnd : UDINT;
 	
-	control AT %I* : ST_ControlStewart;
+	control AT %I* : ST_StewartControl;
 	
 	// Ship simulator input
 	eta_sim : ARRAY [0..5] OF LREAL;
@@ -18,7 +18,7 @@ VAR_INPUT
 	
 END_VAR
 VAR_OUTPUT
-	feedback AT %Q* : ST_FeedbackStewart;
+	feedback AT %Q* : ST_StewartFeedback;
 	active : BOOL := FALSE;
 END_VAR
 VAR	
