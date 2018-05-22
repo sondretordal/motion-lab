@@ -87,6 +87,9 @@
     <Compile Include="DUTs\RxUdp\ST_RxUdpStewart.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\ST_Test.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\TxHmi\ST_TxHmi.TcDUT">
       <SubType>Code</SubType>
     </Compile>

@@ -12,6 +12,14 @@ VAR
 	txHmi : ST_TxHmi;
 	rxHmi : ST_RxHmi;
 	
+	// Logging data
+	timeStamp100ns : ULINT;
+	
+	test : ST_Test;
+	 
+	
+	
+	
 	// Remote interface
 	remote : FB_RemoteInterface('192.168.90.60', 50060, 50050);
 	
@@ -32,9 +40,8 @@ VAR
 	t : LREAL := 0.0;
 	w : LREAL := 0.05*2*PI;
 	A : LREAL := 0.0;
-	// System time in 100 ns resolution
-	timeStamp100ns : ULINT; 
 	
+	k : DINT;
 	Ts : LREAL := 0.005;
 	
 	// System call for starting PqQt HMI
@@ -105,6 +112,8 @@ UpdateRemote();
 
 
 timeStamp100ns := F_GetTaskTime();
+
+test.a := timeStamp100ns;
 
 //StartPyQtHMI();
 
@@ -195,6 +204,8 @@ remote();]]></ST>
       <LineId Id="541" Count="0" />
       <LineId Id="274" Count="0" />
       <LineId Id="284" Count="1" />
+      <LineId Id="895" Count="0" />
+      <LineId Id="894" Count="0" />
       <LineId Id="454" Count="0" />
       <LineId Id="453" Count="0" />
       <LineId Id="449" Count="0" />

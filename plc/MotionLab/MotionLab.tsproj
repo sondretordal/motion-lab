@@ -1967,7 +1967,7 @@ External Setpoint Generation:
 			</Relations>
 		</DataType>
 		<DataType>
-			<Name GUID="{348F01D8-FE90-4E5B-85E3-6DF1D381F6D6}" AutoDeleteType="true">ST_StewartControl</Name>
+			<Name GUID="{5162685C-523B-44DC-BA2D-1BD97712F650}" AutoDeleteType="true">ST_StewartControl</Name>
 			<BitSize>384</BitSize>
 			<SubItem>
 				<Name>eta</Name>
@@ -4094,15 +4094,15 @@ External Setpoint Generation:
 							</Value>
 							<Value>
 								<Name>ModelParameters.WaveSimulator_maxOutput[0]</Name>
-								<Value>0.2</Value>
+								<Value>0.1</Value>
 							</Value>
 							<Value>
 								<Name>ModelParameters.WaveSimulator_maxOutput[1]</Name>
-								<Value>0.2</Value>
+								<Value>0.1</Value>
 							</Value>
 							<Value>
 								<Name>ModelParameters.WaveSimulator_maxOutput[2]</Name>
-								<Value>0.4</Value>
+								<Value>0.3</Value>
 							</Value>
 							<Value>
 								<Name>ModelParameters.WaveSimulator_maxOutput[3]</Name>
@@ -5025,11 +5025,11 @@ External Setpoint Generation:
 						<Name>PlcTask Inputs</Name>
 						<Var>
 							<Name>MAIN.em8000.control</Name>
-							<Type GUID="{348F01D8-FE90-4E5B-85E3-6DF1D381F6D6}">ST_StewartControl</Type>
+							<Type GUID="{5162685C-523B-44DC-BA2D-1BD97712F650}">ST_StewartControl</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.em1500.control</Name>
-							<Type GUID="{348F01D8-FE90-4E5B-85E3-6DF1D381F6D6}">ST_StewartControl</Type>
+							<Type GUID="{5162685C-523B-44DC-BA2D-1BD97712F650}">ST_StewartControl</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.winch.axis.NcToPlc</Name>

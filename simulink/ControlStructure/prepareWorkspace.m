@@ -6,7 +6,7 @@ clc
 Ts = 0.005;
 
 % Measured distance form {b2} origo to top plate of EM1500
-dz = -0.3;
+dz = -0.1690;
 
 % Pendulum damping parameter
 c = 0.5;
