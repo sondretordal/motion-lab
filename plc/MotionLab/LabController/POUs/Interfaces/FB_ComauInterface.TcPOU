@@ -70,9 +70,9 @@ txUdp.q4_t := 0.0;
 txUdp.q5_t := 0.0;
 txUdp.q6_t := 0.0;
 
-txUdp.q1_tt := control.q_tt[0];
-txUdp.q2_tt := control.q_tt[1];
-txUdp.q3_tt := control.q_tt[2];
+txUdp.q1_tt := LREAL_TO_REAL(control.q_tt[0]);
+txUdp.q2_tt := LREAL_TO_REAL(control.q_tt[1]);
+txUdp.q3_tt := LREAL_TO_REAL(control.q_tt[2]);
 txUdp.q4_tt := 0.0;
 txUdp.q5_tt := 0.0;
 txUdp.q6_tt := 0.0;

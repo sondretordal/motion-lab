@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.7">
-  <DUT Name="ST_StewartControl" Id="{f66d2818-7818-47ef-aee0-163ddea739c4}">
+  <DUT Name="ST_StewartControl" Id="{b656d643-eacf-49e1-80bd-aa8bb27fe3c2}">
     <Declaration><![CDATA[TYPE ST_StewartControl :
 STRUCT
 	eta: ARRAY[0..5] OF LREAL;

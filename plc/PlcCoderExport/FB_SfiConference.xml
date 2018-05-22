@@ -6,22 +6,22 @@
  * IEC 61131-3 Structured Text (ST) code generated for subsystem "main/FB_SfiConference"
  *
  * Model name                      : main
- * Model version                   : 1.2989
+ * Model version                   : 1.3105
  * Model creator                   : motionlab
  * Model last modified by          : motionlab
- * Model last modified on          : Fri May 18 10:47:24 2018
+ * Model last modified on          : Tue May 22 15:00:30 2018
  * Model sample time               : 0.005s
  * Subsystem name                  : main/FB_SfiConference
  * Subsystem sample time           : 0.005s
  * Simulink PLC Coder version      : 2.4 (R2017b) 24-Jul-2017
- * ST code generated on            : Fri May 18 10:48:00 2018
+ * ST code generated on            : Tue May 22 15:01:24 2018
  *
  * Target IDE selection            : Beckhoff TwinCAT 3
  * Test Bench included             : No
  *
  *)
 -->
-   <fileHeader companyName="The Mathworks, Inc." companyURL="www.mathworks.com" contentDescription="" creationDateTime="2018-05-18T10:48:00" productName="Simulink PLC Coder" productRelease="(R2017b)" productVersion="2.4"/>
+   <fileHeader companyName="The Mathworks, Inc." companyURL="www.mathworks.com" contentDescription="" creationDateTime="2018-05-22T15:01:24" productName="Simulink PLC Coder" productRelease="(R2017b)" productVersion="2.4"/>
    <contentHeader name="main">
       <coordinateInfo>
          <fbd>
@@ -161,19 +161,29 @@
          <pou name="FB_SfiConference" pouType="functionBlock">
             <interface>
                <inputVars>
-                  <variable name="xRef">
+                  <variable name="compXY">
                      <type>
-                        <LREAL/>
+                        <BOOL/>
                      </type>
                   </variable>
-                  <variable name="yRef">
+                  <variable name="compYaw">
                      <type>
-                        <LREAL/>
+                        <BOOL/>
                      </type>
                   </variable>
-                  <variable name="zRef">
+                  <variable name="compS2S">
                      <type>
-                        <LREAL/>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="qRef">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="2"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
                      </type>
                   </variable>
                   <variable name="feedback_em8000">
@@ -285,7 +295,7 @@
                         <DINT/>
                      </type>
                   </variable>
-                  <variable name="c_d">
+                  <variable name="b">
                      <type>
                         <array>
                            <dimension lower="0" upper="2"/>
@@ -340,6 +350,21 @@
                         <LREAL/>
                      </type>
                   </variable>
+                  <variable name="temp4">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="temp5">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="temp6">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
                   <variable name="Hn2b2_tmp">
                      <type>
                         <LREAL/>
@@ -360,17 +385,27 @@
                         <LREAL/>
                      </type>
                   </variable>
-                  <variable name="temp4">
+                  <variable name="temp7">
                      <type>
                         <LREAL/>
                      </type>
                   </variable>
-                  <variable name="temp5">
+                  <variable name="temp8">
                      <type>
                         <LREAL/>
                      </type>
                   </variable>
-                  <variable name="temp6">
+                  <variable name="temp9">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="temp10">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="temp11">
                      <type>
                         <LREAL/>
                      </type>
@@ -431,7 +466,7 @@
                         </arrayValue>
                      </initialValue>
                   </variable>
-                  <variable name="d_d">
+                  <variable name="b_b">
                      <type>
                         <array>
                            <dimension lower="0" upper="2"/>
@@ -454,10 +489,10 @@
                         </arrayValue>
                      </initialValue>
                   </variable>
-                  <variable name="b">
+                  <variable name="c_R">
                      <type>
                         <array>
-                           <dimension lower="0" upper="15"/>
+                           <dimension lower="0" upper="8"/>
                            <baseType>
                               <SINT/>
                            </baseType>
@@ -478,28 +513,7 @@
                               <simpleValue value="0"/>
                            </value>
                            <value>
-                              <simpleValue value="0"/>
-                           </value>
-                           <value>
                               <simpleValue value="1"/>
-                           </value>
-                           <value>
-                              <simpleValue value="0"/>
-                           </value>
-                           <value>
-                              <simpleValue value="0"/>
-                           </value>
-                           <value>
-                              <simpleValue value="0"/>
-                           </value>
-                           <value>
-                              <simpleValue value="0"/>
-                           </value>
-                           <value>
-                              <simpleValue value="1"/>
-                           </value>
-                           <value>
-                              <simpleValue value="0"/>
                            </value>
                            <value>
                               <simpleValue value="0"/>
@@ -712,8 +726,8 @@ tmp := theta2 * COS(feedback_comau.q[0]);
 temp1 := theta2 * ( -SIN(feedback_comau.q[0]));
 temp2 := (((2.2691999999999997 * q1) + 0.83) + (1.16 * COS(feedback_comau.q[1]))) - (0.25 * b_D);
 (* MATLAB Function: '<S1>/Calculate Distance' incorporates:
- *  BusCreator: '<S1>/BusConversion_InsertedFor_Calculate Distance_at_inport_2'
- *  MATLAB Function: '<S1>/MATLAB Function' *)
+ *  BusCreator: '<S1>/BusConversion_InsertedFor_Calculate Distance_at_inport_3'
+ *  MATLAB Function: '<S1>/Robot Position' *)
 q1 := COS(feedback_em8000.eta[4]);
 b_D := COS(feedback_em8000.eta[5]);
 theta2 := q1 * b_D;
@@ -723,75 +737,106 @@ x := ( -q1) * y;
 Hn1b2_1[3] := x;
 temp3 := SIN(feedback_em8000.eta[4]);
 Hn1b2_1[6] := temp3;
-Hn2b2_tmp := COS(feedback_em8000.eta[3]);
-Hn2b2_tmp_0 := SIN(feedback_em8000.eta[3]);
-Hn2b2_tmp_1 := b_D * Hn2b2_tmp_0;
-temp4 := (Hn2b2_tmp_1 * temp3) + (Hn2b2_tmp * y);
-Hn1b2_1[1] := temp4;
-b_D := Hn2b2_tmp * b_D;
-temp5 := b_D - ((Hn2b2_tmp_0 * temp3) * y);
-Hn1b2_1[4] := temp5;
-temp6 := ( -COS(feedback_em8000.eta[4])) * Hn2b2_tmp_0;
-Hn1b2_1[7] := temp6;
-b_D := (Hn2b2_tmp_0 * y) - (b_D * temp3);
+temp4 := COS(feedback_em8000.eta[3]);
+temp5 := SIN(feedback_em8000.eta[3]);
+temp6 := b_D * temp5;
+temp10 := (temp6 * temp3) + (temp4 * y);
+Hn1b2_1[1] := temp10;
+b_D := temp4 * b_D;
+temp7 := temp5 * temp3;
+temp11 := b_D - (temp7 * y);
+Hn1b2_1[4] := temp11;
+temp8 := ( -COS(feedback_em8000.eta[4])) * temp5;
+Hn1b2_1[7] := temp8;
+b_D := (temp5 * y) - (b_D * temp3);
 Hn1b2_1[2] := b_D;
-y := ((Hn2b2_tmp * temp3) * y) + Hn2b2_tmp_1;
+temp9 := temp4 * temp3;
+y := (temp9 * y) + temp6;
 Hn1b2_1[5] := y;
-q1 := Hn2b2_tmp * q1;
-Hn1b2_1[8] := q1;
+temp6 := temp4 * q1;
+Hn1b2_1[8] := temp6;
 
 FOR i := 0 TO 2 DO 
-    c_d[i] := (((c_a[i + 3] * temp1) + (c_a[i] * tmp)) + (c_a[i + 6] * temp2)) + d_d[i];
+    b[i] := (((c_a[i + 3] * temp1) + (c_a[i] * tmp)) + (c_a[i + 6] * temp2)) + b_b[i];
 END_FOR;
 
 (* MATLAB Function: '<S1>/Calculate Distance' incorporates:
- *  BusCreator: '<S1>/BusConversion_InsertedFor_Calculate Distance_at_inport_2' *)
+ *  BusCreator: '<S1>/BusConversion_InsertedFor_Calculate Distance_at_inport_3' *)
 
 FOR i := 0 TO 2 DO 
-    pt[i] := (((Hn1b2_1[i + 3] * c_d[1]) + (Hn1b2_1[i] * c_d[0])) + (Hn1b2_1[i + 6] * c_d[2])) + feedback_em8000.eta[i];
+    pt[i] := (((Hn1b2_1[i + 3] * b[1]) + (Hn1b2_1[i] * b[0])) + (Hn1b2_1[i + 6] * b[2])) + feedback_em8000.eta[i];
 END_FOR;
 
 (* Get plane normal vecotr of secondary ship *)
 (* '<S2>:1:19' Hn1n2 = calib.EM8000_TO_EM1500.H; *)
 (* '<S2>:1:21' Hn2b2 = eye(4); *)
 (* MATLAB Function: '<S1>/Calculate Distance' incorporates:
- *  BusCreator: '<S1>/BusConversion_InsertedFor_Calculate Distance_at_inport_3' *)
+ *  BusCreator: '<S1>/BusConversion_InsertedFor_Calculate Distance_at_inport_4' *)
 
 FOR i := 0 TO 15 DO 
-    Hn2b2[i] := SINT_TO_LREAL(b[i]);
+    Hn2b2[i] := 0.0;
 END_FOR;
 
-(* '<S2>:1:22' Hn2b2(1:3,4) = em1500.eta(1:3); *)
-Hn2b2[12] := feedback_em1500.eta[0];
-Hn2b2[13] := feedback_em1500.eta[1];
-Hn2b2[14] := feedback_em1500.eta[2];
-(* '<S2>:1:23' Hn2b2(1:3,1:3) = math3d.Rxyz(em1500.eta(4:6)); *)
-(* 'Rxyz:3' rx = phi(1); *)
-(* 'Rxyz:4' ry = phi(2); *)
-(* 'Rxyz:5' rz = phi(3); *)
-(* 'Rxyz:7' R = [ *)
-(* 'Rxyz:8'                               cos(ry)*cos(rz),                          -cos(ry)*sin(rz),          sin(ry); *)
-(* 'Rxyz:9'     cos(rx)*sin(rz) + cos(rz)*sin(rx)*sin(ry), cos(rx)*cos(rz) - sin(rx)*sin(ry)*sin(rz), -cos(ry)*sin(rx); *)
-(* 'Rxyz:10'     sin(rx)*sin(rz) - cos(rx)*cos(rz)*sin(ry), cos(rz)*sin(rx) + cos(rx)*sin(ry)*sin(rz),  cos(rx)*cos(ry) *)
-(* 'Rxyz:11' ]; *)
-tmp := COS(feedback_em1500.eta[4]);
-temp1 := COS(feedback_em1500.eta[5]);
-Hn2b2[0] := tmp * temp1;
-temp2 := SIN(feedback_em1500.eta[5]);
-Hn2b2[4] := ( -tmp) * temp2;
-Hn2b2_tmp := SIN(feedback_em1500.eta[4]);
-Hn2b2[8] := Hn2b2_tmp;
-Hn2b2_tmp_0 := COS(feedback_em1500.eta[3]);
-Hn2b2_tmp_1 := SIN(feedback_em1500.eta[3]);
-Hn2b2_tmp_2 := temp1 * Hn2b2_tmp_1;
-Hn2b2[1] := (Hn2b2_tmp_2 * Hn2b2_tmp) + (Hn2b2_tmp_0 * temp2);
-temp1 := Hn2b2_tmp_0 * temp1;
-Hn2b2[5] := temp1 - ((Hn2b2_tmp_1 * Hn2b2_tmp) * temp2);
-Hn2b2[9] := ( -COS(feedback_em1500.eta[4])) * Hn2b2_tmp_1;
-Hn2b2[2] := (Hn2b2_tmp_1 * temp2) - (temp1 * Hn2b2_tmp);
-Hn2b2[6] := ((Hn2b2_tmp_0 * Hn2b2_tmp) * temp2) + Hn2b2_tmp_2;
-Hn2b2[10] := Hn2b2_tmp_0 * tmp;
-(* '<S2>:1:25' Hn1b2 = Hn1n2*Hn2b2; *)
+Hn2b2[0] := 1.0;
+Hn2b2[5] := 1.0;
+Hn2b2[10] := 1.0;
+Hn2b2[15] := 1.0;
+(* '<S2>:1:22' if compS2S *)
+
+IF compS2S THEN 
+    (* '<S2>:1:23' Hn2b2(1:3,4) = em1500.eta(1:3); *)
+    Hn2b2[12] := feedback_em1500.eta[0];
+    Hn2b2[13] := feedback_em1500.eta[1];
+    Hn2b2[14] := feedback_em1500.eta[2];
+    (* '<S2>:1:24' Hn2b2(1:3,1:3) = math3d.Rxyz(em1500.eta(4:6)); *)
+    (* 'Rxyz:3' rx = phi(1); *)
+    (* 'Rxyz:4' ry = phi(2); *)
+    (* 'Rxyz:5' rz = phi(3); *)
+    (* 'Rxyz:7' R = [ *)
+    (* 'Rxyz:8'                               cos(ry)*cos(rz),                          -cos(ry)*sin(rz),          sin(ry); *)
+    (* 'Rxyz:9'     cos(rx)*sin(rz) + cos(rz)*sin(rx)*sin(ry), cos(rx)*cos(rz) - sin(rx)*sin(ry)*sin(rz), -cos(ry)*sin(rx); *)
+    (* 'Rxyz:10'     sin(rx)*sin(rz) - cos(rx)*cos(rz)*sin(ry), cos(rz)*sin(rx) + cos(rx)*sin(ry)*sin(rz),  cos(rx)*cos(ry) *)
+    (* 'Rxyz:11' ]; *)
+    Hn2b2_tmp := COS(feedback_em1500.eta[4]);
+    Hn2b2_tmp_0 := COS(feedback_em1500.eta[5]);
+    Hn2b2[0] := Hn2b2_tmp * Hn2b2_tmp_0;
+    tmp := SIN(feedback_em1500.eta[5]);
+    Hn2b2[4] := ( -Hn2b2_tmp) * tmp;
+    temp1 := SIN(feedback_em1500.eta[4]);
+    Hn2b2[8] := temp1;
+    temp2 := COS(feedback_em1500.eta[3]);
+    Hn2b2_tmp_1 := SIN(feedback_em1500.eta[3]);
+    Hn2b2_tmp_2 := Hn2b2_tmp_0 * Hn2b2_tmp_1;
+    Hn2b2[1] := (Hn2b2_tmp_2 * temp1) + (temp2 * tmp);
+    Hn2b2_tmp_0 := temp2 * Hn2b2_tmp_0;
+    Hn2b2[5] := Hn2b2_tmp_0 - ((Hn2b2_tmp_1 * temp1) * tmp);
+    Hn2b2[9] := ( -COS(feedback_em1500.eta[4])) * Hn2b2_tmp_1;
+    Hn2b2[2] := (Hn2b2_tmp_1 * tmp) - (Hn2b2_tmp_0 * temp1);
+    Hn2b2[6] := ((temp2 * temp1) * tmp) + Hn2b2_tmp_2;
+    Hn2b2[10] := temp2 * Hn2b2_tmp;
+ELSE 
+    (* '<S2>:1:25' else *)
+    (* '<S2>:1:26' Hn2b2(1:3,4) = zeros(3,1); *)
+    (* '<S2>:1:27' Hn2b2(1:3,1:3) = math3d.Rxyz(zeros(3,1)); *)
+    (* 'Rxyz:3' rx = phi(1); *)
+    (* 'Rxyz:4' ry = phi(2); *)
+    (* 'Rxyz:5' rz = phi(3); *)
+    (* 'Rxyz:7' R = [ *)
+    (* 'Rxyz:8'                               cos(ry)*cos(rz),                          -cos(ry)*sin(rz),          sin(ry); *)
+    (* 'Rxyz:9'     cos(rx)*sin(rz) + cos(rz)*sin(rx)*sin(ry), cos(rx)*cos(rz) - sin(rx)*sin(ry)*sin(rz), -cos(ry)*sin(rx); *)
+    (* 'Rxyz:10'     sin(rx)*sin(rz) - cos(rx)*cos(rz)*sin(ry), cos(rz)*sin(rx) + cos(rx)*sin(ry)*sin(rz),  cos(rx)*cos(ry) *)
+    (* 'Rxyz:11' ]; *)
+
+    FOR i := 0 TO 2 DO 
+        Hn2b2[12 + i] := 0.0;
+        Hn2b2[i * 4] := SINT_TO_LREAL(c_R[3 * i]);
+        Hn2b2[1 + (i * 4)] := SINT_TO_LREAL(c_R[(3 * i) + 1]);
+        Hn2b2[2 + (i * 4)] := SINT_TO_LREAL(c_R[(3 * i) + 2]);
+    END_FOR;
+
+END_IF;
+
+(* '<S2>:1:30' Hn1b2 = Hn1n2*Hn2b2; *)
 (* MATLAB Function: '<S1>/Calculate Distance' *)
 
 FOR i := 0 TO 3 DO 
@@ -806,65 +851,142 @@ FOR i := 0 TO 3 DO
 
 END_FOR;
 
-(* '<S2>:1:27' P0 = Hn1b2*[0; 0; h; 1]; *)
+(* '<S2>:1:32' P0 = Hn1b2*[0; 0; h; 1]; *)
 (* Use Line-Plane projection to get point laying on the ship plane *)
 (* http://geomalgorithms.com/a05-_intersect-1.html *)
-(* '<S2>:1:31' dir = [0; 0; 1]; *)
-(* '<S2>:1:32' pz = pt + dir; *)
-(* '<S2>:1:34' l = pz - pt; *)
-(* '<S2>:1:35' l0 = pt; *)
-(* '<S2>:1:37' p0 = P0(1:3); *)
-(* '<S2>:1:38' n = Hn1b2(1:3,3); *)
+(* '<S2>:1:36' dir = [0; 0; 1]; *)
+(* '<S2>:1:37' pz = pt + dir; *)
+(* '<S2>:1:39' l = pz - pt; *)
+(* '<S2>:1:40' l0 = pt; *)
+(* '<S2>:1:42' p0 = P0(1:3); *)
+(* '<S2>:1:43' n = Hn1b2(1:3,3); *)
 (* Disatance down to projected point on ship deck *)
-(* '<S2>:1:41' d = dot(p0 - l0, n)/dot(l, n); *)
+(* '<S2>:1:46' d = dot(p0 - l0, n)/dot(l, n); *)
 
 FOR i := 0 TO 3 DO 
-    Hn1b2_0[i] := Hn1b2[i + 12] + (Hn1b2[i + 8] * -0.3);
+    Hn1b2_0[i] := Hn1b2[i + 12] + (Hn1b2[i + 8] * -0.169);
 END_FOR;
 
-tmp := (((Hn1b2_0[0] - pt[0]) * Hn1b2[8]) + ((Hn1b2_0[1] - pt[1]) * Hn1b2[9])) + ((Hn1b2_0[2] - pt[2]) * Hn1b2[10]);
-temp1 := ((pt[2] + 1.0) - pt[2]) * Hn1b2[10];
+Hn2b2_tmp := (((Hn1b2_0[0] - pt[0]) * Hn1b2[8]) + ((Hn1b2_0[1] - pt[1]) * Hn1b2[9])) + ((Hn1b2_0[2] - pt[2]) * Hn1b2[10]);
+Hn2b2_tmp_0 := ((pt[2] + 1.0) - pt[2]) * Hn1b2[10];
 (* Prejected point on plane given in {n1} *)
+(* MATLAB Function 'FB_SfiConference/ForwardKinematics1': '<S4>:1' *)
+(* '<S4>:1:3' [p, p_t, p_tt] = comau.forward(q, q_t, q_tt); *)
+(* Static link lengths *)
+(* 'forward:4' a1 = 0.350; *)
+(* 'forward:5' a2 = 1.160; *)
+(* 'forward:6' a3 = 0.250; *)
+(* 'forward:7' d1 = 0.830; *)
+(* 'forward:8' d4 = 1.4922; *)
+(* 'forward:9' d6 = 0.210; *)
+(* To wire exit point *)
+(* 'forward:12' dt = 0.567; *)
+(* To WRE from joint 2 *)
+(* 'forward:15' L = d4 + d6 + dt; *)
+(* Position {b} -> {t} *)
+(* 'forward:18' q1 = q(1); *)
+(* 'forward:19' q2 = q(2); *)
+(* 'forward:20' q3 = q(3); *)
+(* 'forward:22' q1_t = q_t(1); *)
+(* 'forward:23' q2_t = q_t(2); *)
+(* 'forward:24' q3_t = q_t(3); *)
+(* Obtained from formForwardModel *)
+(* 'forward:27' p = [ *)
+(* 'forward:28'     cos(q1)*(a1 - L*sin(q3) - a3*cos(q3) + a2*sin(q2)); *)
+(* 'forward:29'     -sin(q1)*(a1 - L*sin(q3) - a3*cos(q3) + a2*sin(q2)); *)
+(* 'forward:30'     d1 + L*cos(q3) + a2*cos(q2) - a3*sin(q3); *)
+(* 'forward:31' ]; *)
+(* 'forward:33' J = [ *)
+(* 'forward:34'     -sin(q1)*(a1 - L*sin(q3) - a3*cos(q3) + a2*sin(q2)),  a2*cos(q1)*cos(q2), -cos(q1)*(L*cos(q3) - a3*sin(q3)); *)
+(* 'forward:35'     -cos(q1)*(a1 - L*sin(q3) - a3*cos(q3) + a2*sin(q2)), -a2*cos(q2)*sin(q1),  sin(q1)*(L*cos(q3) - a3*sin(q3)); *)
+(* 'forward:36'                                                       0,         -a2*sin(q2),          - L*sin(q3) - a3*cos(q3); *)
+(* 'forward:37' ]; *)
+(* 'forward:39' J_t = [ *)
+(* 'forward:40'     q3_t*sin(q1)*(L*cos(q3) - a3*sin(q3)) - q1_t*cos(q1)*(a1 - L*sin(q3) - a3*cos(q3) + a2*sin(q2)) - a2*q2_t*cos(q2)*sin(q1), - a2*q1_t*cos(q2)*sin(q1) - a2*q2_t*cos(q1)*sin(q2), q3_t*cos(q1)*(L*sin(q3) + a3*cos(q3)) + q1_t*sin(q1)*(L*cos(q3) - a3*sin(q3)); *)
+(* 'forward:41'     q3_t*cos(q1)*(L*cos(q3) - a3*sin(q3)) + q1_t*sin(q1)*(a1 - L*sin(q3) - a3*cos(q3) + a2*sin(q2)) - a2*q2_t*cos(q1)*cos(q2),   a2*q2_t*sin(q1)*sin(q2) - a2*q1_t*cos(q1)*cos(q2), q1_t*cos(q1)*(L*cos(q3) - a3*sin(q3)) - q3_t*sin(q1)*(L*sin(q3) + a3*cos(q3)); *)
+(* 'forward:42'                                                                                                                             0,                                    -a2*q2_t*cos(q2),                                                -q3_t*(L*cos(q3) - a3*sin(q3)); *)
+(* 'forward:43' ]; *)
+(* Velocity *)
+(* 'forward:46' p_t = J*q_t; *)
+(* Acceleration *)
+(* 'forward:49' p_tt = J_t*q_t + J*q_tt; *)
 (* Load Calibration data *)
-(* MATLAB Function 'FB_SfiConference/MATLAB Function': '<S5>:1' *)
-(* '<S5>:1:4' data = coder.load('motionlab/calib.mat'); *)
-(* '<S5>:1:5' calib = data.calib; *)
+(* MATLAB Function 'FB_SfiConference/Robot Position': '<S6>:1' *)
+(* '<S6>:1:4' data = coder.load('motionlab/calib.mat'); *)
+(* '<S6>:1:5' calib = data.calib; *)
 (* Tool in {n} *)
-(* '<S5>:1:8' Hbr = calib.EM8000_TO_COMAU.H; *)
-(* '<S5>:1:9' pt =  Hbr(1:3,4) + Hbr(1:3,1:3)*(p0 - [0; 0; em8000.eta(3)]); *)
+(* '<S6>:1:8' Hbr = calib.EM8000_TO_COMAU.H; *)
+(* '<S6>:1:9' pt =  Hbr(1:3,4) + Hbr(1:3,1:3)*p0; *)
 (* Tool given in {r} *)
-(* '<S5>:1:12' Hnb = eye(4); *)
-(* MATLAB Function: '<S1>/MATLAB Function' incorporates:
- *  BusCreator: '<S1>/BusConversion_InsertedFor_MATLAB Function_at_inport_1' *)
+(* '<S6>:1:12' Hnb = eye(4); *)
+(* MATLAB Function: '<S1>/Robot Position' incorporates:
+ *  BusCreator: '<S1>/BusConversion_InsertedFor_Robot Position_at_inport_3' *)
 
 FOR i := 0 TO 15 DO 
-    Hn2b2[i] := SINT_TO_LREAL(b[i]);
+    Hn2b2[i] := 0.0;
 END_FOR;
 
-(* '<S5>:1:13' Hnb(1:3,4) = em8000.eta(1:3); *)
-Hn2b2[12] := feedback_em8000.eta[0];
-Hn2b2[13] := feedback_em8000.eta[1];
-Hn2b2[14] := feedback_em8000.eta[2];
-(* '<S5>:1:14' Hnb(1:3,1:3) = math3d.Rxyz(em8000.eta(4:6)); *)
-(* 'Rxyz:3' rx = phi(1); *)
-(* 'Rxyz:4' ry = phi(2); *)
-(* 'Rxyz:5' rz = phi(3); *)
-(* 'Rxyz:7' R = [ *)
-(* 'Rxyz:8'                               cos(ry)*cos(rz),                          -cos(ry)*sin(rz),          sin(ry); *)
-(* 'Rxyz:9'     cos(rx)*sin(rz) + cos(rz)*sin(rx)*sin(ry), cos(rx)*cos(rz) - sin(rx)*sin(ry)*sin(rz), -cos(ry)*sin(rx); *)
-(* 'Rxyz:10'     sin(rx)*sin(rz) - cos(rx)*cos(rz)*sin(ry), cos(rz)*sin(rx) + cos(rx)*sin(ry)*sin(rz),  cos(rx)*cos(ry) *)
-(* 'Rxyz:11' ]; *)
-Hn2b2[0] := theta2;
-Hn2b2[4] := x;
-Hn2b2[8] := temp3;
-Hn2b2[1] := temp4;
-Hn2b2[5] := temp5;
-Hn2b2[9] := temp6;
-Hn2b2[2] := b_D;
-Hn2b2[6] := y;
-Hn2b2[10] := q1;
-(* '<S5>:1:16' tool = math3d.InvH(Hnb*Hbr)*[pt; 1]; *)
-(* MATLAB Function: '<S1>/MATLAB Function' *)
+Hn2b2[15] := 1.0;
+(* '<S6>:1:14' if compXY *)
+
+IF compXY THEN 
+    (* '<S6>:1:15' Hnb(1:3,4) =  [em8000.eta(1:2); 0]; *)
+    Hn2b2[12] := feedback_em8000.eta[0];
+    Hn2b2[13] := feedback_em8000.eta[1];
+    Hn2b2[14] := 0.0;
+ELSE 
+    (* '<S6>:1:16' else *)
+    (* '<S6>:1:17' Hnb(1:3,4) =  zeros(3,1); *)
+    Hn2b2[12] := 0.0;
+    Hn2b2[13] := 0.0;
+    Hn2b2[14] := 0.0;
+END_IF;
+
+(* '<S6>:1:20' if compYaw *)
+
+IF compYaw THEN 
+    (* '<S6>:1:21' Hnb(1:3,1:3) = math3d.Rxyz(em8000.eta(4:6)); *)
+    (* 'Rxyz:3' rx = phi(1); *)
+    (* 'Rxyz:4' ry = phi(2); *)
+    (* 'Rxyz:5' rz = phi(3); *)
+    (* 'Rxyz:7' R = [ *)
+    (* 'Rxyz:8'                               cos(ry)*cos(rz),                          -cos(ry)*sin(rz),          sin(ry); *)
+    (* 'Rxyz:9'     cos(rx)*sin(rz) + cos(rz)*sin(rx)*sin(ry), cos(rx)*cos(rz) - sin(rx)*sin(ry)*sin(rz), -cos(ry)*sin(rx); *)
+    (* 'Rxyz:10'     sin(rx)*sin(rz) - cos(rx)*cos(rz)*sin(ry), cos(rz)*sin(rx) + cos(rx)*sin(ry)*sin(rz),  cos(rx)*cos(ry) *)
+    (* 'Rxyz:11' ]; *)
+    Hn2b2[0] := theta2;
+    Hn2b2[4] := x;
+    Hn2b2[8] := temp3;
+    Hn2b2[1] := temp10;
+    Hn2b2[5] := temp11;
+    Hn2b2[9] := temp8;
+    Hn2b2[2] := b_D;
+    Hn2b2[6] := y;
+    Hn2b2[10] := temp6;
+ELSE 
+    (* '<S6>:1:22' else *)
+    (* '<S6>:1:23' Hnb(1:3,1:3) = math3d.Rxyz([em8000.eta(4:5); 0]); *)
+    (* 'Rxyz:3' rx = phi(1); *)
+    (* 'Rxyz:4' ry = phi(2); *)
+    (* 'Rxyz:5' rz = phi(3); *)
+    (* 'Rxyz:7' R = [ *)
+    (* 'Rxyz:8'                               cos(ry)*cos(rz),                          -cos(ry)*sin(rz),          sin(ry); *)
+    (* 'Rxyz:9'     cos(rx)*sin(rz) + cos(rz)*sin(rx)*sin(ry), cos(rx)*cos(rz) - sin(rx)*sin(ry)*sin(rz), -cos(ry)*sin(rx); *)
+    (* 'Rxyz:10'     sin(rx)*sin(rz) - cos(rx)*cos(rz)*sin(ry), cos(rz)*sin(rx) + cos(rx)*sin(ry)*sin(rz),  cos(rx)*cos(ry) *)
+    (* 'Rxyz:11' ]; *)
+    Hn2b2[0] := q1;
+    Hn2b2[4] := ( -COS(feedback_em8000.eta[4])) * 0.0;
+    Hn2b2[8] := temp3;
+    Hn2b2[1] := temp7;
+    Hn2b2[5] := temp4;
+    Hn2b2[9] := temp8;
+    Hn2b2[2] := 0.0 - temp9;
+    Hn2b2[6] := temp5;
+    Hn2b2[10] := temp6;
+END_IF;
+
+(* '<S6>:1:26' tool = math3d.InvH(Hnb*Hbr)*[pt; 1]; *)
+(* MATLAB Function: '<S1>/Robot Position' *)
 
 FOR i := 0 TO 3 DO 
 
@@ -888,9 +1010,7 @@ END_FOR;
 (* 'InvH:12' R = H(1:3,1:3); *)
 (* 'InvH:13' d = H(1:3,4); *)
 (* 'InvH:15' invH = eye(4,4); *)
-(* MATLAB Function: '<S1>/MATLAB Function' incorporates:
- *  BusCreator: '<S1>/BusConversion_InsertedFor_MATLAB Function_at_inport_1'
- *  SignalConversion: '<S5>/TmpSignal ConversionAt SFunction Inport1' *)
+(* MATLAB Function: '<S1>/Robot Position' *)
 
 FOR i := 0 TO 15 DO 
     Hn2b2[i] := 0.0;
@@ -916,15 +1036,22 @@ Hn2b2[3] := 0.0;
 Hn2b2[7] := 0.0;
 Hn2b2[11] := 0.0;
 Hn2b2[15] := 1.0;
-(* '<S5>:1:18' p = tool(1:3); *)
-q1 := zRef - feedback_em8000.eta[2];
+(* MATLAB Function: '<S1>/ForwardKinematics1' *)
+(* '<S6>:1:28' p = tool(1:3); *)
+q1 := COS(qRef[2]);
+b_D := SIN(qRef[2]);
+theta2 := ((0.35 - (2.2691999999999997 * b_D)) - (0.25 * q1)) + (1.16 * SIN(qRef[1]));
+tmp := theta2 * COS(qRef[0]);
+temp1 := theta2 * ( -SIN(qRef[0]));
+temp2 := (((2.2691999999999997 * q1) + 0.83) + (1.16 * COS(qRef[1]))) - (0.25 * b_D);
+(* MATLAB Function: '<S1>/Robot Position' *)
 
 FOR i := 0 TO 2 DO 
     Hn2b2[12 + i] := 0.0;
     Hn2b2[12 + i] := Hn2b2[12 + i] + (Hn1b2_1[i] * Hn1b2[12]);
     Hn2b2[12 + i] := (Hn1b2_1[i + 3] * Hn1b2[13]) + Hn2b2[12 + i];
     Hn2b2[12 + i] := (Hn1b2_1[i + 6] * Hn1b2[14]) + Hn2b2[12 + i];
-    b_Pt[i] := (((c_a[i + 3] * yRef) + (c_a[i] * xRef)) + (c_a[i + 6] * q1)) + d_d[i];
+    b_Pt[i] := (((c_a[i + 3] * temp1) + (c_a[i] * tmp)) + (c_a[i + 6] * temp2)) + b_b[i];
 END_FOR;
 
 
@@ -934,9 +1061,9 @@ FOR i := 0 TO 3 DO
 END_FOR;
 
 (* MATLAB Function: '<S1>/InverseKinematics' incorporates:
- *  MATLAB Function: '<S1>/MATLAB Function' *)
-(* MATLAB Function 'FB_SfiConference/InverseKinematics': '<S4>:1' *)
-(* '<S4>:1:3' [q, q_t, q_tt] = comau.inverse(p, p_t, p_tt); *)
+ *  MATLAB Function: '<S1>/Robot Position' *)
+(* MATLAB Function 'FB_SfiConference/InverseKinematics': '<S5>:1' *)
+(* '<S5>:1:3' [q, q_t, q_tt] = comau.inverse(p, p_t, p_tt); *)
 (* Static link lengths *)
 (* 'inverse:4' a1 = 0.350; *)
 (* 'inverse:5' a2 = 1.160; *)
@@ -1022,7 +1149,7 @@ Hn1b2[11] := 0.0;
 Hn1b2[15] := 1.0;
 (* MATLAB Function: '<S1>/InverseKinematics' incorporates:
  *  Constant: '<S1>/Constant'
- *  MATLAB Function: '<S1>/MATLAB Function' *)
+ *  MATLAB Function: '<S1>/Robot Position' *)
 
 FOR i := 0 TO 3 DO 
     b_D := Hn1b2[i + 12] + ((Hn1b2[i + 8] * Hn1b2_0[2]) + ((Hn1b2[i + 4] * Hn1b2_0[1]) + (Hn1b2[i] * Hn1b2_0[0])));
@@ -1096,19 +1223,19 @@ FOR i := 0 TO 2 DO
     (* BusCreator: '<Root>/BusConversion_InsertedFor_control_comau_at_inport_0' *)
     control_comau.q_t[i] := pt[i];
     (* MATLAB Function: '<S1>/InverseKinematics' *)
-    c_d[i] := 0.0 - (((Hn1b2_1[i + 3] * pt[1]) + (Hn1b2_1[i] * pt[0])) + (Hn1b2_1[i + 6] * pt[2]));
+    b[i] := 0.0 - (((Hn1b2_1[i + 3] * pt[1]) + (Hn1b2_1[i] * pt[0])) + (Hn1b2_1[i + 6] * pt[2]));
 END_FOR;
 
 (* BusCreator: '<Root>/BusConversion_InsertedFor_control_comau_at_inport_0' incorporates:
  *  MATLAB Function: '<S1>/InverseKinematics' *)
-i0_mldivide(A := b_R, B := c_d);
+i0_mldivide(A := b_R, B := b);
 control_comau.q_tt := i0_mldivide.Y;
 (* BusCreator: '<Root>/BusConversion_InsertedFor_control_winch_at_inport_0' incorporates:
  *  Constant: '<S1>/Constant3'
  *  Constant: '<S1>/Constant4'
  *  MATLAB Function: '<S1>/Calculate Distance'
  *  Outport: '<Root>/control_winch' *)
-control_winch.length := tmp / temp1;
+control_winch.length := Hn2b2_tmp / Hn2b2_tmp_0;
 control_winch.length_t := 0.0;
 control_winch.length_tt := 0.0;
 ]]>

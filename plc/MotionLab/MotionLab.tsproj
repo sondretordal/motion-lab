@@ -2850,13 +2850,13 @@ External Setpoint Generation:
 								<BaseType GUID="{18071995-0000-0000-0000-00000000000E}">LREAL</BaseType>
 								<PTCID>#x00000008</PTCID>
 							</Parameter>
-							<Parameter ShowSubItems="true">
+							<Parameter>
 								<Name>Input</Name>
 								<BitSize>192</BitSize>
 								<BaseType GUID="{85CE2A33-1364-3E4A-4462-1C0F28D9DA28}">ExtU_WaveSimulator_T</BaseType>
 								<PTCID>#x80000000</PTCID>
 							</Parameter>
-							<Parameter ShowSubItems="true">
+							<Parameter>
 								<Name>ModelParameters</Name>
 								<BitSize>11136</BitSize>
 								<BaseType GUID="{50B82677-40EE-020C-25E2-91108E51E9E5}">P_WaveSimulator_T</BaseType>
@@ -4034,15 +4034,15 @@ External Setpoint Generation:
 							</Value>
 							<Value>
 								<Name>Input.w0</Name>
-								<Value>1</Value>
+								<Value>0</Value>
 							</Value>
 							<Value>
 								<Name>Input.lambda</Name>
-								<Value>0.2405</Value>
+								<Value>0</Value>
 							</Value>
 							<Value>
 								<Name>Input.sigma</Name>
-								<Value>1.5012</Value>
+								<Value>0</Value>
 							</Value>
 							<Value>
 								<Name>ModelParameters.WaveSimulator_limitK[0]</Name>
@@ -4094,15 +4094,15 @@ External Setpoint Generation:
 							</Value>
 							<Value>
 								<Name>ModelParameters.WaveSimulator_maxOutput[0]</Name>
-								<Value>0.1</Value>
+								<Value>0.2</Value>
 							</Value>
 							<Value>
 								<Name>ModelParameters.WaveSimulator_maxOutput[1]</Name>
-								<Value>0.1</Value>
+								<Value>0.2</Value>
 							</Value>
 							<Value>
 								<Name>ModelParameters.WaveSimulator_maxOutput[2]</Name>
-								<Value>0.3</Value>
+								<Value>0.4</Value>
 							</Value>
 							<Value>
 								<Name>ModelParameters.WaveSimulator_maxOutput[3]</Name>
@@ -7705,9 +7705,6 @@ External Setpoint Generation:
 								<InitCmd DriveNo="0" IDN="32860" MotorDataLevel="1" DisableMode="0"/>
 								<InitCmd DriveNo="0" IDN="32861" MotorDataLevel="1" DisableMode="0"/>
 								<InitCmd DriveNo="0" IDN="32918" MotorDataLevel="1" DisableMode="0"/>
-								<InitCmd DriveNo="0" IDN="33088" MotorDataLevel="0" DisableMode="0">
-									<RetainData>24002400d2000e00ca0002002b9d5b002b9d5b000000000000000000000000000260000000000000</RetainData>
-								</InitCmd>
 								<InitCmd DriveNo="0" IDN="33093" MotorDataLevel="0" DisableMode="0">
 									<RetainData>16001a004465632020382032303136202c2031343a33333a3330</RetainData>
 								</InitCmd>

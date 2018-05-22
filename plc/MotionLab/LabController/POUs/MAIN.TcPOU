@@ -14,8 +14,6 @@ VAR
 	
 	// Logging data
 	timeStamp100ns : ULINT;
-	
-	test : ST_Test;
 	 
 	
 	
@@ -48,10 +46,10 @@ VAR
 	fbStartProcess : NT_StartProcess;
 	
 	// SFI Conference
-	xRef : LREAL := 2.0;
-	yRef : LREAL := -0.8;
-	zRef : LREAL := 1.5;
-	lengthExtra : LREAL := -1.0;
+	q : ARRAY [0..2] OF LREAL := [0.35, 0.25, -2.0];
+	qOld : ARRAY [0..2] OF LREAL;
+	q_t : ARRAY [0..2] OF LREAL;
+	lengthExtra : LREAL := -1.2;
 	length : LREAL;
 	length_t : LREAL;
 	lengthOld : LREAL := 0.0;
@@ -69,30 +67,42 @@ qtm();
 
 
 // Move with Xbox controller
-xRef := xRef + 0.1*rxHmi.xboxRightX*Ts;
-yRef := yRef + 0.1*rxHmi.xboxRightY*Ts;
-zRef := zRef + 0.1*(rxHmi.xboxRT - rxHmi.xboxLT)*Ts;
-lengthExtra := lengthExtra - 0.2*rxHmi.xboxLeftY*Ts; 
+q[0] := LIMIT(5.0/180.0*PI, q[0] + 5.0/180.0*PI*rxHmi.xboxLeftX*Ts, 40.0/180.0*PI);
+q[1] := LIMIT(0.0, q[1] + 5.0/180.0*PI*rxHmi.xboxRightX*Ts, 40/180.0*PI);
+q[2] := LIMIT(-120.0/180.0*PI, q[2] + 5.0/180.0*PI*rxHmi.xboxRightY*Ts, -90.0/180.0*PI);
+lengthExtra := LIMIT(-1.85, lengthExtra - 0.2*(rxHmi.xboxLT - rxHmi.xboxRT)*Ts, -0.84);
 
 fbSfiConference(
-	xRef := xRef,
-	yRef := yRef,
-	zRef := zRef,
+	qRef := q,
 	feedback_em8000 := em8000.feedback,
 	feedback_em1500 := em1500.feedback,
 	feedback_comau := comau.feedback
 );
 
-comau.control.q := fbSfiConference.control_comau.q;
+
 
 length := fbSfiConference.control_winch.length + lengthExtra;
 
+
 length_t := (length - lengthOld)/Ts;
+
+// Set control inputs
+comau.control.q := fbSfiConference.control_comau.q;
+
+// Numerical derived velocites
+q_t[0] := (comau.control.q[0] - qOld[0])/Ts;
+q_t[1] := (comau.control.q[1] - qOld[1])/Ts;
+q_t[2] := (comau.control.q[2] - qOld[2])/Ts;
+
+qOld := comau.control.q;
+
+comau.control.q_t := q_t;
 
 winch.control.length := length;
 winch.control.length_t := length_t;
 
-lengthOld := length; 
+
+lengthOld := length;
 
 
 // Update elemtns to be controlled
@@ -112,8 +122,6 @@ UpdateRemote();
 
 
 timeStamp100ns := F_GetTaskTime();
-
-test.a := timeStamp100ns;
 
 //StartPyQtHMI();
 
@@ -172,18 +180,28 @@ remote();]]></ST>
       <LineId Id="861" Count="0" />
       <LineId Id="860" Count="0" />
       <LineId Id="852" Count="0" />
-      <LineId Id="862" Count="4" />
+      <LineId Id="864" Count="2" />
       <LineId Id="868" Count="0" />
       <LineId Id="867" Count="0" />
       <LineId Id="870" Count="0" />
       <LineId Id="869" Count="0" />
       <LineId Id="873" Count="0" />
       <LineId Id="872" Count="0" />
-      <LineId Id="883" Count="0" />
+      <LineId Id="954" Count="0" />
+      <LineId Id="953" Count="0" />
       <LineId Id="882" Count="0" />
+      <LineId Id="949" Count="0" />
+      <LineId Id="952" Count="0" />
       <LineId Id="879" Count="0" />
-      <LineId Id="871" Count="0" />
+      <LineId Id="956" Count="3" />
+      <LineId Id="955" Count="0" />
+      <LineId Id="964" Count="1" />
+      <LineId Id="961" Count="0" />
+      <LineId Id="960" Count="0" />
+      <LineId Id="951" Count="0" />
+      <LineId Id="948" Count="0" />
       <LineId Id="884" Count="0" />
+      <LineId Id="962" Count="0" />
       <LineId Id="880" Count="0" />
       <LineId Id="876" Count="0" />
       <LineId Id="875" Count="0" />
@@ -204,8 +222,6 @@ remote();]]></ST>
       <LineId Id="541" Count="0" />
       <LineId Id="274" Count="0" />
       <LineId Id="284" Count="1" />
-      <LineId Id="895" Count="0" />
-      <LineId Id="894" Count="0" />
       <LineId Id="454" Count="0" />
       <LineId Id="453" Count="0" />
       <LineId Id="449" Count="0" />
