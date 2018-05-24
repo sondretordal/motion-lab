@@ -41,85 +41,85 @@ s2sEkf = s2s.formEkfMatrices();
 
 %% *** Create Simulink Bus Objects ***
 % Feedback Types
-ST_StewartFeedback = bus.StewartFeedback();
-ST_MruFeedback = bus.MruFeedback();
-ST_ComauFeedback = bus.ComauFeedback();
-ST_WinchFeedback = bus.WinchFeedback();
-ST_QualisysFeedback = bus.QualisysFeedback();
-ST_LeicaFeedback = bus.LeicaFeedback();
+ST_FeedbackStewart = bus.FeedbackStewart();
+ST_FeedbackMru = bus.FeedbackMru();
+ST_FeedbackComau = bus.FeedbackComau();
+ST_FeedbackWinch = bus.FeedbackWinch();
+ST_FeedbackQualisys = bus.FeedbackQualisys();
+ST_FeedbackLeica = bus.FeedbackLeica();
 
 % Feedback Bus
 clear elems
 n = 1;
 elems(n) = Simulink.BusElement;
 elems(n).Name = 'em8000';
-elems(n).DataType = 'ST_StewartFeedback';
+elems(n).DataType = 'ST_FeedbackStewart';
 
 n = 2;
 elems(n) = Simulink.BusElement;
 elems(n).Name = 'em1500';
-elems(n).DataType = 'ST_StewartFeedback';
+elems(n).DataType = 'ST_FeedbackStewart';
 
 n = 3;
 elems(n) = Simulink.BusElement;
 elems(n).Name = 'mru1';
-elems(n).DataType = 'ST_MruFeedback';
+elems(n).DataType = 'ST_FeedbackMru';
 
 n = 4;
 elems(n) = Simulink.BusElement;
 elems(n).Name = 'mru2';
-elems(n).DataType = 'ST_MruFeedback';
+elems(n).DataType = 'ST_FeedbackMru';
 
 n = 5;
 elems(n) = Simulink.BusElement;
 elems(n).Name = 'comau';
-elems(n).DataType = 'ST_ComauFeedback';
+elems(n).DataType = 'ST_FeedbackComau';
 
 n = 6;
 elems(n) = Simulink.BusElement;
 elems(n).Name = 'winch';
-elems(n).DataType = 'ST_WinchFeedback';
+elems(n).DataType = 'ST_FeedbackWinch';
 
 n = 7;
 elems(n) = Simulink.BusElement;
 elems(n).Name = 'qtm';
-elems(n).DataType = 'ST_QualisysFeedback';
+elems(n).DataType = 'ST_FeedbackQualisys';
 
 n = 8;
 elems(n) = Simulink.BusElement;
 elems(n).Name = 'at960';
-elems(n).DataType = 'ST_LeicaFeedback';
+elems(n).DataType = 'ST_FeedbackLeica';
 
 ST_Feedback = Simulink.Bus;
 ST_Feedback.Elements = elems;
 
 
 % Control Types
-ST_StewartControl = bus.StewartControl();
-ST_WinchControl = bus.WinchControl();
-ST_ComauControl = bus.ComauControl();
+ST_ControlStewart = bus.ControlStewart();
+ST_ControlWinch = bus.ControlWinch();
+ST_ControlComau = bus.ControlComau();
 
 % Control Bus
 clear elems
 n = 1;
 elems(n) = Simulink.BusElement;
 elems(n).Name = 'em8000';
-elems(n).DataType = 'ST_StewartControl';
+elems(n).DataType = 'ST_ControlStewart';
 
 n = 2;
 elems(n) = Simulink.BusElement;
 elems(n).Name = 'em1500';
-elems(n).DataType = 'ST_StewartControl';
+elems(n).DataType = 'ST_ControlStewart';
 
 n = 3;
 elems(n) = Simulink.BusElement;
 elems(n).Name = 'comau';
-elems(n).DataType = 'ST_ComauControl';
+elems(n).DataType = 'ST_ControlComau';
 
 n = 4;
 elems(n) = Simulink.BusElement;
 elems(n).Name = 'winch';
-elems(n).DataType = 'ST_WinchControl';
+elems(n).DataType = 'ST_ControlWinch';
 
 ST_Control = Simulink.Bus;
 ST_Control.Elements = elems;

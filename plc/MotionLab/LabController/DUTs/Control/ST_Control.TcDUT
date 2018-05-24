@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.7">
-  <DUT Name="ST_Control" Id="{72722156-0b25-4f83-a6e0-f7f3cf611b15}">
+  <DUT Name="ST_Control" Id="{2b2e1f3a-3b90-4008-bd1d-0865302d3ba0}">
     <Declaration><![CDATA[TYPE ST_Control :
 STRUCT
-	em8000: ST_StewartControl;
-	em1500: ST_StewartControl;
-	comau: ST_ComauControl;
-	winch: ST_WinchControl;
+	em8000: ST_ControlStewart;
+	em1500: ST_ControlStewart;
+	comau: ST_ControlComau;
+	winch: ST_ControlWinch;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

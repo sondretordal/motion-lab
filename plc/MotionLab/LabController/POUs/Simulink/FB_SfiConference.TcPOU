@@ -1,19 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.7">
-  <POU Name="FB_SfiConference" Id="{70c0b080-47eb-4408-b754-bdd7db84d25b}" SpecialFunc="None">
+  <POU Name="FB_SfiConference" Id="{abd66d37-a9c7-4c02-9158-0ae86eff0f55}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_SfiConference
 VAR_INPUT
 	compXY: BOOL := TRUE;
 	compYaw: BOOL := TRUE;
 	compS2S: BOOL := TRUE;
-	qRef: ARRAY[0..2] OF LREAL := [0.0, 0.0, -1.57];
-	feedback_em8000: ST_StewartFeedback;
-	feedback_em1500: ST_StewartFeedback;
-	feedback_comau: ST_ComauFeedback;
+	qRef: ARRAY[0..2] OF LREAL := [0.0, 0.0, -1.8];
+	feedback_em8000: ST_FeedbackStewart;
+	feedback_em1500: ST_FeedbackStewart;
+	feedback_comau: ST_FeedbackComau;
 END_VAR
 VAR_OUTPUT
-	control_comau: ST_ComauControl;
-	control_winch: ST_WinchControl;
+	control_comau: ST_ControlComau;
+	control_winch: ST_ControlWinch;
 END_VAR
 VAR
 	pt: ARRAY[0..2] OF LREAL;

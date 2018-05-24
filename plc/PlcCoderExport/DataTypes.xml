@@ -6,22 +6,22 @@
  * IEC 61131-3 Structured Text (ST) code generated for subsystem "main/PlcDataTypes"
  *
  * Model name                      : main
- * Model version                   : 1.2986
+ * Model version                   : 1.3128
  * Model creator                   : motionlab
  * Model last modified by          : motionlab
- * Model last modified on          : Fri May 18 10:43:30 2018
+ * Model last modified on          : Wed May 23 10:10:56 2018
  * Model sample time               : 0.005s
  * Subsystem name                  : main/PlcDataTypes
  * Subsystem sample time           : 0.005s
  * Simulink PLC Coder version      : 2.4 (R2017b) 24-Jul-2017
- * ST code generated on            : Fri May 18 10:44:27 2018
+ * ST code generated on            : Wed May 23 10:35:52 2018
  *
  * Target IDE selection            : Beckhoff TwinCAT 3
  * Test Bench included             : No
  *
  *)
 -->
-   <fileHeader companyName="The Mathworks, Inc." companyURL="www.mathworks.com" contentDescription="" creationDateTime="2018-05-18T10:44:27" productName="Simulink PLC Coder" productRelease="(R2017b)" productVersion="2.4"/>
+   <fileHeader companyName="The Mathworks, Inc." companyURL="www.mathworks.com" contentDescription="" creationDateTime="2018-05-23T10:35:52" productName="Simulink PLC Coder" productRelease="(R2017b)" productVersion="2.4"/>
    <contentHeader name="main">
       <coordinateInfo>
          <fbd>
@@ -37,7 +37,7 @@
    </contentHeader>
    <types>
       <dataTypes>
-         <dataType name="ST_LeicaFeedback">
+         <dataType name="ST_FeedbackLeica">
             <baseType>
                <struct>
                   <variable name="pos">
@@ -63,7 +63,7 @@
                </struct>
             </baseType>
          </dataType>
-         <dataType name="ST_QualisysFeedback">
+         <dataType name="ST_FeedbackQualisys">
             <baseType>
                <struct>
                   <variable name="dist">
@@ -84,7 +84,7 @@
                </struct>
             </baseType>
          </dataType>
-         <dataType name="ST_WinchFeedback">
+         <dataType name="ST_FeedbackWinch">
             <baseType>
                <struct>
                   <variable name="length">
@@ -100,7 +100,7 @@
                </struct>
             </baseType>
          </dataType>
-         <dataType name="ST_ComauFeedback">
+         <dataType name="ST_FeedbackComau">
             <baseType>
                <struct>
                   <variable name="q">
@@ -126,7 +126,7 @@
                </struct>
             </baseType>
          </dataType>
-         <dataType name="ST_MruFeedback">
+         <dataType name="ST_FeedbackMru">
             <baseType>
                <struct>
                   <variable name="eta">
@@ -152,7 +152,7 @@
                </struct>
             </baseType>
          </dataType>
-         <dataType name="ST_StewartFeedback">
+         <dataType name="ST_FeedbackStewart">
             <baseType>
                <struct>
                   <variable name="eta">
@@ -188,7 +188,7 @@
                </struct>
             </baseType>
          </dataType>
-         <dataType name="ST_WinchControl">
+         <dataType name="ST_ControlWinch">
             <baseType>
                <struct>
                   <variable name="length">
@@ -209,7 +209,7 @@
                </struct>
             </baseType>
          </dataType>
-         <dataType name="ST_ComauControl">
+         <dataType name="ST_ControlComau">
             <baseType>
                <struct>
                   <variable name="q">
@@ -245,7 +245,7 @@
                </struct>
             </baseType>
          </dataType>
-         <dataType name="ST_StewartControl">
+         <dataType name="ST_ControlStewart">
             <baseType>
                <struct>
                   <variable name="eta">
@@ -266,42 +266,42 @@
                <struct>
                   <variable name="em8000">
                      <type>
-                        <derived name="ST_StewartFeedback"/>
+                        <derived name="ST_FeedbackStewart"/>
                      </type>
                   </variable>
                   <variable name="em1500">
                      <type>
-                        <derived name="ST_StewartFeedback"/>
+                        <derived name="ST_FeedbackStewart"/>
                      </type>
                   </variable>
                   <variable name="mru1">
                      <type>
-                        <derived name="ST_MruFeedback"/>
+                        <derived name="ST_FeedbackMru"/>
                      </type>
                   </variable>
                   <variable name="mru2">
                      <type>
-                        <derived name="ST_MruFeedback"/>
+                        <derived name="ST_FeedbackMru"/>
                      </type>
                   </variable>
                   <variable name="comau">
                      <type>
-                        <derived name="ST_ComauFeedback"/>
+                        <derived name="ST_FeedbackComau"/>
                      </type>
                   </variable>
                   <variable name="winch">
                      <type>
-                        <derived name="ST_WinchFeedback"/>
+                        <derived name="ST_FeedbackWinch"/>
                      </type>
                   </variable>
                   <variable name="qtm">
                      <type>
-                        <derived name="ST_QualisysFeedback"/>
+                        <derived name="ST_FeedbackQualisys"/>
                      </type>
                   </variable>
                   <variable name="at960">
                      <type>
-                        <derived name="ST_LeicaFeedback"/>
+                        <derived name="ST_FeedbackLeica"/>
                      </type>
                   </variable>
                </struct>
@@ -312,22 +312,22 @@
                <struct>
                   <variable name="em8000">
                      <type>
-                        <derived name="ST_StewartControl"/>
+                        <derived name="ST_ControlStewart"/>
                      </type>
                   </variable>
                   <variable name="em1500">
                      <type>
-                        <derived name="ST_StewartControl"/>
+                        <derived name="ST_ControlStewart"/>
                      </type>
                   </variable>
                   <variable name="comau">
                      <type>
-                        <derived name="ST_ComauControl"/>
+                        <derived name="ST_ControlComau"/>
                      </type>
                   </variable>
                   <variable name="winch">
                      <type>
-                        <derived name="ST_WinchControl"/>
+                        <derived name="ST_ControlWinch"/>
                      </type>
                   </variable>
                </struct>
@@ -335,7 +335,7 @@
          </dataType>
       </dataTypes>
       <pous>
-         <pou name="PlcDataTypes0" pouType="functionBlock">
+         <pou name="PlcDataTypes" pouType="functionBlock">
             <interface>
                <inputVars>
                   <variable name="stControl">
@@ -345,17 +345,17 @@
                   </variable>
                   <variable name="stStewartControl">
                      <type>
-                        <derived name="ST_StewartControl"/>
+                        <derived name="ST_ControlStewart"/>
                      </type>
                   </variable>
                   <variable name="stComauControl">
                      <type>
-                        <derived name="ST_ComauControl"/>
+                        <derived name="ST_ControlComau"/>
                      </type>
                   </variable>
                   <variable name="stWinchControl">
                      <type>
-                        <derived name="ST_WinchControl"/>
+                        <derived name="ST_ControlWinch"/>
                      </type>
                   </variable>
                </inputVars>
@@ -367,27 +367,27 @@
                   </variable>
                   <variable name="stStewartFeedback">
                      <type>
-                        <derived name="ST_StewartFeedback"/>
+                        <derived name="ST_FeedbackStewart"/>
                      </type>
                   </variable>
                   <variable name="stComauFeedback">
                      <type>
-                        <derived name="ST_ComauFeedback"/>
+                        <derived name="ST_FeedbackComau"/>
                      </type>
                   </variable>
                   <variable name="stWinchFeedback">
                      <type>
-                        <derived name="ST_WinchFeedback"/>
+                        <derived name="ST_FeedbackWinch"/>
                      </type>
                   </variable>
                   <variable name="stQualisysFeedback">
                      <type>
-                        <derived name="ST_QualisysFeedback"/>
+                        <derived name="ST_FeedbackQualisys"/>
                      </type>
                   </variable>
                   <variable name="stLeicaFeedback">
                      <type>
-                        <derived name="ST_LeicaFeedback"/>
+                        <derived name="ST_FeedbackLeica"/>
                      </type>
                   </variable>
                </outputVars>
@@ -399,27 +399,27 @@
                   </variable>
                   <variable name="b_ground">
                      <type>
-                        <derived name="ST_StewartFeedback"/>
+                        <derived name="ST_FeedbackStewart"/>
                      </type>
                   </variable>
                   <variable name="c_ground">
                      <type>
-                        <derived name="ST_ComauFeedback"/>
+                        <derived name="ST_FeedbackComau"/>
                      </type>
                   </variable>
                   <variable name="d_ground">
                      <type>
-                        <derived name="ST_WinchFeedback"/>
+                        <derived name="ST_FeedbackWinch"/>
                      </type>
                   </variable>
                   <variable name="e_ground">
                      <type>
-                        <derived name="ST_QualisysFeedback"/>
+                        <derived name="ST_FeedbackQualisys"/>
                      </type>
                   </variable>
                   <variable name="f_ground">
                      <type>
-                        <derived name="ST_LeicaFeedback"/>
+                        <derived name="ST_FeedbackLeica"/>
                      </type>
                   </variable>
                </localVars>

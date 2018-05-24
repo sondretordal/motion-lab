@@ -15,37 +15,37 @@
     <LibraryReferences>{aef4fe47-5e6c-4062-a679-76e7b334d805}</LibraryReferences>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="DUTs\Control\ST_ComauControl.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="DUTs\Control\ST_Control.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\Control\ST_StewartControl.TcDUT">
+    <Compile Include="DUTs\Control\ST_ControlComau.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\Control\ST_WinchControl.TcDUT">
+    <Compile Include="DUTs\Control\ST_ControlStewart.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\Feedback\ST_ComauFeedback.TcDUT">
+    <Compile Include="DUTs\Control\ST_ControlWinch.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\Feedback\ST_Feedback.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\Feedback\ST_LeicaFeedback.TcDUT">
+    <Compile Include="DUTs\Feedback\ST_FeedbackComau.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\Feedback\ST_MruFeedback.TcDUT">
+    <Compile Include="DUTs\Feedback\ST_FeedbackLeica.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\Feedback\ST_QualisysFeedback.TcDUT">
+    <Compile Include="DUTs\Feedback\ST_FeedbackMru.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\Feedback\ST_StewartFeedback.TcDUT">
+    <Compile Include="DUTs\Feedback\ST_FeedbackQualisys.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\Feedback\ST_WinchFeedback.TcDUT">
+    <Compile Include="DUTs\Feedback\ST_FeedbackStewart.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\Feedback\ST_FeedbackWinch.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\QualisysRT\Components\ST_3DMarkerPositionNoLabel.TcDUT">
@@ -138,13 +138,13 @@
     <Compile Include="POUs\PlcTask.TcTTO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\SimulinkExported\FB_SfiConference.TcPOU">
+    <Compile Include="POUs\Simulink\FB_SfiConference.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\SimulinkExported\Utils\mldivide.TcPOU">
+    <Compile Include="POUs\Simulink\mldivide.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\SimulinkExported\Utils\rt_atan2d.TcPOU">
+    <Compile Include="POUs\Simulink\rt_atan2d.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\UdpFBs\FB_UdpServer.TcPOU">
@@ -172,8 +172,7 @@
     <Folder Include="DUTs\RxUdp" />
     <Folder Include="GVLs" />
     <Folder Include="POUs\Interfaces" />
-    <Folder Include="POUs\SimulinkExported" />
-    <Folder Include="POUs\SimulinkExported\Utils" />
+    <Folder Include="POUs\Simulink" />
     <Folder Include="POUs\Utils" />
     <Folder Include="POUs\UdpFBs" />
     <Folder Include="VISUs" />

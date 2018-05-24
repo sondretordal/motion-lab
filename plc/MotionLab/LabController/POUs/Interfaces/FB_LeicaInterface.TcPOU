@@ -5,7 +5,7 @@
 VAR_INPUT
 END_VAR
 VAR_OUTPUT
-	feedback : ST_LeicaFeedback;
+	feedback : ST_FeedbackLeica;
 END_VAR
 VAR
 	// Variables linked to LeicaAT960 Box 1

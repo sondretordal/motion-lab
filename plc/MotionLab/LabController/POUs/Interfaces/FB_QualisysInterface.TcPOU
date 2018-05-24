@@ -8,7 +8,7 @@ VAR_OUTPUT
 	bodyComponent : ST_RT6DComponent;
 	markerComponent : ST_3DMarkerPositionNoLabelComponent;
 	
-	feedback : ST_QualisysFeedback;
+	feedback : ST_FeedbackQualisys;
 	
 	active : BOOL := FALSE;
 END_VAR

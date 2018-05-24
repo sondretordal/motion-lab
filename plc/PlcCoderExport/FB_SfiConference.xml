@@ -6,22 +6,22 @@
  * IEC 61131-3 Structured Text (ST) code generated for subsystem "main/FB_SfiConference"
  *
  * Model name                      : main
- * Model version                   : 1.3105
+ * Model version                   : 1.3128
  * Model creator                   : motionlab
  * Model last modified by          : motionlab
- * Model last modified on          : Tue May 22 15:00:30 2018
+ * Model last modified on          : Wed May 23 10:10:56 2018
  * Model sample time               : 0.005s
  * Subsystem name                  : main/FB_SfiConference
  * Subsystem sample time           : 0.005s
  * Simulink PLC Coder version      : 2.4 (R2017b) 24-Jul-2017
- * ST code generated on            : Tue May 22 15:01:24 2018
+ * ST code generated on            : Wed May 23 10:41:03 2018
  *
  * Target IDE selection            : Beckhoff TwinCAT 3
  * Test Bench included             : No
  *
  *)
 -->
-   <fileHeader companyName="The Mathworks, Inc." companyURL="www.mathworks.com" contentDescription="" creationDateTime="2018-05-22T15:01:24" productName="Simulink PLC Coder" productRelease="(R2017b)" productVersion="2.4"/>
+   <fileHeader companyName="The Mathworks, Inc." companyURL="www.mathworks.com" contentDescription="" creationDateTime="2018-05-23T10:41:03" productName="Simulink PLC Coder" productRelease="(R2017b)" productVersion="2.4"/>
    <contentHeader name="main">
       <coordinateInfo>
          <fbd>
@@ -37,7 +37,7 @@
    </contentHeader>
    <types>
       <dataTypes>
-         <dataType name="ST_WinchControl">
+         <dataType name="ST_ControlWinch">
             <baseType>
                <struct>
                   <variable name="length">
@@ -58,7 +58,7 @@
                </struct>
             </baseType>
          </dataType>
-         <dataType name="ST_ComauControl">
+         <dataType name="ST_ControlComau">
             <baseType>
                <struct>
                   <variable name="q">
@@ -94,7 +94,7 @@
                </struct>
             </baseType>
          </dataType>
-         <dataType name="ST_ComauFeedback">
+         <dataType name="ST_FeedbackComau">
             <baseType>
                <struct>
                   <variable name="q">
@@ -120,7 +120,7 @@
                </struct>
             </baseType>
          </dataType>
-         <dataType name="ST_StewartFeedback">
+         <dataType name="ST_FeedbackStewart">
             <baseType>
                <struct>
                   <variable name="eta">
@@ -188,29 +188,29 @@
                   </variable>
                   <variable name="feedback_em8000">
                      <type>
-                        <derived name="ST_StewartFeedback"/>
+                        <derived name="ST_FeedbackStewart"/>
                      </type>
                   </variable>
                   <variable name="feedback_em1500">
                      <type>
-                        <derived name="ST_StewartFeedback"/>
+                        <derived name="ST_FeedbackStewart"/>
                      </type>
                   </variable>
                   <variable name="feedback_comau">
                      <type>
-                        <derived name="ST_ComauFeedback"/>
+                        <derived name="ST_FeedbackComau"/>
                      </type>
                   </variable>
                </inputVars>
                <outputVars>
                   <variable name="control_comau">
                      <type>
-                        <derived name="ST_ComauControl"/>
+                        <derived name="ST_ControlComau"/>
                      </type>
                   </variable>
                   <variable name="control_winch">
                      <type>
-                        <derived name="ST_WinchControl"/>
+                        <derived name="ST_ControlWinch"/>
                      </type>
                   </variable>
                </outputVars>

@@ -8,12 +8,12 @@ VAR_INPUT
 	stopp : BOOL := FALSE;
 	
 	mode : UINT := 0;
-	control : ST_WinchControl;	
+	control : ST_ControlWinch;	
 END_VAR
 VAR_OUTPUT
 	active : BOOL := FALSE;
 	
-	feedback : ST_WinchFeedback;
+	feedback : ST_FeedbackWinch;
 	
 	testL : LREAL := 0.7;
 END_VAR

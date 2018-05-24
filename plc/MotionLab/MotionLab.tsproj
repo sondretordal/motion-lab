@@ -1967,7 +1967,7 @@ External Setpoint Generation:
 			</Relations>
 		</DataType>
 		<DataType>
-			<Name GUID="{5162685C-523B-44DC-BA2D-1BD97712F650}" AutoDeleteType="true">ST_StewartControl</Name>
+			<Name GUID="{352DC334-E7E8-495A-9C15-10F98D0198BD}" AutoDeleteType="true">ST_ControlStewart</Name>
 			<BitSize>384</BitSize>
 			<SubItem>
 				<Name>eta</Name>
@@ -1981,7 +1981,7 @@ External Setpoint Generation:
 			</SubItem>
 		</DataType>
 		<DataType>
-			<Name GUID="{A09DD7D9-947B-474B-8BE2-0FDFE5D908A7}" AutoDeleteType="true">ST_StewartFeedback</Name>
+			<Name GUID="{31127E2C-2D77-4E29-8FA5-41099FB4C59C}" AutoDeleteType="true">ST_FeedbackStewart</Name>
 			<BitSize>1152</BitSize>
 			<SubItem>
 				<Name>eta</Name>
@@ -5025,11 +5025,11 @@ External Setpoint Generation:
 						<Name>PlcTask Inputs</Name>
 						<Var>
 							<Name>MAIN.em8000.control</Name>
-							<Type GUID="{5162685C-523B-44DC-BA2D-1BD97712F650}">ST_StewartControl</Type>
+							<Type GUID="{352DC334-E7E8-495A-9C15-10F98D0198BD}">ST_ControlStewart</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.em1500.control</Name>
-							<Type GUID="{5162685C-523B-44DC-BA2D-1BD97712F650}">ST_StewartControl</Type>
+							<Type GUID="{352DC334-E7E8-495A-9C15-10F98D0198BD}">ST_ControlStewart</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.winch.axis.NcToPlc</Name>
@@ -5139,11 +5139,11 @@ External Setpoint Generation:
 						</Var>
 						<Var>
 							<Name>MAIN.em8000.feedback</Name>
-							<Type GUID="{A09DD7D9-947B-474B-8BE2-0FDFE5D908A7}">ST_StewartFeedback</Type>
+							<Type GUID="{31127E2C-2D77-4E29-8FA5-41099FB4C59C}">ST_FeedbackStewart</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.em1500.feedback</Name>
-							<Type GUID="{A09DD7D9-947B-474B-8BE2-0FDFE5D908A7}">ST_StewartFeedback</Type>
+							<Type GUID="{31127E2C-2D77-4E29-8FA5-41099FB4C59C}">ST_FeedbackStewart</Type>
 						</Var>
 						<Var>
 							<Name>MAIN.winch.axis.PlcToNc</Name>

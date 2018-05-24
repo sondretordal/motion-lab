@@ -4,10 +4,10 @@
     <Declaration><![CDATA[FUNCTION_BLOCK FB_ComauInterface
 VAR_INPUT
 	cmnd : DINT;
-	control : ST_ComauControl;
+	control : ST_ControlComau;
 END_VAR
 VAR_OUTPUT
-	feedback : ST_ComauFeedback;
+	feedback : ST_FeedbackComau;
 	active : BOOL:= FALSE;
 END_VAR
 VAR

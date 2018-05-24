@@ -38,7 +38,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab_interface">
        <attribute name="title">
@@ -1383,78 +1383,6 @@ color: rgb(255, 255, 255);
         <property name="alignment">
          <set>Qt::AlignCenter</set>
         </property>
-        <widget class="QPushButton" name="winchEngaged">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>90</y>
-           <width>141</width>
-           <height>30</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="text">
-          <string>Engaged</string>
-         </property>
-         <property name="autoDefault">
-          <bool>false</bool>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="winchSettled">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>40</y>
-           <width>141</width>
-           <height>30</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="text">
-          <string>Settled</string>
-         </property>
-         <property name="autoDefault">
-          <bool>false</bool>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="winchEngagedFast">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>140</y>
-           <width>141</width>
-           <height>30</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="text">
-          <string>Engaged - Fast</string>
-         </property>
-         <property name="autoDefault">
-          <bool>false</bool>
-         </property>
-        </widget>
        </widget>
        <widget class="QPushButton" name="show3dView">
         <property name="geometry">
@@ -1570,6 +1498,81 @@ color: rgb(255, 255, 255);
          <bool>false</bool>
         </property>
        </widget>
+       <widget class="QPushButton" name="winchEngagedFast">
+        <property name="geometry">
+         <rect>
+          <x>590</x>
+          <y>210</y>
+          <width>141</width>
+          <height>30</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
+        <property name="text">
+         <string>Engaged - Fast</string>
+        </property>
+        <property name="autoDefault">
+         <bool>false</bool>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="winchEngaged">
+        <property name="geometry">
+         <rect>
+          <x>590</x>
+          <y>160</y>
+          <width>141</width>
+          <height>30</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
+        <property name="text">
+         <string>Engaged</string>
+        </property>
+        <property name="autoDefault">
+         <bool>false</bool>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="winchSettled">
+        <property name="geometry">
+         <rect>
+          <x>590</x>
+          <y>110</y>
+          <width>141</width>
+          <height>30</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(204, 204, 204);</string>
+        </property>
+        <property name="text">
+         <string>Settled</string>
+        </property>
+        <property name="autoDefault">
+         <bool>false</bool>
+        </property>
+       </widget>
        <zorder>groupBox_EM8000</zorder>
        <zorder>groupBox_EM1500_2</zorder>
        <zorder>groupBox_EM1500</zorder>
@@ -1593,6 +1596,9 @@ color: rgb(255, 255, 255);
        <zorder>activeEM8000</zorder>
        <zorder>activeEM1500</zorder>
        <zorder>activeCOMAU</zorder>
+       <zorder>winchEngagedFast</zorder>
+       <zorder>winchEngaged</zorder>
+       <zorder>winchSettled</zorder>
       </widget>
       <widget class="QWidget" name="tab_plot">
        <attribute name="title">

@@ -1,6 +1,4 @@
 *.ini
-*.pyc
-*.pyd
 
 build/
 site/
@@ -10,6 +8,5 @@ _static/
 _templates/
 
 __pycache__/
-*.pyd
 
 .vscode/

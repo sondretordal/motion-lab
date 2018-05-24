@@ -344,9 +344,13 @@ class GUI(QMainWindow, Ui_main):
         self.EM8000_wave_spectra.currentIndexChanged.connect(self.EM8000_wave)
         
         # Winch related
-        self.winchSettled.clicked.connect(lambda: self.plc.write_by_name('MAIN.winch.mode', 0, pyads.PLCTYPE_UINT))
-        self.winchEngaged.clicked.connect(lambda: self.plc.write_by_name('MAIN.winch.mode', 1, pyads.PLCTYPE_UINT))
-        self.winchEngagedFast.clicked.connect(lambda: self.plc.write_by_name('MAIN.winch.mode', 2, pyads.PLCTYPE_UINT))
+        # self.winchSettled.clicked.connect(lambda: self.plc.write_by_name('MAIN.winch.mode', 0, pyads.PLCTYPE_UINT))
+        # self.winchEngaged.clicked.connect(lambda: self.plc.write_by_name('MAIN.winch.mode', 1, pyads.PLCTYPE_UINT))
+        # self.winchEngagedFast.clicked.connect(lambda: self.plc.write_by_name('MAIN.winch.mode', 2, pyads.PLCTYPE_UINT))
+
+        self.winchSettled.clicked.connect(self.WINCH_settled)
+        self.winchEngaged.clicked.connect(self.WINCH_engaged)
+        self.winchEngagedFast.clicked.connect(self.WINCH_engaged_fast)
 
         self.winchOff.clicked.connect(lambda: self.plc.write_by_name('MAIN.winch.enable', False, pyads.PLCTYPE_BOOL))
         self.winchOn.clicked.connect(lambda: self.plc.write_by_name('MAIN.winch.enable', True, pyads.PLCTYPE_BOOL))
@@ -605,8 +609,8 @@ class GUI(QMainWindow, Ui_main):
     # EM 1500 button functions
     def EM1500_settled(self):
         self.EM1500_settled_btn.setStyleSheet("background-color: #cccccc")
-        self.EM1500_neutral_btn.setStyleSheet("background-color: none")
-        self.EM1500_engaged_btn.setStyleSheet("background-color: none")
+        self.EM1500_neutral_btn.setStyleSheet("background-color: none   ")
+        self.EM1500_engaged_btn.setStyleSheet("background-color: none   ")
 
         # Write to PLC: EM1500 settled = 1
         self.plc.write_by_name('MAIN.em1500.cmnd', 1, pyads.PLCTYPE_DINT)
@@ -626,6 +630,28 @@ class GUI(QMainWindow, Ui_main):
 
         # Write to PLC: EM1500 engaged = 7
         self.plc.write_by_name('MAIN.em1500.cmnd', 7, pyads.PLCTYPE_DINT)
+
+    # Winch butttons
+    def WINCH_settled(self):
+        self.winchSettled.setStyleSheet("background-color: #cccccc")
+        self.winchEngaged.setStyleSheet("background-color: none   ")
+        self.winchEngagedFast.setStyleSheet("background-color: none   ")
+
+        self.plc.write_by_name('MAIN.winch.mode', 0, pyads.PLCTYPE_UINT)
+
+    def WINCH_engaged(self):
+        self.winchSettled.setStyleSheet("background-color: none   ")
+        self.winchEngaged.setStyleSheet("background-color: #cccccc")
+        self.winchEngagedFast.setStyleSheet("background-color: none   ")
+
+        self.plc.write_by_name('MAIN.winch.mode', 1, pyads.PLCTYPE_UINT)
+
+    def WINCH_engaged_fast(self):
+        self.winchSettled.setStyleSheet("background-color: none")
+        self.winchEngaged.setStyleSheet("background-color: none")
+        self.winchEngagedFast.setStyleSheet("background-color: #cccccc")
+
+        self.plc.write_by_name('MAIN.winch.mode', 2, pyads.PLCTYPE_UINT)
 
     # COMAU button functions
     def COMAU_settled(self):
