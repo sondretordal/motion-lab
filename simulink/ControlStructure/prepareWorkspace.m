@@ -19,7 +19,7 @@ winch.zeta = 0.7;
 robot.omega = 4*2*pi;
 robot.zeta = 0.7;
 
-% Pendulum ODE 
+%% Pendulum ODE 
 phi_tt = pendel.formOde();
 
 % Linearized wave spectrum

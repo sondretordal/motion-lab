@@ -66,8 +66,8 @@ ode(28,1) = l_t;
 % ode(29,1) = l_ref*omega^2 - 2*zeta*omega*l_t - omega^2*l;
 ode(29,1) = 0;
 ode(30:31,1) = phi_t;
-% ode(32:33,1) = pendel.ode(phi, phi_t, zeros(3,1), l, l_t, c);
-ode(32:33,1) = pendel.ode(phi, phi_t, pt_tt, l, l_t, c);
+ode(32:33,1) = pendel.ode(phi, phi_t, zeros(3,1), l, l_t, c);
+% ode(32:33,1) = pendel.ode(phi, phi_t, pt_tt, l, l_t, c);
 ode(34,1) = 0;
 
 % State transition function and jacobian
