@@ -8,7 +8,7 @@ c = 0.1;
 syms Ts 'real'
 
 % State vector mapping an intial conditions
-x = sym('x', [31,1], 'real');
+x = sym('x', [37,1], 'real');
 x0 = zeros(length(x), 1);
 
 eta = x(1:6);
@@ -25,13 +25,12 @@ omega_w = x(27);
 zeta_w = x(28);
 e = x(29:31);
 
-
 % Input Mapping
 u = sym('u', [4,1], 'real');
 u0 = zeros(length(u), 1);
 
-q_ref = u(1:3);
-l_ref = u(4);
+q_ref = u(1:3); u0(1:3) = x0(13:15);
+l_ref = u(4); u0(4) = x0(23);
 
 % Ship jacobain
 J = [

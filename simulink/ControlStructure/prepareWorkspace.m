@@ -2,22 +2,16 @@ close all
 clear all
 clc
 
+% Load static data
+load('hydroSupply.mat');
+load('motionlab/calib.mat');
+
 % Fundamnetal simulation time step
 Ts = 0.005;
 
 % Measured distance form {b2} origo to top plate of EM1500
 dz = -0.1690;
 
-% Pendulum damping parameter
-c = 0.5;
-
-% Winch Dynamics
-winch.omega = 4*2*pi;
-winch.zeta = 0.7;
-
-% TRobot Joint Dynamics
-robot.omega = 4*2*pi;
-robot.zeta = 0.7;
 
 %% Pendulum ODE 
 phi_tt = pendel.formOde();
@@ -35,9 +29,11 @@ load('experiement.mat')
 % Stewart simulator covarinces
 sim = simulation.formCovariances(data, 'none');
 
-% Form observers
-pendelEkf = pendel.formEkfMatrices();
-s2sEkf = s2s.formEkfMatrices();
+% Form observers 
+ekf = observer.ekfMatrices();
+
+%% Anti-Sawy Controller Gains
+K = antisway.lqr();
 
 %% *** Create Simulink Bus Objects ***
 % Feedback Types

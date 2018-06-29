@@ -11,22 +11,22 @@ phi_t = sym('phi_t', [2,1], 'real');
 phi_tt = sym('phi_tt', [2,1], 'real');
 
 syms l l_t l_tt 'real'
-syms g m 'real'
+syms g m c 'real'
 
-% State vectors
-x = [
+% Generalized coordinates
+q = [
     pt
     l
     phi
 ];
 
-x_t = [
+q_t = [
     pt_t
     l_t
     phi_t
 ];
 
-x_tt = [
+q_tt = [
     pt_tt
     l_tt
     phi_tt
@@ -35,28 +35,28 @@ x_tt = [
 % Kinematics
 ph = pendel.kinematics(pt, phi, l);
 
-J_lin_load = jacobian(ph, x);
+J_lin_load = jacobian(ph, q);
 
-Ek = 0.5*m*(J_lin_load*x_t)'*(J_lin_load*x_t);
+Ek = 0.5*m*(J_lin_load*q_t)'*(J_lin_load*q_t);
 Ep = m*g*(l - l*cos(phi(1))*cos(phi(2)));
 
 L = Ek - Ep;
 
-part1 = jacobian(jacobian(L, x_t),[x; x_t])*[x_t; x_tt];
+part1 = jacobian(jacobian(L, q_t),[q; q_t])*[q_t; q_tt];
 
-part2 = jacobian(L, x)';
+part2 = jacobian(L, q)';
 
 tau = simplify(part1 - part2);
 
 % To matrix form
-[A, b] = equationsToMatrix(...
+[A, b] = equationsToMatrix(...  
     [1,0,0,0,0,0]*tau == 0,...
     [0,1,0,0,0,0]*tau == 0,...
     [0,0,1,0,0,0]*tau == 0,...
     [0,0,0,1,0,0]*tau == 0,...
     [0,0,0,0,1,0]*tau == 0,...
     [0,0,0,0,0,1]*tau == 0,...
-    x_tt...
+    q_tt...
 );
 
 M = simplify(A);
@@ -65,9 +65,9 @@ M2 = M(5:6,5:6);
 F = simplify(b);
 
 % Form diiferential equation
-phi_tt = simplify(pinv(M2)*(-M1*x_tt(1:4) + F(5:6)));
+phi_tt = simplify(pinv(M2)*(-M1*q_tt(1:4) + F(5:6))) - c*phi_t;
 
-matlabFunction(phi_tt, 'File', '+pendel/ode', 'Vars', {phi, phi_t, pt_tt l, l_t, g});
+matlabFunction(phi_tt, 'File', '+pendel/ode', 'Vars', {phi, phi_t, pt_tt l, l_t, g, c});
     
 end
 

@@ -35,6 +35,9 @@ VAR
 	
 	i : UDINT;
 	
+	
+	activateSystem : BOOL := TRUE;
+	
 	t : LREAL := 0.0;
 	w : LREAL := 0.05*2*PI;
 	A : LREAL := 0.0;

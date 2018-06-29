@@ -1,23 +1,23 @@
 function model = formEkfMatrices()
 
 % Set default sizes and covariances
-Nx = 34;
+Nx = 31;
 Nz = 23;
 
 Q = eye(Nx)*0.001^2;
-Q(13:18,13:18) = eye(6)*0.05^2;
-Q(25:27,25:27) = eye(3)*0.05^2;
-Q(29,29) = 0.05^2;
-Q(32:33,32:33) = eye(2)*0.1^2;
-Q(34,34) = 0.005^2;
+P0 = eye(Nx);
 
 R = eye(Nz)*0.005^2;
 
-P0 = eye(Nx);
+
 
 x0 = zeros(Nx,1);
-x0(19:21) = [1.8, -0.5, 1.5];
-x0(28) = 2;
+x0(13:15) = [0, 0, -90]/180*pi;
+x0(23) = 2;
+x0(25) = 4*2*pi;
+x0(26) = 0.3;
+x0(27) = 2*2*pi;
+x0(28) = 0.3;
 
 % Return result
 model.x0 = x0;
