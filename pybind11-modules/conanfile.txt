@@ -1,9 +1,6 @@
 [requires]
-pybind11/any@memsharded/stable
+pybind11/2.2.2@conan/stable
 Eigen3/3.2.8@bilke/stable
 
 [generators]
 cmake
-
-[options]
-pybind11:version=2.1.1

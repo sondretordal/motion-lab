@@ -8,9 +8,6 @@ include_directories(
 # Shared pybind11 module settings
 add_library(${CMAKE_PROJECT_NAME} SHARED
   main.cpp
-  UdpServer.cpp
-  RemoteInterface.cpp
-  JsonLogger.cpp
   XboxController.cpp 
 )
 
