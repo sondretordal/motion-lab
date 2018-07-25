@@ -7,7 +7,7 @@ g = 9.81;
 syms Ts 'real'
 
 % State vector mapping an intial conditions
-Nx = 48;
+Nx = 44;
 x = sym('x', [Nx,1], 'real');
 
 eta1 = x(1:6);
@@ -27,15 +27,17 @@ phi_t = x(37:38);
 l = x(39);
 l_t = x(40);
 
+c = x(41);
+
+e = x(42:44);
+
 % Phi
-omega_q = x(41);
-zeta_q = x(42);
-omega_l = x(43);
-zeta_l = x(44);
-c = x(45);
+param = sym('param', [4,1], 'real');
 
-e = x(46:48);
-
+omega_q = param(1);
+zeta_q = param(2);
+omega_l = param(3);
+zeta_l = param(4);
 
 % Input Mapping
 u = sym('u', [4,1], 'real');
@@ -100,7 +102,7 @@ x_t = [
     phi_tt
     l_t
     l_tt
-    zeros(5,1) % Phi_t
+    0
     zeros(3,1) % e_t
 ];
 
@@ -116,14 +118,16 @@ r1 = eta1(1:3) + math3d.Rzyx(eta1(4:6))*calib.EM8000_TO_AT960.H(1:3,4);
 r2 = o(1:3) + math3d.Rz(o(4))*(eta2(1:3) + math3d.Rzyx(eta2(4:6))*calib.EM1500_TO_TMAC.H(1:3,4));
 
 h = [    
-    eta1
+    eta1(1:3)
+    math3d.xyz2zyx(eta1(4:6))
     v1
     q
     q_t
     pendel.kinematics(pt, phi, l) + e;
     l
     l_t
-    eta2
+    eta2(1:3)
+    math3d.xyz2zyx(eta2(4:6))
     v2
     (math3d.Rzyx(eta1(4:6))*calib.EM8000_TO_AT960.H(1:3,1:3))'*(r2 - r1)
     Rcp(1,1)
@@ -140,8 +144,8 @@ h = [
 H = jacobian(h, x);
 
 % Make functtions
-matlabFunction(f, 'File', '+observer/f.m', 'Vars', {x, u, Ts});
-matlabFunction(F, 'File', '+observer/fJacobian.m', 'Vars', {x, u, Ts});
+matlabFunction(f, 'File', '+observer/f.m', 'Vars', {x, u, Ts, param});
+matlabFunction(F, 'File', '+observer/fJacobian.m', 'Vars', {x, u, Ts, param});
 
 matlabFunction(h, 'File', '+observer/h.m', 'Vars', {x});
 matlabFunction(H, 'File', '+observer/hJacobian.m', 'Vars', {x});

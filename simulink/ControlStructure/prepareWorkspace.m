@@ -26,14 +26,21 @@ N = 100;
 %% Define covarince from experimental data
 load('experiement.mat')
 
+% Dynamic parameters
+omega_q = 2*2*pi;
+zeta_q = 0.7;
+
+omega_l = 4*2*pi;
+zeta_l = 0.7;
+
 % Stewart simulator covarinces
 sim = simulation.formCovariances(data, 'none');
 
-% Form observers 
-ekf = observer.ekfMatrices();
+% Form observers
+[x0, Q, R, P0] = observer.ekfMatrices();
 
 %% Anti-Sawy Controller Gains
-K = antisway.lqr();
+[K, Ki] = antisway.lqr();
 
 %% *** Create Simulink Bus Objects ***
 % Feedback Types

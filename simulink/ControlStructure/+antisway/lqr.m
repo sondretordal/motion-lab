@@ -1,4 +1,4 @@
-function K = lqr()
+function [K, Ki] = lqr()
 
 % State space version of pendulum ode
 x = sym('x', [10,1], 'real');
@@ -30,7 +30,7 @@ h = [
     phi
 ];
 
-% Linearized model
+% Linearized plant
 x0 = zeros(length(x),1);
 u0 = zeros(length(u),1);
 
@@ -46,7 +46,7 @@ unco = length(A) - rank(Co)
 
 % LQR Controller to drive x -> 0
 Q = diag([
-    1./(ones(3,1)*0.4^2)
+    1./(ones(3,1)*0.2^2)
     1./(ones(3,1)*1^2)
     1./(ones(2,1)*(2/180*pi)^2)
     1./(ones(2,1)*(5/180*pi)^2)
@@ -56,6 +56,32 @@ R = diag([
     1./(ones(3,1)*1^2)
 ]).^2;
 
+% State feedback only
 [K, S, e] = lqr(A, B, Q, R);
+
+% Add integral control action
+y = C*x;
+r = zeros(length(y),1);
+
+z = r - y;
+
+nz = length(z);
+nx = length(x);
+nu = length(u);
+
+Ai = [
+    zeros(nz, nz), -C
+    zeros(nx, nz),  A
+];
+
+Bi = [
+    zeros(nz,nu)
+    B
+];
+
+Qi = blkdiag(diag(1./ones(nz,1)*0.1^2), Q);
+
+
+[Ki, S, e] = lqr(Ai, Bi, Qi, R);
 
 end
