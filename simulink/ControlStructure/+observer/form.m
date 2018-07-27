@@ -39,9 +39,9 @@ zeta_q = param(2);
 omega_l = param(3);
 zeta_l = param(4);
 
+
 % Input Mapping
 u = sym('u', [4,1], 'real');
-u0 = zeros(length(u), 1);
 
 q_ref = u(1:3);
 l_ref = u(4);
@@ -55,6 +55,10 @@ v2_t = zeros(6,1);
 
 q_tt = joints.ode(q_ref, q, q_t, omega_q, zeta_q);
 l_tt = winch.ode(l_ref, l, l_t, omega_l, zeta_l);
+
+c_t = 0;
+
+e_t = zeros(3,1);
 
 % Robot pt from joints
 [p, p_t, p_tt] = motionlab.comau.forward(q, q_t, q_tt);
@@ -102,8 +106,8 @@ x_t = [
     phi_tt
     l_t
     l_tt
-    0
-    zeros(3,1) % e_t
+    c_t
+    e_t
 ];
 
 f = x + x_t*Ts;

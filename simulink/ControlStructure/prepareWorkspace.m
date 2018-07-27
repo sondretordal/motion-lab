@@ -12,7 +12,6 @@ Ts = 0.005;
 % Measured distance form {b2} origo to top plate of EM1500
 dz = -0.1690;
 
-
 %% Pendulum ODE 
 phi_tt = pendel.formOde();
 
@@ -27,7 +26,7 @@ N = 100;
 load('experiement.mat')
 
 % Dynamic parameters
-omega_q = 2*2*pi;
+omega_q = 1*2*pi;
 zeta_q = 0.7;
 
 omega_l = 4*2*pi;
@@ -38,6 +37,8 @@ sim = simulation.formCovariances(data, 'none');
 
 % Form observers
 [x0, Q, R, P0] = observer.ekfMatrices();
+stringQ = sprintf('%d,' , diag(Q));
+stringR = sprintf('%d,' , diag(R));
 
 %% Anti-Sawy Controller Gains
 [K, Ki] = antisway.lqr();
@@ -95,7 +96,6 @@ elems(n).DataType = 'ST_FeedbackLeica';
 
 ST_Feedback = Simulink.Bus;
 ST_Feedback.Elements = elems;
-
 
 % Control Types
 ST_ControlStewart = bus.ControlStewart();
