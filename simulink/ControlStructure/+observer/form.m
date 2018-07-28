@@ -7,53 +7,44 @@ g = 9.81;
 syms Ts 'real'
 
 % State vector mapping an intial conditions
-Nx = 44;
+Nx = 32;
 x = sym('x', [Nx,1], 'real');
 
-eta1 = x(1:6);
-v1 = x(7:12);
+eta = x(1:6);
+v = x(7:12);
 
-eta2 = x(13:18);
-v2 = x(19:24);
+q = x(13:15);
+q_t = x(16:18);
 
-o = x(25:28);
+l = x(19);
+l_t = x(20);
 
-q = x(29:31);
-q_t = x(32:34);
+phi = x(21:22);
+phi_t = x(23:24);
 
-phi = x(35:36);
-phi_t = x(37:38);
+c = x(25);
 
-l = x(39);
-l_t = x(40);
+e = x(26:28);
 
-c = x(41);
+omega_q = x(29);
+zeta_q = x(30);
 
-e = x(42:44);
+omega_l = x(31);
+zeta_l = x(32);
 
-% Phi
-param = sym('param', [4,1], 'real');
-
-omega_q = param(1);
-zeta_q = param(2);
-omega_l = param(3);
-zeta_l = param(4);
-
-
-% Input Mapping
-u = sym('u', [4,1], 'real');
+% Input mapping
+Nu = 4;
+u = sym('u', [Nu,1], 'real');
 
 q_ref = u(1:3);
 l_ref = u(4);
 
 % ODE's
-eta1_t = ship.kinematics(eta1, v1);
-v1_t = zeros(6,1);
-
-eta2_t = ship.kinematics(eta2, v2);
-v2_t = zeros(6,1);
+eta_t = ship.kinematics(eta, v);
+v_t = zeros(6,1);
 
 q_tt = joints.ode(q_ref, q, q_t, omega_q, zeta_q);
+
 l_tt = winch.ode(l_ref, l, l_t, omega_l, zeta_l);
 
 c_t = 0;
@@ -67,11 +58,11 @@ e_t = zeros(3,1);
 Hbr = calib.EM8000_TO_COMAU.H;
 
 % Ship/stewart {b} orientation matrix relative to {n}
-Rnb = math3d.Rzyx(eta1(4:6));
+Rnb = math3d.Rxyz(eta(4:6));
 
 % Body fixed velocity and acceleration skew matrices
-W = math3d.skew(v1(4:6));
-W_t = math3d.skew(v1_t(4:6));
+W = math3d.skew(v(4:6));
+W_t = math3d.skew(v_t(4:6));
 
 Rnb_t = Rnb*W;
 Rnb_tt = Rnb*W*W + Rnb*W_t;
@@ -81,13 +72,13 @@ r = Hbr(1:3,4);
 Rbr = Hbr(1:3,1:3);
 
 % Position of {t}/{n} given in {n}
-pt = eta1(1:3) + Rnb*(r + Rbr*p);
+pt = eta(1:3) + Rnb*(r + Rbr*p);
 
 % Velocity of {t}/{n} given in {n}
-pt_t = v1(1:3) + Rnb_t*(r + Rbr*p) + Rnb*(Rbr*p_t);
+pt_t = v(1:3) + Rnb_t*(r + Rbr*p) + Rnb*(Rbr*p_t);
 
 % Acceleration of {t}/{n} given in {n}
-pt_tt = v1_t(1:3) + Rnb_tt*(r + Rbr*p)...
+pt_tt = v_t(1:3) + Rnb_tt*(r + Rbr*p)...
     + 2*Rnb_t*(Rbr*p_t) + Rnb*(Rbr*p_tt);
 
 % Pendel ODE
@@ -95,61 +86,37 @@ phi_tt = pendel.ode(phi, phi_t, pt_tt, l, l_t, g, c);
 
 % Non linear SS model
 x_t = [
-    eta1_t
-    v1_t
-    eta2_t
-    v2_t
-    zeros(4,1) % o_t
+    eta_t
+    v_t
     q_t
     q_tt
-    phi_t
-    phi_tt
     l_t
     l_tt
+    phi_t
+    phi_tt    
     c_t
     e_t
+    zeros(4,1)
 ];
 
 f = x + x_t*Ts;
 F = jacobian(f, x);
 
-
-% Measurement function
-Rcp = (math3d.Rzyx(eta1(4:6))*calib.EM8000_TO_AT960.H(1:3,1:3))'*...
-    math3d.Rz(o(4))*math3d.Rzyx(eta2(4:6))*calib.EM1500_TO_TMAC.H(1:3,1:3);
-
-r1 = eta1(1:3) + math3d.Rzyx(eta1(4:6))*calib.EM8000_TO_AT960.H(1:3,4);
-r2 = o(1:3) + math3d.Rz(o(4))*(eta2(1:3) + math3d.Rzyx(eta2(4:6))*calib.EM1500_TO_TMAC.H(1:3,4));
-
 h = [    
-    eta1(1:3)
-    math3d.xyz2zyx(eta1(4:6))
-    v1
+    eta
+    v
     q
     q_t
-    pendel.kinematics(pt, phi, l) + e;
     l
     l_t
-    eta2(1:3)
-    math3d.xyz2zyx(eta2(4:6))
-    v2
-    (math3d.Rzyx(eta1(4:6))*calib.EM8000_TO_AT960.H(1:3,1:3))'*(r2 - r1)
-    Rcp(1,1)
-    Rcp(1,2)
-    Rcp(1,3)
-    Rcp(2,1)
-    Rcp(2,2)
-    Rcp(2,3)
-    Rcp(3,1)
-    Rcp(3,2)
-    Rcp(3,3)
+    pendel.kinematics(pt, phi, l) + e; % ph
 ];
 
 H = jacobian(h, x);
 
 % Make functtions
-matlabFunction(f, 'File', '+observer/f.m', 'Vars', {x, u, Ts, param});
-matlabFunction(F, 'File', '+observer/fJacobian.m', 'Vars', {x, u, Ts, param});
+matlabFunction(f, 'File', '+observer/f.m', 'Vars', {x, u, Ts});
+matlabFunction(F, 'File', '+observer/fJacobian.m', 'Vars', {x, u, Ts});
 
 matlabFunction(h, 'File', '+observer/h.m', 'Vars', {x});
 matlabFunction(H, 'File', '+observer/hJacobian.m', 'Vars', {x});
