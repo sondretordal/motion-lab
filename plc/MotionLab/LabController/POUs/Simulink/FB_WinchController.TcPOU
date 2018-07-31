@@ -1,0 +1,541 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.7">
+  <POU Name="FB_WinchController" Id="{62ba8a5d-2500-4141-b599-7cda62c0ff84}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_WinchController
+VAR_INPUT
+	compS2S: BOOL := FALSE;
+	useMru: BOOL := FALSE;
+	origoPlaneOffset: LREAL := -0.1690;
+	lengthExtra: LREAL := -1.0;
+	stFeedback: ST_Feedback;
+END_VAR
+VAR_OUTPUT
+	stWinchControl: ST_ControlWinch;
+END_VAR
+VAR
+	eta1: ARRAY[0..5] OF LREAL;
+	v1: ARRAY[0..5] OF LREAL;
+	eta2: ARRAY[0..5] OF LREAL;
+	v2: ARRAY[0..5] OF LREAL;
+	o: ARRAY[0..3] OF LREAL;
+	Rn1b1: ARRAY[0..8] OF LREAL;
+	Rn2b2: ARRAY[0..8] OF LREAL;
+	pt: ARRAY[0..2] OF LREAL;
+	Rn1n2: ARRAY[0..8] OF SINT;
+	Hn1n2: ARRAY[0..15] OF LREAL;
+	Hn2b2: ARRAY[0..15] OF LREAL;
+	Hn2b2_t: ARRAY[0..15] OF LREAL;
+	Rn1b2: ARRAY[0..8] OF LREAL;
+	Rn1b2_t: ARRAY[0..8] OF LREAL;
+	a: LREAL;
+	b: LREAL;
+	b_p: ARRAY[0..2] OF LREAL;
+	unusedU1: ARRAY[0..5] OF LREAL;
+	i: DINT;
+	g: ARRAY[0..2] OF LREAL;
+	i_0: DINT;
+	Rn1n2_0: ARRAY[0..8] OF LREAL;
+	Hn1n2_0: ARRAY[0..15] OF LREAL;
+	Hn1n2_1: ARRAY[0..3] OF LREAL;
+	tmp: ARRAY[0..8] OF LREAL;
+	v1_0: ARRAY[0..2] OF LREAL;
+	p_tmp: LREAL;
+	p_tmp_tmp: LREAL;
+	p_tmp_tmp_0: LREAL;
+	Rn1b1_tmp: LREAL;
+	Rn1b1_tmp_0: LREAL;
+	Rn1b1_tmp_1: LREAL;
+	Rn1b1_tmp_2: LREAL;
+	Rn1b1_tmp_3: LREAL;
+	Rn1b1_tmp_4: LREAL;
+	Rn2b2_tmp: LREAL;
+	Rn2b2_tmp_0: LREAL;
+	Rn2b2_tmp_1: LREAL;
+	Rn2b2_tmp_2: LREAL;
+	Rn2b2_tmp_3: LREAL;
+	Rn1b2_tmp: DINT;
+	Rn1b2_tmp_0: DINT;
+	p_tmp_0: LREAL;
+	p_tmp_1: LREAL;
+	p_tmp_2: LREAL;
+	p_tmp_3: LREAL;
+	p_tmp_tmp_1: LREAL;
+	p_tmp_tmp_2: LREAL;
+	i0_eulerToBody: eulerToBody;
+	b_d: ARRAY[0..2] OF LREAL := [-3.7688459512217709, 3.3476011179532041, 0.973619107013598];
+	d_a: ARRAY[0..8] OF LREAL := [-0.49716724243009747, 0.86764746505320345, 0.0035509774996006884, 0.86764051357801664, 0.49717836120759562, -0.0036900331983521608, -0.004967117124448933, 0.0012464083117572659, -0.999986887020921];
+	b_g: ARRAY[0..2] OF LREAL := [-1.0820240997479491, 1.536041691521612, -1.0244614487807751];
+	e: ARRAY[0..2] OF SINT := [0, 0, 1];
+	f: ARRAY[0..15] OF SINT := [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+(* MATLAB Function: '<S1>/Wire Length' incorporates:
+ *  BusCreator: '<S1>/BusConversion_InsertedFor_Wire Length_at_inport_3' *)
+(* MATLAB Function 'FB_WinchController/Wire Length': '<S2>:1' *)
+(* '<S2>:1:3' if useMru *)
+
+IF useMru THEN 
+    (* Stack data from MRU *)
+    (* '<S2>:1:5' eta1 = feedback.mru1.eta; *)
+    (* '<S2>:1:6' v1 = feedback.mru1.v; *)
+    (* '<S2>:1:8' eta2 = feedback.mru2.eta; *)
+    (* '<S2>:1:9' v2 = feedback.mru2.v; *)
+
+    FOR i := 0 TO 5 DO 
+        eta1[i] := stFeedback.mru1.eta[i];
+        v1[i] := stFeedback.mru1.v[i];
+        eta2[i] := stFeedback.mru2.eta[i];
+        v2[i] := stFeedback.mru2.v[i];
+    END_FOR;
+
+ELSE 
+    (* '<S2>:1:10' else *)
+    (* Use Stewart feedback *)
+    (* '<S2>:1:12' eta1 = feedback.em8000.eta; *)
+    (* '<S2>:1:13' eta1_t = feedback.em8000.eta_t; *)
+    (* '<S2>:1:14' eta1_tt = feedback.em8000.eta_tt; *)
+    (* '<S2>:1:16' [v1, ~] = math3d.eulerToBody(eta1, eta1_t, eta1_tt, 'xyz'); *)
+    i0_eulerToBody(eta := stFeedback.em8000.eta, eta_t := stFeedback.em8000.eta_t, eta_tt := stFeedback.em8000.eta_tt);
+    v1 := i0_eulerToBody.v;
+    eta2 := i0_eulerToBody.v_t;
+    (* '<S2>:1:16' ~ *)
+    (* '<S2>:1:19' eta2 = feedback.em1500.eta; *)
+
+    FOR i := 0 TO 5 DO 
+        eta1[i] := stFeedback.em8000.eta[i];
+        eta2[i] := stFeedback.em1500.eta[i];
+    END_FOR;
+
+    (* '<S2>:1:20' eta2_t = feedback.em1500.eta_t; *)
+    (* '<S2>:1:21' eta2_tt = feedback.em1500.eta_tt; *)
+    (* '<S2>:1:23' [v2, ~] = math3d.eulerToBody(eta2, eta2_t, eta2_tt, 'xyz'); *)
+    i0_eulerToBody(eta := stFeedback.em1500.eta, eta_t := stFeedback.em1500.eta_t, eta_tt := stFeedback.em1500.eta_tt);
+    v2 := i0_eulerToBody.v;
+    unusedU1 := i0_eulerToBody.v_t;
+    (* '<S2>:1:23' ~ *)
+END_IF;
+
+(* Comau angle feedback *)
+(* '<S2>:1:27' q = feedback.comau.q; *)
+(* '<S2>:1:28' q_t = feedback.comau.q_t; *)
+(* Comau forward kineamtics *)
+(* '<S2>:1:31' [p, p_t, ~] = motionlab.comau.forward(q, q_t, zeros(3,1)); *)
+(* Static link lengths *)
+(* 'forward:4' a1 = 0.350; *)
+(* 'forward:5' a2 = 1.160; *)
+(* 'forward:6' a3 = 0.250; *)
+(* 'forward:7' d1 = 0.830; *)
+(* 'forward:8' d4 = 1.4922; *)
+(* 'forward:9' d6 = 0.210; *)
+(* To wire exit point *)
+(* 'forward:12' dt = 0.567; *)
+(* To WRE from joint 2 *)
+(* 'forward:15' L = d4 + d6 + dt; *)
+(* Position {b} -> {t} *)
+(* 'forward:18' q1 = q(1); *)
+(* 'forward:19' q2 = q(2); *)
+(* 'forward:20' q3 = q(3); *)
+(* 'forward:22' q1_t = q_t(1); *)
+(* 'forward:23' q2_t = q_t(2); *)
+(* 'forward:24' q3_t = q_t(3); *)
+(* Obtained from formForwardModel *)
+(* 'forward:27' p = [ *)
+(* 'forward:28'     cos(q1)*(a1 - L*sin(q3) - a3*cos(q3) + a2*sin(q2)); *)
+(* 'forward:29'     -sin(q1)*(a1 - L*sin(q3) - a3*cos(q3) + a2*sin(q2)); *)
+(* 'forward:30'     d1 + L*cos(q3) + a2*cos(q2) - a3*sin(q3); *)
+(* 'forward:31' ]; *)
+p_tmp_tmp := COS(stFeedback.comau.q[2]);
+p_tmp_tmp_0 := SIN(stFeedback.comau.q[2]);
+b := SIN(stFeedback.comau.q[1]);
+p_tmp_tmp_2 := 0.25 * p_tmp_tmp;
+p_tmp := ((0.35 - (2.2691999999999997 * p_tmp_tmp_0)) - p_tmp_tmp_2) + (1.16 * b);
+p_tmp_1 := COS(stFeedback.comau.q[0]);
+b_p[0] := p_tmp * p_tmp_1;
+p_tmp_tmp_1 := SIN(stFeedback.comau.q[0]);
+p_tmp_0 := p_tmp * ( -p_tmp_tmp_1);
+b_p[1] := p_tmp_0;
+p_tmp_2 := COS(stFeedback.comau.q[1]);
+p_tmp_tmp := 2.2691999999999997 * p_tmp_tmp;
+p_tmp_3 := 0.25 * p_tmp_tmp_0;
+b_p[2] := ((p_tmp_tmp + 0.83) + (1.16 * p_tmp_2)) - p_tmp_3;
+(* 'forward:33' J = [ *)
+(* 'forward:34'     -sin(q1)*(a1 - L*sin(q3) - a3*cos(q3) + a2*sin(q2)),  a2*cos(q1)*cos(q2), -cos(q1)*(L*cos(q3) - a3*sin(q3)); *)
+(* 'forward:35'     -cos(q1)*(a1 - L*sin(q3) - a3*cos(q3) + a2*sin(q2)), -a2*cos(q2)*sin(q1),  sin(q1)*(L*cos(q3) - a3*sin(q3)); *)
+(* 'forward:36'                                                       0,         -a2*sin(q2),          - L*sin(q3) - a3*cos(q3); *)
+(* 'forward:37' ]; *)
+(* 'forward:39' J_t = [ *)
+(* 'forward:40'     q3_t*sin(q1)*(L*cos(q3) - a3*sin(q3)) - q1_t*cos(q1)*(a1 - L*sin(q3) - a3*cos(q3) + a2*sin(q2)) - a2*q2_t*cos(q2)*sin(q1), - a2*q1_t*cos(q2)*sin(q1) - a2*q2_t*cos(q1)*sin(q2), q3_t*cos(q1)*(L*sin(q3) + a3*cos(q3)) + q1_t*sin(q1)*(L*cos(q3) - a3*sin(q3)); *)
+(* 'forward:41'     q3_t*cos(q1)*(L*cos(q3) - a3*sin(q3)) + q1_t*sin(q1)*(a1 - L*sin(q3) - a3*cos(q3) + a2*sin(q2)) - a2*q2_t*cos(q1)*cos(q2),   a2*q2_t*sin(q1)*sin(q2) - a2*q1_t*cos(q1)*cos(q2), q1_t*cos(q1)*(L*cos(q3) - a3*sin(q3)) - q3_t*sin(q1)*(L*sin(q3) + a3*cos(q3)); *)
+(* 'forward:42'                                                                                                                             0,                                    -a2*q2_t*cos(q2),                                                -q3_t*(L*cos(q3) - a3*sin(q3)); *)
+(* 'forward:43' ]; *)
+(* Velocity *)
+(* 'forward:46' p_t = J*q_t; *)
+(* Acceleration *)
+(* 'forward:49' p_tt = J_t*q_t + J*q_tt; *)
+(* '<S2>:1:31' ~ *)
+(* Load calibration data *)
+(* '<S2>:1:34' data = coder.load('motionlab/calib.mat'); *)
+(* '<S2>:1:35' calib = data.calib; *)
+(* '<S2>:1:37' T12 = calib.EM8000_TO_EM1500.H; *)
+(* Heading offset *)
+(* '<S2>:1:40' o = zeros(4,1); *)
+(* MATLAB Function: '<S1>/Wire Length' *)
+o[3] := 0.0;
+(* '<S2>:1:41' o(1:3) = T12(1:3,4); *)
+(* '<S2>:1:43' Hb1r = calib.EM8000_TO_COMAU.H; *)
+(* '<S2>:1:45' Rn1b1 = math3d.Rxyz(eta1(4:6)); *)
+(* 'Rxyz:3' rx = phi(1); *)
+(* 'Rxyz:4' ry = phi(2); *)
+(* 'Rxyz:5' rz = phi(3); *)
+(* 'Rxyz:7' R = [ *)
+(* 'Rxyz:8'                               cos(ry)*cos(rz),                          -cos(ry)*sin(rz),          sin(ry); *)
+(* 'Rxyz:9'     cos(rx)*sin(rz) + cos(rz)*sin(rx)*sin(ry), cos(rx)*cos(rz) - sin(rx)*sin(ry)*sin(rz), -cos(ry)*sin(rx); *)
+(* 'Rxyz:10'     sin(rx)*sin(rz) - cos(rx)*cos(rz)*sin(ry), cos(rz)*sin(rx) + cos(rx)*sin(ry)*sin(rz),  cos(rx)*cos(ry) *)
+(* 'Rxyz:11' ]; *)
+Rn1b1_tmp := COS(eta1[4]);
+Rn1b1_tmp_0 := COS(eta1[5]);
+Rn1b1[0] := Rn1b1_tmp * Rn1b1_tmp_0;
+Rn1b1_tmp_1 := SIN(eta1[5]);
+Rn1b1[3] := ( -Rn1b1_tmp) * Rn1b1_tmp_1;
+a := SIN(eta1[4]);
+Rn1b1[6] := a;
+Rn1b1_tmp_2 := COS(eta1[3]);
+Rn1b1_tmp_3 := SIN(eta1[3]);
+Rn1b1_tmp_4 := Rn1b1_tmp_0 * Rn1b1_tmp_3;
+Rn1b1[1] := (Rn1b1_tmp_4 * a) + (Rn1b1_tmp_2 * Rn1b1_tmp_1);
+Rn1b1_tmp_0 := Rn1b1_tmp_2 * Rn1b1_tmp_0;
+Rn1b1[4] := Rn1b1_tmp_0 - ((Rn1b1_tmp_3 * a) * Rn1b1_tmp_1);
+Rn1b1[7] := ( -COS(eta1[4])) * Rn1b1_tmp_3;
+Rn1b1[2] := (Rn1b1_tmp_3 * Rn1b1_tmp_1) - (Rn1b1_tmp_0 * a);
+Rn1b1[5] := ((Rn1b1_tmp_2 * a) * Rn1b1_tmp_1) + Rn1b1_tmp_4;
+Rn1b1[8] := Rn1b1_tmp_2 * Rn1b1_tmp;
+(* '<S2>:1:46' Rn1b1_t = Rn1b1*math3d.skew(v1(4:6)); *)
+(* 'skew:3' vSkew = [ *)
+(* 'skew:4'        0, -v(3),  v(2); *)
+(* 'skew:5'     v(3),     0, -v(1); *)
+(* 'skew:6'    -v(2),  v(1),    0; *)
+(* 'skew:7' ]; *)
+(* '<S2>:1:48' Rn2b2 = math3d.Rxyz(eta2(4:6)); *)
+(* 'Rxyz:3' rx = phi(1); *)
+(* 'Rxyz:4' ry = phi(2); *)
+(* 'Rxyz:5' rz = phi(3); *)
+(* 'Rxyz:7' R = [ *)
+(* 'Rxyz:8'                               cos(ry)*cos(rz),                          -cos(ry)*sin(rz),          sin(ry); *)
+(* 'Rxyz:9'     cos(rx)*sin(rz) + cos(rz)*sin(rx)*sin(ry), cos(rx)*cos(rz) - sin(rx)*sin(ry)*sin(rz), -cos(ry)*sin(rx); *)
+(* 'Rxyz:10'     sin(rx)*sin(rz) - cos(rx)*cos(rz)*sin(ry), cos(rz)*sin(rx) + cos(rx)*sin(ry)*sin(rz),  cos(rx)*cos(ry) *)
+(* 'Rxyz:11' ]; *)
+Rn1b1_tmp := COS(eta2[4]);
+Rn1b1_tmp_0 := COS(eta2[5]);
+Rn1b1_tmp_1 := Rn1b1_tmp * Rn1b1_tmp_0;
+Rn2b2[0] := Rn1b1_tmp_1;
+a := SIN(eta2[5]);
+Rn1b1_tmp_2 := ( -Rn1b1_tmp) * a;
+Rn2b2[3] := Rn1b1_tmp_2;
+Rn1b1_tmp_3 := SIN(eta2[4]);
+Rn2b2[6] := Rn1b1_tmp_3;
+Rn1b1_tmp_4 := COS(eta2[3]);
+Rn2b2_tmp := SIN(eta2[3]);
+Rn2b2_tmp_0 := Rn1b1_tmp_0 * Rn2b2_tmp;
+Rn2b2_tmp_1 := (Rn2b2_tmp_0 * Rn1b1_tmp_3) + (Rn1b1_tmp_4 * a);
+Rn2b2[1] := Rn2b2_tmp_1;
+Rn1b1_tmp_0 := Rn1b1_tmp_4 * Rn1b1_tmp_0;
+Rn2b2_tmp_2 := Rn1b1_tmp_0 - ((Rn2b2_tmp * Rn1b1_tmp_3) * a);
+Rn2b2[4] := Rn2b2_tmp_2;
+Rn2b2_tmp_3 := ( -COS(eta2[4])) * Rn2b2_tmp;
+Rn2b2[7] := Rn2b2_tmp_3;
+Rn1b1_tmp_0 := (Rn2b2_tmp * a) - (Rn1b1_tmp_0 * Rn1b1_tmp_3);
+Rn2b2[2] := Rn1b1_tmp_0;
+a := ((Rn1b1_tmp_4 * Rn1b1_tmp_3) * a) + Rn2b2_tmp_0;
+Rn2b2[5] := a;
+Rn1b1_tmp := Rn1b1_tmp_4 * Rn1b1_tmp;
+Rn2b2[8] := Rn1b1_tmp;
+(* '<S2>:1:49' Rn2b2_t = Rn2b2*math3d.skew(v2(4:6)); *)
+(* 'skew:3' vSkew = [ *)
+(* 'skew:4'        0, -v(3),  v(2); *)
+(* 'skew:5'     v(3),     0, -v(1); *)
+(* 'skew:6'    -v(2),  v(1),    0; *)
+(* 'skew:7' ]; *)
+(* {t}/{n1} given in {n1} *)
+(* '<S2>:1:52' pt = eta1(1:3) + Rn1b1*(Hb1r(1:3,4) + Hb1r(1:3,1:3)*p); *)
+
+FOR i := 0 TO 2 DO 
+    o[i] := b_d[i];
+    g[i] := (((d_a[i + 3] * p_tmp_0) + (d_a[i] * b_p[0])) + (d_a[i + 6] * b_p[2])) + b_g[i];
+END_FOR;
+
+(* '<S2>:1:53' pt_t = v1(1:3) + Rn1b1_t*(Hb1r(1:3,4) + Hb1r(1:3,1:3)*p) + Rn1b1*(Hb1r(1:3,1:3)*p_t); *)
+(* Heading offset *)
+(* '<S2>:1:56' Rn1n2 = math3d.Rz(o(4)); *)
+(* 'Rz:3' R = [cos(psi),-sin(psi), 0; *)
+(* 'Rz:4'      sin(psi), cos(psi), 0; *)
+(* 'Rz:5'      0       , 0       , 1]; *)
+Rn1n2[0] := 1;
+Rn1n2[3] := 0;
+Rn1n2[6] := 0;
+Rn1n2[1] := 0;
+Rn1n2[4] := 1;
+Rn1n2[7] := 0;
+(* MATLAB Function: '<S1>/Wire Length' *)
+
+FOR i := 0 TO 2 DO 
+    pt[i] := (((Rn1b1[i + 3] * g[1]) + (Rn1b1[i] * g[0])) + (Rn1b1[i + 6] * g[2])) + eta1[i];
+    Rn1n2[2 + (3 * i)] := e[i];
+END_FOR;
+
+(* '<S2>:1:57' Rn1n2_t = zeros(3,3); *)
+(* '<S2>:1:59' Hn1n2 = eye(4); *)
+(* MATLAB Function: '<S1>/Wire Length' *)
+
+FOR i := 0 TO 15 DO 
+    Hn1n2[i] := SINT_TO_LREAL(f[i]);
+END_FOR;
+
+(* '<S2>:1:60' Hn1n2(1:3,4) = o(1:3); *)
+(* '<S2>:1:61' Hn1n2(1:3,1:3) = Rn1n2; *)
+
+FOR i := 0 TO 2 DO 
+    Hn1n2[12 + i] := o[i];
+    Hn1n2[i * 4] := SINT_TO_LREAL(Rn1n2[3 * i]);
+    Hn1n2[1 + (i * 4)] := SINT_TO_LREAL(Rn1n2[(3 * i) + 1]);
+    Hn1n2[2 + (i * 4)] := SINT_TO_LREAL(Rn1n2[(3 * i) + 2]);
+END_FOR;
+
+(* '<S2>:1:63' Hn2b2 = eye(4); *)
+(* '<S2>:1:64' Hn2b2_t = eye(4); *)
+(* MATLAB Function: '<S1>/Wire Length' *)
+
+FOR i := 0 TO 15 DO 
+    Hn2b2[i] := SINT_TO_LREAL(f[i]);
+    Hn2b2_t[i] := 0.0;
+END_FOR;
+
+Hn2b2_t[0] := 1.0;
+Hn2b2_t[5] := 1.0;
+Hn2b2_t[10] := 1.0;
+Hn2b2_t[15] := 1.0;
+(* '<S2>:1:65' if compS2S *)
+
+IF compS2S THEN 
+    (* '<S2>:1:66' Hn2b2(1:3,4) = eta2(1:3); *)
+    (* '<S2>:1:67' Hn2b2(1:3,1:3) = math3d.Rxyz(eta2(4:6)); *)
+    (* 'Rxyz:3' rx = phi(1); *)
+    (* 'Rxyz:4' ry = phi(2); *)
+    (* 'Rxyz:5' rz = phi(3); *)
+    (* 'Rxyz:7' R = [ *)
+    (* 'Rxyz:8'                               cos(ry)*cos(rz),                          -cos(ry)*sin(rz),          sin(ry); *)
+    (* 'Rxyz:9'     cos(rx)*sin(rz) + cos(rz)*sin(rx)*sin(ry), cos(rx)*cos(rz) - sin(rx)*sin(ry)*sin(rz), -cos(ry)*sin(rx); *)
+    (* 'Rxyz:10'     sin(rx)*sin(rz) - cos(rx)*cos(rz)*sin(ry), cos(rz)*sin(rx) + cos(rx)*sin(ry)*sin(rz),  cos(rx)*cos(ry) *)
+    (* 'Rxyz:11' ]; *)
+    Hn2b2[0] := Rn1b1_tmp_1;
+    Hn2b2[4] := Rn1b1_tmp_2;
+    Hn2b2[8] := Rn1b1_tmp_3;
+    Hn2b2[1] := Rn2b2_tmp_1;
+    Hn2b2[5] := Rn2b2_tmp_2;
+    Hn2b2[9] := Rn2b2_tmp_3;
+    Hn2b2[2] := Rn1b1_tmp_0;
+    Hn2b2[6] := a;
+    Hn2b2[10] := Rn1b1_tmp;
+    (* '<S2>:1:69' Hn2b2_t(1:3,4) = v2(1:3); *)
+    (* '<S2>:1:70' Hn2b2_t(1:3,1:3) = Hn2b2(1:3,1:3)*math3d.skew(v2(4:6)); *)
+    (* 'skew:3' vSkew = [ *)
+    (* 'skew:4'        0, -v(3),  v(2); *)
+    (* 'skew:5'     v(3),     0, -v(1); *)
+    (* 'skew:6'    -v(2),  v(1),    0; *)
+    (* 'skew:7' ]; *)
+    Rn1n2_0[0] := 0.0;
+    Rn1n2_0[3] :=  -v2[5];
+    Rn1n2_0[6] := v2[4];
+    Rn1n2_0[1] := v2[5];
+    Rn1n2_0[4] := 0.0;
+    Rn1n2_0[7] :=  -v2[3];
+    Rn1n2_0[2] :=  -v2[4];
+    Rn1n2_0[5] := v2[3];
+    Rn1n2_0[8] := 0.0;
+
+    FOR i := 0 TO 2 DO 
+        Hn2b2[12 + i] := eta2[i];
+        Hn2b2_t[12 + i] := v2[i];
+
+        FOR i_0 := 0 TO 2 DO 
+            Hn2b2_t[i + (i_0 * 4)] := 0.0;
+            Hn2b2_t[i + (i_0 * 4)] := Hn2b2_t[(i_0 * 4) + i] + (Rn1n2_0[3 * i_0] * Hn2b2[i]);
+            Hn2b2_t[i + (i_0 * 4)] := (Rn1n2_0[(3 * i_0) + 1] * Hn2b2[i + 4]) + Hn2b2_t[(i_0 * 4) + i];
+            Hn2b2_t[i + (i_0 * 4)] := (Rn1n2_0[(3 * i_0) + 2] * Hn2b2[i + 8]) + Hn2b2_t[(i_0 * 4) + i];
+        END_FOR;
+
+    END_FOR;
+
+END_IF;
+
+(* '<S2>:1:73' Rn1b2 = Rn1n2*Rn2b2; *)
+(* '<S2>:1:74' Rn1b2_t = Rn1n2*Rn2b2_t + Rn1n2_t*Rn2b2; *)
+Rn1n2_0[0] := 0.0;
+Rn1n2_0[3] :=  -v2[5];
+Rn1n2_0[6] := v2[4];
+Rn1n2_0[1] := v2[5];
+Rn1n2_0[4] := 0.0;
+Rn1n2_0[7] :=  -v2[3];
+Rn1n2_0[2] :=  -v2[4];
+Rn1n2_0[5] := v2[3];
+Rn1n2_0[8] := 0.0;
+(* MATLAB Function: '<S1>/Wire Length' *)
+
+FOR i := 0 TO 2 DO 
+
+    FOR i_0 := 0 TO 2 DO 
+        Rn1b2_tmp := i_0 + (3 * i);
+        Rn1b2[Rn1b2_tmp] := 0.0;
+        Rn1b2_t[Rn1b2_tmp] := 0.0;
+        Rn1b2_tmp_0 := (3 * i) + i_0;
+        Rn1b2[Rn1b2_tmp] := Rn1b2[Rn1b2_tmp_0] + (Rn2b2[3 * i] * SINT_TO_LREAL(Rn1n2[i_0]));
+        Rn1b2_t[Rn1b2_tmp] := Rn1b2_t[Rn1b2_tmp_0] + (Rn1n2_0[3 * i] * Rn2b2[i_0]);
+        Rn1b2_tmp_0 := (3 * i) + 1;
+        Rn1b2[Rn1b2_tmp] := (Rn2b2[Rn1b2_tmp_0] * SINT_TO_LREAL(Rn1n2[i_0 + 3])) + Rn1b2[(3 * i) + i_0];
+        Rn1b2_t[Rn1b2_tmp] := (Rn1n2_0[Rn1b2_tmp_0] * Rn2b2[i_0 + 3]) + Rn1b2_t[(3 * i) + i_0];
+        Rn1b2_tmp_0 := (3 * i) + 2;
+        Rn1b2[Rn1b2_tmp] := (Rn2b2[Rn1b2_tmp_0] * SINT_TO_LREAL(Rn1n2[i_0 + 6])) + Rn1b2[(3 * i) + i_0];
+        Rn1b2_t[Rn1b2_tmp] := (Rn1n2_0[Rn1b2_tmp_0] * Rn2b2[i_0 + 6]) + Rn1b2_t[(3 * i) + i_0];
+    END_FOR;
+
+END_FOR;
+
+
+FOR i := 0 TO 2 DO 
+
+    FOR i_0 := 0 TO 2 DO 
+        Rn1b2_tmp := i_0 + (3 * i);
+        Rn1n2_0[Rn1b2_tmp] := 0.0;
+        Rn1n2_0[Rn1b2_tmp] := Rn1n2_0[(3 * i) + i_0] + (Rn1b2_t[3 * i] * SINT_TO_LREAL(Rn1n2[i_0]));
+        Rn1n2_0[Rn1b2_tmp] := (Rn1b2_t[(3 * i) + 1] * SINT_TO_LREAL(Rn1n2[i_0 + 3])) + Rn1n2_0[(3 * i) + i_0];
+        Rn1n2_0[Rn1b2_tmp] := (Rn1b2_t[(3 * i) + 2] * SINT_TO_LREAL(Rn1n2[i_0 + 6])) + Rn1n2_0[(3 * i) + i_0];
+    END_FOR;
+
+END_FOR;
+
+(* MATLAB Function: '<S1>/Wire Length' incorporates:
+ *  BusCreator: '<S1>/BusConversion_InsertedFor_Wire Length_at_inport_3' *)
+
+FOR i := 0 TO 2 DO 
+    Rn1b2_t[3 * i] := Rn1n2_0[3 * i];
+    Rn1b2_t[1 + (3 * i)] := Rn1n2_0[(3 * i) + 1];
+    Rn1b2_t[2 + (3 * i)] := Rn1n2_0[(3 * i) + 2];
+END_FOR;
+
+(* Point in z direction in {b2} *)
+(* '<S2>:1:77' P0 =  Hn1n2*Hn2b2*[0; 0; h; 1]; *)
+(* '<S2>:1:78' P0_t = Hn2b2_t*[0; 0; h; 1]; *)
+(* '<S2>:1:80' p0 = P0(1:3); *)
+o[0] := 0.0;
+o[1] := 0.0;
+o[2] := origoPlaneOffset;
+o[3] := 1.0;
+
+FOR i := 0 TO 3 DO 
+    Hn1n2_1[i] := 0.0;
+
+    FOR i_0 := 0 TO 3 DO 
+        Hn1n2_0[i + (i_0 * 4)] := 0.0;
+        Hn1n2_0[i + (i_0 * 4)] := Hn1n2_0[(i_0 * 4) + i] + (Hn2b2[i_0 * 4] * Hn1n2[i]);
+        Hn1n2_0[i + (i_0 * 4)] := (Hn2b2[(i_0 * 4) + 1] * Hn1n2[i + 4]) + Hn1n2_0[(i_0 * 4) + i];
+        Hn1n2_0[i + (i_0 * 4)] := (Hn2b2[(i_0 * 4) + 2] * Hn1n2[i + 8]) + Hn1n2_0[(i_0 * 4) + i];
+        Hn1n2_0[i + (i_0 * 4)] := (Hn2b2[(i_0 * 4) + 3] * Hn1n2[i + 12]) + Hn1n2_0[(i_0 * 4) + i];
+        Hn1n2_1[i] := (Hn1n2_0[(i_0 * 4) + i] * o[i_0]) + Hn1n2_1[i];
+    END_FOR;
+
+END_FOR;
+
+(* '<S2>:1:81' p0_t = P0_t(1:3); *)
+(* Use Line-Plane projection to get point laying on the ship plane *)
+(* http://geomalgorithms.com/a05-_intersect-1.html *)
+(* '<S2>:1:85' dir = [0; 0; 1]; *)
+(* '<S2>:1:86' dir_t = [0; 0; 0]; *)
+(* '<S2>:1:88' n = Rn1b2(:,3); *)
+(* '<S2>:1:89' n_t = Rn1b2_t(:,3); *)
+(* Disatance down to projected point on ship deck *)
+(* '<S2>:1:92' a = dot(p0 - pt, n); *)
+(* '<S2>:1:93' a_t = dot(p0 - pt, n_t) + dot(p0_t - pt_t, n); *)
+Rn1b1_tmp := Hn1n2_1[0] - pt[0];
+Rn1b1_tmp_0 := Hn1n2_1[1] - pt[1];
+Rn1b1_tmp_1 := Hn1n2_1[2] - pt[2];
+a := ((Rn1b1_tmp * Rn1b2[6]) + (Rn1b1_tmp_0 * Rn1b2[7])) + (Rn1b1_tmp_1 * Rn1b2[8]);
+
+FOR i := 0 TO 3 DO 
+    o[i] := Hn2b2_t[i + 12] + (Hn2b2_t[i + 8] * origoPlaneOffset);
+END_FOR;
+
+Rn1n2_0[0] := 0.0;
+Rn1n2_0[3] :=  -v1[5];
+Rn1n2_0[6] := v1[4];
+Rn1n2_0[1] := v1[5];
+Rn1n2_0[4] := 0.0;
+Rn1n2_0[7] :=  -v1[3];
+Rn1n2_0[2] :=  -v1[4];
+Rn1n2_0[5] := v1[3];
+Rn1n2_0[8] := 0.0;
+tmp[0] := p_tmp_0;
+tmp[3] := (1.16 * p_tmp_1) * p_tmp_2;
+p_tmp_0 := p_tmp_tmp - p_tmp_3;
+tmp[6] := p_tmp_0 * ( -p_tmp_1);
+tmp[1] := p_tmp * ( -COS(stFeedback.comau.q[0]));
+tmp[4] := (-1.16 * p_tmp_2) * p_tmp_tmp_1;
+tmp[7] := p_tmp_0 * p_tmp_tmp_1;
+tmp[2] := 0.0;
+tmp[5] := -1.16 * b;
+tmp[8] := (-2.2691999999999997 * p_tmp_tmp_0) - p_tmp_tmp_2;
+
+FOR i := 0 TO 2 DO 
+    p_tmp_0 := 0.0;
+
+    FOR i_0 := 0 TO 2 DO 
+        Rn1b2_tmp := i + (3 * i_0);
+        Rn2b2[Rn1b2_tmp] := 0.0;
+        Rn1b2_tmp_0 := (3 * i_0) + i;
+        Rn2b2[Rn1b2_tmp] := Rn2b2[Rn1b2_tmp_0] + (Rn1n2_0[3 * i_0] * Rn1b1[i]);
+        Rn2b2[Rn1b2_tmp] := (Rn1n2_0[(3 * i_0) + 1] * Rn1b1[i + 3]) + Rn2b2[(3 * i_0) + i];
+        Rn2b2[Rn1b2_tmp] := (Rn1n2_0[(3 * i_0) + 2] * Rn1b1[i + 6]) + Rn2b2[(3 * i_0) + i];
+        p_tmp_0 := (d_a[Rn1b2_tmp_0] * b_p[i_0]) + p_tmp_0;
+    END_FOR;
+
+    g[i] := b_g[i] + p_tmp_0;
+    pt[i] := (tmp[i + 6] * stFeedback.comau.q_t[2]) + ((tmp[i + 3] * stFeedback.comau.q_t[1]) + (tmp[i] * stFeedback.comau.q_t[0]));
+END_FOR;
+
+
+FOR i := 0 TO 2 DO 
+    v1_0[i] := (((Rn2b2[i + 3] * g[1]) + (Rn2b2[i] * g[0])) + (Rn2b2[i + 6] * g[2])) + v1[i];
+    b_p[i] := (d_a[i + 6] * pt[2]) + ((d_a[i + 3] * pt[1]) + (d_a[i] * pt[0]));
+END_FOR;
+
+p_tmp_tmp_0 := 0.0;
+(* '<S2>:1:95' b = dot(dir, n); *)
+b := 0.0;
+(* '<S2>:1:96' b_t = dot(dir, n_t) + dot(dir_t, n); *)
+p_tmp_tmp_2 := 0.0;
+
+FOR i := 0 TO 2 DO 
+    p_tmp_tmp_0 := ((o[i] - (v1_0[i] + ((Rn1b1[i + 6] * b_p[2]) + ((Rn1b1[i + 3] * b_p[1]) + (Rn1b1[i] * b_p[0]))))) * Rn1b2[6 + i]) + p_tmp_tmp_0;
+    b := (Rn1b2[6 + i] * SINT_TO_LREAL(e[i])) + b;
+    p_tmp_tmp_2 := (Rn1b2_t[6 + i] * SINT_TO_LREAL(e[i])) + p_tmp_tmp_2;
+END_FOR;
+
+(* BusCreator: '<Root>/BusConversion_InsertedFor_stWinchControl_at_inport_0' incorporates:
+ *  Constant: '<S1>/Constant18'
+ *  MATLAB Function: '<S1>/Wire Length'
+ *  Outport: '<Root>/stWinchControl'
+ *  Sum: '<S1>/Sum' *)
+(* '<S2>:1:98' d = a/b; *)
+(* '<S2>:1:99' d_t = a_t/b - (a*b_t)/(b^2); *)
+(* TODO! Fix velocity output! *)
+stWinchControl.length := (a / b) + lengthExtra;
+stWinchControl.length_t := (((((Rn1b1_tmp * Rn1b2_t[6]) + (Rn1b1_tmp_0 * Rn1b2_t[7])) + (Rn1b1_tmp_1 * Rn1b2_t[8])) + p_tmp_tmp_0) / b) - ((a * p_tmp_tmp_2) / (b * b));
+stWinchControl.length_tt := 0.0;
+]]></ST>
+    </Implementation>
+    <LineIds Name="FB_WinchController">
+      <LineId Id="3" Count="460" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

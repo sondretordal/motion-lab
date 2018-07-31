@@ -14,10 +14,14 @@ VAR
 	AngleHz AT %I* : LREAL := 0.0;
 	AngleVt	AT %I* : LREAL := 0.0;
 	Distance AT %I* : LREAL := 0.0;
-	Quaternion0	AT %I* : LREAL := 0.0;
+	Quaternion0	AT %I* : LREAL := 1.0;
 	Quaternion1	AT %I* : LREAL := 0.0;
 	Quaternion2	AT %I* : LREAL := 0.0;
 	Quaternion3	AT %I* : LREAL := 0.0;
+	
+	// Rotation matrix
+	fbQuatToRotMatrix : FB_QuatToRotMatrix;
+	rot : ARRAY [0..8] OF LREAL;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -26,21 +30,47 @@ feedback.pos[0] := Distance*SIN(AngleVt)*SIN(AngleHz);
 feedback.pos[1] := Distance*SIN(AngleVt)*COS(AngleHz);
 feedback.pos[2] := Distance*COS(AngleVt);
 
-feedback.quat[0] := Quaternion0;
-feedback.quat[1] := Quaternion1;
-feedback.quat[2] := Quaternion2;
-feedback.quat[3] := Quaternion3;
+// Convert to rotation matrix
+fbQuatToRotMatrix(
+	w := Quaternion0,
+	x := Quaternion1,
+	y := Quaternion2,
+	z := Quaternion3
+);
 
+feedback.R11 := fbQuatToRotMatrix.R11;
+feedback.R12 := fbQuatToRotMatrix.R12;
+feedback.R13 := fbQuatToRotMatrix.R13;
+
+feedback.R21 := fbQuatToRotMatrix.R21;
+feedback.R22 := fbQuatToRotMatrix.R22;
+feedback.R23 := fbQuatToRotMatrix.R23;
+
+feedback.R31 := fbQuatToRotMatrix.R31;
+feedback.R32 := fbQuatToRotMatrix.R32;
+feedback.R33 := fbQuatToRotMatrix.R33;
+
+	
 ]]></ST>
     </Implementation>
     <LineIds Name="FB_LeicaInterface">
       <LineId Id="27" Count="2" />
       <LineId Id="9" Count="0" />
-      <LineId Id="58" Count="0" />
-      <LineId Id="57" Count="0" />
-      <LineId Id="59" Count="2" />
+      <LineId Id="87" Count="0" />
       <LineId Id="56" Count="0" />
       <LineId Id="55" Count="0" />
+      <LineId Id="81" Count="0" />
+      <LineId Id="83" Count="3" />
+      <LineId Id="95" Count="0" />
+      <LineId Id="94" Count="0" />
+      <LineId Id="96" Count="1" />
+      <LineId Id="100" Count="2" />
+      <LineId Id="99" Count="0" />
+      <LineId Id="104" Count="2" />
+      <LineId Id="103" Count="0" />
+      <LineId Id="98" Count="0" />
+      <LineId Id="82" Count="0" />
+      <LineId Id="92" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

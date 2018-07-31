@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.7">
+  <POU Name="diag" Id="{cd6ebb29-610d-47ae-b894-145435caadf7}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK diag
+VAR_INPUT
+	v: ARRAY[0..18] OF LREAL;
+END_VAR
+VAR_OUTPUT
+	b_d: ARRAY[0..360] OF LREAL;
+END_VAR
+VAR
+	j: DINT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+
+FOR j := 0 TO 360 DO 
+    b_d[j] := 0.0;
+END_FOR;
+
+
+FOR j := 0 TO 18 DO 
+    b_d[j + (19 * j)] := v[j];
+END_FOR;
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="diag">
+      <LineId Id="3" Count="10" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

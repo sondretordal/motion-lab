@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project><!--(*
+ *
+ * File: main.xml
+ *
+ * IEC 61131-3 Structured Text (ST) code generated for subsystem "main/FB_QuatToRotMatrix"
+ *
+ * Model name                      : main
+ * Model version                   : 1.3859
+ * Model creator                   : motionlab
+ * Model last modified by          : motionlab
+ * Model last modified on          : Tue Jul 24 13:15:54 2018
+ * Model sample time               : 0.005s
+ * Subsystem name                  : main/FB_QuatToRotMatrix
+ * Subsystem sample time           : 0.005s
+ * Simulink PLC Coder version      : 2.4 (R2017b) 24-Jul-2017
+ * ST code generated on            : Tue Jul 24 13:16:21 2018
+ *
+ * Target IDE selection            : Beckhoff TwinCAT 3
+ * Test Bench included             : No
+ *
+ *)
+-->
+   <fileHeader companyName="The Mathworks, Inc." companyURL="www.mathworks.com" contentDescription="" creationDateTime="2018-07-24T13:16:21" productName="Simulink PLC Coder" productRelease="(R2017b)" productVersion="2.4"/>
+   <contentHeader name="main">
+      <coordinateInfo>
+         <fbd>
+            <scaling x="0" y="0"/>
+         </fbd>
+         <ld>
+            <scaling x="0" y="0"/>
+         </ld>
+         <sfc>
+            <scaling x="0" y="0"/>
+         </sfc>
+      </coordinateInfo>
+   </contentHeader>
+   <types>
+      <dataTypes/>
+      <pous>
+         <pou name="FB_QuatToRotMatrix" pouType="functionBlock">
+            <interface>
+               <inputVars>
+                  <variable name="w">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="x">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="y">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="z">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+               </inputVars>
+               <outputVars>
+                  <variable name="R11">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="R12">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="R13">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="R21">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="R22">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="R23">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="R31">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="R32">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="R33">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+               </outputVars>
+               <localVars>
+                  <variable name="b_R">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="8"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="tempR">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="8"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="y_0">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="outsz">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="2"/>
+                           <baseType>
+                              <SINT/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="iwork">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="2"/>
+                           <baseType>
+                              <DINT/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="idest">
+                     <type>
+                        <DINT/>
+                     </type>
+                  </variable>
+                  <variable name="isrc">
+                     <type>
+                        <DINT/>
+                     </type>
+                  </variable>
+                  <variable name="normRowMatrix_idx_0">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="normRowMatrix_idx_2">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="normRowMatrix_idx_1">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="tempR_tmp">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="tempR_tmp_0">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="tempR_tmp_1">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="tempR_tmp_2">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="tempR_tmp_3">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="tempR_tmp_4">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="exitg1">
+                     <type>
+                        <DINT/>
+                     </type>
+                  </variable>
+               </localVars>
+            </interface>
+            <body>
+               <ST>
+                  <xhtml xmlns="http://www.w3.org/1999/xhtml">
+<![CDATA[
+(* MATLAB Function: '<Root>/FB_QuatToRotMatrix' *)
+(* MATLAB Function 'FB_QuatToRotMatrix': '<S1>:1' *)
+(* '<S1>:1:3' quat = [w, x, y, z]; *)
+(* '<S1>:1:5' R = quat2rotm(quat); *)
+y_0 := 1.0 / SQRT((((w * w) + (x * x)) + (y * y)) + (z * z));
+normRowMatrix_idx_0 := w * y_0;
+normRowMatrix_idx_1 := x * y_0;
+normRowMatrix_idx_2 := y * y_0;
+y_0 := z * y_0;
+tempR_tmp_1 := y_0 * y_0;
+tempR_tmp_4 := normRowMatrix_idx_2 * normRowMatrix_idx_2;
+tempR[0] := 1.0 - ((tempR_tmp_4 + tempR_tmp_1) * 2.0);
+tempR_tmp := normRowMatrix_idx_1 * normRowMatrix_idx_2;
+tempR_tmp_0 := normRowMatrix_idx_0 * y_0;
+tempR[1] := (tempR_tmp - tempR_tmp_0) * 2.0;
+tempR_tmp_2 := normRowMatrix_idx_1 * y_0;
+tempR_tmp_3 := normRowMatrix_idx_0 * normRowMatrix_idx_2;
+tempR[2] := (tempR_tmp_2 + tempR_tmp_3) * 2.0;
+tempR[3] := (tempR_tmp + tempR_tmp_0) * 2.0;
+tempR_tmp := normRowMatrix_idx_1 * normRowMatrix_idx_1;
+tempR[4] := 1.0 - ((tempR_tmp + tempR_tmp_1) * 2.0);
+tempR_tmp_1 := normRowMatrix_idx_2 * y_0;
+tempR_tmp_0 := normRowMatrix_idx_0 * normRowMatrix_idx_1;
+tempR[5] := (tempR_tmp_1 - tempR_tmp_0) * 2.0;
+tempR[6] := (tempR_tmp_2 - tempR_tmp_3) * 2.0;
+tempR[7] := (tempR_tmp_1 + tempR_tmp_0) * 2.0;
+tempR[8] := 1.0 - ((tempR_tmp + tempR_tmp_4) * 2.0);
+outsz[0] := 3;
+outsz[1] := 3;
+outsz[2] := 1;
+iwork[0] := 0;
+iwork[1] := 0;
+iwork[2] := 0;
+idest := 0;
+REPEAT 
+    isrc := (iwork[2] * 3) + iwork[1];
+    b_R[idest] := tempR[isrc];
+    idest := idest + 1;
+    isrc := isrc + 3;
+    b_R[idest] := tempR[isrc];
+    idest := idest + 1;
+    isrc := isrc + 3;
+    b_R[idest] := tempR[isrc];
+    idest := idest + 1;
+    isrc := 1;
+    REPEAT 
+        exitg1 := 0;
+        iwork[isrc] := iwork[isrc] + 1;
+
+        IF iwork[isrc] < SINT_TO_DINT(outsz[isrc]) THEN 
+            exitg1 := 2;
+        ELSIF (isrc + 1) = 3 THEN 
+            exitg1 := 1;
+        ELSE 
+            iwork[1] := 0;
+            isrc := 2;
+        END_IF;
+
+    UNTIL NOT(exitg1 = 0)
+    END_REPEAT;
+UNTIL NOT( NOT (exitg1 = 1))
+END_REPEAT;
+(* Outport: '<Root>/R11' incorporates:
+ *  MATLAB Function: '<Root>/FB_QuatToRotMatrix' *)
+(* '<S1>:1:7' R11 = R(1,1); *)
+(* '<S1>:1:8' R12 = R(1,2); *)
+(* '<S1>:1:9' R13 = R(1,3); *)
+(* '<S1>:1:11' R21 = R(2,1); *)
+(* '<S1>:1:12' R22 = R(2,2); *)
+(* '<S1>:1:13' R23 = R(2,3); *)
+(* '<S1>:1:15' R31 = R(3,1); *)
+(* '<S1>:1:16' R32 = R(3,2); *)
+(* '<S1>:1:17' R33 = R(3,3); *)
+R11 := b_R[0];
+(* Outport: '<Root>/R12' incorporates:
+ *  MATLAB Function: '<Root>/FB_QuatToRotMatrix' *)
+R12 := b_R[3];
+(* Outport: '<Root>/R13' incorporates:
+ *  MATLAB Function: '<Root>/FB_QuatToRotMatrix' *)
+R13 := b_R[6];
+(* Outport: '<Root>/R21' incorporates:
+ *  MATLAB Function: '<Root>/FB_QuatToRotMatrix' *)
+R21 := b_R[1];
+(* Outport: '<Root>/R22' incorporates:
+ *  MATLAB Function: '<Root>/FB_QuatToRotMatrix' *)
+R22 := b_R[4];
+(* Outport: '<Root>/R23' incorporates:
+ *  MATLAB Function: '<Root>/FB_QuatToRotMatrix' *)
+R23 := b_R[7];
+(* Outport: '<Root>/R31' incorporates:
+ *  MATLAB Function: '<Root>/FB_QuatToRotMatrix' *)
+R31 := b_R[2];
+(* Outport: '<Root>/R32' incorporates:
+ *  MATLAB Function: '<Root>/FB_QuatToRotMatrix' *)
+R32 := b_R[5];
+(* Outport: '<Root>/R33' incorporates:
+ *  MATLAB Function: '<Root>/FB_QuatToRotMatrix' *)
+R33 := b_R[8];
+]]>
+</xhtml>
+               </ST>
+            </body>
+         </pou>
+      </pous>
+   </types>
+   <instances>
+      <configurations/>
+   </instances>
+</project>

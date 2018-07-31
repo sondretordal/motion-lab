@@ -1,10 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.7">
-  <DUT Name="ST_FeedbackLeica" Id="{27e2f734-a908-46c7-b4c1-0957dce28692}">
+  <DUT Name="ST_FeedbackLeica" Id="{9230227a-713d-4e8d-a793-8a7c767d6582}">
     <Declaration><![CDATA[TYPE ST_FeedbackLeica :
 STRUCT
 	pos: ARRAY[0..2] OF LREAL;
-	quat: ARRAY[0..3] OF LREAL;
+	R11: LREAL;
+	R12: LREAL;
+	R13: LREAL;
+	R21: LREAL;
+	R22: LREAL;
+	R23: LREAL;
+	R31: LREAL;
+	R32: LREAL;
+	R33: LREAL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

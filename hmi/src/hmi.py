@@ -40,7 +40,6 @@ class GUI(QMainWindow, Ui_main):
         self.plc = pyads.Connection('192.168.90.150.1.1', 851)
         self.plc.open()
 
-
         try:
             self.plc.read_state()
             self.plc_active = True
@@ -81,10 +80,7 @@ class GUI(QMainWindow, Ui_main):
 
         # Show UI
         self.show()
-
-    def buttonAdsToggled(self, btn, adsVar):
-        print('Toggled')
-        
+    
 
     # EM8000 Wave Settings
     def EM8000_wave(self):
@@ -135,12 +131,6 @@ class GUI(QMainWindow, Ui_main):
         # Plot time range setting
         self.time_range = 20
 
-        # Signal comparator tab:
-        #------------------------------------------------------#
-        self.signalDebugger = RealTimePlot(self.singalDebugWidget.addPlot())
-        self.signalDebugger.plot.setLabel('left', 'Values ')
-        self.signalDebugger.add_curves(['r', 'b'], ['Signal 1', 'Signal 2'])
-
         # Ship Simulator tab:
         #------------------------------------------------------#
 
@@ -172,7 +162,7 @@ class GUI(QMainWindow, Ui_main):
         self.DP2_2.plot.setYRange(-6.0, 6.0)
         self.DP2_2.add_curves(['r', 'g', 'b'], ['Roll', 'Pitch', 'Yaw'])
 
-        # Plot tab
+        # Trending tab
         #------------------------------------------------------#
         self.EM1500_1 = RealTimePlot(self.EM1500_plot.addPlot())
         self.EM1500_1.plot.setYRange(-0.5, 0.5)
@@ -289,15 +279,19 @@ class GUI(QMainWindow, Ui_main):
                 self.XboxJoystickRight_y,
             ]
 
-    
+        # Sway angles and velocites
+        self.swingAnglesPlot = RealTimePlot(self.swingAnglesWidget.addPlot())
+        self.swingAnglesPlot.plot.setYRange(-10, 10)
+        self.swingAnglesPlot.plot.setLabel('left', 'Angle', 'deg')
+        self.swingAnglesPlot.add_curves(['r', 'b'], ['phi[0]', 'phi[1]'])    
+
+        self.swingVelocityPlot = RealTimePlot(self.swingVelocityWidget.addPlot())
+        self.swingVelocityPlot.plot.setYRange(-5, 5)
+        self.swingVelocityPlot.plot.setLabel('left', 'Angle', 'deg/s')
+        self.swingVelocityPlot.add_curves(['r', 'b'], ['phi_t[0]', 'phi_t[1]'])    
+
     # UI connections
     def ui_connect(self):
-
-
-        # Signal compare tab
-        self.autoScale.clicked.connect(self.auto_scale)
-        self.time_range_signalDebugger.currentIndexChanged.connect(self.plot_time_axis_range)
-
         # Interface Tab:
         #----------------------------------------------------------#
         # Connecting EM 8000 Interface-buttons to functions
@@ -344,24 +338,15 @@ class GUI(QMainWindow, Ui_main):
         self.EM8000_wave_spectra.currentIndexChanged.connect(self.EM8000_wave)
         
         # Winch related
-        # self.winchSettled.clicked.connect(lambda: self.plc.write_by_name('MAIN.winch.mode', 0, pyads.PLCTYPE_UINT))
-        # self.winchEngaged.clicked.connect(lambda: self.plc.write_by_name('MAIN.winch.mode', 1, pyads.PLCTYPE_UINT))
-        # self.winchEngagedFast.clicked.connect(lambda: self.plc.write_by_name('MAIN.winch.mode', 2, pyads.PLCTYPE_UINT))
-
         self.winchSettled.clicked.connect(self.WINCH_settled)
         self.winchEngaged.clicked.connect(self.WINCH_engaged)
         self.winchEngagedFast.clicked.connect(self.WINCH_engaged_fast)
-
-        self.winchOff.clicked.connect(lambda: self.plc.write_by_name('MAIN.winch.enable', False, pyads.PLCTYPE_BOOL))
-        self.winchOn.clicked.connect(lambda: self.plc.write_by_name('MAIN.winch.enable', True, pyads.PLCTYPE_BOOL))
-        self.winchReset.clicked.connect(lambda: self.plc.write_by_name('MAIN.winch.reset', True, pyads.PLCTYPE_BOOL))
-        self.winchStopp.clicked.connect(lambda: self.plc.write_by_name('MAIN.winch.stopp', True, pyads.PLCTYPE_BOOL))
+        self.winchOff.clicked.connect(self.WINCH_off)
+        self.winchOn.clicked.connect(self.WINCH_on)
 
         # Show 3D visulaization of motion-lab
         self.show3dView.clicked.connect(self.visualizer.show)
 
-    def test(self):
-        print('Pushed')
 
     # Update data and plot
     def update_data(self):
@@ -515,6 +500,19 @@ class GUI(QMainWindow, Ui_main):
                 txHmi.comau.q[5]/np.pi*180.0
             ])
 
+        # Pendulum Swing angles and velocities
+        self.swingAnglesPlot.time_range = self.time_range
+        self.swingAnglesPlot.update(self.t, [
+            txHmi.phi[0]/np.pi*180.0,
+            txHmi.phi[1]/np.pi*180.0
+        ])
+
+        self.swingVelocityPlot.time_range = self.time_range
+        self.swingVelocityPlot.update(self.t, [
+            txHmi.phi_t[0]/np.pi*180.0,
+            txHmi.phi_t[1]/np.pi*180.0
+        ])
+
         # Xbox data
         self.XBOX_bars.update([
                 self.xbox.left.x,
@@ -522,44 +520,6 @@ class GUI(QMainWindow, Ui_main):
                 self.xbox.right.x,
                 self.xbox.right.y
             ])
-
-        # Signal comparator
-        if self.tabWidget.currentIndex() == 6:
-            
-            try:
-                signal1 = self.plc.read_by_name(self.textSignal_1.toPlainText(), pyads.PLCTYPE_REAL)
-            except pyads.pyads.ADSError:
-                signal1 = 0.0
-
-            try:
-                signal2 = self.plc.read_by_name(self.textSignal_2.toPlainText(), pyads.PLCTYPE_REAL)
-            except pyads.pyads.ADSError:
-                signal2 = 0.0
-    
-            # Update data
-            self.signalDebugger.time_range = self.time_range
-            self.signalDebugger.update(self.t, [
-                        signal1,
-                        signal2
-                    ])
-            
-    def auto_scale(self):
-        t = self.signalDebugger.time
-        loc = np.argmin(np.abs(t - (t[-1] - self.signalDebugger.time_range)))
-        n = len(t) - loc
-
-        max_values = [0.0, 0.0]
-        min_values = [0.0, 0.0]
-
-        for i in range(0, len(max_values)):
-            max_values[i] = np.max(self.signalDebugger.data[i][-n:])
-            min_values[i] = np.min(self.signalDebugger.data[i][-n:])
-        
-        new_range = [np.min(min_values), np.max(max_values)]
-
-        if (new_range[0] != 0.0) and (new_range[1] != 0.0):
-            self.signalDebugger.plot.setYRange(new_range[0], new_range[1])
-
 
     # Function to change the time axis range of the plots
     def plot_time_axis_range(self):
@@ -571,14 +531,11 @@ class GUI(QMainWindow, Ui_main):
         # Find and set the selected index to all combobox objects in the plot tabs
         val = self.sender().currentIndex()
         
-        # Plotting tab:
+        # Plotting tabs:
         self.EM8000_plot_time_range.setCurrentIndex(val)
         self.EM1500_plot_time_range.setCurrentIndex(val)
         self.COMAU_plot_time_range.setCurrentIndex(val)
-
-        # Ship Simulator tab:
         self.EM8000_plot_time_range_ship.setCurrentIndex(val)
-        self.EM1500_plot_time_range_ship.setCurrentIndex(val)
 
 
     # EM 8000 button functions
@@ -652,6 +609,18 @@ class GUI(QMainWindow, Ui_main):
         self.winchEngagedFast.setStyleSheet("background-color: #cccccc")
 
         self.plc.write_by_name('MAIN.winch.mode', 2, pyads.PLCTYPE_UINT)
+
+    def WINCH_on(self):
+        self.winchOn.setStyleSheet("background-color: #cccccc")
+        self.winchOff.setStyleSheet("background-color: none   ")
+    
+        self.plc.write_by_name('MAIN.winch.enable', True, pyads.PLCTYPE_BOOL)
+
+    def WINCH_off(self):
+        self.winchOn.setStyleSheet("background-color: none")
+        self.winchOff.setStyleSheet("background-color: #cccccc")
+
+        self.plc.write_by_name('MAIN.winch.enable', False, pyads.PLCTYPE_BOOL)
 
     # COMAU button functions
     def COMAU_settled(self):

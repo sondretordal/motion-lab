@@ -3,7 +3,10 @@
   <DUT Name="ST_TxUdpRemote" Id="{e855cfb6-bd67-4fa5-9051-ffcbcaa8ada0}">
     <Declaration><![CDATA[TYPE ST_TxUdpRemote :
 STRUCT
-	t : REAL;
+	timestamp : ULINT;
+	arr : ARRAY [0..5] OF REAL;
+	//control : ST_Control;
+	//feedback : ST_Feedback;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

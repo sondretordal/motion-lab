@@ -6,22 +6,22 @@
  * IEC 61131-3 Structured Text (ST) code generated for subsystem "main/PlcDataTypes"
  *
  * Model name                      : main
- * Model version                   : 1.3128
+ * Model version                   : 1.3857
  * Model creator                   : motionlab
  * Model last modified by          : motionlab
- * Model last modified on          : Wed May 23 10:10:56 2018
+ * Model last modified on          : Tue Jul 24 12:59:28 2018
  * Model sample time               : 0.005s
  * Subsystem name                  : main/PlcDataTypes
  * Subsystem sample time           : 0.005s
  * Simulink PLC Coder version      : 2.4 (R2017b) 24-Jul-2017
- * ST code generated on            : Wed May 23 10:35:52 2018
+ * ST code generated on            : Tue Jul 24 13:12:39 2018
  *
  * Target IDE selection            : Beckhoff TwinCAT 3
  * Test Bench included             : No
  *
  *)
 -->
-   <fileHeader companyName="The Mathworks, Inc." companyURL="www.mathworks.com" contentDescription="" creationDateTime="2018-05-23T10:35:52" productName="Simulink PLC Coder" productRelease="(R2017b)" productVersion="2.4"/>
+   <fileHeader companyName="The Mathworks, Inc." companyURL="www.mathworks.com" contentDescription="" creationDateTime="2018-07-24T13:12:39" productName="Simulink PLC Coder" productRelease="(R2017b)" productVersion="2.4"/>
    <contentHeader name="main">
       <coordinateInfo>
          <fbd>
@@ -50,14 +50,49 @@
                         </array>
                      </type>
                   </variable>
-                  <variable name="quat">
+                  <variable name="R11">
                      <type>
-                        <array>
-                           <dimension lower="0" upper="3"/>
-                           <baseType>
-                              <LREAL/>
-                           </baseType>
-                        </array>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="R12">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="R13">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="R21">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="R22">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="R23">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="R31">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="R32">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="R33">
+                     <type>
+                        <LREAL/>
                      </type>
                   </variable>
                </struct>

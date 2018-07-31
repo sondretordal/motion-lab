@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.7">
+  <POU Name="inv" Id="{3bb995ef-1e1e-4652-85ff-994a985b99c9}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK inv
+VAR_INPUT
+	x: ARRAY[0..120] OF LREAL;
+END_VAR
+VAR_OUTPUT
+	y: ARRAY[0..120] OF LREAL;
+END_VAR
+VAR
+	i0_invNxN: invNxN;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+i0_invNxN(x := x);
+y := i0_invNxN.y;
+]]></ST>
+    </Implementation>
+    <LineIds Name="inv">
+      <LineId Id="3" Count="2" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

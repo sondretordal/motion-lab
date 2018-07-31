@@ -8,6 +8,8 @@ STRUCT
 	comau : ST_TxHmiComau;
 	winch : ST_TxHmiWinch;
 	qtm : ST_TxHmiQualisys;
+	phi : ARRAY [0..1] OF REAL;
+	phi_t : ARRAY [0..1] OF REAL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

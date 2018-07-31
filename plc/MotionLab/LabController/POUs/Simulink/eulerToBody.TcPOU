@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.7">
+  <POU Name="eulerToBody" Id="{04489dbe-487f-4692-b137-2058a4771aff}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK eulerToBody
+VAR_INPUT
+	eta: ARRAY[0..5] OF LREAL;
+	eta_t: ARRAY[0..5] OF LREAL;
+	eta_tt: ARRAY[0..5] OF LREAL;
+END_VAR
+VAR_OUTPUT
+	v: ARRAY[0..5] OF LREAL;
+	v_t: ARRAY[0..5] OF LREAL;
+END_VAR
+VAR
+	J: ARRAY[0..35] OF LREAL;
+	i: DINT;
+	tmp: ARRAY[0..35] OF LREAL;
+	i_0: DINT;
+	J_tmp: LREAL;
+	J_tmp_0: LREAL;
+	J_tmp_1: LREAL;
+	J_tmp_2: LREAL;
+	J_tmp_3: LREAL;
+	i0_mldivide: mldivide;
+	b: ARRAY[0..5] OF SINT := [1, 0, 0, 0, 0, 0];
+	c: ARRAY[0..5] OF SINT := [0, 1, 0, 0, 0, 0];
+	b_d: ARRAY[0..5] OF SINT := [0, 0, 1, 0, 0, 0];
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+(* 'eulerToBody:4' J = velocityJacobian(eta, angleSequence); *)
+(* 'eulerToBody:15' phi = eta(4); *)
+(* 'eulerToBody:16' theta = eta(5); *)
+(* 'eulerToBody:17' psi = eta(6); *)
+(* 'eulerToBody:19' if strcmp(sequence, 'xyz') *)
+(* 'eulerToBody:20' J = [ *)
+(* 'eulerToBody:21'             1, 0, 0,                                 0,                                0, 0 *)
+(* 'eulerToBody:22'             0, 1, 0,                                 0,                                0, 0 *)
+(* 'eulerToBody:23'             0, 0, 1,                                 0,                                0, 0 *)
+(* 'eulerToBody:24'             0, 0, 0,               cos(psi)/cos(theta),             -sin(psi)/cos(theta), 0 *)
+(* 'eulerToBody:25'             0, 0, 0,                          sin(psi),                         cos(psi), 0 *)
+(* 'eulerToBody:26'             0, 0, 0, -(cos(psi)*sin(theta))/cos(theta), (sin(psi)*sin(theta))/cos(theta), 1 *)
+(* 'eulerToBody:27'         ]; *)
+J[3] := 0.0;
+J[9] := 0.0;
+J[15] := 0.0;
+J_tmp := COS(eta[4]);
+J_tmp_1 := COS(eta[5]);
+J[21] := J_tmp_1 / J_tmp;
+J_tmp_0 := SIN(eta[5]);
+J[27] := ( -J_tmp_0) / J_tmp;
+J[33] := 0.0;
+J[4] := 0.0;
+J[10] := 0.0;
+J[16] := 0.0;
+J[22] := J_tmp_0;
+J[28] := J_tmp_1;
+J[34] := 0.0;
+J[5] := 0.0;
+J[11] := 0.0;
+J[17] := 0.0;
+J_tmp_2 := SIN(eta[4]);
+J_tmp_3 := J_tmp_1 * J_tmp_2;
+J[23] := ( -J_tmp_3) / J_tmp;
+J[29] := (J_tmp_0 * J_tmp_2) / J_tmp;
+J[35] := 1.0;
+(* 'eulerToBody:5' v = J\eta_t; *)
+
+FOR i := 0 TO 5 DO 
+    J[6 * i] := SINT_TO_LREAL(b[i]);
+    J[1 + (6 * i)] := SINT_TO_LREAL(c[i]);
+    J[2 + (6 * i)] := SINT_TO_LREAL(b_d[i]);
+    v[i] := eta_t[i];
+END_FOR;
+
+i0_mldivide(A := J, B := v);
+(* Acceleration *)
+(* 'eulerToBody:8' J_t = accelerationJacobian(eta, eta_t, angleSequence); *)
+(* 'eulerToBody:43' phi = eta(4); *)
+(* 'eulerToBody:44' theta = eta(5); *)
+(* 'eulerToBody:45' psi = eta(6); *)
+(* 'eulerToBody:47' phi_t = eta_t(4); *)
+(* 'eulerToBody:48' theta_t = eta_t(5); *)
+(* 'eulerToBody:49' psi_t = eta_t(6); *)
+(* 'eulerToBody:51' if strcmp(sequence, 'xyz') *)
+(* 'eulerToBody:52' J_t = [ *)
+(* 'eulerToBody:53'             0, 0, 0,                                                                       0,                                                                       0, 0 *)
+(* 'eulerToBody:54'             0, 0, 0,                                                                       0,                                                                       0, 0 *)
+(* 'eulerToBody:55'             0, 0, 0,                                                                       0,                                                                       0, 0 *)
+(* 'eulerToBody:56'             0, 0, 0,  (cos(psi)*sin(theta)*theta_t - cos(theta)*sin(psi)*psi_t)/cos(theta)^2, -(cos(theta)*cos(psi)*psi_t + sin(theta)*sin(psi)*theta_t)/cos(theta)^2, 0 *)
+(* 'eulerToBody:57'             0, 0, 0,                                                          cos(psi)*psi_t,                                                         -sin(psi)*psi_t, 0 *)
+(* 'eulerToBody:58'             0, 0, 0, -(cos(psi)*theta_t - cos(theta)*sin(theta)*sin(psi)*psi_t)/cos(theta)^2,  (sin(psi)*theta_t + cos(theta)*cos(psi)*sin(theta)*psi_t)/cos(theta)^2, 0 *)
+(* 'eulerToBody:59'         ]; *)
+(* 'eulerToBody:9' v_t = J\(eta_tt - J_t*v); *)
+
+FOR i := 0 TO 5 DO 
+    tmp[6 * i] := 0.0;
+    tmp[1 + (6 * i)] := 0.0;
+    tmp[2 + (6 * i)] := 0.0;
+END_FOR;
+
+tmp[3] := 0.0;
+tmp[9] := 0.0;
+tmp[15] := 0.0;
+tmp[21] := ((J_tmp_3 * eta_t[4]) - ((J_tmp * J_tmp_0) * eta_t[5])) / (J_tmp * J_tmp);
+J_tmp_3 := J_tmp * J_tmp_1;
+tmp[27] := ( -((J_tmp_3 * eta_t[5]) + ((J_tmp_2 * J_tmp_0) * eta_t[4]))) / (J_tmp * J_tmp);
+tmp[33] := 0.0;
+tmp[4] := 0.0;
+tmp[10] := 0.0;
+tmp[16] := 0.0;
+tmp[22] := J_tmp_1 * eta_t[5];
+tmp[28] := ( -SIN(eta[5])) * eta_t[5];
+tmp[34] := 0.0;
+tmp[5] := 0.0;
+tmp[11] := 0.0;
+tmp[17] := 0.0;
+tmp[23] := ( -((J_tmp_1 * eta_t[4]) - (((J_tmp * J_tmp_2) * J_tmp_0) * eta_t[5]))) / (J_tmp * J_tmp);
+tmp[29] := (((J_tmp_3 * J_tmp_2) * eta_t[5]) + (J_tmp_0 * eta_t[4])) / (J_tmp * J_tmp);
+tmp[35] := 0.0;
+
+FOR i := 0 TO 5 DO 
+    J_tmp_3 := 0.0;
+
+    FOR i_0 := 0 TO 5 DO 
+        J_tmp_3 := (tmp[(6 * i_0) + i] * v[i_0]) + J_tmp_3;
+    END_FOR;
+
+    v_t[i] := eta_tt[i] - J_tmp_3;
+END_FOR;
+
+i0_mldivide(A := J, B := v_t);
+]]></ST>
+    </Implementation>
+    <LineIds Name="eulerToBody">
+      <LineId Id="3" Count="102" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

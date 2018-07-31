@@ -64,7 +64,9 @@ class TxHmi(Structure):
         ('em1500', TxHmiStewart),
         ('comau', TxHmiComau),
         ('winch', TxHmiWinch),
-        ('qtm', TxHmiQualisys)
+        ('qtm', TxHmiQualisys),
+        ('phi', 2*c_float),
+        ('phi_t', 2*c_float)
         # ('at960', TxHmiLeica),
         # ('mru1', TxHmiMru),
         # ('mru2', TxHmiMru)
