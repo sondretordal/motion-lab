@@ -1,112 +1,46 @@
-function form(calib)
+function form()
 
-% Static Paramters
+% Parameters
 g = 9.81;
+
+Nx = 19;
+x = sym('x', [Nx, 1], 'real');
+pt = x(1:3);
+pt_t = x(4:6);
+pt_tt = x(7:9);
+phi = x(10:11);
+phi_t = x(12:13);
+l = x(14);
+l_t = x(15);
+e = x(16:18);
+c = x(19);
+
+
+u = sym('u', [3,1], 'real');
+
+
+% x_t = f(x, u)
+x_t = [
+    pt_t
+    pt_tt
+    zeros(3,1)
+    phi_t
+    pendel.ode(phi, phi_t, pt_tt, l, l_t, g, c)
+    l_t
+    0
+    zeros(3,1)
+    0
+];
 
 % Time step
 syms Ts 'real'
 
-% State vector mapping an intial conditions
-Nx = 32;
-x = sym('x', [Nx,1], 'real');
-
-eta = x(1:6);
-v = x(7:12);
-
-q = x(13:15);
-q_t = x(16:18);
-
-l = x(19);
-l_t = x(20);
-
-phi = x(21:22);
-phi_t = x(23:24);
-
-c = x(25);
-
-e = x(26:28);
-
-omega_q = x(29);
-zeta_q = x(30);
-
-omega_l = x(31);
-zeta_l = x(32);
-
-% Input mapping
-Nu = 4;
-u = sym('u', [Nu,1], 'real');
-
-q_ref = u(1:3);
-l_ref = u(4);
-
-% ODE's
-eta_t = ship.kinematics(eta, v);
-v_t = zeros(6,1);
-
-q_tt = joints.ode(q_ref, q, q_t, omega_q, zeta_q);
-
-l_tt = winch.ode(l_ref, l, l_t, omega_l, zeta_l);
-
-c_t = 0;
-
-e_t = zeros(3,1);
-
-% Robot pt from joints
-[p, p_t, p_tt] = motionlab.comau.forward(q, q_t, q_tt);
-
-% Robot pose relative to EM8000
-Hbr = calib.EM8000_TO_COMAU.H;
-
-% Ship/stewart {b} orientation matrix relative to {n}
-Rnb = math3d.Rxyz(eta(4:6));
-
-% Body fixed velocity and acceleration skew matrices
-W = math3d.skew(v(4:6));
-W_t = math3d.skew(v_t(4:6));
-
-Rnb_t = Rnb*W;
-Rnb_tt = Rnb*W*W + Rnb*W_t;
-
-% Constant offsets {b} -> {r}
-r = Hbr(1:3,4);
-Rbr = Hbr(1:3,1:3);
-
-% Position of {t}/{n} given in {n}
-pt = eta(1:3) + Rnb*(r + Rbr*p);
-
-% Velocity of {t}/{n} given in {n}
-pt_t = v(1:3) + Rnb_t*(r + Rbr*p) + Rnb*(Rbr*p_t);
-
-% Acceleration of {t}/{n} given in {n}
-pt_tt = v_t(1:3) + Rnb_tt*(r + Rbr*p)...
-    + 2*Rnb_t*(Rbr*p_t) + Rnb*(Rbr*p_tt);
-
-% Pendel ODE
-phi_tt = pendel.ode(phi, phi_t, pt_tt, l, l_t, g, c);
-
-% Non linear SS model
-x_t = [
-    eta_t
-    v_t
-    q_t
-    q_tt
-    l_t
-    l_tt
-    phi_t
-    phi_tt    
-    c_t
-    e_t
-    zeros(4,1)
-];
-
 f = x + x_t*Ts;
 F = jacobian(f, x);
 
-h = [    
-    eta
-    v
-    q
-    q_t
+h = [
+    pt
+    pt_t
     l
     l_t
     pendel.kinematics(pt, phi, l) + e; % ph

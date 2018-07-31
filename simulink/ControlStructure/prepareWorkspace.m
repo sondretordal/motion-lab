@@ -41,7 +41,7 @@ stringQ = sprintf('%d,' , diag(Q));
 stringR = sprintf('%d,' , diag(R));
 
 %% Anti-Sawy Controller Gains
-[K, Ki] = antisway.lqr();
+K = antisway.lqr();
 
 %% *** Create Simulink Bus Objects ***
 % Feedback Types
