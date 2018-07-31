@@ -1,4 +1,4 @@
-function [K, Ki] = lqr()
+function Ki = lqr()
 
 % State space version of pendulum ode
 x = sym('x', [10,1], 'real');

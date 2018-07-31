@@ -78,7 +78,7 @@ END_VAR
 
 IF useMru THEN 
     (* Stack data from MRU *)
-    (* '<S2>:1:5' eta1 = feedback.mru1.eta; *)
+    (* '<S2>:1:5' eta1 = feedback.mru1ø.eta; *)
     (* '<S2>:1:6' v1 = feedback.mru1.v; *)
     (* '<S2>:1:8' eta2 = feedback.mru2.eta; *)
     (* '<S2>:1:9' v2 = feedback.mru2.v; *)

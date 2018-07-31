@@ -1,8 +1,8 @@
-function [x0, Q, R, P0] = ekfMatrices()
+function [x0, Q, R, P0] = ekfMatrices(sim)
 
 % Set default sizes and covariances
-Nx = 44;
-Nz = 23 + 24;
+Nx = 19;
+Nz = 11;
 
 Q = eye(Nx)*0.001^2;
 P0 = eye(Nx);
@@ -10,11 +10,14 @@ P0 = eye(Nx);
 R = eye(Nz)*0.005^2;
 
 x0 = zeros(Nx,1);
-x0(29:31) = [0, 0, -90]/180*pi; % q0
-x0(39) = 2; % l0
+x0(1:3) = [-3, 3, -2]; % pt0
+x0(14) = 3;
 
-x0(25:28) = [-2, 3, -1, 0];
 
-x0(41) = 0.1; % c0
+% x0(29) = 1*2*pi;
+% x0(30) = 0.8;
+% 
+% x0(31) = 4*2*pi;
+% x0(32) = 0.8;
 
 end

@@ -152,7 +152,7 @@ function stewart = convertStewart(stewart)
         ];
 
         % Get body velocities and accelearytions
-        [v, v_t] = math3d.eulerToBody(eta, eta_t, eta_tt, 'zyx');
+        [v, v_t] = math3d.eulerToBody(eta, eta_t, eta_tt, 'xyz');
 
         stewart.phi(i,1) = eta(4);
         stewart.theta(i,1) = eta(5);
