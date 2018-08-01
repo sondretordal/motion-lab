@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.7">
-  <POU Name="diag_j" Id="{280a7c85-a97c-4f63-b751-42f79d1ac882}" SpecialFunc="None">
+  <POU Name="diag_j" Id="{25f895e2-7feb-4dec-975a-45d0c0616ce7}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK diag_j
 VAR_INPUT
 	v: ARRAY[0..10] OF LREAL;

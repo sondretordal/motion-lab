@@ -279,16 +279,26 @@ class GUI(QMainWindow, Ui_main):
                 self.XboxJoystickRight_y,
             ]
 
-        # Sway angles and velocites
+        # Pendel estimator related plots
         self.swingAnglesPlot = RealTimePlot(self.swingAnglesWidget.addPlot())
         self.swingAnglesPlot.plot.setYRange(-10, 10)
         self.swingAnglesPlot.plot.setLabel('left', 'Angle', 'deg')
         self.swingAnglesPlot.add_curves(['r', 'b'], ['phi[0]', 'phi[1]'])    
 
         self.swingVelocityPlot = RealTimePlot(self.swingVelocityWidget.addPlot())
-        self.swingVelocityPlot.plot.setYRange(-5, 5)
+        self.swingVelocityPlot.plot.setYRange(-20, 20)
         self.swingVelocityPlot.plot.setLabel('left', 'Angle', 'deg/s')
-        self.swingVelocityPlot.add_curves(['r', 'b'], ['phi_t[0]', 'phi_t[1]'])    
+        self.swingVelocityPlot.add_curves(['r', 'b'], ['phi_t[0]', 'phi_t[1]'])
+
+        self.dampingParamPlot = RealTimePlot(self.dampingParamPlotWidget.addPlot())
+        self.dampingParamPlot.plot.setYRange(0, 0.5)
+        self.dampingParamPlot.plot.setLabel('left', 'Damping', '-')
+        self.dampingParamPlot.add_curves(['r'], ['c'])
+
+        self.errorStatePlot = RealTimePlot(self.errorStatePlotWidget.addPlot())
+        self.errorStatePlot.plot.setYRange(-0.1, 0.1)
+        self.errorStatePlot.plot.setLabel('left', 'Error', 'm')
+        self.errorStatePlot.add_curves(['r', 'g', 'b'], ['x', 'ey', 'ez'])
 
     # UI connections
     def ui_connect(self):
@@ -343,6 +353,13 @@ class GUI(QMainWindow, Ui_main):
         self.winchEngagedFast.clicked.connect(self.WINCH_engaged_fast)
         self.winchOff.clicked.connect(self.WINCH_off)
         self.winchOn.clicked.connect(self.WINCH_on)
+
+
+        # Anti Sway System
+        self.antiSwayPlotRange.currentIndexChanged.connect(self.plot_time_axis_range)
+
+        self.btnActivateAntiSway.clicked.connect(self.activateAntiSway)
+        self.btnDeactivateAntiSway.clicked.connect(self.deactivateAntiSway)
 
         # Show 3D visulaization of motion-lab
         self.show3dView.clicked.connect(self.visualizer.show)
@@ -513,6 +530,18 @@ class GUI(QMainWindow, Ui_main):
             txHmi.phi_t[1]/np.pi*180.0
         ])
 
+        self.dampingParamPlot.time_range = self.time_range
+        self.dampingParamPlot.update(self.t, [
+            txHmi.c
+        ])
+
+        self.errorStatePlot.time_range = self.time_range
+        self.errorStatePlot.update(self.t, [
+            txHmi.e[0],
+            txHmi.e[1],
+            txHmi.e[2]
+        ])
+    
         # Xbox data
         self.XBOX_bars.update([
                 self.xbox.left.x,
@@ -536,6 +565,7 @@ class GUI(QMainWindow, Ui_main):
         self.EM1500_plot_time_range.setCurrentIndex(val)
         self.COMAU_plot_time_range.setCurrentIndex(val)
         self.EM8000_plot_time_range_ship.setCurrentIndex(val)
+        self.antiSwayPlotRange.setCurrentIndex(val)
 
 
     # EM 8000 button functions
@@ -660,9 +690,17 @@ class GUI(QMainWindow, Ui_main):
         self.EM1500_settled()
         self.COMAU_settled()
 
+    # Anti Sway related
+    def activateAntiSway(self):
+        self.plc.write_by_name('MAIN.robotController.antiSway', True, pyads.PLCTYPE_BOOL)
+        print('Anti-Sway Active!')
+
+    def deactivateAntiSway(self):
+        self.plc.write_by_name('MAIN.robotController.antiSway', False, pyads.PLCTYPE_BOOL)
+        print('Anti-Sway Disabled!')
+
     # Stop all function
     def stop_all(self):
-
         self.SYSTEM_stop()
         print('APPLICATION STOPPED')
 

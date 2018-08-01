@@ -6,22 +6,22 @@
  * IEC 61131-3 Structured Text (ST) code generated for subsystem "main/FB_PendelEstimator"
  *
  * Model name                      : main
- * Model version                   : 1.4247
+ * Model version                   : 1.4281
  * Model creator                   : motionlab
  * Model last modified by          : motionlab
- * Model last modified on          : Tue Jul 31 10:18:27 2018
+ * Model last modified on          : Wed Aug 01 14:02:33 2018
  * Model sample time               : 0.005s
  * Subsystem name                  : main/FB_PendelEstimator
  * Subsystem sample time           : 0.005s
  * Simulink PLC Coder version      : 2.4 (R2017b) 24-Jul-2017
- * ST code generated on            : Tue Jul 31 10:18:39 2018
+ * ST code generated on            : Wed Aug 01 14:02:57 2018
  *
  * Target IDE selection            : Beckhoff TwinCAT 3
  * Test Bench included             : No
  *
  *)
 -->
-   <fileHeader companyName="The Mathworks, Inc." companyURL="www.mathworks.com" contentDescription="" creationDateTime="2018-07-31T10:18:39" productName="Simulink PLC Coder" productRelease="(R2017b)" productVersion="2.4"/>
+   <fileHeader companyName="The Mathworks, Inc." companyURL="www.mathworks.com" contentDescription="" creationDateTime="2018-08-01T14:02:57" productName="Simulink PLC Coder" productRelease="(R2017b)" productVersion="2.4"/>
    <contentHeader name="main">
       <coordinateInfo>
          <fbd>
@@ -376,6 +376,11 @@
                         <LREAL/>
                      </type>
                   </variable>
+                  <variable name="c">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
                   <variable name="e">
                      <type>
                         <array>
@@ -384,11 +389,6 @@
                               <LREAL/>
                            </baseType>
                         </array>
-                     </type>
-                  </variable>
-                  <variable name="c">
-                     <type>
-                        <LREAL/>
                      </type>
                   </variable>
                   <variable name="xEst">
@@ -403,20 +403,10 @@
                   </variable>
                </outputVars>
                <localVars>
-                  <variable name="Rnb">
+                  <variable name="b_eta">
                      <type>
                         <array>
-                           <dimension lower="0" upper="8"/>
-                           <baseType>
-                              <LREAL/>
-                           </baseType>
-                        </array>
-                     </type>
-                  </variable>
-                  <variable name="b_p">
-                     <type>
-                        <array>
-                           <dimension lower="0" upper="2"/>
+                           <dimension lower="0" upper="5"/>
                            <baseType>
                               <LREAL/>
                            </baseType>
@@ -433,20 +423,20 @@
                         </array>
                      </type>
                   </variable>
-                  <variable name="v_t">
+                  <variable name="Rnb">
                      <type>
                         <array>
-                           <dimension lower="0" upper="5"/>
+                           <dimension lower="0" upper="8"/>
                            <baseType>
                               <LREAL/>
                            </baseType>
                         </array>
                      </type>
                   </variable>
-                  <variable name="b_J">
+                  <variable name="b_p">
                      <type>
                         <array>
-                           <dimension lower="0" upper="35"/>
+                           <dimension lower="0" upper="2"/>
                            <baseType>
                               <LREAL/>
                            </baseType>
@@ -548,10 +538,20 @@
                         </array>
                      </type>
                   </variable>
-                  <variable name="tmp_2">
+                  <variable name="b">
                      <type>
                         <array>
                            <dimension lower="0" upper="35"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="F_0">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="360"/>
                            <baseType>
                               <LREAL/>
                            </baseType>
@@ -566,16 +566,6 @@
                   <variable name="i_1">
                      <type>
                         <DINT/>
-                     </type>
-                  </variable>
-                  <variable name="F_0">
-                     <type>
-                        <array>
-                           <dimension lower="0" upper="360"/>
-                           <baseType>
-                              <LREAL/>
-                           </baseType>
-                        </array>
                      </type>
                   </variable>
                   <variable name="H_1">
@@ -598,7 +588,7 @@
                         </array>
                      </type>
                   </variable>
-                  <variable name="tmp_3">
+                  <variable name="tmp_2">
                      <type>
                         <array>
                            <dimension lower="0" upper="8"/>
@@ -628,7 +618,7 @@
                         </array>
                      </type>
                   </variable>
-                  <variable name="tmp_4">
+                  <variable name="tmp_3">
                      <type>
                         <array>
                            <dimension lower="0" upper="8"/>
@@ -638,7 +628,7 @@
                         </array>
                      </type>
                   </variable>
-                  <variable name="tmp_5">
+                  <variable name="tmp_4">
                      <type>
                         <array>
                            <dimension lower="0" upper="2"/>
@@ -678,7 +668,7 @@
                         </array>
                      </type>
                   </variable>
-                  <variable name="stFeedback_1">
+                  <variable name="eta_0">
                      <type>
                         <array>
                            <dimension lower="0" upper="10"/>
@@ -688,7 +678,7 @@
                         </array>
                      </type>
                   </variable>
-                  <variable name="stFeedback_2">
+                  <variable name="eta_1">
                      <type>
                         <array>
                            <dimension lower="0" upper="10"/>
@@ -698,42 +688,27 @@
                         </array>
                      </type>
                   </variable>
-                  <variable name="p_tmp">
+                  <variable name="b_tmp">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="b_tmp_0">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="b_tmp_1">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="b_tmp_2">
                      <type>
                         <LREAL/>
                      </type>
                   </variable>
                   <variable name="p_tmp_tmp">
-                     <type>
-                        <LREAL/>
-                     </type>
-                  </variable>
-                  <variable name="p_tmp_tmp_0">
-                     <type>
-                        <LREAL/>
-                     </type>
-                  </variable>
-                  <variable name="b_J_tmp">
-                     <type>
-                        <LREAL/>
-                     </type>
-                  </variable>
-                  <variable name="b_J_tmp_0">
-                     <type>
-                        <LREAL/>
-                     </type>
-                  </variable>
-                  <variable name="b_J_tmp_1">
-                     <type>
-                        <LREAL/>
-                     </type>
-                  </variable>
-                  <variable name="b_J_tmp_2">
-                     <type>
-                        <LREAL/>
-                     </type>
-                  </variable>
-                  <variable name="b_J_tmp_3">
                      <type>
                         <LREAL/>
                      </type>
@@ -748,9 +723,39 @@
                         <LREAL/>
                      </type>
                   </variable>
+                  <variable name="Rnb_tmp_1">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="Rnb_tmp_2">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="Rnb_tmp_3">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="Rnb_tmp_4">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="Rnb_tmp_5">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
                   <variable name="F_tmp">
                      <type>
                         <DINT/>
+                     </type>
+                  </variable>
+                  <variable name="p_tmp">
+                     <type>
+                        <LREAL/>
                      </type>
                   </variable>
                   <variable name="p_tmp_0">
@@ -768,22 +773,7 @@
                         <LREAL/>
                      </type>
                   </variable>
-                  <variable name="p_tmp_3">
-                     <type>
-                        <LREAL/>
-                     </type>
-                  </variable>
-                  <variable name="p_tmp_tmp_1">
-                     <type>
-                        <LREAL/>
-                     </type>
-                  </variable>
-                  <variable name="p_tmp_tmp_2">
-                     <type>
-                        <LREAL/>
-                     </type>
-                  </variable>
-                  <variable name="p_tmp_tmp_3">
+                  <variable name="p_tmp_tmp_0">
                      <type>
                         <LREAL/>
                      </type>
@@ -2016,7 +2006,7 @@
                         </arrayValue>
                      </initialValue>
                   </variable>
-                  <variable name="b">
+                  <variable name="b_b">
                      <type>
                         <array>
                            <dimension lower="0" upper="5"/>
@@ -3361,18 +3351,97 @@ CASE ssMethodType OF
     1: 
         (* MATLAB Function: '<S1>/VectorizeData' incorporates:
          *  BusCreator: '<S1>/BusConversion_InsertedFor_VectorizeData_at_inport_0' *)
-        (* % Load Calibration data *)
-        (* data = coder.load('motionlab/calib.mat'); *)
-        (* calib = data.calib; *)
         (* MATLAB Function 'FB_PendelEstimator/VectorizeData': '<S3>:1' *)
-        (* Get body velocites *)
-        (* '<S3>:1:8' eta = feedback.em8000.eta; *)
-        (* '<S3>:1:9' eta_t = feedback.em8000.eta_t; *)
-        (* '<S3>:1:10' eta_tt = feedback.em8000.eta_tt; *)
-        (* '<S3>:1:12' q = feedback.comau.q; *)
-        (* '<S3>:1:13' q_t = feedback.comau.q_t; *)
-        (* '<S3>:1:14' q_tt = zeros(3,1); *)
-        (* '<S3>:1:16' [p, p_t, p_tt] = motionlab.comau.forward(q, q_t, q_tt); *)
+        (* '<S3>:1:4' if useMru *)
+
+        IF useMru THEN 
+            (* Use  *)
+            (* '<S3>:1:6' eta = feedback.mru1.eta; *)
+            (* '<S3>:1:7' v = feedback.mru1.v; *)
+
+            FOR i := 0 TO 5 DO 
+                b_eta[i] := stFeedback.mru1.eta[i];
+                b_v[i] := stFeedback.mru1.v[i];
+            END_FOR;
+
+        ELSE 
+            (* '<S3>:1:8' else *)
+            (* Get body velocites *)
+            (* '<S3>:1:10' eta = feedback.em8000.eta; *)
+            (* '<S3>:1:11' eta_t = feedback.em8000.eta_t; *)
+            (* '<S3>:1:13' [v, ~] = math3d.eulerToBody(eta, eta_t, zeros(6,1), 'xyz'); *)
+            (* Velocity *)
+            (* 'eulerToBody:4' J = velocityJacobian(eta, angleSequence); *)
+            (* 'eulerToBody:15' phi = eta(4); *)
+            (* 'eulerToBody:16' theta = eta(5); *)
+            (* 'eulerToBody:17' psi = eta(6); *)
+            (* 'eulerToBody:19' if strcmp(sequence, 'xyz') *)
+            (* 'eulerToBody:20' J = [ *)
+            (* 'eulerToBody:21'             1, 0, 0,                                 0,                                0, 0 *)
+            (* 'eulerToBody:22'             0, 1, 0,                                 0,                                0, 0 *)
+            (* 'eulerToBody:23'             0, 0, 1,                                 0,                                0, 0 *)
+            (* 'eulerToBody:24'             0, 0, 0,               cos(psi)/cos(theta),             -sin(psi)/cos(theta), 0 *)
+            (* 'eulerToBody:25'             0, 0, 0,                          sin(psi),                         cos(psi), 0 *)
+            (* 'eulerToBody:26'             0, 0, 0, -(cos(psi)*sin(theta))/cos(theta), (sin(psi)*sin(theta))/cos(theta), 1 *)
+            (* 'eulerToBody:27'         ]; *)
+            (* 'eulerToBody:5' v = J\eta_t; *)
+            (* Acceleration *)
+            (* 'eulerToBody:8' J_t = accelerationJacobian(eta, eta_t, angleSequence); *)
+            (* 'eulerToBody:43' phi = eta(4); *)
+            (* 'eulerToBody:44' theta = eta(5); *)
+            (* 'eulerToBody:45' psi = eta(6); *)
+            (* 'eulerToBody:47' phi_t = eta_t(4); *)
+            (* 'eulerToBody:48' theta_t = eta_t(5); *)
+            (* 'eulerToBody:49' psi_t = eta_t(6); *)
+            (* 'eulerToBody:51' if strcmp(sequence, 'xyz') *)
+            (* 'eulerToBody:52' J_t = [ *)
+            (* 'eulerToBody:53'             0, 0, 0,                                                                       0,                                                                       0, 0 *)
+            (* 'eulerToBody:54'             0, 0, 0,                                                                       0,                                                                       0, 0 *)
+            (* 'eulerToBody:55'             0, 0, 0,                                                                       0,                                                                       0, 0 *)
+            (* 'eulerToBody:56'             0, 0, 0,  (cos(psi)*sin(theta)*theta_t - cos(theta)*sin(psi)*psi_t)/cos(theta)^2, -(cos(theta)*cos(psi)*psi_t + sin(theta)*sin(psi)*theta_t)/cos(theta)^2, 0 *)
+            (* 'eulerToBody:57'             0, 0, 0,                                                          cos(psi)*psi_t,                                                         -sin(psi)*psi_t, 0 *)
+            (* 'eulerToBody:58'             0, 0, 0, -(cos(psi)*theta_t - cos(theta)*sin(theta)*sin(psi)*psi_t)/cos(theta)^2,  (sin(psi)*theta_t + cos(theta)*cos(psi)*sin(theta)*psi_t)/cos(theta)^2, 0 *)
+            (* 'eulerToBody:59'         ]; *)
+            (* 'eulerToBody:9' v_t = J\(eta_tt - J_t*v); *)
+
+            FOR i := 0 TO 5 DO 
+                b_eta[i] := stFeedback.em8000.eta[i];
+                b_v[i] := stFeedback.em8000.eta_t[i];
+                b[6 * i] := SINT_TO_LREAL(b_b[i]);
+                b[1 + (6 * i)] := SINT_TO_LREAL(b_c[i]);
+                b[2 + (6 * i)] := SINT_TO_LREAL(b_d[i]);
+            END_FOR;
+
+            b[3] := 0.0;
+            b[9] := 0.0;
+            b[15] := 0.0;
+            b_tmp := COS(stFeedback.em8000.eta[4]);
+            b_tmp_1 := COS(stFeedback.em8000.eta[5]);
+            b[21] := b_tmp_1 / b_tmp;
+            b_tmp_0 := SIN(stFeedback.em8000.eta[5]);
+            b[27] := ( -b_tmp_0) / b_tmp;
+            b[33] := 0.0;
+            b[4] := 0.0;
+            b[10] := 0.0;
+            b[16] := 0.0;
+            b[22] := b_tmp_0;
+            b[28] := b_tmp_1;
+            b[34] := 0.0;
+            b[5] := 0.0;
+            b[11] := 0.0;
+            b[17] := 0.0;
+            b_tmp_2 := SIN(stFeedback.em8000.eta[4]);
+            b[23] := ( -(b_tmp_1 * b_tmp_2)) / b_tmp;
+            b[29] := (b_tmp_0 * b_tmp_2) / b_tmp;
+            b[35] := 1.0;
+            i0_mldivide(A := b, B := b_v);
+            (* '<S3>:1:13' ~ *)
+        END_IF;
+
+        (* Comau movement *)
+        (* '<S3>:1:17' q = feedback.comau.q; *)
+        (* '<S3>:1:18' q_t = feedback.comau.q_t; *)
+        (* '<S3>:1:20' [p, p_t, ~] = motionlab.comau.forward(q, q_t, zeros(3,1)); *)
         (* Static link lengths *)
         (* 'forward:4' a1 = 0.350; *)
         (* 'forward:5' a2 = 1.160; *)
@@ -3398,19 +3467,19 @@ CASE ssMethodType OF
         (* 'forward:30'     d1 + L*cos(q3) + a2*cos(q2) - a3*sin(q3); *)
         (* 'forward:31' ]; *)
         p_tmp_tmp := COS(stFeedback.comau.q[2]);
-        p_tmp_tmp_0 := SIN(stFeedback.comau.q[2]);
-        p_tmp_tmp_2 := SIN(stFeedback.comau.q[1]);
-        p_tmp_tmp_3 := 0.25 * p_tmp_tmp;
-        p_tmp := ((0.35 - (2.2691999999999997 * p_tmp_tmp_0)) - p_tmp_tmp_3) + (1.16 * p_tmp_tmp_2);
-        p_tmp_1 := COS(stFeedback.comau.q[0]);
-        b_p[0] := p_tmp * p_tmp_1;
-        p_tmp_tmp_1 := SIN(stFeedback.comau.q[0]);
-        p_tmp_0 := p_tmp * ( -p_tmp_tmp_1);
-        b_p[1] := p_tmp_0;
-        p_tmp_2 := COS(stFeedback.comau.q[1]);
+        b_tmp := SIN(stFeedback.comau.q[2]);
+        b_tmp_1 := SIN(stFeedback.comau.q[1]);
+        b_tmp_0 := 0.25 * p_tmp_tmp;
+        b_tmp_2 := ((0.35 - (2.2691999999999997 * b_tmp)) - b_tmp_0) + (1.16 * b_tmp_1);
+        p_tmp_0 := COS(stFeedback.comau.q[0]);
+        b_p[0] := b_tmp_2 * p_tmp_0;
+        p_tmp_tmp_0 := SIN(stFeedback.comau.q[0]);
+        p_tmp := b_tmp_2 * ( -p_tmp_tmp_0);
+        b_p[1] := p_tmp;
+        p_tmp_1 := COS(stFeedback.comau.q[1]);
         p_tmp_tmp := 2.2691999999999997 * p_tmp_tmp;
-        p_tmp_3 := 0.25 * p_tmp_tmp_0;
-        b_p[2] := ((p_tmp_tmp + 0.83) + (1.16 * p_tmp_2)) - p_tmp_3;
+        p_tmp_2 := 0.25 * b_tmp;
+        b_p[2] := ((p_tmp_tmp + 0.83) + (1.16 * p_tmp_1)) - p_tmp_2;
         (* 'forward:33' J = [ *)
         (* 'forward:34'     -sin(q1)*(a1 - L*sin(q3) - a3*cos(q3) + a2*sin(q2)),  a2*cos(q1)*cos(q2), -cos(q1)*(L*cos(q3) - a3*sin(q3)); *)
         (* 'forward:35'     -cos(q1)*(a1 - L*sin(q3) - a3*cos(q3) + a2*sin(q2)), -a2*cos(q2)*sin(q1),  sin(q1)*(L*cos(q3) - a3*sin(q3)); *)
@@ -3425,121 +3494,14 @@ CASE ssMethodType OF
         (* 'forward:46' p_t = J*q_t; *)
         (* Acceleration *)
         (* 'forward:49' p_tt = J_t*q_t + J*q_tt; *)
-        (* '<S3>:1:18' [v, v_t] = math3d.eulerToBody(eta, eta_t, eta_tt, 'xyz'); *)
-        (* Velocity *)
-        (* 'eulerToBody:4' J = velocityJacobian(eta, angleSequence); *)
-        (* 'eulerToBody:15' phi = eta(4); *)
-        (* 'eulerToBody:16' theta = eta(5); *)
-        (* 'eulerToBody:17' psi = eta(6); *)
-        (* 'eulerToBody:19' if strcmp(sequence, 'xyz') *)
-        (* 'eulerToBody:20' J = [ *)
-        (* 'eulerToBody:21'             1, 0, 0,                                 0,                                0, 0 *)
-        (* 'eulerToBody:22'             0, 1, 0,                                 0,                                0, 0 *)
-        (* 'eulerToBody:23'             0, 0, 1,                                 0,                                0, 0 *)
-        (* 'eulerToBody:24'             0, 0, 0,               cos(psi)/cos(theta),             -sin(psi)/cos(theta), 0 *)
-        (* 'eulerToBody:25'             0, 0, 0,                          sin(psi),                         cos(psi), 0 *)
-        (* 'eulerToBody:26'             0, 0, 0, -(cos(psi)*sin(theta))/cos(theta), (sin(psi)*sin(theta))/cos(theta), 1 *)
-        (* 'eulerToBody:27'         ]; *)
-        b_J[3] := 0.0;
-        b_J[9] := 0.0;
-        b_J[15] := 0.0;
-        b_J_tmp := COS(stFeedback.em8000.eta[4]);
-        b_J_tmp_1 := COS(stFeedback.em8000.eta[5]);
-        b_J[21] := b_J_tmp_1 / b_J_tmp;
-        b_J_tmp_0 := SIN(stFeedback.em8000.eta[5]);
-        b_J[27] := ( -b_J_tmp_0) / b_J_tmp;
-        b_J[33] := 0.0;
-        b_J[4] := 0.0;
-        b_J[10] := 0.0;
-        b_J[16] := 0.0;
-        b_J[22] := b_J_tmp_0;
-        b_J[28] := b_J_tmp_1;
-        b_J[34] := 0.0;
-        b_J[5] := 0.0;
-        b_J[11] := 0.0;
-        b_J[17] := 0.0;
-        b_J_tmp_2 := SIN(stFeedback.em8000.eta[4]);
-        b_J_tmp_3 := b_J_tmp_1 * b_J_tmp_2;
-        b_J[23] := ( -b_J_tmp_3) / b_J_tmp;
-        b_J[29] := (b_J_tmp_0 * b_J_tmp_2) / b_J_tmp;
-        b_J[35] := 1.0;
-        (* 'eulerToBody:5' v = J\eta_t; *)
-        (* MATLAB Function: '<S1>/VectorizeData' incorporates:
-         *  BusCreator: '<S1>/BusConversion_InsertedFor_VectorizeData_at_inport_0' *)
-
-        FOR i := 0 TO 5 DO 
-            b_J[6 * i] := SINT_TO_LREAL(b[i]);
-            b_J[1 + (6 * i)] := SINT_TO_LREAL(b_c[i]);
-            b_J[2 + (6 * i)] := SINT_TO_LREAL(b_d[i]);
-            b_v[i] := stFeedback.em8000.eta_t[i];
-        END_FOR;
-
-        i0_mldivide(A := b_J, B := b_v);
-        (* Acceleration *)
-        (* 'eulerToBody:8' J_t = accelerationJacobian(eta, eta_t, angleSequence); *)
-        (* 'eulerToBody:43' phi = eta(4); *)
-        (* 'eulerToBody:44' theta = eta(5); *)
-        (* 'eulerToBody:45' psi = eta(6); *)
-        (* 'eulerToBody:47' phi_t = eta_t(4); *)
-        (* 'eulerToBody:48' theta_t = eta_t(5); *)
-        (* 'eulerToBody:49' psi_t = eta_t(6); *)
-        (* 'eulerToBody:51' if strcmp(sequence, 'xyz') *)
-        (* 'eulerToBody:52' J_t = [ *)
-        (* 'eulerToBody:53'             0, 0, 0,                                                                       0,                                                                       0, 0 *)
-        (* 'eulerToBody:54'             0, 0, 0,                                                                       0,                                                                       0, 0 *)
-        (* 'eulerToBody:55'             0, 0, 0,                                                                       0,                                                                       0, 0 *)
-        (* 'eulerToBody:56'             0, 0, 0,  (cos(psi)*sin(theta)*theta_t - cos(theta)*sin(psi)*psi_t)/cos(theta)^2, -(cos(theta)*cos(psi)*psi_t + sin(theta)*sin(psi)*theta_t)/cos(theta)^2, 0 *)
-        (* 'eulerToBody:57'             0, 0, 0,                                                          cos(psi)*psi_t,                                                         -sin(psi)*psi_t, 0 *)
-        (* 'eulerToBody:58'             0, 0, 0, -(cos(psi)*theta_t - cos(theta)*sin(theta)*sin(psi)*psi_t)/cos(theta)^2,  (sin(psi)*theta_t + cos(theta)*cos(psi)*sin(theta)*psi_t)/cos(theta)^2, 0 *)
-        (* 'eulerToBody:59'         ]; *)
-        (* 'eulerToBody:9' v_t = J\(eta_tt - J_t*v); *)
-
-        FOR i_0 := 0 TO 5 DO 
-            tmp_2[6 * i_0] := 0.0;
-            tmp_2[1 + (6 * i_0)] := 0.0;
-            tmp_2[2 + (6 * i_0)] := 0.0;
-        END_FOR;
-
-        tmp_2[3] := 0.0;
-        tmp_2[9] := 0.0;
-        tmp_2[15] := 0.0;
-        tmp_2[21] := ((b_J_tmp_3 * stFeedback.em8000.eta_t[4]) - ((b_J_tmp * b_J_tmp_0) * stFeedback.em8000.eta_t[5])) / (b_J_tmp * b_J_tmp);
-        b_J_tmp_3 := b_J_tmp * b_J_tmp_1;
-        tmp_2[27] := ( -((b_J_tmp_3 * stFeedback.em8000.eta_t[5]) + ((b_J_tmp_2 * b_J_tmp_0) * stFeedback.em8000.eta_t[4]))) / (b_J_tmp * b_J_tmp);
-        tmp_2[33] := 0.0;
-        tmp_2[4] := 0.0;
-        tmp_2[10] := 0.0;
-        tmp_2[16] := 0.0;
-        tmp_2[22] := b_J_tmp_1 * stFeedback.em8000.eta_t[5];
-        tmp_2[28] := ( -SIN(stFeedback.em8000.eta[5])) * stFeedback.em8000.eta_t[5];
-        tmp_2[34] := 0.0;
-        tmp_2[5] := 0.0;
-        tmp_2[11] := 0.0;
-        tmp_2[17] := 0.0;
-        tmp_2[23] := ( -((b_J_tmp_1 * stFeedback.em8000.eta_t[4]) - (((b_J_tmp * b_J_tmp_2) * b_J_tmp_0) * stFeedback.em8000.eta_t[5]))) / (b_J_tmp * b_J_tmp);
-        tmp_2[29] := (((b_J_tmp_3 * b_J_tmp_2) * stFeedback.em8000.eta_t[5]) + (b_J_tmp_0 * stFeedback.em8000.eta_t[4])) / (b_J_tmp * b_J_tmp);
-        tmp_2[35] := 0.0;
-        (* MATLAB Function: '<S1>/VectorizeData' incorporates:
-         *  BusCreator: '<S1>/BusConversion_InsertedFor_VectorizeData_at_inport_0' *)
-
-        FOR i_0 := 0 TO 5 DO 
-            Rnb_tmp := 0.0;
-
-            FOR i_1 := 0 TO 5 DO 
-                Rnb_tmp := (tmp_2[(6 * i_1) + i_0] * b_v[i_1]) + Rnb_tmp;
-            END_FOR;
-
-            v_t[i_0] := stFeedback.em8000.eta_tt[i_0] - Rnb_tmp;
-        END_FOR;
-
-        i0_mldivide(A := b_J, B := v_t);
+        (* '<S3>:1:20' ~ *)
         (* Load Calibration data *)
-        (* '<S3>:1:21' data = coder.load('motionlab/calib.mat'); *)
-        (* '<S3>:1:22' calib = data.calib; *)
+        (* '<S3>:1:23' data = coder.load('motionlab/calib.mat'); *)
+        (* '<S3>:1:24' calib = data.calib; *)
         (* Robot pose relative to EM8000 *)
-        (* '<S3>:1:25' Hbr = calib.EM8000_TO_COMAU.H; *)
+        (* '<S3>:1:27' Hbr = calib.EM8000_TO_COMAU.H; *)
         (* Ship/stewart {b} orientation matrix relative to {n} *)
-        (* '<S3>:1:28' Rnb = math3d.Rxyz(eta(4:6)); *)
+        (* '<S3>:1:30' Rnb = math3d.Rxyz(eta(4:6)); *)
         (* 'Rxyz:3' rx = phi(1); *)
         (* 'Rxyz:4' ry = phi(2); *)
         (* 'Rxyz:5' rz = phi(3); *)
@@ -3548,37 +3510,34 @@ CASE ssMethodType OF
         (* 'Rxyz:9'     cos(rx)*sin(rz) + cos(rz)*sin(rx)*sin(ry), cos(rx)*cos(rz) - sin(rx)*sin(ry)*sin(rz), -cos(ry)*sin(rx); *)
         (* 'Rxyz:10'     sin(rx)*sin(rz) - cos(rx)*cos(rz)*sin(ry), cos(rz)*sin(rx) + cos(rx)*sin(ry)*sin(rz),  cos(rx)*cos(ry) *)
         (* 'Rxyz:11' ]; *)
-        Rnb[0] := b_J_tmp_3;
-        Rnb[3] := ( -b_J_tmp) * b_J_tmp_0;
-        Rnb[6] := b_J_tmp_2;
-        b_J_tmp_3 := COS(stFeedback.em8000.eta[3]);
-        Rnb_tmp := SIN(stFeedback.em8000.eta[3]);
-        Rnb_tmp_0 := b_J_tmp_1 * Rnb_tmp;
-        Rnb[1] := (Rnb_tmp_0 * b_J_tmp_2) + (b_J_tmp_3 * b_J_tmp_0);
-        b_J_tmp_1 := b_J_tmp_3 * b_J_tmp_1;
-        Rnb[4] := b_J_tmp_1 - ((Rnb_tmp * b_J_tmp_2) * b_J_tmp_0);
-        Rnb[7] := ( -COS(stFeedback.em8000.eta[4])) * Rnb_tmp;
-        Rnb[2] := (Rnb_tmp * b_J_tmp_0) - (b_J_tmp_1 * b_J_tmp_2);
-        Rnb[5] := ((b_J_tmp_3 * b_J_tmp_2) * b_J_tmp_0) + Rnb_tmp_0;
-        Rnb[8] := b_J_tmp_3 * b_J_tmp;
+        Rnb_tmp := COS(b_eta[4]);
+        Rnb_tmp_0 := COS(b_eta[5]);
+        Rnb[0] := Rnb_tmp * Rnb_tmp_0;
+        Rnb_tmp_2 := SIN(b_eta[5]);
+        Rnb[3] := ( -Rnb_tmp) * Rnb_tmp_2;
+        Rnb_tmp_1 := SIN(b_eta[4]);
+        Rnb[6] := Rnb_tmp_1;
+        Rnb_tmp_3 := COS(b_eta[3]);
+        Rnb_tmp_4 := SIN(b_eta[3]);
+        Rnb_tmp_5 := Rnb_tmp_0 * Rnb_tmp_4;
+        Rnb[1] := (Rnb_tmp_5 * Rnb_tmp_1) + (Rnb_tmp_3 * Rnb_tmp_2);
+        Rnb_tmp_0 := Rnb_tmp_3 * Rnb_tmp_0;
+        Rnb[4] := Rnb_tmp_0 - ((Rnb_tmp_4 * Rnb_tmp_1) * Rnb_tmp_2);
+        Rnb[7] := ( -COS(b_eta[4])) * Rnb_tmp_4;
+        Rnb[2] := (Rnb_tmp_4 * Rnb_tmp_2) - (Rnb_tmp_0 * Rnb_tmp_1);
+        Rnb[5] := ((Rnb_tmp_3 * Rnb_tmp_1) * Rnb_tmp_2) + Rnb_tmp_5;
+        Rnb[8] := Rnb_tmp_3 * Rnb_tmp;
         (* MATLAB Function: '<S1>/Discrete EKF' incorporates:
          *  Memory: '<S1>/Memory1'
          *  Memory: '<S1>/Memory2' *)
         (* Body fixed velocity and acceleration skew matrices *)
-        (* '<S3>:1:31' W = math3d.skew(v(4:6)); *)
+        (* '<S3>:1:33' W = math3d.skew(v(4:6)); *)
         (* 'skew:3' vSkew = [ *)
         (* 'skew:4'        0, -v(3),  v(2); *)
         (* 'skew:5'     v(3),     0, -v(1); *)
         (* 'skew:6'    -v(2),  v(1),    0; *)
         (* 'skew:7' ]; *)
-        (* '<S3>:1:32' W_t = math3d.skew(v_t(4:6)); *)
-        (* 'skew:3' vSkew = [ *)
-        (* 'skew:4'        0, -v(3),  v(2); *)
-        (* 'skew:5'     v(3),     0, -v(1); *)
-        (* 'skew:6'    -v(2),  v(1),    0; *)
-        (* 'skew:7' ]; *)
-        (* '<S3>:1:34' Rnb_t = Rnb*W; *)
-        (* '<S3>:1:35' Rnb_tt = Rnb*W*W + Rnb*W_t; *)
+        (* '<S3>:1:35' Rnb_t = Rnb*W; *)
         (* Constant offsets {b} -> {r} *)
         (* '<S3>:1:38' r = Hbr(1:3,4); *)
         (* '<S3>:1:39' Rbr = Hbr(1:3,1:3); *)
@@ -3586,32 +3545,26 @@ CASE ssMethodType OF
         (* '<S3>:1:42' pt = eta(1:3) + Rnb*(r + Rbr*p); *)
         (* Velocity of {t}/{n} given in {n} *)
         (* '<S3>:1:45' pt_t = v(1:3) + Rnb_t*(r + Rbr*p) + Rnb*(Rbr*p_t); *)
-        (* Acceleration of {t}/{n} given in {n} *)
-        (* '<S3>:1:48' pt_tt = v_t(1:3) + Rnb_tt*(r + Rbr*p)... *)
-        (* '<S3>:1:49'     + 2*Rnb_t*(Rbr*p_t) + Rnb*(Rbr*p_tt); *)
         (* Hook measurement *)
-        (* '<S3>:1:52' ph = feedback.qtm.pos; *)
-        (* '<S3>:1:53' Hnq = math3d.InvH(calib.WORLD_TO_EM8000.H)*calib.WORLD_TO_QTM.H; *)
-        (* '<S3>:1:54' Ph = Hnq*[ph; 1]; *)
-        (* '<S3>:1:56' u = [ *)
-        (* '<S3>:1:57'     pt_tt *)
+        (* '<S3>:1:48' ph = feedback.qtm.pos; *)
+        (* '<S3>:1:49' Hnq = math3d.InvH(calib.WORLD_TO_EM8000.H)*calib.WORLD_TO_QTM.H; *)
+        (* '<S3>:1:50' Ph = Hnq*[ph; 1]; *)
+        (* '<S3>:1:52' z = [     *)
+        (* '<S3>:1:53'     pt *)
+        (* '<S3>:1:54'     pt_t *)
+        (* '<S3>:1:55'     feedback.winch.length *)
+        (* '<S3>:1:56'     feedback.winch.length_t *)
+        (* '<S3>:1:57'     Ph(1:3) *)
         (* '<S3>:1:58' ]; *)
-        (* '<S3>:1:60' z = [     *)
-        (* '<S3>:1:61'     pt *)
-        (* '<S3>:1:62'     pt_t *)
-        (* '<S3>:1:63'     feedback.winch.length *)
-        (* '<S3>:1:64'     feedback.winch.length_t *)
-        (* '<S3>:1:65'     Ph(1:3) *)
-        (* '<S3>:1:66' ]; *)
         (* Make Q and R *)
         (* MATLAB Function 'FB_PendelEstimator/Discrete EKF': '<S2>:1' *)
         (* '<S2>:1:4' Q = diag(diagQ); *)
         (* '<S2>:1:5' R = diag(diagR); *)
         (* Prediction *)
-        (* '<S2>:1:8' xPred = observer.f(x, u, Ts); *)
+        (* '<S2>:1:8' xPred = observer.f(x, Ts); *)
         i0_f(in1 := Memory2_PreviousInput, Ts := Ts);
         xPred := i0_f.f_0;
-        (* '<S2>:1:9' F = observer.fJacobian(x, u, Ts); *)
+        (* '<S2>:1:9' F = observer.fJacobian(x, Ts); *)
         i0_fJacobian(in1 := Memory2_PreviousInput, Ts := Ts);
         b_F := i0_fJacobian.F;
         (* '<S2>:1:10' PPred = F*P*F' + Q; *)
@@ -3632,13 +3585,13 @@ CASE ssMethodType OF
 
 
             FOR i_1 := 0 TO 18 DO 
-                b_J_tmp_3 := 0.0;
+                Rnb_tmp := 0.0;
 
                 FOR i := 0 TO 18 DO 
-                    b_J_tmp_3 := (F_0[(19 * i) + i_0] * b_F[(19 * i) + i_1]) + b_J_tmp_3;
+                    Rnb_tmp := (F_0[(19 * i) + i_0] * b_F[(19 * i) + i_1]) + Rnb_tmp;
                 END_FOR;
 
-                PPred[i_0 + (19 * i_1)] := tmp_1[(19 * i_1) + i_0] + b_J_tmp_3;
+                PPred[i_0 + (19 * i_1)] := tmp_1[(19 * i_1) + i_0] + Rnb_tmp;
             END_FOR;
 
         END_FOR;
@@ -3667,13 +3620,13 @@ CASE ssMethodType OF
 
 
             FOR i_1 := 0 TO 10 DO 
-                b_J_tmp_3 := 0.0;
+                Rnb_tmp := 0.0;
 
                 FOR i := 0 TO 18 DO 
-                    b_J_tmp_3 := (H_1[(11 * i) + i_0] * b_H[(11 * i) + i_1]) + b_J_tmp_3;
+                    Rnb_tmp := (H_1[(11 * i) + i_0] * b_H[(11 * i) + i_1]) + Rnb_tmp;
                 END_FOR;
 
-                H_0[i_0 + (11 * i_1)] := tmp_0[(11 * i_1) + i_0] + b_J_tmp_3;
+                H_0[i_0 + (11 * i_1)] := tmp_0[(11 * i_1) + i_0] + Rnb_tmp;
             END_FOR;
 
         END_FOR;
@@ -3712,48 +3665,48 @@ CASE ssMethodType OF
         (* MATLAB Function: '<S1>/VectorizeData' incorporates:
          *  BusCreator: '<S1>/BusConversion_InsertedFor_VectorizeData_at_inport_0'
          *  MATLAB Function: '<S1>/Discrete EKF' *)
-        tmp_3[0] := 0.0;
-        tmp_3[3] :=  -b_v[5];
-        tmp_3[6] := b_v[4];
-        tmp_3[1] := b_v[5];
-        tmp_3[4] := 0.0;
-        tmp_3[7] :=  -b_v[3];
-        tmp_3[2] :=  -b_v[4];
-        tmp_3[5] := b_v[3];
-        tmp_3[8] := 0.0;
-        tmp_4[0] := p_tmp_0;
-        tmp_4[3] := (1.16 * p_tmp_1) * p_tmp_2;
-        b_J_tmp_3 := p_tmp_tmp - p_tmp_3;
-        tmp_4[6] := b_J_tmp_3 * ( -p_tmp_1);
-        tmp_4[1] := p_tmp * ( -COS(stFeedback.comau.q[0]));
-        tmp_4[4] := (-1.16 * p_tmp_2) * p_tmp_tmp_1;
-        tmp_4[7] := b_J_tmp_3 * p_tmp_tmp_1;
-        tmp_4[2] := 0.0;
-        tmp_4[5] := -1.16 * p_tmp_tmp_2;
-        tmp_4[8] := (-2.2691999999999997 * p_tmp_tmp_0) - p_tmp_tmp_3;
+        tmp_2[0] := 0.0;
+        tmp_2[3] :=  -b_v[5];
+        tmp_2[6] := b_v[4];
+        tmp_2[1] := b_v[5];
+        tmp_2[4] := 0.0;
+        tmp_2[7] :=  -b_v[3];
+        tmp_2[2] :=  -b_v[4];
+        tmp_2[5] := b_v[3];
+        tmp_2[8] := 0.0;
+        tmp_3[0] := p_tmp;
+        tmp_3[3] := (1.16 * p_tmp_0) * p_tmp_1;
+        Rnb_tmp := p_tmp_tmp - p_tmp_2;
+        tmp_3[6] := Rnb_tmp * ( -p_tmp_0);
+        tmp_3[1] := b_tmp_2 * ( -COS(stFeedback.comau.q[0]));
+        tmp_3[4] := (-1.16 * p_tmp_1) * p_tmp_tmp_0;
+        tmp_3[7] := Rnb_tmp * p_tmp_tmp_0;
+        tmp_3[2] := 0.0;
+        tmp_3[5] := -1.16 * b_tmp_1;
+        tmp_3[8] := (-2.2691999999999997 * b_tmp) - b_tmp_0;
 
         FOR i_0 := 0 TO 2 DO 
-            b_J_tmp_3 := 0.0;
+            Rnb_tmp := 0.0;
 
             FOR i_1 := 0 TO 2 DO 
                 i := (3 * i_1) + i_0;
-                b_J_tmp_3 := (b_a[i] * b_p[i_1]) + b_J_tmp_3;
+                Rnb_tmp := (b_a[i] * b_p[i_1]) + Rnb_tmp;
                 F_tmp := i_0 + (3 * i_1);
                 Rnb_0[F_tmp] := 0.0;
-                Rnb_0[F_tmp] := Rnb_0[i] + (tmp_3[3 * i_1] * Rnb[i_0]);
-                Rnb_0[F_tmp] := (tmp_3[(3 * i_1) + 1] * Rnb[i_0 + 3]) + Rnb_0[(3 * i_1) + i_0];
-                Rnb_0[F_tmp] := (tmp_3[(3 * i_1) + 2] * Rnb[i_0 + 6]) + Rnb_0[(3 * i_1) + i_0];
+                Rnb_0[F_tmp] := Rnb_0[i] + (tmp_2[3 * i_1] * Rnb[i_0]);
+                Rnb_0[F_tmp] := (tmp_2[(3 * i_1) + 1] * Rnb[i_0 + 3]) + Rnb_0[(3 * i_1) + i_0];
+                Rnb_0[F_tmp] := (tmp_2[(3 * i_1) + 2] * Rnb[i_0 + 6]) + Rnb_0[(3 * i_1) + i_0];
             END_FOR;
 
-            b_r[i_0] := c_r[i_0] + b_J_tmp_3;
-            r_0[i_0] := (((b_a[i_0 + 3] * p_tmp_0) + (b_a[i_0] * b_p[0])) + (b_a[i_0 + 6] * b_p[2])) + c_r[i_0];
-            tmp_5[i_0] := (tmp_4[i_0 + 6] * stFeedback.comau.q_t[2]) + ((tmp_4[i_0 + 3] * stFeedback.comau.q_t[1]) + (tmp_4[i_0] * stFeedback.comau.q_t[0]));
+            b_r[i_0] := c_r[i_0] + Rnb_tmp;
+            r_0[i_0] := (((b_a[i_0 + 3] * p_tmp) + (b_a[i_0] * b_p[0])) + (b_a[i_0 + 6] * b_p[2])) + c_r[i_0];
+            tmp_4[i_0] := (tmp_3[i_0 + 6] * stFeedback.comau.q_t[2]) + ((tmp_3[i_0 + 3] * stFeedback.comau.q_t[1]) + (tmp_3[i_0] * stFeedback.comau.q_t[0]));
         END_FOR;
 
 
         FOR i_0 := 0 TO 2 DO 
             v_0[i_0] := (((Rnb_0[i_0 + 3] * r_0[1]) + (Rnb_0[i_0] * r_0[0])) + (Rnb_0[i_0 + 6] * r_0[2])) + b_v[i_0];
-            b_p[i_0] := (b_a[i_0 + 6] * tmp_5[2]) + ((b_a[i_0 + 3] * tmp_5[1]) + (b_a[i_0] * tmp_5[0]));
+            b_p[i_0] := (b_a[i_0 + 6] * tmp_4[2]) + ((b_a[i_0 + 3] * tmp_4[1]) + (b_a[i_0] * tmp_4[0]));
         END_FOR;
 
 
@@ -3764,35 +3717,35 @@ CASE ssMethodType OF
 
 
         FOR i_0 := 0 TO 3 DO 
-            p_tmp_tmp_0 := c_a[i_0 + 12] + ((c_a[i_0 + 8] * stFeedback_0[2]) + ((c_a[i_0 + 4] * stFeedback_0[1]) + (c_a[i_0] * stFeedback_0[0])));
-            a[i_0] := p_tmp_tmp_0;
+            b_tmp := c_a[i_0 + 12] + ((c_a[i_0 + 8] * stFeedback_0[2]) + ((c_a[i_0 + 4] * stFeedback_0[1]) + (c_a[i_0] * stFeedback_0[0])));
+            a[i_0] := b_tmp;
         END_FOR;
 
-        stFeedback_1[6] := stFeedback.winch.length;
-        stFeedback_1[7] := stFeedback.winch.length_t;
+        eta_0[6] := stFeedback.winch.length;
+        eta_0[7] := stFeedback.winch.length_t;
 
         FOR i_0 := 0 TO 2 DO 
-            stFeedback_1[i_0] := (((Rnb[i_0 + 3] * b_r[1]) + (Rnb[i_0] * b_r[0])) + (Rnb[i_0 + 6] * b_r[2])) + stFeedback.em8000.eta[i_0];
-            stFeedback_1[i_0 + 3] := v_0[i_0] + r_0[i_0];
-            stFeedback_1[i_0 + 8] := a[i_0];
+            eta_0[i_0] := (((Rnb[i_0 + 3] * b_r[1]) + (Rnb[i_0] * b_r[0])) + (Rnb[i_0 + 6] * b_r[2])) + b_eta[i_0];
+            eta_0[i_0 + 3] := v_0[i_0] + r_0[i_0];
+            eta_0[i_0 + 8] := a[i_0];
         END_FOR;
 
         (* MATLAB Function: '<S1>/Discrete EKF' *)
 
         FOR i_0 := 0 TO 10 DO 
-            stFeedback_2[i_0] := stFeedback_1[i_0] - tmp[i_0];
+            eta_1[i_0] := eta_0[i_0] - tmp[i_0];
         END_FOR;
 
         (* MATLAB Function: '<S1>/Discrete EKF' *)
 
         FOR i_0 := 0 TO 18 DO 
-            b_J_tmp_3 := 0.0;
+            Rnb_tmp := 0.0;
 
             FOR i_1 := 0 TO 10 DO 
-                b_J_tmp_3 := (K[(19 * i_1) + i_0] * stFeedback_2[i_1]) + b_J_tmp_3;
+                Rnb_tmp := (K[(19 * i_1) + i_0] * eta_1[i_1]) + Rnb_tmp;
             END_FOR;
 
-            xEst[i_0] := xPred[i_0] + b_J_tmp_3;
+            xEst[i_0] := xPred[i_0] + Rnb_tmp;
         END_FOR;
 
         (* Outport: '<Root>/pt' incorporates:
@@ -3807,8 +3760,8 @@ CASE ssMethodType OF
         (* '<S2>:1:30' phi_t = x(12:13); *)
         (* '<S2>:1:31' l = x(14); *)
         (* '<S2>:1:32' l_t = x(15); *)
-        (* '<S2>:1:33' e = x(16:18); *)
-        (* '<S2>:1:34' c = x(19); *)
+        (* '<S2>:1:33' c = x(16); *)
+        (* '<S2>:1:34' e = x(17:19); *)
         pt[0] := xEst[0];
         (* Outport: '<Root>/pt_t' incorporates:
          *  MATLAB Function: '<S1>/Discrete EKF' *)
@@ -3852,14 +3805,14 @@ CASE ssMethodType OF
         (* Outport: '<Root>/length_t' incorporates:
          *  MATLAB Function: '<S1>/Discrete EKF' *)
         length_t := xEst[14];
-        (* Outport: '<Root>/e' incorporates:
-         *  MATLAB Function: '<S1>/Discrete EKF' *)
-        e[0] := xEst[15];
-        e[1] := xEst[16];
-        e[2] := xEst[17];
         (* Outport: '<Root>/c' incorporates:
          *  MATLAB Function: '<S1>/Discrete EKF' *)
-        c := xEst[18];
+        c := xEst[15];
+        (* Outport: '<Root>/e' incorporates:
+         *  MATLAB Function: '<S1>/Discrete EKF' *)
+        e[0] := xEst[16];
+        e[1] := xEst[17];
+        e[2] := xEst[18];
         (* MATLAB Function: '<S1>/Discrete EKF' *)
 
         FOR i := 0 TO 18 DO 
@@ -3868,13 +3821,13 @@ CASE ssMethodType OF
             (* MATLAB Function: '<S1>/Discrete EKF' *)
 
             FOR i_0 := 0 TO 18 DO 
-                b_J_tmp_3 := 0.0;
+                Rnb_tmp := 0.0;
 
                 FOR i_1 := 0 TO 10 DO 
-                    b_J_tmp_3 := (K[(19 * i_1) + i] * b_H[(11 * i_0) + i_1]) + b_J_tmp_3;
+                    Rnb_tmp := (K[(19 * i_1) + i] * b_H[(11 * i_0) + i_1]) + Rnb_tmp;
                 END_FOR;
 
-                b_F[i + (19 * i_0)] := SINT_TO_LREAL(b_I[(19 * i_0) + i]) - b_J_tmp_3;
+                b_F[i + (19 * i_0)] := SINT_TO_LREAL(b_I[(19 * i_0) + i]) - Rnb_tmp;
             END_FOR;
 
             (* Update for Memory: '<S1>/Memory1' incorporates:
@@ -4197,7 +4150,7 @@ END_FOR;
                   <xhtml xmlns="http://www.w3.org/1999/xhtml">
 <![CDATA[
 (* This function was generated by the Symbolic Math Toolbox version 8.0. *)
-(* 30-Jul-2018 15:56:28 *)
+(* 01-Aug-2018 13:59:20 *)
 (* 'f:8' x1 = in1(1,:); *)
 (* 'f:9' x2 = in1(2,:); *)
 (* 'f:10' x3 = in1(3,:); *)
@@ -4227,7 +4180,7 @@ t4 := COS(in1[9]);
 t5 := 1.0 / in1[13];
 (* 'f:31' t6 = sin(x11); *)
 t6 := SIN(in1[10]);
-(* 'f:32' f = [x1+Ts.*x4;x2+Ts.*x5;x3+Ts.*x6;x4+Ts.*x7;x5+Ts.*x8;x6+Ts.*x9;x7;x8;x9;x10+Ts.*x12;x11+Ts.*x13;x12-Ts.*(t5.*(t2.*t3.*(9.81e2./1.0e2)-t4.*x7+x12.*x15.*2.0-t2.*t3.*x9-t3.*t6.*x8+t3.*t4.*x13.^2.*x14)+x12.*x19);x13-Ts.*(x13.*x19+(t5.*(t6.*(9.81e2./1.0e2)+t2.*x8-t6.*x9+t4.*x13.*x15.*2.0-t3.*x12.*x13.*x14.*2.0))./t4);x14+Ts.*x15;x15;x16;x17;x18;x19]; *)
+(* 'f:32' f = [x1+Ts.*x4;x2+Ts.*x5;x3+Ts.*x6;x4+Ts.*x7;x5+Ts.*x8;x6+Ts.*x9;x7;x8;x9;x10+Ts.*x12;x11+Ts.*x13;x12-Ts.*(t5.*(t2.*t3.*(9.81e2./1.0e2)-t4.*x7+x12.*x15.*2.0-t2.*t3.*x9-t3.*t6.*x8+t3.*t4.*x13.^2.*x14)+x12.*x16);x13-Ts.*(x13.*x16+(t5.*(t6.*(9.81e2./1.0e2)+t2.*x8-t6.*x9+t4.*x13.*x15.*2.0-t3.*x12.*x13.*x14.*2.0))./t4);x14+Ts.*x15;x15;x16;x17;x18;x19]; *)
 f_0[0] := (Ts * in1[3]) + in1[0];
 f_0[1] := (Ts * in1[4]) + in1[1];
 f_0[2] := (Ts * in1[5]) + in1[2];
@@ -4240,8 +4193,8 @@ f_0[8] := in1[8];
 f_0[9] := (Ts * in1[11]) + in1[9];
 f_0[10] := (Ts * in1[12]) + in1[10];
 f_tmp := t2 * t3;
-f_0[11] := in1[11] - (((((((((f_tmp * 9.81) - (t4 * in1[6])) + ((in1[11] * in1[14]) * 2.0)) - (f_tmp * in1[8])) - ((t3 * t6) * in1[7])) + (((t3 * t4) * (in1[12] * in1[12])) * in1[13])) * t5) + (in1[11] * in1[18])) * Ts);
-f_0[12] := in1[12] - (((((((((t6 * 9.81) + (t2 * in1[7])) - (t6 * in1[8])) + (((t4 * in1[12]) * in1[14]) * 2.0)) - ((((t3 * in1[11]) * in1[12]) * in1[13]) * 2.0)) * t5) / t4) + (in1[12] * in1[18])) * Ts);
+f_0[11] := in1[11] - (((((((((f_tmp * 9.81) - (t4 * in1[6])) + ((in1[11] * in1[14]) * 2.0)) - (f_tmp * in1[8])) - ((t3 * t6) * in1[7])) + (((t3 * t4) * (in1[12] * in1[12])) * in1[13])) * t5) + (in1[11] * in1[15])) * Ts);
+f_0[12] := in1[12] - (((((((((t6 * 9.81) + (t2 * in1[7])) - (t6 * in1[8])) + (((t4 * in1[12]) * in1[14]) * 2.0)) - ((((t3 * in1[11]) * in1[12]) * in1[13]) * 2.0)) * t5) / t4) + (in1[12] * in1[15])) * Ts);
 f_0[13] := (Ts * in1[14]) + in1[13];
 f_0[14] := in1[14];
 f_0[15] := in1[15];
@@ -4367,7 +4320,7 @@ f_0[18] := in1[18];
                   <xhtml xmlns="http://www.w3.org/1999/xhtml">
 <![CDATA[
 (* This function was generated by the Symbolic Math Toolbox version 8.0. *)
-(* 30-Jul-2018 15:56:28 *)
+(* 01-Aug-2018 13:59:20 *)
 (* 'fJacobian:8' x7 = in1(7,:); *)
 (* 'fJacobian:9' x8 = in1(8,:); *)
 (* 'fJacobian:10' x9 = in1(9,:); *)
@@ -4377,7 +4330,7 @@ f_0[18] := in1[18];
 (* 'fJacobian:14' x13 = in1(13,:); *)
 (* 'fJacobian:15' x14 = in1(14,:); *)
 (* 'fJacobian:16' x15 = in1(15,:); *)
-(* 'fJacobian:17' x19 = in1(19,:); *)
+(* 'fJacobian:17' x16 = in1(16,:); *)
 (* 'fJacobian:18' t2 = 1.0./x14; *)
 t2 := 1.0 / in1[13];
 (* 'fJacobian:19' t3 = sin(x10); *)
@@ -4400,7 +4353,7 @@ t9 := 1.0 / (in1[13] * in1[13]);
 (* 'fJacobian:29' t13 = t10+t11+t12-t6.*x9-t3.*x12.*x13.*x14.*2.0; *)
 t13_tmp := t3 * in1[11];
 t13 := (((((t4 * in1[12]) * in1[14]) * 2.0) + ((t6 * 9.81) + (t5 * in1[7]))) - (t6 * in1[8])) - (((t13_tmp * in1[12]) * in1[13]) * 2.0);
-(* 'fJacobian:30' F = reshape([1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,Ts,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,Ts,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,Ts,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,Ts,0.0,0.0,1.0,0.0,0.0,0.0,0.0,Ts.*t2.*t4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,Ts,0.0,0.0,1.0,0.0,0.0,0.0,Ts.*t2.*t3.*t6,-Ts.*t2.*t5.*t8,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,Ts,0.0,0.0,1.0,0.0,0.0,Ts.*t2.*t3.*t5,Ts.*t2.*t6.*t8,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,-Ts.*t2.*(t4.*t5.*(9.81e2./1.0e2)+t3.*x7-t3.^2.*t7.*x14+t4.^2.*t7.*x14-t4.*t5.*x9-t4.*t6.*x8),Ts.*(t2.*t8.*(t3.*x13.*x15.*2.0+t4.*x12.*x13.*x14.*2.0)-t2.*t3.*1.0./t4.^2.*t13),0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,Ts.*t2.*(t3.*t6.*(9.81e2./1.0e2)+t3.*t5.*x8-t3.*t6.*x9),Ts.*t2.*t8.*(t5.*(-9.81e2./1.0e2)+t5.*x9+t6.*x8),0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,Ts,0.0,-Ts.*(x19+t2.*x15.*2.0)+1.0,Ts.*t3.*t8.*x13.*2.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,Ts,Ts.*t3.*t4.*x13.*-2.0,-Ts.*(x19+t2.*t8.*(t4.*x15.*2.0-t3.*x12.*x14.*2.0))+1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,Ts.*(t9.*(t3.*t5.*(9.81e2./1.0e2)-t4.*x7+x12.*x15.*2.0-t3.*t5.*x9-t3.*t6.*x8+t3.*t4.*t7.*x14)-t2.*t3.*t4.*t7),Ts.*(t8.*t9.*t13+t2.*t3.*t8.*x12.*x13.*2.0),1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,Ts.*t2.*x12.*-2.0,Ts.*t2.*x13.*-2.0,Ts,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,-Ts.*x12,-Ts.*x13,0.0,0.0,0.0,0.0,0.0,1.0],[19,19]); *)
+(* 'fJacobian:30' F = reshape([1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,Ts,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,Ts,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,Ts,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,Ts,0.0,0.0,1.0,0.0,0.0,0.0,0.0,Ts.*t2.*t4,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,Ts,0.0,0.0,1.0,0.0,0.0,0.0,Ts.*t2.*t3.*t6,-Ts.*t2.*t5.*t8,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,Ts,0.0,0.0,1.0,0.0,0.0,Ts.*t2.*t3.*t5,Ts.*t2.*t6.*t8,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,-Ts.*t2.*(t4.*t5.*(9.81e2./1.0e2)+t3.*x7-t3.^2.*t7.*x14+t4.^2.*t7.*x14-t4.*t5.*x9-t4.*t6.*x8),Ts.*(t2.*t8.*(t3.*x13.*x15.*2.0+t4.*x12.*x13.*x14.*2.0)-t2.*t3.*1.0./t4.^2.*t13),0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,Ts.*t2.*(t3.*t6.*(9.81e2./1.0e2)+t3.*t5.*x8-t3.*t6.*x9),Ts.*t2.*t8.*(t5.*(-9.81e2./1.0e2)+t5.*x9+t6.*x8),0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,Ts,0.0,-Ts.*(x16+t2.*x15.*2.0)+1.0,Ts.*t3.*t8.*x13.*2.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,Ts,Ts.*t3.*t4.*x13.*-2.0,-Ts.*(x16+t2.*t8.*(t4.*x15.*2.0-t3.*x12.*x14.*2.0))+1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,Ts.*(t9.*(t3.*t5.*(9.81e2./1.0e2)-t4.*x7+x12.*x15.*2.0-t3.*t5.*x9-t3.*t6.*x8+t3.*t4.*t7.*x14)-t2.*t3.*t4.*t7),Ts.*(t8.*t9.*t13+t2.*t3.*t8.*x12.*x13.*2.0),1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,Ts.*t2.*x12.*-2.0,Ts.*t2.*x13.*-2.0,Ts,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,-Ts.*x12,-Ts.*x13,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0],[19,19]); *)
 F[0] := 1.0;
 F[1] := 0.0;
 F[2] := 0.0;
@@ -4630,7 +4583,7 @@ F[216] := 0.0;
 F[217] := 0.0;
 F[218] := Ts;
 F[219] := 0.0;
-F[220] := ((((t2 * in1[14]) * 2.0) + in1[18]) * ( -Ts)) + 1.0;
+F[220] := ((((t2 * in1[14]) * 2.0) + in1[15]) * ( -Ts)) + 1.0;
 t2 := Ts * t3;
 F[221] := ((t2 * t8) * in1[12]) * 2.0;
 F[222] := 0.0;
@@ -4651,7 +4604,7 @@ F[236] := 0.0;
 F[237] := 0.0;
 F[238] := Ts;
 F[239] := ((t2 * t4) * in1[12]) * -2.0;
-F[240] := ((((((t4 * in1[14]) * 2.0) - ((t13_tmp * in1[13]) * 2.0)) * F_tmp_0) + in1[18]) * ( -Ts)) + 1.0;
+F[240] := ((((((t4 * in1[14]) * 2.0) - ((t13_tmp * in1[13]) * 2.0)) * F_tmp_0) + in1[15]) * ( -Ts)) + 1.0;
 F[241] := 0.0;
 F[242] := 0.0;
 F[243] := 0.0;
@@ -4707,8 +4660,8 @@ F[292] := 0.0;
 F[293] := 0.0;
 F[294] := 0.0;
 F[295] := 0.0;
-F[296] := 0.0;
-F[297] := 0.0;
+F[296] := ( -Ts) * in1[11];
+F[297] := ( -Ts) * in1[12];
 F[298] := 0.0;
 F[299] := 0.0;
 F[300] := 1.0;
@@ -4764,8 +4717,8 @@ F[349] := 0.0;
 F[350] := 0.0;
 F[351] := 0.0;
 F[352] := 0.0;
-F[353] := ( -Ts) * in1[11];
-F[354] := ( -Ts) * in1[12];
+F[353] := 0.0;
+F[354] := 0.0;
 F[355] := 0.0;
 F[356] := 0.0;
 F[357] := 0.0;
@@ -4831,7 +4784,7 @@ F[360] := 1.0;
                   <xhtml xmlns="http://www.w3.org/1999/xhtml">
 <![CDATA[
 (* This function was generated by the Symbolic Math Toolbox version 8.0. *)
-(* 30-Jul-2018 15:56:28 *)
+(* 01-Aug-2018 13:59:20 *)
 (* 'hJacobian:8' x10 = in1(10,:); *)
 (* 'hJacobian:9' x11 = in1(11,:); *)
 (* 'hJacobian:10' x14 = in1(14,:); *)
@@ -4843,7 +4796,7 @@ t3 := COS(in1[9]);
 t4 := SIN(in1[10]);
 (* 'hJacobian:14' t5 = cos(x11); *)
 t5 := COS(in1[10]);
-(* 'hJacobian:15' H = reshape([1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,-t3.*x14,-t2.*t4.*x14,-t2.*t5.*x14,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,t3.*t5.*x14,-t3.*t4.*x14,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,-t2,t3.*t4,t3.*t5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],[11,19]); *)
+(* 'hJacobian:15' H = reshape([1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,-t3.*x14,-t2.*t4.*x14,-t2.*t5.*x14,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,t3.*t5.*x14,-t3.*t4.*x14,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,-t2,t3.*t4,t3.*t5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0],[11,19]); *)
 H[0] := 1.0;
 H[1] := 0.0;
 H[2] := 0.0;
@@ -5018,7 +4971,7 @@ H[169] := 0.0;
 H[170] := 0.0;
 H[171] := 0.0;
 H[172] := 0.0;
-H[173] := 1.0;
+H[173] := 0.0;
 H[174] := 0.0;
 H[175] := 0.0;
 H[176] := 0.0;
@@ -5029,8 +4982,8 @@ H[180] := 0.0;
 H[181] := 0.0;
 H[182] := 0.0;
 H[183] := 0.0;
-H[184] := 0.0;
-H[185] := 1.0;
+H[184] := 1.0;
+H[185] := 0.0;
 H[186] := 0.0;
 H[187] := 0.0;
 H[188] := 0.0;
@@ -5041,8 +4994,8 @@ H[192] := 0.0;
 H[193] := 0.0;
 H[194] := 0.0;
 H[195] := 0.0;
-H[196] := 0.0;
-H[197] := 1.0;
+H[196] := 1.0;
+H[197] := 0.0;
 H[198] := 0.0;
 H[199] := 0.0;
 H[200] := 0.0;
@@ -5053,7 +5006,7 @@ H[204] := 0.0;
 H[205] := 0.0;
 H[206] := 0.0;
 H[207] := 0.0;
-H[208] := 0.0;
+H[208] := 1.0;
 ]]>
 </xhtml>
                </ST>
@@ -5151,7 +5104,7 @@ END_FOR;
                   <xhtml xmlns="http://www.w3.org/1999/xhtml">
 <![CDATA[
 (* This function was generated by the Symbolic Math Toolbox version 8.0. *)
-(* 30-Jul-2018 15:56:28 *)
+(* 01-Aug-2018 13:59:20 *)
 (* 'h:8' x1 = in1(1,:); *)
 (* 'h:9' x2 = in1(2,:); *)
 (* 'h:10' x3 = in1(3,:); *)
@@ -5162,11 +5115,11 @@ END_FOR;
 (* 'h:15' x11 = in1(11,:); *)
 (* 'h:16' x14 = in1(14,:); *)
 (* 'h:17' x15 = in1(15,:); *)
-(* 'h:18' x16 = in1(16,:); *)
-(* 'h:19' x17 = in1(17,:); *)
-(* 'h:20' x18 = in1(18,:); *)
+(* 'h:18' x17 = in1(17,:); *)
+(* 'h:19' x18 = in1(18,:); *)
+(* 'h:20' x19 = in1(19,:); *)
 (* 'h:21' t2 = cos(x10); *)
-(* 'h:22' h = [x1;x2;x3;x4;x5;x6;x14;x15;x1+x16-x14.*sin(x10);x2+x17+t2.*x14.*sin(x11);x3+x18+t2.*x14.*cos(x11)]; *)
+(* 'h:22' h = [x1;x2;x3;x4;x5;x6;x14;x15;x1+x17-x14.*sin(x10);x2+x18+t2.*x14.*sin(x11);x3+x19+t2.*x14.*cos(x11)]; *)
 h_0[0] := in1[0];
 h_0[1] := in1[1];
 h_0[2] := in1[2];
@@ -5175,10 +5128,10 @@ h_0[4] := in1[4];
 h_0[5] := in1[5];
 h_0[6] := in1[13];
 h_0[7] := in1[14];
-h_0[8] := (in1[0] + in1[15]) - (in1[13] * SIN(in1[9]));
+h_0[8] := (in1[0] + in1[16]) - (in1[13] * SIN(in1[9]));
 h_tmp := COS(in1[9]) * in1[13];
-h_0[9] := (h_tmp * SIN(in1[10])) + (in1[1] + in1[16]);
-h_0[10] := (h_tmp * COS(in1[10])) + (in1[2] + in1[17]);
+h_0[9] := (h_tmp * SIN(in1[10])) + (in1[1] + in1[17]);
+h_0[10] := (h_tmp * COS(in1[10])) + (in1[2] + in1[18]);
 ]]>
 </xhtml>
                </ST>

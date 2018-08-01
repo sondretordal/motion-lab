@@ -12,11 +12,8 @@ phi = x(10:11);
 phi_t = x(12:13);
 l = x(14);
 l_t = x(15);
-e = x(16:18);
-c = x(19);
-
-
-u = sym('u', [3,1], 'real');
+c = x(16);
+e = x(17:19);
 
 
 % x_t = f(x, u)
@@ -28,8 +25,8 @@ x_t = [
     pendel.ode(phi, phi_t, pt_tt, l, l_t, g, c)
     l_t
     0
-    zeros(3,1)
     0
+    zeros(3,1)
 ];
 
 % Time step
@@ -49,8 +46,8 @@ h = [
 H = jacobian(h, x);
 
 % Make functtions
-matlabFunction(f, 'File', '+observer/f.m', 'Vars', {x, u, Ts});
-matlabFunction(F, 'File', '+observer/fJacobian.m', 'Vars', {x, u, Ts});
+matlabFunction(f, 'File', '+observer/f.m', 'Vars', {x, Ts});
+matlabFunction(F, 'File', '+observer/fJacobian.m', 'Vars', {x, Ts});
 
 matlabFunction(h, 'File', '+observer/h.m', 'Vars', {x});
 matlabFunction(H, 'File', '+observer/hJacobian.m', 'Vars', {x});

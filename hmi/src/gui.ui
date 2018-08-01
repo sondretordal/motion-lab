@@ -4348,7 +4348,7 @@ color: rgb(255, 255, 255);
          </rect>
         </property>
         <property name="currentIndex">
-         <number>1</number>
+         <number>2</number>
         </property>
         <property name="tabBarAutoHide">
          <bool>false</bool>
@@ -4382,7 +4382,7 @@ color: rgb(255, 255, 255);
          <attribute name="title">
           <string>Damping Parameter</string>
          </attribute>
-         <widget class="GraphicsLayoutWidget" name="dampingParamPlot">
+         <widget class="GraphicsLayoutWidget" name="dampingParamPlotWidget">
           <property name="geometry">
            <rect>
             <x>0</x>
@@ -4397,7 +4397,7 @@ color: rgb(255, 255, 255);
          <attribute name="title">
           <string>Error States</string>
          </attribute>
-         <widget class="GraphicsLayoutWidget" name="errorStatePlot">
+         <widget class="GraphicsLayoutWidget" name="errorStatePlotWidget">
           <property name="geometry">
            <rect>
             <x>0</x>
@@ -4499,6 +4499,54 @@ color: rgb(255, 255, 255);
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
          </property>
         </widget>
+       </widget>
+       <widget class="QPushButton" name="btnActivateAntiSway">
+        <property name="geometry">
+         <rect>
+          <x>60</x>
+          <y>180</y>
+          <width>141</width>
+          <height>30</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
+        <property name="text">
+         <string>Activate Anti-Sway</string>
+        </property>
+        <property name="autoDefault">
+         <bool>false</bool>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btnDeactivateAntiSway">
+        <property name="geometry">
+         <rect>
+          <x>60</x>
+          <y>220</y>
+          <width>141</width>
+          <height>30</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
+        <property name="text">
+         <string>Deactivate Anti-Sway</string>
+        </property>
+        <property name="autoDefault">
+         <bool>false</bool>
+        </property>
        </widget>
       </widget>
       <widget class="QWidget" name="tab_9">

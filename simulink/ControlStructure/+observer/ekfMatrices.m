@@ -1,4 +1,4 @@
-function [x0, Q, R, P0] = ekfMatrices(sim)
+function [x0, Q, R, P0] = ekfMatrices()
 
 % Set default sizes and covariances
 Nx = 19;

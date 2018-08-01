@@ -36,7 +36,7 @@ zeta_l = 0.7;
 sim = simulation.formCovariances(data, 'none');
 
 % Form observers
-[x0, Q, R, P0] = observer.ekfMatrices(sim);
+[x0, Q, R, P0] = observer.ekfMatrices();
 stringQ = sprintf('%d,' , diag(Q));
 stringR = sprintf('%d,' , diag(R));
 

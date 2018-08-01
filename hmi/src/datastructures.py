@@ -66,10 +66,9 @@ class TxHmi(Structure):
         ('winch', TxHmiWinch),
         ('qtm', TxHmiQualisys),
         ('phi', 2*c_float),
-        ('phi_t', 2*c_float)
-        # ('at960', TxHmiLeica),
-        # ('mru1', TxHmiMru),
-        # ('mru2', TxHmiMru)
+        ('phi_t', 2*c_float),
+        ('e', 3*c_float),
+        ('c', c_float)
     ]
 
 class RxHmi(Structure):

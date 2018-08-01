@@ -35,13 +35,19 @@ VAR
 	control : ST_Control;
 	feedback : ST_Feedback;
 	
+	// Desired robot joint reference
+	qRef : ARRAY [0..2] OF LREAL := [0.0, 0.0, -1.5708];
+	qRef_t : ARRAY [0..2] OF LREAL := [0.0, 0.0, 0.0];
+	
 	// EKF Estimator
 	init : SINT := 0;
 	pendelEstimator : FB_PendelEstimator;
+	
+	// Robot Controller
+	robotController : FB_RobotController;
 
 	// Winch Contorller
 	winchController : FB_WinchController;
-	
 	
 	// System call for starting PqQt HMI
 	fbStartProcess : NT_StartProcess;
@@ -88,10 +94,9 @@ pendelEstimator(
 	stFeedback := feedback,
 	Ts := Ts,
 );
-init := 1;
-	
 
-// Return estimated angles to HMI
+	
+// Return estimator values to HMI
 txHmi.phi[0] := LREAL_TO_REAL(pendelEstimator.phi[0]);
 txHmi.phi[1] := LREAL_TO_REAL(pendelEstimator.phi[1]);
 
@@ -99,11 +104,27 @@ txHmi.phi_t[0] := LREAL_TO_REAL(pendelEstimator.phi_t[0]);
 txHmi.phi_t[1] := LREAL_TO_REAL(pendelEstimator.phi_t[1]);
 
 
-comau.control.q[0] := 0.38;
-comau.control.q[1] := 0.28;
-comau.control.q[2] := -2.00;
+txHmi.e[0] := LREAL_TO_REAL(pendelEstimator.e[0]);
+txHmi.e[1] := LREAL_TO_REAL(pendelEstimator.e[1]);
+txHmi.e[2] := LREAL_TO_REAL(pendelEstimator.e[2]);
 
-winch.control.length := 1.5988688644042968;
+txHmi.c := LREAL_TO_REAL(pendelEstimator.c);
+
+// Robot Controller
+
+robotController.qRef[0] := robotController.qRef[0] + 10.0/180.0*PI*rxHmi.xboxLeftX*Ts;
+robotController.qRef_t[0] := 10.0/180.0*PI*rxHmi.xboxLeftX;
+
+
+robotController(
+	ssMethodType := init,
+	stFeedback := feedback,
+	phi := pendelEstimator.phi,
+	phi_t := pendelEstimator.phi_t,
+);
+init := 1;
+
+comau.control := robotController.stComauControl;
 
 // Update elements to be controlled
 comau();
@@ -168,16 +189,24 @@ t := t + Ts;
       <LineId Id="1024" Count="0" />
       <LineId Id="1190" Count="3" />
       <LineId Id="1132" Count="0" />
-      <LineId Id="1136" Count="0" />
-      <LineId Id="1140" Count="0" />
-      <LineId Id="1137" Count="2" />
+      <LineId Id="1136" Count="3" />
       <LineId Id="1141" Count="2" />
+      <LineId Id="1212" Count="0" />
+      <LineId Id="1208" Count="0" />
+      <LineId Id="1207" Count="0" />
+      <LineId Id="1209" Count="1" />
+      <LineId Id="1213" Count="0" />
       <LineId Id="1128" Count="0" />
-      <LineId Id="876" Count="0" />
-      <LineId Id="875" Count="0" />
-      <LineId Id="1062" Count="1" />
-      <LineId Id="1065" Count="0" />
-      <LineId Id="1064" Count="0" />
+      <LineId Id="1220" Count="1" />
+      <LineId Id="1239" Count="1" />
+      <LineId Id="1242" Count="0" />
+      <LineId Id="1241" Count="0" />
+      <LineId Id="1238" Count="0" />
+      <LineId Id="1225" Count="1" />
+      <LineId Id="1228" Count="2" />
+      <LineId Id="1227" Count="0" />
+      <LineId Id="1222" Count="1" />
+      <LineId Id="1237" Count="0" />
       <LineId Id="851" Count="0" />
       <LineId Id="850" Count="0" />
       <LineId Id="145" Count="0" />
