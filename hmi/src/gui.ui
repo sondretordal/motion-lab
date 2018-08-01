@@ -4348,7 +4348,7 @@ color: rgb(255, 255, 255);
          </rect>
         </property>
         <property name="currentIndex">
-         <number>2</number>
+         <number>0</number>
         </property>
         <property name="tabBarAutoHide">
          <bool>false</bool>
@@ -4407,6 +4407,8 @@ color: rgb(255, 255, 255);
            </rect>
           </property>
          </widget>
+         <zorder>errorStatePlotWidget</zorder>
+         <zorder>groupBox_18</zorder>
         </widget>
        </widget>
        <widget class="QGroupBox" name="groupBox_17">
@@ -4500,53 +4502,188 @@ color: rgb(255, 255, 255);
          </property>
         </widget>
        </widget>
-       <widget class="QPushButton" name="btnActivateAntiSway">
+       <widget class="QGroupBox" name="groupBox_18">
         <property name="geometry">
          <rect>
-          <x>60</x>
-          <y>180</y>
-          <width>141</width>
-          <height>30</height>
+          <x>20</x>
+          <y>290</y>
+          <width>241</width>
+          <height>111</height>
          </rect>
         </property>
-        <property name="font">
-         <font>
-          <pointsize>10</pointsize>
-         </font>
+        <property name="title">
+         <string>Anti-Sway System</string>
         </property>
-        <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
-        </property>
-        <property name="text">
-         <string>Activate Anti-Sway</string>
-        </property>
-        <property name="autoDefault">
-         <bool>false</bool>
-        </property>
+        <widget class="QPushButton" name="btnDeactivateAntiSway">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>70</y>
+           <width>221</width>
+           <height>30</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>Deactivate</string>
+         </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="btnActivateAntiSway">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>30</y>
+           <width>221</width>
+           <height>30</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>Activate</string>
+         </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
+        </widget>
        </widget>
-       <widget class="QPushButton" name="btnDeactivateAntiSway">
+       <widget class="QGroupBox" name="groupBox_19">
         <property name="geometry">
          <rect>
-          <x>60</x>
-          <y>220</y>
-          <width>141</width>
-          <height>30</height>
+          <x>20</x>
+          <y>420</y>
+          <width>241</width>
+          <height>111</height>
          </rect>
         </property>
-        <property name="font">
-         <font>
-          <pointsize>10</pointsize>
-         </font>
+        <property name="title">
+         <string>Roll and Pitch Compensation</string>
         </property>
-        <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
+        <widget class="QPushButton" name="btnDeactivateRollPitch">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>70</y>
+           <width>221</width>
+           <height>30</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>Deactivate</string>
+         </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="btnActivateRollPitch">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>30</y>
+           <width>221</width>
+           <height>30</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>Activate</string>
+         </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="groupBox_24">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>160</y>
+          <width>241</width>
+          <height>111</height>
+         </rect>
         </property>
-        <property name="text">
-         <string>Deactivate Anti-Sway</string>
+        <property name="title">
+         <string>Pendel Estimator - EKF</string>
         </property>
-        <property name="autoDefault">
-         <bool>false</bool>
-        </property>
+        <widget class="QPushButton" name="btnEnableMruEKF">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>70</y>
+           <width>221</width>
+           <height>30</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>Use MRU Feedback</string>
+         </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="btnDisableMruEKF">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>30</y>
+           <width>221</width>
+           <height>30</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>Use Stewart Feedback</string>
+         </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
+        </widget>
        </widget>
       </widget>
       <widget class="QWidget" name="tab_9">

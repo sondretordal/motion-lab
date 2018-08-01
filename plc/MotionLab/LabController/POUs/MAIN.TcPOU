@@ -35,9 +35,9 @@ VAR
 	control : ST_Control;
 	feedback : ST_Feedback;
 	
-	// Desired robot joint reference
-	qRef : ARRAY [0..2] OF LREAL := [0.0, 0.0, -1.5708];
-	qRef_t : ARRAY [0..2] OF LREAL := [0.0, 0.0, 0.0];
+	// Trajectory Speed seetings
+	qDotMax : LREAL := 10.0/180.0*PI; // rad/s
+	lDotMax : LREAL := 0.2; // m/s
 	
 	// EKF Estimator
 	init : SINT := 0;
@@ -85,8 +85,6 @@ winchController(
 	stFeedback := feedback,
 	lengthExtra := -1.0
 );
-	
-
 
 // EKF Estimator
 pendelEstimator(
@@ -94,7 +92,6 @@ pendelEstimator(
 	stFeedback := feedback,
 	Ts := Ts,
 );
-
 	
 // Return estimator values to HMI
 txHmi.phi[0] := LREAL_TO_REAL(pendelEstimator.phi[0]);
@@ -111,10 +108,14 @@ txHmi.e[2] := LREAL_TO_REAL(pendelEstimator.e[2]);
 txHmi.c := LREAL_TO_REAL(pendelEstimator.c);
 
 // Robot Controller
+robotController.qRef[0] := LIMIT(-25.0/180.0*PI, robotController.qRef[0] - rxHmi.xboxLeftY*qDotMax*Ts, 35.0/180.0*PI);
+robotController.qRef_t[0] := -rxHmi.xboxLeftY*qDotMax;
 
-robotController.qRef[0] := robotController.qRef[0] + 10.0/180.0*PI*rxHmi.xboxLeftX*Ts;
-robotController.qRef_t[0] := 10.0/180.0*PI*rxHmi.xboxLeftX;
+robotController.qRef[1] := LIMIT(-10.0/180.0*PI, robotController.qRef[1] + rxHmi.xboxLeftX*qDotMax*Ts, 15.0/180.0*PI);
+robotController.qRef_t[1] := rxHmi.xboxLeftX*qDotMax;
 
+robotController.qRef[2] := LIMIT(-110.0/180.0*PI, robotController.qRef[2] + rxHmi.xboxRightY*qDotMax*Ts, -90.0/180.0*PI);
+robotController.qRef_t[2] := rxHmi.xboxRightY*qDotMax;
 
 robotController(
 	ssMethodType := init,
@@ -182,13 +183,10 @@ t := t + Ts;
       <LineId Id="1204" Count="0" />
       <LineId Id="1202" Count="0" />
       <LineId Id="1206" Count="0" />
-      <LineId Id="1203" Count="0" />
-      <LineId Id="1189" Count="0" />
       <LineId Id="1017" Count="0" />
       <LineId Id="844" Count="0" />
       <LineId Id="1024" Count="0" />
       <LineId Id="1190" Count="3" />
-      <LineId Id="1132" Count="0" />
       <LineId Id="1136" Count="3" />
       <LineId Id="1141" Count="2" />
       <LineId Id="1212" Count="0" />
@@ -198,9 +196,12 @@ t := t + Ts;
       <LineId Id="1213" Count="0" />
       <LineId Id="1128" Count="0" />
       <LineId Id="1220" Count="1" />
-      <LineId Id="1239" Count="1" />
+      <LineId Id="1240" Count="0" />
       <LineId Id="1242" Count="0" />
-      <LineId Id="1241" Count="0" />
+      <LineId Id="1248" Count="1" />
+      <LineId Id="1247" Count="0" />
+      <LineId Id="1251" Count="1" />
+      <LineId Id="1250" Count="0" />
       <LineId Id="1238" Count="0" />
       <LineId Id="1225" Count="1" />
       <LineId Id="1228" Count="2" />

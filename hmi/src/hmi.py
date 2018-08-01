@@ -355,11 +355,17 @@ class GUI(QMainWindow, Ui_main):
         self.winchOn.clicked.connect(self.WINCH_on)
 
 
-        # Anti Sway System
+        # Controller System
         self.antiSwayPlotRange.currentIndexChanged.connect(self.plot_time_axis_range)
 
         self.btnActivateAntiSway.clicked.connect(self.activateAntiSway)
         self.btnDeactivateAntiSway.clicked.connect(self.deactivateAntiSway)
+
+        self.btnActivateRollPitch.clicked.connect(self.activateRollPitch)
+        self.btnDeactivateRollPitch.clicked.connect(self.deactivateRollPitch)
+
+        self.btnEnableMruEKF.clicked.connect(self.enableMruEKF)
+        self.btnDisableMruEKF.clicked.connect(self.disableMruEKF)
 
         # Show 3D visulaization of motion-lab
         self.show3dView.clicked.connect(self.visualizer.show)
@@ -690,7 +696,7 @@ class GUI(QMainWindow, Ui_main):
         self.EM1500_settled()
         self.COMAU_settled()
 
-    # Anti Sway related
+    # Controller
     def activateAntiSway(self):
         self.plc.write_by_name('MAIN.robotController.antiSway', True, pyads.PLCTYPE_BOOL)
         print('Anti-Sway Active!')
@@ -698,6 +704,22 @@ class GUI(QMainWindow, Ui_main):
     def deactivateAntiSway(self):
         self.plc.write_by_name('MAIN.robotController.antiSway', False, pyads.PLCTYPE_BOOL)
         print('Anti-Sway Disabled!')
+
+    def activateRollPitch(self):
+        self.plc.write_by_name('MAIN.robotController.cmpRollPitch', True, pyads.PLCTYPE_BOOL)
+        print('Roll and Pitch compensation Active!')
+
+    def deactivateRollPitch(self):
+        self.plc.write_by_name('MAIN.robotController.cmpRollPitch', False, pyads.PLCTYPE_BOOL)
+        print('Roll and Pitch compensation Disabled!')
+
+    def enableMruEKF(self):
+        self.plc.write_by_name('MAIN.pendelEstimator.useMru', True, pyads.PLCTYPE_BOOL)
+        print('MRU data enabled for pendel estimator')
+
+    def disableMruEKF(self):
+        self.plc.write_by_name('MAIN.pendelEstimator.useMru', False, pyads.PLCTYPE_BOOL)
+        print('MRU data disabled for pendel estimator')
 
     # Stop all function
     def stop_all(self):
