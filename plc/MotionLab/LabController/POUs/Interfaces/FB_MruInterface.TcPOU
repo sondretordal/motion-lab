@@ -6,6 +6,7 @@ VAR_INPUT
 END_VAR
 VAR_OUTPUT
 	feedback : ST_FeedbackMru;
+	active : BOOL := FALSE;
 END_VAR
 VAR
 	// Udp related
@@ -14,10 +15,35 @@ VAR
 	{attribute 'tc_no_symbol'}
 	rxUdpBE : ST_RxUdpMru;
 	rxUdp : ST_RxUdpMru;
+	
+	// Actviity monitoring
+	frame : DINT := 0;
+	frameOld : DINT := 0;
+	frameLoss : DINT := 0;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// Update udpServer
+      <ST><![CDATA[// Check activity
+frame := rxUdp.SystemTime;
+IF frame <> frameOld THEN
+	// Update frame old
+	frameOld := frame;
+	
+	// Reset frameLoss
+	frameLoss := 0;
+ELSE
+	// Count frame losses
+	frameLoss := frameLoss + 1;
+END_IF
+
+// Set activity status after 1 second given 5ms in ms
+IF frameLoss > 200 THEN
+	active := FALSE;
+ELSE
+	active := TRUE;
+END_IF
+
+// Update udpServer
 udpServer();
 
 // Swap byte order on all float variables
@@ -123,6 +149,11 @@ END_VAR
       </Implementation>
     </Method>
     <LineIds Name="FB_MruInterface">
+      <LineId Id="158" Count="10" />
+      <LineId Id="157" Count="0" />
+      <LineId Id="175" Count="5" />
+      <LineId Id="174" Count="0" />
+      <LineId Id="155" Count="0" />
       <LineId Id="18" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="58" Count="0" />

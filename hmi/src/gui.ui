@@ -38,7 +38,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab_interface">
        <attribute name="title">
@@ -396,7 +396,7 @@ border-color: rgb(0, 170, 127);</string>
        <widget class="QGroupBox" name="groupBox_EM1500_3">
         <property name="geometry">
          <rect>
-          <x>890</x>
+          <x>780</x>
           <y>70</y>
           <width>161</width>
           <height>131</height>
@@ -1516,8 +1516,8 @@ color: rgb(255, 255, 255);
        <widget class="QPushButton" name="show3dView">
         <property name="geometry">
          <rect>
-          <x>900</x>
-          <y>500</y>
+          <x>890</x>
+          <y>630</y>
           <width>141</width>
           <height>30</height>
          </rect>
@@ -1537,125 +1537,299 @@ color: rgb(255, 255, 255);
          <bool>false</bool>
         </property>
        </widget>
-       <widget class="QCheckBox" name="activeEM8000">
+       <widget class="QGroupBox" name="groupBox_EM1500_4">
         <property name="geometry">
          <rect>
-          <x>50</x>
-          <y>270</y>
-          <width>111</width>
-          <height>21</height>
+          <x>970</x>
+          <y>70</y>
+          <width>121</width>
+          <height>401</height>
          </rect>
         </property>
         <property name="font">
          <font>
-          <pointsize>10</pointsize>
+          <pointsize>16</pointsize>
          </font>
         </property>
-        <property name="text">
-         <string>EM8000 Active</string>
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
         </property>
-        <property name="iconSize">
-         <size>
-          <width>16</width>
-          <height>16</height>
-         </size>
+        <property name="title">
+         <string>Status</string>
         </property>
-        <property name="checkable">
-         <bool>false</bool>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
-        <property name="tristate">
-         <bool>false</bool>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="activeEM1500">
-        <property name="geometry">
-         <rect>
-          <x>240</x>
-          <y>270</y>
-          <width>111</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>10</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>EM1500 Active</string>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>16</width>
-          <height>16</height>
-         </size>
-        </property>
-        <property name="checkable">
-         <bool>false</bool>
-        </property>
-        <property name="tristate">
-         <bool>false</bool>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="activeCOMAU">
-        <property name="geometry">
-         <rect>
-          <x>430</x>
-          <y>270</y>
-          <width>111</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>10</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>COMAU Active</string>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>16</width>
-          <height>16</height>
-         </size>
-        </property>
-        <property name="checkable">
-         <bool>false</bool>
-        </property>
-        <property name="tristate">
-         <bool>false</bool>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="activeWINCH">
-        <property name="geometry">
-         <rect>
-          <x>610</x>
-          <y>370</y>
-          <width>111</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>10</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>WINCH Active</string>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>16</width>
-          <height>16</height>
-         </size>
-        </property>
-        <property name="checkable">
-         <bool>false</bool>
-        </property>
-        <property name="tristate">
-         <bool>false</bool>
-        </property>
+        <widget class="QCheckBox" name="activeEM8000">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>40</y>
+           <width>111</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>EM8000</string>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>16</width>
+           <height>16</height>
+          </size>
+         </property>
+         <property name="checkable">
+          <bool>false</bool>
+         </property>
+         <property name="tristate">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="activeEM1500">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>80</y>
+           <width>81</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>EM1500</string>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>16</width>
+           <height>16</height>
+          </size>
+         </property>
+         <property name="checkable">
+          <bool>false</bool>
+         </property>
+         <property name="tristate">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="activeCOMAU">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>200</y>
+           <width>111</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>COMAU</string>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>16</width>
+           <height>16</height>
+          </size>
+         </property>
+         <property name="checkable">
+          <bool>false</bool>
+         </property>
+         <property name="tristate">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="activeWINCH">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>240</y>
+           <width>111</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>WINCH</string>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>16</width>
+           <height>16</height>
+          </size>
+         </property>
+         <property name="checkable">
+          <bool>false</bool>
+         </property>
+         <property name="tristate">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="activeLEICA">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>280</y>
+           <width>111</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>LEICA</string>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>16</width>
+           <height>16</height>
+          </size>
+         </property>
+         <property name="checkable">
+          <bool>false</bool>
+         </property>
+         <property name="tristate">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="activeQTM">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>320</y>
+           <width>111</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>QTM</string>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>16</width>
+           <height>16</height>
+          </size>
+         </property>
+         <property name="checkable">
+          <bool>false</bool>
+         </property>
+         <property name="tristate">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="activeMRU1">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>120</y>
+           <width>111</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>MRU1</string>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>16</width>
+           <height>16</height>
+          </size>
+         </property>
+         <property name="checkable">
+          <bool>false</bool>
+         </property>
+         <property name="tristate">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="activeMRU2">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>160</y>
+           <width>111</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>MRU2</string>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>16</width>
+           <height>16</height>
+          </size>
+         </property>
+         <property name="checkable">
+          <bool>false</bool>
+         </property>
+         <property name="tristate">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QCheckBox" name="activeXBOX">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>360</y>
+           <width>81</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>XBOX</string>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>16</width>
+           <height>16</height>
+          </size>
+         </property>
+         <property name="checkable">
+          <bool>false</bool>
+         </property>
+         <property name="tristate">
+          <bool>false</bool>
+         </property>
+        </widget>
        </widget>
        <zorder>groupBox_EM8000</zorder>
        <zorder>groupBox_EM1500_2</zorder>
@@ -1677,10 +1851,7 @@ color: rgb(255, 255, 255);
        <zorder>groupBox_10</zorder>
        <zorder>groupBox_EM1500_5</zorder>
        <zorder>show3dView</zorder>
-       <zorder>activeEM8000</zorder>
-       <zorder>activeEM1500</zorder>
-       <zorder>activeCOMAU</zorder>
-       <zorder>activeWINCH</zorder>
+       <zorder>groupBox_EM1500_4</zorder>
       </widget>
       <widget class="QWidget" name="tab_plot">
        <attribute name="title">
@@ -1696,7 +1867,7 @@ color: rgb(255, 255, 255);
          </rect>
         </property>
         <property name="currentIndex">
-         <number>2</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="widget">
          <attribute name="title">
@@ -1706,9 +1877,9 @@ color: rgb(255, 255, 255);
           <property name="geometry">
            <rect>
             <x>10</x>
-            <y>380</y>
+            <y>290</y>
             <width>261</width>
-            <height>291</height>
+            <height>381</height>
            </rect>
           </property>
           <property name="title">
@@ -1720,7 +1891,7 @@ color: rgb(255, 255, 255);
              <x>220</x>
              <y>30</y>
              <width>21</width>
-             <height>221</height>
+             <height>311</height>
             </rect>
            </property>
            <property name="minimum">
@@ -1740,7 +1911,7 @@ color: rgb(255, 255, 255);
            <property name="geometry">
             <rect>
              <x>180</x>
-             <y>260</y>
+             <y>350</y>
              <width>21</width>
              <height>21</height>
             </rect>
@@ -1765,7 +1936,7 @@ color: rgb(255, 255, 255);
            <property name="geometry">
             <rect>
              <x>220</x>
-             <y>260</y>
+             <y>350</y>
              <width>21</width>
              <height>21</height>
             </rect>
@@ -1790,7 +1961,7 @@ color: rgb(255, 255, 255);
            <property name="geometry">
             <rect>
              <x>140</x>
-             <y>260</y>
+             <y>350</y>
              <width>21</width>
              <height>21</height>
             </rect>
@@ -1815,7 +1986,7 @@ color: rgb(255, 255, 255);
            <property name="geometry">
             <rect>
              <x>100</x>
-             <y>260</y>
+             <y>350</y>
              <width>21</width>
              <height>21</height>
             </rect>
@@ -1840,7 +2011,7 @@ color: rgb(255, 255, 255);
            <property name="geometry">
             <rect>
              <x>60</x>
-             <y>260</y>
+             <y>350</y>
              <width>21</width>
              <height>21</height>
             </rect>
@@ -1865,7 +2036,7 @@ color: rgb(255, 255, 255);
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>260</y>
+             <y>350</y>
              <width>21</width>
              <height>21</height>
             </rect>
@@ -1892,7 +2063,7 @@ color: rgb(255, 255, 255);
              <x>180</x>
              <y>30</y>
              <width>21</width>
-             <height>221</height>
+             <height>311</height>
             </rect>
            </property>
            <property name="minimum">
@@ -1914,7 +2085,7 @@ color: rgb(255, 255, 255);
              <x>140</x>
              <y>30</y>
              <width>21</width>
-             <height>221</height>
+             <height>311</height>
             </rect>
            </property>
            <property name="minimum">
@@ -1936,7 +2107,7 @@ color: rgb(255, 255, 255);
              <x>100</x>
              <y>30</y>
              <width>21</width>
-             <height>221</height>
+             <height>311</height>
             </rect>
            </property>
            <property name="minimum">
@@ -1958,7 +2129,7 @@ color: rgb(255, 255, 255);
              <x>60</x>
              <y>30</y>
              <width>21</width>
-             <height>221</height>
+             <height>311</height>
             </rect>
            </property>
            <property name="minimum">
@@ -1980,7 +2151,7 @@ color: rgb(255, 255, 255);
              <x>20</x>
              <y>30</y>
              <width>21</width>
-             <height>221</height>
+             <height>311</height>
             </rect>
            </property>
            <property name="minimum">
@@ -2460,9 +2631,9 @@ color: rgb(255, 255, 255);
           <property name="geometry">
            <rect>
             <x>10</x>
-            <y>380</y>
+            <y>290</y>
             <width>261</width>
-            <height>291</height>
+            <height>381</height>
            </rect>
           </property>
           <property name="title">
@@ -2474,7 +2645,7 @@ color: rgb(255, 255, 255);
              <x>20</x>
              <y>30</y>
              <width>21</width>
-             <height>221</height>
+             <height>311</height>
             </rect>
            </property>
            <property name="minimum">
@@ -2496,7 +2667,7 @@ color: rgb(255, 255, 255);
              <x>60</x>
              <y>30</y>
              <width>21</width>
-             <height>221</height>
+             <height>311</height>
             </rect>
            </property>
            <property name="minimum">
@@ -2518,7 +2689,7 @@ color: rgb(255, 255, 255);
              <x>100</x>
              <y>30</y>
              <width>21</width>
-             <height>221</height>
+             <height>311</height>
             </rect>
            </property>
            <property name="minimum">
@@ -2540,7 +2711,7 @@ color: rgb(255, 255, 255);
              <x>140</x>
              <y>30</y>
              <width>21</width>
-             <height>221</height>
+             <height>311</height>
             </rect>
            </property>
            <property name="minimum">
@@ -2562,7 +2733,7 @@ color: rgb(255, 255, 255);
              <x>180</x>
              <y>30</y>
              <width>21</width>
-             <height>221</height>
+             <height>311</height>
             </rect>
            </property>
            <property name="minimum">
@@ -2584,7 +2755,7 @@ color: rgb(255, 255, 255);
              <x>220</x>
              <y>30</y>
              <width>21</width>
-             <height>221</height>
+             <height>311</height>
             </rect>
            </property>
            <property name="minimum">
@@ -2604,7 +2775,7 @@ color: rgb(255, 255, 255);
            <property name="geometry">
             <rect>
              <x>180</x>
-             <y>260</y>
+             <y>350</y>
              <width>21</width>
              <height>21</height>
             </rect>
@@ -2629,7 +2800,7 @@ color: rgb(255, 255, 255);
            <property name="geometry">
             <rect>
              <x>220</x>
-             <y>260</y>
+             <y>350</y>
              <width>21</width>
              <height>21</height>
             </rect>
@@ -2654,7 +2825,7 @@ color: rgb(255, 255, 255);
            <property name="geometry">
             <rect>
              <x>140</x>
-             <y>260</y>
+             <y>350</y>
              <width>21</width>
              <height>21</height>
             </rect>
@@ -2679,7 +2850,7 @@ color: rgb(255, 255, 255);
            <property name="geometry">
             <rect>
              <x>100</x>
-             <y>260</y>
+             <y>350</y>
              <width>21</width>
              <height>21</height>
             </rect>
@@ -2704,7 +2875,7 @@ color: rgb(255, 255, 255);
            <property name="geometry">
             <rect>
              <x>60</x>
-             <y>260</y>
+             <y>350</y>
              <width>21</width>
              <height>21</height>
             </rect>
@@ -2729,7 +2900,7 @@ color: rgb(255, 255, 255);
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>260</y>
+             <y>350</y>
              <width>21</width>
              <height>21</height>
             </rect>
@@ -3194,9 +3365,9 @@ color: rgb(255, 255, 255);
           <property name="geometry">
            <rect>
             <x>10</x>
-            <y>380</y>
+            <y>290</y>
             <width>261</width>
-            <height>291</height>
+            <height>381</height>
            </rect>
           </property>
           <property name="title">
@@ -3208,7 +3379,7 @@ color: rgb(255, 255, 255);
              <x>20</x>
              <y>30</y>
              <width>21</width>
-             <height>221</height>
+             <height>311</height>
             </rect>
            </property>
            <property name="minimum">
@@ -3233,7 +3404,7 @@ color: rgb(255, 255, 255);
              <x>60</x>
              <y>30</y>
              <width>21</width>
-             <height>221</height>
+             <height>311</height>
             </rect>
            </property>
            <property name="autoFillBackground">
@@ -3261,7 +3432,7 @@ color: rgb(255, 255, 255);
              <x>100</x>
              <y>30</y>
              <width>21</width>
-             <height>221</height>
+             <height>311</height>
             </rect>
            </property>
            <property name="minimum">
@@ -3283,7 +3454,7 @@ color: rgb(255, 255, 255);
              <x>140</x>
              <y>30</y>
              <width>21</width>
-             <height>221</height>
+             <height>311</height>
             </rect>
            </property>
            <property name="minimum">
@@ -3305,7 +3476,7 @@ color: rgb(255, 255, 255);
              <x>180</x>
              <y>30</y>
              <width>21</width>
-             <height>221</height>
+             <height>311</height>
             </rect>
            </property>
            <property name="minimum">
@@ -3327,7 +3498,7 @@ color: rgb(255, 255, 255);
              <x>220</x>
              <y>30</y>
              <width>21</width>
-             <height>221</height>
+             <height>311</height>
             </rect>
            </property>
            <property name="minimum">
@@ -3347,7 +3518,7 @@ color: rgb(255, 255, 255);
            <property name="geometry">
             <rect>
              <x>180</x>
-             <y>260</y>
+             <y>350</y>
              <width>21</width>
              <height>21</height>
             </rect>
@@ -3372,7 +3543,7 @@ color: rgb(255, 255, 255);
            <property name="geometry">
             <rect>
              <x>220</x>
-             <y>260</y>
+             <y>350</y>
              <width>21</width>
              <height>21</height>
             </rect>
@@ -3397,7 +3568,7 @@ color: rgb(255, 255, 255);
            <property name="geometry">
             <rect>
              <x>140</x>
-             <y>260</y>
+             <y>350</y>
              <width>21</width>
              <height>21</height>
             </rect>
@@ -3422,7 +3593,7 @@ color: rgb(255, 255, 255);
            <property name="geometry">
             <rect>
              <x>100</x>
-             <y>260</y>
+             <y>350</y>
              <width>21</width>
              <height>21</height>
             </rect>
@@ -3447,7 +3618,7 @@ color: rgb(255, 255, 255);
            <property name="geometry">
             <rect>
              <x>60</x>
-             <y>260</y>
+             <y>350</y>
              <width>21</width>
              <height>21</height>
             </rect>
@@ -3472,7 +3643,7 @@ color: rgb(255, 255, 255);
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>260</y>
+             <y>350</y>
              <width>21</width>
              <height>21</height>
             </rect>
@@ -4407,8 +4578,6 @@ color: rgb(255, 255, 255);
            </rect>
           </property>
          </widget>
-         <zorder>errorStatePlotWidget</zorder>
-         <zorder>groupBox_18</zorder>
         </widget>
        </widget>
        <widget class="QGroupBox" name="groupBox_17">
@@ -4506,7 +4675,7 @@ color: rgb(255, 255, 255);
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>290</y>
+          <y>440</y>
           <width>241</width>
           <height>111</height>
          </rect>
@@ -4567,7 +4736,7 @@ color: rgb(255, 255, 255);
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>420</y>
+          <y>570</y>
           <width>241</width>
           <height>111</height>
          </rect>
@@ -4630,7 +4799,7 @@ color: rgb(255, 255, 255);
           <x>20</x>
           <y>160</y>
           <width>241</width>
-          <height>111</height>
+          <height>151</height>
          </rect>
         </property>
         <property name="title">
@@ -4679,6 +4848,30 @@ color: rgb(255, 255, 255);
          </property>
          <property name="text">
           <string>Use Stewart Feedback</string>
+         </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="btnResetEKF">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>110</y>
+           <width>221</width>
+           <height>30</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>Reset</string>
          </property>
          <property name="autoDefault">
           <bool>false</bool>
@@ -4909,355 +5102,6 @@ color: rgb(255, 255, 255);
        <attribute name="title">
         <string>Settings</string>
        </attribute>
-       <widget class="QTabWidget" name="tabWidget_2">
-        <property name="geometry">
-         <rect>
-          <x>290</x>
-          <y>60</y>
-          <width>271</width>
-          <height>391</height>
-         </rect>
-        </property>
-        <property name="currentIndex">
-         <number>0</number>
-        </property>
-        <widget class="QWidget" name="tab_em8000">
-         <attribute name="title">
-          <string>EM 8000</string>
-         </attribute>
-         <widget class="QLabel" name="label">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>10</y>
-            <width>141</width>
-            <height>21</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Settings of the EM8000</string>
-          </property>
-         </widget>
-         <widget class="QSpinBox" name="spinBox_3">
-          <property name="geometry">
-           <rect>
-            <x>190</x>
-            <y>40</y>
-            <width>61</width>
-            <height>22</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-           </font>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_35">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>40</y>
-            <width>91</width>
-            <height>21</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Parameter 1:</string>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="doubleSpinBox_2">
-          <property name="geometry">
-           <rect>
-            <x>190</x>
-            <y>70</y>
-            <width>61</width>
-            <height>22</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-           </font>
-          </property>
-         </widget>
-         <widget class="QComboBox" name="comboBox_3">
-          <property name="geometry">
-           <rect>
-            <x>190</x>
-            <y>100</y>
-            <width>61</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_36">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>70</y>
-            <width>91</width>
-            <height>21</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Parameter 2:</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_37">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>100</y>
-            <width>91</width>
-            <height>21</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Parameter 3:</string>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QWidget" name="tab_em1500">
-         <attribute name="title">
-          <string>EM 1500</string>
-         </attribute>
-         <widget class="QLabel" name="label_2">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>10</y>
-            <width>141</width>
-            <height>21</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Settings of the EM1500</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_68">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>40</y>
-            <width>91</width>
-            <height>21</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Parameter 1:</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_72">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>70</y>
-            <width>91</width>
-            <height>21</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Parameter 2:</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_73">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>100</y>
-            <width>91</width>
-            <height>21</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Parameter 3:</string>
-          </property>
-         </widget>
-         <widget class="QSpinBox" name="spinBox_7">
-          <property name="geometry">
-           <rect>
-            <x>190</x>
-            <y>40</y>
-            <width>61</width>
-            <height>22</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-           </font>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="doubleSpinBox_6">
-          <property name="geometry">
-           <rect>
-            <x>190</x>
-            <y>70</y>
-            <width>61</width>
-            <height>22</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-           </font>
-          </property>
-         </widget>
-         <widget class="QComboBox" name="comboBox_8">
-          <property name="geometry">
-           <rect>
-            <x>190</x>
-            <y>100</y>
-            <width>61</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QWidget" name="tab_comau">
-         <attribute name="title">
-          <string>COMAU</string>
-         </attribute>
-         <widget class="QLabel" name="label_3">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>10</y>
-            <width>181</width>
-            <height>21</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Settings of the COMAU Robot</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_71">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>40</y>
-            <width>91</width>
-            <height>21</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Parameter 1:</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_69">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>70</y>
-            <width>91</width>
-            <height>21</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Parameter 2:</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_70">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>100</y>
-            <width>91</width>
-            <height>21</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Parameter 3:</string>
-          </property>
-         </widget>
-         <widget class="QSpinBox" name="spinBox_2">
-          <property name="geometry">
-           <rect>
-            <x>190</x>
-            <y>40</y>
-            <width>61</width>
-            <height>22</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-           </font>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="doubleSpinBox_5">
-          <property name="geometry">
-           <rect>
-            <x>190</x>
-            <y>70</y>
-            <width>61</width>
-            <height>22</height>
-           </rect>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>10</pointsize>
-           </font>
-          </property>
-         </widget>
-         <widget class="QComboBox" name="comboBox_7">
-          <property name="geometry">
-           <rect>
-            <x>190</x>
-            <y>100</y>
-            <width>61</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-        </widget>
-       </widget>
        <widget class="QLabel" name="label_9">
         <property name="geometry">
          <rect>
@@ -5290,124 +5134,6 @@ color: rgb(255, 255, 255);
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
-       </widget>
-       <widget class="QGroupBox" name="groupBox_EM8000_2">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>70</y>
-          <width>251</width>
-          <height>381</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>16</pointsize>
-         </font>
-        </property>
-        <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
-        </property>
-        <property name="title">
-         <string>General</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-        </property>
-        <widget class="QLabel" name="label_5">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>30</y>
-           <width>91</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Parameter 1:</string>
-         </property>
-        </widget>
-        <widget class="QSpinBox" name="spinBox">
-         <property name="geometry">
-          <rect>
-           <x>181</x>
-           <y>30</y>
-           <width>61</width>
-           <height>22</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_6">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>60</y>
-           <width>131</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Parameter 2: (double)</string>
-         </property>
-        </widget>
-        <widget class="QDoubleSpinBox" name="doubleSpinBox">
-         <property name="geometry">
-          <rect>
-           <x>181</x>
-           <y>60</y>
-           <width>61</width>
-           <height>22</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_7">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>90</y>
-           <width>91</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Parameter 3:</string>
-         </property>
-        </widget>
-        <widget class="QComboBox" name="comboBox">
-         <property name="geometry">
-          <rect>
-           <x>180</x>
-           <y>90</y>
-           <width>61</width>
-           <height>22</height>
-          </rect>
-         </property>
-        </widget>
        </widget>
       </widget>
      </widget>

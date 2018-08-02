@@ -44,15 +44,36 @@ VAR
 	l_tt : LREAL := 0.0;
 	direction : DINT := 0;
 	
-	
-	// Physical wire length conversion factors
-	
-	
+	// Actviity monitoring
+	vel : LREAL := 0;
+	velOld : LREAL := 0;
+	frameLoss : UDINT := 0;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// Update axis data
+      <ST><![CDATA[// Check activity
+vel := axis.NcToPlc.ActVelo;
+IF vel <> velOld THEN
+	// Update frame old
+	velOld := vel;
+	
+	// Reset frameLoss
+	frameLoss := 0;
+ELSE
+	// Count frame losses
+	frameLoss := frameLoss + 1;
+END_IF
+
+// Set activity status after 1 second given 5ms in ms
+IF frameLoss > 200 THEN
+	active := FALSE;
+ELSE
+	active := TRUE;
+END_IF
+
+// Update axis data
 axis();
+
 
 // Return feedback data
 feedback.length := (7600.0 - axis.NcToPlc.ActPos + 626.0)/1000.0;
@@ -258,8 +279,11 @@ END_VAR
       </Implementation>
     </Method>
     <LineIds Name="FB_WinchInterface">
+      <LineId Id="1335" Count="17" />
+      <LineId Id="1333" Count="1" />
       <LineId Id="823" Count="0" />
       <LineId Id="825" Count="0" />
+      <LineId Id="1329" Count="0" />
       <LineId Id="1177" Count="1" />
       <LineId Id="1180" Count="1" />
       <LineId Id="1054" Count="1" />

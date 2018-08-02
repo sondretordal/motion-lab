@@ -18,7 +18,6 @@ from src.opengl import MotionLabVisualizer
 # Motionlab pybind module
 from lib import motionlab as ml
 
-
 # Background color pyqtgraph
 pg.setConfigOption('background', 'w')
 pg.setConfigOption('foreground', 'k')
@@ -43,10 +42,8 @@ class GUI(QMainWindow, Ui_main):
         try:
             self.plc.read_state()
             self.plc_active = True
-
         except pyads.pyads.ADSError:
             self.plc_active = False
-
 
         # Xbox controller
         self.xbox = ml.XboxController()
@@ -61,9 +58,14 @@ class GUI(QMainWindow, Ui_main):
 
         if self.plc_active:
             # Timer function for plot update
-            self.timer = QTimer()
-            self.timer.timeout.connect(self.update_data)
-            self.timer.start(50)
+            self.timerFast = QTimer()
+            self.timerFast.timeout.connect(self.updateFast)
+            self.timerFast.start(50)
+
+            # SLow timer for staus updates
+            self.timerSlow = QTimer()
+            self.timerSlow.timeout.connect(self.updateSlow)
+            self.timerSlow.start(2000)
 
             self.EM8000_wave()
 
@@ -367,14 +369,72 @@ class GUI(QMainWindow, Ui_main):
         self.btnEnableMruEKF.clicked.connect(self.enableMruEKF)
         self.btnDisableMruEKF.clicked.connect(self.disableMruEKF)
 
+        self.btnResetEKF.clicked.connect(self.resetPendulumEKF)
+
         # Show 3D visulaization of motion-lab
         self.show3dView.clicked.connect(self.visualizer.show)
 
+    def updateSlow(self):
+        if self.plc_active:
+            # EM8000 activity
+            if self.plc.read_by_name('MAIN.em8000.active', pyads.PLCTYPE_BOOL):
+                self.activeEM8000.setCheckState(True)
+            else:
+                self.activeEM8000.setCheckState(False)
+            
+            # EM1500 activity
+            if self.plc.read_by_name('MAIN.em1500.active', pyads.PLCTYPE_BOOL):
+                self.activeEM1500.setCheckState(True)
+            else:
+                self.activeEM1500.setCheckState(False)
 
-    # Update data and plot
-    def update_data(self):
+            # MRU1 activity
+            if self.plc.read_by_name('MAIN.mru1.active', pyads.PLCTYPE_BOOL):
+                self.activeMRU1.setCheckState(True)
+            else:
+                self.activeMRU1.setCheckState(False)
+
+            # MRU2 activity
+            if self.plc.read_by_name('MAIN.mru2.active', pyads.PLCTYPE_BOOL):
+                self.activeMRU2.setCheckState(True)
+            else:
+                self.activeMRU2.setCheckState(False)
+
+            # QTM activity
+            if self.plc.read_by_name('MAIN.qtm.active', pyads.PLCTYPE_BOOL):
+                self.activeQTM.setCheckState(True)
+            else:
+                self.activeQTM.setCheckState(False)
+
+            # WINCH activity
+            if self.plc.read_by_name('MAIN.winch.active', pyads.PLCTYPE_BOOL):
+                self.activeWINCH.setCheckState(True)
+            else:
+                self.activeWINCH.setCheckState(False)
+
+            # COMAU activity
+            if self.plc.read_by_name('MAIN.comau.active', pyads.PLCTYPE_BOOL):
+                self.activeCOMAU.setCheckState(True)
+            else:
+                self.activeCOMAU.setCheckState(False)
+
+            # LEICA Activity
+            if self.plc.read_by_name('MAIN.at960.active', pyads.PLCTYPE_BOOL):
+                self.activeLEICA.setCheckState(True)
+            else:
+                self.activeLEICA.setCheckState(False)
+
+        # XBOX controller activity
+        if self.xbox.is_connected():
+            self.activeXBOX.setCheckState(True)
+        else:
+            self.activeXBOX.setCheckState(False)
+
+    # Update fastData
+    def updateFast(self):
         # Update HMI data
-        txHmi = self.plc.read_by_name('MAIN.txHmi', TxHmi)
+        if self.plc_active:
+            txHmi = self.plc.read_by_name('MAIN.txHmi', TxHmi)
 
         rxHmi = RxHmi()
 
@@ -385,28 +445,29 @@ class GUI(QMainWindow, Ui_main):
         rxHmi.xboxLT = self.xbox.LT
         rxHmi.xboxRT = self.xbox.RT
 
+        if self.xbox.A:
+            if self.xbox.LB:
+                self.activateAntiSway()
+            else:
+                self.deactivateAntiSway()
+
+        if self.xbox.B:
+            if self.xbox.LB:
+                self.activateRollPitch()
+            else:
+                self.deactivateRollPitch()
+
+        if self.xbox.X:
+            if self.xbox.LB:
+                self.activateShipToShip()
+            else:
+                self.deactivateShipToShip()
+
         # Update visualizer data
         self.visualizer.setTxHmi(txHmi)
 
         if self.visualizer.isVisible():
             self.visualizer.update()
-            
-
-        # Update activity boxes
-        if txHmi.em8000.status == -1:
-            self.activeEM8000.setCheckState(False)
-        else:
-            self.activeEM8000.setCheckState(True)
-        
-        if txHmi.em1500.status == -1:
-            self.activeEM1500.setCheckState(False)
-        else:
-            self.activeEM1500.setCheckState(True)
-
-        if txHmi.comau.status == -1:
-            self.activeCOMAU.setCheckState(False)
-        else:
-            self.activeCOMAU.setCheckState(True)
         
         rxBuffer = bytearray(rxHmi)
         rxSize = len(rxBuffer)*pyads.PLCTYPE_BYTE
@@ -696,7 +757,7 @@ class GUI(QMainWindow, Ui_main):
         self.EM1500_settled()
         self.COMAU_settled()
 
-    # Controller
+    # Controller functions
     def activateAntiSway(self):
         self.plc.write_by_name('MAIN.robotController.antiSway', True, pyads.PLCTYPE_BOOL)
         print('Anti-Sway Active!')
@@ -713,6 +774,14 @@ class GUI(QMainWindow, Ui_main):
         self.plc.write_by_name('MAIN.robotController.cmpRollPitch', False, pyads.PLCTYPE_BOOL)
         print('Roll and Pitch compensation Disabled!')
 
+    def activateShipToShip(self):
+        self.plc.write_by_name('MAIN.winchController.compS2S', True, pyads.PLCTYPE_BOOL)
+        print('Ship-to-Ship compensation activated')
+
+    def deactivateShipToShip(self):
+        self.plc.write_by_name('MAIN.winchController.compS2S', False, pyads.PLCTYPE_BOOL)
+        print('Ship-to-Ship compensation deactivated')
+
     def enableMruEKF(self):
         self.plc.write_by_name('MAIN.pendelEstimator.useMru', True, pyads.PLCTYPE_BOOL)
         print('MRU data enabled for pendel estimator')
@@ -720,6 +789,9 @@ class GUI(QMainWindow, Ui_main):
     def disableMruEKF(self):
         self.plc.write_by_name('MAIN.pendelEstimator.useMru', False, pyads.PLCTYPE_BOOL)
         print('MRU data disabled for pendel estimator')
+
+    def resetPendulumEKF(self):
+        self.plc.write_by_name('MAIN.pendelEstimator.reset', True, pyads.PLCTYPE_BOOL)
 
     # Stop all function
     def stop_all(self):
@@ -736,7 +808,7 @@ class GUI(QMainWindow, Ui_main):
             self.stop_all()
             
             # Stop timed data read
-            self.timer.stop()
+            self.timerFast.stop()
 
             if self.plc_active:
                 # # Close ADS ports

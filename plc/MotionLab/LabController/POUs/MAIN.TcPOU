@@ -37,7 +37,7 @@ VAR
 	
 	// Trajectory Speed seetings
 	qDotMax : LREAL := 10.0/180.0*PI; // rad/s
-	lDotMax : LREAL := 0.2; // m/s
+	lengthDotMax : LREAL := 0.3; // m/s
 	
 	// EKF Estimator
 	init : SINT := 0;
@@ -48,6 +48,9 @@ VAR
 
 	// Winch Contorller
 	winchController : FB_WinchController;
+	length : LREAL;
+	lengthOld : LREAL;
+	lengthDot : LREAL;
 	
 	// System call for starting PqQt HMI
 	fbStartProcess : NT_StartProcess;
@@ -82,16 +85,28 @@ control.winch := winch.control;
 
 // Winch Controller
 winchController(
-	stFeedback := feedback,
-	lengthExtra := -1.0
+	compS2S := TRUE,
+	lengthExtra := LIMIT(-2.5, winchController.lengthExtra - lengthDotMax*rxHmi.xboxRightY*Ts, -0.841),
+	stFeedback := feedback
 );
 
+length := winchController.stWinchControl.length;
+lengthDot := (length - lengthOld)/Ts;
+lengthOld := length;
+
 // EKF Estimator
-pendelEstimator(
-	ssMethodType := init,
-	stFeedback := feedback,
-	Ts := Ts,
-);
+IF qtm.active THEN
+	pendelEstimator(
+		stFeedback := feedback,
+		Ts := Ts
+	);
+ELSE
+	pendelEstimator(
+		reset := TRUE,
+		stFeedback := feedback,
+		Ts := Ts
+	);
+END_IF
 	
 // Return estimator values to HMI
 txHmi.phi[0] := LREAL_TO_REAL(pendelEstimator.phi[0]);
@@ -100,7 +115,6 @@ txHmi.phi[1] := LREAL_TO_REAL(pendelEstimator.phi[1]);
 txHmi.phi_t[0] := LREAL_TO_REAL(pendelEstimator.phi_t[0]);
 txHmi.phi_t[1] := LREAL_TO_REAL(pendelEstimator.phi_t[1]);
 
-
 txHmi.e[0] := LREAL_TO_REAL(pendelEstimator.e[0]);
 txHmi.e[1] := LREAL_TO_REAL(pendelEstimator.e[1]);
 txHmi.e[2] := LREAL_TO_REAL(pendelEstimator.e[2]);
@@ -108,14 +122,14 @@ txHmi.e[2] := LREAL_TO_REAL(pendelEstimator.e[2]);
 txHmi.c := LREAL_TO_REAL(pendelEstimator.c);
 
 // Robot Controller
-robotController.qRef[0] := LIMIT(-25.0/180.0*PI, robotController.qRef[0] - rxHmi.xboxLeftY*qDotMax*Ts, 35.0/180.0*PI);
-robotController.qRef_t[0] := -rxHmi.xboxLeftY*qDotMax;
+robotController.qRef[0] := LIMIT(-25.0/180.0*PI, robotController.qRef[0] + (rxHmi.xboxRT - rxHmi.xboxLT)*qDotMax*Ts, 35.0/180.0*PI);
+robotController.qRef_t[0] := (rxHmi.xboxRT - rxHmi.xboxLT)*qDotMax;
 
 robotController.qRef[1] := LIMIT(-10.0/180.0*PI, robotController.qRef[1] + rxHmi.xboxLeftX*qDotMax*Ts, 15.0/180.0*PI);
 robotController.qRef_t[1] := rxHmi.xboxLeftX*qDotMax;
 
-robotController.qRef[2] := LIMIT(-110.0/180.0*PI, robotController.qRef[2] + rxHmi.xboxRightY*qDotMax*Ts, -90.0/180.0*PI);
-robotController.qRef_t[2] := rxHmi.xboxRightY*qDotMax;
+robotController.qRef[2] := LIMIT(-110.0/180.0*PI, robotController.qRef[2] + rxHmi.xboxLeftY*qDotMax*Ts, -90.0/180.0*PI);
+robotController.qRef_t[2] := rxHmi.xboxLeftY*qDotMax;
 
 robotController(
 	ssMethodType := init,
@@ -124,6 +138,10 @@ robotController(
 	phi_t := pendelEstimator.phi_t,
 );
 init := 1;
+
+// Apply contollers
+winch.control.length := length;
+winch.control.length_t := lengthDot;
 
 comau.control := robotController.stComauControl;
 
@@ -180,16 +198,25 @@ t := t + Ts;
       <LineId Id="1200" Count="0" />
       <LineId Id="1199" Count="0" />
       <LineId Id="1201" Count="0" />
+      <LineId Id="1279" Count="0" />
+      <LineId Id="1272" Count="0" />
       <LineId Id="1204" Count="0" />
-      <LineId Id="1202" Count="0" />
       <LineId Id="1206" Count="0" />
+      <LineId Id="1274" Count="2" />
+      <LineId Id="1273" Count="0" />
       <LineId Id="1017" Count="0" />
       <LineId Id="844" Count="0" />
+      <LineId Id="1255" Count="0" />
       <LineId Id="1024" Count="0" />
-      <LineId Id="1190" Count="3" />
+      <LineId Id="1191" Count="2" />
+      <LineId Id="1257" Count="0" />
+      <LineId Id="1259" Count="0" />
+      <LineId Id="1262" Count="0" />
+      <LineId Id="1260" Count="1" />
+      <LineId Id="1258" Count="0" />
+      <LineId Id="1256" Count="0" />
       <LineId Id="1136" Count="3" />
       <LineId Id="1141" Count="2" />
-      <LineId Id="1212" Count="0" />
       <LineId Id="1208" Count="0" />
       <LineId Id="1207" Count="0" />
       <LineId Id="1209" Count="1" />
@@ -207,6 +234,8 @@ t := t + Ts;
       <LineId Id="1228" Count="2" />
       <LineId Id="1227" Count="0" />
       <LineId Id="1222" Count="1" />
+      <LineId Id="1263" Count="1" />
+      <LineId Id="1277" Count="1" />
       <LineId Id="1237" Count="0" />
       <LineId Id="851" Count="0" />
       <LineId Id="850" Count="0" />

@@ -6,6 +6,7 @@ VAR_INPUT
 END_VAR
 VAR_OUTPUT
 	feedback : ST_FeedbackLeica;
+	active : BOOL := FALSE;
 END_VAR
 VAR
 	// Variables linked to LeicaAT960 Box 1
@@ -22,10 +23,35 @@ VAR
 	// Rotation matrix
 	fbQuatToRotMatrix : FB_QuatToRotMatrix;
 	rot : ARRAY [0..8] OF LREAL;
+	
+	// Actviity monitoring
+	frame : ULINT := 0;
+	frameOld : ULINT := 0;
+	frameLoss : ULINT := 0;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// Leica transform to x, y and z coordinates
+      <ST><![CDATA[// Check activity
+frame := TimeStamp;
+IF frame <> frameOld THEN
+	// Update frame old
+	frameOld := frame;
+	
+	// Reset frameLoss
+	frameLoss := 0;
+ELSE
+	// Count frame losses
+	frameLoss := frameLoss + 1;
+END_IF
+
+// Set activity status after 1 second given 5ms in ms
+IF frameLoss > 200 THEN
+	active := FALSE;
+ELSE
+	active := TRUE;
+END_IF
+
+// Leica transform to x, y and z coordinates
 feedback.pos[0] := Distance*SIN(AngleVt)*SIN(AngleHz);
 feedback.pos[1] := Distance*SIN(AngleVt)*COS(AngleHz);
 feedback.pos[2] := Distance*COS(AngleVt);
@@ -54,6 +80,9 @@ feedback.R33 := fbQuatToRotMatrix.R33;
 ]]></ST>
     </Implementation>
     <LineIds Name="FB_LeicaInterface">
+      <LineId Id="139" Count="17" />
+      <LineId Id="130" Count="0" />
+      <LineId Id="129" Count="0" />
       <LineId Id="27" Count="2" />
       <LineId Id="9" Count="0" />
       <LineId Id="87" Count="0" />
