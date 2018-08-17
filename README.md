@@ -1,5 +1,5 @@
 # The Norwegian Motion Laboratory
-![](https://github.com/sondre1988/motion-lab/theNorwegianMotionLab.jpg "The Norwegian Motion Laboratory")
+![motionLabFig](theNorwegianMotionLab.jpg)
 
 This respository represents all the code and programs used to control and operate the Norwegian Motion Laboratory located in the Mechatronics Lab at the University of Agder, Grimstad.
 
