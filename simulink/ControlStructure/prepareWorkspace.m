@@ -13,7 +13,7 @@ Ts = 0.005;
 dz = -0.1690;
 
 %% Pendulum ODE 
-phi_tt = pendel.formOde();
+phi_tt = pendel.form();
 
 % Linearized wave spectrum
 Hs = 8.0;

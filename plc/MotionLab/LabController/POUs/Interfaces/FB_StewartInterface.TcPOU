@@ -186,12 +186,12 @@ END_VAR
 txUdp.COUNT := txUdp.COUNT + 1;
 
 // Control data with absolute limits applied
-txUdp.X_EXTRA := LIMIT(u_min[0], LREAL_TO_REAL(control.eta[0]), u_max[0]);
-txUdp.Y_EXTRA := LIMIT(u_min[1], LREAL_TO_REAL(control.eta[1]), u_max[1]);
+txUdp.X_EXTRA := 0.0*LIMIT(u_min[0], LREAL_TO_REAL(control.eta[0]), u_max[0]);
+txUdp.Y_EXTRA := 0.0*LIMIT(u_min[1], LREAL_TO_REAL(control.eta[1]), u_max[1]);
 txUdp.Z_EXTRA := LIMIT(u_min[2], LREAL_TO_REAL(control.eta[2]), u_max[2]);
 txUdp.PHI_EXTRA := LIMIT(u_min[3], LREAL_TO_REAL(control.eta[3]), u_max[3]);
 txUdp.THETA_EXTRA := LIMIT(u_min[4], LREAL_TO_REAL(control.eta[4]), u_max[4]);
-txUdp.PSI_EXTRA := LIMIT(u_min[5], LREAL_TO_REAL(control.eta[5]), u_max[5]);
+txUdp.PSI_EXTRA := 0.0*LIMIT(u_min[5], LREAL_TO_REAL(control.eta[5]), u_max[5]);
 
 // Update udpClient
 udpClient();

@@ -446,22 +446,10 @@ class GUI(QMainWindow, Ui_main):
         rxHmi.xboxRT = self.xbox.RT
 
         if self.xbox.A:
-            if self.xbox.LB:
-                self.activateAntiSway()
-            else:
-                self.deactivateAntiSway()
+            self.activateAntiSway()
 
         if self.xbox.B:
-            if self.xbox.LB:
-                self.activateRollPitch()
-            else:
-                self.deactivateRollPitch()
-
-        if self.xbox.X:
-            if self.xbox.LB:
-                self.activateShipToShip()
-            else:
-                self.deactivateShipToShip()
+            self.deactivateAntiSway()
 
         # Update visualizer data
         self.visualizer.setTxHmi(txHmi)
