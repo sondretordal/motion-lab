@@ -1,16 +1,24 @@
-# motion-lab
+# The Norwegian Motion Laboratory
+![](https://github.com/sondre1988/motion-lab/theNorwegianMotionLab.jpg "The Norwegian Motion Laboratory")
 
-Source files for Motion Lab UiA
+This respository represents all the code and programs used to control and operate the Norwegian Motion Laboratory located in the Mechatronics Lab at the University of Agder, Grimstad.
 
-HMI
-./hmi
+The presented code may be freely used to develop other projects as long as it is not included as a part of non-open-source projects aimed at commercial software products.
 
-PLC
-./plc
+The contents of this respository is described in more detail in both the PhD thesis of Sondre Sanden Tørdal:
 
+TODO: Add thesis citation.
+
+and the MIC research article which is published as:
+
+TODO: Add MIC article citation
+
+
+# Publications
+TODO: Add publications related to the motion-lab
+
+## Nice to Now
 Example and tutorial on using the cmake build system with MSVC compiler:
 https://github.com/cognitivewaves/CMake-VisualStudio-Example
 
-Boost build command for MSVC 14.0 64-bit:
-bootstrap
-b2 --includedir=C:/api/include --libdir==C:/api/lib --build-dir=C:/api/build --address-model=64 --build-type=complete --toolset=msvc-14.0 --threading=multi --runtime-link=shared --variant=release install
+
