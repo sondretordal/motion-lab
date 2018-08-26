@@ -1,4 +1,4 @@
-function Ki = lqr()
+function K = lqr()
 
 % State space version of pendulum ode
 x = sym('x', [10,1], 'real');
@@ -59,29 +59,29 @@ R = diag([
 % State feedback only
 [K, S, e] = lqr(A, B, Q, R);
 
-% Add integral control action
-y = C*x;
-r = zeros(length(y),1);
-
-z = r - y;
-
-nz = length(z);
-nx = length(x);
-nu = length(u);
-
-Ai = [
-    zeros(nz, nz), -C
-    zeros(nx, nz),  A
-];
-
-Bi = [
-    zeros(nz,nu)
-    B
-];
-
-Qi = blkdiag(diag(1./ones(nz,1)*0.1^2), Q);
-
-
-[Ki, S, e] = lqr(Ai, Bi, Qi, R);
+% % Add integral control action
+% y = C*x;
+% r = zeros(length(y),1);
+% 
+% z = r - y;
+% 
+% nz = length(z);
+% nx = length(x);
+% nu = length(u);
+% 
+% Ai = [
+%     zeros(nz, nz), -C
+%     zeros(nx, nz),  A
+% ];
+% 
+% Bi = [
+%     zeros(nz,nu)
+%     B
+% ];
+% 
+% Qi = blkdiag(diag(1./ones(nz,1)*0.1^2), Q);
+% 
+% 
+% [Ki, S, e] = lqr(Ai, Bi, Qi, R);
 
 end
