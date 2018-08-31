@@ -104,22 +104,13 @@ ST_ControlComau = bus.ControlComau();
 
 % Control Bus
 clear elems
+
 n = 1;
-elems(n) = Simulink.BusElement;
-elems(n).Name = 'em8000';
-elems(n).DataType = 'ST_ControlStewart';
-
-n = 2;
-elems(n) = Simulink.BusElement;
-elems(n).Name = 'em1500';
-elems(n).DataType = 'ST_ControlStewart';
-
-n = 3;
 elems(n) = Simulink.BusElement;
 elems(n).Name = 'comau';
 elems(n).DataType = 'ST_ControlComau';
 
-n = 4;
+n = 2;
 elems(n) = Simulink.BusElement;
 elems(n).Name = 'winch';
 elems(n).DataType = 'ST_ControlWinch';
