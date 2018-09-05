@@ -131,6 +131,7 @@ txHmi.c := LREAL_TO_REAL(pendelEstimator.c);
 // Anti Swing Controller
 lqrAntiSwing(
 	Ts := Ts,
+	LQRmAX := 0.5,
 	phi := pendelEstimator.phi,
 	phi_t := pendelEstimator.phi_t
 );
@@ -253,6 +254,7 @@ END_IF
       <LineId Id="1345" Count="0" />
       <LineId Id="1347" Count="0" />
       <LineId Id="1359" Count="0" />
+      <LineId Id="1385" Count="0" />
       <LineId Id="1352" Count="2" />
       <LineId Id="1220" Count="1" />
       <LineId Id="1356" Count="0" />

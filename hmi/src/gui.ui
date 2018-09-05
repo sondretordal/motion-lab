@@ -4675,7 +4675,7 @@ color: rgb(255, 255, 255);
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>340</y>
+          <y>330</y>
           <width>241</width>
           <height>151</height>
          </rect>
@@ -4786,7 +4786,7 @@ color: rgb(255, 255, 255);
           <enum>Qt::LeftToRight</enum>
          </property>
          <property name="text">
-          <string>Use MRU Feedback</string>
+          <string>MRU Feedback</string>
          </property>
          <property name="autoDefault">
           <bool>false</bool>
@@ -4810,7 +4810,7 @@ color: rgb(255, 255, 255);
           <enum>Qt::LeftToRight</enum>
          </property>
          <property name="text">
-          <string>Use Stewart Feedback</string>
+          <string>Stewart Feedback</string>
          </property>
          <property name="autoDefault">
           <bool>false</bool>
@@ -4845,7 +4845,7 @@ color: rgb(255, 255, 255);
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>520</y>
+          <y>630</y>
           <width>241</width>
           <height>111</height>
          </rect>
@@ -4871,7 +4871,7 @@ color: rgb(255, 255, 255);
           <enum>Qt::LeftToRight</enum>
          </property>
          <property name="text">
-          <string>Use MRU Feedback</string>
+          <string>MRU Feedback</string>
          </property>
          <property name="autoDefault">
           <bool>false</bool>
@@ -4895,7 +4895,68 @@ color: rgb(255, 255, 255);
           <enum>Qt::LeftToRight</enum>
          </property>
          <property name="text">
-          <string>Use Stewart Feedback</string>
+          <string>Stewart Feedback</string>
+         </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="groupBox_25">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>500</y>
+          <width>241</width>
+          <height>111</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Winch Controller</string>
+        </property>
+        <widget class="QPushButton" name="btnEnableMruWinch">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>70</y>
+           <width>221</width>
+           <height>30</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>MRU Feedback</string>
+         </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="btnDisableMruWinch">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>30</y>
+           <width>221</width>
+           <height>30</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>Stewart Feedback</string>
          </property>
          <property name="autoDefault">
           <bool>false</bool>

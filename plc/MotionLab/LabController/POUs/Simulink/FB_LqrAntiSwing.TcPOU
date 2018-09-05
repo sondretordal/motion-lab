@@ -9,6 +9,7 @@ VAR_INPUT
 	active: BOOL := FALSE;
 	phi: ARRAY[0..1] OF LREAL;
 	phi_t: ARRAY[0..1] OF LREAL;
+	u : ARRAY [0..2] OF LREAL;
 END_VAR
 VAR_OUTPUT
 	p: ARRAY[0..2] OF LREAL;
@@ -167,6 +168,7 @@ ELSE
 
 		FOR i_0 := 0 TO 9 DO 
 			tmp_0[i] := (tmp[(3 * i_0) + i] * rtb_x[i_0]) + tmp_0[i];
+			u[i] := tmp_0[i];
 		END_FOR;
 
 		(* Update for DiscreteIntegrator: '<S1>/Discrete-Time Integrator' *)
@@ -174,7 +176,7 @@ ELSE
 		(* Update for DiscreteIntegrator: '<S1>/Discrete-Time Integrator1' *)
 		c_DiscreteTimeIntegrator1_D[i] := (Ts * rtb_p_t[i]) + c_DiscreteTimeIntegrator1_D[i];
 	END_FOR;
-
+	
 	(* End of Gain: '<S1>/Gain1' *)
 END_IF;
 
@@ -187,7 +189,9 @@ END_IF;
       <LineId Id="174" Count="0" />
       <LineId Id="176" Count="0" />
       <LineId Id="175" Count="0" />
-      <LineId Id="19" Count="127" />
+      <LineId Id="19" Count="116" />
+      <LineId Id="181" Count="0" />
+      <LineId Id="136" Count="10" />
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>

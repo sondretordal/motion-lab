@@ -2856,7 +2856,7 @@ External Setpoint Generation:
 								<BaseType GUID="{85CE2A33-1364-3E4A-4462-1C0F28D9DA28}">ExtU_WaveSimulator_T</BaseType>
 								<PTCID>#x80000000</PTCID>
 							</Parameter>
-							<Parameter>
+							<Parameter ShowSubItems="true">
 								<Name>ModelParameters</Name>
 								<BitSize>11136</BitSize>
 								<BaseType GUID="{50B82677-40EE-020C-25E2-91108E51E9E5}">P_WaveSimulator_T</BaseType>
@@ -4094,11 +4094,11 @@ External Setpoint Generation:
 							</Value>
 							<Value>
 								<Name>ModelParameters.WaveSimulator_maxOutput[0]</Name>
-								<Value>0.2</Value>
+								<Value>0.1</Value>
 							</Value>
 							<Value>
 								<Name>ModelParameters.WaveSimulator_maxOutput[1]</Name>
-								<Value>0.2</Value>
+								<Value>0.1</Value>
 							</Value>
 							<Value>
 								<Name>ModelParameters.WaveSimulator_maxOutput[2]</Name>

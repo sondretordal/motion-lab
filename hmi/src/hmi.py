@@ -42,7 +42,7 @@ class GUI(QMainWindow, Ui_main):
         try:
             self.plc.read_state()
             self.plc_active = True
-        except pyads.pyads.ADSError:
+        except pyads.ADSError:
             self.plc_active = False
 
         # Xbox controller
@@ -370,6 +370,9 @@ class GUI(QMainWindow, Ui_main):
         self.btnEnableMruEKF.clicked.connect(self.enableMruEKF)
         self.btnDisableMruEKF.clicked.connect(self.disableMruEKF)
         self.btnResetEKF.clicked.connect(self.resetPendulumEKF)
+
+        self.btnEnableMruWinch.clicked.connect(self.enableMruWinchController)
+        self.btnDisableMruWinch.clicked.connect(self.disableMruWinchController)
 
         self.btnEnableMruCM.clicked.connect(self.enableMruCM)
         self.btnDisableMruCM.clicked.connect(self.disableMruCM)
@@ -777,6 +780,13 @@ class GUI(QMainWindow, Ui_main):
     def disableMruCM(self):
         self.plc.write_by_name('MAIN.controlMapping.useMru', False, pyads.PLCTYPE_BOOL)
 
+    def enableMruWinchController(self):
+        self.plc.write_by_name('MAIN.winchController.useMru', True, pyads.PLCTYPE_BOOL)
+
+    def disableMruWinchController(self):
+        self.plc.write_by_name('MAIN.winchController.useMru', False, pyads.PLCTYPE_BOOL)
+
+
     # Stop all function
     def stop_all(self):
         self.SYSTEM_stop()
@@ -807,3 +817,4 @@ class GUI(QMainWindow, Ui_main):
             event.ignore()
             
            
+        
