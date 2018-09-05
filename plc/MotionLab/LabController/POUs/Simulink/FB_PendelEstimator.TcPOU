@@ -23,7 +23,6 @@ VAR_OUTPUT
 	xEst: ARRAY[0..18] OF LREAL;
 END_VAR
 VAR
-	ssMethodType: SINT := 1;
 	b_eta: ARRAY[0..5] OF LREAL;
 	b_v: ARRAY[0..5] OF LREAL;
 	Rnb: ARRAY[0..8] OF LREAL;
@@ -94,538 +93,530 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[IF reset AND (ssMethodType = 1) THEN
-	ssMethodType := 0;
+      <ST><![CDATA[
+IF reset THEN
+   
+	(* InitializeConditions for Memory: '<S1>/Memory2' *)
+
+	FOR i := 0 TO 18 DO 
+		Memory2_PreviousInput[i] := x0[i];
+	END_FOR;
+
+	(* End of InitializeConditions for Memory: '<S1>/Memory2' *)
+	(* InitializeConditions for Memory: '<S1>/Memory1' *)
+
+	FOR i := 0 TO 360 DO 
+		Memory1_PreviousInput[i] := P0[i];
+	END_FOR;
+	
 	reset := FALSE;
-END_IF
-
-
-CASE ssMethodType OF
-    0: 
-        (* InitializeConditions for Memory: '<S1>/Memory2' *)
-
-        FOR i := 0 TO 18 DO 
-            Memory2_PreviousInput[i] := x0[i];
-        END_FOR;
-
-        (* End of InitializeConditions for Memory: '<S1>/Memory2' *)
-        (* InitializeConditions for Memory: '<S1>/Memory1' *)
-
-        FOR i := 0 TO 360 DO 
-            Memory1_PreviousInput[i] := P0[i];
-        END_FOR;
-		
-		ssMethodType := 1;
-
-        (* End of InitializeConditions for Memory: '<S1>/Memory1' *)
-    1: 
-        (* MATLAB Function: '<S1>/VectorizeData' incorporates:
-         *  BusCreator: '<S1>/BusConversion_InsertedFor_VectorizeData_at_inport_0' *)
-        (* MATLAB Function 'FB_PendelEstimator/VectorizeData': '<S3>:1' *)
-        (* '<S3>:1:4' if useMru *)
-
-        IF useMru THEN 
-            (* Use  *)
-            (* '<S3>:1:6' eta = feedback.mru1.eta; *)
-            (* '<S3>:1:7' v = feedback.mru1.v; *)
-
-            FOR i := 0 TO 5 DO 
-                b_eta[i] := stFeedback.mru1.eta[i];
-                b_v[i] := stFeedback.mru1.v[i];
-            END_FOR;
-
-        ELSE 
-            (* '<S3>:1:8' else *)
-            (* Get body velocites *)
-            (* '<S3>:1:10' eta = feedback.em8000.eta; *)
-            (* '<S3>:1:11' eta_t = feedback.em8000.eta_t; *)
-            (* '<S3>:1:13' [v, ~] = math3d.eulerToBody(eta, eta_t, zeros(6,1), 'xyz'); *)
-            (* Velocity *)
-            (* 'eulerToBody:4' J = velocityJacobian(eta, angleSequence); *)
-            (* 'eulerToBody:15' phi = eta(4); *)
-            (* 'eulerToBody:16' theta = eta(5); *)
-            (* 'eulerToBody:17' psi = eta(6); *)
-            (* 'eulerToBody:19' if strcmp(sequence, 'xyz') *)
-            (* 'eulerToBody:20' J = [ *)
-            (* 'eulerToBody:21'             1, 0, 0,                                 0,                                0, 0 *)
-            (* 'eulerToBody:22'             0, 1, 0,                                 0,                                0, 0 *)
-            (* 'eulerToBody:23'             0, 0, 1,                                 0,                                0, 0 *)
-            (* 'eulerToBody:24'             0, 0, 0,               cos(psi)/cos(theta),             -sin(psi)/cos(theta), 0 *)
-            (* 'eulerToBody:25'             0, 0, 0,                          sin(psi),                         cos(psi), 0 *)
-            (* 'eulerToBody:26'             0, 0, 0, -(cos(psi)*sin(theta))/cos(theta), (sin(psi)*sin(theta))/cos(theta), 1 *)
-            (* 'eulerToBody:27'         ]; *)
-            (* 'eulerToBody:5' v = J\eta_t; *)
-            (* Acceleration *)
-            (* 'eulerToBody:8' J_t = accelerationJacobian(eta, eta_t, angleSequence); *)
-            (* 'eulerToBody:43' phi = eta(4); *)
-            (* 'eulerToBody:44' theta = eta(5); *)
-            (* 'eulerToBody:45' psi = eta(6); *)
-            (* 'eulerToBody:47' phi_t = eta_t(4); *)
-            (* 'eulerToBody:48' theta_t = eta_t(5); *)
-            (* 'eulerToBody:49' psi_t = eta_t(6); *)
-            (* 'eulerToBody:51' if strcmp(sequence, 'xyz') *)
-            (* 'eulerToBody:52' J_t = [ *)
-            (* 'eulerToBody:53'             0, 0, 0,                                                                       0,                                                                       0, 0 *)
-            (* 'eulerToBody:54'             0, 0, 0,                                                                       0,                                                                       0, 0 *)
-            (* 'eulerToBody:55'             0, 0, 0,                                                                       0,                                                                       0, 0 *)
-            (* 'eulerToBody:56'             0, 0, 0,  (cos(psi)*sin(theta)*theta_t - cos(theta)*sin(psi)*psi_t)/cos(theta)^2, -(cos(theta)*cos(psi)*psi_t + sin(theta)*sin(psi)*theta_t)/cos(theta)^2, 0 *)
-            (* 'eulerToBody:57'             0, 0, 0,                                                          cos(psi)*psi_t,                                                         -sin(psi)*psi_t, 0 *)
-            (* 'eulerToBody:58'             0, 0, 0, -(cos(psi)*theta_t - cos(theta)*sin(theta)*sin(psi)*psi_t)/cos(theta)^2,  (sin(psi)*theta_t + cos(theta)*cos(psi)*sin(theta)*psi_t)/cos(theta)^2, 0 *)
-            (* 'eulerToBody:59'         ]; *)
-            (* 'eulerToBody:9' v_t = J\(eta_tt - J_t*v); *)
-
-            FOR i := 0 TO 5 DO 
-                b_eta[i] := stFeedback.em8000.eta[i];
-                b_v[i] := stFeedback.em8000.eta_t[i];
-                b[6 * i] := SINT_TO_LREAL(b_b[i]);
-                b[1 + (6 * i)] := SINT_TO_LREAL(b_c[i]);
-                b[2 + (6 * i)] := SINT_TO_LREAL(b_d[i]);
-            END_FOR;
-
-            b[3] := 0.0;
-            b[9] := 0.0;
-            b[15] := 0.0;
-            b_tmp := COS(stFeedback.em8000.eta[4]);
-            b_tmp_1 := COS(stFeedback.em8000.eta[5]);
-            b[21] := b_tmp_1 / b_tmp;
-            b_tmp_0 := SIN(stFeedback.em8000.eta[5]);
-            b[27] := ( -b_tmp_0) / b_tmp;
-            b[33] := 0.0;
-            b[4] := 0.0;
-            b[10] := 0.0;
-            b[16] := 0.0;
-            b[22] := b_tmp_0;
-            b[28] := b_tmp_1;
-            b[34] := 0.0;
-            b[5] := 0.0;
-            b[11] := 0.0;
-            b[17] := 0.0;
-            b_tmp_2 := SIN(stFeedback.em8000.eta[4]);
-            b[23] := ( -(b_tmp_1 * b_tmp_2)) / b_tmp;
-            b[29] := (b_tmp_0 * b_tmp_2) / b_tmp;
-            b[35] := 1.0;
-            i0_mldivide(A := b, B := b_v);
-            (* '<S3>:1:13' ~ *)
-        END_IF;
-
-        (* Comau movement *)
-        (* '<S3>:1:17' q = feedback.comau.q; *)
-        (* '<S3>:1:18' q_t = feedback.comau.q_t; *)
-        (* '<S3>:1:20' [p, p_t, ~] = motionlab.comau.forward(q, q_t, zeros(3,1)); *)
-        (* Static link lengths *)
-        (* 'forward:4' a1 = 0.350; *)
-        (* 'forward:5' a2 = 1.160; *)
-        (* 'forward:6' a3 = 0.250; *)
-        (* 'forward:7' d1 = 0.830; *)
-        (* 'forward:8' d4 = 1.4922; *)
-        (* 'forward:9' d6 = 0.210; *)
-        (* To wire exit point *)
-        (* 'forward:12' dt = 0.567; *)
-        (* To WRE from joint 2 *)
-        (* 'forward:15' L = d4 + d6 + dt; *)
-        (* Position {b} -> {t} *)
-        (* 'forward:18' q1 = q(1); *)
-        (* 'forward:19' q2 = q(2); *)
-        (* 'forward:20' q3 = q(3); *)
-        (* 'forward:22' q1_t = q_t(1); *)
-        (* 'forward:23' q2_t = q_t(2); *)
-        (* 'forward:24' q3_t = q_t(3); *)
-        (* Obtained from formForwardModel *)
-        (* 'forward:27' p = [ *)
-        (* 'forward:28'     cos(q1)*(a1 - L*sin(q3) - a3*cos(q3) + a2*sin(q2)); *)
-        (* 'forward:29'     -sin(q1)*(a1 - L*sin(q3) - a3*cos(q3) + a2*sin(q2)); *)
-        (* 'forward:30'     d1 + L*cos(q3) + a2*cos(q2) - a3*sin(q3); *)
-        (* 'forward:31' ]; *)
-        p_tmp_tmp := COS(stFeedback.comau.q[2]);
-        b_tmp := SIN(stFeedback.comau.q[2]);
-        b_tmp_1 := SIN(stFeedback.comau.q[1]);
-        b_tmp_0 := 0.25 * p_tmp_tmp;
-        b_tmp_2 := ((0.35 - (2.2691999999999997 * b_tmp)) - b_tmp_0) + (1.16 * b_tmp_1);
-        p_tmp_0 := COS(stFeedback.comau.q[0]);
-        b_p[0] := b_tmp_2 * p_tmp_0;
-        p_tmp_tmp_0 := SIN(stFeedback.comau.q[0]);
-        p_tmp := b_tmp_2 * ( -p_tmp_tmp_0);
-        b_p[1] := p_tmp;
-        p_tmp_1 := COS(stFeedback.comau.q[1]);
-        p_tmp_tmp := 2.2691999999999997 * p_tmp_tmp;
-        p_tmp_2 := 0.25 * b_tmp;
-        b_p[2] := ((p_tmp_tmp + 0.83) + (1.16 * p_tmp_1)) - p_tmp_2;
-        (* 'forward:33' J = [ *)
-        (* 'forward:34'     -sin(q1)*(a1 - L*sin(q3) - a3*cos(q3) + a2*sin(q2)),  a2*cos(q1)*cos(q2), -cos(q1)*(L*cos(q3) - a3*sin(q3)); *)
-        (* 'forward:35'     -cos(q1)*(a1 - L*sin(q3) - a3*cos(q3) + a2*sin(q2)), -a2*cos(q2)*sin(q1),  sin(q1)*(L*cos(q3) - a3*sin(q3)); *)
-        (* 'forward:36'                                                       0,         -a2*sin(q2),          - L*sin(q3) - a3*cos(q3); *)
-        (* 'forward:37' ]; *)
-        (* 'forward:39' J_t = [ *)
-        (* 'forward:40'     q3_t*sin(q1)*(L*cos(q3) - a3*sin(q3)) - q1_t*cos(q1)*(a1 - L*sin(q3) - a3*cos(q3) + a2*sin(q2)) - a2*q2_t*cos(q2)*sin(q1), - a2*q1_t*cos(q2)*sin(q1) - a2*q2_t*cos(q1)*sin(q2), q3_t*cos(q1)*(L*sin(q3) + a3*cos(q3)) + q1_t*sin(q1)*(L*cos(q3) - a3*sin(q3)); *)
-        (* 'forward:41'     q3_t*cos(q1)*(L*cos(q3) - a3*sin(q3)) + q1_t*sin(q1)*(a1 - L*sin(q3) - a3*cos(q3) + a2*sin(q2)) - a2*q2_t*cos(q1)*cos(q2),   a2*q2_t*sin(q1)*sin(q2) - a2*q1_t*cos(q1)*cos(q2), q1_t*cos(q1)*(L*cos(q3) - a3*sin(q3)) - q3_t*sin(q1)*(L*sin(q3) + a3*cos(q3)); *)
-        (* 'forward:42'                                                                                                                             0,                                    -a2*q2_t*cos(q2),                                                -q3_t*(L*cos(q3) - a3*sin(q3)); *)
-        (* 'forward:43' ]; *)
-        (* Velocity *)
-        (* 'forward:46' p_t = J*q_t; *)
-        (* Acceleration *)
-        (* 'forward:49' p_tt = J_t*q_t + J*q_tt; *)
-        (* '<S3>:1:20' ~ *)
-        (* Load Calibration data *)
-        (* '<S3>:1:23' data = coder.load('motionlab/calib.mat'); *)
-        (* '<S3>:1:24' calib = data.calib; *)
-        (* Robot pose relative to EM8000 *)
-        (* '<S3>:1:27' Hbr = calib.EM8000_TO_COMAU.H; *)
-        (* Ship/stewart {b} orientation matrix relative to {n} *)
-        (* '<S3>:1:30' Rnb = math3d.Rxyz(eta(4:6)); *)
-        (* 'Rxyz:3' rx = phi(1); *)
-        (* 'Rxyz:4' ry = phi(2); *)
-        (* 'Rxyz:5' rz = phi(3); *)
-        (* 'Rxyz:7' R = [ *)
-        (* 'Rxyz:8'                               cos(ry)*cos(rz),                          -cos(ry)*sin(rz),          sin(ry); *)
-        (* 'Rxyz:9'     cos(rx)*sin(rz) + cos(rz)*sin(rx)*sin(ry), cos(rx)*cos(rz) - sin(rx)*sin(ry)*sin(rz), -cos(ry)*sin(rx); *)
-        (* 'Rxyz:10'     sin(rx)*sin(rz) - cos(rx)*cos(rz)*sin(ry), cos(rz)*sin(rx) + cos(rx)*sin(ry)*sin(rz),  cos(rx)*cos(ry) *)
-        (* 'Rxyz:11' ]; *)
-        Rnb_tmp := COS(b_eta[4]);
-        Rnb_tmp_0 := COS(b_eta[5]);
-        Rnb[0] := Rnb_tmp * Rnb_tmp_0;
-        Rnb_tmp_2 := SIN(b_eta[5]);
-        Rnb[3] := ( -Rnb_tmp) * Rnb_tmp_2;
-        Rnb_tmp_1 := SIN(b_eta[4]);
-        Rnb[6] := Rnb_tmp_1;
-        Rnb_tmp_3 := COS(b_eta[3]);
-        Rnb_tmp_4 := SIN(b_eta[3]);
-        Rnb_tmp_5 := Rnb_tmp_0 * Rnb_tmp_4;
-        Rnb[1] := (Rnb_tmp_5 * Rnb_tmp_1) + (Rnb_tmp_3 * Rnb_tmp_2);
-        Rnb_tmp_0 := Rnb_tmp_3 * Rnb_tmp_0;
-        Rnb[4] := Rnb_tmp_0 - ((Rnb_tmp_4 * Rnb_tmp_1) * Rnb_tmp_2);
-        Rnb[7] := ( -COS(b_eta[4])) * Rnb_tmp_4;
-        Rnb[2] := (Rnb_tmp_4 * Rnb_tmp_2) - (Rnb_tmp_0 * Rnb_tmp_1);
-        Rnb[5] := ((Rnb_tmp_3 * Rnb_tmp_1) * Rnb_tmp_2) + Rnb_tmp_5;
-        Rnb[8] := Rnb_tmp_3 * Rnb_tmp;
-        (* MATLAB Function: '<S1>/Discrete EKF' incorporates:
-         *  Memory: '<S1>/Memory1'
-         *  Memory: '<S1>/Memory2' *)
-        (* Body fixed velocity and acceleration skew matrices *)
-        (* '<S3>:1:33' W = math3d.skew(v(4:6)); *)
-        (* 'skew:3' vSkew = [ *)
-        (* 'skew:4'        0, -v(3),  v(2); *)
-        (* 'skew:5'     v(3),     0, -v(1); *)
-        (* 'skew:6'    -v(2),  v(1),    0; *)
-        (* 'skew:7' ]; *)
-        (* '<S3>:1:35' Rnb_t = Rnb*W; *)
-        (* Constant offsets {b} -> {r} *)
-        (* '<S3>:1:38' r = Hbr(1:3,4); *)
-        (* '<S3>:1:39' Rbr = Hbr(1:3,1:3); *)
-        (* Position of {t}/{n} given in {n} *)
-        (* '<S3>:1:42' pt = eta(1:3) + Rnb*(r + Rbr*p); *)
-        (* Velocity of {t}/{n} given in {n} *)
-        (* '<S3>:1:45' pt_t = v(1:3) + Rnb_t*(r + Rbr*p) + Rnb*(Rbr*p_t); *)
-        (* Hook measurement *)
-        (* '<S3>:1:48' ph = feedback.qtm.pos; *)
-        (* '<S3>:1:49' Hnq = math3d.InvH(calib.WORLD_TO_EM8000.H)*calib.WORLD_TO_QTM.H; *)
-        (* '<S3>:1:50' Ph = Hnq*[ph; 1]; *)
-        (* '<S3>:1:52' z = [     *)
-        (* '<S3>:1:53'     pt *)
-        (* '<S3>:1:54'     pt_t *)
-        (* '<S3>:1:55'     feedback.winch.length *)
-        (* '<S3>:1:56'     feedback.winch.length_t *)
-        (* '<S3>:1:57'     Ph(1:3) *)
-        (* '<S3>:1:58' ]; *)
-        (* Make Q and R *)
-        (* MATLAB Function 'FB_PendelEstimator/Discrete EKF': '<S2>:1' *)
-        (* '<S2>:1:4' Q = diag(diagQ); *)
-        (* '<S2>:1:5' R = diag(diagR); *)
-        (* Prediction *)
-        (* '<S2>:1:8' xPred = observer.f(x, Ts); *)
-        i0_f(in1 := Memory2_PreviousInput, Ts := Ts);
-        xPred := i0_f.f_0;
-        (* '<S2>:1:9' F = observer.fJacobian(x, Ts); *)
-        i0_fJacobian(in1 := Memory2_PreviousInput, Ts := Ts);
-        b_F := i0_fJacobian.F;
-        (* '<S2>:1:10' PPred = F*P*F' + Q; *)
-        i0_diag(v := diagQ);
-        tmp_1 := i0_diag.b_d;
-
-        FOR i_0 := 0 TO 18 DO 
-
-            FOR i_1 := 0 TO 18 DO 
-                F_tmp := i_0 + (19 * i_1);
-                F_0[F_tmp] := 0.0;
-
-                FOR i := 0 TO 18 DO 
-                    F_0[F_tmp] := (b_F[(19 * i) + i_0] * Memory1_PreviousInput[(19 * i_1) + i]) + F_0[(19 * i_1) + i_0];
-                END_FOR;
-
-            END_FOR;
-
-
-            FOR i_1 := 0 TO 18 DO 
-                Rnb_tmp := 0.0;
-
-                FOR i := 0 TO 18 DO 
-                    Rnb_tmp := (F_0[(19 * i) + i_0] * b_F[(19 * i) + i_1]) + Rnb_tmp;
-                END_FOR;
-
-                PPred[i_0 + (19 * i_1)] := tmp_1[(19 * i_1) + i_0] + Rnb_tmp;
-            END_FOR;
-
-        END_FOR;
-
-        (* Measurement update *)
-        (* '<S2>:1:13' y = z - observer.h(xPred); *)
-        (* '<S2>:1:15' H = observer.hJacobian(xPred); *)
-        i0_hJacobian(in1 := xPred);
-        b_H := i0_hJacobian.H;
-        (* '<S2>:1:16' S = H*PPred*H' + R; *)
-        (* '<S2>:1:18' K = PPred*H'*inv(S); *)
-        i0_diag_j(v := diagR);
-        tmp_0 := i0_diag_j.b_d;
-
-        FOR i_0 := 0 TO 10 DO 
-
-            FOR i_1 := 0 TO 18 DO 
-                F_tmp := i_0 + (11 * i_1);
-                H_1[F_tmp] := 0.0;
-
-                FOR i := 0 TO 18 DO 
-                    H_1[F_tmp] := (b_H[(11 * i) + i_0] * PPred[(19 * i_1) + i]) + H_1[(11 * i_1) + i_0];
-                END_FOR;
-
-            END_FOR;
-
-
-            FOR i_1 := 0 TO 10 DO 
-                Rnb_tmp := 0.0;
-
-                FOR i := 0 TO 18 DO 
-                    Rnb_tmp := (H_1[(11 * i) + i_0] * b_H[(11 * i) + i_1]) + Rnb_tmp;
-                END_FOR;
-
-                H_0[i_0 + (11 * i_1)] := tmp_0[(11 * i_1) + i_0] + Rnb_tmp;
-            END_FOR;
-
-        END_FOR;
-
-        i0_inv(x := H_0);
-        tmp_0 := i0_inv.y;
-
-        FOR i_0 := 0 TO 18 DO 
-
-            FOR i_1 := 0 TO 10 DO 
-                F_tmp := i_0 + (19 * i_1);
-                H_1[F_tmp] := 0.0;
-
-                FOR i := 0 TO 18 DO 
-                    H_1[F_tmp] := (PPred[(19 * i) + i_0] * b_H[(11 * i) + i_1]) + H_1[(19 * i_1) + i_0];
-                END_FOR;
-
-            END_FOR;
-
-
-            FOR i_1 := 0 TO 10 DO 
-                F_tmp := i_0 + (19 * i_1);
-                K[F_tmp] := 0.0;
-
-                FOR i := 0 TO 10 DO 
-                    K[F_tmp] := (H_1[(19 * i) + i_0] * tmp_0[(11 * i_1) + i]) + K[(19 * i_1) + i_0];
-                END_FOR;
-
-            END_FOR;
-
-        END_FOR;
-
-        (* '<S2>:1:21' x = xPred + K*y; *)
-        i0_h(in1 := xPred);
-        tmp := i0_h.h_0;
-        (* MATLAB Function: '<S1>/VectorizeData' incorporates:
-         *  BusCreator: '<S1>/BusConversion_InsertedFor_VectorizeData_at_inport_0'
-         *  MATLAB Function: '<S1>/Discrete EKF' *)
-        tmp_2[0] := 0.0;
-        tmp_2[3] :=  -b_v[5];
-        tmp_2[6] := b_v[4];
-        tmp_2[1] := b_v[5];
-        tmp_2[4] := 0.0;
-        tmp_2[7] :=  -b_v[3];
-        tmp_2[2] :=  -b_v[4];
-        tmp_2[5] := b_v[3];
-        tmp_2[8] := 0.0;
-        tmp_3[0] := p_tmp;
-        tmp_3[3] := (1.16 * p_tmp_0) * p_tmp_1;
-        Rnb_tmp := p_tmp_tmp - p_tmp_2;
-        tmp_3[6] := Rnb_tmp * ( -p_tmp_0);
-        tmp_3[1] := b_tmp_2 * ( -COS(stFeedback.comau.q[0]));
-        tmp_3[4] := (-1.16 * p_tmp_1) * p_tmp_tmp_0;
-        tmp_3[7] := Rnb_tmp * p_tmp_tmp_0;
-        tmp_3[2] := 0.0;
-        tmp_3[5] := -1.16 * b_tmp_1;
-        tmp_3[8] := (-2.2691999999999997 * b_tmp) - b_tmp_0;
-
-        FOR i_0 := 0 TO 2 DO 
-            Rnb_tmp := 0.0;
-
-            FOR i_1 := 0 TO 2 DO 
-                i := (3 * i_1) + i_0;
-                Rnb_tmp := (b_a[i] * b_p[i_1]) + Rnb_tmp;
-                F_tmp := i_0 + (3 * i_1);
-                Rnb_0[F_tmp] := 0.0;
-                Rnb_0[F_tmp] := Rnb_0[i] + (tmp_2[3 * i_1] * Rnb[i_0]);
-                Rnb_0[F_tmp] := (tmp_2[(3 * i_1) + 1] * Rnb[i_0 + 3]) + Rnb_0[(3 * i_1) + i_0];
-                Rnb_0[F_tmp] := (tmp_2[(3 * i_1) + 2] * Rnb[i_0 + 6]) + Rnb_0[(3 * i_1) + i_0];
-            END_FOR;
-
-            b_r[i_0] := c_r[i_0] + Rnb_tmp;
-            r_0[i_0] := (((b_a[i_0 + 3] * p_tmp) + (b_a[i_0] * b_p[0])) + (b_a[i_0 + 6] * b_p[2])) + c_r[i_0];
-            tmp_4[i_0] := (tmp_3[i_0 + 6] * stFeedback.comau.q_t[2]) + ((tmp_3[i_0 + 3] * stFeedback.comau.q_t[1]) + (tmp_3[i_0] * stFeedback.comau.q_t[0]));
-        END_FOR;
-
-
-        FOR i_0 := 0 TO 2 DO 
-            v_0[i_0] := (((Rnb_0[i_0 + 3] * r_0[1]) + (Rnb_0[i_0] * r_0[0])) + (Rnb_0[i_0 + 6] * r_0[2])) + b_v[i_0];
-            b_p[i_0] := (b_a[i_0 + 6] * tmp_4[2]) + ((b_a[i_0 + 3] * tmp_4[1]) + (b_a[i_0] * tmp_4[0]));
-        END_FOR;
-
-
-        FOR i_0 := 0 TO 2 DO 
-            stFeedback_0[i_0] := stFeedback.qtm.pos[i_0];
-            r_0[i_0] := (Rnb[i_0 + 6] * b_p[2]) + ((Rnb[i_0 + 3] * b_p[1]) + (Rnb[i_0] * b_p[0]));
-        END_FOR;
-
-
-        FOR i_0 := 0 TO 3 DO 
-            b_tmp := c_a[i_0 + 12] + ((c_a[i_0 + 8] * stFeedback_0[2]) + ((c_a[i_0 + 4] * stFeedback_0[1]) + (c_a[i_0] * stFeedback_0[0])));
-            a[i_0] := b_tmp;
-        END_FOR;
-
-        eta_0[6] := stFeedback.winch.length;
-        eta_0[7] := stFeedback.winch.length_t;
-
-        FOR i_0 := 0 TO 2 DO 
-            eta_0[i_0] := (((Rnb[i_0 + 3] * b_r[1]) + (Rnb[i_0] * b_r[0])) + (Rnb[i_0 + 6] * b_r[2])) + b_eta[i_0];
-            eta_0[i_0 + 3] := v_0[i_0] + r_0[i_0];
-            eta_0[i_0 + 8] := a[i_0];
-        END_FOR;
-
-        (* MATLAB Function: '<S1>/Discrete EKF' *)
-
-        FOR i_0 := 0 TO 10 DO 
-            eta_1[i_0] := eta_0[i_0] - tmp[i_0];
-        END_FOR;
-
-        (* MATLAB Function: '<S1>/Discrete EKF' *)
-
-        FOR i_0 := 0 TO 18 DO 
-            Rnb_tmp := 0.0;
-
-            FOR i_1 := 0 TO 10 DO 
-                Rnb_tmp := (K[(19 * i_1) + i_0] * eta_1[i_1]) + Rnb_tmp;
-            END_FOR;
-
-            xEst[i_0] := xPred[i_0] + Rnb_tmp;
-        END_FOR;
-
-        (* Outport: '<Root>/pt' incorporates:
-         *  MATLAB Function: '<S1>/Discrete EKF' *)
-        (* '<S2>:1:22' I = eye(length(x)); *)
-        (* '<S2>:1:23' P = (I - K*H)*PPred; *)
-        (* Convert from x -> variables *)
-        (* '<S2>:1:26' pt = x(1:3); *)
-        (* '<S2>:1:27' pt_t = x(4:6); *)
-        (* '<S2>:1:28' pt_tt = x(7:9); *)
-        (* '<S2>:1:29' phi = x(10:11); *)
-        (* '<S2>:1:30' phi_t = x(12:13); *)
-        (* '<S2>:1:31' l = x(14); *)
-        (* '<S2>:1:32' l_t = x(15); *)
-        (* '<S2>:1:33' c = x(16); *)
-        (* '<S2>:1:34' e = x(17:19); *)
-        pt[0] := xEst[0];
-        (* Outport: '<Root>/pt_t' incorporates:
-         *  MATLAB Function: '<S1>/Discrete EKF' *)
-        pt_t[0] := xEst[3];
-        (* Outport: '<Root>/pt_tt' incorporates:
-         *  MATLAB Function: '<S1>/Discrete EKF' *)
-        pt_tt[0] := xEst[6];
-        (* Outport: '<Root>/pt' incorporates:
-         *  MATLAB Function: '<S1>/Discrete EKF' *)
-        pt[1] := xEst[1];
-        (* Outport: '<Root>/pt_t' incorporates:
-         *  MATLAB Function: '<S1>/Discrete EKF' *)
-        pt_t[1] := xEst[4];
-        (* Outport: '<Root>/pt_tt' incorporates:
-         *  MATLAB Function: '<S1>/Discrete EKF' *)
-        pt_tt[1] := xEst[7];
-        (* Outport: '<Root>/pt' incorporates:
-         *  MATLAB Function: '<S1>/Discrete EKF' *)
-        pt[2] := xEst[2];
-        (* Outport: '<Root>/pt_t' incorporates:
-         *  MATLAB Function: '<S1>/Discrete EKF' *)
-        pt_t[2] := xEst[5];
-        (* Outport: '<Root>/pt_tt' incorporates:
-         *  MATLAB Function: '<S1>/Discrete EKF' *)
-        pt_tt[2] := xEst[8];
-        (* Outport: '<Root>/phi' incorporates:
-         *  MATLAB Function: '<S1>/Discrete EKF' *)
-        phi[0] := xEst[9];
-        (* Outport: '<Root>/phi_t' incorporates:
-         *  MATLAB Function: '<S1>/Discrete EKF' *)
-        phi_t[0] := xEst[11];
-        (* Outport: '<Root>/phi' incorporates:
-         *  MATLAB Function: '<S1>/Discrete EKF' *)
-        phi[1] := xEst[10];
-        (* Outport: '<Root>/phi_t' incorporates:
-         *  MATLAB Function: '<S1>/Discrete EKF' *)
-        phi_t[1] := xEst[12];
-        (* Outport: '<Root>/length' incorporates:
-         *  MATLAB Function: '<S1>/Discrete EKF' *)
-        length := xEst[13];
-        (* Outport: '<Root>/length_t' incorporates:
-         *  MATLAB Function: '<S1>/Discrete EKF' *)
-        length_t := xEst[14];
-        (* Outport: '<Root>/c' incorporates:
-         *  MATLAB Function: '<S1>/Discrete EKF' *)
-        c := xEst[15];
-        (* Outport: '<Root>/e' incorporates:
-         *  MATLAB Function: '<S1>/Discrete EKF' *)
-        e[0] := xEst[16];
-        e[1] := xEst[17];
-        e[2] := xEst[18];
-        (* MATLAB Function: '<S1>/Discrete EKF' *)
-
-        FOR i := 0 TO 18 DO 
-            (* Update for Memory: '<S1>/Memory2' *)
-            Memory2_PreviousInput[i] := xEst[i];
-            (* MATLAB Function: '<S1>/Discrete EKF' *)
-
-            FOR i_0 := 0 TO 18 DO 
-                Rnb_tmp := 0.0;
-
-                FOR i_1 := 0 TO 10 DO 
-                    Rnb_tmp := (K[(19 * i_1) + i] * b_H[(11 * i_0) + i_1]) + Rnb_tmp;
-                END_FOR;
-
-                b_F[i + (19 * i_0)] := SINT_TO_LREAL(b_I[(19 * i_0) + i]) - Rnb_tmp;
-            END_FOR;
-
-            (* Update for Memory: '<S1>/Memory1' incorporates:
-             *  MATLAB Function: '<S1>/Discrete EKF' *)
-
-            FOR i_0 := 0 TO 18 DO 
-                (* MATLAB Function: '<S1>/Discrete EKF' *)
-                F_tmp := i + (19 * i_0);
-                Memory1_PreviousInput[F_tmp] := 0.0;
-
-                FOR i_1 := 0 TO 18 DO 
-                    Memory1_PreviousInput[F_tmp] := (b_F[(19 * i_1) + i] * PPred[(19 * i_0) + i_1]) + Memory1_PreviousInput[(19 * i_0) + i];
-                END_FOR;
-
-            END_FOR;
-
-            (* End of Update for Memory: '<S1>/Memory1' *)
-        END_FOR;
-
-END_CASE;
+
+	(* End of InitializeConditions for Memory: '<S1>/Memory1' *)
+ELSE
+	(* MATLAB Function: '<S1>/VectorizeData' incorporates:
+	 *  BusCreator: '<S1>/BusConversion_InsertedFor_VectorizeData_at_inport_0' *)
+	(* MATLAB Function 'FB_PendelEstimator/VectorizeData': '<S3>:1' *)
+	(* '<S3>:1:4' if useMru *)
+
+	IF useMru THEN 
+		(* Use  *)
+		(* '<S3>:1:6' eta = feedback.mru1.eta; *)
+		(* '<S3>:1:7' v = feedback.mru1.v; *)
+
+		FOR i := 0 TO 5 DO 
+			b_eta[i] := stFeedback.mru1.eta[i];
+			b_v[i] := stFeedback.mru1.v[i];
+		END_FOR;
+
+	ELSE 
+		(* '<S3>:1:8' else *)
+		(* Get body velocites *)
+		(* '<S3>:1:10' eta = feedback.em8000.eta; *)
+		(* '<S3>:1:11' eta_t = feedback.em8000.eta_t; *)
+		(* '<S3>:1:13' [v, ~] = math3d.eulerToBody(eta, eta_t, zeros(6,1), 'xyz'); *)
+		(* Velocity *)
+		(* 'eulerToBody:4' J = velocityJacobian(eta, angleSequence); *)
+		(* 'eulerToBody:15' phi = eta(4); *)
+		(* 'eulerToBody:16' theta = eta(5); *)
+		(* 'eulerToBody:17' psi = eta(6); *)
+		(* 'eulerToBody:19' if strcmp(sequence, 'xyz') *)
+		(* 'eulerToBody:20' J = [ *)
+		(* 'eulerToBody:21'             1, 0, 0,                                 0,                                0, 0 *)
+		(* 'eulerToBody:22'             0, 1, 0,                                 0,                                0, 0 *)
+		(* 'eulerToBody:23'             0, 0, 1,                                 0,                                0, 0 *)
+		(* 'eulerToBody:24'             0, 0, 0,               cos(psi)/cos(theta),             -sin(psi)/cos(theta), 0 *)
+		(* 'eulerToBody:25'             0, 0, 0,                          sin(psi),                         cos(psi), 0 *)
+		(* 'eulerToBody:26'             0, 0, 0, -(cos(psi)*sin(theta))/cos(theta), (sin(psi)*sin(theta))/cos(theta), 1 *)
+		(* 'eulerToBody:27'         ]; *)
+		(* 'eulerToBody:5' v = J\eta_t; *)
+		(* Acceleration *)
+		(* 'eulerToBody:8' J_t = accelerationJacobian(eta, eta_t, angleSequence); *)
+		(* 'eulerToBody:43' phi = eta(4); *)
+		(* 'eulerToBody:44' theta = eta(5); *)
+		(* 'eulerToBody:45' psi = eta(6); *)
+		(* 'eulerToBody:47' phi_t = eta_t(4); *)
+		(* 'eulerToBody:48' theta_t = eta_t(5); *)
+		(* 'eulerToBody:49' psi_t = eta_t(6); *)
+		(* 'eulerToBody:51' if strcmp(sequence, 'xyz') *)
+		(* 'eulerToBody:52' J_t = [ *)
+		(* 'eulerToBody:53'             0, 0, 0,                                                                       0,                                                                       0, 0 *)
+		(* 'eulerToBody:54'             0, 0, 0,                                                                       0,                                                                       0, 0 *)
+		(* 'eulerToBody:55'             0, 0, 0,                                                                       0,                                                                       0, 0 *)
+		(* 'eulerToBody:56'             0, 0, 0,  (cos(psi)*sin(theta)*theta_t - cos(theta)*sin(psi)*psi_t)/cos(theta)^2, -(cos(theta)*cos(psi)*psi_t + sin(theta)*sin(psi)*theta_t)/cos(theta)^2, 0 *)
+		(* 'eulerToBody:57'             0, 0, 0,                                                          cos(psi)*psi_t,                                                         -sin(psi)*psi_t, 0 *)
+		(* 'eulerToBody:58'             0, 0, 0, -(cos(psi)*theta_t - cos(theta)*sin(theta)*sin(psi)*psi_t)/cos(theta)^2,  (sin(psi)*theta_t + cos(theta)*cos(psi)*sin(theta)*psi_t)/cos(theta)^2, 0 *)
+		(* 'eulerToBody:59'         ]; *)
+		(* 'eulerToBody:9' v_t = J\(eta_tt - J_t*v); *)
+
+		FOR i := 0 TO 5 DO 
+			b_eta[i] := stFeedback.em8000.eta[i];
+			b_v[i] := stFeedback.em8000.eta_t[i];
+			b[6 * i] := SINT_TO_LREAL(b_b[i]);
+			b[1 + (6 * i)] := SINT_TO_LREAL(b_c[i]);
+			b[2 + (6 * i)] := SINT_TO_LREAL(b_d[i]);
+		END_FOR;
+
+		b[3] := 0.0;
+		b[9] := 0.0;
+		b[15] := 0.0;
+		b_tmp := COS(stFeedback.em8000.eta[4]);
+		b_tmp_1 := COS(stFeedback.em8000.eta[5]);
+		b[21] := b_tmp_1 / b_tmp;
+		b_tmp_0 := SIN(stFeedback.em8000.eta[5]);
+		b[27] := ( -b_tmp_0) / b_tmp;
+		b[33] := 0.0;
+		b[4] := 0.0;
+		b[10] := 0.0;
+		b[16] := 0.0;
+		b[22] := b_tmp_0;
+		b[28] := b_tmp_1;
+		b[34] := 0.0;
+		b[5] := 0.0;
+		b[11] := 0.0;
+		b[17] := 0.0;
+		b_tmp_2 := SIN(stFeedback.em8000.eta[4]);
+		b[23] := ( -(b_tmp_1 * b_tmp_2)) / b_tmp;
+		b[29] := (b_tmp_0 * b_tmp_2) / b_tmp;
+		b[35] := 1.0;
+		i0_mldivide(A := b, B := b_v);
+		(* '<S3>:1:13' ~ *)
+	END_IF;
+
+	(* Comau movement *)
+	(* '<S3>:1:17' q = feedback.comau.q; *)
+	(* '<S3>:1:18' q_t = feedback.comau.q_t; *)
+	(* '<S3>:1:20' [p, p_t, ~] = motionlab.comau.forward(q, q_t, zeros(3,1)); *)
+	(* Static link lengths *)
+	(* 'forward:4' a1 = 0.350; *)
+	(* 'forward:5' a2 = 1.160; *)
+	(* 'forward:6' a3 = 0.250; *)
+	(* 'forward:7' d1 = 0.830; *)
+	(* 'forward:8' d4 = 1.4922; *)
+	(* 'forward:9' d6 = 0.210; *)
+	(* To wire exit point *)
+	(* 'forward:12' dt = 0.567; *)
+	(* To WRE from joint 2 *)
+	(* 'forward:15' L = d4 + d6 + dt; *)
+	(* Position {b} -> {t} *)
+	(* 'forward:18' q1 = q(1); *)
+	(* 'forward:19' q2 = q(2); *)
+	(* 'forward:20' q3 = q(3); *)
+	(* 'forward:22' q1_t = q_t(1); *)
+	(* 'forward:23' q2_t = q_t(2); *)
+	(* 'forward:24' q3_t = q_t(3); *)
+	(* Obtained from formForwardModel *)
+	(* 'forward:27' p = [ *)
+	(* 'forward:28'     cos(q1)*(a1 - L*sin(q3) - a3*cos(q3) + a2*sin(q2)); *)
+	(* 'forward:29'     -sin(q1)*(a1 - L*sin(q3) - a3*cos(q3) + a2*sin(q2)); *)
+	(* 'forward:30'     d1 + L*cos(q3) + a2*cos(q2) - a3*sin(q3); *)
+	(* 'forward:31' ]; *)
+	p_tmp_tmp := COS(stFeedback.comau.q[2]);
+	b_tmp := SIN(stFeedback.comau.q[2]);
+	b_tmp_1 := SIN(stFeedback.comau.q[1]);
+	b_tmp_0 := 0.25 * p_tmp_tmp;
+	b_tmp_2 := ((0.35 - (2.2691999999999997 * b_tmp)) - b_tmp_0) + (1.16 * b_tmp_1);
+	p_tmp_0 := COS(stFeedback.comau.q[0]);
+	b_p[0] := b_tmp_2 * p_tmp_0;
+	p_tmp_tmp_0 := SIN(stFeedback.comau.q[0]);
+	p_tmp := b_tmp_2 * ( -p_tmp_tmp_0);
+	b_p[1] := p_tmp;
+	p_tmp_1 := COS(stFeedback.comau.q[1]);
+	p_tmp_tmp := 2.2691999999999997 * p_tmp_tmp;
+	p_tmp_2 := 0.25 * b_tmp;
+	b_p[2] := ((p_tmp_tmp + 0.83) + (1.16 * p_tmp_1)) - p_tmp_2;
+	(* 'forward:33' J = [ *)
+	(* 'forward:34'     -sin(q1)*(a1 - L*sin(q3) - a3*cos(q3) + a2*sin(q2)),  a2*cos(q1)*cos(q2), -cos(q1)*(L*cos(q3) - a3*sin(q3)); *)
+	(* 'forward:35'     -cos(q1)*(a1 - L*sin(q3) - a3*cos(q3) + a2*sin(q2)), -a2*cos(q2)*sin(q1),  sin(q1)*(L*cos(q3) - a3*sin(q3)); *)
+	(* 'forward:36'                                                       0,         -a2*sin(q2),          - L*sin(q3) - a3*cos(q3); *)
+	(* 'forward:37' ]; *)
+	(* 'forward:39' J_t = [ *)
+	(* 'forward:40'     q3_t*sin(q1)*(L*cos(q3) - a3*sin(q3)) - q1_t*cos(q1)*(a1 - L*sin(q3) - a3*cos(q3) + a2*sin(q2)) - a2*q2_t*cos(q2)*sin(q1), - a2*q1_t*cos(q2)*sin(q1) - a2*q2_t*cos(q1)*sin(q2), q3_t*cos(q1)*(L*sin(q3) + a3*cos(q3)) + q1_t*sin(q1)*(L*cos(q3) - a3*sin(q3)); *)
+	(* 'forward:41'     q3_t*cos(q1)*(L*cos(q3) - a3*sin(q3)) + q1_t*sin(q1)*(a1 - L*sin(q3) - a3*cos(q3) + a2*sin(q2)) - a2*q2_t*cos(q1)*cos(q2),   a2*q2_t*sin(q1)*sin(q2) - a2*q1_t*cos(q1)*cos(q2), q1_t*cos(q1)*(L*cos(q3) - a3*sin(q3)) - q3_t*sin(q1)*(L*sin(q3) + a3*cos(q3)); *)
+	(* 'forward:42'                                                                                                                             0,                                    -a2*q2_t*cos(q2),                                                -q3_t*(L*cos(q3) - a3*sin(q3)); *)
+	(* 'forward:43' ]; *)
+	(* Velocity *)
+	(* 'forward:46' p_t = J*q_t; *)
+	(* Acceleration *)
+	(* 'forward:49' p_tt = J_t*q_t + J*q_tt; *)
+	(* '<S3>:1:20' ~ *)
+	(* Load Calibration data *)
+	(* '<S3>:1:23' data = coder.load('motionlab/calib.mat'); *)
+	(* '<S3>:1:24' calib = data.calib; *)
+	(* Robot pose relative to EM8000 *)
+	(* '<S3>:1:27' Hbr = calib.EM8000_TO_COMAU.H; *)
+	(* Ship/stewart {b} orientation matrix relative to {n} *)
+	(* '<S3>:1:30' Rnb = math3d.Rxyz(eta(4:6)); *)
+	(* 'Rxyz:3' rx = phi(1); *)
+	(* 'Rxyz:4' ry = phi(2); *)
+	(* 'Rxyz:5' rz = phi(3); *)
+	(* 'Rxyz:7' R = [ *)
+	(* 'Rxyz:8'                               cos(ry)*cos(rz),                          -cos(ry)*sin(rz),          sin(ry); *)
+	(* 'Rxyz:9'     cos(rx)*sin(rz) + cos(rz)*sin(rx)*sin(ry), cos(rx)*cos(rz) - sin(rx)*sin(ry)*sin(rz), -cos(ry)*sin(rx); *)
+	(* 'Rxyz:10'     sin(rx)*sin(rz) - cos(rx)*cos(rz)*sin(ry), cos(rz)*sin(rx) + cos(rx)*sin(ry)*sin(rz),  cos(rx)*cos(ry) *)
+	(* 'Rxyz:11' ]; *)
+	Rnb_tmp := COS(b_eta[4]);
+	Rnb_tmp_0 := COS(b_eta[5]);
+	Rnb[0] := Rnb_tmp * Rnb_tmp_0;
+	Rnb_tmp_2 := SIN(b_eta[5]);
+	Rnb[3] := ( -Rnb_tmp) * Rnb_tmp_2;
+	Rnb_tmp_1 := SIN(b_eta[4]);
+	Rnb[6] := Rnb_tmp_1;
+	Rnb_tmp_3 := COS(b_eta[3]);
+	Rnb_tmp_4 := SIN(b_eta[3]);
+	Rnb_tmp_5 := Rnb_tmp_0 * Rnb_tmp_4;
+	Rnb[1] := (Rnb_tmp_5 * Rnb_tmp_1) + (Rnb_tmp_3 * Rnb_tmp_2);
+	Rnb_tmp_0 := Rnb_tmp_3 * Rnb_tmp_0;
+	Rnb[4] := Rnb_tmp_0 - ((Rnb_tmp_4 * Rnb_tmp_1) * Rnb_tmp_2);
+	Rnb[7] := ( -COS(b_eta[4])) * Rnb_tmp_4;
+	Rnb[2] := (Rnb_tmp_4 * Rnb_tmp_2) - (Rnb_tmp_0 * Rnb_tmp_1);
+	Rnb[5] := ((Rnb_tmp_3 * Rnb_tmp_1) * Rnb_tmp_2) + Rnb_tmp_5;
+	Rnb[8] := Rnb_tmp_3 * Rnb_tmp;
+	(* MATLAB Function: '<S1>/Discrete EKF' incorporates:
+	 *  Memory: '<S1>/Memory1'
+	 *  Memory: '<S1>/Memory2' *)
+	(* Body fixed velocity and acceleration skew matrices *)
+	(* '<S3>:1:33' W = math3d.skew(v(4:6)); *)
+	(* 'skew:3' vSkew = [ *)
+	(* 'skew:4'        0, -v(3),  v(2); *)
+	(* 'skew:5'     v(3),     0, -v(1); *)
+	(* 'skew:6'    -v(2),  v(1),    0; *)
+	(* 'skew:7' ]; *)
+	(* '<S3>:1:35' Rnb_t = Rnb*W; *)
+	(* Constant offsets {b} -> {r} *)
+	(* '<S3>:1:38' r = Hbr(1:3,4); *)
+	(* '<S3>:1:39' Rbr = Hbr(1:3,1:3); *)
+	(* Position of {t}/{n} given in {n} *)
+	(* '<S3>:1:42' pt = eta(1:3) + Rnb*(r + Rbr*p); *)
+	(* Velocity of {t}/{n} given in {n} *)
+	(* '<S3>:1:45' pt_t = v(1:3) + Rnb_t*(r + Rbr*p) + Rnb*(Rbr*p_t); *)
+	(* Hook measurement *)
+	(* '<S3>:1:48' ph = feedback.qtm.pos; *)
+	(* '<S3>:1:49' Hnq = math3d.InvH(calib.WORLD_TO_EM8000.H)*calib.WORLD_TO_QTM.H; *)
+	(* '<S3>:1:50' Ph = Hnq*[ph; 1]; *)
+	(* '<S3>:1:52' z = [     *)
+	(* '<S3>:1:53'     pt *)
+	(* '<S3>:1:54'     pt_t *)
+	(* '<S3>:1:55'     feedback.winch.length *)
+	(* '<S3>:1:56'     feedback.winch.length_t *)
+	(* '<S3>:1:57'     Ph(1:3) *)
+	(* '<S3>:1:58' ]; *)
+	(* Make Q and R *)
+	(* MATLAB Function 'FB_PendelEstimator/Discrete EKF': '<S2>:1' *)
+	(* '<S2>:1:4' Q = diag(diagQ); *)
+	(* '<S2>:1:5' R = diag(diagR); *)
+	(* Prediction *)
+	(* '<S2>:1:8' xPred = observer.f(x, Ts); *)
+	i0_f(in1 := Memory2_PreviousInput, Ts := Ts);
+	xPred := i0_f.f_0;
+	(* '<S2>:1:9' F = observer.fJacobian(x, Ts); *)
+	i0_fJacobian(in1 := Memory2_PreviousInput, Ts := Ts);
+	b_F := i0_fJacobian.F;
+	(* '<S2>:1:10' PPred = F*P*F' + Q; *)
+	i0_diag(v := diagQ);
+	tmp_1 := i0_diag.b_d;
+
+	FOR i_0 := 0 TO 18 DO 
+
+		FOR i_1 := 0 TO 18 DO 
+			F_tmp := i_0 + (19 * i_1);
+			F_0[F_tmp] := 0.0;
+
+			FOR i := 0 TO 18 DO 
+				F_0[F_tmp] := (b_F[(19 * i) + i_0] * Memory1_PreviousInput[(19 * i_1) + i]) + F_0[(19 * i_1) + i_0];
+			END_FOR;
+
+		END_FOR;
+
+
+		FOR i_1 := 0 TO 18 DO 
+			Rnb_tmp := 0.0;
+
+			FOR i := 0 TO 18 DO 
+				Rnb_tmp := (F_0[(19 * i) + i_0] * b_F[(19 * i) + i_1]) + Rnb_tmp;
+			END_FOR;
+
+			PPred[i_0 + (19 * i_1)] := tmp_1[(19 * i_1) + i_0] + Rnb_tmp;
+		END_FOR;
+
+	END_FOR;
+
+	(* Measurement update *)
+	(* '<S2>:1:13' y = z - observer.h(xPred); *)
+	(* '<S2>:1:15' H = observer.hJacobian(xPred); *)
+	i0_hJacobian(in1 := xPred);
+	b_H := i0_hJacobian.H;
+	(* '<S2>:1:16' S = H*PPred*H' + R; *)
+	(* '<S2>:1:18' K = PPred*H'*inv(S); *)
+	i0_diag_j(v := diagR);
+	tmp_0 := i0_diag_j.b_d;
+
+	FOR i_0 := 0 TO 10 DO 
+
+		FOR i_1 := 0 TO 18 DO 
+			F_tmp := i_0 + (11 * i_1);
+			H_1[F_tmp] := 0.0;
+
+			FOR i := 0 TO 18 DO 
+				H_1[F_tmp] := (b_H[(11 * i) + i_0] * PPred[(19 * i_1) + i]) + H_1[(11 * i_1) + i_0];
+			END_FOR;
+
+		END_FOR;
+
+
+		FOR i_1 := 0 TO 10 DO 
+			Rnb_tmp := 0.0;
+
+			FOR i := 0 TO 18 DO 
+				Rnb_tmp := (H_1[(11 * i) + i_0] * b_H[(11 * i) + i_1]) + Rnb_tmp;
+			END_FOR;
+
+			H_0[i_0 + (11 * i_1)] := tmp_0[(11 * i_1) + i_0] + Rnb_tmp;
+		END_FOR;
+
+	END_FOR;
+
+	i0_inv(x := H_0);
+	tmp_0 := i0_inv.y;
+
+	FOR i_0 := 0 TO 18 DO 
+
+		FOR i_1 := 0 TO 10 DO 
+			F_tmp := i_0 + (19 * i_1);
+			H_1[F_tmp] := 0.0;
+
+			FOR i := 0 TO 18 DO 
+				H_1[F_tmp] := (PPred[(19 * i) + i_0] * b_H[(11 * i) + i_1]) + H_1[(19 * i_1) + i_0];
+			END_FOR;
+
+		END_FOR;
+
+
+		FOR i_1 := 0 TO 10 DO 
+			F_tmp := i_0 + (19 * i_1);
+			K[F_tmp] := 0.0;
+
+			FOR i := 0 TO 10 DO 
+				K[F_tmp] := (H_1[(19 * i) + i_0] * tmp_0[(11 * i_1) + i]) + K[(19 * i_1) + i_0];
+			END_FOR;
+
+		END_FOR;
+
+	END_FOR;
+
+	(* '<S2>:1:21' x = xPred + K*y; *)
+	i0_h(in1 := xPred);
+	tmp := i0_h.h_0;
+	(* MATLAB Function: '<S1>/VectorizeData' incorporates:
+	 *  BusCreator: '<S1>/BusConversion_InsertedFor_VectorizeData_at_inport_0'
+	 *  MATLAB Function: '<S1>/Discrete EKF' *)
+	tmp_2[0] := 0.0;
+	tmp_2[3] :=  -b_v[5];
+	tmp_2[6] := b_v[4];
+	tmp_2[1] := b_v[5];
+	tmp_2[4] := 0.0;
+	tmp_2[7] :=  -b_v[3];
+	tmp_2[2] :=  -b_v[4];
+	tmp_2[5] := b_v[3];
+	tmp_2[8] := 0.0;
+	tmp_3[0] := p_tmp;
+	tmp_3[3] := (1.16 * p_tmp_0) * p_tmp_1;
+	Rnb_tmp := p_tmp_tmp - p_tmp_2;
+	tmp_3[6] := Rnb_tmp * ( -p_tmp_0);
+	tmp_3[1] := b_tmp_2 * ( -COS(stFeedback.comau.q[0]));
+	tmp_3[4] := (-1.16 * p_tmp_1) * p_tmp_tmp_0;
+	tmp_3[7] := Rnb_tmp * p_tmp_tmp_0;
+	tmp_3[2] := 0.0;
+	tmp_3[5] := -1.16 * b_tmp_1;
+	tmp_3[8] := (-2.2691999999999997 * b_tmp) - b_tmp_0;
+
+	FOR i_0 := 0 TO 2 DO 
+		Rnb_tmp := 0.0;
+
+		FOR i_1 := 0 TO 2 DO 
+			i := (3 * i_1) + i_0;
+			Rnb_tmp := (b_a[i] * b_p[i_1]) + Rnb_tmp;
+			F_tmp := i_0 + (3 * i_1);
+			Rnb_0[F_tmp] := 0.0;
+			Rnb_0[F_tmp] := Rnb_0[i] + (tmp_2[3 * i_1] * Rnb[i_0]);
+			Rnb_0[F_tmp] := (tmp_2[(3 * i_1) + 1] * Rnb[i_0 + 3]) + Rnb_0[(3 * i_1) + i_0];
+			Rnb_0[F_tmp] := (tmp_2[(3 * i_1) + 2] * Rnb[i_0 + 6]) + Rnb_0[(3 * i_1) + i_0];
+		END_FOR;
+
+		b_r[i_0] := c_r[i_0] + Rnb_tmp;
+		r_0[i_0] := (((b_a[i_0 + 3] * p_tmp) + (b_a[i_0] * b_p[0])) + (b_a[i_0 + 6] * b_p[2])) + c_r[i_0];
+		tmp_4[i_0] := (tmp_3[i_0 + 6] * stFeedback.comau.q_t[2]) + ((tmp_3[i_0 + 3] * stFeedback.comau.q_t[1]) + (tmp_3[i_0] * stFeedback.comau.q_t[0]));
+	END_FOR;
+
+
+	FOR i_0 := 0 TO 2 DO 
+		v_0[i_0] := (((Rnb_0[i_0 + 3] * r_0[1]) + (Rnb_0[i_0] * r_0[0])) + (Rnb_0[i_0 + 6] * r_0[2])) + b_v[i_0];
+		b_p[i_0] := (b_a[i_0 + 6] * tmp_4[2]) + ((b_a[i_0 + 3] * tmp_4[1]) + (b_a[i_0] * tmp_4[0]));
+	END_FOR;
+
+
+	FOR i_0 := 0 TO 2 DO 
+		stFeedback_0[i_0] := stFeedback.qtm.pos[i_0];
+		r_0[i_0] := (Rnb[i_0 + 6] * b_p[2]) + ((Rnb[i_0 + 3] * b_p[1]) + (Rnb[i_0] * b_p[0]));
+	END_FOR;
+
+
+	FOR i_0 := 0 TO 3 DO 
+		b_tmp := c_a[i_0 + 12] + ((c_a[i_0 + 8] * stFeedback_0[2]) + ((c_a[i_0 + 4] * stFeedback_0[1]) + (c_a[i_0] * stFeedback_0[0])));
+		a[i_0] := b_tmp;
+	END_FOR;
+
+	eta_0[6] := stFeedback.winch.length;
+	eta_0[7] := stFeedback.winch.length_t;
+
+	FOR i_0 := 0 TO 2 DO 
+		eta_0[i_0] := (((Rnb[i_0 + 3] * b_r[1]) + (Rnb[i_0] * b_r[0])) + (Rnb[i_0 + 6] * b_r[2])) + b_eta[i_0];
+		eta_0[i_0 + 3] := v_0[i_0] + r_0[i_0];
+		eta_0[i_0 + 8] := a[i_0];
+	END_FOR;
+
+	(* MATLAB Function: '<S1>/Discrete EKF' *)
+
+	FOR i_0 := 0 TO 10 DO 
+		eta_1[i_0] := eta_0[i_0] - tmp[i_0];
+	END_FOR;
+
+	(* MATLAB Function: '<S1>/Discrete EKF' *)
+
+	FOR i_0 := 0 TO 18 DO 
+		Rnb_tmp := 0.0;
+
+		FOR i_1 := 0 TO 10 DO 
+			Rnb_tmp := (K[(19 * i_1) + i_0] * eta_1[i_1]) + Rnb_tmp;
+		END_FOR;
+
+		xEst[i_0] := xPred[i_0] + Rnb_tmp;
+	END_FOR;
+
+	(* Outport: '<Root>/pt' incorporates:
+	 *  MATLAB Function: '<S1>/Discrete EKF' *)
+	(* '<S2>:1:22' I = eye(length(x)); *)
+	(* '<S2>:1:23' P = (I - K*H)*PPred; *)
+	(* Convert from x -> variables *)
+	(* '<S2>:1:26' pt = x(1:3); *)
+	(* '<S2>:1:27' pt_t = x(4:6); *)
+	(* '<S2>:1:28' pt_tt = x(7:9); *)
+	(* '<S2>:1:29' phi = x(10:11); *)
+	(* '<S2>:1:30' phi_t = x(12:13); *)
+	(* '<S2>:1:31' l = x(14); *)
+	(* '<S2>:1:32' l_t = x(15); *)
+	(* '<S2>:1:33' c = x(16); *)
+	(* '<S2>:1:34' e = x(17:19); *)
+	pt[0] := xEst[0];
+	(* Outport: '<Root>/pt_t' incorporates:
+	 *  MATLAB Function: '<S1>/Discrete EKF' *)
+	pt_t[0] := xEst[3];
+	(* Outport: '<Root>/pt_tt' incorporates:
+	 *  MATLAB Function: '<S1>/Discrete EKF' *)
+	pt_tt[0] := xEst[6];
+	(* Outport: '<Root>/pt' incorporates:
+	 *  MATLAB Function: '<S1>/Discrete EKF' *)
+	pt[1] := xEst[1];
+	(* Outport: '<Root>/pt_t' incorporates:
+	 *  MATLAB Function: '<S1>/Discrete EKF' *)
+	pt_t[1] := xEst[4];
+	(* Outport: '<Root>/pt_tt' incorporates:
+	 *  MATLAB Function: '<S1>/Discrete EKF' *)
+	pt_tt[1] := xEst[7];
+	(* Outport: '<Root>/pt' incorporates:
+	 *  MATLAB Function: '<S1>/Discrete EKF' *)
+	pt[2] := xEst[2];
+	(* Outport: '<Root>/pt_t' incorporates:
+	 *  MATLAB Function: '<S1>/Discrete EKF' *)
+	pt_t[2] := xEst[5];
+	(* Outport: '<Root>/pt_tt' incorporates:
+	 *  MATLAB Function: '<S1>/Discrete EKF' *)
+	pt_tt[2] := xEst[8];
+	(* Outport: '<Root>/phi' incorporates:
+	 *  MATLAB Function: '<S1>/Discrete EKF' *)
+	phi[0] := xEst[9];
+	(* Outport: '<Root>/phi_t' incorporates:
+	 *  MATLAB Function: '<S1>/Discrete EKF' *)
+	phi_t[0] := xEst[11];
+	(* Outport: '<Root>/phi' incorporates:
+	 *  MATLAB Function: '<S1>/Discrete EKF' *)
+	phi[1] := xEst[10];
+	(* Outport: '<Root>/phi_t' incorporates:
+	 *  MATLAB Function: '<S1>/Discrete EKF' *)
+	phi_t[1] := xEst[12];
+	(* Outport: '<Root>/length' incorporates:
+	 *  MATLAB Function: '<S1>/Discrete EKF' *)
+	length := xEst[13];
+	(* Outport: '<Root>/length_t' incorporates:
+	 *  MATLAB Function: '<S1>/Discrete EKF' *)
+	length_t := xEst[14];
+	(* Outport: '<Root>/c' incorporates:
+	 *  MATLAB Function: '<S1>/Discrete EKF' *)
+	c := xEst[15];
+	(* Outport: '<Root>/e' incorporates:
+	 *  MATLAB Function: '<S1>/Discrete EKF' *)
+	e[0] := xEst[16];
+	e[1] := xEst[17];
+	e[2] := xEst[18];
+	(* MATLAB Function: '<S1>/Discrete EKF' *)
+
+	FOR i := 0 TO 18 DO 
+		(* Update for Memory: '<S1>/Memory2' *)
+		Memory2_PreviousInput[i] := xEst[i];
+		(* MATLAB Function: '<S1>/Discrete EKF' *)
+
+		FOR i_0 := 0 TO 18 DO 
+			Rnb_tmp := 0.0;
+
+			FOR i_1 := 0 TO 10 DO 
+				Rnb_tmp := (K[(19 * i_1) + i] * b_H[(11 * i_0) + i_1]) + Rnb_tmp;
+			END_FOR;
+
+			b_F[i + (19 * i_0)] := SINT_TO_LREAL(b_I[(19 * i_0) + i]) - Rnb_tmp;
+		END_FOR;
+
+		(* Update for Memory: '<S1>/Memory1' incorporates:
+		 *  MATLAB Function: '<S1>/Discrete EKF' *)
+
+		FOR i_0 := 0 TO 18 DO 
+			(* MATLAB Function: '<S1>/Discrete EKF' *)
+			F_tmp := i + (19 * i_0);
+			Memory1_PreviousInput[F_tmp] := 0.0;
+
+			FOR i_1 := 0 TO 18 DO 
+				Memory1_PreviousInput[F_tmp] := (b_F[(19 * i_1) + i] * PPred[(19 * i_0) + i_1]) + Memory1_PreviousInput[(19 * i_0) + i];
+			END_FOR;
+
+		END_FOR;
+
+		(* End of Update for Memory: '<S1>/Memory1' *)
+	END_FOR;
+
+END_IF;
 
 ]]></ST>
     </Implementation>
     <LineIds Name="FB_PendelEstimator">
-      <LineId Id="616" Count="1" />
-      <LineId Id="619" Count="0" />
-      <LineId Id="618" Count="0" />
-      <LineId Id="3" Count="15" />
+      <LineId Id="4" Count="14" />
       <LineId Id="620" Count="1" />
       <LineId Id="19" Count="502" />
       <LineId Id="2" Count="0" />

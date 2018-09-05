@@ -38,7 +38,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="tab_interface">
        <attribute name="title">
@@ -4675,9 +4675,9 @@ color: rgb(255, 255, 255);
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>440</y>
+          <y>340</y>
           <width>241</width>
-          <height>111</height>
+          <height>151</height>
          </rect>
         </property>
         <property name="title">
@@ -4731,24 +4731,11 @@ color: rgb(255, 255, 255);
           <bool>false</bool>
          </property>
         </widget>
-       </widget>
-       <widget class="QGroupBox" name="groupBox_19">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>570</y>
-          <width>241</width>
-          <height>111</height>
-         </rect>
-        </property>
-        <property name="title">
-         <string>Roll and Pitch Compensation</string>
-        </property>
-        <widget class="QPushButton" name="btnDeactivateRollPitch">
+        <widget class="QPushButton" name="btnResetAntiSway">
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>70</y>
+           <y>110</y>
            <width>221</width>
            <height>30</height>
           </rect>
@@ -4762,31 +4749,7 @@ color: rgb(255, 255, 255);
           <enum>Qt::LeftToRight</enum>
          </property>
          <property name="text">
-          <string>Deactivate</string>
-         </property>
-         <property name="autoDefault">
-          <bool>false</bool>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="btnActivateRollPitch">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>30</y>
-           <width>221</width>
-           <height>30</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="text">
-          <string>Activate</string>
+          <string>Reset</string>
          </property>
          <property name="autoDefault">
           <bool>false</bool>
@@ -4872,6 +4835,67 @@ color: rgb(255, 255, 255);
          </property>
          <property name="text">
           <string>Reset</string>
+         </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="groupBox_19">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>520</y>
+          <width>241</width>
+          <height>111</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Control Mapping</string>
+        </property>
+        <widget class="QPushButton" name="btnEnableMruCM">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>70</y>
+           <width>221</width>
+           <height>30</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>Use MRU Feedback</string>
+         </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="btnDisableMruCM">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>30</y>
+           <width>221</width>
+           <height>30</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>Use Stewart Feedback</string>
          </property>
          <property name="autoDefault">
           <bool>false</bool>

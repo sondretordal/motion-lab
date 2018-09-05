@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.7">
+  <POU Name="FB_LqrAntiSwing" Id="{5920ccd4-b54b-466d-9899-4d6462f2a9df}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_LqrAntiSwing
+VAR_INPUT
+	Ts : LREAL := 0.005;
+	lqrMax : LREAL := 0.4;
+	resetPath: BOOL := TRUE;
+	active: BOOL := FALSE;
+	phi: ARRAY[0..1] OF LREAL;
+	phi_t: ARRAY[0..1] OF LREAL;
+END_VAR
+VAR_OUTPUT
+	p: ARRAY[0..2] OF LREAL;
+	p_t: ARRAY[0..2] OF LREAL;
+END_VAR
+VAR
+	rtb_p_t: ARRAY[0..2] OF LREAL;
+	rtb_x: ARRAY[0..9] OF LREAL;
+	tmp: ARRAY[0..29] OF LREAL;
+	i: DINT;
+	tmp_0: ARRAY[0..2] OF LREAL;
+	i_0: DINT;
+	c_DiscreteTimeIntegrator_DS: ARRAY[0..2] OF LREAL;
+	c_DiscreteTimeIntegrator1_D: ARRAY[0..2] OF LREAL;
+	DiscreteTimeIntegrator_IC: ARRAY[0..2] OF LREAL := [0, 0, 0];
+	DiscreteTimeIntegrator1_IC: ARRAY[0..2] OF LREAL := [0, 0, 0];
+	K: ARRAY[0..29] OF LREAL := [4.9999999999999432, 2.5275950258828334E-14, -3.0100318954071049E-15, -1.049110743079122E-14, 5.0000000000000249, 6.9367733228473338E-15, 2.7973493455552355E-15, 1.0596539795293654E-15, 5.0000000000000089, 6.70789009272648, 4.0409743882992639E-14, -4.4236277780990938E-15, 2.0042349818716409E-15, 6.7078900927266218, 9.151575942471447E-15, -7.6162440644975352E-16, 2.3871930714932872E-15, 3.3166247903554069, 33.34986949567319, 2.0532308445654349E-14, -1.3026234277757829E-14, -7.6741108484480666E-14, -33.349869495673573, -1.5009123874714348E-14, 0.61381229796104719, -1.0783459197617482E-13, 1.0986010114948022E-14, -7.3819347271881964E-15, -0.61381229796069192, 2.0293148612934481E-14];
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+// SST
+// Reset method is used to replace ssMethodType in orignal FB
+
+
+IF resetPath THEN
+	(* InitializeConditions for DiscreteIntegrator: '<S1>/Discrete-Time Integrator' *)
+	c_DiscreteTimeIntegrator_DS[0] := DiscreteTimeIntegrator_IC[0];
+	(* InitializeConditions for DiscreteIntegrator: '<S1>/Discrete-Time Integrator1' *)
+	c_DiscreteTimeIntegrator1_D[0] := DiscreteTimeIntegrator1_IC[0];
+	(* InitializeConditions for DiscreteIntegrator: '<S1>/Discrete-Time Integrator' *)
+	c_DiscreteTimeIntegrator_DS[1] := DiscreteTimeIntegrator_IC[1];
+	(* InitializeConditions for DiscreteIntegrator: '<S1>/Discrete-Time Integrator1' *)
+	c_DiscreteTimeIntegrator1_D[1] := DiscreteTimeIntegrator1_IC[1];
+	(* InitializeConditions for DiscreteIntegrator: '<S1>/Discrete-Time Integrator' *)
+	c_DiscreteTimeIntegrator_DS[2] := DiscreteTimeIntegrator_IC[2];
+	(* InitializeConditions for DiscreteIntegrator: '<S1>/Discrete-Time Integrator1' *)
+	c_DiscreteTimeIntegrator1_D[2] := DiscreteTimeIntegrator1_IC[2];
+	
+	// Reset resetPath state
+	resetPath := FALSE;
+ELSE 
+	(* DiscreteIntegrator: '<S1>/Discrete-Time Integrator' *)
+	rtb_p_t[0] := c_DiscreteTimeIntegrator_DS[0];
+	rtb_p_t[1] := c_DiscreteTimeIntegrator_DS[1];
+	rtb_p_t[2] := c_DiscreteTimeIntegrator_DS[2];
+	(* MATLAB Function: '<S1>/StackLqrStateVector' incorporates:
+	 *  DiscreteIntegrator: '<S1>/Discrete-Time Integrator'
+	 *  DiscreteIntegrator: '<S1>/Discrete-Time Integrator1' *)
+	(* MATLAB Function 'FB_LqrAntiSwing/StackLqrStateVector': '<S2>:1' *)
+	(* '<S2>:1:3' if active *)
+
+	IF active THEN 
+		(* '<S2>:1:4' x = [ *)
+		(* '<S2>:1:5'         p *)
+		(* '<S2>:1:6'         p_t *)
+		(* '<S2>:1:7'         phi *)
+		(* '<S2>:1:8'         phi_t *)
+		(* '<S2>:1:9'     ]; *)
+		rtb_x[0] := c_DiscreteTimeIntegrator1_D[0];
+		rtb_x[3] := c_DiscreteTimeIntegrator_DS[0];
+		rtb_x[1] := c_DiscreteTimeIntegrator1_D[1];
+		rtb_x[4] := c_DiscreteTimeIntegrator_DS[1];
+		rtb_x[2] := c_DiscreteTimeIntegrator1_D[2];
+		rtb_x[5] := c_DiscreteTimeIntegrator_DS[2];
+		rtb_x[6] := phi[0];
+		rtb_x[8] := phi_t[0];
+		rtb_x[7] := phi[1];
+		rtb_x[9] := phi_t[1];
+	ELSE 
+		(* '<S2>:1:10' else *)
+		(* '<S2>:1:11' x = [ *)
+		(* '<S2>:1:12'         p *)
+		(* '<S2>:1:13'         p_t *)
+		(* '<S2>:1:14'         zeros(2,1) *)
+		(* '<S2>:1:15'         zeros(2,1) *)
+		(* '<S2>:1:16'     ]; *)
+		rtb_x[0] := c_DiscreteTimeIntegrator1_D[0];
+		rtb_x[3] := c_DiscreteTimeIntegrator_DS[0];
+		rtb_x[1] := c_DiscreteTimeIntegrator1_D[1];
+		rtb_x[4] := c_DiscreteTimeIntegrator_DS[1];
+		rtb_x[2] := c_DiscreteTimeIntegrator1_D[2];
+		rtb_x[5] := c_DiscreteTimeIntegrator_DS[2];
+		rtb_x[6] := 0.0;
+		rtb_x[8] := 0.0;
+		rtb_x[7] := 0.0;
+		rtb_x[9] := 0.0;
+	END_IF;
+
+	(* End of MATLAB Function: '<S1>/StackLqrStateVector' *)
+	
+
+	(* Saturate: '<S1>/Saturation' incorporates:
+	 *  DiscreteIntegrator: '<S1>/Discrete-Time Integrator1' *)
+
+	IF c_DiscreteTimeIntegrator1_D[0] >= ABS(lqrMax) THEN 
+		(* Outport: '<Root>/p' *)
+		p[0] := ABS(lqrMax);
+	ELSIF c_DiscreteTimeIntegrator1_D[0] > -ABS(lqrMax) THEN 
+		(* Outport: '<Root>/p' *)
+		p[0] := c_DiscreteTimeIntegrator1_D[0];
+	ELSE 
+		(* Outport: '<Root>/p' *)
+		p[0] := -ABS(lqrMax);
+	END_IF;
+
+	(* Outport: '<Root>/p_t' incorporates:
+	 *  DiscreteIntegrator: '<S1>/Discrete-Time Integrator' *)
+	p_t[0] := c_DiscreteTimeIntegrator_DS[0];
+	(* Saturate: '<S1>/Saturation' incorporates:
+	 *  DiscreteIntegrator: '<S1>/Discrete-Time Integrator1' *)
+
+	IF c_DiscreteTimeIntegrator1_D[1] >= ABS(lqrMax) THEN 
+		(* Outport: '<Root>/p' *)
+		p[1] := ABS(lqrMax);
+	ELSIF c_DiscreteTimeIntegrator1_D[1] > -ABS(lqrMax) THEN 
+		(* Outport: '<Root>/p' *)
+		p[1] := c_DiscreteTimeIntegrator1_D[1];
+	ELSE 
+		(* Outport: '<Root>/p' *)
+		p[1] := -ABS(lqrMax);
+	END_IF;
+
+	(* Outport: '<Root>/p_t' incorporates:
+	 *  DiscreteIntegrator: '<S1>/Discrete-Time Integrator' *)
+	p_t[1] := c_DiscreteTimeIntegrator_DS[1];
+	(* Saturate: '<S1>/Saturation' incorporates:
+	 *  DiscreteIntegrator: '<S1>/Discrete-Time Integrator1' *)
+
+	IF c_DiscreteTimeIntegrator1_D[2] >= ABS(lqrMax) THEN 
+		(* Outport: '<Root>/p' *)
+		p[2] := ABS(lqrMax);
+	ELSIF c_DiscreteTimeIntegrator1_D[2] > -ABS(lqrMax) THEN 
+		(* Outport: '<Root>/p' *)
+		p[2] := c_DiscreteTimeIntegrator1_D[2];
+	ELSE 
+		(* Outport: '<Root>/p' *)
+		p[2] := -ABS(lqrMax);
+	END_IF;
+
+	(* Outport: '<Root>/p_t' incorporates:
+	 *  DiscreteIntegrator: '<S1>/Discrete-Time Integrator' *)
+	p_t[2] := c_DiscreteTimeIntegrator_DS[2];
+	(* Gain: '<S1>/Gain1' incorporates:
+	 *  DiscreteIntegrator: '<S1>/Discrete-Time Integrator' *)
+
+	FOR i := 0 TO 9 DO 
+		tmp[3 * i] :=  -K[3 * i];
+		tmp[1 + (3 * i)] :=  -K[(3 * i) + 1];
+		tmp[2 + (3 * i)] :=  -K[(3 * i) + 2];
+	END_FOR;
+
+
+	FOR i := 0 TO 2 DO 
+		tmp_0[i] := 0.0;
+
+		FOR i_0 := 0 TO 9 DO 
+			tmp_0[i] := (tmp[(3 * i_0) + i] * rtb_x[i_0]) + tmp_0[i];
+		END_FOR;
+
+		(* Update for DiscreteIntegrator: '<S1>/Discrete-Time Integrator' *)
+		c_DiscreteTimeIntegrator_DS[i] := (Ts * tmp_0[i]) + c_DiscreteTimeIntegrator_DS[i];
+		(* Update for DiscreteIntegrator: '<S1>/Discrete-Time Integrator1' *)
+		c_DiscreteTimeIntegrator1_D[i] := (Ts * rtb_p_t[i]) + c_DiscreteTimeIntegrator1_D[i];
+	END_FOR;
+
+	(* End of Gain: '<S1>/Gain1' *)
+END_IF;
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="FB_LqrAntiSwing">
+      <LineId Id="171" Count="2" />
+      <LineId Id="3" Count="2" />
+      <LineId Id="7" Count="11" />
+      <LineId Id="174" Count="0" />
+      <LineId Id="176" Count="0" />
+      <LineId Id="175" Count="0" />
+      <LineId Id="19" Count="127" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

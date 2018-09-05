@@ -147,13 +147,16 @@
     <Compile Include="POUs\Simulink\f.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\Simulink\FB_ControlMapping.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Simulink\FB_LqrAntiSwing.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\Simulink\FB_PendelEstimator.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\Simulink\FB_QuatToRotMatrix.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\Simulink\FB_RobotController.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\Simulink\FB_WinchController.TcPOU">
@@ -180,7 +183,7 @@
     <Compile Include="POUs\Simulink\mldivide_1.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\Simulink\mldivide_k.TcPOU">
+    <Compile Include="POUs\Simulink\mldivide_h.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\Simulink\rt_atan2d.TcPOU">

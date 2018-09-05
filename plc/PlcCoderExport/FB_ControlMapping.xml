@@ -1,0 +1,1646 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project><!--(*
+ *
+ * File: main.xml
+ *
+ * IEC 61131-3 Structured Text (ST) code generated for subsystem "main/FB_ControlMapping"
+ *
+ * Model name                      : main
+ * Model version                   : 1.4848
+ * Model creator                   : motionlab
+ * Model last modified by          : motionlab
+ * Model last modified on          : Wed Sep 05 09:02:17 2018
+ * Model sample time               : 0.005s
+ * Subsystem name                  : main/FB_ControlMapping
+ * Subsystem sample time           : 0.005s
+ * Simulink PLC Coder version      : 2.4 (R2017b) 24-Jul-2017
+ * ST code generated on            : Wed Sep 05 09:15:55 2018
+ *
+ * Target IDE selection            : Beckhoff TwinCAT 3
+ * Test Bench included             : No
+ *
+ *)
+-->
+   <fileHeader companyName="The Mathworks, Inc." companyURL="www.mathworks.com" contentDescription="" creationDateTime="2018-09-05T09:15:55" productName="Simulink PLC Coder" productRelease="(R2017b)" productVersion="2.4"/>
+   <contentHeader name="main">
+      <coordinateInfo>
+         <fbd>
+            <scaling x="0" y="0"/>
+         </fbd>
+         <ld>
+            <scaling x="0" y="0"/>
+         </ld>
+         <sfc>
+            <scaling x="0" y="0"/>
+         </sfc>
+      </coordinateInfo>
+   </contentHeader>
+   <types>
+      <dataTypes>
+         <dataType name="ST_ControlComau">
+            <baseType>
+               <struct>
+                  <variable name="q">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="2"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="q_t">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="2"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="q_tt">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="2"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+               </struct>
+            </baseType>
+         </dataType>
+         <dataType name="ST_FeedbackLeica">
+            <baseType>
+               <struct>
+                  <variable name="pos">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="2"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="R11">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="R12">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="R13">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="R21">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="R22">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="R23">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="R31">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="R32">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="R33">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+               </struct>
+            </baseType>
+         </dataType>
+         <dataType name="ST_FeedbackQualisys">
+            <baseType>
+               <struct>
+                  <variable name="dist">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="pos">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="2"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+               </struct>
+            </baseType>
+         </dataType>
+         <dataType name="ST_FeedbackWinch">
+            <baseType>
+               <struct>
+                  <variable name="length">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="length_t">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+               </struct>
+            </baseType>
+         </dataType>
+         <dataType name="ST_FeedbackComau">
+            <baseType>
+               <struct>
+                  <variable name="q">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="2"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="q_t">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="2"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+               </struct>
+            </baseType>
+         </dataType>
+         <dataType name="ST_FeedbackMru">
+            <baseType>
+               <struct>
+                  <variable name="eta">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="5"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="v">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="5"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+               </struct>
+            </baseType>
+         </dataType>
+         <dataType name="ST_FeedbackStewart">
+            <baseType>
+               <struct>
+                  <variable name="eta">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="5"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="eta_t">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="5"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="eta_tt">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="5"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+               </struct>
+            </baseType>
+         </dataType>
+         <dataType name="ST_Feedback">
+            <baseType>
+               <struct>
+                  <variable name="em8000">
+                     <type>
+                        <derived name="ST_FeedbackStewart"/>
+                     </type>
+                  </variable>
+                  <variable name="em1500">
+                     <type>
+                        <derived name="ST_FeedbackStewart"/>
+                     </type>
+                  </variable>
+                  <variable name="mru1">
+                     <type>
+                        <derived name="ST_FeedbackMru"/>
+                     </type>
+                  </variable>
+                  <variable name="mru2">
+                     <type>
+                        <derived name="ST_FeedbackMru"/>
+                     </type>
+                  </variable>
+                  <variable name="comau">
+                     <type>
+                        <derived name="ST_FeedbackComau"/>
+                     </type>
+                  </variable>
+                  <variable name="winch">
+                     <type>
+                        <derived name="ST_FeedbackWinch"/>
+                     </type>
+                  </variable>
+                  <variable name="qtm">
+                     <type>
+                        <derived name="ST_FeedbackQualisys"/>
+                     </type>
+                  </variable>
+                  <variable name="at960">
+                     <type>
+                        <derived name="ST_FeedbackLeica"/>
+                     </type>
+                  </variable>
+               </struct>
+            </baseType>
+         </dataType>
+      </dataTypes>
+      <pous>
+         <pou name="FB_ControlMapping" pouType="functionBlock">
+            <interface>
+               <inputVars>
+                  <variable name="useMru">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="q0">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="2"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="q0_t">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="2"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="b_p">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="2"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="p_t">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="2"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="stFeedback">
+                     <type>
+                        <derived name="ST_Feedback"/>
+                     </type>
+                  </variable>
+               </inputVars>
+               <outputVars>
+                  <variable name="stControlComau">
+                     <type>
+                        <derived name="ST_ControlComau"/>
+                     </type>
+                  </variable>
+               </outputVars>
+               <localVars>
+                  <variable name="eta">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="5"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="v">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="5"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="Rnb">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="8"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="Rnc">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="8"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="Rnc_t">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="8"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="p0">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="2"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="p_0">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="2"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="q1">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="T1">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="15"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="Pt">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="3"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="b_D">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="theta2">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="invH">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="15"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="y">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="x">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="i">
+                     <type>
+                        <DINT/>
+                     </type>
+                  </variable>
+                  <variable name="f">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="35"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="i_0">
+                     <type>
+                        <DINT/>
+                     </type>
+                  </variable>
+                  <variable name="Rnb_0">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="8"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="Rnc_0">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="2"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="Rnc_1">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="2"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="T1_0">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="8"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="tmp">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="8"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="f_tmp">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="f_tmp_0">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="f_tmp_1">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="f_tmp_2">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="Rnb_tmp">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="Rnb_tmp_0">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="Rnb_tmp_1">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="Rnc_tmp">
+                     <type>
+                        <DINT/>
+                     </type>
+                  </variable>
+                  <variable name="Rnc_tmp_0">
+                     <type>
+                        <DINT/>
+                     </type>
+                  </variable>
+                  <variable name="p0_tmp_tmp">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="p0_tmp">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="p0_tmp_0">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="Rnc_t_tmp">
+                     <type>
+                        <DINT/>
+                     </type>
+                  </variable>
+                  <variable name="i0_mldivide">
+                     <type>
+                        <derived name="mldivide"/>
+                     </type>
+                  </variable>
+                  <variable name="i0_mldivide_h">
+                     <type>
+                        <derived name="mldivide_h"/>
+                     </type>
+                  </variable>
+                  <variable name="b_f">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="5"/>
+                           <baseType>
+                              <SINT/>
+                           </baseType>
+                        </array>
+                     </type>
+                     <initialValue>
+                        <arrayValue>
+                           <value>
+                              <simpleValue value="1"/>
+                           </value>
+                           <value>
+                              <simpleValue value="0"/>
+                           </value>
+                           <value>
+                              <simpleValue value="0"/>
+                           </value>
+                           <value>
+                              <simpleValue value="0"/>
+                           </value>
+                           <value>
+                              <simpleValue value="0"/>
+                           </value>
+                           <value>
+                              <simpleValue value="0"/>
+                           </value>
+                        </arrayValue>
+                     </initialValue>
+                  </variable>
+                  <variable name="g">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="5"/>
+                           <baseType>
+                              <SINT/>
+                           </baseType>
+                        </array>
+                     </type>
+                     <initialValue>
+                        <arrayValue>
+                           <value>
+                              <simpleValue value="0"/>
+                           </value>
+                           <value>
+                              <simpleValue value="1"/>
+                           </value>
+                           <value>
+                              <simpleValue value="0"/>
+                           </value>
+                           <value>
+                              <simpleValue value="0"/>
+                           </value>
+                           <value>
+                              <simpleValue value="0"/>
+                           </value>
+                           <value>
+                              <simpleValue value="0"/>
+                           </value>
+                        </arrayValue>
+                     </initialValue>
+                  </variable>
+                  <variable name="h">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="5"/>
+                           <baseType>
+                              <SINT/>
+                           </baseType>
+                        </array>
+                     </type>
+                     <initialValue>
+                        <arrayValue>
+                           <value>
+                              <simpleValue value="0"/>
+                           </value>
+                           <value>
+                              <simpleValue value="0"/>
+                           </value>
+                           <value>
+                              <simpleValue value="1"/>
+                           </value>
+                           <value>
+                              <simpleValue value="0"/>
+                           </value>
+                           <value>
+                              <simpleValue value="0"/>
+                           </value>
+                           <value>
+                              <simpleValue value="0"/>
+                           </value>
+                        </arrayValue>
+                     </initialValue>
+                  </variable>
+                  <variable name="b">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="8"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                     <initialValue>
+                        <arrayValue>
+                           <value>
+                              <simpleValue value="-0.49716724243009747"/>
+                           </value>
+                           <value>
+                              <simpleValue value="0.86764746505320345"/>
+                           </value>
+                           <value>
+                              <simpleValue value="0.0035509774996006884"/>
+                           </value>
+                           <value>
+                              <simpleValue value="0.86764051357801664"/>
+                           </value>
+                           <value>
+                              <simpleValue value="0.49717836120759562"/>
+                           </value>
+                           <value>
+                              <simpleValue value="-0.0036900331983521608"/>
+                           </value>
+                           <value>
+                              <simpleValue value="-0.004967117124448933"/>
+                           </value>
+                           <value>
+                              <simpleValue value="0.0012464083117572659"/>
+                           </value>
+                           <value>
+                              <simpleValue value="-0.999986887020921"/>
+                           </value>
+                        </arrayValue>
+                     </initialValue>
+                  </variable>
+               </localVars>
+            </interface>
+            <body>
+               <ST>
+                  <xhtml xmlns="http://www.w3.org/1999/xhtml">
+<![CDATA[
+(* MATLAB Function: '<Root>/FB_ControlMapping' *)
+(* r1 = [q0; q0_t] *)
+(* MATLAB Function 'FB_ControlMapping': '<S1>:1' *)
+(* EM8000 motion *)
+(* '<S1>:1:6' if useMru *)
+
+IF useMru THEN 
+    (* '<S1>:1:7' eta = stFeedback.mru1.eta; *)
+    (* '<S1>:1:8' v = stFeedback.mru1.v; *)
+
+    FOR i := 0 TO 5 DO 
+        eta[i] := stFeedback.mru1.eta[i];
+        v[i] := stFeedback.mru1.v[i];
+    END_FOR;
+
+ELSE 
+    (* '<S1>:1:9' else *)
+    (* '<S1>:1:10' eta = stFeedback.em8000.eta; *)
+    (* '<S1>:1:11' eta_t = stFeedback.em8000.eta_t; *)
+    (* '<S1>:1:13' [v, ~] = math3d.eulerToBody(eta, eta_t, zeros(6,1), 'xyz'); *)
+    (* Velocity *)
+    (* 'eulerToBody:4' J = velocityJacobian(eta, angleSequence); *)
+    (* 'eulerToBody:15' phi = eta(4); *)
+    (* 'eulerToBody:16' theta = eta(5); *)
+    (* 'eulerToBody:17' psi = eta(6); *)
+    (* 'eulerToBody:19' if strcmp(sequence, 'xyz') *)
+    (* 'eulerToBody:20' J = [ *)
+    (* 'eulerToBody:21'             1, 0, 0,                                 0,                                0, 0 *)
+    (* 'eulerToBody:22'             0, 1, 0,                                 0,                                0, 0 *)
+    (* 'eulerToBody:23'             0, 0, 1,                                 0,                                0, 0 *)
+    (* 'eulerToBody:24'             0, 0, 0,               cos(psi)/cos(theta),             -sin(psi)/cos(theta), 0 *)
+    (* 'eulerToBody:25'             0, 0, 0,                          sin(psi),                         cos(psi), 0 *)
+    (* 'eulerToBody:26'             0, 0, 0, -(cos(psi)*sin(theta))/cos(theta), (sin(psi)*sin(theta))/cos(theta), 1 *)
+    (* 'eulerToBody:27'         ]; *)
+    (* 'eulerToBody:5' v = J\eta_t; *)
+    (* Acceleration *)
+    (* 'eulerToBody:8' J_t = accelerationJacobian(eta, eta_t, angleSequence); *)
+    (* 'eulerToBody:43' phi = eta(4); *)
+    (* 'eulerToBody:44' theta = eta(5); *)
+    (* 'eulerToBody:45' psi = eta(6); *)
+    (* 'eulerToBody:47' phi_t = eta_t(4); *)
+    (* 'eulerToBody:48' theta_t = eta_t(5); *)
+    (* 'eulerToBody:49' psi_t = eta_t(6); *)
+    (* 'eulerToBody:51' if strcmp(sequence, 'xyz') *)
+    (* 'eulerToBody:52' J_t = [ *)
+    (* 'eulerToBody:53'             0, 0, 0,                                                                       0,                                                                       0, 0 *)
+    (* 'eulerToBody:54'             0, 0, 0,                                                                       0,                                                                       0, 0 *)
+    (* 'eulerToBody:55'             0, 0, 0,                                                                       0,                                                                       0, 0 *)
+    (* 'eulerToBody:56'             0, 0, 0,  (cos(psi)*sin(theta)*theta_t - cos(theta)*sin(psi)*psi_t)/cos(theta)^2, -(cos(theta)*cos(psi)*psi_t + sin(theta)*sin(psi)*theta_t)/cos(theta)^2, 0 *)
+    (* 'eulerToBody:57'             0, 0, 0,                                                          cos(psi)*psi_t,                                                         -sin(psi)*psi_t, 0 *)
+    (* 'eulerToBody:58'             0, 0, 0, -(cos(psi)*theta_t - cos(theta)*sin(theta)*sin(psi)*psi_t)/cos(theta)^2,  (sin(psi)*theta_t + cos(theta)*cos(psi)*sin(theta)*psi_t)/cos(theta)^2, 0 *)
+    (* 'eulerToBody:59'         ]; *)
+    (* 'eulerToBody:9' v_t = J\(eta_tt - J_t*v); *)
+
+    FOR i := 0 TO 5 DO 
+        eta[i] := stFeedback.em8000.eta[i];
+        v[i] := stFeedback.em8000.eta_t[i];
+        f[6 * i] := SINT_TO_LREAL(b_f[i]);
+        f[1 + (6 * i)] := SINT_TO_LREAL(g[i]);
+        f[2 + (6 * i)] := SINT_TO_LREAL(h[i]);
+    END_FOR;
+
+    f[3] := 0.0;
+    f[9] := 0.0;
+    f[15] := 0.0;
+    f_tmp := COS(stFeedback.em8000.eta[4]);
+    f_tmp_1 := COS(stFeedback.em8000.eta[5]);
+    f[21] := f_tmp_1 / f_tmp;
+    f_tmp_0 := SIN(stFeedback.em8000.eta[5]);
+    f[27] := ( -f_tmp_0) / f_tmp;
+    f[33] := 0.0;
+    f[4] := 0.0;
+    f[10] := 0.0;
+    f[16] := 0.0;
+    f[22] := f_tmp_0;
+    f[28] := f_tmp_1;
+    f[34] := 0.0;
+    f[5] := 0.0;
+    f[11] := 0.0;
+    f[17] := 0.0;
+    f_tmp_2 := SIN(stFeedback.em8000.eta[4]);
+    f[23] := ( -(f_tmp_1 * f_tmp_2)) / f_tmp;
+    f[29] := (f_tmp_0 * f_tmp_2) / f_tmp;
+    f[35] := 1.0;
+    i0_mldivide_h(A := f, B := v);
+    (* '<S1>:1:13' ~ *)
+END_IF;
+
+(* Load Calibration data *)
+(* '<S1>:1:17' data = coder.load('motionlab/calib.mat'); *)
+(* '<S1>:1:18' calib = data.calib; *)
+(* '<S1>:1:20' Hbc = calib.EM8000_TO_COMAU.H; *)
+(* '<S1>:1:21' Rbc = Hbc(1:3,1:3); *)
+(* Rotation matrices *)
+(* '<S1>:1:24' Rnb = math3d.Rxyz(eta(4:6)); *)
+(* 'Rxyz:3' rx = phi(1); *)
+(* 'Rxyz:4' ry = phi(2); *)
+(* 'Rxyz:5' rz = phi(3); *)
+(* 'Rxyz:7' R = [ *)
+(* 'Rxyz:8'                               cos(ry)*cos(rz),                          -cos(ry)*sin(rz),          sin(ry); *)
+(* 'Rxyz:9'     cos(rx)*sin(rz) + cos(rz)*sin(rx)*sin(ry), cos(rx)*cos(rz) - sin(rx)*sin(ry)*sin(rz), -cos(ry)*sin(rx); *)
+(* 'Rxyz:10'     sin(rx)*sin(rz) - cos(rx)*cos(rz)*sin(ry), cos(rz)*sin(rx) + cos(rx)*sin(ry)*sin(rz),  cos(rx)*cos(ry) *)
+(* 'Rxyz:11' ]; *)
+f_tmp := COS(eta[4]);
+f_tmp_1 := COS(eta[5]);
+Rnb[0] := f_tmp * f_tmp_1;
+f_tmp_0 := SIN(eta[5]);
+Rnb[3] := ( -f_tmp) * f_tmp_0;
+f_tmp_2 := SIN(eta[4]);
+Rnb[6] := f_tmp_2;
+Rnb_tmp := COS(eta[3]);
+Rnb_tmp_0 := SIN(eta[3]);
+Rnb_tmp_1 := f_tmp_1 * Rnb_tmp_0;
+Rnb[1] := (Rnb_tmp_1 * f_tmp_2) + (Rnb_tmp * f_tmp_0);
+f_tmp_1 := Rnb_tmp * f_tmp_1;
+Rnb[4] := f_tmp_1 - ((Rnb_tmp_0 * f_tmp_2) * f_tmp_0);
+Rnb[7] := ( -COS(eta[4])) * Rnb_tmp_0;
+Rnb[2] := (Rnb_tmp_0 * f_tmp_0) - (f_tmp_1 * f_tmp_2);
+Rnb[5] := ((Rnb_tmp * f_tmp_2) * f_tmp_0) + Rnb_tmp_1;
+Rnb[8] := Rnb_tmp * f_tmp;
+(* '<S1>:1:25' Rnb_t = Rnb*math3d.skew(v(4:6)); *)
+(* 'skew:3' vSkew = [ *)
+(* 'skew:4'        0, -v(3),  v(2); *)
+(* 'skew:5'     v(3),     0, -v(1); *)
+(* 'skew:6'    -v(2),  v(1),    0; *)
+(* 'skew:7' ]; *)
+(* '<S1>:1:27' Rnc = Rnb*Rbc; *)
+(* '<S1>:1:28' Rnc_t = Rnb_t*Rbc; *)
+T1_0[0] := 0.0;
+T1_0[3] :=  -v[5];
+T1_0[6] := v[4];
+T1_0[1] := v[5];
+T1_0[4] := 0.0;
+T1_0[7] :=  -v[3];
+T1_0[2] :=  -v[4];
+T1_0[5] := v[3];
+T1_0[8] := 0.0;
+
+FOR i := 0 TO 2 DO 
+
+    FOR i_0 := 0 TO 2 DO 
+        Rnc_tmp := i + (3 * i_0);
+        Rnc[Rnc_tmp] := 0.0;
+        Rnb_0[Rnc_tmp] := 0.0;
+        Rnc_tmp_0 := (3 * i_0) + i;
+        Rnc[Rnc_tmp] := Rnc[Rnc_tmp_0] + (b[3 * i_0] * Rnb[i]);
+        Rnb_0[Rnc_tmp] := Rnb_0[Rnc_tmp_0] + (T1_0[3 * i_0] * Rnb[i]);
+        Rnc_tmp_0 := (3 * i_0) + 1;
+        Rnc[Rnc_tmp] := (b[Rnc_tmp_0] * Rnb[i + 3]) + Rnc[(3 * i_0) + i];
+        Rnb_0[Rnc_tmp] := (T1_0[Rnc_tmp_0] * Rnb[i + 3]) + Rnb_0[(3 * i_0) + i];
+        Rnc_tmp_0 := (3 * i_0) + 2;
+        Rnc[Rnc_tmp] := (b[Rnc_tmp_0] * Rnb[i + 6]) + Rnc[(3 * i_0) + i];
+        Rnb_0[Rnc_tmp] := (T1_0[Rnc_tmp_0] * Rnb[i + 6]) + Rnb_0[(3 * i_0) + i];
+    END_FOR;
+
+
+    FOR i_0 := 0 TO 2 DO 
+        Rnc_tmp := i + (3 * i_0);
+        Rnc_t[Rnc_tmp] := 0.0;
+        Rnc_t[Rnc_tmp] := Rnc_t[(3 * i_0) + i] + (b[3 * i_0] * Rnb_0[i]);
+        Rnc_t[Rnc_tmp] := (b[(3 * i_0) + 1] * Rnb_0[i + 3]) + Rnc_t[(3 * i_0) + i];
+        Rnc_t[Rnc_tmp] := (b[(3 * i_0) + 2] * Rnb_0[i + 6]) + Rnc_t[(3 * i_0) + i];
+    END_FOR;
+
+END_FOR;
+
+(* Forward kinematics *)
+(* '<S1>:1:31' [p0, p0_t, ~] = motionlab.comau.forward(q0, q0_t, zeros(3,1)); *)
+(* Static link lengths *)
+(* 'forward:4' a1 = 0.350; *)
+(* 'forward:5' a2 = 1.160; *)
+(* 'forward:6' a3 = 0.250; *)
+(* 'forward:7' d1 = 0.830; *)
+(* 'forward:8' d4 = 1.4922; *)
+(* 'forward:9' d6 = 0.210; *)
+(* To wire exit point *)
+(* 'forward:12' dt = 0.567; *)
+(* To WRE from joint 2 *)
+(* 'forward:15' L = d4 + d6 + dt; *)
+(* Position {b} -> {t} *)
+(* 'forward:18' q1 = q(1); *)
+(* 'forward:19' q2 = q(2); *)
+(* 'forward:20' q3 = q(3); *)
+(* 'forward:22' q1_t = q_t(1); *)
+(* 'forward:23' q2_t = q_t(2); *)
+(* 'forward:24' q3_t = q_t(3); *)
+(* Obtained from formForwardModel *)
+(* 'forward:27' p = [ *)
+(* 'forward:28'     cos(q1)*(a1 - L*sin(q3) - a3*cos(q3) + a2*sin(q2)); *)
+(* 'forward:29'     -sin(q1)*(a1 - L*sin(q3) - a3*cos(q3) + a2*sin(q2)); *)
+(* 'forward:30'     d1 + L*cos(q3) + a2*cos(q2) - a3*sin(q3); *)
+(* 'forward:31' ]; *)
+p0_tmp_tmp := COS(q0[2]);
+f_tmp := SIN(q0[2]);
+f_tmp_1 := SIN(q0[1]);
+f_tmp_0 := 0.25 * p0_tmp_tmp;
+f_tmp_2 := ((0.35 - (2.2691999999999997 * f_tmp)) - f_tmp_0) + (1.16 * f_tmp_1);
+Rnb_tmp := COS(q0[0]);
+p0[0] := f_tmp_2 * Rnb_tmp;
+Rnb_tmp_0 := SIN(q0[0]);
+p0_tmp := f_tmp_2 * ( -Rnb_tmp_0);
+p0[1] := p0_tmp;
+Rnb_tmp_1 := COS(q0[1]);
+p0_tmp_tmp := 2.2691999999999997 * p0_tmp_tmp;
+p0_tmp_0 := 0.25 * f_tmp;
+p0[2] := ((p0_tmp_tmp + 0.83) + (1.16 * Rnb_tmp_1)) - p0_tmp_0;
+(* 'forward:33' J = [ *)
+(* 'forward:34'     -sin(q1)*(a1 - L*sin(q3) - a3*cos(q3) + a2*sin(q2)),  a2*cos(q1)*cos(q2), -cos(q1)*(L*cos(q3) - a3*sin(q3)); *)
+(* 'forward:35'     -cos(q1)*(a1 - L*sin(q3) - a3*cos(q3) + a2*sin(q2)), -a2*cos(q2)*sin(q1),  sin(q1)*(L*cos(q3) - a3*sin(q3)); *)
+(* 'forward:36'                                                       0,         -a2*sin(q2),          - L*sin(q3) - a3*cos(q3); *)
+(* 'forward:37' ]; *)
+(* 'forward:39' J_t = [ *)
+(* 'forward:40'     q3_t*sin(q1)*(L*cos(q3) - a3*sin(q3)) - q1_t*cos(q1)*(a1 - L*sin(q3) - a3*cos(q3) + a2*sin(q2)) - a2*q2_t*cos(q2)*sin(q1), - a2*q1_t*cos(q2)*sin(q1) - a2*q2_t*cos(q1)*sin(q2), q3_t*cos(q1)*(L*sin(q3) + a3*cos(q3)) + q1_t*sin(q1)*(L*cos(q3) - a3*sin(q3)); *)
+(* 'forward:41'     q3_t*cos(q1)*(L*cos(q3) - a3*sin(q3)) + q1_t*sin(q1)*(a1 - L*sin(q3) - a3*cos(q3) + a2*sin(q2)) - a2*q2_t*cos(q1)*cos(q2),   a2*q2_t*sin(q1)*sin(q2) - a2*q1_t*cos(q1)*cos(q2), q1_t*cos(q1)*(L*cos(q3) - a3*sin(q3)) - q3_t*sin(q1)*(L*sin(q3) + a3*cos(q3)); *)
+(* 'forward:42'                                                                                                                             0,                                    -a2*q2_t*cos(q2),                                                -q3_t*(L*cos(q3) - a3*sin(q3)); *)
+(* 'forward:43' ]; *)
+(* Velocity *)
+(* 'forward:46' p_t = J*q_t; *)
+(* Acceleration *)
+(* 'forward:49' p_tt = J_t*q_t + J*q_tt; *)
+(* '<S1>:1:31' ~ *)
+(* Attitude corrected reference *)
+(* '<S1>:1:34' AC = Rnc'*Rbc*p0; *)
+(* '<S1>:1:35' AC_t = Rnc_t'*Rbc*p0 + Rnc'*Rbc*p0_t; *)
+(* LQR correction due to non zero swing angles *)
+(* '<S1>:1:38' LQR = Rnc'*p; *)
+(* '<S1>:1:39' LQR_t = Rnc_t'*p + Rnc'*p_t; *)
+(* Output u1 = [q; q_t] *)
+(* '<S1>:1:42' [q, q_t, ~] = motionlab.comau.inverse(AC + LQR, AC_t + LQR_t, zeros(3,1)); *)
+(* MATLAB Function: '<Root>/FB_ControlMapping' *)
+
+FOR i := 0 TO 2 DO 
+    Rnc_0[i] := 0.0;
+    Rnc_1[i] := 0.0;
+
+    FOR i_0 := 0 TO 2 DO 
+        Rnc_tmp := i + (3 * i_0);
+        Rnb[Rnc_tmp] := 0.0;
+        Rnb[Rnc_tmp] := Rnb[(3 * i_0) + i] + (Rnc[3 * i] * b[3 * i_0]);
+        Rnb[Rnc_tmp] := (Rnc[(3 * i) + 1] * b[(3 * i_0) + 1]) + Rnb[(3 * i_0) + i];
+        Rnb[Rnc_tmp] := (Rnc[(3 * i) + 2] * b[(3 * i_0) + 2]) + Rnb[(3 * i_0) + i];
+        Rnc_0[i] := (Rnb[(3 * i_0) + i] * p0[i_0]) + Rnc_0[i];
+        Rnc_1[i] := (Rnc[(3 * i) + i_0] * b_p[i_0]) + Rnc_1[i];
+    END_FOR;
+
+    p_0[i] := Rnc_0[i] + Rnc_1[i];
+END_FOR;
+
+(* Static link lengths *)
+(* 'inverse:4' a1 = 0.350; *)
+(* 'inverse:5' a2 = 1.160; *)
+(* 'inverse:6' a3 = 0.250; *)
+(* 'inverse:7' d1 = 0.830; *)
+(* 'inverse:8' d4 = 1.4922; *)
+(* 'inverse:9' d6 = 0.210; *)
+(* To wire exit point *)
+(* 'inverse:12' dt = 0.567; *)
+(* To WRE from joint 2 *)
+(* 'inverse:15' L = d4 + d6 + dt; *)
+(* Positional angles *)
+(* 'inverse:18' q1 = -atan2(p(2), p(1)); *)
+b_D := rt_atan2d(u0 := p_0[1], u1 := p_0[0]);
+q1 :=  -rt_atan2d(u0 := p_0[1], u1 := p_0[0]);
+(* {t} given in {j1} *)
+(* 'inverse:21' T1 = math3d.DH(-q1, d1, a1, pi/2); *)
+(* 'DH:3' T = [cos(theta),-sin(theta)*cos(alpha), sin(theta)*sin(alpha),a*cos(theta); *)
+(* 'DH:4'      sin(theta), cos(theta)*cos(alpha),-cos(theta)*sin(alpha),a*sin(theta); *)
+(* 'DH:5'      0         , sin(alpha)           , cos(alpha)           ,d           ; *)
+(* 'DH:6'      0         ,0                     ,0                     ,1           ]; *)
+T1[0] := COS( -( -b_D));
+T1[4] := ( -SIN( -( -b_D))) * 6.123233995736766E-17;
+T1[8] := SIN( -( -b_D));
+T1[12] := 0.35 * COS( -( -b_D));
+T1[1] := SIN( -( -b_D));
+T1[5] := COS( -( -b_D)) * 6.123233995736766E-17;
+T1[9] :=  -COS( -( -b_D));
+T1[13] := 0.35 * SIN( -( -b_D));
+T1[2] := 0.0;
+T1[3] := 0.0;
+T1[6] := 1.0;
+T1[7] := 0.0;
+T1[10] := 6.123233995736766E-17;
+T1[11] := 0.0;
+T1[14] := 0.83;
+T1[15] := 1.0;
+(* 'inverse:22' Pt = math3d.InvH(T1)*[p(1); p(2); p(3); 1]; *)
+(* Reverse homgoenous rigid motions *)
+(* More efficient than using inv(H) *)
+
+(* INPUTS: *)
+(* H         : Homogeneus transformation matrix 4x4 *)
+(* OUT: *)
+(* invH      : Reversed rigid motion matrix 4x4 *)
+(* 'InvH:12' R = H(1:3,1:3); *)
+(* 'InvH:13' d = H(1:3,4); *)
+(* 'InvH:15' invH = eye(4,4); *)
+(* MATLAB Function: '<Root>/FB_ControlMapping' *)
+
+FOR i := 0 TO 15 DO 
+    invH[i] := 0.0;
+END_FOR;
+
+invH[0] := 1.0;
+invH[5] := 1.0;
+invH[10] := 1.0;
+invH[15] := 1.0;
+(* 'InvH:17' invH(1:3,1:3) = R'; *)
+(* 'InvH:18' invH(1:3,4) = -R'*d; *)
+
+FOR i := 0 TO 2 DO 
+    invH[i * 4] := T1[i];
+    T1_0[3 * i] :=  -T1[i];
+    invH[1 + (i * 4)] := T1[i + 4];
+    T1_0[1 + (3 * i)] :=  -T1[i + 4];
+    invH[2 + (i * 4)] := T1[i + 8];
+    T1_0[2 + (3 * i)] :=  -T1[i + 8];
+END_FOR;
+
+
+FOR i := 0 TO 2 DO 
+    invH[12 + i] := 0.0;
+    invH[12 + i] := invH[12 + i] + (T1_0[i] * T1[12]);
+    invH[12 + i] := (T1_0[i + 3] * T1[13]) + invH[12 + i];
+    invH[12 + i] := (T1_0[i + 6] * 0.83) + invH[12 + i];
+END_FOR;
+
+(* 'InvH:20' invH(4,1:4) = [0,0,0,1]; *)
+invH[3] := 0.0;
+invH[7] := 0.0;
+invH[11] := 0.0;
+invH[15] := 1.0;
+(* MATLAB Function: '<Root>/FB_ControlMapping' *)
+
+FOR i := 0 TO 3 DO 
+    b_D := invH[i + 12] + ((invH[i + 8] * p_0[2]) + ((invH[i + 4] * p_0[1]) + (invH[i] * p_0[0])));
+    Pt[i] := b_D;
+END_FOR;
+
+(* Solve q2 and q3 *)
+(* 'inverse:25' x = Pt(1); *)
+(* 'inverse:26' y = Pt(2); *)
+(* 'inverse:28' r = sqrt(a3^2 + L^2); *)
+(* 'inverse:29' dtheta = atan2(a3, L); *)
+(* 'inverse:30' D = (x^2 + y^2 - a2^2 - r^2)/(2*a2*r); *)
+b_D := ((((Pt[0] * Pt[0]) + (Pt[1] * Pt[1])) - 1.3456) - 5.2117686399999972) / 5.2963972215021773;
+(* 'inverse:32' theta2 = atan2(-sqrt(1 - D^2), D); *)
+theta2 := rt_atan2d(u0 :=  -SQRT(1.0 - (b_D * b_D)), u1 := b_D);
+(* 'inverse:33' theta1 = atan2(y, x) - atan2(r*sin(theta2), a2 + r*cos(theta2)); *)
+y := 2.2829298368543869 * SIN(theta2);
+x := (2.2829298368543869 * COS(theta2)) + 1.16;
+(* Convert to robot angles *)
+(* 'inverse:36' q2 = -theta1 + pi/2; *)
+b_D := ( -(rt_atan2d(u0 := Pt[1], u1 := Pt[0]) - rt_atan2d(u0 := y, u1 := x))) + 1.5707963267948966;
+(* 'inverse:37' q3 = theta2 - dtheta - q2; *)
+theta2 := (theta2 - 0.10972846481387506) - (( -(rt_atan2d(u0 := Pt[1], u1 := Pt[0]) - rt_atan2d(u0 := y, u1 := x))) + 1.5707963267948966);
+(* Posititons *)
+(* 'inverse:40' q = [q1; q2; q3]; *)
+(* Velocity *)
+(* 'inverse:43' J = [ *)
+(* 'inverse:44'     -sin(q1)*(a1 - L*sin(q3) - a3*cos(q3) + a2*sin(q2)),  a2*cos(q1)*cos(q2), -cos(q1)*(L*cos(q3) - a3*sin(q3)); *)
+(* 'inverse:45'     -cos(q1)*(a1 - L*sin(q3) - a3*cos(q3) + a2*sin(q2)), -a2*cos(q2)*sin(q1),  sin(q1)*(L*cos(q3) - a3*sin(q3)); *)
+(* 'inverse:46'                                                       0,         -a2*sin(q2),          - L*sin(q3) - a3*cos(q3); *)
+(* 'inverse:47' ]; *)
+(* 'inverse:49' q_t = J\p_t; *)
+(* Accelerations *)
+(* 'inverse:52' q1_t = q_t(1); *)
+(* 'inverse:53' q2_t = q_t(2); *)
+(* 'inverse:54' q3_t = q_t(3); *)
+(* 'inverse:56' J_t = [ *)
+(* 'inverse:57'     q3_t*sin(q1)*(L*cos(q3) - a3*sin(q3)) - q1_t*cos(q1)*(a1 - L*sin(q3) - a3*cos(q3) + a2*sin(q2)) - a2*q2_t*cos(q2)*sin(q1), - a2*q1_t*cos(q2)*sin(q1) - a2*q2_t*cos(q1)*sin(q2), q3_t*cos(q1)*(L*sin(q3) + a3*cos(q3)) + q1_t*sin(q1)*(L*cos(q3) - a3*sin(q3)); *)
+(* 'inverse:58'     q3_t*cos(q1)*(L*cos(q3) - a3*sin(q3)) + q1_t*sin(q1)*(a1 - L*sin(q3) - a3*cos(q3) + a2*sin(q2)) - a2*q2_t*cos(q1)*cos(q2),   a2*q2_t*sin(q1)*sin(q2) - a2*q1_t*cos(q1)*cos(q2), q1_t*cos(q1)*(L*cos(q3) - a3*sin(q3)) - q3_t*sin(q1)*(L*sin(q3) + a3*cos(q3)); *)
+(* 'inverse:59'                                                                                                                             0,                                    -a2*q2_t*cos(q2),                                                -q3_t*(L*cos(q3) - a3*sin(q3)); *)
+(* 'inverse:60' ]; *)
+(* 'inverse:62' q_tt = J\(p_tt - J_t*q_t); *)
+(* '<S1>:1:42' ~ *)
+(* PLC data type *)
+(* '<S1>:1:45' stControlComau.q = q; *)
+(* MATLAB Function: '<Root>/FB_ControlMapping' *)
+stControlComau.q[0] := q1;
+stControlComau.q[1] := b_D;
+stControlComau.q[2] := theta2;
+(* '<S1>:1:46' stControlComau.q_t = q_t; *)
+T1_0[0] := (((0.35 - (2.2691999999999997 * SIN(theta2))) - (0.25 * COS(theta2))) + (1.16 * SIN(b_D))) * ( -SIN(q1));
+T1_0[3] := (1.16 * COS(q1)) * COS(b_D);
+T1_0[6] := ((2.2691999999999997 * COS(theta2)) - (0.25 * SIN(theta2))) * ( -COS(q1));
+T1_0[1] := (((0.35 - (2.2691999999999997 * SIN(theta2))) - (0.25 * COS(theta2))) + (1.16 * SIN(b_D))) * ( -COS(q1));
+T1_0[4] := (-1.16 * COS(b_D)) * SIN(q1);
+T1_0[7] := ((2.2691999999999997 * COS(theta2)) - (0.25 * SIN(theta2))) * SIN(q1);
+T1_0[2] := 0.0;
+T1_0[5] := -1.16 * SIN(b_D);
+T1_0[8] := (-2.2691999999999997 * SIN(theta2)) - (0.25 * COS(theta2));
+tmp[0] := p0_tmp;
+tmp[3] := (1.16 * Rnb_tmp) * Rnb_tmp_1;
+p0_tmp := p0_tmp_tmp - p0_tmp_0;
+tmp[6] := p0_tmp * ( -Rnb_tmp);
+tmp[1] := f_tmp_2 * ( -COS(q0[0]));
+tmp[4] := (-1.16 * Rnb_tmp_1) * Rnb_tmp_0;
+tmp[7] := p0_tmp * Rnb_tmp_0;
+tmp[2] := 0.0;
+tmp[5] := -1.16 * f_tmp_1;
+tmp[8] := (-2.2691999999999997 * f_tmp) - f_tmp_0;
+
+FOR i := 0 TO 2 DO 
+    Rnc_0[i] := 0.0;
+    Rnc_1[i] := 0.0;
+
+    FOR i_0 := 0 TO 2 DO 
+        Rnc_tmp := i + (3 * i_0);
+        Rnb_0[Rnc_tmp] := 0.0;
+        Rnb[Rnc_tmp] := 0.0;
+        Rnc_tmp_0 := (3 * i_0) + i;
+        Rnb_0[Rnc_tmp] := Rnb_0[Rnc_tmp_0] + (Rnc_t[3 * i] * b[3 * i_0]);
+        Rnb[Rnc_tmp] := Rnb[Rnc_tmp_0] + (Rnc[3 * i] * b[3 * i_0]);
+        Rnc_t_tmp := (3 * i) + 1;
+        Rnb_0[Rnc_tmp] := (Rnc_t[Rnc_t_tmp] * b[(3 * i_0) + 1]) + Rnb_0[(3 * i_0) + i];
+        Rnb[Rnc_tmp] := (Rnc[Rnc_t_tmp] * b[(3 * i_0) + 1]) + Rnb[(3 * i_0) + i];
+        Rnc_t_tmp := (3 * i) + 2;
+        Rnb_0[Rnc_tmp] := (Rnc_t[Rnc_t_tmp] * b[(3 * i_0) + 2]) + Rnb_0[(3 * i_0) + i];
+        Rnb[Rnc_tmp] := (Rnc[Rnc_t_tmp] * b[(3 * i_0) + 2]) + Rnb[(3 * i_0) + i];
+        Rnc_0[i] := (tmp[Rnc_tmp_0] * q0_t[i_0]) + Rnc_0[i];
+        Rnc_1[i] := (Rnb_0[(3 * i_0) + i] * p0[i_0]) + Rnc_1[i];
+    END_FOR;
+
+END_FOR;
+
+
+FOR i := 0 TO 2 DO 
+    Rnc_tmp := (3 * i) + 1;
+    Rnc_tmp_0 := (3 * i) + 2;
+    p0[i] := (Rnc_1[i] + ((Rnb[i + 6] * Rnc_0[2]) + ((Rnb[i + 3] * Rnc_0[1]) + (Rnb[i] * Rnc_0[0])))) + (((Rnc_t[Rnc_tmp_0] * b_p[2]) + ((Rnc_t[Rnc_tmp] * b_p[1]) + (Rnc_t[3 * i] * b_p[0]))) + ((Rnc[Rnc_tmp_0] * p_t[2]) + ((Rnc[Rnc_tmp] * p_t[1]) + (Rnc[3 * i] * p_t[0]))));
+    stControlComau.q_tt[i] := 0.0;
+END_FOR;
+
+i0_mldivide(A := T1_0, B := p0);
+stControlComau.q_t := i0_mldivide.Y;
+(* '<S1>:1:47' stControlComau.q_tt = zeros(3,1); *)
+]]>
+</xhtml>
+               </ST>
+            </body>
+         </pou>
+         <pou name="rt_atan2d" pouType="function">
+            <interface>
+               <returnType>
+                  <LREAL/>
+               </returnType>
+               <inputVars>
+                  <variable name="u0">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="u1">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+               </inputVars>
+               <localVars/>
+            </interface>
+            <body>
+               <ST>
+                  <xhtml xmlns="http://www.w3.org/1999/xhtml">
+<![CDATA[
+
+IF u1 > 0.0 THEN 
+    rt_atan2d := ATAN(u0 / u1);
+ELSIF u1 < 0.0 THEN 
+
+    IF u0 >= 0.0 THEN 
+        rt_atan2d := 1.0;
+    ELSE 
+        rt_atan2d := -1.0;
+    END_IF;
+
+    rt_atan2d := ATAN(u0 / u1) + (rt_atan2d * 3.1415926535897931);
+ELSE 
+
+    IF u0 < 0.0 THEN 
+        rt_atan2d := -1.0;
+    ELSIF u0 > 0.0 THEN 
+        rt_atan2d := 1.0;
+    ELSE 
+        rt_atan2d := u0;
+    END_IF;
+
+    rt_atan2d := rt_atan2d * 1.5707963267948966;
+END_IF;
+
+]]>
+</xhtml>
+               </ST>
+            </body>
+         </pou>
+         <pou name="mldivide_h" pouType="functionBlock">
+            <interface>
+               <inputVars>
+                  <variable name="A">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="35"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+               </inputVars>
+               <outputVars/>
+               <inOutVars>
+                  <variable name="B">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="5"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+               </inOutVars>
+               <localVars>
+                  <variable name="b_A">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="35"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="ipiv">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="5"/>
+                           <baseType>
+                              <SINT/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="j">
+                     <type>
+                        <DINT/>
+                     </type>
+                  </variable>
+                  <variable name="ix">
+                     <type>
+                        <DINT/>
+                     </type>
+                  </variable>
+                  <variable name="smax">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="b_s">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="k">
+                     <type>
+                        <DINT/>
+                     </type>
+                  </variable>
+                  <variable name="iy">
+                     <type>
+                        <DINT/>
+                     </type>
+                  </variable>
+                  <variable name="c_ix">
+                     <type>
+                        <DINT/>
+                     </type>
+                  </variable>
+                  <variable name="b_d">
+                     <type>
+                        <DINT/>
+                     </type>
+                  </variable>
+                  <variable name="ijA">
+                     <type>
+                        <DINT/>
+                     </type>
+                  </variable>
+                  <variable name="kAcol">
+                     <type>
+                        <DINT/>
+                     </type>
+                  </variable>
+               </localVars>
+            </interface>
+            <body>
+               <ST>
+                  <xhtml xmlns="http://www.w3.org/1999/xhtml">
+<![CDATA[
+
+FOR kAcol := 0 TO 35 DO 
+    b_A[kAcol] := A[kAcol];
+END_FOR;
+
+
+FOR kAcol := 0 TO 5 DO 
+    ipiv[kAcol] := DINT_TO_SINT(1 + kAcol);
+END_FOR;
+
+
+FOR j := 0 TO 4 DO 
+    kAcol := j * 7;
+    iy := 0;
+    ix := kAcol;
+    smax := ABS(b_A[kAcol]);
+    k := 2;
+    WHILE k <= (6 - j) DO
+        ix := ix + 1;
+        b_s := ABS(b_A[ix]);
+
+        IF b_s > smax THEN 
+            iy := k - 1;
+            smax := b_s;
+        END_IF;
+
+        k := k + 1;
+    END_WHILE;
+
+    IF b_A[kAcol + iy] <> 0.0 THEN 
+
+        IF iy <> 0 THEN 
+            iy := j + iy;
+            ipiv[j] := DINT_TO_SINT(iy + 1);
+            ix := j;
+
+            FOR k := 0 TO 5 DO 
+                smax := b_A[ix];
+                b_A[ix] := b_A[iy];
+                b_A[iy] := smax;
+                ix := ix + 6;
+                iy := iy + 6;
+            END_FOR;
+
+        END_IF;
+
+        iy := (kAcol - j) + 6;
+        ix := kAcol + 1;
+        WHILE (ix + 1) <= iy DO
+            b_A[ix] := b_A[ix] / b_A[kAcol];
+            ix := ix + 1;
+        END_WHILE;
+    END_IF;
+
+    iy := kAcol;
+    ix := kAcol + 6;
+    k := 1;
+    WHILE k <= (5 - j) DO
+        smax := b_A[ix];
+
+        IF b_A[ix] <> 0.0 THEN 
+            c_ix := kAcol + 1;
+            b_d := (iy - j) + 12;
+            ijA := 7 + iy;
+            WHILE (ijA + 1) <= b_d DO
+                b_A[ijA] := (b_A[c_ix] * ( -smax)) + b_A[ijA];
+                c_ix := c_ix + 1;
+                ijA := ijA + 1;
+            END_WHILE;
+        END_IF;
+
+        ix := ix + 6;
+        iy := iy + 6;
+        k := k + 1;
+    END_WHILE;
+END_FOR;
+
+
+FOR j := 0 TO 4 DO 
+
+    IF (j + 1) <> SINT_TO_DINT(ipiv[j]) THEN 
+        smax := B[j];
+        kAcol := SINT_TO_DINT(ipiv[j]) - 1;
+        B[j] := B[kAcol];
+        B[kAcol] := smax;
+    END_IF;
+
+END_FOR;
+
+
+FOR j := 0 TO 5 DO 
+    kAcol := 6 * j;
+
+    IF B[j] <> 0.0 THEN 
+        iy := j + 1;
+        WHILE (iy + 1) < 7 DO
+            B[iy] := B[iy] - (b_A[iy + kAcol] * B[j]);
+            iy := iy + 1;
+        END_WHILE;
+    END_IF;
+
+END_FOR;
+
+
+FOR j := 5 TO 0 BY -1 DO 
+    kAcol := 6 * j;
+
+    IF B[j] <> 0.0 THEN 
+        B[j] := B[j] / b_A[j + kAcol];
+        iy := 0;
+        WHILE (iy + 1) <= j DO
+            B[iy] := B[iy] - (b_A[iy + kAcol] * B[j]);
+            iy := iy + 1;
+        END_WHILE;
+    END_IF;
+
+END_FOR;
+
+]]>
+</xhtml>
+               </ST>
+            </body>
+         </pou>
+         <pou name="mldivide" pouType="functionBlock">
+            <interface>
+               <inputVars>
+                  <variable name="A">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="8"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="B">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="2"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+               </inputVars>
+               <outputVars>
+                  <variable name="Y">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="2"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+               </outputVars>
+               <localVars>
+                  <variable name="b_A">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="8"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="r1">
+                     <type>
+                        <DINT/>
+                     </type>
+                  </variable>
+                  <variable name="r2">
+                     <type>
+                        <DINT/>
+                     </type>
+                  </variable>
+                  <variable name="r3">
+                     <type>
+                        <DINT/>
+                     </type>
+                  </variable>
+                  <variable name="maxval">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="a21">
+                     <type>
+                        <LREAL/>
+                     </type>
+                  </variable>
+                  <variable name="rtemp">
+                     <type>
+                        <DINT/>
+                     </type>
+                  </variable>
+               </localVars>
+            </interface>
+            <body>
+               <ST>
+                  <xhtml xmlns="http://www.w3.org/1999/xhtml">
+<![CDATA[
+
+FOR r1 := 0 TO 8 DO 
+    b_A[r1] := A[r1];
+END_FOR;
+
+r1 := 0;
+r2 := 1;
+r3 := 2;
+maxval := ABS(A[0]);
+a21 := ABS(A[1]);
+
+IF a21 > maxval THEN 
+    maxval := a21;
+    r1 := 1;
+    r2 := 0;
+END_IF;
+
+
+IF ABS(A[2]) > maxval THEN 
+    r1 := 2;
+    r2 := 1;
+    r3 := 0;
+END_IF;
+
+b_A[r2] := A[r2] / A[r1];
+b_A[r3] := b_A[r3] / b_A[r1];
+b_A[3 + r2] := b_A[3 + r2] - (b_A[3 + r1] * b_A[r2]);
+b_A[3 + r3] := b_A[3 + r3] - (b_A[3 + r1] * b_A[r3]);
+b_A[6 + r2] := b_A[6 + r2] - (b_A[6 + r1] * b_A[r2]);
+b_A[6 + r3] := b_A[6 + r3] - (b_A[6 + r1] * b_A[r3]);
+
+IF ABS(b_A[3 + r3]) > ABS(b_A[3 + r2]) THEN 
+    rtemp := r2;
+    r2 := r3;
+    r3 := rtemp;
+END_IF;
+
+b_A[3 + r3] := b_A[3 + r3] / b_A[3 + r2];
+b_A[6 + r3] := b_A[6 + r3] - (b_A[3 + r3] * b_A[6 + r2]);
+Y[1] := B[r2] - (B[r1] * b_A[r2]);
+Y[2] := (B[r3] - (B[r1] * b_A[r3])) - (b_A[3 + r3] * Y[1]);
+Y[2] := Y[2] / b_A[6 + r3];
+Y[0] := B[r1] - (b_A[6 + r1] * Y[2]);
+Y[1] := Y[1] - (b_A[6 + r2] * Y[2]);
+Y[1] := Y[1] / b_A[3 + r2];
+Y[0] := Y[0] - (b_A[3 + r1] * Y[1]);
+Y[0] := Y[0] / b_A[r1];
+]]>
+</xhtml>
+               </ST>
+            </body>
+         </pou>
+      </pous>
+   </types>
+   <instances>
+      <configurations/>
+   </instances>
+</project>

@@ -12,6 +12,10 @@ VAR
 	txHmi : ST_TxHmi;
 	rxHmi : ST_RxHmi;
 	
+	// HMI activity check
+	hmiCounterOld : UDINT := 0;
+	hmiTimer : TON;
+	
 	// Remote interface
 	//remote : FB_RemoteInterface('192.168.90.60', 50060, 50050);
 	
@@ -43,8 +47,11 @@ VAR
 	init : SINT := 0;
 	pendelEstimator : FB_PendelEstimator;
 	
-	// Robot Controller
-	robotController : FB_RobotController;
+	// LQR Anti Swing Controller
+	lqrAntiSwing : FB_LqrAntiSwing;
+	
+	// Control Mapping
+	controlMapping : FB_ControlMapping;
 
 	// Winch Contorller
 	winchController : FB_WinchController;
@@ -85,8 +92,8 @@ control.winch := winch.control;
 
 // Winch Controller
 winchController(
-	compS2S := TRUE,
 	lengthExtra := LIMIT(-2.5, winchController.lengthExtra - lengthDotMax*rxHmi.xboxRightY*Ts, -0.841),
+	lengthExtra_t := - lengthDotMax*rxHmi.xboxRightY*Ts,
 	stFeedback := feedback
 );
 
@@ -97,14 +104,14 @@ lengthOld := length;
 // EKF Estimator
 IF qtm.active THEN
 	pendelEstimator(
-		stFeedback := feedback,
-		Ts := Ts
+		Ts := Ts,
+		stFeedback := feedback
 	);
 ELSE
 	pendelEstimator(
+		Ts := Ts,
 		reset := TRUE,
-		stFeedback := feedback,
-		Ts := Ts
+		stFeedback := feedback
 	);
 END_IF
 	
@@ -121,29 +128,37 @@ txHmi.e[2] := LREAL_TO_REAL(pendelEstimator.e[2]);
 
 txHmi.c := LREAL_TO_REAL(pendelEstimator.c);
 
-// Robot Controller
-robotController.qRef[0] := LIMIT(-25.0/180.0*PI, robotController.qRef[0] + (rxHmi.xboxRT - rxHmi.xboxLT)*qDotMax*Ts, 35.0/180.0*PI);
-robotController.qRef_t[0] := (rxHmi.xboxRT - rxHmi.xboxLT)*qDotMax;
-
-robotController.qRef[1] := LIMIT(-10.0/180.0*PI, robotController.qRef[1] + rxHmi.xboxLeftX*qDotMax*Ts, 15.0/180.0*PI);
-robotController.qRef_t[1] := rxHmi.xboxLeftX*qDotMax;
-
-robotController.qRef[2] := LIMIT(-110.0/180.0*PI, robotController.qRef[2] + rxHmi.xboxLeftY*qDotMax*Ts, -90.0/180.0*PI);
-robotController.qRef_t[2] := rxHmi.xboxLeftY*qDotMax;
-
-robotController(
-	ssMethodType := init,
-	stFeedback := feedback,
+// Anti Swing Controller
+lqrAntiSwing(
+	Ts := Ts,
 	phi := pendelEstimator.phi,
-	phi_t := pendelEstimator.phi_t,
+	phi_t := pendelEstimator.phi_t
 );
-init := 1;
+
+// Control Mapping
+controlMapping.p := lqrAntiSwing.p;
+controlMapping.p_t := lqrAntiSwing.p_t;
+
+controlMapping.q0[0] := LIMIT(-25.0/180.0*PI, controlMapping.q0[0] + (rxHmi.xboxRT - rxHmi.xboxLT)*qDotMax*Ts, 35.0/180.0*PI);
+controlMapping.q0_t[0] := (rxHmi.xboxRT - rxHmi.xboxLT)*qDotMax;
+
+controlMapping.q0[1] := LIMIT(-10.0/180.0*PI, controlMapping.q0[1] + rxHmi.xboxLeftX*qDotMax*Ts, 15.0/180.0*PI);
+controlMapping.q0_t[1] := rxHmi.xboxLeftX*qDotMax;
+
+controlMapping.q0[2] := LIMIT(-110.0/180.0*PI, controlMapping.q0[2] + rxHmi.xboxLeftY*qDotMax*Ts, -90.0/180.0*PI);
+controlMapping.q0_t[2] := rxHmi.xboxLeftY*qDotMax;
+
+controlMapping(
+	stFeedback := feedback
+);
+
+
 
 // Apply contollers
 winch.control.length := length;
 winch.control.length_t := lengthDot;
 
-comau.control := robotController.stComauControl;
+comau.control := controlMapping.stControlComau;
 
 // Update elements to be controlled
 comau();
@@ -152,11 +167,20 @@ winch();
 t := t + Ts;
 
 
+// Auto after given time without HMI activity
+hmiTimer.PT := T#2S;
 
+IF rxHmi.counter <> hmiCounterOld THEN
+	hmiCounterOld := rxHmi.counter;
+	hmiTimer.IN := TRUE;
+ELSE
+	hmiTimer.IN := FALSE;
+END_IF
 
-
-//StartPyQtHMI();
-
+IF hmiTimer.Q THEN
+	// Shutdown procedure here...
+	
+END_IF
 
 
 
@@ -198,8 +222,8 @@ t := t + Ts;
       <LineId Id="1200" Count="0" />
       <LineId Id="1199" Count="0" />
       <LineId Id="1201" Count="0" />
-      <LineId Id="1279" Count="0" />
       <LineId Id="1272" Count="0" />
+      <LineId Id="1336" Count="0" />
       <LineId Id="1204" Count="0" />
       <LineId Id="1206" Count="0" />
       <LineId Id="1274" Count="2" />
@@ -208,11 +232,14 @@ t := t + Ts;
       <LineId Id="844" Count="0" />
       <LineId Id="1255" Count="0" />
       <LineId Id="1024" Count="0" />
-      <LineId Id="1191" Count="2" />
+      <LineId Id="1358" Count="0" />
+      <LineId Id="1191" Count="0" />
+      <LineId Id="1193" Count="0" />
       <LineId Id="1257" Count="0" />
       <LineId Id="1259" Count="0" />
+      <LineId Id="1357" Count="0" />
       <LineId Id="1262" Count="0" />
-      <LineId Id="1260" Count="1" />
+      <LineId Id="1260" Count="0" />
       <LineId Id="1258" Count="0" />
       <LineId Id="1256" Count="0" />
       <LineId Id="1136" Count="3" />
@@ -222,7 +249,15 @@ t := t + Ts;
       <LineId Id="1209" Count="1" />
       <LineId Id="1213" Count="0" />
       <LineId Id="1128" Count="0" />
+      <LineId Id="1346" Count="0" />
+      <LineId Id="1345" Count="0" />
+      <LineId Id="1347" Count="0" />
+      <LineId Id="1359" Count="0" />
+      <LineId Id="1352" Count="2" />
       <LineId Id="1220" Count="1" />
+      <LineId Id="1356" Count="0" />
+      <LineId Id="1361" Count="0" />
+      <LineId Id="1355" Count="0" />
       <LineId Id="1240" Count="0" />
       <LineId Id="1242" Count="0" />
       <LineId Id="1248" Count="1" />
@@ -230,10 +265,12 @@ t := t + Ts;
       <LineId Id="1251" Count="1" />
       <LineId Id="1250" Count="0" />
       <LineId Id="1238" Count="0" />
-      <LineId Id="1225" Count="1" />
-      <LineId Id="1228" Count="2" />
-      <LineId Id="1227" Count="0" />
-      <LineId Id="1222" Count="1" />
+      <LineId Id="1225" Count="0" />
+      <LineId Id="1363" Count="0" />
+      <LineId Id="1362" Count="0" />
+      <LineId Id="1341" Count="0" />
+      <LineId Id="1340" Count="0" />
+      <LineId Id="1223" Count="0" />
       <LineId Id="1263" Count="1" />
       <LineId Id="1277" Count="1" />
       <LineId Id="1237" Count="0" />
@@ -244,12 +281,20 @@ t := t + Ts;
       <LineId Id="415" Count="0" />
       <LineId Id="409" Count="0" />
       <LineId Id="789" Count="0" />
+      <LineId Id="1364" Count="0" />
       <LineId Id="788" Count="0" />
-      <LineId Id="420" Count="0" />
-      <LineId Id="285" Count="0" />
-      <LineId Id="454" Count="0" />
-      <LineId Id="453" Count="0" />
+      <LineId Id="1384" Count="0" />
+      <LineId Id="1381" Count="0" />
       <LineId Id="449" Count="0" />
+      <LineId Id="1370" Count="0" />
+      <LineId Id="1374" Count="0" />
+      <LineId Id="1372" Count="1" />
+      <LineId Id="1371" Count="0" />
+      <LineId Id="1376" Count="0" />
+      <LineId Id="1375" Count="0" />
+      <LineId Id="1377" Count="0" />
+      <LineId Id="1379" Count="0" />
+      <LineId Id="1378" Count="0" />
       <LineId Id="448" Count="0" />
       <LineId Id="262" Count="0" />
       <LineId Id="269" Count="0" />

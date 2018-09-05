@@ -73,6 +73,7 @@ class TxHmi(Structure):
 
 class RxHmi(Structure):
     _fields_ = [
+        ('counter', c_uint),
         ('winchJogUp', c_bool),
         ('winchJogDown', c_bool),
         ('xboxLeftX', c_float),

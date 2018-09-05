@@ -77,6 +77,9 @@ class GUI(QMainWindow, Ui_main):
         # Read inition time
         self.tStart = time.time()
 
+        # Misc
+        self.fastCounter = 0
+
         # Connect the interaction functionality of the GUI
         self.ui_connect()
 
@@ -362,14 +365,14 @@ class GUI(QMainWindow, Ui_main):
 
         self.btnActivateAntiSway.clicked.connect(self.activateAntiSway)
         self.btnDeactivateAntiSway.clicked.connect(self.deactivateAntiSway)
-
-        self.btnActivateRollPitch.clicked.connect(self.activateRollPitch)
-        self.btnDeactivateRollPitch.clicked.connect(self.deactivateRollPitch)
+        self.btnResetAntiSway.clicked.connect(self.resetAntiSway)
 
         self.btnEnableMruEKF.clicked.connect(self.enableMruEKF)
         self.btnDisableMruEKF.clicked.connect(self.disableMruEKF)
-
         self.btnResetEKF.clicked.connect(self.resetPendulumEKF)
+
+        self.btnEnableMruCM.clicked.connect(self.enableMruCM)
+        self.btnDisableMruCM.clicked.connect(self.disableMruCM)
 
         # Show 3D visulaization of motion-lab
         self.show3dView.clicked.connect(self.visualizer.show)
@@ -432,12 +435,16 @@ class GUI(QMainWindow, Ui_main):
 
     # Update fastData
     def updateFast(self):
+        # Update fast counter
+        self.fastCounter = self.fastCounter + 1
+
         # Update HMI data
         if self.plc_active:
             txHmi = self.plc.read_by_name('MAIN.txHmi', TxHmi)
 
         rxHmi = RxHmi()
 
+        rxHmi.counter = self.fastCounter
         rxHmi.xboxLeftX = self.xbox.left.x
         rxHmi.xboxLeftY = self.xbox.left.y
         rxHmi.xboxRightX = self.xbox.right.x
@@ -747,39 +754,28 @@ class GUI(QMainWindow, Ui_main):
 
     # Controller functions
     def activateAntiSway(self):
-        self.plc.write_by_name('MAIN.robotController.antiSway', True, pyads.PLCTYPE_BOOL)
-        print('Anti-Sway Active!')
+        self.plc.write_by_name('MAIN.lqrAntiSwing.active', True, pyads.PLCTYPE_BOOL)
 
     def deactivateAntiSway(self):
-        self.plc.write_by_name('MAIN.robotController.antiSway', False, pyads.PLCTYPE_BOOL)
-        print('Anti-Sway Disabled!')
+        self.plc.write_by_name('MAIN.lqrAntiSwing.active', False, pyads.PLCTYPE_BOOL)
 
-    def activateRollPitch(self):
-        self.plc.write_by_name('MAIN.robotController.cmpRollPitch', True, pyads.PLCTYPE_BOOL)
-        print('Roll and Pitch compensation Active!')
-
-    def deactivateRollPitch(self):
-        self.plc.write_by_name('MAIN.robotController.cmpRollPitch', False, pyads.PLCTYPE_BOOL)
-        print('Roll and Pitch compensation Disabled!')
-
-    def activateShipToShip(self):
-        self.plc.write_by_name('MAIN.winchController.compS2S', True, pyads.PLCTYPE_BOOL)
-        print('Ship-to-Ship compensation activated')
-
-    def deactivateShipToShip(self):
-        self.plc.write_by_name('MAIN.winchController.compS2S', False, pyads.PLCTYPE_BOOL)
-        print('Ship-to-Ship compensation deactivated')
+    def resetAntiSway(self):
+        self.plc.write_by_name('MAIN.lqrAntiSwing.resetPath', True, pyads.PLCTYPE_BOOL)
 
     def enableMruEKF(self):
         self.plc.write_by_name('MAIN.pendelEstimator.useMru', True, pyads.PLCTYPE_BOOL)
-        print('MRU data enabled for pendel estimator')
 
     def disableMruEKF(self):
         self.plc.write_by_name('MAIN.pendelEstimator.useMru', False, pyads.PLCTYPE_BOOL)
-        print('MRU data disabled for pendel estimator')
 
     def resetPendulumEKF(self):
         self.plc.write_by_name('MAIN.pendelEstimator.reset', True, pyads.PLCTYPE_BOOL)
+
+    def enableMruCM(self):
+        self.plc.write_by_name('MAIN.controlMapping.useMru', True, pyads.PLCTYPE_BOOL)
+
+    def disableMruCM(self):
+        self.plc.write_by_name('MAIN.controlMapping.useMru', False, pyads.PLCTYPE_BOOL)
 
     # Stop all function
     def stop_all(self):
