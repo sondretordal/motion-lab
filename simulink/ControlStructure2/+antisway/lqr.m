@@ -1,4 +1,4 @@
-function K = lqr()
+function K = lqr(Ts)
 
 % State space version of pendulum ode
 x = sym('x', [10,1], 'real');
@@ -57,7 +57,7 @@ R = diag([
 ]).^2;
 
 % State feedback only
-[K, S, e] = lqr(A, B, Q, R);
+[K, S, e] = lqrd(A, B, Q, R, Ts);
 
 % % Add integral control action
 % y = C*x;
