@@ -6,7 +6,6 @@ pt = x(1:3);
 pt_t = x(4:6);
 phi = x(7:8);
 phi_t = x(9:10);
-
 u = sym('u', [3,1], 'real');
 pt_tt = u(1:3);
 
