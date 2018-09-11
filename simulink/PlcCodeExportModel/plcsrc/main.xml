@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project><!--(*
+ *
+ * File: main.xml
+ *
+ * IEC 61131-3 Structured Text (ST) code generated for subsystem "main/FB_LqrAntiSwing"
+ *
+ * Model name                      : main
+ * Model version                   : 1.4849
+ * Model creator                   : motionlab
+ * Model last modified by          : motionlab
+ * Model last modified on          : Wed Sep 05 09:27:44 2018
+ * Model sample time               : 0.005s
+ * Subsystem name                  : main/FB_LqrAntiSwing
+ * Subsystem sample time           : 0.005s
+ * Simulink PLC Coder version      : 2.4 (R2017b) 24-Jul-2017
+ * ST code generated on            : Wed Sep 05 09:28:03 2018
+ *
+ * Target IDE selection            : Beckhoff TwinCAT 3
+ * Test Bench included             : No
+ *
+ *)
+-->
+   <fileHeader companyName="The Mathworks, Inc." companyURL="www.mathworks.com" contentDescription="" creationDateTime="2018-09-05T09:28:03" productName="Simulink PLC Coder" productRelease="(R2017b)" productVersion="2.4"/>
+   <contentHeader name="main">
+      <coordinateInfo>
+         <fbd>
+            <scaling x="0" y="0"/>
+         </fbd>
+         <ld>
+            <scaling x="0" y="0"/>
+         </ld>
+         <sfc>
+            <scaling x="0" y="0"/>
+         </sfc>
+      </coordinateInfo>
+   </contentHeader>
+   <types>
+      <dataTypes/>
+      <pous>
+         <pou name="FB_LqrAntiSwing" pouType="functionBlock">
+            <interface>
+               <inputVars>
+                  <variable name="ssMethodType">
+                     <type>
+                        <SINT/>
+                     </type>
+                  </variable>
+                  <variable name="active">
+                     <type>
+                        <BOOL/>
+                     </type>
+                  </variable>
+                  <variable name="phi">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="1"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="phi_t">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="1"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+               </inputVars>
+               <outputVars>
+                  <variable name="b_p">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="2"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="p_t">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="2"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+               </outputVars>
+               <localVars>
+                  <variable name="rtb_p_t">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="2"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="rtb_x">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="9"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="tmp">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="29"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="i">
+                     <type>
+                        <DINT/>
+                     </type>
+                  </variable>
+                  <variable name="tmp_0">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="2"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="i_0">
+                     <type>
+                        <DINT/>
+                     </type>
+                  </variable>
+                  <variable name="c_DiscreteTimeIntegrator_DS">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="2"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="c_DiscreteTimeIntegrator1_D">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="2"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="DiscreteTimeIntegrator_IC">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="2"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="DiscreteTimeIntegrator1_IC">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="2"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                  </variable>
+                  <variable name="K">
+                     <type>
+                        <array>
+                           <dimension lower="0" upper="29"/>
+                           <baseType>
+                              <LREAL/>
+                           </baseType>
+                        </array>
+                     </type>
+                     <initialValue>
+                        <arrayValue>
+                           <value>
+                              <simpleValue value="4.9999999999999432"/>
+                           </value>
+                           <value>
+                              <simpleValue value="2.5275950258828334E-14"/>
+                           </value>
+                           <value>
+                              <simpleValue value="-3.0100318954071049E-15"/>
+                           </value>
+                           <value>
+                              <simpleValue value="-1.049110743079122E-14"/>
+                           </value>
+                           <value>
+                              <simpleValue value="5.0000000000000249"/>
+                           </value>
+                           <value>
+                              <simpleValue value="6.9367733228473338E-15"/>
+                           </value>
+                           <value>
+                              <simpleValue value="2.7973493455552355E-15"/>
+                           </value>
+                           <value>
+                              <simpleValue value="1.0596539795293654E-15"/>
+                           </value>
+                           <value>
+                              <simpleValue value="5.0000000000000089"/>
+                           </value>
+                           <value>
+                              <simpleValue value="6.70789009272648"/>
+                           </value>
+                           <value>
+                              <simpleValue value="4.0409743882992639E-14"/>
+                           </value>
+                           <value>
+                              <simpleValue value="-4.4236277780990938E-15"/>
+                           </value>
+                           <value>
+                              <simpleValue value="2.0042349818716409E-15"/>
+                           </value>
+                           <value>
+                              <simpleValue value="6.7078900927266218"/>
+                           </value>
+                           <value>
+                              <simpleValue value="9.151575942471447E-15"/>
+                           </value>
+                           <value>
+                              <simpleValue value="-7.6162440644975352E-16"/>
+                           </value>
+                           <value>
+                              <simpleValue value="2.3871930714932872E-15"/>
+                           </value>
+                           <value>
+                              <simpleValue value="3.3166247903554069"/>
+                           </value>
+                           <value>
+                              <simpleValue value="33.34986949567319"/>
+                           </value>
+                           <value>
+                              <simpleValue value="2.0532308445654349E-14"/>
+                           </value>
+                           <value>
+                              <simpleValue value="-1.3026234277757829E-14"/>
+                           </value>
+                           <value>
+                              <simpleValue value="-7.6741108484480666E-14"/>
+                           </value>
+                           <value>
+                              <simpleValue value="-33.349869495673573"/>
+                           </value>
+                           <value>
+                              <simpleValue value="-1.5009123874714348E-14"/>
+                           </value>
+                           <value>
+                              <simpleValue value="0.61381229796104719"/>
+                           </value>
+                           <value>
+                              <simpleValue value="-1.0783459197617482E-13"/>
+                           </value>
+                           <value>
+                              <simpleValue value="1.0986010114948022E-14"/>
+                           </value>
+                           <value>
+                              <simpleValue value="-7.3819347271881964E-15"/>
+                           </value>
+                           <value>
+                              <simpleValue value="-0.61381229796069192"/>
+                           </value>
+                           <value>
+                              <simpleValue value="2.0293148612934481E-14"/>
+                           </value>
+                        </arrayValue>
+                     </initialValue>
+                  </variable>
+               </localVars>
+            </interface>
+            <body>
+               <ST>
+                  <xhtml xmlns="http://www.w3.org/1999/xhtml">
+<![CDATA[
+
+CASE ssMethodType OF
+    0: 
+        (* InitializeConditions for DiscreteIntegrator: '<S1>/Discrete-Time Integrator' *)
+        c_DiscreteTimeIntegrator_DS[0] := DiscreteTimeIntegrator_IC[0];
+        (* InitializeConditions for DiscreteIntegrator: '<S1>/Discrete-Time Integrator1' *)
+        c_DiscreteTimeIntegrator1_D[0] := DiscreteTimeIntegrator1_IC[0];
+        (* InitializeConditions for DiscreteIntegrator: '<S1>/Discrete-Time Integrator' *)
+        c_DiscreteTimeIntegrator_DS[1] := DiscreteTimeIntegrator_IC[1];
+        (* InitializeConditions for DiscreteIntegrator: '<S1>/Discrete-Time Integrator1' *)
+        c_DiscreteTimeIntegrator1_D[1] := DiscreteTimeIntegrator1_IC[1];
+        (* InitializeConditions for DiscreteIntegrator: '<S1>/Discrete-Time Integrator' *)
+        c_DiscreteTimeIntegrator_DS[2] := DiscreteTimeIntegrator_IC[2];
+        (* InitializeConditions for DiscreteIntegrator: '<S1>/Discrete-Time Integrator1' *)
+        c_DiscreteTimeIntegrator1_D[2] := DiscreteTimeIntegrator1_IC[2];
+    1: 
+        (* DiscreteIntegrator: '<S1>/Discrete-Time Integrator' *)
+        rtb_p_t[0] := c_DiscreteTimeIntegrator_DS[0];
+        rtb_p_t[1] := c_DiscreteTimeIntegrator_DS[1];
+        rtb_p_t[2] := c_DiscreteTimeIntegrator_DS[2];
+        (* MATLAB Function: '<S1>/StackLqrStateVector' incorporates:
+         *  DiscreteIntegrator: '<S1>/Discrete-Time Integrator'
+         *  DiscreteIntegrator: '<S1>/Discrete-Time Integrator1' *)
+        (* MATLAB Function 'FB_LqrAntiSwing/StackLqrStateVector': '<S2>:1' *)
+        (* '<S2>:1:3' if active *)
+
+        IF active THEN 
+            (* '<S2>:1:4' x = [ *)
+            (* '<S2>:1:5'         p *)
+            (* '<S2>:1:6'         p_t *)
+            (* '<S2>:1:7'         phi *)
+            (* '<S2>:1:8'         phi_t *)
+            (* '<S2>:1:9'     ]; *)
+            rtb_x[0] := c_DiscreteTimeIntegrator1_D[0];
+            rtb_x[3] := c_DiscreteTimeIntegrator_DS[0];
+            rtb_x[1] := c_DiscreteTimeIntegrator1_D[1];
+            rtb_x[4] := c_DiscreteTimeIntegrator_DS[1];
+            rtb_x[2] := c_DiscreteTimeIntegrator1_D[2];
+            rtb_x[5] := c_DiscreteTimeIntegrator_DS[2];
+            rtb_x[6] := phi[0];
+            rtb_x[8] := phi_t[0];
+            rtb_x[7] := phi[1];
+            rtb_x[9] := phi_t[1];
+        ELSE 
+            (* '<S2>:1:10' else *)
+            (* '<S2>:1:11' x = [ *)
+            (* '<S2>:1:12'         p *)
+            (* '<S2>:1:13'         p_t *)
+            (* '<S2>:1:14'         zeros(2,1) *)
+            (* '<S2>:1:15'         zeros(2,1) *)
+            (* '<S2>:1:16'     ]; *)
+            rtb_x[0] := c_DiscreteTimeIntegrator1_D[0];
+            rtb_x[3] := c_DiscreteTimeIntegrator_DS[0];
+            rtb_x[1] := c_DiscreteTimeIntegrator1_D[1];
+            rtb_x[4] := c_DiscreteTimeIntegrator_DS[1];
+            rtb_x[2] := c_DiscreteTimeIntegrator1_D[2];
+            rtb_x[5] := c_DiscreteTimeIntegrator_DS[2];
+            rtb_x[6] := 0.0;
+            rtb_x[8] := 0.0;
+            rtb_x[7] := 0.0;
+            rtb_x[9] := 0.0;
+        END_IF;
+
+        (* End of MATLAB Function: '<S1>/StackLqrStateVector' *)
+        
+
+        (* Saturate: '<S1>/Saturation' incorporates:
+         *  DiscreteIntegrator: '<S1>/Discrete-Time Integrator1' *)
+
+        IF c_DiscreteTimeIntegrator1_D[0] >= 0.4 THEN 
+            (* Outport: '<Root>/p' *)
+            b_p[0] := 0.4;
+        ELSIF c_DiscreteTimeIntegrator1_D[0] > -0.4 THEN 
+            (* Outport: '<Root>/p' *)
+            b_p[0] := c_DiscreteTimeIntegrator1_D[0];
+        ELSE 
+            (* Outport: '<Root>/p' *)
+            b_p[0] := -0.4;
+        END_IF;
+
+        (* Outport: '<Root>/p_t' incorporates:
+         *  DiscreteIntegrator: '<S1>/Discrete-Time Integrator' *)
+        p_t[0] := c_DiscreteTimeIntegrator_DS[0];
+        (* Saturate: '<S1>/Saturation' incorporates:
+         *  DiscreteIntegrator: '<S1>/Discrete-Time Integrator1' *)
+
+        IF c_DiscreteTimeIntegrator1_D[1] >= 0.4 THEN 
+            (* Outport: '<Root>/p' *)
+            b_p[1] := 0.4;
+        ELSIF c_DiscreteTimeIntegrator1_D[1] > -0.4 THEN 
+            (* Outport: '<Root>/p' *)
+            b_p[1] := c_DiscreteTimeIntegrator1_D[1];
+        ELSE 
+            (* Outport: '<Root>/p' *)
+            b_p[1] := -0.4;
+        END_IF;
+
+        (* Outport: '<Root>/p_t' incorporates:
+         *  DiscreteIntegrator: '<S1>/Discrete-Time Integrator' *)
+        p_t[1] := c_DiscreteTimeIntegrator_DS[1];
+        (* Saturate: '<S1>/Saturation' incorporates:
+         *  DiscreteIntegrator: '<S1>/Discrete-Time Integrator1' *)
+
+        IF c_DiscreteTimeIntegrator1_D[2] >= 0.4 THEN 
+            (* Outport: '<Root>/p' *)
+            b_p[2] := 0.4;
+        ELSIF c_DiscreteTimeIntegrator1_D[2] > -0.4 THEN 
+            (* Outport: '<Root>/p' *)
+            b_p[2] := c_DiscreteTimeIntegrator1_D[2];
+        ELSE 
+            (* Outport: '<Root>/p' *)
+            b_p[2] := -0.4;
+        END_IF;
+
+        (* Outport: '<Root>/p_t' incorporates:
+         *  DiscreteIntegrator: '<S1>/Discrete-Time Integrator' *)
+        p_t[2] := c_DiscreteTimeIntegrator_DS[2];
+        (* Gain: '<S1>/Gain1' incorporates:
+         *  DiscreteIntegrator: '<S1>/Discrete-Time Integrator' *)
+
+        FOR i := 0 TO 9 DO 
+            tmp[3 * i] :=  -K[3 * i];
+            tmp[1 + (3 * i)] :=  -K[(3 * i) + 1];
+            tmp[2 + (3 * i)] :=  -K[(3 * i) + 2];
+        END_FOR;
+
+
+        FOR i := 0 TO 2 DO 
+            tmp_0[i] := 0.0;
+
+            FOR i_0 := 0 TO 9 DO 
+                tmp_0[i] := (tmp[(3 * i_0) + i] * rtb_x[i_0]) + tmp_0[i];
+            END_FOR;
+
+            (* Update for DiscreteIntegrator: '<S1>/Discrete-Time Integrator' *)
+            c_DiscreteTimeIntegrator_DS[i] := (0.005 * tmp_0[i]) + c_DiscreteTimeIntegrator_DS[i];
+            (* Update for DiscreteIntegrator: '<S1>/Discrete-Time Integrator1' *)
+            c_DiscreteTimeIntegrator1_D[i] := (0.005 * rtb_p_t[i]) + c_DiscreteTimeIntegrator1_D[i];
+        END_FOR;
+
+        (* End of Gain: '<S1>/Gain1' *)
+END_CASE;
+
+]]>
+</xhtml>
+               </ST>
+            </body>
+         </pou>
+      </pous>
+   </types>
+   <instances>
+      <configurations/>
+   </instances>
+</project>
