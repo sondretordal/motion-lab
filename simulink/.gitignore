@@ -1,6 +1,7 @@
 # Simulink Code Generation
 slprj/
 sccprj/
+plcsrc/
 
 # Windows default autosave extension
 *.asv
