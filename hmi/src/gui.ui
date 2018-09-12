@@ -4493,7 +4493,7 @@ color: rgb(255, 255, 255);
          </font>
         </property>
         <property name="text">
-         <string>Controller and Anti-Sway System</string>
+         <string>Controller and Anti-Swing System</string>
         </property>
        </widget>
        <widget class="Line" name="line_4">
@@ -4681,7 +4681,7 @@ color: rgb(255, 255, 255);
          </rect>
         </property>
         <property name="title">
-         <string>Anti-Sway System</string>
+         <string>Anti-Swing System</string>
         </property>
         <widget class="QPushButton" name="btnDeactivateAntiSway">
          <property name="geometry">
