@@ -3,9 +3,7 @@
 build/
 site/
 
-_build/
-_static/
-_templates/
+
 
 __pycache__/
 
