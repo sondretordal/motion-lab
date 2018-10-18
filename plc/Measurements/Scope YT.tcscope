@@ -4,7 +4,7 @@
   <Title>Scope YT</Title>
   <LayoutString>&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;Layout&gt;
-  &lt;Window Guid="97332cdc-477f-498a-a8da-59f3e238ae5a" LastFocused="131806170912358938" DockedSize="200" PopupSize="0" FloatingLocation="-1, -1" FloatingSize="550, 400" LastOpenDockSituation="Document" LastFixedDockSituation="Document" LastFixedDockLocation="Right" LastFloatingWindowGuid="00000000-0000-0000-0000-000000000000" LastDockContainerCount="0" LastDockContainerIndex="0" DockedWorkingSize="250, 400" DockedWindowGroupGuid="00000000-0000-0000-0000-000000000000" DockedIndexInWindowGroup="0" DockedSplitPath="0" DocumentWorkingSize="250, 400" DocumentWindowGroupGuid="e3627557-a720-4c2a-9af0-d310b5d3d828" DocumentIndexInWindowGroup="0" DocumentSplitPath="0" FloatingWorkingSize="250, 400" FloatingWindowGroupGuid="00000000-0000-0000-0000-000000000000" FloatingIndexInWindowGroup="0" FloatingSplitPath="0" /&gt;
+  &lt;Window Guid="97332cdc-477f-498a-a8da-59f3e238ae5a" LastFocused="131820059777371871" DockedSize="200" PopupSize="0" FloatingLocation="-1, -1" FloatingSize="550, 400" LastOpenDockSituation="Document" LastFixedDockSituation="Document" LastFixedDockLocation="Right" LastFloatingWindowGuid="00000000-0000-0000-0000-000000000000" LastDockContainerCount="0" LastDockContainerIndex="0" DockedWorkingSize="250, 400" DockedWindowGroupGuid="00000000-0000-0000-0000-000000000000" DockedIndexInWindowGroup="0" DockedSplitPath="0" DocumentWorkingSize="250, 400" DocumentWindowGroupGuid="e3627557-a720-4c2a-9af0-d310b5d3d828" DocumentIndexInWindowGroup="0" DocumentSplitPath="0" FloatingWorkingSize="250, 400" FloatingWindowGroupGuid="00000000-0000-0000-0000-000000000000" FloatingIndexInWindowGroup="0" FloatingSplitPath="0" /&gt;
   &lt;DocumentContainer Dock="5"&gt;
     &lt;SplitLayoutSystem WorkingSize="250, 400" SplitMode="0"&gt;
       &lt;ControlLayoutSystem WorkingSize="250, 400" Guid="e3627557-a720-4c2a-9af0-d310b5d3d828" Collapsed="0" SelectedControl="97332cdc-477f-498a-a8da-59f3e238ae5a"&gt;
@@ -116,7 +116,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.comau.feedback.q[0]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -185,7 +185,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.comau.feedback.q[1]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -254,7 +254,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.comau.feedback.q[2]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -323,7 +323,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.comau.feedback.q_t[0]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -392,7 +392,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.comau.feedback.q_t[1]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -461,7 +461,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.comau.feedback.q_t[2]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -530,7 +530,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.em1500.feedback.eta[0]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -599,7 +599,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.em1500.feedback.eta[1]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -668,7 +668,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.em1500.feedback.eta[2]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -737,7 +737,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.em1500.feedback.eta[3]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -806,7 +806,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.em1500.feedback.eta[4]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -875,7 +875,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.em1500.feedback.eta[5]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -944,7 +944,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.em8000.feedback.eta[0]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -1013,7 +1013,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.em8000.feedback.eta[1]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -1082,7 +1082,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.em8000.feedback.eta[2]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -1151,7 +1151,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.em8000.feedback.eta[3]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -1220,7 +1220,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.em8000.feedback.eta[4]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -1289,7 +1289,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.em8000.feedback.eta[5]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -1358,7 +1358,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.lqrAntiSwing.u[0]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -1427,7 +1427,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.lqrAntiSwing.u[1]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -1496,7 +1496,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.lqrAntiSwing.u[2]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -1565,7 +1565,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.lqrAntiSwing.p[0]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -1634,7 +1634,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.lqrAntiSwing.p[1]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -1703,7 +1703,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.lqrAntiSwing.p[2]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -1772,7 +1772,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.lqrAntiSwing.p_t[0]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -1841,7 +1841,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.lqrAntiSwing.p_t[1]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -1910,7 +1910,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.lqrAntiSwing.p_t[2]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -1979,7 +1979,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.mru1.feedback.eta[0]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -2048,7 +2048,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.mru1.feedback.eta[1]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -2117,7 +2117,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.mru1.feedback.eta[2]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -2186,7 +2186,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.mru1.feedback.eta[3]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -2255,7 +2255,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.mru1.feedback.eta[4]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -2324,7 +2324,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.mru1.feedback.eta[5]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -2393,7 +2393,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.mru2.feedback.eta[0]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -2462,7 +2462,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.mru2.feedback.eta[1]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -2531,7 +2531,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.mru2.feedback.eta[2]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -2600,7 +2600,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.mru2.feedback.eta[3]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -2669,7 +2669,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.mru2.feedback.eta[4]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -2738,7 +2738,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.mru2.feedback.eta[5]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -2807,7 +2807,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.pendelEstimator.phi[0]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -2876,7 +2876,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.pendelEstimator.phi[1]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -2945,7 +2945,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.pendelEstimator.phi_t[0]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -3014,7 +3014,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.pendelEstimator.phi_t[1]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -3083,7 +3083,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.pendelEstimator.c</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -3152,7 +3152,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.pendelEstimator.length</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -3221,7 +3221,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.pendelEstimator.length_t</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -3290,7 +3290,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.controlMapping.q0[0]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -3359,7 +3359,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.controlMapping.q0[1]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -3428,7 +3428,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.controlMapping.q0[2]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -3497,7 +3497,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.controlMapping.q0_t[0]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -3566,7 +3566,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.controlMapping.q0_t[1]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -3635,7 +3635,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.controlMapping.q0_t[2]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -3704,7 +3704,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.winchController.lengthExtra</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -3773,7 +3773,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.winchController.lengthExtra_t</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -3842,7 +3842,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.winch.feedback.length</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -3911,7 +3911,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.winch.feedback.length_t</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -3980,7 +3980,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.pendelEstimator.e[0]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -4049,7 +4049,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.pendelEstimator.e[1]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -4118,7 +4118,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>8</VariableSize>
                 <SymbolName>MAIN.pendelEstimator.e[2]</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -4187,7 +4187,7 @@
                 <TargetPort>851</TargetPort>
                 <VariableSize>1</VariableSize>
                 <SymbolName>MAIN.lqrAntiSwing.active</SymbolName>
-                <SymbolComment />
+                <SymbolComment></SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
                 <UseLocalServer>true</UseLocalServer>
@@ -4241,6 +4241,1179 @@
                 <CapSize>3</CapSize>
                 <CapColorValue>-65536</CapColorValue>
                 <SeriesType>Stair</SeriesType>
+                <ShowMin>false</ShowMin>
+                <ShowMax>false</ShowMax>
+              </Style>
+              <SortPriority>-1</SortPriority>
+            </ScopeChannelSerializable>
+            <ScopeChannelSerializable>
+              <Name>qtm_pos[0]</Name>
+              <IdentHandle>61</IdentHandle>
+              <Acquisition>
+                <DataType>REAL64</DataType>
+                <IndexGroup>16448</IndexGroup>
+                <IndexOffset>532032</IndexOffset>
+                <TargetPort>851</TargetPort>
+                <VariableSize>8</VariableSize>
+                <SymbolName>MAIN.qtm.feedback.pos[0]</SymbolName>
+                <SymbolComment></SymbolComment>
+                <IsSymbolBased>true</IsSymbolBased>
+                <FileHandle>0</FileHandle>
+                <UseLocalServer>true</UseLocalServer>
+                <AmsNetIdString>192.168.90.150.1.1</AmsNetIdString>
+                <SampleTime>50000</SampleTime>
+                <Disabled>false</Disabled>
+                <Oversample>0</Oversample>
+                <UseTaskSampletime>true</UseTaskSampletime>
+                <ForceOversampling>false</ForceOversampling>
+                <IsArray>false</IsArray>
+                <ArrayLength>0</ArrayLength>
+                <ContextMask>0</ContextMask>
+                <TimeOffset>0</TimeOffset>
+                <DataAccess>
+                  <Source>TwinCAT</Source>
+                  <Protocoll>ADS</Protocoll>
+                  <Format>TcBinary</Format>
+                  <TimeContext>Present</TimeContext>
+                  <TimeRange>
+                    <StartTimeStamp>0</StartTimeStamp>
+                    <EndTimeStamp>0</EndTimeStamp>
+                  </TimeRange>
+                </DataAccess>
+                <DbSelect />
+                <DbColumn />
+                <DbId>0</DbId>
+              </Acquisition>
+              <Style>
+                <ColorValue>-16181</ColorValue>
+                <SolidLine>true</SolidLine>
+                <Marks>false</Marks>
+                <LineWidth>1</LineWidth>
+                <Antialias>true</Antialias>
+                <Offset>0</Offset>
+                <BitMask>18446744073709551615</BitMask>
+                <ShowCursorValue>true</ShowCursorValue>
+                <Visible>true</Visible>
+                <MarkColorValue>-16181</MarkColorValue>
+                <MarkSize>3</MarkSize>
+                <TimeShift>0</TimeShift>
+                <ScaleFactor>1</ScaleFactor>
+                <Comment></Comment>
+                <AutoMarks>true</AutoMarks>
+                <XOffset>0</XOffset>
+                <XScaleFactor>1</XScaleFactor>
+                <XBitMask>18446744073709551615</XBitMask>
+                <FillMode>0</FillMode>
+                <FillColorValue>855621835</FillColorValue>
+                <EndCap>false</EndCap>
+                <StartCap>false</StartCap>
+                <CapSize>3</CapSize>
+                <CapColorValue>-65536</CapColorValue>
+                <SeriesType>Line</SeriesType>
+                <ShowMin>false</ShowMin>
+                <ShowMax>false</ShowMax>
+              </Style>
+              <SortPriority>-1</SortPriority>
+            </ScopeChannelSerializable>
+            <ScopeChannelSerializable>
+              <Name>qtm_pos[1]</Name>
+              <IdentHandle>62</IdentHandle>
+              <Acquisition>
+                <DataType>REAL64</DataType>
+                <IndexGroup>16448</IndexGroup>
+                <IndexOffset>532040</IndexOffset>
+                <TargetPort>851</TargetPort>
+                <VariableSize>8</VariableSize>
+                <SymbolName>MAIN.qtm.feedback.pos[1]</SymbolName>
+                <SymbolComment></SymbolComment>
+                <IsSymbolBased>true</IsSymbolBased>
+                <FileHandle>0</FileHandle>
+                <UseLocalServer>true</UseLocalServer>
+                <AmsNetIdString>192.168.90.150.1.1</AmsNetIdString>
+                <SampleTime>50000</SampleTime>
+                <Disabled>false</Disabled>
+                <Oversample>0</Oversample>
+                <UseTaskSampletime>true</UseTaskSampletime>
+                <ForceOversampling>false</ForceOversampling>
+                <IsArray>false</IsArray>
+                <ArrayLength>0</ArrayLength>
+                <ContextMask>0</ContextMask>
+                <TimeOffset>0</TimeOffset>
+                <DataAccess>
+                  <Source>TwinCAT</Source>
+                  <Protocoll>ADS</Protocoll>
+                  <Format>TcBinary</Format>
+                  <TimeContext>Present</TimeContext>
+                  <TimeRange>
+                    <StartTimeStamp>0</StartTimeStamp>
+                    <EndTimeStamp>0</EndTimeStamp>
+                  </TimeRange>
+                </DataAccess>
+                <DbSelect />
+                <DbColumn />
+                <DbId>0</DbId>
+              </Acquisition>
+              <Style>
+                <ColorValue>-4419697</ColorValue>
+                <SolidLine>true</SolidLine>
+                <Marks>false</Marks>
+                <LineWidth>1</LineWidth>
+                <Antialias>true</Antialias>
+                <Offset>0</Offset>
+                <BitMask>18446744073709551615</BitMask>
+                <ShowCursorValue>true</ShowCursorValue>
+                <Visible>true</Visible>
+                <MarkColorValue>-4419697</MarkColorValue>
+                <MarkSize>3</MarkSize>
+                <TimeShift>0</TimeShift>
+                <ScaleFactor>1</ScaleFactor>
+                <Comment></Comment>
+                <AutoMarks>true</AutoMarks>
+                <XOffset>0</XOffset>
+                <XScaleFactor>1</XScaleFactor>
+                <XBitMask>18446744073709551615</XBitMask>
+                <FillMode>0</FillMode>
+                <FillColorValue>851218319</FillColorValue>
+                <EndCap>false</EndCap>
+                <StartCap>false</StartCap>
+                <CapSize>3</CapSize>
+                <CapColorValue>-65536</CapColorValue>
+                <SeriesType>Line</SeriesType>
+                <ShowMin>false</ShowMin>
+                <ShowMax>false</ShowMax>
+              </Style>
+              <SortPriority>-1</SortPriority>
+            </ScopeChannelSerializable>
+            <ScopeChannelSerializable>
+              <Name>qtm_pos[2]</Name>
+              <IdentHandle>63</IdentHandle>
+              <Acquisition>
+                <DataType>REAL64</DataType>
+                <IndexGroup>16448</IndexGroup>
+                <IndexOffset>532048</IndexOffset>
+                <TargetPort>851</TargetPort>
+                <VariableSize>8</VariableSize>
+                <SymbolName>MAIN.qtm.feedback.pos[2]</SymbolName>
+                <SymbolComment></SymbolComment>
+                <IsSymbolBased>true</IsSymbolBased>
+                <FileHandle>0</FileHandle>
+                <UseLocalServer>true</UseLocalServer>
+                <AmsNetIdString>192.168.90.150.1.1</AmsNetIdString>
+                <SampleTime>50000</SampleTime>
+                <Disabled>false</Disabled>
+                <Oversample>0</Oversample>
+                <UseTaskSampletime>true</UseTaskSampletime>
+                <ForceOversampling>false</ForceOversampling>
+                <IsArray>false</IsArray>
+                <ArrayLength>0</ArrayLength>
+                <ContextMask>0</ContextMask>
+                <TimeOffset>0</TimeOffset>
+                <DataAccess>
+                  <Source>TwinCAT</Source>
+                  <Protocoll>ADS</Protocoll>
+                  <Format>TcBinary</Format>
+                  <TimeContext>Present</TimeContext>
+                  <TimeRange>
+                    <StartTimeStamp>0</StartTimeStamp>
+                    <EndTimeStamp>0</EndTimeStamp>
+                  </TimeRange>
+                </DataAccess>
+                <DbSelect />
+                <DbColumn />
+                <DbId>0</DbId>
+              </Acquisition>
+              <Style>
+                <ColorValue>-16728065</ColorValue>
+                <SolidLine>true</SolidLine>
+                <Marks>false</Marks>
+                <LineWidth>1</LineWidth>
+                <Antialias>true</Antialias>
+                <Offset>0</Offset>
+                <BitMask>18446744073709551615</BitMask>
+                <ShowCursorValue>true</ShowCursorValue>
+                <Visible>true</Visible>
+                <MarkColorValue>-16728065</MarkColorValue>
+                <MarkSize>3</MarkSize>
+                <TimeShift>0</TimeShift>
+                <ScaleFactor>1</ScaleFactor>
+                <Comment></Comment>
+                <AutoMarks>true</AutoMarks>
+                <XOffset>0</XOffset>
+                <XScaleFactor>1</XScaleFactor>
+                <XBitMask>18446744073709551615</XBitMask>
+                <FillMode>0</FillMode>
+                <FillColorValue>838909951</FillColorValue>
+                <EndCap>false</EndCap>
+                <StartCap>false</StartCap>
+                <CapSize>3</CapSize>
+                <CapColorValue>-65536</CapColorValue>
+                <SeriesType>Line</SeriesType>
+                <ShowMin>false</ShowMin>
+                <ShowMax>false</ShowMax>
+              </Style>
+              <SortPriority>-1</SortPriority>
+            </ScopeChannelSerializable>
+            <ScopeChannelSerializable>
+              <Name>eta2_t[0]</Name>
+              <IdentHandle>64</IdentHandle>
+              <Acquisition>
+                <DataType>REAL64</DataType>
+                <IndexGroup>16448</IndexGroup>
+                <IndexOffset>517968</IndexOffset>
+                <TargetPort>851</TargetPort>
+                <VariableSize>8</VariableSize>
+                <SymbolName>MAIN.em1500.feedback.eta_t[0]</SymbolName>
+                <SymbolComment></SymbolComment>
+                <IsSymbolBased>true</IsSymbolBased>
+                <FileHandle>0</FileHandle>
+                <UseLocalServer>true</UseLocalServer>
+                <AmsNetIdString>192.168.90.150.1.1</AmsNetIdString>
+                <SampleTime>50000</SampleTime>
+                <Disabled>false</Disabled>
+                <Oversample>0</Oversample>
+                <UseTaskSampletime>true</UseTaskSampletime>
+                <ForceOversampling>false</ForceOversampling>
+                <IsArray>false</IsArray>
+                <ArrayLength>0</ArrayLength>
+                <ContextMask>0</ContextMask>
+                <TimeOffset>0</TimeOffset>
+                <DataAccess>
+                  <Source>TwinCAT</Source>
+                  <Protocoll>ADS</Protocoll>
+                  <Format>TcBinary</Format>
+                  <TimeContext>Present</TimeContext>
+                  <TimeRange>
+                    <StartTimeStamp>0</StartTimeStamp>
+                    <EndTimeStamp>0</EndTimeStamp>
+                  </TimeRange>
+                </DataAccess>
+                <DbSelect />
+                <DbColumn />
+                <DbId>0</DbId>
+              </Acquisition>
+              <Style>
+                <ColorValue>-8355712</ColorValue>
+                <SolidLine>true</SolidLine>
+                <Marks>false</Marks>
+                <LineWidth>1</LineWidth>
+                <Antialias>true</Antialias>
+                <Offset>0</Offset>
+                <BitMask>18446744073709551615</BitMask>
+                <ShowCursorValue>true</ShowCursorValue>
+                <Visible>true</Visible>
+                <MarkColorValue>-8355712</MarkColorValue>
+                <MarkSize>3</MarkSize>
+                <TimeShift>0</TimeShift>
+                <ScaleFactor>1</ScaleFactor>
+                <Comment></Comment>
+                <AutoMarks>true</AutoMarks>
+                <XOffset>0</XOffset>
+                <XScaleFactor>1</XScaleFactor>
+                <XBitMask>18446744073709551615</XBitMask>
+                <FillMode>0</FillMode>
+                <FillColorValue>847282304</FillColorValue>
+                <EndCap>false</EndCap>
+                <StartCap>false</StartCap>
+                <CapSize>3</CapSize>
+                <CapColorValue>-65536</CapColorValue>
+                <SeriesType>Line</SeriesType>
+                <ShowMin>false</ShowMin>
+                <ShowMax>false</ShowMax>
+              </Style>
+              <SortPriority>-1</SortPriority>
+            </ScopeChannelSerializable>
+            <ScopeChannelSerializable>
+              <Name>eta2_t[1]</Name>
+              <IdentHandle>65</IdentHandle>
+              <Acquisition>
+                <DataType>REAL64</DataType>
+                <IndexGroup>16448</IndexGroup>
+                <IndexOffset>517976</IndexOffset>
+                <TargetPort>851</TargetPort>
+                <VariableSize>8</VariableSize>
+                <SymbolName>MAIN.em1500.feedback.eta_t[1]</SymbolName>
+                <SymbolComment></SymbolComment>
+                <IsSymbolBased>true</IsSymbolBased>
+                <FileHandle>0</FileHandle>
+                <UseLocalServer>true</UseLocalServer>
+                <AmsNetIdString>192.168.90.150.1.1</AmsNetIdString>
+                <SampleTime>50000</SampleTime>
+                <Disabled>false</Disabled>
+                <Oversample>0</Oversample>
+                <UseTaskSampletime>true</UseTaskSampletime>
+                <ForceOversampling>false</ForceOversampling>
+                <IsArray>false</IsArray>
+                <ArrayLength>0</ArrayLength>
+                <ContextMask>0</ContextMask>
+                <TimeOffset>0</TimeOffset>
+                <DataAccess>
+                  <Source>TwinCAT</Source>
+                  <Protocoll>ADS</Protocoll>
+                  <Format>TcBinary</Format>
+                  <TimeContext>Present</TimeContext>
+                  <TimeRange>
+                    <StartTimeStamp>0</StartTimeStamp>
+                    <EndTimeStamp>0</EndTimeStamp>
+                  </TimeRange>
+                </DataAccess>
+                <DbSelect />
+                <DbColumn />
+                <DbId>0</DbId>
+              </Acquisition>
+              <Style>
+                <ColorValue>-65536</ColorValue>
+                <SolidLine>true</SolidLine>
+                <Marks>false</Marks>
+                <LineWidth>1</LineWidth>
+                <Antialias>true</Antialias>
+                <Offset>0</Offset>
+                <BitMask>18446744073709551615</BitMask>
+                <ShowCursorValue>true</ShowCursorValue>
+                <Visible>true</Visible>
+                <MarkColorValue>-65536</MarkColorValue>
+                <MarkSize>3</MarkSize>
+                <TimeShift>0</TimeShift>
+                <ScaleFactor>1</ScaleFactor>
+                <Comment></Comment>
+                <AutoMarks>true</AutoMarks>
+                <XOffset>0</XOffset>
+                <XScaleFactor>1</XScaleFactor>
+                <XBitMask>18446744073709551615</XBitMask>
+                <FillMode>0</FillMode>
+                <FillColorValue>855572480</FillColorValue>
+                <EndCap>false</EndCap>
+                <StartCap>false</StartCap>
+                <CapSize>3</CapSize>
+                <CapColorValue>-65536</CapColorValue>
+                <SeriesType>Line</SeriesType>
+                <ShowMin>false</ShowMin>
+                <ShowMax>false</ShowMax>
+              </Style>
+              <SortPriority>-1</SortPriority>
+            </ScopeChannelSerializable>
+            <ScopeChannelSerializable>
+              <Name>eta2_t[2]</Name>
+              <IdentHandle>66</IdentHandle>
+              <Acquisition>
+                <DataType>REAL64</DataType>
+                <IndexGroup>16448</IndexGroup>
+                <IndexOffset>517984</IndexOffset>
+                <TargetPort>851</TargetPort>
+                <VariableSize>8</VariableSize>
+                <SymbolName>MAIN.em1500.feedback.eta_t[2]</SymbolName>
+                <SymbolComment></SymbolComment>
+                <IsSymbolBased>true</IsSymbolBased>
+                <FileHandle>0</FileHandle>
+                <UseLocalServer>true</UseLocalServer>
+                <AmsNetIdString>192.168.90.150.1.1</AmsNetIdString>
+                <SampleTime>50000</SampleTime>
+                <Disabled>false</Disabled>
+                <Oversample>0</Oversample>
+                <UseTaskSampletime>true</UseTaskSampletime>
+                <ForceOversampling>false</ForceOversampling>
+                <IsArray>false</IsArray>
+                <ArrayLength>0</ArrayLength>
+                <ContextMask>0</ContextMask>
+                <TimeOffset>0</TimeOffset>
+                <DataAccess>
+                  <Source>TwinCAT</Source>
+                  <Protocoll>ADS</Protocoll>
+                  <Format>TcBinary</Format>
+                  <TimeContext>Present</TimeContext>
+                  <TimeRange>
+                    <StartTimeStamp>0</StartTimeStamp>
+                    <EndTimeStamp>0</EndTimeStamp>
+                  </TimeRange>
+                </DataAccess>
+                <DbSelect />
+                <DbColumn />
+                <DbId>0</DbId>
+              </Acquisition>
+              <Style>
+                <ColorValue>-16744448</ColorValue>
+                <SolidLine>true</SolidLine>
+                <Marks>false</Marks>
+                <LineWidth>1</LineWidth>
+                <Antialias>true</Antialias>
+                <Offset>0</Offset>
+                <BitMask>18446744073709551615</BitMask>
+                <ShowCursorValue>true</ShowCursorValue>
+                <Visible>true</Visible>
+                <MarkColorValue>-16744448</MarkColorValue>
+                <MarkSize>3</MarkSize>
+                <TimeShift>0</TimeShift>
+                <ScaleFactor>1</ScaleFactor>
+                <Comment></Comment>
+                <AutoMarks>true</AutoMarks>
+                <XOffset>0</XOffset>
+                <XScaleFactor>1</XScaleFactor>
+                <XBitMask>18446744073709551615</XBitMask>
+                <FillMode>0</FillMode>
+                <FillColorValue>838893568</FillColorValue>
+                <EndCap>false</EndCap>
+                <StartCap>false</StartCap>
+                <CapSize>3</CapSize>
+                <CapColorValue>-65536</CapColorValue>
+                <SeriesType>Line</SeriesType>
+                <ShowMin>false</ShowMin>
+                <ShowMax>false</ShowMax>
+              </Style>
+              <SortPriority>-1</SortPriority>
+            </ScopeChannelSerializable>
+            <ScopeChannelSerializable>
+              <Name>eta2_t[3]</Name>
+              <IdentHandle>67</IdentHandle>
+              <Acquisition>
+                <DataType>REAL64</DataType>
+                <IndexGroup>16448</IndexGroup>
+                <IndexOffset>517992</IndexOffset>
+                <TargetPort>851</TargetPort>
+                <VariableSize>8</VariableSize>
+                <SymbolName>MAIN.em1500.feedback.eta_t[3]</SymbolName>
+                <SymbolComment></SymbolComment>
+                <IsSymbolBased>true</IsSymbolBased>
+                <FileHandle>0</FileHandle>
+                <UseLocalServer>true</UseLocalServer>
+                <AmsNetIdString>192.168.90.150.1.1</AmsNetIdString>
+                <SampleTime>50000</SampleTime>
+                <Disabled>false</Disabled>
+                <Oversample>0</Oversample>
+                <UseTaskSampletime>true</UseTaskSampletime>
+                <ForceOversampling>false</ForceOversampling>
+                <IsArray>false</IsArray>
+                <ArrayLength>0</ArrayLength>
+                <ContextMask>0</ContextMask>
+                <TimeOffset>0</TimeOffset>
+                <DataAccess>
+                  <Source>TwinCAT</Source>
+                  <Protocoll>ADS</Protocoll>
+                  <Format>TcBinary</Format>
+                  <TimeContext>Present</TimeContext>
+                  <TimeRange>
+                    <StartTimeStamp>0</StartTimeStamp>
+                    <EndTimeStamp>0</EndTimeStamp>
+                  </TimeRange>
+                </DataAccess>
+                <DbSelect />
+                <DbColumn />
+                <DbId>0</DbId>
+              </Acquisition>
+              <Style>
+                <ColorValue>-16776961</ColorValue>
+                <SolidLine>true</SolidLine>
+                <Marks>false</Marks>
+                <LineWidth>1</LineWidth>
+                <Antialias>true</Antialias>
+                <Offset>0</Offset>
+                <BitMask>18446744073709551615</BitMask>
+                <ShowCursorValue>true</ShowCursorValue>
+                <Visible>true</Visible>
+                <MarkColorValue>-16776961</MarkColorValue>
+                <MarkSize>3</MarkSize>
+                <TimeShift>0</TimeShift>
+                <ScaleFactor>1</ScaleFactor>
+                <Comment></Comment>
+                <AutoMarks>true</AutoMarks>
+                <XOffset>0</XOffset>
+                <XScaleFactor>1</XScaleFactor>
+                <XBitMask>18446744073709551615</XBitMask>
+                <FillMode>0</FillMode>
+                <FillColorValue>838861055</FillColorValue>
+                <EndCap>false</EndCap>
+                <StartCap>false</StartCap>
+                <CapSize>3</CapSize>
+                <CapColorValue>-65536</CapColorValue>
+                <SeriesType>Line</SeriesType>
+                <ShowMin>false</ShowMin>
+                <ShowMax>false</ShowMax>
+              </Style>
+              <SortPriority>-1</SortPriority>
+            </ScopeChannelSerializable>
+            <ScopeChannelSerializable>
+              <Name>eta2_t[4]</Name>
+              <IdentHandle>68</IdentHandle>
+              <Acquisition>
+                <DataType>REAL64</DataType>
+                <IndexGroup>16448</IndexGroup>
+                <IndexOffset>518000</IndexOffset>
+                <TargetPort>851</TargetPort>
+                <VariableSize>8</VariableSize>
+                <SymbolName>MAIN.em1500.feedback.eta_t[4]</SymbolName>
+                <SymbolComment></SymbolComment>
+                <IsSymbolBased>true</IsSymbolBased>
+                <FileHandle>0</FileHandle>
+                <UseLocalServer>true</UseLocalServer>
+                <AmsNetIdString>192.168.90.150.1.1</AmsNetIdString>
+                <SampleTime>50000</SampleTime>
+                <Disabled>false</Disabled>
+                <Oversample>0</Oversample>
+                <UseTaskSampletime>true</UseTaskSampletime>
+                <ForceOversampling>false</ForceOversampling>
+                <IsArray>false</IsArray>
+                <ArrayLength>0</ArrayLength>
+                <ContextMask>0</ContextMask>
+                <TimeOffset>0</TimeOffset>
+                <DataAccess>
+                  <Source>TwinCAT</Source>
+                  <Protocoll>ADS</Protocoll>
+                  <Format>TcBinary</Format>
+                  <TimeContext>Present</TimeContext>
+                  <TimeRange>
+                    <StartTimeStamp>0</StartTimeStamp>
+                    <EndTimeStamp>0</EndTimeStamp>
+                  </TimeRange>
+                </DataAccess>
+                <DbSelect />
+                <DbColumn />
+                <DbId>0</DbId>
+              </Acquisition>
+              <Style>
+                <ColorValue>-23296</ColorValue>
+                <SolidLine>true</SolidLine>
+                <Marks>false</Marks>
+                <LineWidth>1</LineWidth>
+                <Antialias>true</Antialias>
+                <Offset>0</Offset>
+                <BitMask>18446744073709551615</BitMask>
+                <ShowCursorValue>true</ShowCursorValue>
+                <Visible>true</Visible>
+                <MarkColorValue>-23296</MarkColorValue>
+                <MarkSize>3</MarkSize>
+                <TimeShift>0</TimeShift>
+                <ScaleFactor>1</ScaleFactor>
+                <Comment></Comment>
+                <AutoMarks>true</AutoMarks>
+                <XOffset>0</XOffset>
+                <XScaleFactor>1</XScaleFactor>
+                <XBitMask>18446744073709551615</XBitMask>
+                <FillMode>0</FillMode>
+                <FillColorValue>855614720</FillColorValue>
+                <EndCap>false</EndCap>
+                <StartCap>false</StartCap>
+                <CapSize>3</CapSize>
+                <CapColorValue>-65536</CapColorValue>
+                <SeriesType>Line</SeriesType>
+                <ShowMin>false</ShowMin>
+                <ShowMax>false</ShowMax>
+              </Style>
+              <SortPriority>-1</SortPriority>
+            </ScopeChannelSerializable>
+            <ScopeChannelSerializable>
+              <Name>eta2_t[5]</Name>
+              <IdentHandle>69</IdentHandle>
+              <Acquisition>
+                <DataType>REAL64</DataType>
+                <IndexGroup>16448</IndexGroup>
+                <IndexOffset>518008</IndexOffset>
+                <TargetPort>851</TargetPort>
+                <VariableSize>8</VariableSize>
+                <SymbolName>MAIN.em1500.feedback.eta_t[5]</SymbolName>
+                <SymbolComment></SymbolComment>
+                <IsSymbolBased>true</IsSymbolBased>
+                <FileHandle>0</FileHandle>
+                <UseLocalServer>true</UseLocalServer>
+                <AmsNetIdString>192.168.90.150.1.1</AmsNetIdString>
+                <SampleTime>50000</SampleTime>
+                <Disabled>false</Disabled>
+                <Oversample>0</Oversample>
+                <UseTaskSampletime>true</UseTaskSampletime>
+                <ForceOversampling>false</ForceOversampling>
+                <IsArray>false</IsArray>
+                <ArrayLength>0</ArrayLength>
+                <ContextMask>0</ContextMask>
+                <TimeOffset>0</TimeOffset>
+                <DataAccess>
+                  <Source>TwinCAT</Source>
+                  <Protocoll>ADS</Protocoll>
+                  <Format>TcBinary</Format>
+                  <TimeContext>Present</TimeContext>
+                  <TimeRange>
+                    <StartTimeStamp>0</StartTimeStamp>
+                    <EndTimeStamp>0</EndTimeStamp>
+                  </TimeRange>
+                </DataAccess>
+                <DbSelect />
+                <DbColumn />
+                <DbId>0</DbId>
+              </Acquisition>
+              <Style>
+                <ColorValue>-16711936</ColorValue>
+                <SolidLine>true</SolidLine>
+                <Marks>false</Marks>
+                <LineWidth>1</LineWidth>
+                <Antialias>true</Antialias>
+                <Offset>0</Offset>
+                <BitMask>18446744073709551615</BitMask>
+                <ShowCursorValue>true</ShowCursorValue>
+                <Visible>true</Visible>
+                <MarkColorValue>-16711936</MarkColorValue>
+                <MarkSize>3</MarkSize>
+                <TimeShift>0</TimeShift>
+                <ScaleFactor>1</ScaleFactor>
+                <Comment></Comment>
+                <AutoMarks>true</AutoMarks>
+                <XOffset>0</XOffset>
+                <XScaleFactor>1</XScaleFactor>
+                <XBitMask>18446744073709551615</XBitMask>
+                <FillMode>0</FillMode>
+                <FillColorValue>838926080</FillColorValue>
+                <EndCap>false</EndCap>
+                <StartCap>false</StartCap>
+                <CapSize>3</CapSize>
+                <CapColorValue>-65536</CapColorValue>
+                <SeriesType>Line</SeriesType>
+                <ShowMin>false</ShowMin>
+                <ShowMax>false</ShowMax>
+              </Style>
+              <SortPriority>-1</SortPriority>
+            </ScopeChannelSerializable>
+            <ScopeChannelSerializable>
+              <Name>eta1_t[0]</Name>
+              <IdentHandle>70</IdentHandle>
+              <Acquisition>
+                <DataType>REAL64</DataType>
+                <IndexGroup>16448</IndexGroup>
+                <IndexOffset>516880</IndexOffset>
+                <TargetPort>851</TargetPort>
+                <VariableSize>8</VariableSize>
+                <SymbolName>MAIN.em8000.feedback.eta_t[0]</SymbolName>
+                <SymbolComment></SymbolComment>
+                <IsSymbolBased>true</IsSymbolBased>
+                <FileHandle>0</FileHandle>
+                <UseLocalServer>true</UseLocalServer>
+                <AmsNetIdString>192.168.90.150.1.1</AmsNetIdString>
+                <SampleTime>50000</SampleTime>
+                <Disabled>false</Disabled>
+                <Oversample>0</Oversample>
+                <UseTaskSampletime>true</UseTaskSampletime>
+                <ForceOversampling>false</ForceOversampling>
+                <IsArray>false</IsArray>
+                <ArrayLength>0</ArrayLength>
+                <ContextMask>0</ContextMask>
+                <TimeOffset>0</TimeOffset>
+                <DataAccess>
+                  <Source>TwinCAT</Source>
+                  <Protocoll>ADS</Protocoll>
+                  <Format>TcBinary</Format>
+                  <TimeContext>Present</TimeContext>
+                  <TimeRange>
+                    <StartTimeStamp>0</StartTimeStamp>
+                    <EndTimeStamp>0</EndTimeStamp>
+                  </TimeRange>
+                </DataAccess>
+                <DbSelect />
+                <DbColumn />
+                <DbId>0</DbId>
+              </Acquisition>
+              <Style>
+                <ColorValue>-14774017</ColorValue>
+                <SolidLine>true</SolidLine>
+                <Marks>false</Marks>
+                <LineWidth>1</LineWidth>
+                <Antialias>true</Antialias>
+                <Offset>0</Offset>
+                <BitMask>18446744073709551615</BitMask>
+                <ShowCursorValue>true</ShowCursorValue>
+                <Visible>true</Visible>
+                <MarkColorValue>-14774017</MarkColorValue>
+                <MarkSize>3</MarkSize>
+                <TimeShift>0</TimeShift>
+                <ScaleFactor>1</ScaleFactor>
+                <Comment></Comment>
+                <AutoMarks>true</AutoMarks>
+                <XOffset>0</XOffset>
+                <XScaleFactor>1</XScaleFactor>
+                <XBitMask>18446744073709551615</XBitMask>
+                <FillMode>0</FillMode>
+                <FillColorValue>840863999</FillColorValue>
+                <EndCap>false</EndCap>
+                <StartCap>false</StartCap>
+                <CapSize>3</CapSize>
+                <CapColorValue>-65536</CapColorValue>
+                <SeriesType>Line</SeriesType>
+                <ShowMin>false</ShowMin>
+                <ShowMax>false</ShowMax>
+              </Style>
+              <SortPriority>-1</SortPriority>
+            </ScopeChannelSerializable>
+            <ScopeChannelSerializable>
+              <Name>eta1_t[1]</Name>
+              <IdentHandle>71</IdentHandle>
+              <Acquisition>
+                <DataType>REAL64</DataType>
+                <IndexGroup>16448</IndexGroup>
+                <IndexOffset>516888</IndexOffset>
+                <TargetPort>851</TargetPort>
+                <VariableSize>8</VariableSize>
+                <SymbolName>MAIN.em8000.feedback.eta_t[1]</SymbolName>
+                <SymbolComment></SymbolComment>
+                <IsSymbolBased>true</IsSymbolBased>
+                <FileHandle>0</FileHandle>
+                <UseLocalServer>true</UseLocalServer>
+                <AmsNetIdString>192.168.90.150.1.1</AmsNetIdString>
+                <SampleTime>50000</SampleTime>
+                <Disabled>false</Disabled>
+                <Oversample>0</Oversample>
+                <UseTaskSampletime>true</UseTaskSampletime>
+                <ForceOversampling>false</ForceOversampling>
+                <IsArray>false</IsArray>
+                <ArrayLength>0</ArrayLength>
+                <ContextMask>0</ContextMask>
+                <TimeOffset>0</TimeOffset>
+                <DataAccess>
+                  <Source>TwinCAT</Source>
+                  <Protocoll>ADS</Protocoll>
+                  <Format>TcBinary</Format>
+                  <TimeContext>Present</TimeContext>
+                  <TimeRange>
+                    <StartTimeStamp>0</StartTimeStamp>
+                    <EndTimeStamp>0</EndTimeStamp>
+                  </TimeRange>
+                </DataAccess>
+                <DbSelect />
+                <DbColumn />
+                <DbId>0</DbId>
+              </Acquisition>
+              <Style>
+                <ColorValue>-65281</ColorValue>
+                <SolidLine>true</SolidLine>
+                <Marks>false</Marks>
+                <LineWidth>1</LineWidth>
+                <Antialias>true</Antialias>
+                <Offset>0</Offset>
+                <BitMask>18446744073709551615</BitMask>
+                <ShowCursorValue>true</ShowCursorValue>
+                <Visible>true</Visible>
+                <MarkColorValue>-65281</MarkColorValue>
+                <MarkSize>3</MarkSize>
+                <TimeShift>0</TimeShift>
+                <ScaleFactor>1</ScaleFactor>
+                <Comment></Comment>
+                <AutoMarks>true</AutoMarks>
+                <XOffset>0</XOffset>
+                <XScaleFactor>1</XScaleFactor>
+                <XBitMask>18446744073709551615</XBitMask>
+                <FillMode>0</FillMode>
+                <FillColorValue>855572735</FillColorValue>
+                <EndCap>false</EndCap>
+                <StartCap>false</StartCap>
+                <CapSize>3</CapSize>
+                <CapColorValue>-65536</CapColorValue>
+                <SeriesType>Line</SeriesType>
+                <ShowMin>false</ShowMin>
+                <ShowMax>false</ShowMax>
+              </Style>
+              <SortPriority>-1</SortPriority>
+            </ScopeChannelSerializable>
+            <ScopeChannelSerializable>
+              <Name>eta1_t[2]</Name>
+              <IdentHandle>72</IdentHandle>
+              <Acquisition>
+                <DataType>REAL64</DataType>
+                <IndexGroup>16448</IndexGroup>
+                <IndexOffset>516896</IndexOffset>
+                <TargetPort>851</TargetPort>
+                <VariableSize>8</VariableSize>
+                <SymbolName>MAIN.em8000.feedback.eta_t[2]</SymbolName>
+                <SymbolComment></SymbolComment>
+                <IsSymbolBased>true</IsSymbolBased>
+                <FileHandle>0</FileHandle>
+                <UseLocalServer>true</UseLocalServer>
+                <AmsNetIdString>192.168.90.150.1.1</AmsNetIdString>
+                <SampleTime>50000</SampleTime>
+                <Disabled>false</Disabled>
+                <Oversample>0</Oversample>
+                <UseTaskSampletime>true</UseTaskSampletime>
+                <ForceOversampling>false</ForceOversampling>
+                <IsArray>false</IsArray>
+                <ArrayLength>0</ArrayLength>
+                <ContextMask>0</ContextMask>
+                <TimeOffset>0</TimeOffset>
+                <DataAccess>
+                  <Source>TwinCAT</Source>
+                  <Protocoll>ADS</Protocoll>
+                  <Format>TcBinary</Format>
+                  <TimeContext>Present</TimeContext>
+                  <TimeRange>
+                    <StartTimeStamp>0</StartTimeStamp>
+                    <EndTimeStamp>0</EndTimeStamp>
+                  </TimeRange>
+                </DataAccess>
+                <DbSelect />
+                <DbColumn />
+                <DbId>0</DbId>
+              </Acquisition>
+              <Style>
+                <ColorValue>-8355840</ColorValue>
+                <SolidLine>true</SolidLine>
+                <Marks>false</Marks>
+                <LineWidth>1</LineWidth>
+                <Antialias>true</Antialias>
+                <Offset>0</Offset>
+                <BitMask>18446744073709551615</BitMask>
+                <ShowCursorValue>true</ShowCursorValue>
+                <Visible>true</Visible>
+                <MarkColorValue>-8355840</MarkColorValue>
+                <MarkSize>3</MarkSize>
+                <TimeShift>0</TimeShift>
+                <ScaleFactor>1</ScaleFactor>
+                <Comment></Comment>
+                <AutoMarks>true</AutoMarks>
+                <XOffset>0</XOffset>
+                <XScaleFactor>1</XScaleFactor>
+                <XBitMask>18446744073709551615</XBitMask>
+                <FillMode>0</FillMode>
+                <FillColorValue>847282176</FillColorValue>
+                <EndCap>false</EndCap>
+                <StartCap>false</StartCap>
+                <CapSize>3</CapSize>
+                <CapColorValue>-65536</CapColorValue>
+                <SeriesType>Line</SeriesType>
+                <ShowMin>false</ShowMin>
+                <ShowMax>false</ShowMax>
+              </Style>
+              <SortPriority>-1</SortPriority>
+            </ScopeChannelSerializable>
+            <ScopeChannelSerializable>
+              <Name>eta1_t[3]</Name>
+              <IdentHandle>73</IdentHandle>
+              <Acquisition>
+                <DataType>REAL64</DataType>
+                <IndexGroup>16448</IndexGroup>
+                <IndexOffset>516904</IndexOffset>
+                <TargetPort>851</TargetPort>
+                <VariableSize>8</VariableSize>
+                <SymbolName>MAIN.em8000.feedback.eta_t[3]</SymbolName>
+                <SymbolComment></SymbolComment>
+                <IsSymbolBased>true</IsSymbolBased>
+                <FileHandle>0</FileHandle>
+                <UseLocalServer>true</UseLocalServer>
+                <AmsNetIdString>192.168.90.150.1.1</AmsNetIdString>
+                <SampleTime>50000</SampleTime>
+                <Disabled>false</Disabled>
+                <Oversample>0</Oversample>
+                <UseTaskSampletime>true</UseTaskSampletime>
+                <ForceOversampling>false</ForceOversampling>
+                <IsArray>false</IsArray>
+                <ArrayLength>0</ArrayLength>
+                <ContextMask>0</ContextMask>
+                <TimeOffset>0</TimeOffset>
+                <DataAccess>
+                  <Source>TwinCAT</Source>
+                  <Protocoll>ADS</Protocoll>
+                  <Format>TcBinary</Format>
+                  <TimeContext>Present</TimeContext>
+                  <TimeRange>
+                    <StartTimeStamp>0</StartTimeStamp>
+                    <EndTimeStamp>0</EndTimeStamp>
+                  </TimeRange>
+                </DataAccess>
+                <DbSelect />
+                <DbColumn />
+                <DbId>0</DbId>
+              </Acquisition>
+              <Style>
+                <ColorValue>-16711681</ColorValue>
+                <SolidLine>true</SolidLine>
+                <Marks>false</Marks>
+                <LineWidth>1</LineWidth>
+                <Antialias>true</Antialias>
+                <Offset>0</Offset>
+                <BitMask>18446744073709551615</BitMask>
+                <ShowCursorValue>true</ShowCursorValue>
+                <Visible>true</Visible>
+                <MarkColorValue>-16711681</MarkColorValue>
+                <MarkSize>3</MarkSize>
+                <TimeShift>0</TimeShift>
+                <ScaleFactor>1</ScaleFactor>
+                <Comment></Comment>
+                <AutoMarks>true</AutoMarks>
+                <XOffset>0</XOffset>
+                <XScaleFactor>1</XScaleFactor>
+                <XBitMask>18446744073709551615</XBitMask>
+                <FillMode>0</FillMode>
+                <FillColorValue>838926335</FillColorValue>
+                <EndCap>false</EndCap>
+                <StartCap>false</StartCap>
+                <CapSize>3</CapSize>
+                <CapColorValue>-65536</CapColorValue>
+                <SeriesType>Line</SeriesType>
+                <ShowMin>false</ShowMin>
+                <ShowMax>false</ShowMax>
+              </Style>
+              <SortPriority>-1</SortPriority>
+            </ScopeChannelSerializable>
+            <ScopeChannelSerializable>
+              <Name>eta1_t[4]</Name>
+              <IdentHandle>74</IdentHandle>
+              <Acquisition>
+                <DataType>REAL64</DataType>
+                <IndexGroup>16448</IndexGroup>
+                <IndexOffset>516912</IndexOffset>
+                <TargetPort>851</TargetPort>
+                <VariableSize>8</VariableSize>
+                <SymbolName>MAIN.em8000.feedback.eta_t[4]</SymbolName>
+                <SymbolComment></SymbolComment>
+                <IsSymbolBased>true</IsSymbolBased>
+                <FileHandle>0</FileHandle>
+                <UseLocalServer>true</UseLocalServer>
+                <AmsNetIdString>192.168.90.150.1.1</AmsNetIdString>
+                <SampleTime>50000</SampleTime>
+                <Disabled>false</Disabled>
+                <Oversample>0</Oversample>
+                <UseTaskSampletime>true</UseTaskSampletime>
+                <ForceOversampling>false</ForceOversampling>
+                <IsArray>false</IsArray>
+                <ArrayLength>0</ArrayLength>
+                <ContextMask>0</ContextMask>
+                <TimeOffset>0</TimeOffset>
+                <DataAccess>
+                  <Source>TwinCAT</Source>
+                  <Protocoll>ADS</Protocoll>
+                  <Format>TcBinary</Format>
+                  <TimeContext>Present</TimeContext>
+                  <TimeRange>
+                    <StartTimeStamp>0</StartTimeStamp>
+                    <EndTimeStamp>0</EndTimeStamp>
+                  </TimeRange>
+                </DataAccess>
+                <DbSelect />
+                <DbColumn />
+                <DbId>0</DbId>
+              </Acquisition>
+              <Style>
+                <ColorValue>-5952982</ColorValue>
+                <SolidLine>true</SolidLine>
+                <Marks>false</Marks>
+                <LineWidth>1</LineWidth>
+                <Antialias>true</Antialias>
+                <Offset>0</Offset>
+                <BitMask>18446744073709551615</BitMask>
+                <ShowCursorValue>true</ShowCursorValue>
+                <Visible>true</Visible>
+                <MarkColorValue>-5952982</MarkColorValue>
+                <MarkSize>3</MarkSize>
+                <TimeShift>0</TimeShift>
+                <ScaleFactor>1</ScaleFactor>
+                <Comment></Comment>
+                <AutoMarks>true</AutoMarks>
+                <XOffset>0</XOffset>
+                <XScaleFactor>1</XScaleFactor>
+                <XBitMask>18446744073709551615</XBitMask>
+                <FillMode>0</FillMode>
+                <FillColorValue>849685034</FillColorValue>
+                <EndCap>false</EndCap>
+                <StartCap>false</StartCap>
+                <CapSize>3</CapSize>
+                <CapColorValue>-65536</CapColorValue>
+                <SeriesType>Line</SeriesType>
+                <ShowMin>false</ShowMin>
+                <ShowMax>false</ShowMax>
+              </Style>
+              <SortPriority>-1</SortPriority>
+            </ScopeChannelSerializable>
+            <ScopeChannelSerializable>
+              <Name>eta1_t[5]</Name>
+              <IdentHandle>75</IdentHandle>
+              <Acquisition>
+                <DataType>REAL64</DataType>
+                <IndexGroup>16448</IndexGroup>
+                <IndexOffset>516920</IndexOffset>
+                <TargetPort>851</TargetPort>
+                <VariableSize>8</VariableSize>
+                <SymbolName>MAIN.em8000.feedback.eta_t[5]</SymbolName>
+                <SymbolComment></SymbolComment>
+                <IsSymbolBased>true</IsSymbolBased>
+                <FileHandle>0</FileHandle>
+                <UseLocalServer>true</UseLocalServer>
+                <AmsNetIdString>192.168.90.150.1.1</AmsNetIdString>
+                <SampleTime>50000</SampleTime>
+                <Disabled>false</Disabled>
+                <Oversample>0</Oversample>
+                <UseTaskSampletime>true</UseTaskSampletime>
+                <ForceOversampling>false</ForceOversampling>
+                <IsArray>false</IsArray>
+                <ArrayLength>0</ArrayLength>
+                <ContextMask>0</ContextMask>
+                <TimeOffset>0</TimeOffset>
+                <DataAccess>
+                  <Source>TwinCAT</Source>
+                  <Protocoll>ADS</Protocoll>
+                  <Format>TcBinary</Format>
+                  <TimeContext>Present</TimeContext>
+                  <TimeRange>
+                    <StartTimeStamp>0</StartTimeStamp>
+                    <EndTimeStamp>0</EndTimeStamp>
+                  </TimeRange>
+                </DataAccess>
+                <DbSelect />
+                <DbColumn />
+                <DbId>0</DbId>
+              </Acquisition>
+              <Style>
+                <ColorValue>-9728477</ColorValue>
+                <SolidLine>true</SolidLine>
+                <Marks>false</Marks>
+                <LineWidth>1</LineWidth>
+                <Antialias>true</Antialias>
+                <Offset>0</Offset>
+                <BitMask>18446744073709551615</BitMask>
+                <ShowCursorValue>true</ShowCursorValue>
+                <Visible>true</Visible>
+                <MarkColorValue>-9728477</MarkColorValue>
+                <MarkSize>3</MarkSize>
+                <TimeShift>0</TimeShift>
+                <ScaleFactor>1</ScaleFactor>
+                <Comment></Comment>
+                <AutoMarks>true</AutoMarks>
+                <XOffset>0</XOffset>
+                <XScaleFactor>1</XScaleFactor>
+                <XBitMask>18446744073709551615</XBitMask>
+                <FillMode>0</FillMode>
+                <FillColorValue>845909539</FillColorValue>
+                <EndCap>false</EndCap>
+                <StartCap>false</StartCap>
+                <CapSize>3</CapSize>
+                <CapColorValue>-65536</CapColorValue>
+                <SeriesType>Line</SeriesType>
+                <ShowMin>false</ShowMin>
+                <ShowMax>false</ShowMax>
+              </Style>
+              <SortPriority>-1</SortPriority>
+            </ScopeChannelSerializable>
+            <ScopeChannelSerializable>
+              <Name>cmndComau</Name>
+              <IdentHandle>76</IdentHandle>
+              <Acquisition>
+                <DataType>INT32</DataType>
+                <IndexGroup>16448</IndexGroup>
+                <IndexOffset>518856</IndexOffset>
+                <TargetPort>851</TargetPort>
+                <VariableSize>4</VariableSize>
+                <SymbolName>MAIN.comau.cmnd</SymbolName>
+                <SymbolComment></SymbolComment>
+                <IsSymbolBased>true</IsSymbolBased>
+                <FileHandle>0</FileHandle>
+                <UseLocalServer>true</UseLocalServer>
+                <AmsNetIdString>192.168.90.150.1.1</AmsNetIdString>
+                <SampleTime>50000</SampleTime>
+                <Disabled>false</Disabled>
+                <Oversample>0</Oversample>
+                <UseTaskSampletime>true</UseTaskSampletime>
+                <ForceOversampling>false</ForceOversampling>
+                <IsArray>false</IsArray>
+                <ArrayLength>0</ArrayLength>
+                <ContextMask>0</ContextMask>
+                <TimeOffset>0</TimeOffset>
+                <DataAccess>
+                  <Source>TwinCAT</Source>
+                  <Protocoll>ADS</Protocoll>
+                  <Format>TcBinary</Format>
+                  <TimeContext>Present</TimeContext>
+                  <TimeRange>
+                    <StartTimeStamp>0</StartTimeStamp>
+                    <EndTimeStamp>0</EndTimeStamp>
+                  </TimeRange>
+                </DataAccess>
+                <DbSelect />
+                <DbColumn />
+                <DbId>0</DbId>
+              </Acquisition>
+              <Style>
+                <ColorValue>-16777088</ColorValue>
+                <SolidLine>true</SolidLine>
+                <Marks>false</Marks>
+                <LineWidth>1</LineWidth>
+                <Antialias>true</Antialias>
+                <Offset>0</Offset>
+                <BitMask>18446744073709551615</BitMask>
+                <ShowCursorValue>true</ShowCursorValue>
+                <Visible>true</Visible>
+                <MarkColorValue>-16777088</MarkColorValue>
+                <MarkSize>3</MarkSize>
+                <TimeShift>0</TimeShift>
+                <ScaleFactor>1</ScaleFactor>
+                <Comment></Comment>
+                <AutoMarks>true</AutoMarks>
+                <XOffset>0</XOffset>
+                <XScaleFactor>1</XScaleFactor>
+                <XBitMask>18446744073709551615</XBitMask>
+                <FillMode>0</FillMode>
+                <FillColorValue>838860928</FillColorValue>
+                <EndCap>false</EndCap>
+                <StartCap>false</StartCap>
+                <CapSize>3</CapSize>
+                <CapColorValue>-65536</CapColorValue>
+                <SeriesType>Line</SeriesType>
+                <ShowMin>false</ShowMin>
+                <ShowMax>false</ShowMax>
+              </Style>
+              <SortPriority>-1</SortPriority>
+            </ScopeChannelSerializable>
+            <ScopeChannelSerializable>
+              <Name>modeWinch</Name>
+              <IdentHandle>77</IdentHandle>
+              <Acquisition>
+                <DataType>UINT16</DataType>
+                <IndexGroup>16448</IndexGroup>
+                <IndexOffset>519300</IndexOffset>
+                <TargetPort>851</TargetPort>
+                <VariableSize>2</VariableSize>
+                <SymbolName>MAIN.winch.mode</SymbolName>
+                <SymbolComment></SymbolComment>
+                <IsSymbolBased>true</IsSymbolBased>
+                <FileHandle>0</FileHandle>
+                <UseLocalServer>true</UseLocalServer>
+                <AmsNetIdString>192.168.90.150.1.1</AmsNetIdString>
+                <SampleTime>50000</SampleTime>
+                <Disabled>false</Disabled>
+                <Oversample>0</Oversample>
+                <UseTaskSampletime>true</UseTaskSampletime>
+                <ForceOversampling>false</ForceOversampling>
+                <IsArray>false</IsArray>
+                <ArrayLength>0</ArrayLength>
+                <ContextMask>0</ContextMask>
+                <TimeOffset>0</TimeOffset>
+                <DataAccess>
+                  <Source>TwinCAT</Source>
+                  <Protocoll>ADS</Protocoll>
+                  <Format>TcBinary</Format>
+                  <TimeContext>Present</TimeContext>
+                  <TimeRange>
+                    <StartTimeStamp>0</StartTimeStamp>
+                    <EndTimeStamp>0</EndTimeStamp>
+                  </TimeRange>
+                </DataAccess>
+                <DbSelect />
+                <DbColumn />
+                <DbId>0</DbId>
+              </Acquisition>
+              <Style>
+                <ColorValue>-4419697</ColorValue>
+                <SolidLine>true</SolidLine>
+                <Marks>false</Marks>
+                <LineWidth>1</LineWidth>
+                <Antialias>true</Antialias>
+                <Offset>0</Offset>
+                <BitMask>18446744073709551615</BitMask>
+                <ShowCursorValue>true</ShowCursorValue>
+                <Visible>true</Visible>
+                <MarkColorValue>-4419697</MarkColorValue>
+                <MarkSize>3</MarkSize>
+                <TimeShift>0</TimeShift>
+                <ScaleFactor>1</ScaleFactor>
+                <Comment></Comment>
+                <AutoMarks>true</AutoMarks>
+                <XOffset>0</XOffset>
+                <XScaleFactor>1</XScaleFactor>
+                <XBitMask>18446744073709551615</XBitMask>
+                <FillMode>0</FillMode>
+                <FillColorValue>851218319</FillColorValue>
+                <EndCap>false</EndCap>
+                <StartCap>false</StartCap>
+                <CapSize>3</CapSize>
+                <CapColorValue>-65536</CapColorValue>
+                <SeriesType>Line</SeriesType>
                 <ShowMin>false</ShowMin>
                 <ShowMax>false</ShowMax>
               </Style>
