@@ -10,6 +10,12 @@ class TxHmiStewart(Structure):
         ('cyl', 6*c_float)
     ]
 
+class TxHmiMru(Structure):
+    _fields_ = [
+        ('status', c_int),
+        ('eta', 6*c_float)
+    ]
+
 class TxHmiComau(Structure):
     _fields_ = [
         ('status', c_int),
@@ -26,11 +32,6 @@ class TxHmiLeica(Structure):
         ('q1', c_float),
         ('q2', c_float),
         ('q3', c_float)
-    ]
-
-class TxHmiMru(Structure):
-    _fields_ = [
-        ('status', c_int)
     ]
 
 class TxHmiWinch(Structure):
@@ -62,6 +63,8 @@ class TxHmi(Structure):
     _fields_ = [
         ('em8000', TxHmiStewart),
         ('em1500', TxHmiStewart),
+        ('mru1', TxHmiMru),
+        ('mru2', TxHmiMru),
         ('comau', TxHmiComau),
         ('winch', TxHmiWinch),
         ('qtm', TxHmiQualisys),

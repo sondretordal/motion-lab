@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.7">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="FB_MruInterface" Id="{c6b5539c-66b4-48be-8e8d-e330098c72f8}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_MruInterface
 VAR_INPUT
@@ -10,11 +10,15 @@ VAR_OUTPUT
 END_VAR
 VAR
 	// Udp related
-	{attribute 'tc_no_symbol'}
 	udpServer : FB_UdpServer(0, 0, 0, 0, 0); // Dummy constructor
+	
 	{attribute 'tc_no_symbol'}
 	rxUdpBE : ST_RxUdpMru;
+	{attribute 'tc_no_symbol'}
 	rxUdp : ST_RxUdpMru;
+	
+	// Hmi connection
+	pTxHmi : POINTER TO ST_TxHmiMru;
 	
 	// Actviity monitoring
 	frame : DINT := 0;
@@ -64,7 +68,10 @@ feedback.v[1] := rxUdp.VelCg_S;
 feedback.v[2] := rxUdp.VelCg_D;
 feedback.v[3] := rxUdp.AngRate_R;
 feedback.v[4] := rxUdp.AngRate_P;
-feedback.v[5] := rxUdp.AngRate_Y;]]></ST>
+feedback.v[5] := rxUdp.AngRate_Y;
+
+// Update HMI Data
+UpdateHMI();]]></ST>
     </Implementation>
     <Method Name="BigToLittleEndian" Id="{55be5d21-786e-44c3-a382-2ff80affc77c}">
       <Declaration><![CDATA[METHOD BigToLittleEndian : ST_RxUdpMru 
@@ -124,10 +131,13 @@ VAR_INPUT
 	
 	// Init variables
 	localPort : UINT;
+	_pTxHmi : POINTER TO ST_TxHmiMru;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// Initilize the udpServer
+        <ST><![CDATA[pTxHmi := _pTxHmi;
+
+// Initilize the udpServer
 udpServer.FB_init(
 	bInitRetains,
 	bInCopyCode,
@@ -146,6 +156,29 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="UpdateHMI" Id="{3ac8500f-b565-43be-93ea-37942fa30b65}">
+      <Declaration><![CDATA[METHOD UpdateHMI
+VAR_INPUT
+END_VAR
+VAR
+	i : UINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Update global Hmi data
+IF active THEN
+	pTxHmi^.status := 0;
+ELSE
+	pTxHmi^.status := -1;
+END_IF
+
+// Set MRU feedback
+FOR i := 0 TO 5 DO
+	pTxHmi^.eta[i] := LREAL_TO_REAL(feedback.eta[i]);
+END_FOR
+]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_MruInterface">
@@ -171,6 +204,9 @@ END_VAR
       <LineId Id="108" Count="0" />
       <LineId Id="138" Count="1" />
       <LineId Id="81" Count="0" />
+      <LineId Id="207" Count="0" />
+      <LineId Id="206" Count="0" />
+      <LineId Id="208" Count="0" />
     </LineIds>
     <LineIds Name="FB_MruInterface.BigToLittleEndian">
       <LineId Id="8" Count="0" />
@@ -193,6 +229,8 @@ END_VAR
       <LineId Id="6" Count="0" />
     </LineIds>
     <LineIds Name="FB_MruInterface.FB_init">
+      <LineId Id="30" Count="0" />
+      <LineId Id="29" Count="0" />
       <LineId Id="7" Count="0" />
       <LineId Id="11" Count="1" />
       <LineId Id="14" Count="5" />
@@ -200,6 +238,14 @@ END_VAR
     </LineIds>
     <LineIds Name="FB_MruInterface.FB_reinit">
       <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_MruInterface.UpdateHMI">
+      <LineId Id="6" Count="4" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="17" Count="2" />
+      <LineId Id="13" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

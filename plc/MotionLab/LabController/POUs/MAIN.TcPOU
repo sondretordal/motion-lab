@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.7">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="MAIN" Id="{4193d1f4-5b8a-4d46-8bb1-f5443e3607b6}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
@@ -26,8 +26,8 @@ VAR
 	winch : FB_WinchInterface(ADR(txHmi.winch));
 	
 	// Sensors
-	mru1 : FB_MruInterface(50043);
-	mru2 : FB_MruInterface(50044);
+	mru1 : FB_MruInterface(50043, ADR(txHmi.mru1));
+	mru2 : FB_MruInterface(50044, ADR(txHmi.mru2));
 	qtm : FB_QualisysInterface(50199, ADR(txHmi.qtm));
 	at960 : FB_LeicaInterface;
 	
@@ -73,6 +73,7 @@ mru1();
 mru2();
 at960();
 qtm();
+
 
 // Feedback Struct
 feedback.em8000 := em8000.feedback;
@@ -146,8 +147,11 @@ controlMapping.q0_t[0] := (rxHmi.xboxRT - rxHmi.xboxLT)*qDotMax;
 controlMapping.q0[1] := LIMIT(-10.0/180.0*PI, controlMapping.q0[1] + rxHmi.xboxLeftX*qDotMax*Ts, 15.0/180.0*PI);
 controlMapping.q0_t[1] := rxHmi.xboxLeftX*qDotMax;
 
-controlMapping.q0[2] := LIMIT(-110.0/180.0*PI, controlMapping.q0[2] + rxHmi.xboxLeftY*qDotMax*Ts, -90.0/180.0*PI);
-controlMapping.q0_t[2] := rxHmi.xboxLeftY*qDotMax;
+//controlMapping.q0[2] := LIMIT(-110.0/180.0*PI, controlMapping.q0[2] + rxHmi.xboxLeftY*qDotMax*Ts, -90.0/180.0*PI);
+//controlMapping.q0_t[2] := rxHmi.xboxLeftY*qDotMax;
+
+controlMapping.q0[2] := -110.0/180.0*PI;
+
 
 controlMapping(
 	stFeedback := feedback
@@ -211,6 +215,7 @@ END_IF
       <LineId Id="846" Count="0" />
       <LineId Id="849" Count="0" />
       <LineId Id="848" Count="0" />
+      <LineId Id="1520" Count="0" />
       <LineId Id="1187" Count="0" />
       <LineId Id="1038" Count="0" />
       <LineId Id="1037" Count="0" />
@@ -266,6 +271,8 @@ END_IF
       <LineId Id="1247" Count="0" />
       <LineId Id="1251" Count="1" />
       <LineId Id="1250" Count="0" />
+      <LineId Id="1450" Count="1" />
+      <LineId Id="1449" Count="0" />
       <LineId Id="1238" Count="0" />
       <LineId Id="1225" Count="0" />
       <LineId Id="1363" Count="0" />

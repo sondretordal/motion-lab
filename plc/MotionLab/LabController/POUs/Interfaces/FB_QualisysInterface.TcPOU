@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.7">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="FB_QualisysInterface" Id="{314e7cd5-278b-4ae6-86cd-8f8bb2148757}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_QualisysInterface
 VAR_INPUT
@@ -14,9 +14,8 @@ VAR_OUTPUT
 END_VAR
 VAR
 	// Udp related
-	{attribute 'tc_no_symbol'}
 	udpServer : FB_UdpServer(0, 0, 0, 0, 0); // Dummy constructor
-	{attribute 'tc_no_symbol'}
+	
 
 	// Header 
 	qrtPacket : ST_RTDataQRTPacket;

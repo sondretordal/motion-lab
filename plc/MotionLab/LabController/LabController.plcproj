@@ -90,6 +90,9 @@
     <Compile Include="DUTs\TxHmi\ST_TxHmiComau.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\TxHmi\ST_TxHmiMru.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\TxHmi\ST_TxHmiQualisys.TcDUT">
       <SubType>Code</SubType>
     </Compile>

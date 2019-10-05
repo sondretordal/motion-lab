@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.7">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="FB_ComauInterface" Id="{7f6fcfb6-ea5d-4e07-bbf6-5b138a56f61f}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_ComauInterface
 VAR_INPUT
@@ -12,9 +12,11 @@ VAR_OUTPUT
 END_VAR
 VAR
 	// Udp related
-	{attribute 'tc_no_symbol'}
 	udpClient : FB_UdpClient('', 0, 0, 0, 0, 0, 0);	// Dummy constructor
+	
+	{attribute 'tc_no_symbol'}
 	rxUdp : ST_RxUdpComau;
+	{attribute 'tc_no_symbol'}
 	txUdp : ST_TxUdpComau;
 	
 	pTxHmi : POINTER TO ST_TxHmiComau;

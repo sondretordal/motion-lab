@@ -172,41 +172,55 @@ class GUI(QMainWindow, Ui_main):
         self.EM1500_1 = RealTimePlot(self.EM1500_plot.addPlot())
         self.EM1500_1.plot.setYRange(-0.5, 0.5)
         self.EM1500_1.plot.setLabel('left', 'Position', 'm')
-        self.EM1500_1.add_curves(['r', 'g', 'b'], ['Surge', 'Sway', 'Heave'])
+        self.EM1500_1.add_curves(['r', 'g', 'b', 'k', 'k', 'k'], ['Surge', 'Sway', 'Heave', 'Surge(MRU)', 'Sway(MRU)', 'Heave(MRU)'])
+        # self.EM1500_1.add_curves(['r', 'g', 'b'], ['Surge', 'Sway', 'Heave'])
         self.EM1500_1.add_text_displays([
                 self.EM1500_output_pos_x, 
                 self.EM1500_output_pos_y, 
-                self.EM1500_output_pos_z
+                self.EM1500_output_pos_z,
+                self.MRU2_output_pos_x,
+                self.MRU2_output_pos_y,
+                self.MRU2_output_pos_z
             ])
         self.EM1500_plot.nextRow()
         self.EM1500_2 = RealTimePlot(self.EM1500_plot.addPlot())
         self.EM1500_2.plot.setYRange(-5, 5)
         self.EM1500_2.plot.setLabel('left', 'Angle', 'deg')
-        self.EM1500_2.add_curves(['r', 'g', 'b'], ['Roll', 'Pitch', 'Yaw'])
+        # self.EM1500_2.add_curves(['r', 'g', 'b'], ['Roll', 'Pitch', 'Yaw'])
+        self.EM1500_2.add_curves(['r', 'g', 'b', 'k', 'k', 'k'], ['Roll', 'Pitch', 'Yaw', 'Roll(MRU)', 'Pitch(MRU)', 'Yaw(MRU)'])
         self.EM1500_2.add_text_displays([
                 self.EM1500_output_ang_r, 
                 self.EM1500_output_ang_p, 
-                self.EM1500_output_ang_y
+                self.EM1500_output_ang_y,
+                self.MRU2_output_ang_r,
+                self.MRU2_output_ang_p,
+                self.MRU2_output_ang_y,
             ])
         
         self.EM8000_1 = RealTimePlot(self.EM8000_plot.addPlot())
         self.EM8000_1.plot.setYRange(-1, 1)
         self.EM8000_1.plot.setLabel('left', 'Position', 'm')
-        self.EM8000_1.add_curves(['r', 'g', 'b'], ['Surge', 'Sway', 'Heave'])
+        self.EM8000_1.add_curves(['r', 'g', 'b', 'k', 'k', 'k'], ['Surge', 'Sway', 'Heave', 'Surge(MRU)', 'Sway(MRU)', 'Heave(MRU)'])
         self.EM8000_1.add_text_displays([
                 self.EM8000_output_pos_x, 
                 self.EM8000_output_pos_y, 
-                self.EM8000_output_pos_z
+                self.EM8000_output_pos_z,
+                self.MRU1_output_pos_x,
+                self.MRU1_output_pos_y,
+                self.MRU1_output_pos_z
             ])
         self.EM8000_plot.nextRow()
         self.EM8000_2 = RealTimePlot(self.EM8000_plot.addPlot())
         self.EM8000_2.plot.setLabel('left', 'Angle', 'deg')
         self.EM8000_2.plot.setYRange(-5, 5)
-        self.EM8000_2.add_curves(['r', 'g', 'b'], ['Roll', 'Pitch', 'Yaw'])
+        self.EM8000_2.add_curves(['r', 'g', 'b', 'k', 'k', 'k'], ['Roll', 'Pitch', 'Yaw', 'Roll(MRU)', 'Pitch(MRU)', 'Yaw(MRU)'])
         self.EM8000_2.add_text_displays([
                 self.EM8000_output_ang_r, 
                 self.EM8000_output_ang_p, 
-                self.EM8000_output_ang_y
+                self.EM8000_output_ang_y,
+                self.MRU1_output_ang_r,
+                self.MRU1_output_ang_p,
+                self.MRU1_output_ang_y
             ])
 
         self.COMAU = RealTimePlot(self.COMAU_plot.addPlot())
@@ -308,7 +322,7 @@ class GUI(QMainWindow, Ui_main):
     # UI connections
     def ui_connect(self):
         # Interface Tab:
-        #----------------------------------------------------------#
+        #------------------------------------------------ ----------#
         # Connecting EM 8000 Interface-buttons to functions
         self.EM8000_settled_btn.clicked.connect(self.EM8000_settled)
         self.EM8000_neutral_btn.clicked.connect(self.EM8000_neutral)
@@ -455,6 +469,7 @@ class GUI(QMainWindow, Ui_main):
         rxHmi.xboxLT = self.xbox.LT
         rxHmi.xboxRT = self.xbox.RT
 
+
         if self.xbox.A:
             self.activateAntiSway()
 
@@ -505,26 +520,38 @@ class GUI(QMainWindow, Ui_main):
         self.EM1500_1.update(self.t, [
                 txHmi.em1500.eta[0],
                 txHmi.em1500.eta[1],
-                txHmi.em1500.eta[2]
+                txHmi.em1500.eta[2],
+                txHmi.mru2.eta[0],
+                txHmi.mru2.eta[1],
+                txHmi.mru2.eta[2]
             ])
         self.EM1500_2.time_range = self.time_range
         self.EM1500_2.update(self.t, [
                 txHmi.em1500.eta[3]/np.pi*180.0,
                 txHmi.em1500.eta[4]/np.pi*180.0,
-                txHmi.em1500.eta[5]/np.pi*180.0
+                txHmi.em1500.eta[5]/np.pi*180.0,
+                txHmi.mru2.eta[3]/np.pi*180.0,
+                txHmi.mru2.eta[4]/np.pi*180.0,
+                txHmi.mru2.eta[5]/np.pi*180.0
             ])
 
         self.EM8000_1.time_range = self.time_range
         self.EM8000_1.update(self.t, [
                 txHmi.em8000.eta[0],
                 txHmi.em8000.eta[1],
-                txHmi.em8000.eta[2]
+                txHmi.em8000.eta[2],
+                txHmi.mru1.eta[0],
+                txHmi.mru1.eta[1],
+                txHmi.mru1.eta[2]
             ])
         self.EM8000_2.time_range = self.time_range
         self.EM8000_2.update(self.t, [
                 txHmi.em8000.eta[3]/np.pi*180.0,
                 txHmi.em8000.eta[4]/np.pi*180.0,
-                txHmi.em8000.eta[5]/np.pi*180.0
+                txHmi.em8000.eta[5]/np.pi*180.0,
+                txHmi.mru1.eta[3]/np.pi*180.0,
+                txHmi.mru1.eta[4]/np.pi*180.0,
+                txHmi.mru1.eta[5]/np.pi*180.0
             ])
         
         self.COMAU.time_range = self.time_range
@@ -631,7 +658,6 @@ class GUI(QMainWindow, Ui_main):
         self.COMAU_plot_time_range.setCurrentIndex(val)
         self.EM8000_plot_time_range_ship.setCurrentIndex(val)
         self.antiSwayPlotRange.setCurrentIndex(val)
-
 
     # EM 8000 button functions
     def EM8000_settled(self):
