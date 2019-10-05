@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="FB_StewartInterface" Id="{1361bc11-031f-4d48-8e10-a5face54a5bf}" SpecialFunc="None">
-    <Declaration><![CDATA[
-FUNCTION_BLOCK FB_StewartInterface
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_StewartInterface
 VAR_INPUT
 	// Stewart mode input
 	cmnd : UDINT;
