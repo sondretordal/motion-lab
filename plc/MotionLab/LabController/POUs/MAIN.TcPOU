@@ -66,13 +66,16 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// Update sensors and equipement
+      <ST><![CDATA[
+// Update sensors and equipement
 em8000();
 em1500();
 mru1();
 mru2();
 at960();
 qtm();
+
+
 
 
 
@@ -130,6 +133,7 @@ txHmi.e[2] := LREAL_TO_REAL(pendelEstimator.e[2]);
 
 txHmi.c := LREAL_TO_REAL(pendelEstimator.c);
 
+(*
 // Anti Swing Controller
 lqrAntiSwing(
 	Ts := Ts,
@@ -165,6 +169,10 @@ winch.control.length := length;
 winch.control.length_t := lengthDot;
 
 comau.control := controlMapping.stControlComau;
+*)
+
+// Debug input
+comau.u := 0.2*(rxHmi.xboxRT - rxHmi.xboxLT);
 
 // Update elements to be controlled
 comau();
@@ -209,6 +217,7 @@ END_IF
       </Implementation>
     </Action>
     <LineIds Name="MAIN">
+      <LineId Id="1590" Count="0" />
       <LineId Id="127" Count="0" />
       <LineId Id="110" Count="0" />
       <LineId Id="120" Count="0" />
@@ -216,6 +225,7 @@ END_IF
       <LineId Id="846" Count="0" />
       <LineId Id="849" Count="0" />
       <LineId Id="848" Count="0" />
+      <LineId Id="1586" Count="1" />
       <LineId Id="1522" Count="0" />
       <LineId Id="1520" Count="0" />
       <LineId Id="1187" Count="0" />
@@ -257,6 +267,7 @@ END_IF
       <LineId Id="1209" Count="1" />
       <LineId Id="1213" Count="0" />
       <LineId Id="1128" Count="0" />
+      <LineId Id="1592" Count="0" />
       <LineId Id="1346" Count="0" />
       <LineId Id="1345" Count="0" />
       <LineId Id="1347" Count="0" />
@@ -285,6 +296,8 @@ END_IF
       <LineId Id="1263" Count="1" />
       <LineId Id="1277" Count="1" />
       <LineId Id="1237" Count="0" />
+      <LineId Id="1591" Count="0" />
+      <LineId Id="1593" Count="2" />
       <LineId Id="851" Count="0" />
       <LineId Id="850" Count="0" />
       <LineId Id="145" Count="0" />

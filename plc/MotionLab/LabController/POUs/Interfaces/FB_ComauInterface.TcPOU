@@ -3,6 +3,10 @@
   <POU Name="FB_ComauInterface" Id="{7f6fcfb6-ea5d-4e07-bbf6-5b138a56f61f}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_ComauInterface
 VAR_INPUT
+	u : REAL;
+	
+	bNext : BOOL;
+	bPrev : BOOL;	
 	cmnd : DINT;
 	control : ST_ControlComau;
 END_VAR
@@ -25,6 +29,9 @@ VAR
 	frame : DINT := 0;
 	frameOld : DINT := 0;
 	frameLoss : DINT := 0;
+	
+	// Counter vsr
+	i : INT;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -56,40 +63,21 @@ UpdateHMI();
 
 // Apply control inputs
 txUdp.cmnd := cmnd;
-txUdp.udp_key := 32;
-
-(*
-txUdp.q1 := LREAL_TO_REAL(control.q[0]);
-txUdp.q2 := LREAL_TO_REAL(control.q[1]);
-txUdp.q3 := LREAL_TO_REAL(control.q[2]);
-txUdp.q4 := 0.0;
-txUdp.q5 := 0.0;
-txUdp.q6 := 0.0;
+txUdp.udpKey := 32;
 
 
-txUdp.q1_t := LREAL_TO_REAL(control.q_t[0]);
-txUdp.q2_t := LREAL_TO_REAL(control.q_t[1]);
-txUdp.q3_t := LREAL_TO_REAL(control.q_t[2]);
-txUdp.q4_t := 0.0;
-txUdp.q5_t := 0.0;
-txUdp.q6_t := 0.0;
+IF (i < 5) AND bNext THEN
+	i := i + 1;
+	bNext := FALSE;
+END_IF
 
-txUdp.q1_tt := LREAL_TO_REAL(control.q_tt[0]);
-txUdp.q2_tt := LREAL_TO_REAL(control.q_tt[1]);
-txUdp.q3_tt := LREAL_TO_REAL(control.q_tt[2]);
-txUdp.q4_tt := 0.0;
-txUdp.q5_tt := 0.0;
-txUdp.q6_tt := 0.0;
+IF (i > 0) AND bPrev THEN
+	i := i - 1;
+	bPrev := FALSE;
+END_IF
 
-// Set feedback data
-feedback.q[0] := REAL_TO_LREAL(rxUdp.q1);
-feedback.q[1] := REAL_TO_LREAL(rxUdp.q2);
-feedback.q[2] := REAL_TO_LREAL(rxUdp.q3);
-
-feedback.q_t[0] := REAL_TO_LREAL(rxUdp.q1_t);
-feedback.q_t[1] := REAL_TO_LREAL(rxUdp.q2_t);
-feedback.q_t[2] := REAL_TO_LREAL(rxUdp.q3_t);
-*)]]></ST>
+txUdp.qDotRef[i] := u;
+]]></ST>
     </Implementation>
     <Method Name="FB_exit" Id="{f18839c2-6d63-4a3d-ad66-5f830bcc3ab8}">
       <Declaration><![CDATA[METHOD FB_exit : BOOL
@@ -144,6 +132,9 @@ END_VAR
       <Declaration><![CDATA[METHOD UpdateHMI : BOOL
 VAR_INPUT
 END_VAR
+VAR
+	i : INT;
+END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Update HMI Data
@@ -153,22 +144,24 @@ ELSE
 	pTxHmi^.status := -1;
 END_IF
 
-pTxHmi^.q[0] := rxUdp.q1;
-pTxHmi^.q[1] := rxUdp.q2;
-pTxHmi^.q[2] := rxUdp.q3;
-pTxHmi^.q[3] := rxUdp.q4;
-pTxHmi^.q[4] := rxUdp.q5;
-pTxHmi^.q[5] := rxUdp.q6;]]></ST>
+FOR i := 0 TO 5 DO
+	pTxHmi^.q[i] := rxUdp.q[i];
+END_FOR
+]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_ComauInterface">
-      <LineId Id="158" Count="28" />
-      <LineId Id="247" Count="0" />
-      <LineId Id="187" Count="6" />
-      <LineId Id="248" Count="0" />
-      <LineId Id="194" Count="19" />
-      <LineId Id="220" Count="1" />
-      <LineId Id="88" Count="0" />
+      <LineId Id="251" Count="28" />
+      <LineId Id="322" Count="1" />
+      <LineId Id="315" Count="0" />
+      <LineId Id="324" Count="0" />
+      <LineId Id="326" Count="0" />
+      <LineId Id="325" Count="0" />
+      <LineId Id="327" Count="0" />
+      <LineId Id="329" Count="2" />
+      <LineId Id="328" Count="0" />
+      <LineId Id="332" Count="0" />
+      <LineId Id="317" Count="0" />
       <LineId Id="249" Count="0" />
     </LineIds>
     <LineIds Name="FB_ComauInterface.FB_exit">
@@ -187,9 +180,10 @@ pTxHmi^.q[5] := rxUdp.q6;]]></ST>
       <LineId Id="5" Count="0" />
       <LineId Id="18" Count="3" />
       <LineId Id="6" Count="0" />
-      <LineId Id="8" Count="0" />
-      <LineId Id="7" Count="0" />
-      <LineId Id="9" Count="4" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="30" Count="1" />
+      <LineId Id="13" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
