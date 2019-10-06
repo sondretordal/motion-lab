@@ -58,12 +58,14 @@ UpdateHMI();
 txUdp.cmnd := cmnd;
 txUdp.udp_key := 32;
 
+(*
 txUdp.q1 := LREAL_TO_REAL(control.q[0]);
 txUdp.q2 := LREAL_TO_REAL(control.q[1]);
 txUdp.q3 := LREAL_TO_REAL(control.q[2]);
 txUdp.q4 := 0.0;
 txUdp.q5 := 0.0;
 txUdp.q6 := 0.0;
+
 
 txUdp.q1_t := LREAL_TO_REAL(control.q_t[0]);
 txUdp.q2_t := LREAL_TO_REAL(control.q_t[1]);
@@ -86,7 +88,8 @@ feedback.q[2] := REAL_TO_LREAL(rxUdp.q3);
 
 feedback.q_t[0] := REAL_TO_LREAL(rxUdp.q1_t);
 feedback.q_t[1] := REAL_TO_LREAL(rxUdp.q2_t);
-feedback.q_t[2] := REAL_TO_LREAL(rxUdp.q3_t);]]></ST>
+feedback.q_t[2] := REAL_TO_LREAL(rxUdp.q3_t);
+*)]]></ST>
     </Implementation>
     <Method Name="FB_exit" Id="{f18839c2-6d63-4a3d-ad66-5f830bcc3ab8}">
       <Declaration><![CDATA[METHOD FB_exit : BOOL
@@ -159,9 +162,14 @@ pTxHmi^.q[5] := rxUdp.q6;]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_ComauInterface">
-      <LineId Id="158" Count="55" />
+      <LineId Id="158" Count="28" />
+      <LineId Id="247" Count="0" />
+      <LineId Id="187" Count="6" />
+      <LineId Id="248" Count="0" />
+      <LineId Id="194" Count="19" />
       <LineId Id="220" Count="1" />
       <LineId Id="88" Count="0" />
+      <LineId Id="249" Count="0" />
     </LineIds>
     <LineIds Name="FB_ComauInterface.FB_exit">
       <LineId Id="6" Count="0" />
