@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.7">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <POU Name="FB_RemoteInterface" Id="{876c2b91-df3c-4683-9fd3-7a3048a99a09}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_RemoteInterface
 VAR_INPUT
@@ -11,7 +11,7 @@ END_VAR
 VAR
 	// Udp connection
 	{attribute 'tc_no_symbol'}
-	udpClient : FB_UdpClient('', 0, 0, 0, 0, 0, 0);	// Dummy constructor
+	udpClient : FB_UdpClientRT('', 0, 0, 0, 0, 0, 0);	// Dummy constructor
 END_VAR
 ]]></Declaration>
     <Implementation>

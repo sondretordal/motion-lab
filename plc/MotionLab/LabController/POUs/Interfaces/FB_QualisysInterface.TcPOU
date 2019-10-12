@@ -14,7 +14,7 @@ VAR_OUTPUT
 END_VAR
 VAR
 	// Udp related
-	udpServer : FB_UdpServer(0, 0, 0, 0, 0); // Dummy constructor
+	udpServer : FB_UdpServerRT(0, 0, 0, 0, 0); // Dummy constructor
 	
 
 	// Header 

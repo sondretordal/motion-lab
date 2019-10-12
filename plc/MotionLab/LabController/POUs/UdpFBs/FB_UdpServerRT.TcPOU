@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.7">
-  <POU Name="FB_UdpServer" Id="{29850d4d-1dd1-44e2-a422-1073ce191766}" SpecialFunc="None">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="FB_UdpServerRT" Id="{29850d4d-1dd1-44e2-a422-1073ce191766}" SpecialFunc="None">
     <Declaration><![CDATA[{attribute 'c++_compatible'}
-FUNCTION_BLOCK FB_UdpServer IMPLEMENTS ITcIoUdpProtocolRecv
+FUNCTION_BLOCK FB_UdpServerRT IMPLEMENTS ITcIoUdpProtocolRecv
 VAR_INPUT
 	
 END_VAR
@@ -221,17 +221,17 @@ METHOD TcRelease : UDINT]]></Declaration>
         <ST><![CDATA[]]></ST>
       </Implementation>
     </Method>
-    <LineIds Name="FB_UdpServer">
+    <LineIds Name="FB_UdpServerRT">
       <LineId Id="17" Count="0" />
       <LineId Id="92" Count="0" />
       <LineId Id="132" Count="0" />
       <LineId Id="9" Count="0" />
     </LineIds>
-    <LineIds Name="FB_UdpServer.FB_exit">
+    <LineIds Name="FB_UdpServerRT.FB_exit">
       <LineId Id="24" Count="5" />
       <LineId Id="6" Count="0" />
     </LineIds>
-    <LineIds Name="FB_UdpServer.FB_init">
+    <LineIds Name="FB_UdpServerRT.FB_init">
       <LineId Id="69" Count="0" />
       <LineId Id="68" Count="0" />
       <LineId Id="86" Count="3" />
@@ -240,11 +240,11 @@ METHOD TcRelease : UDINT]]></Declaration>
       <LineId Id="50" Count="15" />
       <LineId Id="7" Count="0" />
     </LineIds>
-    <LineIds Name="FB_UdpServer.FB_reinit">
+    <LineIds Name="FB_UdpServerRT.FB_reinit">
       <LineId Id="15" Count="2" />
       <LineId Id="5" Count="0" />
     </LineIds>
-    <LineIds Name="FB_UdpServer.ReceiveData">
+    <LineIds Name="FB_UdpServerRT.ReceiveData">
       <LineId Id="101" Count="0" />
       <LineId Id="69" Count="0" />
       <LineId Id="68" Count="0" />
@@ -268,14 +268,14 @@ METHOD TcRelease : UDINT]]></Declaration>
       <LineId Id="57" Count="0" />
       <LineId Id="15" Count="0" />
     </LineIds>
-    <LineIds Name="FB_UdpServer.TcAddRef">
+    <LineIds Name="FB_UdpServerRT.TcAddRef">
       <LineId Id="7" Count="0" />
     </LineIds>
-    <LineIds Name="FB_UdpServer.TcQueryInterface">
+    <LineIds Name="FB_UdpServerRT.TcQueryInterface">
       <LineId Id="35" Count="11" />
       <LineId Id="11" Count="0" />
     </LineIds>
-    <LineIds Name="FB_UdpServer.TcRelease">
+    <LineIds Name="FB_UdpServerRT.TcRelease">
       <LineId Id="7" Count="0" />
     </LineIds>
   </POU>

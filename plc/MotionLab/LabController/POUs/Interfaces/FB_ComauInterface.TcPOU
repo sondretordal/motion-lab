@@ -3,10 +3,6 @@
   <POU Name="FB_ComauInterface" Id="{7f6fcfb6-ea5d-4e07-bbf6-5b138a56f61f}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_ComauInterface
 VAR_INPUT
-	u : REAL;
-	
-	bNext : BOOL;
-	bPrev : BOOL;	
 	cmnd : DINT;
 	control : ST_ControlComau;
 END_VAR
@@ -16,7 +12,7 @@ VAR_OUTPUT
 END_VAR
 VAR
 	// Udp related
-	udpClient : FB_UdpClient('', 0, 0, 0, 0, 0, 0);	// Dummy constructor
+	udpClient : FB_UdpClientRT('', 0, 0, 0, 0, 0, 0);	// Dummy constructor
 	
 	{attribute 'tc_no_symbol'}
 	rxUdp : ST_RxUdpComau;
@@ -65,18 +61,6 @@ UpdateHMI();
 txUdp.cmnd := cmnd;
 txUdp.udpKey := 32;
 
-
-IF (i < 5) AND bNext THEN
-	i := i + 1;
-	bNext := FALSE;
-END_IF
-
-IF (i > 0) AND bPrev THEN
-	i := i - 1;
-	bPrev := FALSE;
-END_IF
-
-txUdp.qDotRef[i] := u;
 ]]></ST>
     </Implementation>
     <Method Name="FB_exit" Id="{f18839c2-6d63-4a3d-ad66-5f830bcc3ab8}">
@@ -152,17 +136,8 @@ END_FOR
     </Method>
     <LineIds Name="FB_ComauInterface">
       <LineId Id="251" Count="28" />
-      <LineId Id="322" Count="1" />
-      <LineId Id="315" Count="0" />
-      <LineId Id="324" Count="0" />
-      <LineId Id="326" Count="0" />
-      <LineId Id="325" Count="0" />
-      <LineId Id="327" Count="0" />
-      <LineId Id="329" Count="2" />
-      <LineId Id="328" Count="0" />
-      <LineId Id="332" Count="0" />
-      <LineId Id="317" Count="0" />
-      <LineId Id="249" Count="0" />
+      <LineId Id="366" Count="0" />
+      <LineId Id="365" Count="0" />
     </LineIds>
     <LineIds Name="FB_ComauInterface.FB_exit">
       <LineId Id="6" Count="0" />

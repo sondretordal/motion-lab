@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <DUT Name="E_StewartMode" Id="{e8e86642-4f9a-45ef-b209-c304e7ac55fa}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE E_StewartMode :
+(
+	SETTLED := 1,
+	NAUTRAL := 3,
+	ENGAGED := 7
+) UDINT;
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>
