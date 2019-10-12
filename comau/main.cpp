@@ -1,8 +1,12 @@
 #include <config.h>
 #include <eORL.h>
 
+
 int  main (int argc, char **argv)
 {
+	// Read Velocity Boundary settings from JSON
+	loadSettings();
+
 	// Local vars
 	ORL_cartesian_position sx_base, sx_tool, sx_uframe;
 
@@ -15,7 +19,6 @@ int  main (int argc, char **argv)
 	
 	// IP address and system ID defined in config.h
 	printf("Connection to %s: %s.c5g\n",STRING_IP_CNTRL, STRING_SYS_ID);
-
 	
 	// Read the .cfg file from the robot controller using the regualer ethernet connection
 	if( (ORLOPEN_initialize_controller(STRING_IP_CNTRL,STRING_SYS_ID,ORL_SILENT,ORL_CNTRL01)) != 0 )
@@ -28,32 +31,8 @@ int  main (int argc, char **argv)
 		printf("%s: %s.c5g OK\n",STRING_IP_CNTRL, STRING_SYS_ID);
 	}
 	
-	/*
-	// Read the .cfg file from the robot controller using the .cfg file in ./cnfg folder
-	if( ORL_initialize_controller("CNTRLC5G_11477.c5g","./cnfg/",ORL_SILENT,ORL_CNTRL01) != 0 )
-	{
-		printf("error ORL_initialize_robot\n");
-		exit(0);
-	}
-	else
-	{
-		printf("%s: %s.c5g OK\n",STRING_IP_CNTRL, STRING_SYS_ID);
-	}
-	*/
-
-
 	// eORL control structs
-	Setpoint.Pos.unit_type = ORL_POSITION_LINK_DEGREE;
-	Setpoint.Vel.unit_type = ORL_SPEED_LINK_DEGREE_SEC;
-	Setpoint.Acc.unit_type = ORL_ACC_LINK_DEGREE_SEC2;
-
-	Reference.Pos.unit_type = ORL_POSITION_LINK_DEGREE;
-	Reference.Vel.unit_type = ORL_SPEED_LINK_DEGREE_SEC;
-	Reference.Acc.unit_type = ORL_ACC_LINK_DEGREE_SEC2;
-
-	Feedback.Pos.unit_type = ORL_POSITION_LINK_DEGREE;
-	Feedback.Vel.unit_type = ORL_SPEED_LINK_DEGREE_SEC;
-	Feedback.Acc.unit_type = ORL_ACC_LINK_DEGREE_SEC2;
+	setpoint.unit_type = ORL_POSITION_LINK_RAD;
 
 	/* $TOOL */
 	sx_tool.unit_type = ORL_CART_POSITION;
@@ -93,7 +72,9 @@ int  main (int argc, char **argv)
 	sleep(2);
 	InitializeControlPosition();
 
+	// Start console interface
 	loopConsole();
+	
 	return 0;
 
 }

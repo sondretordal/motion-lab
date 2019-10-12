@@ -1,22 +1,37 @@
 #define GLOBAL_VAR_EXTERN
 #include "config.h"
 
-double Limit(double u, double hiLim, double loLim)
-{	
-	if (u > hiLim)
-	{
-		return hiLim;
+void printSettings(void)
+{
+	printf("**** Velocity Boundary Settings ****\n");
+	for (int i = 0; i < 6; i++)
+	{	
+		printf("%.1f [deg]\t<= q[%i] <=\t%.1f [deg]\t qDot[%i] <= %.1f [RPM] \n",
+			minAngleDeg[i], i, maxAngleDeg[i], i, maxSpeedRPM[i]);
 	}
-	else if (u < loLim)
-	{
-		return loLim;
-	}
-	else
-	{
-		return u;
-	}
+}
 
+void loadSettings(void)
+{
+	// Read Velocity Boundary settings from JSON
+	FILE* fp = fopen("../setup.json", "r");
+	char buffer[65536];
+	rapidjson::FileReadStream is(fp, buffer, sizeof(buffer));
 
+	// Parse JSON file
+	rapidjson::Document json;
+	json.ParseStream(is);
+
+	// Close
+	fclose(fp);
+
+	// Populate Velocity Boundary settings
+	for (int i = 0; i < 6; i++)
+	{
+		minAngleDeg[i] = json["minAngleDeg"][i].GetDouble();
+		maxAngleDeg[i] = json["maxAngleDeg"][i].GetDouble();
+		maxSpeedRPM[i] = json["maxSpeedRPM"][i].GetDouble();
+	}
 }
 
 void *ReadWriteUDP(void *arg)
@@ -50,7 +65,7 @@ void *ReadWriteUDP(void *arg)
 	char udpBufferRead[sizeof(UdpDataIn)];
 	char udpBufferWrite[sizeof(UdpDataOut)];
 
-	while (1)
+	while (true)
 	{
 		// Try to receive some data, this is a blocking call
 		if ((recvfrom(s, udpBufferRead, sizeof(udpBufferRead), 0, (struct sockaddr*) &si_other, &slen)) == -1)
@@ -98,18 +113,8 @@ int InitializeControlPosition(void)
 			modality, s_modality,
 			((ORLOPEN_GetStatusMasterAx(ORL_SILENT, ORL_CNTRL01, ORL_ARM1) == 4) ? "DRIVE_ON" : "DRIVEOFF"),(unsigned int)sm_out_maskjnt);
 
-		ORLOPEN_sync_position(&Setpoint.Pos, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
-		ORL_joints_conversion(&Setpoint.Pos, ORL_POSITION_LINK_DEGREE, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
-
-		for (int i = 0; i < 6; i++) {
-			Setpoint.Vel.value[i] = 0.0;
-			Setpoint.Acc.value[i] = 0.0;
-
-			Reference.Vel.value[i] = 0.0;
-			Reference.Acc.value[i] = 0.0;
-		}
-
-		printf("ORLOPEN_sync_position J %f %f %f %f %f %f %f\n", Reference.Pos.value[ORL_AX1], Reference.Pos.value[ORL_AX2], Reference.Pos.value[ORL_AX3], Reference.Pos.value[ORL_AX4], Reference.Pos.value[ORL_AX5], Reference.Pos.value[ORL_AX6], Reference.Pos.value[ORL_AX7]);
+		ORLOPEN_sync_position(&setpoint, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
+		ORL_joints_conversion(&setpoint, ORL_POSITION_LINK_RAD, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
 		
 		sprintf((char *)orl_sys_var.sysvar_name, "$ARM_DATA[%d].ARM_OVR", ORL_ARM1 + 1);
 		orl_sys_var.ctype = ORL_INT;

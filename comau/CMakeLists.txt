@@ -6,13 +6,20 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -Wall")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O2")
 
 
-include_directories(include /opt/inc /usr/include/eigen3 ./)
+include_directories(
+    include
+    /opt/inc
+    /usr/include/eigen3 
+    ./
+    rapidjson/include
+)
 
 add_executable(main
-main.cpp
-callbackFunction.cpp
-userFunctions.cpp
-loopConsole.cpp
+    main.cpp
+    callbackFunction.cpp
+    userFunctions.cpp
+    loopConsole.cpp
+    velocityBound.cpp
 )
 
 add_library(eorl SHARED IMPORTED)

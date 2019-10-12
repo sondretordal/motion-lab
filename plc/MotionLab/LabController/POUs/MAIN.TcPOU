@@ -172,7 +172,7 @@ comau.control := controlMapping.stControlComau;
 *)
 
 // Debug input
-comau.u := 0.2*(rxHmi.xboxRT - rxHmi.xboxLT);
+comau.u := (rxHmi.xboxRT - rxHmi.xboxLT);
 
 // Update elements to be controlled
 comau();

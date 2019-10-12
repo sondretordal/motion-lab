@@ -4,7 +4,6 @@
     <Declaration><![CDATA[TYPE ST_RxUdpComau :
 STRUCT
 	frameCounter : DINT := 0;
-	qRef 	: ARRAY [0..5] OF REAL;
 	q 		: ARRAY [0..5] OF REAL;
 	qDot 	: ARRAY [0..5] OF REAL;
 END_STRUCT

@@ -1,14 +1,32 @@
 #define GLOBAL_VAR_EXTERN
 #include "config.h"
 
+#include "velocityBound.h"
+
+
 int callbackFunction(int period)
 {
 	char flag_new_modality, s_modality[40];
 
-	// Input parameters
-	double beta = 1.0;
-	double omega = 1.0;
-	double maxVel = 10.0/180.0*PI;
+	// Velocity boundary
+	VelocityBound bound;
+	double qRef[6], qDotRef[6], qMin[6], qMax[6], V[6],  A[6];
+
+	// Convert to SI units
+	for (int i = 0; i < 6; i++)
+	{
+		qMin[i] = minAngleDeg[i]/180.0*PI;
+		qMax[i] = maxAngleDeg[i]/180.0*PI;
+		
+		V[i] = maxSpeedRPM[i]*2.0*PI/60.0;
+		A[i] = 1.0;
+	}
+
+	// Control joint position data 
+	ORL_joint_value control;
+
+	// Feedback joint data
+	ORL_joint_value position, velocity;
 
 	// Modality change notification
 	flag_new_modality = false;
@@ -30,16 +48,8 @@ int callbackFunction(int period)
 	switch (modality_active)
 	{
 	case CRCOPEN_LISTEN:
-		ORLOPEN_sync_position(&Setpoint.Pos, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
-		ORL_joints_conversion(&Setpoint.Pos, ORL_POSITION_LINK_RAD, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
-
-		for (int i = 0; i < 6; i++) {
-			Setpoint.Vel.value[i] = 0.0;
-			Setpoint.Acc.value[i] = 0.0;
-
-			Reference.Vel.value[i] = 0.0;
-			Reference.Acc.value[i] = 0.0;
-		}
+		ORLOPEN_sync_position(&setpoint, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
+		ORL_joints_conversion(&setpoint, ORL_POSITION_LINK_RAD, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
 
 		break;
 
@@ -49,13 +59,8 @@ int callbackFunction(int period)
 		{
 		case STOP_MODE:
 			// Copy current joint angles
-			ORLOPEN_sync_position(&Reference.Pos, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
-			ORL_joints_conversion(&Reference.Pos, ORL_POSITION_LINK_RAD, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
-
-			for (int i = 0; i < 6; i++) {
-				Reference.Vel.value[i] = 0.0;
-				Reference.Acc.value[i] = 0.0;
-			}
+			ORLOPEN_sync_position(&setpoint, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
+			ORL_joints_conversion(&setpoint, ORL_POSITION_LINK_RAD, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
 
 			break;
 
@@ -64,78 +69,55 @@ int callbackFunction(int period)
 			{
 				if (udpRecieve->mode == 1)
 				{
-					maxVel = 10.0/180.0*PI;
-					// Read udp joint values				
 					pthread_mutex_lock(&lock);
-						Reference.Pos.value[0] = (double)udpRecieve->q1;
-						Reference.Pos.value[1] = (double)udpRecieve->q2;
-						Reference.Pos.value[2] = (double)udpRecieve->q3;
-						Reference.Pos.value[3] = (double)udpRecieve->q4;
-						Reference.Pos.value[4] = (double)udpRecieve->q5;
-						Reference.Pos.value[5] = (double)udpRecieve->q6;
-					pthread_mutex_unlock(&lock);
-				}
-				else if (udpRecieve->mode == 2)
-				{
-					maxVel = 40.0/180.0*PI;
-					// Apply filter settings from host
-					pthread_mutex_lock(&lock);
-						beta = (double)abs(udpRecieve->beta);
-						omega = (double)abs(udpRecieve->omega);
+					for (int i = 0; i < 6; i++)
+					{	
+						// Apply velocity bound
+						qRef[i] = setpoint.value[i];
+						qDotRef[i] = (double)udpRecieve->qDotRef[i];
 
-						// Read udp joint values
-						Reference.Pos.value[0] = (double)udpRecieve->q1;
-						Reference.Pos.value[1] = (double)udpRecieve->q2;
-						Reference.Pos.value[2] = (double)udpRecieve->q3;
-						Reference.Pos.value[3] = (double)udpRecieve->q4;
-						Reference.Pos.value[4] = (double)udpRecieve->q5;
-						Reference.Pos.value[5] = (double)udpRecieve->q6;
+						bound = velocityBound(qRef, qMin, qMax, V, A, dt);
+
+						qDotRef[i] = fmax(qDotRef[i], bound.qDotMin[i]);
+						qDotRef[i] = fmin(qDotRef[i], bound.qDotMax[i]);
+
+						// Apply numerical integration based on qDotRef
+						setpoint.value[i] = setpoint.value[i] + qDotRef[i]*dt;
+
+						// Absolute postion constraint
+						setpoint.value[i] = fmax(setpoint.value[i], qMin[i]);
+						setpoint.value[i] = fmin(setpoint.value[i], qMax[i]);
+					}
+						
 					pthread_mutex_unlock(&lock);
 				}
 				else
 				{
 					// Copy current joint angles
-					ORLOPEN_sync_position(&Reference.Pos, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
-					ORL_joints_conversion(&Reference.Pos, ORL_POSITION_LINK_RAD, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
+					ORLOPEN_sync_position(&setpoint, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
+					ORL_joints_conversion(&setpoint, ORL_POSITION_LINK_RAD, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
 
-					for (int i = 0; i < 6; i++) {
-						Reference.Vel.value[i] = 0.0;
-						Reference.Acc.value[i] = 0.0;
-					}
 				}
 			}
 			else
 			{
 				// Copy current joint angles
-				ORLOPEN_sync_position(&Reference.Pos, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
-				ORL_joints_conversion(&Reference.Pos, ORL_POSITION_LINK_RAD, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
+				ORLOPEN_sync_position(&setpoint, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
+				ORL_joints_conversion(&setpoint, ORL_POSITION_LINK_RAD, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
 
-				for (int i = 0; i < 6; i++) {
-					Reference.Vel.value[i] = 0.0;
-					Reference.Acc.value[i] = 0.0;
-				}
 			}
 			break;
 
 		default:
 			break;
+
 		}
 
-		// Generate setpoint trajectory
-		for (int i = 0; i < 6; i++){
-			Setpoint.Acc.value[i] = Reference.Acc.value[i] + 2*beta*omega*(Reference.Vel.value[i] - Setpoint.Vel.value[i]) + omega*omega*(Reference.Pos.value[i] - Setpoint.Pos.value[i]);
-
-			Setpoint.Vel.value[i] = Setpoint.Vel.value[i] + Setpoint.Acc.value[i]*dt;
-			Setpoint.Vel.value[i] = Limit(Setpoint.Vel.value[i], maxVel, -maxVel);
-
-			Setpoint.Pos.value[i] = Setpoint.Pos.value[i] + Setpoint.Vel.value[i]*dt;
-		}
-
-		// Copy and set output joints
-		memcpy(&ControlInput.Pos, &Setpoint.Pos, sizeof(Setpoint.Pos));
-		ORL_joints_conversion(&ControlInput.Pos, ORL_POSITION_LINK_DEGREE, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
+		// Apply joint position control in degrees
+		memcpy(&control, &setpoint, sizeof(control));
+		ORL_joints_conversion(&control, ORL_POSITION_LINK_DEGREE, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
 		
-		ORLOPEN_set_absolute_pos_target_degree(&ControlInput.Pos, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
+		ORLOPEN_set_absolute_pos_target_degree(&control, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
 
 		break;
 	default:
@@ -151,46 +133,22 @@ int callbackFunction(int period)
 	// Send feedback data to udp client
 	long mask = ORLOPEN_GetOpenMask(ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
 
-	ORLOPEN_get_pos_measured_mr(&Feedback.Pos, &mask, 0, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
-	ORL_joints_conversion(&Feedback.Pos, ORL_POSITION_LINK_RAD, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
+	ORLOPEN_get_pos_measured_mr(&position, &mask, 0, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
+	ORL_joints_conversion(&position, ORL_POSITION_LINK_RAD, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
 
-	ORLOPEN_get_speed_measured_mrpm(&Feedback.Vel, &mask, 0, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
-	ORL_joints_conversion(&Feedback.Vel, ORL_SPEED_LINK_RAD_SEC, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
+	ORLOPEN_get_speed_measured_mrpm(&velocity, &mask, 0, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
+	ORL_joints_conversion(&velocity, ORL_SPEED_LINK_RAD_SEC, ORL_SILENT, ORL_CNTRL01, ORL_ARM1);
 	
+	// Send feedback to UDP user
 	pthread_mutex_lock(&lock);
-		udpSend.frameCounter += 1;	
-		
-		// Joint Control input after setpoint generator
-		udpSend.q1_ref = Setpoint.Pos.value[0];
-		udpSend.q2_ref = Setpoint.Pos.value[1];
-		udpSend.q3_ref = Setpoint.Pos.value[2];
-		udpSend.q4_ref = Setpoint.Pos.value[3];
-		udpSend.q5_ref = Setpoint.Pos.value[4];
-		udpSend.q6_ref = Setpoint.Pos.value[5];
+		udpSend.frameCounter += 1;
 
-		// Joint position feedback
-		udpSend.q1 = Feedback.Pos.value[0];
-		udpSend.q2 = Feedback.Pos.value[1];
-		udpSend.q3 = Feedback.Pos.value[2];
-		udpSend.q4 = Feedback.Pos.value[3];
-		udpSend.q5 = Feedback.Pos.value[4];
-		udpSend.q6 = Feedback.Pos.value[5];
-		
-		// Joint velocity feedback
-		udpSend.q1_t = Feedback.Vel.value[0];
-		udpSend.q2_t = Feedback.Vel.value[1];
-		udpSend.q3_t = Feedback.Vel.value[2];
-		udpSend.q4_t = Feedback.Vel.value[3];
-		udpSend.q5_t = Feedback.Vel.value[4];
-		udpSend.q6_t = Feedback.Vel.value[5];
+		for (int i = 0; i < 6; i++)
+		{
+			udpSend.q[i] = position.value[i];
+			udpSend.qDot[i] = velocity.value[i];
+		}
 
-		// Joint acceleration feedback
-		udpSend.q1_tt = Feedback.Acc.value[0];
-		udpSend.q2_tt = Feedback.Acc.value[1];
-		udpSend.q3_tt = Feedback.Acc.value[2];
-		udpSend.q4_tt = Feedback.Acc.value[3];
-		udpSend.q5_tt = Feedback.Acc.value[4];
-		udpSend.q6_tt = Feedback.Acc.value[5];
 	pthread_mutex_unlock(&lock);
 	
 

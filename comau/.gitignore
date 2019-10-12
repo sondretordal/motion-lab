@@ -1,5 +1,5 @@
 /.cnfg/
-/cnfg/
+/build
 /CMakeFiles/*
 *.cmake
 CMakeCache.txt

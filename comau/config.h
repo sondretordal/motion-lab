@@ -13,6 +13,12 @@
 
 #include <eORL.h>
 
+// Rapidjson
+#include "rapidjson/filereadstream.h"
+#include "rapidjson/document.h"
+#include "rapidjson/writer.h"
+#include "rapidjson/stringbuffer.h"
+
 #ifdef  GLOBAL_VAR_EXTERN
 #define EXTRN  extern
 #else
@@ -38,13 +44,13 @@
 // Define PI
 #define PI												3.14159265359
 
-// Variables in original Demo program
+// (GLOBAL) Variables in original Demo program
 EXTRN char 												flag_ExitFromOpen;
 EXTRN unsigned int 										modality_active;
 EXTRN unsigned int 										modality_old;
 EXTRN unsigned int										udp_started;
 
-// Additional global variables
+// (GLOBAL) Additional global variables
 EXTRN pthread_t 										thread1;
 EXTRN pthread_mutex_t									lock;
 EXTRN double 											dt;
@@ -54,7 +60,8 @@ EXTRN int 												mode;
 int callbackFunction(int);
 
 // userFunctions.cpp
-double Limit(double u, double hiLim, double loLim);
+void printSettings(void);
+void loadSettings(void);
 void *ReadWriteUDP(void *arg);
 int InitializeControlPosition(void);
 void DecodeModality(int si_modality, char* string);
@@ -64,66 +71,25 @@ char getch();
 // loopConsole.cpp
 void loopConsole(void);
 
-struct JointData {
-	ORL_joint_value Pos, Vel, Acc;
-};
+// Joint setpoint
+EXTRN ORL_joint_value setpoint;
 
-EXTRN JointData Setpoint, ControlInput, Reference, Feedback;
+// Velocity Boundary settings
+EXTRN double minAngleDeg[6], maxAngleDeg[6], maxSpeedRPM[6];
 
 // UDP data structs
 struct UdpDataIn
 {
 	int udpKey;
 	int mode;
-	float omega;
-	float beta;
-	float q1;
-	float q2;
-	float q3;
-	float q4;
-	float q5;
-	float q6;
-	float q1_t;
-	float q2_t;
-	float q3_t;
-	float q4_t;
-	float q5_t;
-	float q6_t;
-	float q1_tt;
-	float q2_tt;
-	float q3_tt;
-	float q4_tt;
-	float q5_tt;
-	float q6_tt;
+	float qDotRef[6];
 };
 
 struct UdpDataOut
 {
 	int frameCounter;
-	float q1_ref;
-	float q2_ref;
-	float q3_ref;
-	float q4_ref;
-	float q5_ref;
-	float q6_ref;
-	float q1;
-	float q2;
-	float q3;
-	float q4;
-	float q5;
-	float q6;
-	float q1_t;
-	float q2_t;
-	float q3_t;
-	float q4_t;
-	float q5_t;
-	float q6_t;
-	float q1_tt;
-	float q2_tt;
-	float q3_tt;
-	float q4_tt;
-	float q5_tt;
-	float q6_tt;
+	float q[6];
+	float qDot[6];
 };
 
 // Define udp output struct
