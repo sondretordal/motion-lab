@@ -3,7 +3,7 @@
   <PropertyGroup>
     <FileVersion>1.0.0.0</FileVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{0efe960f-9bdc-4039-bbcc-77c5bf3d3fa6}</ProjectGuid>
+    <ProjectGuid>{ffa53eb3-e1cd-4827-ae29-7824ead7455e}</ProjectGuid>
     <SubObjectsSortedByName>True</SubObjectsSortedByName>
     <Name>LabController</Name>
     <ProgramVersion>3.1.4022.1</ProgramVersion>
