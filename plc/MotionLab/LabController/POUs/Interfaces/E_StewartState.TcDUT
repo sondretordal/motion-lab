@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <DUT Name="E_StewartState" Id="{80c20507-7c0d-4412-8a64-b356b7316672}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE E_StewartState :
+(
+	TRANSIT			:= 16#00000000,
+	OFF				:= 16#00000001,
+	SETTLED			:= 16#00000002,
+	OIL_HEATING		:= 16#00000003,
+	NEUTRAL			:= 16#00000004,
+	NEUTRAL_FREEZE	:= 16#00000005,
+	ENGAGED			:= 16#00000008,
+	ENGAGED_FREEZE	:= 16#00000009
+) UDINT;
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

@@ -1,16 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
-  <DUT Name="E_StewartMode" Id="{e8e86642-4f9a-45ef-b209-c304e7ac55fa}">
+  <DUT Name="E_StewartOpMode" Id="{063aec99-d750-4f47-b1e1-153470d88024}">
     <Declaration><![CDATA[{attribute 'qualified_only'}
 {attribute 'strict'}
-TYPE E_StewartMode :
+TYPE E_StewartOpMode :
 (
-	SETTLED := 0,
-	NEUTRAL,
-	SIMULATION,
-	GENERATOR,
-	FILE
-);
-END_TYPE]]></Declaration>
+	MANUAL := 16#00000000,
+	NORMAL := 16#01000000
+) UDINT;
+END_TYPE
+]]></Declaration>
   </DUT>
 </TcPlcObject>

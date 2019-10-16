@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <DUT Name="E_StewartCommand" Id="{94d47f32-8886-441e-934d-de8d29260edc}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE E_StewartCommand :
+(
+	TO_OFF	 		:= 16#00000000,
+	TO_SETTLED 		:= 16#00000001,
+	TO_NEUTRAL 		:= 16#00000003,
+	TO_ENGAGED 		:= 16#00000007,
+	ACK_FAULT 		:= 16#00000011 // Akcnowledge fault and go to settled
+) UDINT;
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>
