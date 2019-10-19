@@ -1,12 +1,14 @@
-from ctypes import Structure, c_float, c_int, c_uint, c_bool
+from ctypes import Structure, c_float, c_int, c_uint, c_bool, c_uint8
+
 
 # PLC -> HMI
 class TxHmiStewart(Structure):
     _fields_ = [
         ('status', c_int),
         ('eta', 6*c_float),
-        ('eta_ref', 6*c_float),
-        ('eta_sim', 6*c_float),
+        ('etaRef', 6*c_float),
+        ('etaSim', 6*c_float),
+        ('etaSine', 6*c_float),
         ('cyl', 6*c_float)
     ]
 

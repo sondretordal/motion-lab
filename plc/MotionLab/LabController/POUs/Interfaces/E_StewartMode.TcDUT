@@ -10,7 +10,7 @@ TYPE E_StewartMode :
 	SIMULATION,
 	GENERATOR,
 	FILE
-);
+) USINT ;
 END_TYPE]]></Declaration>
   </DUT>
 </TcPlcObject>

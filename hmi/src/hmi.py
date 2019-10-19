@@ -15,6 +15,8 @@ from src.datastructures import TxHmi, RxHmi
 from src.gui import Ui_main
 from src.opengl import MotionLabVisualizer
 
+from src.StewartPlattform import StewartPlattform
+
 # Motionlab pybind module
 from lib import motionlab as ml
 
@@ -24,20 +26,106 @@ pg.setConfigOption('foreground', 'k')
 pg.setConfigOptions(antialias=True)
 
 class GUI(QMainWindow, Ui_main):
+    _ampEM1500 = []
+
+
     def __init__(self):
         super(GUI, self).__init__()
         Ui_main.__init__(self)
-        # Calling the initUI function
-        self.initUI()
-
-    # Function that initialize all the objects in the UI
-    def initUI(self):
-        # Set up the user interface from QT Designer
         self.setupUi(self)
 
         # Start ADS communications
         self.plc = pyads.Connection('192.168.90.150.1.1', 851)
         self.plc.open()
+
+
+        # Setup plotEM1500
+        self.plotEM1500_A = RealTimePlot(self._plotEM1500.addPlot())
+        self.plotEM1500_A.plot.setLabel('left', 'Position', 'm')
+        self.plotEM1500_A.plot.setYRange(-0.5, 0.5)
+        self.plotEM1500_A.add_curves(['r', 'g', 'b'], ['Surge', 'Sway', 'Heave'])
+        self._plotEM1500.nextRow()
+        self.plotEM1500_B = RealTimePlot(self._plotEM1500.addPlot())
+        self.plotEM1500_B.plot.setLabel('left', 'Angle', 'deg')
+        self.plotEM1500_B.plot.setYRange(-6.0, 6.0)
+        self.plotEM1500_B.add_curves(['r', 'g', 'b'], ['Roll', 'Pitch', 'Yaw'])
+        
+        # Sine wave parameters
+        self._ampEM1500.append(self._ampEM1500_0)
+        self._ampEM1500.append(self._ampEM1500_1)
+        self._ampEM1500.append(self._ampEM1500_2)
+        self._ampEM1500.append(self._ampEM1500_3)
+        self._ampEM1500.append(self._ampEM1500_4)
+        self._ampEM1500.append(self._ampEM1500_5)
+
+        self.connectTabStewart('EM1500')
+
+        # Calling the initUI function
+        self.initUI()
+
+    def connectTabStewart(self, obj):
+        # FB_StewartInterface.eMode
+        eval('self._eMode' + obj).currentIndexChanged.connect(
+            lambda: (
+                self.plc.write_by_name(
+                    'MAIN.' + obj + '.eMode',
+                    eval('self._eMode' + obj).currentIndex(),
+                    pyads.PLCTYPE_USINT
+                )
+            )
+        )
+
+        # FB_StewartInterface.bStop
+        eval('self._bStop' + obj).clicked.connect(
+            lambda: (
+                self.plc.write_by_name(
+                    'MAIN.' + obj + '.bStop',
+                    True,
+                    pyads.PLCTYPE_BOOL
+                )
+            )
+        )
+
+        # FB_StewartInterface.bReset
+        eval('self._bReset' + obj).clicked.connect(
+            lambda: (
+                self.plc.write_by_name(
+                    'MAIN.' + obj + '.bReset',
+                    True,
+                    pyads.PLCTYPE_BOOL
+                ),
+                eval('self._eMode' + obj).setCurrentIndex(0)
+            )
+        )
+
+        # FB_StewartInterface.{sineAmplitude, sineOmega, sinePhase}
+        for i in range(0, 5):
+            self._ampEM1500[i].returnPressed.connect(
+                lambda: (
+                    self.plc.write_by_name(
+                        'MAIN.' + obj + '.sineAmplitude[' + str(i) + ']',
+                        float(self._ampEM1500[i].text()),
+                        pyads.PLCTYPE_LREAL
+                    ),
+                    print(self._ampEM1500[i].text())
+                )
+            )
+        
+
+
+    
+
+
+
+        
+    
+        # self.eModeEM8000.currentIndexChanged.connect(lambda: self.eModeChanged('EM8000'))
+
+    # Function that initialize all the objects in the UI
+    def initUI(self):
+        
+
+        
 
         try:
             self.plc.read_state()
@@ -397,13 +485,13 @@ class GUI(QMainWindow, Ui_main):
     def updateSlow(self):
         if self.plc_active:
             # EM8000 activity
-            if self.plc.read_by_name('MAIN.em8000.active', pyads.PLCTYPE_BOOL):
+            if self.plc.read_by_name('MAIN.em8000.bActive', pyads.PLCTYPE_BOOL):
                 self.activeEM8000.setCheckState(True)
             else:
                 self.activeEM8000.setCheckState(False)
             
             # EM1500 activity
-            if self.plc.read_by_name('MAIN.em1500.active', pyads.PLCTYPE_BOOL):
+            if self.plc.read_by_name('MAIN.em1500.bActive', pyads.PLCTYPE_BOOL):
                 self.activeEM1500.setCheckState(True)
             else:
                 self.activeEM1500.setCheckState(False)
@@ -470,6 +558,7 @@ class GUI(QMainWindow, Ui_main):
         rxHmi.xboxRT = self.xbox.RT
 
 
+
         if self.xbox.A:
             self.activateAntiSway()
 
@@ -487,33 +576,63 @@ class GUI(QMainWindow, Ui_main):
         self.plc.write_by_name('MAIN.rxHmi', rxBuffer, rxSize)
         
         self.t = time.time() - self.tStart
+
+        # Plot EM1500
+        self.plotEM1500_A.time_range
+        plotModeEM1500 = self._plotModeEM1500.currentIndex()
+        if plotModeEM1500 == 0:
+            etaEM1500 = txHmi.em1500.etaSine
+
+        elif plotModeEM1500 == 1:
+            etaEM1500 = txHmi.em1500.etaSim
+
+        else:
+            etaEM1500 = np.zeros(6)
+
+        self.plotEM1500_A.update(self.t, 
+            [
+                etaEM1500[0],
+                etaEM1500[1],
+                etaEM1500[2],
+            ]
+        )
+
+        self.plotEM1500_B.update(self.t, 
+            [
+                etaEM1500[3]/np.pi*180,
+                etaEM1500[4]/np.pi*180,
+                etaEM1500[5]/np.pi*180,
+            ]
+        )
+
+        ######################################################
     
         self.DP1_1.time_range = self.time_range
         self.DP1_1.update(self.t, [
-                txHmi.em8000.eta_sim[0],
-                txHmi.em8000.eta_sim[1],
-                txHmi.em8000.eta_sim[2]
+                txHmi.em8000.etaSim[0],
+                txHmi.em8000.etaSim[1],
+                txHmi.em8000.etaSim[2]
             ])
         
         self.DP1_2.time_range = self.time_range
         self.DP1_2.update(self.t, [
-                txHmi.em8000.eta_sim[3]/np.pi*180.0,
-                txHmi.em8000.eta_sim[4]/np.pi*180.0,
-                txHmi.em8000.eta_sim[5]/np.pi*180.0
+                txHmi.em8000.etaSim[3]/np.pi*180.0,
+                txHmi.em8000.etaSim[4]/np.pi*180.0,
+                txHmi.em8000.etaSim[5]/np.pi*180.0
             ])
  
         self.DP2_1.time_range = self.time_range
         self.DP2_1.update(self.t, [
-                txHmi.em1500.eta_sim[0],
-                txHmi.em1500.eta_sim[1],
-                txHmi.em1500.eta_sim[2]
+                txHmi.em1500.etaSim[0],
+                txHmi.em1500.etaSim[1],
+                txHmi.em1500.etaSim[2]
             ])
         
         self.DP2_2.time_range = self.time_range
         self.DP2_2.update(self.t, [
-                txHmi.em1500.eta_sim[3]/np.pi*180.0,
-                txHmi.em1500.eta_sim[4]/np.pi*180.0,
-                txHmi.em1500.eta_sim[5]/np.pi*180.0
+                txHmi.em1500.etaSim[3]/np.pi*180.0,
+                txHmi.em1500.etaSim[4]/np.pi*180.0,
+                txHmi.em1500.etaSim[5]/np.pi*180.0
             ])
 
         self.EM1500_1.time_range = self.time_range
@@ -820,9 +939,11 @@ class GUI(QMainWindow, Ui_main):
 
     # Function to handle the closing event of to the application
     def closeEvent(self, event):
-        reply = QMessageBox.question(self, 'Message',
-            "Are you sure to quit?", QMessageBox.Yes |
-        QMessageBox.No, QMessageBox.No)
+        # reply = QMessageBox.question(self, 'Message',
+        #     "Are you sure to quit?", QMessageBox.Yes |
+        # QMessageBox.No, QMessageBox.No)
+
+        reply = QMessageBox.Yes
 
         if reply == QMessageBox.Yes:
             self.stop_all()

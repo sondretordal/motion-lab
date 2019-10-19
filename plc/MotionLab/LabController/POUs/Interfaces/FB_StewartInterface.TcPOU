@@ -4,14 +4,14 @@
     <Declaration><![CDATA[FUNCTION_BLOCK FB_StewartInterface
 VAR_INPUT
 	// Stewart Operation 
+	bStop : BOOL;
 	bReset : BOOL;
-	bExecute : BOOL := FALSE;
 	eMode : E_StewartMode;
 	
 	// Sine Generator Settings
-	sineAmplitude : ARRAY [0..5] OF LREAL := [3(0.1), 3(3.0/180*PI)];
-	sineOmega : ARRAY [0..5] OF LREAL := [6(0.1*2.0*PI)];
-	sinePhase : ARRAY [0..5] OF LREAL := [0.0, 0.1, 0.2, 0.3, 0.4, 0.5];
+	sineAmplitude : ARRAY [0..5] OF LREAL;
+	sineOmega : ARRAY [0..5] OF LREAL;
+	sinePhase : ARRAY [0..5] OF LREAL;
 	
 	
 	// Max/min settings
@@ -34,8 +34,11 @@ VAR_OUTPUT
 END_VAR
 VAR	
 	// Ship simulator data
-	etaSim AT %I* : ARRAY [0..5] OF LREAL;	
-
+	etaSim AT %I* : ARRAY [0..5] OF LREAL;
+	
+	// Sine wave data
+	etaSine : ARRAY [0..5] OF LREAL;
+	
 	// Udp connection
 	udpClient : FB_UdpClientRT('', 0, 0, 0, 0, 0, 0);	// Dummy constructor
 
@@ -83,65 +86,81 @@ END_VAR]]></Declaration>
             <o xml:space="preserve" t="UMLStateChart">
               <v n="Abortable">true</v>
               <v n="UseVarInstForMethods">false</v>
-              <v n="StatesCount">12</v>
+              <v n="StatesCount">13</v>
               <v n="HistoryCount">0</v>
-              <v n="TransitionsCount">27</v>
+              <v n="TransitionsCount">41</v>
               <v n="RegionsCount">0</v>
               <v n="TracesCount">0</v>
               <v n="StatesInitString">":=[(ID := 1, Name := 'GeneratedStartStateForAbort1', StateType := _UML_SC_StateTypes.InitialState, StartOfTransitionIndex := 1, OutGoingTransitionsCount := 1, RegionCount := 0, RegionStartIndex := 0, RegionEndIndex := 0, CompletionTransitionID := 0, MaxDoCycles := 32766, HasEntryAction := False, HasDoAction := False, HasExitAction := False) , 
 (ID := 2, Name := 'GeneratedFinalStateForAbort1', StateType := _UML_SC_StateTypes.FinalState, StartOfTransitionIndex := 0, OutGoingTransitionsCount := 0, RegionCount := 0, RegionStartIndex := 0, RegionEndIndex := 0, CompletionTransitionID := 0, MaxDoCycles := 32766, HasEntryAction := False, HasDoAction := False, HasExitAction := False) , 
-(ID := 3, Name := 'TO_SETTLED', StateType := _UML_SC_StateTypes.SlowState, StartOfTransitionIndex := 2, OutGoingTransitionsCount := 3, RegionCount := 0, RegionStartIndex := 0, RegionEndIndex := 0, CompletionTransitionID := 0, MaxDoCycles := 32766, HasEntryAction := True, HasDoAction := False, HasExitAction := False) , 
-(ID := 4, Name := 'StartState2', StateType := _UML_SC_StateTypes.FastState, StartOfTransitionIndex := 5, OutGoingTransitionsCount := 1, RegionCount := 0, RegionStartIndex := 0, RegionEndIndex := 0, CompletionTransitionID := 0, MaxDoCycles := 32766, HasEntryAction := False, HasDoAction := False, HasExitAction := False) , 
-(ID := 5, Name := 'GENERATOR', StateType := _UML_SC_StateTypes.SlowState, StartOfTransitionIndex := 6, OutGoingTransitionsCount := 3, RegionCount := 0, RegionStartIndex := 0, RegionEndIndex := 0, CompletionTransitionID := 0, MaxDoCycles := 32766, HasEntryAction := True, HasDoAction := True, HasExitAction := True) , 
-(ID := 6, Name := 'NEUTRAL', StateType := _UML_SC_StateTypes.SlowState, StartOfTransitionIndex := 9, OutGoingTransitionsCount := 5, RegionCount := 0, RegionStartIndex := 0, RegionEndIndex := 0, CompletionTransitionID := 0, MaxDoCycles := 32766, HasEntryAction := True, HasDoAction := True, HasExitAction := True) , 
-(ID := 7, Name := 'StartState1', StateType := _UML_SC_StateTypes.FastState, StartOfTransitionIndex := 14, OutGoingTransitionsCount := 1, RegionCount := 0, RegionStartIndex := 0, RegionEndIndex := 0, CompletionTransitionID := 0, MaxDoCycles := 32766, HasEntryAction := False, HasDoAction := False, HasExitAction := False) , 
-(ID := 8, Name := 'SETTLED', StateType := _UML_SC_StateTypes.SlowState, StartOfTransitionIndex := 15, OutGoingTransitionsCount := 3, RegionCount := 0, RegionStartIndex := 0, RegionEndIndex := 0, CompletionTransitionID := 0, MaxDoCycles := 32766, HasEntryAction := True, HasDoAction := True, HasExitAction := True) , 
-(ID := 9, Name := 'TO_NEUTRAL', StateType := _UML_SC_StateTypes.SlowState, StartOfTransitionIndex := 18, OutGoingTransitionsCount := 3, RegionCount := 0, RegionStartIndex := 0, RegionEndIndex := 0, CompletionTransitionID := 0, MaxDoCycles := 32766, HasEntryAction := True, HasDoAction := False, HasExitAction := False) , 
-(ID := 10, Name := 'ModeCheck', StateType := _UML_SC_StateTypes.SlowState, StartOfTransitionIndex := 21, OutGoingTransitionsCount := 2, RegionCount := 0, RegionStartIndex := 0, RegionEndIndex := 0, CompletionTransitionID := 0, MaxDoCycles := 32766, HasEntryAction := True, HasDoAction := True, HasExitAction := True) , 
-(ID := 11, Name := 'ERROR', StateType := _UML_SC_StateTypes.SlowState, StartOfTransitionIndex := 23, OutGoingTransitionsCount := 2, RegionCount := 0, RegionStartIndex := 0, RegionEndIndex := 0, CompletionTransitionID := 0, MaxDoCycles := 32766, HasEntryAction := True, HasDoAction := True, HasExitAction := False) , 
-(ID := 12, Name := 'SIMULATION', StateType := _UML_SC_StateTypes.SlowState, StartOfTransitionIndex := 25, OutGoingTransitionsCount := 3, RegionCount := 0, RegionStartIndex := 0, RegionEndIndex := 0, CompletionTransitionID := 0, MaxDoCycles := 32766, HasEntryAction := True, HasDoAction := True, HasExitAction := True) ];
+(ID := 3, Name := 'TO_SETTLED', StateType := _UML_SC_StateTypes.SlowState, StartOfTransitionIndex := 2, OutGoingTransitionsCount := 5, RegionCount := 0, RegionStartIndex := 0, RegionEndIndex := 0, CompletionTransitionID := 0, MaxDoCycles := 32766, HasEntryAction := True, HasDoAction := False, HasExitAction := False) , 
+(ID := 4, Name := 'StartState2', StateType := _UML_SC_StateTypes.FastState, StartOfTransitionIndex := 7, OutGoingTransitionsCount := 1, RegionCount := 0, RegionStartIndex := 0, RegionEndIndex := 0, CompletionTransitionID := 0, MaxDoCycles := 32766, HasEntryAction := False, HasDoAction := False, HasExitAction := False) , 
+(ID := 5, Name := 'STOPP', StateType := _UML_SC_StateTypes.SlowState, StartOfTransitionIndex := 8, OutGoingTransitionsCount := 2, RegionCount := 0, RegionStartIndex := 0, RegionEndIndex := 0, CompletionTransitionID := 0, MaxDoCycles := 32766, HasEntryAction := True, HasDoAction := True, HasExitAction := False) , 
+(ID := 6, Name := 'GENERATOR', StateType := _UML_SC_StateTypes.SlowState, StartOfTransitionIndex := 10, OutGoingTransitionsCount := 5, RegionCount := 0, RegionStartIndex := 0, RegionEndIndex := 0, CompletionTransitionID := 0, MaxDoCycles := 32766, HasEntryAction := False, HasDoAction := True, HasExitAction := False) , 
+(ID := 7, Name := 'NEUTRAL', StateType := _UML_SC_StateTypes.SlowState, StartOfTransitionIndex := 15, OutGoingTransitionsCount := 7, RegionCount := 0, RegionStartIndex := 0, RegionEndIndex := 0, CompletionTransitionID := 0, MaxDoCycles := 32766, HasEntryAction := True, HasDoAction := True, HasExitAction := True) , 
+(ID := 8, Name := 'StartState1', StateType := _UML_SC_StateTypes.FastState, StartOfTransitionIndex := 22, OutGoingTransitionsCount := 1, RegionCount := 0, RegionStartIndex := 0, RegionEndIndex := 0, CompletionTransitionID := 0, MaxDoCycles := 32766, HasEntryAction := False, HasDoAction := False, HasExitAction := False) , 
+(ID := 9, Name := 'SETTLED', StateType := _UML_SC_StateTypes.SlowState, StartOfTransitionIndex := 23, OutGoingTransitionsCount := 5, RegionCount := 0, RegionStartIndex := 0, RegionEndIndex := 0, CompletionTransitionID := 0, MaxDoCycles := 32766, HasEntryAction := True, HasDoAction := True, HasExitAction := True) , 
+(ID := 10, Name := 'TO_NEUTRAL', StateType := _UML_SC_StateTypes.SlowState, StartOfTransitionIndex := 28, OutGoingTransitionsCount := 5, RegionCount := 0, RegionStartIndex := 0, RegionEndIndex := 0, CompletionTransitionID := 0, MaxDoCycles := 32766, HasEntryAction := True, HasDoAction := False, HasExitAction := False) , 
+(ID := 11, Name := 'StatusCheck', StateType := _UML_SC_StateTypes.SlowState, StartOfTransitionIndex := 33, OutGoingTransitionsCount := 2, RegionCount := 0, RegionStartIndex := 0, RegionEndIndex := 0, CompletionTransitionID := 0, MaxDoCycles := 32766, HasEntryAction := True, HasDoAction := True, HasExitAction := True) , 
+(ID := 12, Name := 'ERROR', StateType := _UML_SC_StateTypes.SlowState, StartOfTransitionIndex := 35, OutGoingTransitionsCount := 2, RegionCount := 0, RegionStartIndex := 0, RegionEndIndex := 0, CompletionTransitionID := 0, MaxDoCycles := 32766, HasEntryAction := True, HasDoAction := True, HasExitAction := False) , 
+(ID := 13, Name := 'SIMULATION', StateType := _UML_SC_StateTypes.SlowState, StartOfTransitionIndex := 37, OutGoingTransitionsCount := 5, RegionCount := 0, RegionStartIndex := 0, RegionEndIndex := 0, CompletionTransitionID := 0, MaxDoCycles := 32766, HasEntryAction := False, HasDoAction := True, HasExitAction := False) ];
 "</v>
-              <v n="TransitionsInitString">":=[(ID := 1, StartStateID := 1, EndStateID := 7, Priority := 1, HasAction := False, IsCompletion := True,IsPseudoException := False,IsException := False), 
-(ID := 2, StartStateID := 3, EndStateID := 10, Priority := 1, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := True), 
-(ID := 3, StartStateID := 3, EndStateID := 11, Priority := 2, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := True), 
-(ID := 4, StartStateID := 3, EndStateID := 8, Priority := 3, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := False), 
-(ID := 5, StartStateID := 4, EndStateID := 8, Priority := 1, HasAction := False, IsCompletion := True,IsPseudoException := False,IsException := False), 
-(ID := 6, StartStateID := 5, EndStateID := 10, Priority := 1, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := True), 
-(ID := 7, StartStateID := 5, EndStateID := 11, Priority := 2, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := True), 
-(ID := 8, StartStateID := 5, EndStateID := 9, Priority := 3, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := False), 
-(ID := 9, StartStateID := 6, EndStateID := 10, Priority := 1, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := True), 
-(ID := 10, StartStateID := 6, EndStateID := 11, Priority := 2, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := True), 
-(ID := 11, StartStateID := 6, EndStateID := 5, Priority := 3, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := False), 
-(ID := 12, StartStateID := 6, EndStateID := 12, Priority := 4, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := False), 
-(ID := 13, StartStateID := 6, EndStateID := 3, Priority := 5, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := False), 
-(ID := 14, StartStateID := 7, EndStateID := 10, Priority := 1, HasAction := False, IsCompletion := True,IsPseudoException := False,IsException := False), 
-(ID := 15, StartStateID := 8, EndStateID := 10, Priority := 1, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := True), 
-(ID := 16, StartStateID := 8, EndStateID := 11, Priority := 2, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := True), 
-(ID := 17, StartStateID := 8, EndStateID := 9, Priority := 3, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := False), 
-(ID := 18, StartStateID := 9, EndStateID := 10, Priority := 1, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := True), 
-(ID := 19, StartStateID := 9, EndStateID := 11, Priority := 2, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := True), 
-(ID := 20, StartStateID := 9, EndStateID := 6, Priority := 3, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := False), 
-(ID := 21, StartStateID := 10, EndStateID := 2, Priority := 1, HasAction := True, IsCompletion := False,IsPseudoException := False,IsException := True), 
-(ID := 22, StartStateID := 10, EndStateID := 4, Priority := 2, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := False), 
-(ID := 23, StartStateID := 11, EndStateID := 2, Priority := 1, HasAction := True, IsCompletion := False,IsPseudoException := False,IsException := True), 
-(ID := 24, StartStateID := 11, EndStateID := 4, Priority := 2, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := False), 
-(ID := 25, StartStateID := 12, EndStateID := 10, Priority := 1, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := True), 
-(ID := 26, StartStateID := 12, EndStateID := 11, Priority := 2, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := True), 
-(ID := 27, StartStateID := 12, EndStateID := 9, Priority := 3, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := False)];
+              <v n="TransitionsInitString">":=[(ID := 1, StartStateID := 1, EndStateID := 8, Priority := 1, HasAction := False, IsCompletion := True,IsPseudoException := False,IsException := False), 
+(ID := 2, StartStateID := 3, EndStateID := 11, Priority := 1, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := True), 
+(ID := 3, StartStateID := 3, EndStateID := 5, Priority := 2, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := True), 
+(ID := 4, StartStateID := 3, EndStateID := 11, Priority := 3, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := True), 
+(ID := 5, StartStateID := 3, EndStateID := 12, Priority := 4, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := True), 
+(ID := 6, StartStateID := 3, EndStateID := 9, Priority := 5, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := False), 
+(ID := 7, StartStateID := 4, EndStateID := 9, Priority := 1, HasAction := False, IsCompletion := True,IsPseudoException := False,IsException := False), 
+(ID := 8, StartStateID := 5, EndStateID := 2, Priority := 1, HasAction := True, IsCompletion := False,IsPseudoException := False,IsException := True), 
+(ID := 9, StartStateID := 5, EndStateID := 4, Priority := 2, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := False), 
+(ID := 10, StartStateID := 6, EndStateID := 11, Priority := 1, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := True), 
+(ID := 11, StartStateID := 6, EndStateID := 5, Priority := 2, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := True), 
+(ID := 12, StartStateID := 6, EndStateID := 11, Priority := 3, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := True), 
+(ID := 13, StartStateID := 6, EndStateID := 12, Priority := 4, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := True), 
+(ID := 14, StartStateID := 6, EndStateID := 10, Priority := 5, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := False), 
+(ID := 15, StartStateID := 7, EndStateID := 11, Priority := 1, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := True), 
+(ID := 16, StartStateID := 7, EndStateID := 5, Priority := 2, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := True), 
+(ID := 17, StartStateID := 7, EndStateID := 11, Priority := 3, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := True), 
+(ID := 18, StartStateID := 7, EndStateID := 12, Priority := 4, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := True), 
+(ID := 19, StartStateID := 7, EndStateID := 6, Priority := 5, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := False), 
+(ID := 20, StartStateID := 7, EndStateID := 13, Priority := 6, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := False), 
+(ID := 21, StartStateID := 7, EndStateID := 3, Priority := 7, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := False), 
+(ID := 22, StartStateID := 8, EndStateID := 11, Priority := 1, HasAction := False, IsCompletion := True,IsPseudoException := False,IsException := False), 
+(ID := 23, StartStateID := 9, EndStateID := 11, Priority := 1, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := True), 
+(ID := 24, StartStateID := 9, EndStateID := 5, Priority := 2, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := True), 
+(ID := 25, StartStateID := 9, EndStateID := 11, Priority := 3, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := True), 
+(ID := 26, StartStateID := 9, EndStateID := 12, Priority := 4, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := True), 
+(ID := 27, StartStateID := 9, EndStateID := 10, Priority := 5, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := False), 
+(ID := 28, StartStateID := 10, EndStateID := 11, Priority := 1, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := True), 
+(ID := 29, StartStateID := 10, EndStateID := 5, Priority := 2, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := True), 
+(ID := 30, StartStateID := 10, EndStateID := 11, Priority := 3, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := True), 
+(ID := 31, StartStateID := 10, EndStateID := 12, Priority := 4, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := True), 
+(ID := 32, StartStateID := 10, EndStateID := 7, Priority := 5, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := False), 
+(ID := 33, StartStateID := 11, EndStateID := 2, Priority := 1, HasAction := True, IsCompletion := False,IsPseudoException := False,IsException := True), 
+(ID := 34, StartStateID := 11, EndStateID := 4, Priority := 2, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := False), 
+(ID := 35, StartStateID := 12, EndStateID := 2, Priority := 1, HasAction := True, IsCompletion := False,IsPseudoException := False,IsException := True), 
+(ID := 36, StartStateID := 12, EndStateID := 4, Priority := 2, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := False), 
+(ID := 37, StartStateID := 13, EndStateID := 11, Priority := 1, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := True), 
+(ID := 38, StartStateID := 13, EndStateID := 5, Priority := 2, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := True), 
+(ID := 39, StartStateID := 13, EndStateID := 11, Priority := 3, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := True), 
+(ID := 40, StartStateID := 13, EndStateID := 12, Priority := 4, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := True), 
+(ID := 41, StartStateID := 13, EndStateID := 10, Priority := 5, HasAction := False, IsCompletion := False,IsPseudoException := False,IsException := False)];
 "</v>
               <v n="RegionsInitString">""</v>
               <v n="StateNamesString">"GeneratedStartStateForAbort1:INT:=1;
 GeneratedFinalStateForAbort1:INT:=2;
 TO_SETTLED:INT:=3;
 StartState2:INT:=4;
-GENERATOR:INT:=5;
-NEUTRAL:INT:=6;
-StartState1:INT:=7;
-SETTLED:INT:=8;
-TO_NEUTRAL:INT:=9;
-ModeCheck:INT:=10;
-ERROR:INT:=11;
-SIMULATION:INT:=12;
+STOPP:INT:=5;
+GENERATOR:INT:=6;
+NEUTRAL:INT:=7;
+StartState1:INT:=8;
+SETTLED:INT:=9;
+TO_NEUTRAL:INT:=10;
+StatusCheck:INT:=11;
+ERROR:INT:=12;
+SIMULATION:INT:=13;
 "</v>
               <n n="StateNamesInitString" />
               <v n="ForceActionRemove">false</v>
@@ -175,6 +194,483 @@ SIMULATION:INT:=12;
               <v n="AutomaticLayOutHeightSpace">0</v>
               <v n="AutomaticLayOutWidthSpace">0</v>
               <d n="ElementObjects" t="Hashtable" ckt="Guid">
+                <v>4e5e080a-fccb-4078-89e3-8ba156a63a91</v>
+                <o t="UMLStateChartElement">
+                  <v n="StateChartGuid">{bc1132f0-30a6-41f8-8816-fcd499a79e5c}</v>
+                  <v n="ImplicitStartStateType" t="ImplicitStartStateTypes">None</v>
+                  <v n="EntryLocalVariableName">""</v>
+                  <v n="EntryActionName">""</v>
+                  <v n="EntryParametersString">""</v>
+                  <v n="EntryActionText">"bReset := FALSE;"</v>
+                  <v n="InjectedDoImplementationCode">""</v>
+                  <v n="DoActionText">"STOPP_DO"</v>
+                  <v n="ExitActionText">""</v>
+                  <v n="DoLocalVariableName">""</v>
+                  <v n="DoActionName">"STOPP_DO"</v>
+                  <v n="DoParametersString">""</v>
+                  <v n="ExitLocalVariableName">""</v>
+                  <v n="ExitActionName">""</v>
+                  <v n="ExitParametersString">""</v>
+                  <v n="HasEntryAction">true</v>
+                  <v n="HasDoAction">true</v>
+                  <v n="HasExitAction">false</v>
+                  <v n="PropertyID">0</v>
+                  <v n="wasFork">false</v>
+                  <d n="ActionList" t="Hashtable" />
+                  <d n="PropertyList" t="Hashtable" />
+                  <v n="ElementName">"STOPP"</v>
+                  <v n="MethodID">0</v>
+                  <d n="MethodStereotypContainer" t="Hashtable" />
+                  <o n="ElementVisualisation" t="UMLStateChartElementVisualisation">
+                    <v n="ShowAttributes">true</v>
+                    <v n="ShowMethods">true</v>
+                    <v n="RepresentedElement">1</v>
+                    <v n="IsElementVisible">true</v>
+                    <v n="TopPosition">271</v>
+                    <v n="LeftPosition">1111</v>
+                    <v n="WidthValue">161</v>
+                    <v n="MinWidthValue">0</v>
+                    <v n="Height">66</v>
+                    <v n="MinHeight">0</v>
+                    <v n="AutomaticLayout">false</v>
+                    <d n="DockingPoints" t="Hashtable" />
+                  </o>
+                  <l2 n="VariableList" />
+                  <n n="StereotypeContainer" />
+                  <v n="HasGraphicalRepresentation">true</v>
+                  <v n="bIsVisualisationChanged">false</v>
+                  <v n="IsType" t="UMLType">UMLStateChartElement</v>
+                  <v n="_MaxDoCycleCalls" t="Int16">32767</v>
+                  <v n="DefaultCellSizeX">62</v>
+                  <v n="DefaultCellSizeY">32</v>
+                  <v n="IsDocumentation">false</v>
+                  <v n="Area">{00000000-0000-0000-0000-000000000000}</v>
+                  <v n="ParsedMethods">false</v>
+                  <v n="ParsedProperties">false</v>
+                  <v n="GeneratorId">0</v>
+                  <v n="UserDefined">true</v>
+                  <v n="ElementID">1</v>
+                  <v n="ElementObjectGuid">{4e5e080a-fccb-4078-89e3-8ba156a63a91}</v>
+                  <v n="ParentGuid">{bc1132f0-30a6-41f8-8816-fcd499a79e5c}</v>
+                  <v n="ContainerGuid">{00000000-0000-0000-0000-000000000000}</v>
+                  <v n="ShowedStereotype">{00000000-0000-0000-0000-000000000000}</v>
+                  <v n="ReplacewithImage">false</v>
+                  <v n="AutomaticLayout">false</v>
+                  <v n="PositionCounter">1L</v>
+                  <v n="UMLPosition">-1L</v>
+                  <v n="IsModified">false</v>
+                  <v n="ARGBElementColor">-13447886</v>
+                  <v n="ZOrder">275U</v>
+                </o>
+                <v>49d8c493-e130-498c-8290-94cd04bb637c</v>
+                <o t="UMLStateChartPseudoElement">
+                  <o n="ElementVisualisation" t="UMLStateChartDiagramElementVisualisationDot">
+                    <v n="ShowAttributes">true</v>
+                    <v n="ShowMethods">true</v>
+                    <v n="RepresentedElement">2</v>
+                    <v n="IsElementVisible">true</v>
+                    <v n="TopPosition">188</v>
+                    <v n="LeftPosition">607</v>
+                    <v n="WidthValue">20</v>
+                    <v n="MinWidthValue">0</v>
+                    <v n="Height">20</v>
+                    <v n="MinHeight">0</v>
+                    <v n="AutomaticLayout">false</v>
+                    <d n="DockingPoints" t="Hashtable" />
+                  </o>
+                  <v n="Condition">""</v>
+                  <v n="HistoryType" t="HistoryTypes">None</v>
+                  <v n="StateChartGuid">{bc1132f0-30a6-41f8-8816-fcd499a79e5c}</v>
+                  <v n="EntryLocalVariableName">""</v>
+                  <v n="EntryActionName">""</v>
+                  <v n="EntryParametersString">""</v>
+                  <v n="EntryActionText">""</v>
+                  <v n="InjectedDoImplementationCode">""</v>
+                  <v n="DoActionText">""</v>
+                  <v n="ExitActionText">""</v>
+                  <v n="DoLocalVariableName">""</v>
+                  <v n="DoActionName">""</v>
+                  <v n="DoParametersString">""</v>
+                  <v n="ExitLocalVariableName">""</v>
+                  <v n="ExitActionName">""</v>
+                  <v n="ExitParametersString">""</v>
+                  <v n="HasEntryAction">false</v>
+                  <v n="HasDoAction">false</v>
+                  <v n="HasExitAction">false</v>
+                  <v n="PropertyID">0</v>
+                  <v n="wasFork">false</v>
+                  <d n="ActionList" t="Hashtable" />
+                  <d n="PropertyList" t="Hashtable" />
+                  <v n="ElementName">"StartState2"</v>
+                  <v n="MethodID">0</v>
+                  <d n="MethodStereotypContainer" t="Hashtable" />
+                  <l2 n="VariableList" />
+                  <n n="StereotypeContainer" />
+                  <v n="HasGraphicalRepresentation">true</v>
+                  <v n="bIsVisualisationChanged">false</v>
+                  <v n="IsType" t="UMLType">UMLStateChartStartState</v>
+                  <v n="_MaxDoCycleCalls" t="Int16">32767</v>
+                  <v n="DefaultCellSizeX">20</v>
+                  <v n="DefaultCellSizeY">20</v>
+                  <v n="IsDocumentation">false</v>
+                  <v n="Area">{910c26a1-8756-4511-824d-75f2b874d655}</v>
+                  <v n="ParsedMethods">false</v>
+                  <v n="ParsedProperties">false</v>
+                  <v n="GeneratorId">0</v>
+                  <v n="UserDefined">true</v>
+                  <v n="ElementID">2</v>
+                  <v n="ElementObjectGuid">{49d8c493-e130-498c-8290-94cd04bb637c}</v>
+                  <v n="ParentGuid">{bc1132f0-30a6-41f8-8816-fcd499a79e5c}</v>
+                  <v n="ContainerGuid">{b194dc9d-1e2b-4eca-a1c4-4e5f60544940}</v>
+                  <v n="ShowedStereotype">{00000000-0000-0000-0000-000000000000}</v>
+                  <v n="ReplacewithImage">false</v>
+                  <v n="AutomaticLayout">false</v>
+                  <v n="PositionCounter">1L</v>
+                  <v n="UMLPosition">-1L</v>
+                  <v n="IsModified">false</v>
+                  <v n="ARGBElementColor">0</v>
+                  <v n="ZOrder">278U</v>
+                </o>
+                <v>f77eec2c-d70b-471f-bcea-4594d099fc8b</v>
+                <o t="UMLStateChartElement">
+                  <v n="StateChartGuid">{bc1132f0-30a6-41f8-8816-fcd499a79e5c}</v>
+                  <v n="ImplicitStartStateType" t="ImplicitStartStateTypes">None</v>
+                  <v n="EntryLocalVariableName">""</v>
+                  <v n="EntryActionName">""</v>
+                  <v n="EntryParametersString">""</v>
+                  <v n="EntryActionText">"bReset := FALSE;"</v>
+                  <v n="InjectedDoImplementationCode">""</v>
+                  <v n="DoActionText">"ERROR_DO"</v>
+                  <v n="ExitActionText">""</v>
+                  <v n="DoLocalVariableName">""</v>
+                  <v n="DoActionName">"ERROR_DO"</v>
+                  <v n="DoParametersString">""</v>
+                  <v n="ExitLocalVariableName">""</v>
+                  <v n="ExitActionName">""</v>
+                  <v n="ExitParametersString">""</v>
+                  <v n="HasEntryAction">true</v>
+                  <v n="HasDoAction">true</v>
+                  <v n="HasExitAction">false</v>
+                  <v n="PropertyID">0</v>
+                  <v n="wasFork">false</v>
+                  <d n="ActionList" t="Hashtable" />
+                  <d n="PropertyList" t="Hashtable" />
+                  <v n="ElementName">"ERROR"</v>
+                  <v n="MethodID">0</v>
+                  <d n="MethodStereotypContainer" t="Hashtable" />
+                  <o n="ElementVisualisation" t="UMLStateChartElementVisualisation">
+                    <v n="ShowAttributes">true</v>
+                    <v n="ShowMethods">true</v>
+                    <v n="RepresentedElement">1</v>
+                    <v n="IsElementVisible">true</v>
+                    <v n="TopPosition">583</v>
+                    <v n="LeftPosition">1109</v>
+                    <v n="WidthValue">161</v>
+                    <v n="MinWidthValue">0</v>
+                    <v n="Height">66</v>
+                    <v n="MinHeight">0</v>
+                    <v n="AutomaticLayout">false</v>
+                    <d n="DockingPoints" t="Hashtable" />
+                  </o>
+                  <l2 n="VariableList" />
+                  <n n="StereotypeContainer" />
+                  <v n="HasGraphicalRepresentation">true</v>
+                  <v n="bIsVisualisationChanged">false</v>
+                  <v n="IsType" t="UMLType">UMLStateChartElement</v>
+                  <v n="_MaxDoCycleCalls" t="Int16">32767</v>
+                  <v n="DefaultCellSizeX">62</v>
+                  <v n="DefaultCellSizeY">32</v>
+                  <v n="IsDocumentation">false</v>
+                  <v n="Area">{00000000-0000-0000-0000-000000000000}</v>
+                  <v n="ParsedMethods">false</v>
+                  <v n="ParsedProperties">false</v>
+                  <v n="GeneratorId">0</v>
+                  <v n="UserDefined">true</v>
+                  <v n="ElementID">1</v>
+                  <v n="ElementObjectGuid">{f77eec2c-d70b-471f-bcea-4594d099fc8b}</v>
+                  <v n="ParentGuid">{bc1132f0-30a6-41f8-8816-fcd499a79e5c}</v>
+                  <v n="ContainerGuid">{00000000-0000-0000-0000-000000000000}</v>
+                  <v n="ShowedStereotype">{00000000-0000-0000-0000-000000000000}</v>
+                  <v n="ReplacewithImage">false</v>
+                  <v n="AutomaticLayout">false</v>
+                  <v n="PositionCounter">1L</v>
+                  <v n="UMLPosition">-1L</v>
+                  <v n="IsModified">false</v>
+                  <v n="ARGBElementColor">-13447886</v>
+                  <v n="ZOrder">276U</v>
+                </o>
+                <v>f5193168-3c3e-4dc1-b76d-86a7edfcc476</v>
+                <o t="UMLStateChartElement">
+                  <v n="StateChartGuid">{bc1132f0-30a6-41f8-8816-fcd499a79e5c}</v>
+                  <v n="ImplicitStartStateType" t="ImplicitStartStateTypes">None</v>
+                  <v n="EntryLocalVariableName">""</v>
+                  <v n="EntryActionName">""</v>
+                  <v n="EntryParametersString">""</v>
+                  <v n="EntryActionText">"bReady := FALSE;"</v>
+                  <v n="InjectedDoImplementationCode">""</v>
+                  <v n="DoActionText">"StatusCheck_DO"</v>
+                  <v n="ExitActionText">"bReady := TRUE;"</v>
+                  <v n="DoLocalVariableName">""</v>
+                  <v n="DoActionName">"StatusCheck_DO"</v>
+                  <v n="DoParametersString">""</v>
+                  <v n="ExitLocalVariableName">""</v>
+                  <v n="ExitActionName">""</v>
+                  <v n="ExitParametersString">""</v>
+                  <v n="HasEntryAction">true</v>
+                  <v n="HasDoAction">true</v>
+                  <v n="HasExitAction">true</v>
+                  <v n="PropertyID">0</v>
+                  <v n="wasFork">false</v>
+                  <d n="ActionList" t="Hashtable" />
+                  <d n="PropertyList" t="Hashtable" />
+                  <v n="ElementName">"StatusCheck"</v>
+                  <v n="MethodID">0</v>
+                  <d n="MethodStereotypContainer" t="Hashtable" />
+                  <o n="ElementVisualisation" t="UMLStateChartElementVisualisation">
+                    <v n="ShowAttributes">true</v>
+                    <v n="ShowMethods">true</v>
+                    <v n="RepresentedElement">1</v>
+                    <v n="IsElementVisible">true</v>
+                    <v n="TopPosition">36</v>
+                    <v n="LeftPosition">496</v>
+                    <v n="WidthValue">164</v>
+                    <v n="MinWidthValue">0</v>
+                    <v n="Height">83</v>
+                    <v n="MinHeight">0</v>
+                    <v n="AutomaticLayout">false</v>
+                    <d n="DockingPoints" t="Hashtable" />
+                  </o>
+                  <l2 n="VariableList" />
+                  <n n="StereotypeContainer" />
+                  <v n="HasGraphicalRepresentation">true</v>
+                  <v n="bIsVisualisationChanged">false</v>
+                  <v n="IsType" t="UMLType">UMLStateChartElement</v>
+                  <v n="_MaxDoCycleCalls" t="Int16">32767</v>
+                  <v n="DefaultCellSizeX">62</v>
+                  <v n="DefaultCellSizeY">32</v>
+                  <v n="IsDocumentation">false</v>
+                  <v n="Area">{00000000-0000-0000-0000-000000000000}</v>
+                  <v n="ParsedMethods">false</v>
+                  <v n="ParsedProperties">false</v>
+                  <v n="GeneratorId">0</v>
+                  <v n="UserDefined">true</v>
+                  <v n="ElementID">1</v>
+                  <v n="ElementObjectGuid">{f5193168-3c3e-4dc1-b76d-86a7edfcc476}</v>
+                  <v n="ParentGuid">{bc1132f0-30a6-41f8-8816-fcd499a79e5c}</v>
+                  <v n="ContainerGuid">{00000000-0000-0000-0000-000000000000}</v>
+                  <v n="ShowedStereotype">{00000000-0000-0000-0000-000000000000}</v>
+                  <v n="ReplacewithImage">false</v>
+                  <v n="AutomaticLayout">false</v>
+                  <v n="PositionCounter">1L</v>
+                  <v n="UMLPosition">-1L</v>
+                  <v n="IsModified">false</v>
+                  <v n="ARGBElementColor">-13447886</v>
+                  <v n="ZOrder">267U</v>
+                </o>
+                <v>fa206268-213c-4c42-8b42-8322357a29ba</v>
+                <o t="UMLStateChartElement">
+                  <v n="StateChartGuid">{bc1132f0-30a6-41f8-8816-fcd499a79e5c}</v>
+                  <v n="ImplicitStartStateType" t="ImplicitStartStateTypes">None</v>
+                  <v n="EntryLocalVariableName">""</v>
+                  <v n="EntryActionName">""</v>
+                  <v n="EntryParametersString">""</v>
+                  <v n="EntryActionText">""</v>
+                  <v n="InjectedDoImplementationCode">""</v>
+                  <v n="DoActionText">"SIMULATION_DO"</v>
+                  <v n="ExitActionText">""</v>
+                  <v n="DoLocalVariableName">""</v>
+                  <v n="DoActionName">"SIMULATION_DO"</v>
+                  <v n="DoParametersString">""</v>
+                  <v n="ExitLocalVariableName">""</v>
+                  <v n="ExitActionName">""</v>
+                  <v n="ExitParametersString">""</v>
+                  <v n="HasEntryAction">false</v>
+                  <v n="HasDoAction">true</v>
+                  <v n="HasExitAction">false</v>
+                  <v n="PropertyID">0</v>
+                  <v n="wasFork">false</v>
+                  <d n="ActionList" t="Hashtable" />
+                  <d n="PropertyList" t="Hashtable" />
+                  <v n="ElementName">"SIMULATION"</v>
+                  <v n="MethodID">0</v>
+                  <d n="MethodStereotypContainer" t="Hashtable" />
+                  <o n="ElementVisualisation" t="UMLStateChartElementVisualisation">
+                    <v n="ShowAttributes">true</v>
+                    <v n="ShowMethods">true</v>
+                    <v n="RepresentedElement">1</v>
+                    <v n="IsElementVisible">true</v>
+                    <v n="TopPosition">610</v>
+                    <v n="LeftPosition">107</v>
+                    <v n="WidthValue">142</v>
+                    <v n="MinWidthValue">0</v>
+                    <v n="Height">49</v>
+                    <v n="MinHeight">0</v>
+                    <v n="AutomaticLayout">false</v>
+                    <d n="DockingPoints" t="Hashtable" />
+                  </o>
+                  <l2 n="VariableList" />
+                  <n n="StereotypeContainer" />
+                  <v n="HasGraphicalRepresentation">true</v>
+                  <v n="bIsVisualisationChanged">false</v>
+                  <v n="IsType" t="UMLType">UMLStateChartElement</v>
+                  <v n="_MaxDoCycleCalls" t="Int16">32767</v>
+                  <v n="DefaultCellSizeX">62</v>
+                  <v n="DefaultCellSizeY">32</v>
+                  <v n="IsDocumentation">false</v>
+                  <v n="Area">{910c26a1-8756-4511-824d-75f2b874d655}</v>
+                  <v n="ParsedMethods">false</v>
+                  <v n="ParsedProperties">false</v>
+                  <v n="GeneratorId">0</v>
+                  <v n="UserDefined">true</v>
+                  <v n="ElementID">1</v>
+                  <v n="ElementObjectGuid">{fa206268-213c-4c42-8b42-8322357a29ba}</v>
+                  <v n="ParentGuid">{bc1132f0-30a6-41f8-8816-fcd499a79e5c}</v>
+                  <v n="ContainerGuid">{b194dc9d-1e2b-4eca-a1c4-4e5f60544940}</v>
+                  <v n="ShowedStereotype">{00000000-0000-0000-0000-000000000000}</v>
+                  <v n="ReplacewithImage">false</v>
+                  <v n="AutomaticLayout">false</v>
+                  <v n="PositionCounter">1L</v>
+                  <v n="UMLPosition">-1L</v>
+                  <v n="IsModified">false</v>
+                  <v n="ARGBElementColor">-13447886</v>
+                  <v n="ZOrder">279U</v>
+                </o>
+                <v>dd41abb1-cf8c-4daa-a515-0826b419d6de</v>
+                <o t="UMLStateChartElement">
+                  <v n="StateChartGuid">{bc1132f0-30a6-41f8-8816-fcd499a79e5c}</v>
+                  <v n="ImplicitStartStateType" t="ImplicitStartStateTypes">None</v>
+                  <v n="EntryLocalVariableName">""</v>
+                  <v n="EntryActionName">""</v>
+                  <v n="EntryParametersString">""</v>
+                  <v n="EntryActionText">"bBusy := FALSE;"</v>
+                  <v n="InjectedDoImplementationCode">""</v>
+                  <v n="DoActionText">"SETTLED_DO"</v>
+                  <v n="ExitActionText">"bBusy := TRUE;"</v>
+                  <v n="DoLocalVariableName">""</v>
+                  <v n="DoActionName">"SETTLED_DO"</v>
+                  <v n="DoParametersString">""</v>
+                  <v n="ExitLocalVariableName">""</v>
+                  <v n="ExitActionName">""</v>
+                  <v n="ExitParametersString">""</v>
+                  <v n="HasEntryAction">true</v>
+                  <v n="HasDoAction">true</v>
+                  <v n="HasExitAction">true</v>
+                  <v n="PropertyID">0</v>
+                  <v n="wasFork">false</v>
+                  <d n="ActionList" t="Hashtable" />
+                  <d n="PropertyList" t="Hashtable" />
+                  <v n="ElementName">"SETTLED"</v>
+                  <v n="MethodID">0</v>
+                  <d n="MethodStereotypContainer" t="Hashtable" />
+                  <o n="ElementVisualisation" t="UMLStateChartElementVisualisation">
+                    <v n="ShowAttributes">true</v>
+                    <v n="ShowMethods">true</v>
+                    <v n="RepresentedElement">1</v>
+                    <v n="IsElementVisible">true</v>
+                    <v n="TopPosition">230</v>
+                    <v n="LeftPosition">507</v>
+                    <v n="WidthValue">156</v>
+                    <v n="MinWidthValue">0</v>
+                    <v n="Height">83</v>
+                    <v n="MinHeight">0</v>
+                    <v n="AutomaticLayout">false</v>
+                    <d n="DockingPoints" t="Hashtable" />
+                  </o>
+                  <l2 n="VariableList" />
+                  <n n="StereotypeContainer" />
+                  <v n="HasGraphicalRepresentation">true</v>
+                  <v n="bIsVisualisationChanged">false</v>
+                  <v n="IsType" t="UMLType">UMLStateChartElement</v>
+                  <v n="_MaxDoCycleCalls" t="Int16">32767</v>
+                  <v n="DefaultCellSizeX">62</v>
+                  <v n="DefaultCellSizeY">32</v>
+                  <v n="IsDocumentation">false</v>
+                  <v n="Area">{910c26a1-8756-4511-824d-75f2b874d655}</v>
+                  <v n="ParsedMethods">false</v>
+                  <v n="ParsedProperties">false</v>
+                  <v n="GeneratorId">0</v>
+                  <v n="UserDefined">true</v>
+                  <v n="ElementID">1</v>
+                  <v n="ElementObjectGuid">{dd41abb1-cf8c-4daa-a515-0826b419d6de}</v>
+                  <v n="ParentGuid">{bc1132f0-30a6-41f8-8816-fcd499a79e5c}</v>
+                  <v n="ContainerGuid">{b194dc9d-1e2b-4eca-a1c4-4e5f60544940}</v>
+                  <v n="ShowedStereotype">{00000000-0000-0000-0000-000000000000}</v>
+                  <v n="ReplacewithImage">false</v>
+                  <v n="AutomaticLayout">false</v>
+                  <v n="PositionCounter">1L</v>
+                  <v n="UMLPosition">-1L</v>
+                  <v n="IsModified">false</v>
+                  <v n="ARGBElementColor">-13447886</v>
+                  <v n="ZOrder">280U</v>
+                </o>
+                <v>73277216-de9b-49fb-b8bc-bb0ff8b88c9a</v>
+                <o t="UMLStateChartElement">
+                  <v n="StateChartGuid">{bc1132f0-30a6-41f8-8816-fcd499a79e5c}</v>
+                  <v n="ImplicitStartStateType" t="ImplicitStartStateTypes">None</v>
+                  <v n="EntryLocalVariableName">""</v>
+                  <v n="EntryActionName">""</v>
+                  <v n="EntryParametersString">""</v>
+                  <v n="EntryActionText">"bBusy := FALSE;"</v>
+                  <v n="InjectedDoImplementationCode">""</v>
+                  <v n="DoActionText">"NEUTRAL_DO"</v>
+                  <v n="ExitActionText">"bBusy := TRUE;"</v>
+                  <v n="DoLocalVariableName">""</v>
+                  <v n="DoActionName">"NEUTRAL_DO"</v>
+                  <v n="DoParametersString">""</v>
+                  <v n="ExitLocalVariableName">""</v>
+                  <v n="ExitActionName">""</v>
+                  <v n="ExitParametersString">""</v>
+                  <v n="HasEntryAction">true</v>
+                  <v n="HasDoAction">true</v>
+                  <v n="HasExitAction">true</v>
+                  <v n="PropertyID">0</v>
+                  <v n="wasFork">false</v>
+                  <d n="ActionList" t="Hashtable" />
+                  <d n="PropertyList" t="Hashtable" />
+                  <v n="ElementName">"NEUTRAL"</v>
+                  <v n="MethodID">0</v>
+                  <d n="MethodStereotypContainer" t="Hashtable" />
+                  <o n="ElementVisualisation" t="UMLStateChartElementVisualisation">
+                    <v n="ShowAttributes">true</v>
+                    <v n="ShowMethods">true</v>
+                    <v n="RepresentedElement">1</v>
+                    <v n="IsElementVisible">true</v>
+                    <v n="TopPosition">490</v>
+                    <v n="LeftPosition">507</v>
+                    <v n="WidthValue">156</v>
+                    <v n="MinWidthValue">0</v>
+                    <v n="Height">83</v>
+                    <v n="MinHeight">0</v>
+                    <v n="AutomaticLayout">false</v>
+                    <d n="DockingPoints" t="Hashtable" />
+                  </o>
+                  <l2 n="VariableList" />
+                  <n n="StereotypeContainer" />
+                  <v n="HasGraphicalRepresentation">true</v>
+                  <v n="bIsVisualisationChanged">false</v>
+                  <v n="IsType" t="UMLType">UMLStateChartElement</v>
+                  <v n="_MaxDoCycleCalls" t="Int16">32767</v>
+                  <v n="DefaultCellSizeX">62</v>
+                  <v n="DefaultCellSizeY">32</v>
+                  <v n="IsDocumentation">false</v>
+                  <v n="Area">{910c26a1-8756-4511-824d-75f2b874d655}</v>
+                  <v n="ParsedMethods">false</v>
+                  <v n="ParsedProperties">false</v>
+                  <v n="GeneratorId">0</v>
+                  <v n="UserDefined">true</v>
+                  <v n="ElementID">1</v>
+                  <v n="ElementObjectGuid">{73277216-de9b-49fb-b8bc-bb0ff8b88c9a}</v>
+                  <v n="ParentGuid">{bc1132f0-30a6-41f8-8816-fcd499a79e5c}</v>
+                  <v n="ContainerGuid">{b194dc9d-1e2b-4eca-a1c4-4e5f60544940}</v>
+                  <v n="ShowedStereotype">{00000000-0000-0000-0000-000000000000}</v>
+                  <v n="ReplacewithImage">false</v>
+                  <v n="AutomaticLayout">false</v>
+                  <v n="PositionCounter">1L</v>
+                  <v n="UMLPosition">-1L</v>
+                  <v n="IsModified">false</v>
+                  <v n="ARGBElementColor">-13447886</v>
+                  <v n="ZOrder">281U</v>
+                </o>
                 <v>b194dc9d-1e2b-4eca-a1c4-4e5f60544940</v>
                 <o t="UMLStateChartComposite">
                   <v n="AllowCompositeActions">true</v>
@@ -184,8 +680,8 @@ SIMULATION:INT:=12;
                     <v n="ShowMethods">true</v>
                     <v n="RepresentedElement">1</v>
                     <v n="IsElementVisible">true</v>
-                    <v n="TopPosition">172</v>
-                    <v n="LeftPosition">26</v>
+                    <v n="TopPosition">173</v>
+                    <v n="LeftPosition">27</v>
                     <v n="WidthValue">985</v>
                     <v n="MinWidthValue">0</v>
                     <v n="Height">577</v>
@@ -250,33 +746,33 @@ SIMULATION:INT:=12;
                   <v n="UMLPosition">-1L</v>
                   <v n="IsModified">false</v>
                   <v n="ARGBElementColor">-989556</v>
-                  <v n="ZOrder">250U</v>
+                  <v n="ZOrder">277U</v>
                 </o>
-                <v>73277216-de9b-49fb-b8bc-bb0ff8b88c9a</v>
+                <v>5853e86b-95e2-4f38-a240-330dc8df6d39</v>
                 <o t="UMLStateChartElement">
                   <v n="StateChartGuid">{bc1132f0-30a6-41f8-8816-fcd499a79e5c}</v>
                   <v n="ImplicitStartStateType" t="ImplicitStartStateTypes">None</v>
                   <v n="EntryLocalVariableName">""</v>
                   <v n="EntryActionName">""</v>
                   <v n="EntryParametersString">""</v>
-                  <v n="EntryActionText">"bBusy := FALSE;"</v>
+                  <v n="EntryActionText">""</v>
                   <v n="InjectedDoImplementationCode">""</v>
-                  <v n="DoActionText">"NEUTRAL_DO"</v>
-                  <v n="ExitActionText">"bBusy := TRUE;"</v>
+                  <v n="DoActionText">"GENERATOR_DO"</v>
+                  <v n="ExitActionText">""</v>
                   <v n="DoLocalVariableName">""</v>
-                  <v n="DoActionName">"NEUTRAL_DO"</v>
+                  <v n="DoActionName">"GENERATOR_DO"</v>
                   <v n="DoParametersString">""</v>
                   <v n="ExitLocalVariableName">""</v>
                   <v n="ExitActionName">""</v>
                   <v n="ExitParametersString">""</v>
-                  <v n="HasEntryAction">true</v>
+                  <v n="HasEntryAction">false</v>
                   <v n="HasDoAction">true</v>
-                  <v n="HasExitAction">true</v>
+                  <v n="HasExitAction">false</v>
                   <v n="PropertyID">0</v>
                   <v n="wasFork">false</v>
                   <d n="ActionList" t="Hashtable" />
                   <d n="PropertyList" t="Hashtable" />
-                  <v n="ElementName">"NEUTRAL"</v>
+                  <v n="ElementName">"GENERATOR"</v>
                   <v n="MethodID">0</v>
                   <d n="MethodStereotypContainer" t="Hashtable" />
                   <o n="ElementVisualisation" t="UMLStateChartElementVisualisation">
@@ -284,11 +780,11 @@ SIMULATION:INT:=12;
                     <v n="ShowMethods">true</v>
                     <v n="RepresentedElement">1</v>
                     <v n="IsElementVisible">true</v>
-                    <v n="TopPosition">489</v>
-                    <v n="LeftPosition">506</v>
-                    <v n="WidthValue">156</v>
+                    <v n="TopPosition">590</v>
+                    <v n="LeftPosition">807</v>
+                    <v n="WidthValue">144</v>
                     <v n="MinWidthValue">0</v>
-                    <v n="Height">83</v>
+                    <v n="Height">49</v>
                     <v n="MinHeight">0</v>
                     <v n="AutomaticLayout">false</v>
                     <d n="DockingPoints" t="Hashtable" />
@@ -308,7 +804,7 @@ SIMULATION:INT:=12;
                   <v n="GeneratorId">0</v>
                   <v n="UserDefined">true</v>
                   <v n="ElementID">1</v>
-                  <v n="ElementObjectGuid">{73277216-de9b-49fb-b8bc-bb0ff8b88c9a}</v>
+                  <v n="ElementObjectGuid">{5853e86b-95e2-4f38-a240-330dc8df6d39}</v>
                   <v n="ParentGuid">{bc1132f0-30a6-41f8-8816-fcd499a79e5c}</v>
                   <v n="ContainerGuid">{b194dc9d-1e2b-4eca-a1c4-4e5f60544940}</v>
                   <v n="ShowedStereotype">{00000000-0000-0000-0000-000000000000}</v>
@@ -318,33 +814,33 @@ SIMULATION:INT:=12;
                   <v n="UMLPosition">-1L</v>
                   <v n="IsModified">false</v>
                   <v n="ARGBElementColor">-13447886</v>
-                  <v n="ZOrder">251U</v>
+                  <v n="ZOrder">282U</v>
                 </o>
-                <v>f77eec2c-d70b-471f-bcea-4594d099fc8b</v>
+                <v>113074f3-7280-4734-adb6-ec5d4d75ccf4</v>
                 <o t="UMLStateChartElement">
                   <v n="StateChartGuid">{bc1132f0-30a6-41f8-8816-fcd499a79e5c}</v>
                   <v n="ImplicitStartStateType" t="ImplicitStartStateTypes">None</v>
                   <v n="EntryLocalVariableName">""</v>
                   <v n="EntryActionName">""</v>
                   <v n="EntryParametersString">""</v>
-                  <v n="EntryActionText">"bReset := FALSE;"</v>
+                  <v n="EntryActionText">"eCmnd := E_StewartCommand.TO_SETTLED;"</v>
                   <v n="InjectedDoImplementationCode">""</v>
-                  <v n="DoActionText">"ERROR_DO"</v>
+                  <v n="DoActionText">""</v>
                   <v n="ExitActionText">""</v>
                   <v n="DoLocalVariableName">""</v>
-                  <v n="DoActionName">"ERROR_DO"</v>
+                  <v n="DoActionName">""</v>
                   <v n="DoParametersString">""</v>
                   <v n="ExitLocalVariableName">""</v>
                   <v n="ExitActionName">""</v>
                   <v n="ExitParametersString">""</v>
                   <v n="HasEntryAction">true</v>
-                  <v n="HasDoAction">true</v>
+                  <v n="HasDoAction">false</v>
                   <v n="HasExitAction">false</v>
                   <v n="PropertyID">0</v>
                   <v n="wasFork">false</v>
                   <d n="ActionList" t="Hashtable" />
                   <d n="PropertyList" t="Hashtable" />
-                  <v n="ElementName">"ERROR"</v>
+                  <v n="ElementName">"TO_SETTLED"</v>
                   <v n="MethodID">0</v>
                   <d n="MethodStereotypContainer" t="Hashtable" />
                   <o n="ElementVisualisation" t="UMLStateChartElementVisualisation">
@@ -352,11 +848,11 @@ SIMULATION:INT:=12;
                     <v n="ShowMethods">true</v>
                     <v n="RepresentedElement">1</v>
                     <v n="IsElementVisible">true</v>
-                    <v n="TopPosition">370</v>
-                    <v n="LeftPosition">1120</v>
-                    <v n="WidthValue">161</v>
+                    <v n="TopPosition">340</v>
+                    <v n="LeftPosition">597</v>
+                    <v n="WidthValue">302</v>
                     <v n="MinWidthValue">0</v>
-                    <v n="Height">66</v>
+                    <v n="Height">49</v>
                     <v n="MinHeight">0</v>
                     <v n="AutomaticLayout">false</v>
                     <d n="DockingPoints" t="Hashtable" />
@@ -370,15 +866,15 @@ SIMULATION:INT:=12;
                   <v n="DefaultCellSizeX">62</v>
                   <v n="DefaultCellSizeY">32</v>
                   <v n="IsDocumentation">false</v>
-                  <v n="Area">{00000000-0000-0000-0000-000000000000}</v>
+                  <v n="Area">{910c26a1-8756-4511-824d-75f2b874d655}</v>
                   <v n="ParsedMethods">false</v>
                   <v n="ParsedProperties">false</v>
                   <v n="GeneratorId">0</v>
                   <v n="UserDefined">true</v>
                   <v n="ElementID">1</v>
-                  <v n="ElementObjectGuid">{f77eec2c-d70b-471f-bcea-4594d099fc8b}</v>
+                  <v n="ElementObjectGuid">{113074f3-7280-4734-adb6-ec5d4d75ccf4}</v>
                   <v n="ParentGuid">{bc1132f0-30a6-41f8-8816-fcd499a79e5c}</v>
-                  <v n="ContainerGuid">{00000000-0000-0000-0000-000000000000}</v>
+                  <v n="ContainerGuid">{b194dc9d-1e2b-4eca-a1c4-4e5f60544940}</v>
                   <v n="ShowedStereotype">{00000000-0000-0000-0000-000000000000}</v>
                   <v n="ReplacewithImage">false</v>
                   <v n="AutomaticLayout">false</v>
@@ -386,7 +882,7 @@ SIMULATION:INT:=12;
                   <v n="UMLPosition">-1L</v>
                   <v n="IsModified">false</v>
                   <v n="ARGBElementColor">-13447886</v>
-                  <v n="ZOrder">191U</v>
+                  <v n="ZOrder">283U</v>
                 </o>
                 <v>897f99e0-ecbf-40c3-baf9-a39f7de4af68</v>
                 <o t="UMLStateChartPseudoElement">
@@ -457,142 +953,6 @@ SIMULATION:INT:=12;
                   <v n="ARGBElementColor">0</v>
                   <v n="ZOrder">268U</v>
                 </o>
-                <v>f5193168-3c3e-4dc1-b76d-86a7edfcc476</v>
-                <o t="UMLStateChartElement">
-                  <v n="StateChartGuid">{bc1132f0-30a6-41f8-8816-fcd499a79e5c}</v>
-                  <v n="ImplicitStartStateType" t="ImplicitStartStateTypes">None</v>
-                  <v n="EntryLocalVariableName">""</v>
-                  <v n="EntryActionName">""</v>
-                  <v n="EntryParametersString">""</v>
-                  <v n="EntryActionText">"bReady := FALSE;"</v>
-                  <v n="InjectedDoImplementationCode">""</v>
-                  <v n="DoActionText">"ModeCheck_DO"</v>
-                  <v n="ExitActionText">"bReady := TRUE;"</v>
-                  <v n="DoLocalVariableName">""</v>
-                  <v n="DoActionName">"ModeCheck_DO"</v>
-                  <v n="DoParametersString">""</v>
-                  <v n="ExitLocalVariableName">""</v>
-                  <v n="ExitActionName">""</v>
-                  <v n="ExitParametersString">""</v>
-                  <v n="HasEntryAction">true</v>
-                  <v n="HasDoAction">true</v>
-                  <v n="HasExitAction">true</v>
-                  <v n="PropertyID">0</v>
-                  <v n="wasFork">false</v>
-                  <d n="ActionList" t="Hashtable" />
-                  <d n="PropertyList" t="Hashtable" />
-                  <v n="ElementName">"ModeCheck"</v>
-                  <v n="MethodID">0</v>
-                  <d n="MethodStereotypContainer" t="Hashtable" />
-                  <o n="ElementVisualisation" t="UMLStateChartElementVisualisation">
-                    <v n="ShowAttributes">true</v>
-                    <v n="ShowMethods">true</v>
-                    <v n="RepresentedElement">1</v>
-                    <v n="IsElementVisible">true</v>
-                    <v n="TopPosition">36</v>
-                    <v n="LeftPosition">496</v>
-                    <v n="WidthValue">164</v>
-                    <v n="MinWidthValue">0</v>
-                    <v n="Height">83</v>
-                    <v n="MinHeight">0</v>
-                    <v n="AutomaticLayout">false</v>
-                    <d n="DockingPoints" t="Hashtable" />
-                  </o>
-                  <l2 n="VariableList" />
-                  <n n="StereotypeContainer" />
-                  <v n="HasGraphicalRepresentation">true</v>
-                  <v n="bIsVisualisationChanged">false</v>
-                  <v n="IsType" t="UMLType">UMLStateChartElement</v>
-                  <v n="_MaxDoCycleCalls" t="Int16">32767</v>
-                  <v n="DefaultCellSizeX">62</v>
-                  <v n="DefaultCellSizeY">32</v>
-                  <v n="IsDocumentation">false</v>
-                  <v n="Area">{00000000-0000-0000-0000-000000000000}</v>
-                  <v n="ParsedMethods">false</v>
-                  <v n="ParsedProperties">false</v>
-                  <v n="GeneratorId">0</v>
-                  <v n="UserDefined">true</v>
-                  <v n="ElementID">1</v>
-                  <v n="ElementObjectGuid">{f5193168-3c3e-4dc1-b76d-86a7edfcc476}</v>
-                  <v n="ParentGuid">{bc1132f0-30a6-41f8-8816-fcd499a79e5c}</v>
-                  <v n="ContainerGuid">{00000000-0000-0000-0000-000000000000}</v>
-                  <v n="ShowedStereotype">{00000000-0000-0000-0000-000000000000}</v>
-                  <v n="ReplacewithImage">false</v>
-                  <v n="AutomaticLayout">false</v>
-                  <v n="PositionCounter">1L</v>
-                  <v n="UMLPosition">-1L</v>
-                  <v n="IsModified">false</v>
-                  <v n="ARGBElementColor">-13447886</v>
-                  <v n="ZOrder">267U</v>
-                </o>
-                <v>dd41abb1-cf8c-4daa-a515-0826b419d6de</v>
-                <o t="UMLStateChartElement">
-                  <v n="StateChartGuid">{bc1132f0-30a6-41f8-8816-fcd499a79e5c}</v>
-                  <v n="ImplicitStartStateType" t="ImplicitStartStateTypes">None</v>
-                  <v n="EntryLocalVariableName">""</v>
-                  <v n="EntryActionName">""</v>
-                  <v n="EntryParametersString">""</v>
-                  <v n="EntryActionText">"bBusy := FALSE;"</v>
-                  <v n="InjectedDoImplementationCode">""</v>
-                  <v n="DoActionText">"SETTLED_DO"</v>
-                  <v n="ExitActionText">"bBusy := TRUE;"</v>
-                  <v n="DoLocalVariableName">""</v>
-                  <v n="DoActionName">"SETTLED_DO"</v>
-                  <v n="DoParametersString">""</v>
-                  <v n="ExitLocalVariableName">""</v>
-                  <v n="ExitActionName">""</v>
-                  <v n="ExitParametersString">""</v>
-                  <v n="HasEntryAction">true</v>
-                  <v n="HasDoAction">true</v>
-                  <v n="HasExitAction">true</v>
-                  <v n="PropertyID">0</v>
-                  <v n="wasFork">false</v>
-                  <d n="ActionList" t="Hashtable" />
-                  <d n="PropertyList" t="Hashtable" />
-                  <v n="ElementName">"SETTLED"</v>
-                  <v n="MethodID">0</v>
-                  <d n="MethodStereotypContainer" t="Hashtable" />
-                  <o n="ElementVisualisation" t="UMLStateChartElementVisualisation">
-                    <v n="ShowAttributes">true</v>
-                    <v n="ShowMethods">true</v>
-                    <v n="RepresentedElement">1</v>
-                    <v n="IsElementVisible">true</v>
-                    <v n="TopPosition">229</v>
-                    <v n="LeftPosition">506</v>
-                    <v n="WidthValue">156</v>
-                    <v n="MinWidthValue">0</v>
-                    <v n="Height">83</v>
-                    <v n="MinHeight">0</v>
-                    <v n="AutomaticLayout">false</v>
-                    <d n="DockingPoints" t="Hashtable" />
-                  </o>
-                  <l2 n="VariableList" />
-                  <n n="StereotypeContainer" />
-                  <v n="HasGraphicalRepresentation">true</v>
-                  <v n="bIsVisualisationChanged">false</v>
-                  <v n="IsType" t="UMLType">UMLStateChartElement</v>
-                  <v n="_MaxDoCycleCalls" t="Int16">32767</v>
-                  <v n="DefaultCellSizeX">62</v>
-                  <v n="DefaultCellSizeY">32</v>
-                  <v n="IsDocumentation">false</v>
-                  <v n="Area">{910c26a1-8756-4511-824d-75f2b874d655}</v>
-                  <v n="ParsedMethods">false</v>
-                  <v n="ParsedProperties">false</v>
-                  <v n="GeneratorId">0</v>
-                  <v n="UserDefined">true</v>
-                  <v n="ElementID">1</v>
-                  <v n="ElementObjectGuid">{dd41abb1-cf8c-4daa-a515-0826b419d6de}</v>
-                  <v n="ParentGuid">{bc1132f0-30a6-41f8-8816-fcd499a79e5c}</v>
-                  <v n="ContainerGuid">{b194dc9d-1e2b-4eca-a1c4-4e5f60544940}</v>
-                  <v n="ShowedStereotype">{00000000-0000-0000-0000-000000000000}</v>
-                  <v n="ReplacewithImage">false</v>
-                  <v n="AutomaticLayout">false</v>
-                  <v n="PositionCounter">1L</v>
-                  <v n="UMLPosition">-1L</v>
-                  <v n="IsModified">false</v>
-                  <v n="ARGBElementColor">-13447886</v>
-                  <v n="ZOrder">252U</v>
-                </o>
                 <v>ee59122d-01c0-492f-bbb7-6075eabcb69b</v>
                 <o t="UMLStateChartElement">
                   <v n="StateChartGuid">{bc1132f0-30a6-41f8-8816-fcd499a79e5c}</v>
@@ -625,8 +985,8 @@ SIMULATION:INT:=12;
                     <v n="ShowMethods">true</v>
                     <v n="RepresentedElement">1</v>
                     <v n="IsElementVisible">true</v>
-                    <v n="TopPosition">339</v>
-                    <v n="LeftPosition">206</v>
+                    <v n="TopPosition">340</v>
+                    <v n="LeftPosition">207</v>
                     <v n="WidthValue">301</v>
                     <v n="MinWidthValue">0</v>
                     <v n="Height">49</v>
@@ -659,328 +1019,59 @@ SIMULATION:INT:=12;
                   <v n="UMLPosition">-1L</v>
                   <v n="IsModified">false</v>
                   <v n="ARGBElementColor">-13447886</v>
-                  <v n="ZOrder">253U</v>
-                </o>
-                <v>49d8c493-e130-498c-8290-94cd04bb637c</v>
-                <o t="UMLStateChartPseudoElement">
-                  <o n="ElementVisualisation" t="UMLStateChartDiagramElementVisualisationDot">
-                    <v n="ShowAttributes">true</v>
-                    <v n="ShowMethods">true</v>
-                    <v n="RepresentedElement">2</v>
-                    <v n="IsElementVisible">true</v>
-                    <v n="TopPosition">187</v>
-                    <v n="LeftPosition">606</v>
-                    <v n="WidthValue">20</v>
-                    <v n="MinWidthValue">0</v>
-                    <v n="Height">20</v>
-                    <v n="MinHeight">0</v>
-                    <v n="AutomaticLayout">false</v>
-                    <d n="DockingPoints" t="Hashtable" />
-                  </o>
-                  <v n="Condition">""</v>
-                  <v n="HistoryType" t="HistoryTypes">None</v>
-                  <v n="StateChartGuid">{bc1132f0-30a6-41f8-8816-fcd499a79e5c}</v>
-                  <v n="EntryLocalVariableName">""</v>
-                  <v n="EntryActionName">""</v>
-                  <v n="EntryParametersString">""</v>
-                  <v n="EntryActionText">""</v>
-                  <v n="InjectedDoImplementationCode">""</v>
-                  <v n="DoActionText">""</v>
-                  <v n="ExitActionText">""</v>
-                  <v n="DoLocalVariableName">""</v>
-                  <v n="DoActionName">""</v>
-                  <v n="DoParametersString">""</v>
-                  <v n="ExitLocalVariableName">""</v>
-                  <v n="ExitActionName">""</v>
-                  <v n="ExitParametersString">""</v>
-                  <v n="HasEntryAction">false</v>
-                  <v n="HasDoAction">false</v>
-                  <v n="HasExitAction">false</v>
-                  <v n="PropertyID">0</v>
-                  <v n="wasFork">false</v>
-                  <d n="ActionList" t="Hashtable" />
-                  <d n="PropertyList" t="Hashtable" />
-                  <v n="ElementName">"StartState2"</v>
-                  <v n="MethodID">0</v>
-                  <d n="MethodStereotypContainer" t="Hashtable" />
-                  <l2 n="VariableList" />
-                  <n n="StereotypeContainer" />
-                  <v n="HasGraphicalRepresentation">true</v>
-                  <v n="bIsVisualisationChanged">false</v>
-                  <v n="IsType" t="UMLType">UMLStateChartStartState</v>
-                  <v n="_MaxDoCycleCalls" t="Int16">32767</v>
-                  <v n="DefaultCellSizeX">20</v>
-                  <v n="DefaultCellSizeY">20</v>
-                  <v n="IsDocumentation">false</v>
-                  <v n="Area">{910c26a1-8756-4511-824d-75f2b874d655}</v>
-                  <v n="ParsedMethods">false</v>
-                  <v n="ParsedProperties">false</v>
-                  <v n="GeneratorId">0</v>
-                  <v n="UserDefined">true</v>
-                  <v n="ElementID">2</v>
-                  <v n="ElementObjectGuid">{49d8c493-e130-498c-8290-94cd04bb637c}</v>
-                  <v n="ParentGuid">{bc1132f0-30a6-41f8-8816-fcd499a79e5c}</v>
-                  <v n="ContainerGuid">{b194dc9d-1e2b-4eca-a1c4-4e5f60544940}</v>
-                  <v n="ShowedStereotype">{00000000-0000-0000-0000-000000000000}</v>
-                  <v n="ReplacewithImage">false</v>
-                  <v n="AutomaticLayout">false</v>
-                  <v n="PositionCounter">1L</v>
-                  <v n="UMLPosition">-1L</v>
-                  <v n="IsModified">false</v>
-                  <v n="ARGBElementColor">0</v>
-                  <v n="ZOrder">262U</v>
-                </o>
-                <v>113074f3-7280-4734-adb6-ec5d4d75ccf4</v>
-                <o t="UMLStateChartElement">
-                  <v n="StateChartGuid">{bc1132f0-30a6-41f8-8816-fcd499a79e5c}</v>
-                  <v n="ImplicitStartStateType" t="ImplicitStartStateTypes">None</v>
-                  <v n="EntryLocalVariableName">""</v>
-                  <v n="EntryActionName">""</v>
-                  <v n="EntryParametersString">""</v>
-                  <v n="EntryActionText">"eCmnd := E_StewartCommand.TO_SETTLED;"</v>
-                  <v n="InjectedDoImplementationCode">""</v>
-                  <v n="DoActionText">""</v>
-                  <v n="ExitActionText">""</v>
-                  <v n="DoLocalVariableName">""</v>
-                  <v n="DoActionName">""</v>
-                  <v n="DoParametersString">""</v>
-                  <v n="ExitLocalVariableName">""</v>
-                  <v n="ExitActionName">""</v>
-                  <v n="ExitParametersString">""</v>
-                  <v n="HasEntryAction">true</v>
-                  <v n="HasDoAction">false</v>
-                  <v n="HasExitAction">false</v>
-                  <v n="PropertyID">0</v>
-                  <v n="wasFork">false</v>
-                  <d n="ActionList" t="Hashtable" />
-                  <d n="PropertyList" t="Hashtable" />
-                  <v n="ElementName">"TO_SETTLED"</v>
-                  <v n="MethodID">0</v>
-                  <d n="MethodStereotypContainer" t="Hashtable" />
-                  <o n="ElementVisualisation" t="UMLStateChartElementVisualisation">
-                    <v n="ShowAttributes">true</v>
-                    <v n="ShowMethods">true</v>
-                    <v n="RepresentedElement">1</v>
-                    <v n="IsElementVisible">true</v>
-                    <v n="TopPosition">339</v>
-                    <v n="LeftPosition">596</v>
-                    <v n="WidthValue">302</v>
-                    <v n="MinWidthValue">0</v>
-                    <v n="Height">49</v>
-                    <v n="MinHeight">0</v>
-                    <v n="AutomaticLayout">false</v>
-                    <d n="DockingPoints" t="Hashtable" />
-                  </o>
-                  <l2 n="VariableList" />
-                  <n n="StereotypeContainer" />
-                  <v n="HasGraphicalRepresentation">true</v>
-                  <v n="bIsVisualisationChanged">false</v>
-                  <v n="IsType" t="UMLType">UMLStateChartElement</v>
-                  <v n="_MaxDoCycleCalls" t="Int16">32767</v>
-                  <v n="DefaultCellSizeX">62</v>
-                  <v n="DefaultCellSizeY">32</v>
-                  <v n="IsDocumentation">false</v>
-                  <v n="Area">{910c26a1-8756-4511-824d-75f2b874d655}</v>
-                  <v n="ParsedMethods">false</v>
-                  <v n="ParsedProperties">false</v>
-                  <v n="GeneratorId">0</v>
-                  <v n="UserDefined">true</v>
-                  <v n="ElementID">1</v>
-                  <v n="ElementObjectGuid">{113074f3-7280-4734-adb6-ec5d4d75ccf4}</v>
-                  <v n="ParentGuid">{bc1132f0-30a6-41f8-8816-fcd499a79e5c}</v>
-                  <v n="ContainerGuid">{b194dc9d-1e2b-4eca-a1c4-4e5f60544940}</v>
-                  <v n="ShowedStereotype">{00000000-0000-0000-0000-000000000000}</v>
-                  <v n="ReplacewithImage">false</v>
-                  <v n="AutomaticLayout">false</v>
-                  <v n="PositionCounter">1L</v>
-                  <v n="UMLPosition">-1L</v>
-                  <v n="IsModified">false</v>
-                  <v n="ARGBElementColor">-13447886</v>
-                  <v n="ZOrder">255U</v>
-                </o>
-                <v>5853e86b-95e2-4f38-a240-330dc8df6d39</v>
-                <o t="UMLStateChartElement">
-                  <v n="StateChartGuid">{bc1132f0-30a6-41f8-8816-fcd499a79e5c}</v>
-                  <v n="ImplicitStartStateType" t="ImplicitStartStateTypes">None</v>
-                  <v n="EntryLocalVariableName">""</v>
-                  <v n="EntryActionName">""</v>
-                  <v n="EntryParametersString">""</v>
-                  <v n="EntryActionText">"bExecute := FALSE;"</v>
-                  <v n="InjectedDoImplementationCode">""</v>
-                  <v n="DoActionText">"GENERATOR_DO"</v>
-                  <v n="ExitActionText">"bExecute := FALSE;"</v>
-                  <v n="DoLocalVariableName">""</v>
-                  <v n="DoActionName">"GENERATOR_DO"</v>
-                  <v n="DoParametersString">""</v>
-                  <v n="ExitLocalVariableName">""</v>
-                  <v n="ExitActionName">""</v>
-                  <v n="ExitParametersString">""</v>
-                  <v n="HasEntryAction">true</v>
-                  <v n="HasDoAction">true</v>
-                  <v n="HasExitAction">true</v>
-                  <v n="PropertyID">0</v>
-                  <v n="wasFork">false</v>
-                  <d n="ActionList" t="Hashtable" />
-                  <d n="PropertyList" t="Hashtable" />
-                  <v n="ElementName">"GENERATOR"</v>
-                  <v n="MethodID">0</v>
-                  <d n="MethodStereotypContainer" t="Hashtable" />
-                  <o n="ElementVisualisation" t="UMLStateChartElementVisualisation">
-                    <v n="ShowAttributes">true</v>
-                    <v n="ShowMethods">true</v>
-                    <v n="RepresentedElement">1</v>
-                    <v n="IsElementVisible">true</v>
-                    <v n="TopPosition">589</v>
-                    <v n="LeftPosition">806</v>
-                    <v n="WidthValue">172</v>
-                    <v n="MinWidthValue">0</v>
-                    <v n="Height">83</v>
-                    <v n="MinHeight">0</v>
-                    <v n="AutomaticLayout">false</v>
-                    <d n="DockingPoints" t="Hashtable" />
-                  </o>
-                  <l2 n="VariableList" />
-                  <n n="StereotypeContainer" />
-                  <v n="HasGraphicalRepresentation">true</v>
-                  <v n="bIsVisualisationChanged">false</v>
-                  <v n="IsType" t="UMLType">UMLStateChartElement</v>
-                  <v n="_MaxDoCycleCalls" t="Int16">32767</v>
-                  <v n="DefaultCellSizeX">62</v>
-                  <v n="DefaultCellSizeY">32</v>
-                  <v n="IsDocumentation">false</v>
-                  <v n="Area">{910c26a1-8756-4511-824d-75f2b874d655}</v>
-                  <v n="ParsedMethods">false</v>
-                  <v n="ParsedProperties">false</v>
-                  <v n="GeneratorId">0</v>
-                  <v n="UserDefined">true</v>
-                  <v n="ElementID">1</v>
-                  <v n="ElementObjectGuid">{5853e86b-95e2-4f38-a240-330dc8df6d39}</v>
-                  <v n="ParentGuid">{bc1132f0-30a6-41f8-8816-fcd499a79e5c}</v>
-                  <v n="ContainerGuid">{b194dc9d-1e2b-4eca-a1c4-4e5f60544940}</v>
-                  <v n="ShowedStereotype">{00000000-0000-0000-0000-000000000000}</v>
-                  <v n="ReplacewithImage">false</v>
-                  <v n="AutomaticLayout">false</v>
-                  <v n="PositionCounter">1L</v>
-                  <v n="UMLPosition">-1L</v>
-                  <v n="IsModified">false</v>
-                  <v n="ARGBElementColor">-13447886</v>
-                  <v n="ZOrder">256U</v>
-                </o>
-                <v>fa206268-213c-4c42-8b42-8322357a29ba</v>
-                <o t="UMLStateChartElement">
-                  <v n="StateChartGuid">{bc1132f0-30a6-41f8-8816-fcd499a79e5c}</v>
-                  <v n="ImplicitStartStateType" t="ImplicitStartStateTypes">None</v>
-                  <v n="EntryLocalVariableName">""</v>
-                  <v n="EntryActionName">""</v>
-                  <v n="EntryParametersString">""</v>
-                  <v n="EntryActionText">"bExecute:= FALSE;"</v>
-                  <v n="InjectedDoImplementationCode">""</v>
-                  <v n="DoActionText">"SIMULATION_DO"</v>
-                  <v n="ExitActionText">"bExecute:= FALSE;"</v>
-                  <v n="DoLocalVariableName">""</v>
-                  <v n="DoActionName">"SIMULATION_DO"</v>
-                  <v n="DoParametersString">""</v>
-                  <v n="ExitLocalVariableName">""</v>
-                  <v n="ExitActionName">""</v>
-                  <v n="ExitParametersString">""</v>
-                  <v n="HasEntryAction">true</v>
-                  <v n="HasDoAction">true</v>
-                  <v n="HasExitAction">true</v>
-                  <v n="PropertyID">0</v>
-                  <v n="wasFork">false</v>
-                  <d n="ActionList" t="Hashtable" />
-                  <d n="PropertyList" t="Hashtable" />
-                  <v n="ElementName">"SIMULATION"</v>
-                  <v n="MethodID">0</v>
-                  <d n="MethodStereotypContainer" t="Hashtable" />
-                  <o n="ElementVisualisation" t="UMLStateChartElementVisualisation">
-                    <v n="ShowAttributes">true</v>
-                    <v n="ShowMethods">true</v>
-                    <v n="RepresentedElement">1</v>
-                    <v n="IsElementVisible">true</v>
-                    <v n="TopPosition">609</v>
-                    <v n="LeftPosition">106</v>
-                    <v n="WidthValue">169</v>
-                    <v n="MinWidthValue">0</v>
-                    <v n="Height">83</v>
-                    <v n="MinHeight">0</v>
-                    <v n="AutomaticLayout">false</v>
-                    <d n="DockingPoints" t="Hashtable" />
-                  </o>
-                  <l2 n="VariableList" />
-                  <n n="StereotypeContainer" />
-                  <v n="HasGraphicalRepresentation">true</v>
-                  <v n="bIsVisualisationChanged">false</v>
-                  <v n="IsType" t="UMLType">UMLStateChartElement</v>
-                  <v n="_MaxDoCycleCalls" t="Int16">32767</v>
-                  <v n="DefaultCellSizeX">62</v>
-                  <v n="DefaultCellSizeY">32</v>
-                  <v n="IsDocumentation">false</v>
-                  <v n="Area">{910c26a1-8756-4511-824d-75f2b874d655}</v>
-                  <v n="ParsedMethods">false</v>
-                  <v n="ParsedProperties">false</v>
-                  <v n="GeneratorId">0</v>
-                  <v n="UserDefined">true</v>
-                  <v n="ElementID">1</v>
-                  <v n="ElementObjectGuid">{fa206268-213c-4c42-8b42-8322357a29ba}</v>
-                  <v n="ParentGuid">{bc1132f0-30a6-41f8-8816-fcd499a79e5c}</v>
-                  <v n="ContainerGuid">{b194dc9d-1e2b-4eca-a1c4-4e5f60544940}</v>
-                  <v n="ShowedStereotype">{00000000-0000-0000-0000-000000000000}</v>
-                  <v n="ReplacewithImage">false</v>
-                  <v n="AutomaticLayout">false</v>
-                  <v n="PositionCounter">1L</v>
-                  <v n="UMLPosition">-1L</v>
-                  <v n="IsModified">false</v>
-                  <v n="ARGBElementColor">-13447886</v>
-                  <v n="ZOrder">257U</v>
+                  <v n="ZOrder">284U</v>
                 </o>
               </d>
               <v n="FirstPaint">true</v>
               <v n="NextElementID">0</v>
               <d n="UMLRelationObjects" t="Hashtable" ckt="Guid" cvt="UMLRelation">
-                <v>49aa1ff1-cdad-45a8-a2e9-67a019ddd9b5</v>
+                <v>c2cb57a3-218c-4c6b-89e7-3f3547cb45bc</v>
                 <o>
                   <v n="HasGraphicalRepresentation">true</v>
                   <v n="StartUMLElement">{73277216-de9b-49fb-b8bc-bb0ff8b88c9a}</v>
                   <v n="HighlightedLine">false</v>
-                  <v n="ZOrder">250U</v>
+                  <v n="ZOrder">277U</v>
                   <v n="SpecialHandling">false</v>
                   <v n="ActionLocalVariableName">""</v>
                   <v n="ActionParametersString">""</v>
-                  <n n="ActionName" />
+                  <v n="ActionName">""</v>
                   <v n="ActionText">""</v>
                   <v n="InjectedActionCode">""</v>
                   <v n="ActionTextLength">100</v>
-                  <v n="ConditionText">"eMode = E_StewartMode.GENERATOR"</v>
+                  <v n="ConditionText">"eMode = E_StewartMode.SIMULATION"</v>
                   <v n="LengthConditionText">100</v>
-                  <v n="RelationID">38</v>
+                  <v n="RelationID">32</v>
                   <v n="TriggerlessStatechartTransition">true</v>
-                  <v n="EndUMLElement">{5853e86b-95e2-4f38-a240-330dc8df6d39}</v>
+                  <v n="EndUMLElement">{fa206268-213c-4c42-8b42-8322357a29ba}</v>
                   <o n="UMLRelationVisualisation" t="UMLRelationVisualisation">
-                    <v n="RelationID">{49aa1ff1-cdad-45a8-a2e9-67a019ddd9b5}</v>
+                    <v n="RelationID">{c2cb57a3-218c-4c6b-89e7-3f3547cb45bc}</v>
                     <v n="FlagPosition" t="Double">0.5</v>
                     <d n="flagsX" t="Hashtable" ckt="String" cvt="Int32">
                       <v>ConditionPosition</v>
-                      <v>70</v>
+                      <v>-40</v>
+                      <v>ActionPosition</v>
+                      <v>-50</v>
                     </d>
                     <d n="flagsY" t="Hashtable" ckt="String" cvt="Int32">
                       <v>ConditionPosition</v>
                       <v>0</v>
+                      <v>ActionPosition</v>
+                      <v>-30</v>
                     </d>
                     <o n="StartAnchor" t="UMLAnchorPoint">
                       <v n="AnchorID">0</v>
-                      <v n="AnchorLeftPosition">657</v>
-                      <v n="AnchorTopPosition">534</v>
-                      <v n="AnchorRelationID">{49aa1ff1-cdad-45a8-a2e9-67a019ddd9b5}</v>
+                      <v n="AnchorLeftPosition">502</v>
+                      <v n="AnchorTopPosition">535</v>
+                      <v n="AnchorRelationID">{c2cb57a3-218c-4c6b-89e7-3f3547cb45bc}</v>
                       <v n="StartAnchor">true</v>
                       <v n="EndAnchor">false</v>
                       <v n="AnchorDockedState" t="Docked">NotDocked</v>
                     </o>
                     <o n="EndAnchor" t="UMLAnchorPoint">
                       <v n="AnchorID">2</v>
-                      <v n="AnchorLeftPosition">861</v>
-                      <v n="AnchorTopPosition">584</v>
-                      <v n="AnchorRelationID">{49aa1ff1-cdad-45a8-a2e9-67a019ddd9b5}</v>
+                      <v n="AnchorLeftPosition">222</v>
+                      <v n="AnchorTopPosition">605</v>
+                      <v n="AnchorRelationID">{c2cb57a3-218c-4c6b-89e7-3f3547cb45bc}</v>
                       <v n="StartAnchor">false</v>
                       <v n="EndAnchor">true</v>
                       <v n="AnchorDockedState" t="Docked">NotDocked</v>
@@ -990,19 +1081,188 @@ SIMULATION:INT:=12;
                       <v>1</v>
                       <o>
                         <v n="AnchorID">1</v>
-                        <v n="AnchorLeftPosition">861</v>
-                        <v n="AnchorTopPosition">534</v>
-                        <v n="AnchorRelationID">{49aa1ff1-cdad-45a8-a2e9-67a019ddd9b5}</v>
+                        <v n="AnchorLeftPosition">222</v>
+                        <v n="AnchorTopPosition">535</v>
+                        <v n="AnchorRelationID">{c2cb57a3-218c-4c6b-89e7-3f3547cb45bc}</v>
                         <v n="StartAnchor">false</v>
                         <v n="EndAnchor">false</v>
                         <v n="AnchorDockedState" t="Docked">NotDocked</v>
                       </o>
                     </d>
+                    <v n="RelationIsLinear">true</v>
+                    <v n="RelationIsFreeHand">false</v>
+                  </o>
+                  <v n="ReferenceGuid">{c2cb57a3-218c-4c6b-89e7-3f3547cb45bc}</v>
+                  <v n="RelationGuid">{c2cb57a3-218c-4c6b-89e7-3f3547cb45bc}</v>
+                  <v n="RelationName">""</v>
+                  <n n="RelationStereotypes" />
+                  <v n="RelationType" t="RelationTypes">Transition</v>
+                  <v n="IsReferenceTo">false</v>
+                  <v n="StartElementArrowFlag" t="ArrowTypes">Slim</v>
+                  <v n="Priority">2</v>
+                  <v n="GeneratesCode">false</v>
+                  <v n="StartElementShowArrow">false</v>
+                  <v n="StartElementCardnality">""</v>
+                  <v n="EndElementCardnality">""</v>
+                  <v n="EndElementArrowFlag" t="ArrowTypes">Slim</v>
+                  <v n="EndElementShowArrow">true</v>
+                  <v n="StartElementRoleName">""</v>
+                  <v n="EndElementRoleName">""</v>
+                  <v n="UserCreated">true</v>
+                  <v n="GeneratedByCode">false</v>
+                  <v n="AllowRoutingOptimisation">false</v>
+                  <d n="flagTexts" t="Hashtable" ckt="String" cvt="String">
+                    <v>Priority</v>
+                    <v>2</v>
+                  </d>
+                  <v n="Position">-1L</v>
+                  <v n="PositionCounter">1L</v>
+                  <v n="IsModified">false</v>
+                  <v n="ARGBElementColor">0</v>
+                </o>
+                <v>3ed5ca2a-d9b0-444b-b347-b6917e5ac7f9</v>
+                <o>
+                  <v n="HasGraphicalRepresentation">true</v>
+                  <v n="StartUMLElement">{b194dc9d-1e2b-4eca-a1c4-4e5f60544940}</v>
+                  <v n="HighlightedLine">true</v>
+                  <v n="ZOrder">277U</v>
+                  <v n="SpecialHandling">false</v>
+                  <v n="ActionLocalVariableName">""</v>
+                  <v n="ActionParametersString">""</v>
+                  <n n="ActionName" />
+                  <v n="ActionText">""</v>
+                  <v n="InjectedActionCode">""</v>
+                  <v n="ActionTextLength">100</v>
+                  <v n="ConditionText">"bStop"</v>
+                  <v n="LengthConditionText">100</v>
+                  <v n="RelationID">46</v>
+                  <v n="TriggerlessStatechartTransition">true</v>
+                  <v n="EndUMLElement">{4e5e080a-fccb-4078-89e3-8ba156a63a91}</v>
+                  <o n="UMLRelationVisualisation" t="UMLRelationVisualisation">
+                    <v n="RelationID">{3ed5ca2a-d9b0-444b-b347-b6917e5ac7f9}</v>
+                    <v n="FlagPosition" t="Double">0.5</v>
+                    <d n="flagsX" t="Hashtable" />
+                    <d n="flagsY" t="Hashtable" />
+                    <o n="StartAnchor" t="UMLAnchorPoint">
+                      <v n="AnchorID">0</v>
+                      <v n="AnchorLeftPosition">1007</v>
+                      <v n="AnchorTopPosition">281</v>
+                      <v n="AnchorRelationID">{3ed5ca2a-d9b0-444b-b347-b6917e5ac7f9}</v>
+                      <v n="StartAnchor">true</v>
+                      <v n="EndAnchor">false</v>
+                      <v n="AnchorDockedState" t="Docked">NotDocked</v>
+                    </o>
+                    <o n="EndAnchor" t="UMLAnchorPoint">
+                      <v n="AnchorID">1</v>
+                      <v n="AnchorLeftPosition">1106</v>
+                      <v n="AnchorTopPosition">281</v>
+                      <v n="AnchorRelationID">{3ed5ca2a-d9b0-444b-b347-b6917e5ac7f9}</v>
+                      <v n="StartAnchor">false</v>
+                      <v n="EndAnchor">true</v>
+                      <v n="AnchorDockedState" t="Docked">NotDocked</v>
+                    </o>
+                    <v n="NextAnchorID">1</v>
+                    <d n="AnchorPoints" t="Hashtable" />
                     <v n="RelationIsLinear">false</v>
                     <v n="RelationIsFreeHand">false</v>
                   </o>
-                  <v n="ReferenceGuid">{49aa1ff1-cdad-45a8-a2e9-67a019ddd9b5}</v>
-                  <v n="RelationGuid">{49aa1ff1-cdad-45a8-a2e9-67a019ddd9b5}</v>
+                  <v n="ReferenceGuid">{3ed5ca2a-d9b0-444b-b347-b6917e5ac7f9}</v>
+                  <v n="RelationGuid">{3ed5ca2a-d9b0-444b-b347-b6917e5ac7f9}</v>
+                  <v n="RelationName">""</v>
+                  <n n="RelationStereotypes" />
+                  <v n="RelationType" t="RelationTypes">ExceptionTransition</v>
+                  <v n="IsReferenceTo">false</v>
+                  <v n="StartElementArrowFlag" t="ArrowTypes">Slim</v>
+                  <v n="Priority">2</v>
+                  <v n="GeneratesCode">false</v>
+                  <v n="StartElementShowArrow">false</v>
+                  <v n="StartElementCardnality">""</v>
+                  <v n="EndElementCardnality">""</v>
+                  <v n="EndElementArrowFlag" t="ArrowTypes">Slim</v>
+                  <v n="EndElementShowArrow">true</v>
+                  <v n="StartElementRoleName">""</v>
+                  <v n="EndElementRoleName">""</v>
+                  <v n="UserCreated">true</v>
+                  <v n="GeneratedByCode">false</v>
+                  <v n="AllowRoutingOptimisation">false</v>
+                  <d n="flagTexts" t="Hashtable" ckt="String" cvt="String">
+                    <v>Priority</v>
+                    <v>2</v>
+                  </d>
+                  <v n="Position">-1L</v>
+                  <v n="PositionCounter">1L</v>
+                  <v n="IsModified">false</v>
+                  <v n="ARGBElementColor">0</v>
+                </o>
+                <v>f096a2e6-f660-4766-b0b1-5571bfa534c6</v>
+                <o>
+                  <v n="HasGraphicalRepresentation">true</v>
+                  <v n="StartUMLElement">{ee59122d-01c0-492f-bbb7-6075eabcb69b}</v>
+                  <v n="HighlightedLine">false</v>
+                  <v n="ZOrder">277U</v>
+                  <v n="SpecialHandling">false</v>
+                  <v n="ActionLocalVariableName">""</v>
+                  <v n="ActionParametersString">""</v>
+                  <n n="ActionName" />
+                  <v n="ActionText">""</v>
+                  <v n="InjectedActionCode">""</v>
+                  <v n="ActionTextLength">100</v>
+                  <v n="ConditionText">"eState = E_StewartState.NEUTRAL"</v>
+                  <v n="LengthConditionText">100</v>
+                  <v n="RelationID">27</v>
+                  <v n="TriggerlessStatechartTransition">true</v>
+                  <v n="EndUMLElement">{73277216-de9b-49fb-b8bc-bb0ff8b88c9a}</v>
+                  <o n="UMLRelationVisualisation" t="UMLRelationVisualisation">
+                    <v n="RelationID">{f096a2e6-f660-4766-b0b1-5571bfa534c6}</v>
+                    <v n="FlagPosition" t="Double">0.5</v>
+                    <d n="flagsX" t="Hashtable" ckt="String" cvt="Int32">
+                      <v>ConditionPosition</v>
+                      <v>-72</v>
+                      <v>ActionPosition</v>
+                      <v>5</v>
+                    </d>
+                    <d n="flagsY" t="Hashtable" ckt="String" cvt="Int32">
+                      <v>ConditionPosition</v>
+                      <v>88</v>
+                      <v>ActionPosition</v>
+                      <v>12</v>
+                    </d>
+                    <o n="StartAnchor" t="UMLAnchorPoint">
+                      <v n="AnchorID">0</v>
+                      <v n="AnchorLeftPosition">503</v>
+                      <v n="AnchorTopPosition">365</v>
+                      <v n="AnchorRelationID">{f096a2e6-f660-4766-b0b1-5571bfa534c6}</v>
+                      <v n="StartAnchor">true</v>
+                      <v n="EndAnchor">false</v>
+                      <v n="AnchorDockedState" t="Docked">NotDocked</v>
+                    </o>
+                    <o n="EndAnchor" t="UMLAnchorPoint">
+                      <v n="AnchorID">2</v>
+                      <v n="AnchorLeftPosition">532</v>
+                      <v n="AnchorTopPosition">485</v>
+                      <v n="AnchorRelationID">{f096a2e6-f660-4766-b0b1-5571bfa534c6}</v>
+                      <v n="StartAnchor">false</v>
+                      <v n="EndAnchor">true</v>
+                      <v n="AnchorDockedState" t="Docked">NotDocked</v>
+                    </o>
+                    <v n="NextAnchorID">2</v>
+                    <d n="AnchorPoints" t="Hashtable" ckt="Int32" cvt="UMLAnchorPoint">
+                      <v>1</v>
+                      <o>
+                        <v n="AnchorID">1</v>
+                        <v n="AnchorLeftPosition">532</v>
+                        <v n="AnchorTopPosition">365</v>
+                        <v n="AnchorRelationID">{f096a2e6-f660-4766-b0b1-5571bfa534c6}</v>
+                        <v n="StartAnchor">false</v>
+                        <v n="EndAnchor">false</v>
+                        <v n="AnchorDockedState" t="Docked">NotDocked</v>
+                      </o>
+                    </d>
+                    <v n="RelationIsLinear">true</v>
+                    <v n="RelationIsFreeHand">false</v>
+                  </o>
+                  <v n="ReferenceGuid">{f096a2e6-f660-4766-b0b1-5571bfa534c6}</v>
+                  <v n="RelationGuid">{f096a2e6-f660-4766-b0b1-5571bfa534c6}</v>
                   <v n="RelationName">""</v>
                   <n n="RelationStereotypes" />
                   <v n="RelationType" t="RelationTypes">Transition</v>
@@ -1034,7 +1294,7 @@ SIMULATION:INT:=12;
                   <v n="HasGraphicalRepresentation">true</v>
                   <v n="StartUMLElement">{fa206268-213c-4c42-8b42-8322357a29ba}</v>
                   <v n="HighlightedLine">false</v>
-                  <v n="ZOrder">250U</v>
+                  <v n="ZOrder">277U</v>
                   <v n="SpecialHandling">false</v>
                   <v n="ActionLocalVariableName">""</v>
                   <v n="ActionParametersString">""</v>
@@ -1060,8 +1320,8 @@ SIMULATION:INT:=12;
                     </d>
                     <o n="StartAnchor" t="UMLAnchorPoint">
                       <v n="AnchorID">0</v>
-                      <v n="AnchorLeftPosition">131</v>
-                      <v n="AnchorTopPosition">604</v>
+                      <v n="AnchorLeftPosition">132</v>
+                      <v n="AnchorTopPosition">605</v>
                       <v n="AnchorRelationID">{623679c3-f2c6-4ab4-8028-9537039276db}</v>
                       <v n="StartAnchor">true</v>
                       <v n="EndAnchor">false</v>
@@ -1069,8 +1329,8 @@ SIMULATION:INT:=12;
                     </o>
                     <o n="EndAnchor" t="UMLAnchorPoint">
                       <v n="AnchorID">2</v>
-                      <v n="AnchorLeftPosition">201</v>
-                      <v n="AnchorTopPosition">357</v>
+                      <v n="AnchorLeftPosition">202</v>
+                      <v n="AnchorTopPosition">358</v>
                       <v n="AnchorRelationID">{623679c3-f2c6-4ab4-8028-9537039276db}</v>
                       <v n="StartAnchor">false</v>
                       <v n="EndAnchor">true</v>
@@ -1081,8 +1341,8 @@ SIMULATION:INT:=12;
                       <v>1</v>
                       <o>
                         <v n="AnchorID">1</v>
-                        <v n="AnchorLeftPosition">131</v>
-                        <v n="AnchorTopPosition">357</v>
+                        <v n="AnchorLeftPosition">132</v>
+                        <v n="AnchorTopPosition">358</v>
                         <v n="AnchorRelationID">{623679c3-f2c6-4ab4-8028-9537039276db}</v>
                         <v n="StartAnchor">false</v>
                         <v n="EndAnchor">false</v>
@@ -1120,12 +1380,12 @@ SIMULATION:INT:=12;
                   <v n="IsModified">false</v>
                   <v n="ARGBElementColor">0</v>
                 </o>
-                <v>bc23480c-ec6c-4634-823a-89a425614cd8</v>
+                <v>2b6f464f-6e32-4219-9491-2463a2da4da6</v>
                 <o>
                   <v n="HasGraphicalRepresentation">true</v>
-                  <v n="StartUMLElement">{f77eec2c-d70b-471f-bcea-4594d099fc8b}</v>
+                  <v n="StartUMLElement">{5853e86b-95e2-4f38-a240-330dc8df6d39}</v>
                   <v n="HighlightedLine">false</v>
-                  <v n="ZOrder">250U</v>
+                  <v n="ZOrder">277U</v>
                   <v n="SpecialHandling">false</v>
                   <v n="ActionLocalVariableName">""</v>
                   <v n="ActionParametersString">""</v>
@@ -1133,40 +1393,30 @@ SIMULATION:INT:=12;
                   <v n="ActionText">""</v>
                   <v n="InjectedActionCode">""</v>
                   <v n="ActionTextLength">100</v>
-                  <v n="ConditionText">"NOT bError"</v>
+                  <v n="ConditionText">"NOT (eMode = E_StewartMode.GENERATOR)"</v>
                   <v n="LengthConditionText">100</v>
-                  <v n="RelationID">37</v>
+                  <v n="RelationID">39</v>
                   <v n="TriggerlessStatechartTransition">true</v>
-                  <v n="EndUMLElement">{b194dc9d-1e2b-4eca-a1c4-4e5f60544940}</v>
+                  <v n="EndUMLElement">{ee59122d-01c0-492f-bbb7-6075eabcb69b}</v>
                   <o n="UMLRelationVisualisation" t="UMLRelationVisualisation">
-                    <v n="RelationID">{bc23480c-ec6c-4634-823a-89a425614cd8}</v>
+                    <v n="RelationID">{2b6f464f-6e32-4219-9491-2463a2da4da6}</v>
                     <v n="FlagPosition" t="Double">0.5</v>
-                    <d n="flagsX" t="Hashtable" ckt="String" cvt="Int32">
-                      <v>ConditionPosition</v>
-                      <v>-114</v>
-                      <v>ActionPosition</v>
-                      <v>0</v>
-                    </d>
-                    <d n="flagsY" t="Hashtable" ckt="String" cvt="Int32">
-                      <v>ConditionPosition</v>
-                      <v>37</v>
-                      <v>ActionPosition</v>
-                      <v>20</v>
-                    </d>
+                    <d n="flagsX" t="Hashtable" />
+                    <d n="flagsY" t="Hashtable" />
                     <o n="StartAnchor" t="UMLAnchorPoint">
                       <v n="AnchorID">0</v>
-                      <v n="AnchorLeftPosition">1184</v>
-                      <v n="AnchorTopPosition">431</v>
-                      <v n="AnchorRelationID">{bc23480c-ec6c-4634-823a-89a425614cd8}</v>
+                      <v n="AnchorLeftPosition">802</v>
+                      <v n="AnchorTopPosition">626</v>
+                      <v n="AnchorRelationID">{2b6f464f-6e32-4219-9491-2463a2da4da6}</v>
                       <v n="StartAnchor">true</v>
                       <v n="EndAnchor">false</v>
-                      <v n="AnchorDockedState" t="Docked">NotDocked</v>
+                      <v n="AnchorDockedState" t="Docked">Left</v>
                     </o>
                     <o n="EndAnchor" t="UMLAnchorPoint">
                       <v n="AnchorID">2</v>
-                      <v n="AnchorLeftPosition">1006</v>
-                      <v n="AnchorTopPosition">515</v>
-                      <v n="AnchorRelationID">{bc23480c-ec6c-4634-823a-89a425614cd8}</v>
+                      <v n="AnchorLeftPosition">331</v>
+                      <v n="AnchorTopPosition">384</v>
+                      <v n="AnchorRelationID">{2b6f464f-6e32-4219-9491-2463a2da4da6}</v>
                       <v n="StartAnchor">false</v>
                       <v n="EndAnchor">true</v>
                       <v n="AnchorDockedState" t="Docked">NotDocked</v>
@@ -1176,9 +1426,100 @@ SIMULATION:INT:=12;
                       <v>1</v>
                       <o>
                         <v n="AnchorID">1</v>
-                        <v n="AnchorLeftPosition">1184</v>
-                        <v n="AnchorTopPosition">515</v>
-                        <v n="AnchorRelationID">{bc23480c-ec6c-4634-823a-89a425614cd8}</v>
+                        <v n="AnchorLeftPosition">331</v>
+                        <v n="AnchorTopPosition">626</v>
+                        <v n="AnchorRelationID">{2b6f464f-6e32-4219-9491-2463a2da4da6}</v>
+                        <v n="StartAnchor">false</v>
+                        <v n="EndAnchor">false</v>
+                        <v n="AnchorDockedState" t="Docked">NotDocked</v>
+                      </o>
+                    </d>
+                    <v n="RelationIsLinear">false</v>
+                    <v n="RelationIsFreeHand">false</v>
+                  </o>
+                  <v n="ReferenceGuid">{2b6f464f-6e32-4219-9491-2463a2da4da6}</v>
+                  <v n="RelationGuid">{2b6f464f-6e32-4219-9491-2463a2da4da6}</v>
+                  <v n="RelationName">""</v>
+                  <n n="RelationStereotypes" />
+                  <v n="RelationType" t="RelationTypes">Transition</v>
+                  <v n="IsReferenceTo">false</v>
+                  <v n="StartElementArrowFlag" t="ArrowTypes">Slim</v>
+                  <v n="Priority">1</v>
+                  <v n="GeneratesCode">false</v>
+                  <v n="StartElementShowArrow">false</v>
+                  <v n="StartElementCardnality">""</v>
+                  <v n="EndElementCardnality">""</v>
+                  <v n="EndElementArrowFlag" t="ArrowTypes">Slim</v>
+                  <v n="EndElementShowArrow">true</v>
+                  <v n="StartElementRoleName">""</v>
+                  <v n="EndElementRoleName">""</v>
+                  <v n="UserCreated">true</v>
+                  <v n="GeneratedByCode">false</v>
+                  <v n="AllowRoutingOptimisation">false</v>
+                  <d n="flagTexts" t="Hashtable" ckt="String" cvt="String">
+                    <v>Priority</v>
+                    <v>1</v>
+                  </d>
+                  <v n="Position">-1L</v>
+                  <v n="PositionCounter">1L</v>
+                  <v n="IsModified">false</v>
+                  <v n="ARGBElementColor">0</v>
+                </o>
+                <v>cb13c4e0-3a5a-42d9-bc1a-e2c20df2dbb5</v>
+                <o>
+                  <v n="HasGraphicalRepresentation">true</v>
+                  <v n="StartUMLElement">{b194dc9d-1e2b-4eca-a1c4-4e5f60544940}</v>
+                  <v n="HighlightedLine">true</v>
+                  <v n="ZOrder">277U</v>
+                  <v n="SpecialHandling">false</v>
+                  <v n="ActionLocalVariableName">""</v>
+                  <v n="ActionParametersString">""</v>
+                  <n n="ActionName" />
+                  <v n="ActionText">""</v>
+                  <v n="InjectedActionCode">""</v>
+                  <v n="ActionTextLength">100</v>
+                  <v n="ConditionText">"eOpMode = E_StewartOpMode.MANUAL"</v>
+                  <v n="LengthConditionText">100</v>
+                  <v n="RelationID">45</v>
+                  <v n="TriggerlessStatechartTransition">true</v>
+                  <v n="EndUMLElement">{f5193168-3c3e-4dc1-b76d-86a7edfcc476}</v>
+                  <o n="UMLRelationVisualisation" t="UMLRelationVisualisation">
+                    <v n="RelationID">{cb13c4e0-3a5a-42d9-bc1a-e2c20df2dbb5}</v>
+                    <v n="FlagPosition" t="Double">0.5</v>
+                    <d n="flagsX" t="Hashtable" ckt="String" cvt="Int32">
+                      <v>ConditionPosition</v>
+                      <v>-240</v>
+                    </d>
+                    <d n="flagsY" t="Hashtable" ckt="String" cvt="Int32">
+                      <v>ConditionPosition</v>
+                      <v>-51</v>
+                    </d>
+                    <o n="StartAnchor" t="UMLAnchorPoint">
+                      <v n="AnchorID">0</v>
+                      <v n="AnchorLeftPosition">948</v>
+                      <v n="AnchorTopPosition">168</v>
+                      <v n="AnchorRelationID">{cb13c4e0-3a5a-42d9-bc1a-e2c20df2dbb5}</v>
+                      <v n="StartAnchor">true</v>
+                      <v n="EndAnchor">false</v>
+                      <v n="AnchorDockedState" t="Docked">NotDocked</v>
+                    </o>
+                    <o n="EndAnchor" t="UMLAnchorPoint">
+                      <v n="AnchorID">2</v>
+                      <v n="AnchorLeftPosition">655</v>
+                      <v n="AnchorTopPosition">64</v>
+                      <v n="AnchorRelationID">{cb13c4e0-3a5a-42d9-bc1a-e2c20df2dbb5}</v>
+                      <v n="StartAnchor">false</v>
+                      <v n="EndAnchor">true</v>
+                      <v n="AnchorDockedState" t="Docked">NotDocked</v>
+                    </o>
+                    <v n="NextAnchorID">2</v>
+                    <d n="AnchorPoints" t="Hashtable" ckt="Int32" cvt="UMLAnchorPoint">
+                      <v>1</v>
+                      <o>
+                        <v n="AnchorID">1</v>
+                        <v n="AnchorLeftPosition">948</v>
+                        <v n="AnchorTopPosition">64</v>
+                        <v n="AnchorRelationID">{cb13c4e0-3a5a-42d9-bc1a-e2c20df2dbb5}</v>
                         <v n="StartAnchor">false</v>
                         <v n="EndAnchor">false</v>
                         <v n="AnchorDockedState" t="Docked">NotDocked</v>
@@ -1187,8 +1528,275 @@ SIMULATION:INT:=12;
                     <v n="RelationIsLinear">true</v>
                     <v n="RelationIsFreeHand">false</v>
                   </o>
-                  <v n="ReferenceGuid">{bc23480c-ec6c-4634-823a-89a425614cd8}</v>
-                  <v n="RelationGuid">{bc23480c-ec6c-4634-823a-89a425614cd8}</v>
+                  <v n="ReferenceGuid">{cb13c4e0-3a5a-42d9-bc1a-e2c20df2dbb5}</v>
+                  <v n="RelationGuid">{cb13c4e0-3a5a-42d9-bc1a-e2c20df2dbb5}</v>
+                  <v n="RelationName">""</v>
+                  <n n="RelationStereotypes" />
+                  <v n="RelationType" t="RelationTypes">ExceptionTransition</v>
+                  <v n="IsReferenceTo">false</v>
+                  <v n="StartElementArrowFlag" t="ArrowTypes">Slim</v>
+                  <v n="Priority">3</v>
+                  <v n="GeneratesCode">false</v>
+                  <v n="StartElementShowArrow">false</v>
+                  <v n="StartElementCardnality">""</v>
+                  <v n="EndElementCardnality">""</v>
+                  <v n="EndElementArrowFlag" t="ArrowTypes">Slim</v>
+                  <v n="EndElementShowArrow">true</v>
+                  <v n="StartElementRoleName">""</v>
+                  <v n="EndElementRoleName">""</v>
+                  <v n="UserCreated">true</v>
+                  <v n="GeneratedByCode">false</v>
+                  <v n="AllowRoutingOptimisation">false</v>
+                  <d n="flagTexts" t="Hashtable" ckt="String" cvt="String">
+                    <v>Priority</v>
+                    <v>3</v>
+                  </d>
+                  <v n="Position">-1L</v>
+                  <v n="PositionCounter">1L</v>
+                  <v n="IsModified">false</v>
+                  <v n="ARGBElementColor">0</v>
+                </o>
+                <v>d36d85b5-be19-45ab-90d8-f522bcc2e6e5</v>
+                <o>
+                  <v n="HasGraphicalRepresentation">true</v>
+                  <v n="StartUMLElement">{113074f3-7280-4734-adb6-ec5d4d75ccf4}</v>
+                  <v n="HighlightedLine">false</v>
+                  <v n="ZOrder">277U</v>
+                  <v n="SpecialHandling">false</v>
+                  <v n="ActionLocalVariableName">""</v>
+                  <v n="ActionParametersString">""</v>
+                  <n n="ActionName" />
+                  <v n="ActionText">""</v>
+                  <v n="InjectedActionCode">""</v>
+                  <v n="ActionTextLength">100</v>
+                  <v n="ConditionText">"eState = E_StewartState.SETTLED"</v>
+                  <v n="LengthConditionText">100</v>
+                  <v n="RelationID">29</v>
+                  <v n="TriggerlessStatechartTransition">true</v>
+                  <v n="EndUMLElement">{dd41abb1-cf8c-4daa-a515-0826b419d6de}</v>
+                  <o n="UMLRelationVisualisation" t="UMLRelationVisualisation">
+                    <v n="RelationID">{d36d85b5-be19-45ab-90d8-f522bcc2e6e5}</v>
+                    <v n="FlagPosition" t="Double">0.5</v>
+                    <d n="flagsX" t="Hashtable" ckt="String" cvt="Int32">
+                      <v>ConditionPosition</v>
+                      <v>10</v>
+                    </d>
+                    <d n="flagsY" t="Hashtable" ckt="String" cvt="Int32">
+                      <v>ConditionPosition</v>
+                      <v>10</v>
+                    </d>
+                    <o n="StartAnchor" t="UMLAnchorPoint">
+                      <v n="AnchorID">0</v>
+                      <v n="AnchorLeftPosition">742</v>
+                      <v n="AnchorTopPosition">335</v>
+                      <v n="AnchorRelationID">{d36d85b5-be19-45ab-90d8-f522bcc2e6e5}</v>
+                      <v n="StartAnchor">true</v>
+                      <v n="EndAnchor">false</v>
+                      <v n="AnchorDockedState" t="Docked">NotDocked</v>
+                    </o>
+                    <o n="EndAnchor" t="UMLAnchorPoint">
+                      <v n="AnchorID">2</v>
+                      <v n="AnchorLeftPosition">658</v>
+                      <v n="AnchorTopPosition">275</v>
+                      <v n="AnchorRelationID">{d36d85b5-be19-45ab-90d8-f522bcc2e6e5}</v>
+                      <v n="StartAnchor">false</v>
+                      <v n="EndAnchor">true</v>
+                      <v n="AnchorDockedState" t="Docked">NotDocked</v>
+                    </o>
+                    <v n="NextAnchorID">2</v>
+                    <d n="AnchorPoints" t="Hashtable" ckt="Int32" cvt="UMLAnchorPoint">
+                      <v>1</v>
+                      <o>
+                        <v n="AnchorID">1</v>
+                        <v n="AnchorLeftPosition">742</v>
+                        <v n="AnchorTopPosition">275</v>
+                        <v n="AnchorRelationID">{d36d85b5-be19-45ab-90d8-f522bcc2e6e5}</v>
+                        <v n="StartAnchor">false</v>
+                        <v n="EndAnchor">false</v>
+                        <v n="AnchorDockedState" t="Docked">NotDocked</v>
+                      </o>
+                    </d>
+                    <v n="RelationIsLinear">false</v>
+                    <v n="RelationIsFreeHand">false</v>
+                  </o>
+                  <v n="ReferenceGuid">{d36d85b5-be19-45ab-90d8-f522bcc2e6e5}</v>
+                  <v n="RelationGuid">{d36d85b5-be19-45ab-90d8-f522bcc2e6e5}</v>
+                  <v n="RelationName">""</v>
+                  <n n="RelationStereotypes" />
+                  <v n="RelationType" t="RelationTypes">Transition</v>
+                  <v n="IsReferenceTo">false</v>
+                  <v n="StartElementArrowFlag" t="ArrowTypes">Slim</v>
+                  <v n="Priority">1</v>
+                  <v n="GeneratesCode">false</v>
+                  <v n="StartElementShowArrow">false</v>
+                  <v n="StartElementCardnality">""</v>
+                  <v n="EndElementCardnality">""</v>
+                  <v n="EndElementArrowFlag" t="ArrowTypes">Slim</v>
+                  <v n="EndElementShowArrow">true</v>
+                  <v n="StartElementRoleName">""</v>
+                  <v n="EndElementRoleName">""</v>
+                  <v n="UserCreated">true</v>
+                  <v n="GeneratedByCode">false</v>
+                  <v n="AllowRoutingOptimisation">false</v>
+                  <d n="flagTexts" t="Hashtable" ckt="String" cvt="String">
+                    <v>Priority</v>
+                    <v>1</v>
+                  </d>
+                  <v n="Position">-1L</v>
+                  <v n="PositionCounter">1L</v>
+                  <v n="IsModified">false</v>
+                  <v n="ARGBElementColor">0</v>
+                </o>
+                <v>b916ffcf-86cf-4922-b33d-62dd98fd491e</v>
+                <o>
+                  <v n="HasGraphicalRepresentation">true</v>
+                  <v n="StartUMLElement">{49d8c493-e130-498c-8290-94cd04bb637c}</v>
+                  <v n="HighlightedLine">true</v>
+                  <v n="ZOrder">277U</v>
+                  <v n="SpecialHandling">false</v>
+                  <v n="ActionLocalVariableName">""</v>
+                  <v n="ActionParametersString">""</v>
+                  <n n="ActionName" />
+                  <v n="ActionText">""</v>
+                  <v n="InjectedActionCode">""</v>
+                  <v n="ActionTextLength">100</v>
+                  <v n="ConditionText">""</v>
+                  <v n="LengthConditionText">100</v>
+                  <v n="RelationID">2</v>
+                  <v n="TriggerlessStatechartTransition">true</v>
+                  <v n="EndUMLElement">{dd41abb1-cf8c-4daa-a515-0826b419d6de}</v>
+                  <o n="UMLRelationVisualisation" t="UMLRelationVisualisation">
+                    <v n="RelationID">{b916ffcf-86cf-4922-b33d-62dd98fd491e}</v>
+                    <v n="FlagPosition" t="Double">0.5</v>
+                    <d n="flagsX" t="Hashtable" />
+                    <d n="flagsY" t="Hashtable" />
+                    <o n="StartAnchor" t="UMLAnchorPoint">
+                      <v n="AnchorID">0</v>
+                      <v n="AnchorLeftPosition">602</v>
+                      <v n="AnchorTopPosition">193</v>
+                      <v n="AnchorRelationID">{b916ffcf-86cf-4922-b33d-62dd98fd491e}</v>
+                      <v n="StartAnchor">true</v>
+                      <v n="EndAnchor">false</v>
+                      <v n="AnchorDockedState" t="Docked">NotDocked</v>
+                    </o>
+                    <o n="EndAnchor" t="UMLAnchorPoint">
+                      <v n="AnchorID">2</v>
+                      <v n="AnchorLeftPosition">571</v>
+                      <v n="AnchorTopPosition">225</v>
+                      <v n="AnchorRelationID">{b916ffcf-86cf-4922-b33d-62dd98fd491e}</v>
+                      <v n="StartAnchor">false</v>
+                      <v n="EndAnchor">true</v>
+                      <v n="AnchorDockedState" t="Docked">NotDocked</v>
+                    </o>
+                    <v n="NextAnchorID">2</v>
+                    <d n="AnchorPoints" t="Hashtable" ckt="Int32" cvt="UMLAnchorPoint">
+                      <v>1</v>
+                      <o>
+                        <v n="AnchorID">1</v>
+                        <v n="AnchorLeftPosition">571</v>
+                        <v n="AnchorTopPosition">193</v>
+                        <v n="AnchorRelationID">{b916ffcf-86cf-4922-b33d-62dd98fd491e}</v>
+                        <v n="StartAnchor">false</v>
+                        <v n="EndAnchor">false</v>
+                        <v n="AnchorDockedState" t="Docked">NotDocked</v>
+                      </o>
+                    </d>
+                    <v n="RelationIsLinear">false</v>
+                    <v n="RelationIsFreeHand">false</v>
+                  </o>
+                  <v n="ReferenceGuid">{b916ffcf-86cf-4922-b33d-62dd98fd491e}</v>
+                  <v n="RelationGuid">{b916ffcf-86cf-4922-b33d-62dd98fd491e}</v>
+                  <v n="RelationName">""</v>
+                  <n n="RelationStereotypes" />
+                  <v n="RelationType" t="RelationTypes">CompletionTransition</v>
+                  <v n="IsReferenceTo">false</v>
+                  <v n="StartElementArrowFlag" t="ArrowTypes">Slim</v>
+                  <v n="Priority">1</v>
+                  <v n="GeneratesCode">false</v>
+                  <v n="StartElementShowArrow">false</v>
+                  <v n="StartElementCardnality">""</v>
+                  <v n="EndElementCardnality">""</v>
+                  <v n="EndElementArrowFlag" t="ArrowTypes">Slim</v>
+                  <v n="EndElementShowArrow">true</v>
+                  <v n="StartElementRoleName">""</v>
+                  <v n="EndElementRoleName">""</v>
+                  <v n="UserCreated">true</v>
+                  <v n="GeneratedByCode">false</v>
+                  <v n="AllowRoutingOptimisation">false</v>
+                  <d n="flagTexts" t="Hashtable" ckt="String" cvt="String">
+                    <v>Priority</v>
+                    <v>1</v>
+                  </d>
+                  <v n="Position">-1L</v>
+                  <v n="PositionCounter">1L</v>
+                  <v n="IsModified">false</v>
+                  <v n="ARGBElementColor">0</v>
+                </o>
+                <v>ffb6e2e9-64bc-4cf1-a6b2-65c9e36d4ee7</v>
+                <o>
+                  <v n="HasGraphicalRepresentation">true</v>
+                  <v n="StartUMLElement">{4e5e080a-fccb-4078-89e3-8ba156a63a91}</v>
+                  <v n="HighlightedLine">false</v>
+                  <v n="ZOrder">277U</v>
+                  <v n="SpecialHandling">false</v>
+                  <v n="ActionLocalVariableName">""</v>
+                  <v n="ActionParametersString">""</v>
+                  <n n="ActionName" />
+                  <v n="ActionText">""</v>
+                  <v n="InjectedActionCode">""</v>
+                  <v n="ActionTextLength">100</v>
+                  <v n="ConditionText">"NOT bStop"</v>
+                  <v n="LengthConditionText">100</v>
+                  <v n="RelationID">47</v>
+                  <v n="TriggerlessStatechartTransition">true</v>
+                  <v n="EndUMLElement">{b194dc9d-1e2b-4eca-a1c4-4e5f60544940}</v>
+                  <o n="UMLRelationVisualisation" t="UMLRelationVisualisation">
+                    <v n="RelationID">{ffb6e2e9-64bc-4cf1-a6b2-65c9e36d4ee7}</v>
+                    <v n="FlagPosition" t="Double">0.5</v>
+                    <d n="flagsX" t="Hashtable" ckt="String" cvt="Int32">
+                      <v>ConditionPosition</v>
+                      <v>-119</v>
+                    </d>
+                    <d n="flagsY" t="Hashtable" ckt="String" cvt="Int32">
+                      <v>ConditionPosition</v>
+                      <v>28</v>
+                    </d>
+                    <o n="StartAnchor" t="UMLAnchorPoint">
+                      <v n="AnchorID">0</v>
+                      <v n="AnchorLeftPosition">1178</v>
+                      <v n="AnchorTopPosition">332</v>
+                      <v n="AnchorRelationID">{ffb6e2e9-64bc-4cf1-a6b2-65c9e36d4ee7}</v>
+                      <v n="StartAnchor">true</v>
+                      <v n="EndAnchor">false</v>
+                      <v n="AnchorDockedState" t="Docked">NotDocked</v>
+                    </o>
+                    <o n="EndAnchor" t="UMLAnchorPoint">
+                      <v n="AnchorID">2</v>
+                      <v n="AnchorLeftPosition">1007</v>
+                      <v n="AnchorTopPosition">390</v>
+                      <v n="AnchorRelationID">{ffb6e2e9-64bc-4cf1-a6b2-65c9e36d4ee7}</v>
+                      <v n="StartAnchor">false</v>
+                      <v n="EndAnchor">true</v>
+                      <v n="AnchorDockedState" t="Docked">NotDocked</v>
+                    </o>
+                    <v n="NextAnchorID">2</v>
+                    <d n="AnchorPoints" t="Hashtable" ckt="Int32" cvt="UMLAnchorPoint">
+                      <v>1</v>
+                      <o>
+                        <v n="AnchorID">1</v>
+                        <v n="AnchorLeftPosition">1178</v>
+                        <v n="AnchorTopPosition">390</v>
+                        <v n="AnchorRelationID">{ffb6e2e9-64bc-4cf1-a6b2-65c9e36d4ee7}</v>
+                        <v n="StartAnchor">false</v>
+                        <v n="EndAnchor">false</v>
+                        <v n="AnchorDockedState" t="Docked">NotDocked</v>
+                      </o>
+                    </d>
+                    <v n="RelationIsLinear">false</v>
+                    <v n="RelationIsFreeHand">false</v>
+                  </o>
+                  <v n="ReferenceGuid">{ffb6e2e9-64bc-4cf1-a6b2-65c9e36d4ee7}</v>
+                  <v n="RelationGuid">{ffb6e2e9-64bc-4cf1-a6b2-65c9e36d4ee7}</v>
                   <v n="RelationName">""</v>
                   <n n="RelationStereotypes" />
                   <v n="RelationType" t="RelationTypes">Transition</v>
@@ -1220,7 +1828,7 @@ SIMULATION:INT:=12;
                   <v n="HasGraphicalRepresentation">true</v>
                   <v n="StartUMLElement">{f5193168-3c3e-4dc1-b76d-86a7edfcc476}</v>
                   <v n="HighlightedLine">false</v>
-                  <v n="ZOrder">267U</v>
+                  <v n="ZOrder">277U</v>
                   <v n="SpecialHandling">false</v>
                   <v n="ActionLocalVariableName">""</v>
                   <v n="ActionParametersString">""</v>
@@ -1228,7 +1836,7 @@ SIMULATION:INT:=12;
                   <v n="ActionText">""</v>
                   <v n="InjectedActionCode">""</v>
                   <v n="ActionTextLength">100</v>
-                  <v n="ConditionText">"eOpMode = E_StewartOpMode.NORMAL"</v>
+                  <v n="ConditionText">"eOpMode = E_StewartOpMode.NORMAL AND bActive"</v>
                   <v n="LengthConditionText">100</v>
                   <v n="RelationID">44</v>
                   <v n="TriggerlessStatechartTransition">true</v>
@@ -1238,7 +1846,7 @@ SIMULATION:INT:=12;
                     <v n="FlagPosition" t="Double">0.5</v>
                     <d n="flagsX" t="Hashtable" ckt="String" cvt="Int32">
                       <v>ConditionPosition</v>
-                      <v>-224</v>
+                      <v>-290</v>
                     </d>
                     <d n="flagsY" t="Hashtable" ckt="String" cvt="Int32">
                       <v>ConditionPosition</v>
@@ -1246,7 +1854,7 @@ SIMULATION:INT:=12;
                     </d>
                     <o n="StartAnchor" t="UMLAnchorPoint">
                       <v n="AnchorID">0</v>
-                      <v n="AnchorLeftPosition">566</v>
+                      <v n="AnchorLeftPosition">567</v>
                       <v n="AnchorTopPosition">114</v>
                       <v n="AnchorRelationID">{97a81f28-c7c4-417e-a904-557128895189}</v>
                       <v n="StartAnchor">true</v>
@@ -1255,8 +1863,8 @@ SIMULATION:INT:=12;
                     </o>
                     <o n="EndAnchor" t="UMLAnchorPoint">
                       <v n="AnchorID">1</v>
-                      <v n="AnchorLeftPosition">566</v>
-                      <v n="AnchorTopPosition">167</v>
+                      <v n="AnchorLeftPosition">567</v>
+                      <v n="AnchorTopPosition">168</v>
                       <v n="AnchorRelationID">{97a81f28-c7c4-417e-a904-557128895189}</v>
                       <v n="StartAnchor">false</v>
                       <v n="EndAnchor">true</v>
@@ -1295,12 +1903,12 @@ SIMULATION:INT:=12;
                   <v n="IsModified">false</v>
                   <v n="ARGBElementColor">0</v>
                 </o>
-                <v>032a32cf-8d11-4b72-b1bd-1f23a26cce59</v>
+                <v>c31659c7-1d4e-4e22-921c-8e067df09d02</v>
                 <o>
                   <v n="HasGraphicalRepresentation">true</v>
-                  <v n="StartUMLElement">{b194dc9d-1e2b-4eca-a1c4-4e5f60544940}</v>
-                  <v n="HighlightedLine">true</v>
-                  <v n="ZOrder">250U</v>
+                  <v n="StartUMLElement">{73277216-de9b-49fb-b8bc-bb0ff8b88c9a}</v>
+                  <v n="HighlightedLine">false</v>
+                  <v n="ZOrder">277U</v>
                   <v n="SpecialHandling">false</v>
                   <v n="ActionLocalVariableName">""</v>
                   <v n="ActionParametersString">""</v>
@@ -1308,47 +1916,57 @@ SIMULATION:INT:=12;
                   <v n="ActionText">""</v>
                   <v n="InjectedActionCode">""</v>
                   <v n="ActionTextLength">100</v>
-                  <v n="ConditionText">"bError"</v>
+                  <v n="ConditionText">"eMode = E_StewartMode.SETTLED"</v>
                   <v n="LengthConditionText">100</v>
-                  <v n="RelationID">36</v>
+                  <v n="RelationID">28</v>
                   <v n="TriggerlessStatechartTransition">true</v>
-                  <v n="EndUMLElement">{f77eec2c-d70b-471f-bcea-4594d099fc8b}</v>
+                  <v n="EndUMLElement">{113074f3-7280-4734-adb6-ec5d4d75ccf4}</v>
                   <o n="UMLRelationVisualisation" t="UMLRelationVisualisation">
-                    <v n="RelationID">{032a32cf-8d11-4b72-b1bd-1f23a26cce59}</v>
+                    <v n="RelationID">{c31659c7-1d4e-4e22-921c-8e067df09d02}</v>
                     <v n="FlagPosition" t="Double">0.5</v>
-                    <d n="flagsX" t="Hashtable" />
-                    <d n="flagsY" t="Hashtable" />
+                    <d n="flagsX" t="Hashtable" ckt="String" cvt="Int32">
+                      <v>ConditionPosition</v>
+                      <v>11</v>
+                      <v>ActionPosition</v>
+                      <v>10</v>
+                    </d>
+                    <d n="flagsY" t="Hashtable" ckt="String" cvt="Int32">
+                      <v>ConditionPosition</v>
+                      <v>5</v>
+                      <v>ActionPosition</v>
+                      <v>0</v>
+                    </d>
                     <o n="StartAnchor" t="UMLAnchorPoint">
                       <v n="AnchorID">0</v>
-                      <v n="AnchorLeftPosition">1006</v>
-                      <v n="AnchorTopPosition">398</v>
-                      <v n="AnchorRelationID">{032a32cf-8d11-4b72-b1bd-1f23a26cce59}</v>
+                      <v n="AnchorLeftPosition">621</v>
+                      <v n="AnchorTopPosition">485</v>
+                      <v n="AnchorRelationID">{c31659c7-1d4e-4e22-921c-8e067df09d02}</v>
                       <v n="StartAnchor">true</v>
                       <v n="EndAnchor">false</v>
                       <v n="AnchorDockedState" t="Docked">NotDocked</v>
                     </o>
                     <o n="EndAnchor" t="UMLAnchorPoint">
                       <v n="AnchorID">1</v>
-                      <v n="AnchorLeftPosition">1115</v>
-                      <v n="AnchorTopPosition">398</v>
-                      <v n="AnchorRelationID">{032a32cf-8d11-4b72-b1bd-1f23a26cce59}</v>
+                      <v n="AnchorLeftPosition">621</v>
+                      <v n="AnchorTopPosition">384</v>
+                      <v n="AnchorRelationID">{c31659c7-1d4e-4e22-921c-8e067df09d02}</v>
                       <v n="StartAnchor">false</v>
                       <v n="EndAnchor">true</v>
                       <v n="AnchorDockedState" t="Docked">NotDocked</v>
                     </o>
                     <v n="NextAnchorID">1</v>
                     <d n="AnchorPoints" t="Hashtable" />
-                    <v n="RelationIsLinear">true</v>
+                    <v n="RelationIsLinear">false</v>
                     <v n="RelationIsFreeHand">false</v>
                   </o>
-                  <v n="ReferenceGuid">{032a32cf-8d11-4b72-b1bd-1f23a26cce59}</v>
-                  <v n="RelationGuid">{032a32cf-8d11-4b72-b1bd-1f23a26cce59}</v>
+                  <v n="ReferenceGuid">{c31659c7-1d4e-4e22-921c-8e067df09d02}</v>
+                  <v n="RelationGuid">{c31659c7-1d4e-4e22-921c-8e067df09d02}</v>
                   <v n="RelationName">""</v>
                   <n n="RelationStereotypes" />
-                  <v n="RelationType" t="RelationTypes">ExceptionTransition</v>
+                  <v n="RelationType" t="RelationTypes">Transition</v>
                   <v n="IsReferenceTo">false</v>
                   <v n="StartElementArrowFlag" t="ArrowTypes">Slim</v>
-                  <v n="Priority">2</v>
+                  <v n="Priority">3</v>
                   <v n="GeneratesCode">false</v>
                   <v n="StartElementShowArrow">false</v>
                   <v n="StartElementCardnality">""</v>
@@ -1362,7 +1980,7 @@ SIMULATION:INT:=12;
                   <v n="AllowRoutingOptimisation">false</v>
                   <d n="flagTexts" t="Hashtable" ckt="String" cvt="String">
                     <v>Priority</v>
-                    <v>2</v>
+                    <v>3</v>
                   </d>
                   <v n="Position">-1L</v>
                   <v n="PositionCounter">1L</v>
@@ -1374,7 +1992,7 @@ SIMULATION:INT:=12;
                   <v n="HasGraphicalRepresentation">true</v>
                   <v n="StartUMLElement">{dd41abb1-cf8c-4daa-a515-0826b419d6de}</v>
                   <v n="HighlightedLine">false</v>
-                  <v n="ZOrder">250U</v>
+                  <v n="ZOrder">277U</v>
                   <v n="SpecialHandling">false</v>
                   <v n="ActionLocalVariableName">""</v>
                   <v n="ActionParametersString">""</v>
@@ -1404,8 +2022,8 @@ SIMULATION:INT:=12;
                     </d>
                     <o n="StartAnchor" t="UMLAnchorPoint">
                       <v n="AnchorID">0</v>
-                      <v n="AnchorLeftPosition">501</v>
-                      <v n="AnchorTopPosition">274</v>
+                      <v n="AnchorLeftPosition">502</v>
+                      <v n="AnchorTopPosition">275</v>
                       <v n="AnchorRelationID">{ef2deb4c-0b59-4a14-a99e-7fb849fa7a0a}</v>
                       <v n="StartAnchor">true</v>
                       <v n="EndAnchor">false</v>
@@ -1413,8 +2031,8 @@ SIMULATION:INT:=12;
                     </o>
                     <o n="EndAnchor" t="UMLAnchorPoint">
                       <v n="AnchorID">2</v>
-                      <v n="AnchorLeftPosition">251</v>
-                      <v n="AnchorTopPosition">334</v>
+                      <v n="AnchorLeftPosition">252</v>
+                      <v n="AnchorTopPosition">335</v>
                       <v n="AnchorRelationID">{ef2deb4c-0b59-4a14-a99e-7fb849fa7a0a}</v>
                       <v n="StartAnchor">false</v>
                       <v n="EndAnchor">true</v>
@@ -1425,8 +2043,8 @@ SIMULATION:INT:=12;
                       <v>1</v>
                       <o>
                         <v n="AnchorID">1</v>
-                        <v n="AnchorLeftPosition">251</v>
-                        <v n="AnchorTopPosition">274</v>
+                        <v n="AnchorLeftPosition">252</v>
+                        <v n="AnchorTopPosition">275</v>
                         <v n="AnchorRelationID">{ef2deb4c-0b59-4a14-a99e-7fb849fa7a0a}</v>
                         <v n="StartAnchor">false</v>
                         <v n="EndAnchor">false</v>
@@ -1464,12 +2082,12 @@ SIMULATION:INT:=12;
                   <v n="IsModified">false</v>
                   <v n="ARGBElementColor">0</v>
                 </o>
-                <v>f096a2e6-f660-4766-b0b1-5571bfa534c6</v>
+                <v>032a32cf-8d11-4b72-b1bd-1f23a26cce59</v>
                 <o>
                   <v n="HasGraphicalRepresentation">true</v>
-                  <v n="StartUMLElement">{ee59122d-01c0-492f-bbb7-6075eabcb69b}</v>
-                  <v n="HighlightedLine">false</v>
-                  <v n="ZOrder">250U</v>
+                  <v n="StartUMLElement">{b194dc9d-1e2b-4eca-a1c4-4e5f60544940}</v>
+                  <v n="HighlightedLine">true</v>
+                  <v n="ZOrder">277U</v>
                   <v n="SpecialHandling">false</v>
                   <v n="ActionLocalVariableName">""</v>
                   <v n="ActionParametersString">""</v>
@@ -1477,68 +2095,47 @@ SIMULATION:INT:=12;
                   <v n="ActionText">""</v>
                   <v n="InjectedActionCode">""</v>
                   <v n="ActionTextLength">100</v>
-                  <v n="ConditionText">"eState = E_StewartState.NEUTRAL"</v>
+                  <v n="ConditionText">"bError"</v>
                   <v n="LengthConditionText">100</v>
-                  <v n="RelationID">27</v>
+                  <v n="RelationID">36</v>
                   <v n="TriggerlessStatechartTransition">true</v>
-                  <v n="EndUMLElement">{73277216-de9b-49fb-b8bc-bb0ff8b88c9a}</v>
+                  <v n="EndUMLElement">{f77eec2c-d70b-471f-bcea-4594d099fc8b}</v>
                   <o n="UMLRelationVisualisation" t="UMLRelationVisualisation">
-                    <v n="RelationID">{f096a2e6-f660-4766-b0b1-5571bfa534c6}</v>
+                    <v n="RelationID">{032a32cf-8d11-4b72-b1bd-1f23a26cce59}</v>
                     <v n="FlagPosition" t="Double">0.5</v>
-                    <d n="flagsX" t="Hashtable" ckt="String" cvt="Int32">
-                      <v>ConditionPosition</v>
-                      <v>-72</v>
-                      <v>ActionPosition</v>
-                      <v>5</v>
-                    </d>
-                    <d n="flagsY" t="Hashtable" ckt="String" cvt="Int32">
-                      <v>ConditionPosition</v>
-                      <v>88</v>
-                      <v>ActionPosition</v>
-                      <v>12</v>
-                    </d>
+                    <d n="flagsX" t="Hashtable" />
+                    <d n="flagsY" t="Hashtable" />
                     <o n="StartAnchor" t="UMLAnchorPoint">
                       <v n="AnchorID">0</v>
-                      <v n="AnchorLeftPosition">502</v>
-                      <v n="AnchorTopPosition">364</v>
-                      <v n="AnchorRelationID">{f096a2e6-f660-4766-b0b1-5571bfa534c6}</v>
+                      <v n="AnchorLeftPosition">1007</v>
+                      <v n="AnchorTopPosition">612</v>
+                      <v n="AnchorRelationID">{032a32cf-8d11-4b72-b1bd-1f23a26cce59}</v>
                       <v n="StartAnchor">true</v>
                       <v n="EndAnchor">false</v>
                       <v n="AnchorDockedState" t="Docked">NotDocked</v>
                     </o>
                     <o n="EndAnchor" t="UMLAnchorPoint">
-                      <v n="AnchorID">2</v>
-                      <v n="AnchorLeftPosition">531</v>
-                      <v n="AnchorTopPosition">484</v>
-                      <v n="AnchorRelationID">{f096a2e6-f660-4766-b0b1-5571bfa534c6}</v>
+                      <v n="AnchorID">1</v>
+                      <v n="AnchorLeftPosition">1104</v>
+                      <v n="AnchorTopPosition">612</v>
+                      <v n="AnchorRelationID">{032a32cf-8d11-4b72-b1bd-1f23a26cce59}</v>
                       <v n="StartAnchor">false</v>
                       <v n="EndAnchor">true</v>
                       <v n="AnchorDockedState" t="Docked">NotDocked</v>
                     </o>
-                    <v n="NextAnchorID">2</v>
-                    <d n="AnchorPoints" t="Hashtable" ckt="Int32" cvt="UMLAnchorPoint">
-                      <v>1</v>
-                      <o>
-                        <v n="AnchorID">1</v>
-                        <v n="AnchorLeftPosition">531</v>
-                        <v n="AnchorTopPosition">364</v>
-                        <v n="AnchorRelationID">{f096a2e6-f660-4766-b0b1-5571bfa534c6}</v>
-                        <v n="StartAnchor">false</v>
-                        <v n="EndAnchor">false</v>
-                        <v n="AnchorDockedState" t="Docked">NotDocked</v>
-                      </o>
-                    </d>
+                    <v n="NextAnchorID">1</v>
+                    <d n="AnchorPoints" t="Hashtable" />
                     <v n="RelationIsLinear">true</v>
                     <v n="RelationIsFreeHand">false</v>
                   </o>
-                  <v n="ReferenceGuid">{f096a2e6-f660-4766-b0b1-5571bfa534c6}</v>
-                  <v n="RelationGuid">{f096a2e6-f660-4766-b0b1-5571bfa534c6}</v>
+                  <v n="ReferenceGuid">{032a32cf-8d11-4b72-b1bd-1f23a26cce59}</v>
+                  <v n="RelationGuid">{032a32cf-8d11-4b72-b1bd-1f23a26cce59}</v>
                   <v n="RelationName">""</v>
                   <n n="RelationStereotypes" />
-                  <v n="RelationType" t="RelationTypes">Transition</v>
+                  <v n="RelationType" t="RelationTypes">ExceptionTransition</v>
                   <v n="IsReferenceTo">false</v>
                   <v n="StartElementArrowFlag" t="ArrowTypes">Slim</v>
-                  <v n="Priority">1</v>
+                  <v n="Priority">4</v>
                   <v n="GeneratesCode">false</v>
                   <v n="StartElementShowArrow">false</v>
                   <v n="StartElementCardnality">""</v>
@@ -1552,7 +2149,7 @@ SIMULATION:INT:=12;
                   <v n="AllowRoutingOptimisation">false</v>
                   <d n="flagTexts" t="Hashtable" ckt="String" cvt="String">
                     <v>Priority</v>
-                    <v>1</v>
+                    <v>4</v>
                   </d>
                   <v n="Position">-1L</v>
                   <v n="PositionCounter">1L</v>
@@ -1644,12 +2241,12 @@ SIMULATION:INT:=12;
                   <v n="IsModified">false</v>
                   <v n="ARGBElementColor">0</v>
                 </o>
-                <v>d36d85b5-be19-45ab-90d8-f522bcc2e6e5</v>
+                <v>49aa1ff1-cdad-45a8-a2e9-67a019ddd9b5</v>
                 <o>
                   <v n="HasGraphicalRepresentation">true</v>
-                  <v n="StartUMLElement">{113074f3-7280-4734-adb6-ec5d4d75ccf4}</v>
+                  <v n="StartUMLElement">{73277216-de9b-49fb-b8bc-bb0ff8b88c9a}</v>
                   <v n="HighlightedLine">false</v>
-                  <v n="ZOrder">250U</v>
+                  <v n="ZOrder">277U</v>
                   <v n="SpecialHandling">false</v>
                   <v n="ActionLocalVariableName">""</v>
                   <v n="ActionParametersString">""</v>
@@ -1657,36 +2254,36 @@ SIMULATION:INT:=12;
                   <v n="ActionText">""</v>
                   <v n="InjectedActionCode">""</v>
                   <v n="ActionTextLength">100</v>
-                  <v n="ConditionText">"eState = E_StewartState.SETTLED"</v>
+                  <v n="ConditionText">"eMode = E_StewartMode.GENERATOR"</v>
                   <v n="LengthConditionText">100</v>
-                  <v n="RelationID">29</v>
+                  <v n="RelationID">38</v>
                   <v n="TriggerlessStatechartTransition">true</v>
-                  <v n="EndUMLElement">{dd41abb1-cf8c-4daa-a515-0826b419d6de}</v>
+                  <v n="EndUMLElement">{5853e86b-95e2-4f38-a240-330dc8df6d39}</v>
                   <o n="UMLRelationVisualisation" t="UMLRelationVisualisation">
-                    <v n="RelationID">{d36d85b5-be19-45ab-90d8-f522bcc2e6e5}</v>
+                    <v n="RelationID">{49aa1ff1-cdad-45a8-a2e9-67a019ddd9b5}</v>
                     <v n="FlagPosition" t="Double">0.5</v>
                     <d n="flagsX" t="Hashtable" ckt="String" cvt="Int32">
                       <v>ConditionPosition</v>
-                      <v>10</v>
+                      <v>70</v>
                     </d>
                     <d n="flagsY" t="Hashtable" ckt="String" cvt="Int32">
                       <v>ConditionPosition</v>
-                      <v>10</v>
+                      <v>0</v>
                     </d>
                     <o n="StartAnchor" t="UMLAnchorPoint">
                       <v n="AnchorID">0</v>
-                      <v n="AnchorLeftPosition">741</v>
-                      <v n="AnchorTopPosition">334</v>
-                      <v n="AnchorRelationID">{d36d85b5-be19-45ab-90d8-f522bcc2e6e5}</v>
+                      <v n="AnchorLeftPosition">658</v>
+                      <v n="AnchorTopPosition">535</v>
+                      <v n="AnchorRelationID">{49aa1ff1-cdad-45a8-a2e9-67a019ddd9b5}</v>
                       <v n="StartAnchor">true</v>
                       <v n="EndAnchor">false</v>
                       <v n="AnchorDockedState" t="Docked">NotDocked</v>
                     </o>
                     <o n="EndAnchor" t="UMLAnchorPoint">
                       <v n="AnchorID">2</v>
-                      <v n="AnchorLeftPosition">657</v>
-                      <v n="AnchorTopPosition">274</v>
-                      <v n="AnchorRelationID">{d36d85b5-be19-45ab-90d8-f522bcc2e6e5}</v>
+                      <v n="AnchorLeftPosition">862</v>
+                      <v n="AnchorTopPosition">585</v>
+                      <v n="AnchorRelationID">{49aa1ff1-cdad-45a8-a2e9-67a019ddd9b5}</v>
                       <v n="StartAnchor">false</v>
                       <v n="EndAnchor">true</v>
                       <v n="AnchorDockedState" t="Docked">NotDocked</v>
@@ -1696,9 +2293,9 @@ SIMULATION:INT:=12;
                       <v>1</v>
                       <o>
                         <v n="AnchorID">1</v>
-                        <v n="AnchorLeftPosition">741</v>
-                        <v n="AnchorTopPosition">274</v>
-                        <v n="AnchorRelationID">{d36d85b5-be19-45ab-90d8-f522bcc2e6e5}</v>
+                        <v n="AnchorLeftPosition">862</v>
+                        <v n="AnchorTopPosition">535</v>
+                        <v n="AnchorRelationID">{49aa1ff1-cdad-45a8-a2e9-67a019ddd9b5}</v>
                         <v n="StartAnchor">false</v>
                         <v n="EndAnchor">false</v>
                         <v n="AnchorDockedState" t="Docked">NotDocked</v>
@@ -1707,8 +2304,8 @@ SIMULATION:INT:=12;
                     <v n="RelationIsLinear">false</v>
                     <v n="RelationIsFreeHand">false</v>
                   </o>
-                  <v n="ReferenceGuid">{d36d85b5-be19-45ab-90d8-f522bcc2e6e5}</v>
-                  <v n="RelationGuid">{d36d85b5-be19-45ab-90d8-f522bcc2e6e5}</v>
+                  <v n="ReferenceGuid">{49aa1ff1-cdad-45a8-a2e9-67a019ddd9b5}</v>
+                  <v n="RelationGuid">{49aa1ff1-cdad-45a8-a2e9-67a019ddd9b5}</v>
                   <v n="RelationName">""</v>
                   <n n="RelationStereotypes" />
                   <v n="RelationType" t="RelationTypes">Transition</v>
@@ -1735,12 +2332,12 @@ SIMULATION:INT:=12;
                   <v n="IsModified">false</v>
                   <v n="ARGBElementColor">0</v>
                 </o>
-                <v>cb13c4e0-3a5a-42d9-bc1a-e2c20df2dbb5</v>
+                <v>9db889f9-8d1a-440e-a22c-5ba0d5d7cc3e</v>
                 <o>
                   <v n="HasGraphicalRepresentation">true</v>
                   <v n="StartUMLElement">{b194dc9d-1e2b-4eca-a1c4-4e5f60544940}</v>
                   <v n="HighlightedLine">true</v>
-                  <v n="ZOrder">267U</v>
+                  <v n="ZOrder">277U</v>
                   <v n="SpecialHandling">false</v>
                   <v n="ActionLocalVariableName">""</v>
                   <v n="ActionParametersString">""</v>
@@ -1748,27 +2345,31 @@ SIMULATION:INT:=12;
                   <v n="ActionText">""</v>
                   <v n="InjectedActionCode">""</v>
                   <v n="ActionTextLength">100</v>
-                  <v n="ConditionText">"eOpMode = E_StewartOpMode.MANUAL"</v>
+                  <v n="ConditionText">"NOT bActive"</v>
                   <v n="LengthConditionText">100</v>
-                  <v n="RelationID">45</v>
+                  <v n="RelationID">48</v>
                   <v n="TriggerlessStatechartTransition">true</v>
                   <v n="EndUMLElement">{f5193168-3c3e-4dc1-b76d-86a7edfcc476}</v>
                   <o n="UMLRelationVisualisation" t="UMLRelationVisualisation">
-                    <v n="RelationID">{cb13c4e0-3a5a-42d9-bc1a-e2c20df2dbb5}</v>
+                    <v n="RelationID">{9db889f9-8d1a-440e-a22c-5ba0d5d7cc3e}</v>
                     <v n="FlagPosition" t="Double">0.5</v>
                     <d n="flagsX" t="Hashtable" ckt="String" cvt="Int32">
                       <v>ConditionPosition</v>
-                      <v>-240</v>
+                      <v>-139</v>
+                      <v>ActionPosition</v>
+                      <v>279</v>
                     </d>
                     <d n="flagsY" t="Hashtable" ckt="String" cvt="Int32">
                       <v>ConditionPosition</v>
-                      <v>-51</v>
+                      <v>-34</v>
+                      <v>ActionPosition</v>
+                      <v>-17</v>
                     </d>
                     <o n="StartAnchor" t="UMLAnchorPoint">
                       <v n="AnchorID">0</v>
-                      <v n="AnchorLeftPosition">947</v>
-                      <v n="AnchorTopPosition">167</v>
-                      <v n="AnchorRelationID">{cb13c4e0-3a5a-42d9-bc1a-e2c20df2dbb5}</v>
+                      <v n="AnchorLeftPosition">889</v>
+                      <v n="AnchorTopPosition">168</v>
+                      <v n="AnchorRelationID">{9db889f9-8d1a-440e-a22c-5ba0d5d7cc3e}</v>
                       <v n="StartAnchor">true</v>
                       <v n="EndAnchor">false</v>
                       <v n="AnchorDockedState" t="Docked">NotDocked</v>
@@ -1776,8 +2377,8 @@ SIMULATION:INT:=12;
                     <o n="EndAnchor" t="UMLAnchorPoint">
                       <v n="AnchorID">2</v>
                       <v n="AnchorLeftPosition">655</v>
-                      <v n="AnchorTopPosition">75</v>
-                      <v n="AnchorRelationID">{cb13c4e0-3a5a-42d9-bc1a-e2c20df2dbb5}</v>
+                      <v n="AnchorTopPosition">104</v>
+                      <v n="AnchorRelationID">{9db889f9-8d1a-440e-a22c-5ba0d5d7cc3e}</v>
                       <v n="StartAnchor">false</v>
                       <v n="EndAnchor">true</v>
                       <v n="AnchorDockedState" t="Docked">NotDocked</v>
@@ -1787,9 +2388,9 @@ SIMULATION:INT:=12;
                       <v>1</v>
                       <o>
                         <v n="AnchorID">1</v>
-                        <v n="AnchorLeftPosition">947</v>
-                        <v n="AnchorTopPosition">75</v>
-                        <v n="AnchorRelationID">{cb13c4e0-3a5a-42d9-bc1a-e2c20df2dbb5}</v>
+                        <v n="AnchorLeftPosition">889</v>
+                        <v n="AnchorTopPosition">104</v>
+                        <v n="AnchorRelationID">{9db889f9-8d1a-440e-a22c-5ba0d5d7cc3e}</v>
                         <v n="StartAnchor">false</v>
                         <v n="EndAnchor">false</v>
                         <v n="AnchorDockedState" t="Docked">NotDocked</v>
@@ -1798,8 +2399,8 @@ SIMULATION:INT:=12;
                     <v n="RelationIsLinear">true</v>
                     <v n="RelationIsFreeHand">false</v>
                   </o>
-                  <v n="ReferenceGuid">{cb13c4e0-3a5a-42d9-bc1a-e2c20df2dbb5}</v>
-                  <v n="RelationGuid">{cb13c4e0-3a5a-42d9-bc1a-e2c20df2dbb5}</v>
+                  <v n="ReferenceGuid">{9db889f9-8d1a-440e-a22c-5ba0d5d7cc3e}</v>
+                  <v n="RelationGuid">{9db889f9-8d1a-440e-a22c-5ba0d5d7cc3e}</v>
                   <v n="RelationName">""</v>
                   <n n="RelationStereotypes" />
                   <v n="RelationType" t="RelationTypes">ExceptionTransition</v>
@@ -1826,12 +2427,12 @@ SIMULATION:INT:=12;
                   <v n="IsModified">false</v>
                   <v n="ARGBElementColor">0</v>
                 </o>
-                <v>c31659c7-1d4e-4e22-921c-8e067df09d02</v>
+                <v>bc23480c-ec6c-4634-823a-89a425614cd8</v>
                 <o>
                   <v n="HasGraphicalRepresentation">true</v>
-                  <v n="StartUMLElement">{73277216-de9b-49fb-b8bc-bb0ff8b88c9a}</v>
+                  <v n="StartUMLElement">{f77eec2c-d70b-471f-bcea-4594d099fc8b}</v>
                   <v n="HighlightedLine">false</v>
-                  <v n="ZOrder">250U</v>
+                  <v n="ZOrder">277U</v>
                   <v n="SpecialHandling">false</v>
                   <v n="ActionLocalVariableName">""</v>
                   <v n="ActionParametersString">""</v>
@@ -1839,124 +2440,40 @@ SIMULATION:INT:=12;
                   <v n="ActionText">""</v>
                   <v n="InjectedActionCode">""</v>
                   <v n="ActionTextLength">100</v>
-                  <v n="ConditionText">"eMode = E_StewartMode.SETTLED"</v>
+                  <v n="ConditionText">"NOT bError"</v>
                   <v n="LengthConditionText">100</v>
-                  <v n="RelationID">28</v>
+                  <v n="RelationID">37</v>
                   <v n="TriggerlessStatechartTransition">true</v>
-                  <v n="EndUMLElement">{113074f3-7280-4734-adb6-ec5d4d75ccf4}</v>
+                  <v n="EndUMLElement">{b194dc9d-1e2b-4eca-a1c4-4e5f60544940}</v>
                   <o n="UMLRelationVisualisation" t="UMLRelationVisualisation">
-                    <v n="RelationID">{c31659c7-1d4e-4e22-921c-8e067df09d02}</v>
+                    <v n="RelationID">{bc23480c-ec6c-4634-823a-89a425614cd8}</v>
                     <v n="FlagPosition" t="Double">0.5</v>
                     <d n="flagsX" t="Hashtable" ckt="String" cvt="Int32">
                       <v>ConditionPosition</v>
-                      <v>11</v>
-                      <v>ActionPosition</v>
-                      <v>10</v>
-                    </d>
-                    <d n="flagsY" t="Hashtable" ckt="String" cvt="Int32">
-                      <v>ConditionPosition</v>
-                      <v>5</v>
+                      <v>-118</v>
                       <v>ActionPosition</v>
                       <v>0</v>
                     </d>
-                    <o n="StartAnchor" t="UMLAnchorPoint">
-                      <v n="AnchorID">0</v>
-                      <v n="AnchorLeftPosition">620</v>
-                      <v n="AnchorTopPosition">484</v>
-                      <v n="AnchorRelationID">{c31659c7-1d4e-4e22-921c-8e067df09d02}</v>
-                      <v n="StartAnchor">true</v>
-                      <v n="EndAnchor">false</v>
-                      <v n="AnchorDockedState" t="Docked">NotDocked</v>
-                    </o>
-                    <o n="EndAnchor" t="UMLAnchorPoint">
-                      <v n="AnchorID">1</v>
-                      <v n="AnchorLeftPosition">620</v>
-                      <v n="AnchorTopPosition">383</v>
-                      <v n="AnchorRelationID">{c31659c7-1d4e-4e22-921c-8e067df09d02}</v>
-                      <v n="StartAnchor">false</v>
-                      <v n="EndAnchor">true</v>
-                      <v n="AnchorDockedState" t="Docked">NotDocked</v>
-                    </o>
-                    <v n="NextAnchorID">1</v>
-                    <d n="AnchorPoints" t="Hashtable" />
-                    <v n="RelationIsLinear">false</v>
-                    <v n="RelationIsFreeHand">false</v>
-                  </o>
-                  <v n="ReferenceGuid">{c31659c7-1d4e-4e22-921c-8e067df09d02}</v>
-                  <v n="RelationGuid">{c31659c7-1d4e-4e22-921c-8e067df09d02}</v>
-                  <v n="RelationName">""</v>
-                  <n n="RelationStereotypes" />
-                  <v n="RelationType" t="RelationTypes">Transition</v>
-                  <v n="IsReferenceTo">false</v>
-                  <v n="StartElementArrowFlag" t="ArrowTypes">Slim</v>
-                  <v n="Priority">3</v>
-                  <v n="GeneratesCode">false</v>
-                  <v n="StartElementShowArrow">false</v>
-                  <v n="StartElementCardnality">""</v>
-                  <v n="EndElementCardnality">""</v>
-                  <v n="EndElementArrowFlag" t="ArrowTypes">Slim</v>
-                  <v n="EndElementShowArrow">true</v>
-                  <v n="StartElementRoleName">""</v>
-                  <v n="EndElementRoleName">""</v>
-                  <v n="UserCreated">true</v>
-                  <v n="GeneratedByCode">false</v>
-                  <v n="AllowRoutingOptimisation">false</v>
-                  <d n="flagTexts" t="Hashtable" ckt="String" cvt="String">
-                    <v>Priority</v>
-                    <v>3</v>
-                  </d>
-                  <v n="Position">-1L</v>
-                  <v n="PositionCounter">1L</v>
-                  <v n="IsModified">false</v>
-                  <v n="ARGBElementColor">0</v>
-                </o>
-                <v>c2cb57a3-218c-4c6b-89e7-3f3547cb45bc</v>
-                <o>
-                  <v n="HasGraphicalRepresentation">true</v>
-                  <v n="StartUMLElement">{73277216-de9b-49fb-b8bc-bb0ff8b88c9a}</v>
-                  <v n="HighlightedLine">false</v>
-                  <v n="ZOrder">250U</v>
-                  <v n="SpecialHandling">false</v>
-                  <v n="ActionLocalVariableName">""</v>
-                  <v n="ActionParametersString">""</v>
-                  <v n="ActionName">""</v>
-                  <v n="ActionText">""</v>
-                  <v n="InjectedActionCode">""</v>
-                  <v n="ActionTextLength">100</v>
-                  <v n="ConditionText">"eMode = E_StewartMode.SIMULATION"</v>
-                  <v n="LengthConditionText">100</v>
-                  <v n="RelationID">32</v>
-                  <v n="TriggerlessStatechartTransition">true</v>
-                  <v n="EndUMLElement">{fa206268-213c-4c42-8b42-8322357a29ba}</v>
-                  <o n="UMLRelationVisualisation" t="UMLRelationVisualisation">
-                    <v n="RelationID">{c2cb57a3-218c-4c6b-89e7-3f3547cb45bc}</v>
-                    <v n="FlagPosition" t="Double">0.5</v>
-                    <d n="flagsX" t="Hashtable" ckt="String" cvt="Int32">
-                      <v>ConditionPosition</v>
-                      <v>-40</v>
-                      <v>ActionPosition</v>
-                      <v>-50</v>
-                    </d>
                     <d n="flagsY" t="Hashtable" ckt="String" cvt="Int32">
                       <v>ConditionPosition</v>
-                      <v>0</v>
+                      <v>25</v>
                       <v>ActionPosition</v>
-                      <v>-30</v>
+                      <v>20</v>
                     </d>
                     <o n="StartAnchor" t="UMLAnchorPoint">
                       <v n="AnchorID">0</v>
-                      <v n="AnchorLeftPosition">501</v>
-                      <v n="AnchorTopPosition">534</v>
-                      <v n="AnchorRelationID">{c2cb57a3-218c-4c6b-89e7-3f3547cb45bc}</v>
+                      <v n="AnchorLeftPosition">1173</v>
+                      <v n="AnchorTopPosition">644</v>
+                      <v n="AnchorRelationID">{bc23480c-ec6c-4634-823a-89a425614cd8}</v>
                       <v n="StartAnchor">true</v>
                       <v n="EndAnchor">false</v>
                       <v n="AnchorDockedState" t="Docked">NotDocked</v>
                     </o>
                     <o n="EndAnchor" t="UMLAnchorPoint">
                       <v n="AnchorID">2</v>
-                      <v n="AnchorLeftPosition">221</v>
-                      <v n="AnchorTopPosition">604</v>
-                      <v n="AnchorRelationID">{c2cb57a3-218c-4c6b-89e7-3f3547cb45bc}</v>
+                      <v n="AnchorLeftPosition">1007</v>
+                      <v n="AnchorTopPosition">700</v>
+                      <v n="AnchorRelationID">{bc23480c-ec6c-4634-823a-89a425614cd8}</v>
                       <v n="StartAnchor">false</v>
                       <v n="EndAnchor">true</v>
                       <v n="AnchorDockedState" t="Docked">NotDocked</v>
@@ -1966,9 +2483,9 @@ SIMULATION:INT:=12;
                       <v>1</v>
                       <o>
                         <v n="AnchorID">1</v>
-                        <v n="AnchorLeftPosition">221</v>
-                        <v n="AnchorTopPosition">534</v>
-                        <v n="AnchorRelationID">{c2cb57a3-218c-4c6b-89e7-3f3547cb45bc}</v>
+                        <v n="AnchorLeftPosition">1173</v>
+                        <v n="AnchorTopPosition">700</v>
+                        <v n="AnchorRelationID">{bc23480c-ec6c-4634-823a-89a425614cd8}</v>
                         <v n="StartAnchor">false</v>
                         <v n="EndAnchor">false</v>
                         <v n="AnchorDockedState" t="Docked">NotDocked</v>
@@ -1977,181 +2494,11 @@ SIMULATION:INT:=12;
                     <v n="RelationIsLinear">true</v>
                     <v n="RelationIsFreeHand">false</v>
                   </o>
-                  <v n="ReferenceGuid">{c2cb57a3-218c-4c6b-89e7-3f3547cb45bc}</v>
-                  <v n="RelationGuid">{c2cb57a3-218c-4c6b-89e7-3f3547cb45bc}</v>
+                  <v n="ReferenceGuid">{bc23480c-ec6c-4634-823a-89a425614cd8}</v>
+                  <v n="RelationGuid">{bc23480c-ec6c-4634-823a-89a425614cd8}</v>
                   <v n="RelationName">""</v>
                   <n n="RelationStereotypes" />
                   <v n="RelationType" t="RelationTypes">Transition</v>
-                  <v n="IsReferenceTo">false</v>
-                  <v n="StartElementArrowFlag" t="ArrowTypes">Slim</v>
-                  <v n="Priority">2</v>
-                  <v n="GeneratesCode">false</v>
-                  <v n="StartElementShowArrow">false</v>
-                  <v n="StartElementCardnality">""</v>
-                  <v n="EndElementCardnality">""</v>
-                  <v n="EndElementArrowFlag" t="ArrowTypes">Slim</v>
-                  <v n="EndElementShowArrow">true</v>
-                  <v n="StartElementRoleName">""</v>
-                  <v n="EndElementRoleName">""</v>
-                  <v n="UserCreated">true</v>
-                  <v n="GeneratedByCode">false</v>
-                  <v n="AllowRoutingOptimisation">false</v>
-                  <d n="flagTexts" t="Hashtable" ckt="String" cvt="String">
-                    <v>Priority</v>
-                    <v>2</v>
-                  </d>
-                  <v n="Position">-1L</v>
-                  <v n="PositionCounter">1L</v>
-                  <v n="IsModified">false</v>
-                  <v n="ARGBElementColor">0</v>
-                </o>
-                <v>2b6f464f-6e32-4219-9491-2463a2da4da6</v>
-                <o>
-                  <v n="HasGraphicalRepresentation">true</v>
-                  <v n="StartUMLElement">{5853e86b-95e2-4f38-a240-330dc8df6d39}</v>
-                  <v n="HighlightedLine">false</v>
-                  <v n="ZOrder">250U</v>
-                  <v n="SpecialHandling">false</v>
-                  <v n="ActionLocalVariableName">""</v>
-                  <v n="ActionParametersString">""</v>
-                  <n n="ActionName" />
-                  <v n="ActionText">""</v>
-                  <v n="InjectedActionCode">""</v>
-                  <v n="ActionTextLength">100</v>
-                  <v n="ConditionText">"NOT (eMode = E_StewartMode.GENERATOR)"</v>
-                  <v n="LengthConditionText">100</v>
-                  <v n="RelationID">39</v>
-                  <v n="TriggerlessStatechartTransition">true</v>
-                  <v n="EndUMLElement">{ee59122d-01c0-492f-bbb7-6075eabcb69b}</v>
-                  <o n="UMLRelationVisualisation" t="UMLRelationVisualisation">
-                    <v n="RelationID">{2b6f464f-6e32-4219-9491-2463a2da4da6}</v>
-                    <v n="FlagPosition" t="Double">0.5</v>
-                    <d n="flagsX" t="Hashtable" />
-                    <d n="flagsY" t="Hashtable" />
-                    <o n="StartAnchor" t="UMLAnchorPoint">
-                      <v n="AnchorID">0</v>
-                      <v n="AnchorLeftPosition">801</v>
-                      <v n="AnchorTopPosition">625</v>
-                      <v n="AnchorRelationID">{2b6f464f-6e32-4219-9491-2463a2da4da6}</v>
-                      <v n="StartAnchor">true</v>
-                      <v n="EndAnchor">false</v>
-                      <v n="AnchorDockedState" t="Docked">Left</v>
-                    </o>
-                    <o n="EndAnchor" t="UMLAnchorPoint">
-                      <v n="AnchorID">2</v>
-                      <v n="AnchorLeftPosition">330</v>
-                      <v n="AnchorTopPosition">383</v>
-                      <v n="AnchorRelationID">{2b6f464f-6e32-4219-9491-2463a2da4da6}</v>
-                      <v n="StartAnchor">false</v>
-                      <v n="EndAnchor">true</v>
-                      <v n="AnchorDockedState" t="Docked">NotDocked</v>
-                    </o>
-                    <v n="NextAnchorID">2</v>
-                    <d n="AnchorPoints" t="Hashtable" ckt="Int32" cvt="UMLAnchorPoint">
-                      <v>1</v>
-                      <o>
-                        <v n="AnchorID">1</v>
-                        <v n="AnchorLeftPosition">330</v>
-                        <v n="AnchorTopPosition">625</v>
-                        <v n="AnchorRelationID">{2b6f464f-6e32-4219-9491-2463a2da4da6}</v>
-                        <v n="StartAnchor">false</v>
-                        <v n="EndAnchor">false</v>
-                        <v n="AnchorDockedState" t="Docked">NotDocked</v>
-                      </o>
-                    </d>
-                    <v n="RelationIsLinear">false</v>
-                    <v n="RelationIsFreeHand">false</v>
-                  </o>
-                  <v n="ReferenceGuid">{2b6f464f-6e32-4219-9491-2463a2da4da6}</v>
-                  <v n="RelationGuid">{2b6f464f-6e32-4219-9491-2463a2da4da6}</v>
-                  <v n="RelationName">""</v>
-                  <n n="RelationStereotypes" />
-                  <v n="RelationType" t="RelationTypes">Transition</v>
-                  <v n="IsReferenceTo">false</v>
-                  <v n="StartElementArrowFlag" t="ArrowTypes">Slim</v>
-                  <v n="Priority">1</v>
-                  <v n="GeneratesCode">false</v>
-                  <v n="StartElementShowArrow">false</v>
-                  <v n="StartElementCardnality">""</v>
-                  <v n="EndElementCardnality">""</v>
-                  <v n="EndElementArrowFlag" t="ArrowTypes">Slim</v>
-                  <v n="EndElementShowArrow">true</v>
-                  <v n="StartElementRoleName">""</v>
-                  <v n="EndElementRoleName">""</v>
-                  <v n="UserCreated">true</v>
-                  <v n="GeneratedByCode">false</v>
-                  <v n="AllowRoutingOptimisation">false</v>
-                  <d n="flagTexts" t="Hashtable" ckt="String" cvt="String">
-                    <v>Priority</v>
-                    <v>1</v>
-                  </d>
-                  <v n="Position">-1L</v>
-                  <v n="PositionCounter">1L</v>
-                  <v n="IsModified">false</v>
-                  <v n="ARGBElementColor">0</v>
-                </o>
-                <v>b916ffcf-86cf-4922-b33d-62dd98fd491e</v>
-                <o>
-                  <v n="HasGraphicalRepresentation">true</v>
-                  <v n="StartUMLElement">{49d8c493-e130-498c-8290-94cd04bb637c}</v>
-                  <v n="HighlightedLine">true</v>
-                  <v n="ZOrder">262U</v>
-                  <v n="SpecialHandling">false</v>
-                  <v n="ActionLocalVariableName">""</v>
-                  <v n="ActionParametersString">""</v>
-                  <n n="ActionName" />
-                  <v n="ActionText">""</v>
-                  <v n="InjectedActionCode">""</v>
-                  <v n="ActionTextLength">100</v>
-                  <v n="ConditionText">""</v>
-                  <v n="LengthConditionText">100</v>
-                  <v n="RelationID">2</v>
-                  <v n="TriggerlessStatechartTransition">true</v>
-                  <v n="EndUMLElement">{dd41abb1-cf8c-4daa-a515-0826b419d6de}</v>
-                  <o n="UMLRelationVisualisation" t="UMLRelationVisualisation">
-                    <v n="RelationID">{b916ffcf-86cf-4922-b33d-62dd98fd491e}</v>
-                    <v n="FlagPosition" t="Double">0.5</v>
-                    <d n="flagsX" t="Hashtable" />
-                    <d n="flagsY" t="Hashtable" />
-                    <o n="StartAnchor" t="UMLAnchorPoint">
-                      <v n="AnchorID">0</v>
-                      <v n="AnchorLeftPosition">601</v>
-                      <v n="AnchorTopPosition">192</v>
-                      <v n="AnchorRelationID">{b916ffcf-86cf-4922-b33d-62dd98fd491e}</v>
-                      <v n="StartAnchor">true</v>
-                      <v n="EndAnchor">false</v>
-                      <v n="AnchorDockedState" t="Docked">NotDocked</v>
-                    </o>
-                    <o n="EndAnchor" t="UMLAnchorPoint">
-                      <v n="AnchorID">2</v>
-                      <v n="AnchorLeftPosition">561</v>
-                      <v n="AnchorTopPosition">224</v>
-                      <v n="AnchorRelationID">{b916ffcf-86cf-4922-b33d-62dd98fd491e}</v>
-                      <v n="StartAnchor">false</v>
-                      <v n="EndAnchor">true</v>
-                      <v n="AnchorDockedState" t="Docked">NotDocked</v>
-                    </o>
-                    <v n="NextAnchorID">2</v>
-                    <d n="AnchorPoints" t="Hashtable" ckt="Int32" cvt="UMLAnchorPoint">
-                      <v>1</v>
-                      <o>
-                        <v n="AnchorID">1</v>
-                        <v n="AnchorLeftPosition">561</v>
-                        <v n="AnchorTopPosition">192</v>
-                        <v n="AnchorRelationID">{b916ffcf-86cf-4922-b33d-62dd98fd491e}</v>
-                        <v n="StartAnchor">false</v>
-                        <v n="EndAnchor">false</v>
-                        <v n="AnchorDockedState" t="Docked">NotDocked</v>
-                      </o>
-                    </d>
-                    <v n="RelationIsLinear">false</v>
-                    <v n="RelationIsFreeHand">false</v>
-                  </o>
-                  <v n="ReferenceGuid">{b916ffcf-86cf-4922-b33d-62dd98fd491e}</v>
-                  <v n="RelationGuid">{b916ffcf-86cf-4922-b33d-62dd98fd491e}</v>
-                  <v n="RelationName">""</v>
-                  <n n="RelationStereotypes" />
-                  <v n="RelationType" t="RelationTypes">CompletionTransition</v>
                   <v n="IsReferenceTo">false</v>
                   <v n="StartElementArrowFlag" t="ArrowTypes">Slim</v>
                   <v n="Priority">1</v>
@@ -2196,8 +2543,18 @@ SIMULATION:INT:=12;
               </o>
               <v n="IsFastStateDiagram">false</v>
               <l n="StereoTypeProfile" t="ArrayList" />
-              <v n="RelationRoleID">45</v>
+              <v n="RelationRoleID">48</v>
               <d n="PositionSerialization" t="Hashtable" ckt="Int64" cvt="Guid">
+                <v>52</v>
+                <v>9db889f9-8d1a-440e-a22c-5ba0d5d7cc3e</v>
+                <v>51</v>
+                <v>ffb6e2e9-64bc-4cf1-a6b2-65c9e36d4ee7</v>
+                <v>50</v>
+                <v>3ed5ca2a-d9b0-444b-b347-b6917e5ac7f9</v>
+                <v>49</v>
+                <v>4e5e080a-fccb-4078-89e3-8ba156a63a91</v>
+                <v>48</v>
+                <v>4e5e080a-fccb-4078-89e3-8ba156a63a91</v>
                 <v>47</v>
                 <v>cb13c4e0-3a5a-42d9-bc1a-e2c20df2dbb5</v>
                 <v>46</v>
@@ -2423,7 +2780,49 @@ eta_tt[1] := REAL_TO_LREAL(rxUdp.Actual_platform_acceleration_sway);
 eta_tt[2] := REAL_TO_LREAL(rxUdp.Actual_platform_acceleration_heave);
 eta_tt[3] := REAL_TO_LREAL(rxUdp.Actual_platform_acceleration_roll);
 eta_tt[4] := REAL_TO_LREAL(rxUdp.Actual_platform_acceleration_pitch);
-eta_tt[5] := REAL_TO_LREAL(rxUdp.Actual_platform_acceleration_yaw);]]></ST>
+eta_tt[5] := REAL_TO_LREAL(rxUdp.Actual_platform_acceleration_yaw);
+
+// Update global Hmi data
+IF bActive THEN
+	pTxHmi^.status := 0;
+ELSE
+	pTxHmi^.status := -1;
+END_IF
+
+pTxHmi^.eta[0] := rxUdp.Actual_platform_position_surge;
+pTxHmi^.eta[1] := rxUdp.Actual_platform_position_sway;
+pTxHmi^.eta[2] := rxUdp.Actual_platform_position_heave;
+pTxHmi^.eta[3] := rxUdp.Actual_platform_position_roll;
+pTxHmi^.eta[4] := rxUdp.Actual_platform_position_pitch;
+pTxHmi^.eta[5] := rxUdp.Actual_platform_position_yaw;
+
+pTxHmi^.etaRef[0] := rxUdp.Platform_setpoint_surge;
+pTxHmi^.etaRef[1] := rxUdp.Platform_setpoint_sway;
+pTxHmi^.etaRef[2] := rxUdp.Platform_setpoint_heave;
+pTxHmi^.etaRef[3] := rxUdp.Platform_setpoint_roll;
+pTxHmi^.etaRef[4] := rxUdp.Platform_setpoint_pitch;
+pTxHmi^.etaRef[5] := rxUdp.Platform_setpoint_yaw;
+
+pTxHmi^.etaSim[0] := LREAL_TO_REAL(etaSim[0]);
+pTxHmi^.etaSim[1] := LREAL_TO_REAL(etaSim[1]);
+pTxHmi^.etaSim[2] := LREAL_TO_REAL(etaSim[2]);
+pTxHmi^.etaSim[3] := LREAL_TO_REAL(etaSim[3]);
+pTxHmi^.etaSim[4] := LREAL_TO_REAL(etaSim[4]);
+pTxHmi^.etaSim[5] := LREAL_TO_REAL(etaSim[5]);
+
+pTxHmi^.etaSine[0] := LREAL_TO_REAL(etaSine[0]);
+pTxHmi^.etaSine[1] := LREAL_TO_REAL(etaSine[1]);
+pTxHmi^.etaSine[2] := LREAL_TO_REAL(etaSine[2]);
+pTxHmi^.etaSine[3] := LREAL_TO_REAL(etaSine[3]);
+pTxHmi^.etaSine[4] := LREAL_TO_REAL(etaSine[4]);
+pTxHmi^.etaSine[5] := LREAL_TO_REAL(etaSine[5]);
+
+pTxHmi^.cyl[0] := rxUdp.Actual_position_actuator_1;
+pTxHmi^.cyl[1] := rxUdp.Actual_position_actuator_2;
+pTxHmi^.cyl[2] := rxUdp.Actual_position_actuator_3;
+pTxHmi^.cyl[3] := rxUdp.Actual_position_actuator_4;
+pTxHmi^.cyl[4] := rxUdp.Actual_position_actuator_5;
+pTxHmi^.cyl[5] := rxUdp.Actual_position_actuator_6;]]></ST>
       </Implementation>
     </Method>
     <Method Name="FB_exit" Id="{9bed94a0-b2f9-4c8b-9085-b30806c38f7e}">
@@ -2496,51 +2895,9 @@ VAR
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// Apply generator input
-IF bExecute THEN
-	// Calculate generator input 
-	FOR i := 0 TO 5 DO
-		// Generate sine wave
-		u[i] := A[i]*SIN(omega[i]*t + phi[i]);
-		u_t[i] := omega[i]*A[i]*COS(omega[i]*t + phi[i]);
-		u_tt[i] := -omega[i]*omega[i]*A[i]*SIN(omega[i]*t + phi[i]);
-	END_FOR
-	
-	// Increment Time
-	t := t + Ts;
-	
-	eCmnd := E_StewartCommand.TO_ENGAGED;
-	
-ELSE
-	// Read Sine Paramters when not enganged
-	FOR i := 0 TO 5 DO
-		A[i] := LIMIT(uMin[i], sineAmplitude[i], uMax[i]);
-		omega[i] := sineOmega[i];
-		phi[i] := sinePhase[i];
-	END_FOR
-	
-	// Reset time
-	t := 0.0;
-
-	eCmnd := E_StewartCommand.TO_NEUTRAL;
-
-END_IF
-
-]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="ModeCheck_DO" Id="{a39a77ba-2cc3-4587-a018-d8ce79cb4e47}">
-      <Declaration><![CDATA[METHOD PRIVATE ModeCheck_DO : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[eMode := E_StewartMode.SETTLED;
-eCmnd := E_StewartCommand.TO_SETTLED;
-
-Execute();
-
-
+        <ST><![CDATA[// Apply sine generator input
+u := etaSim;
+eCmnd := E_StewartCommand.TO_ENGAGED;
 ]]></ST>
       </Implementation>
     </Method>
@@ -2582,25 +2939,53 @@ END_FOR]]></ST>
       <Declaration><![CDATA[METHOD PRIVATE SIMULATION_DO : BOOL
 VAR_INPUT
 END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Apply simulator output
+u := etaSim;
+eCmnd := E_StewartCommand.TO_ENGAGED;
+			
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SineWaveGenerator" Id="{9fd22f8a-8763-4e5d-bf45-13e24d1d6d73}">
+      <Declaration><![CDATA[METHOD PRIVATE SineWaveGenerator
+VAR_INPUT
+END_VAR
 VAR
-	i : INT;
+	i : UINT;
+	A : ARRAY [0..5] OF LREAL;
+	omega : ARRAY [0..5] OF LREAL;
+	phi : ARRAY [0..5] OF LREAL;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// Ramp on and off simulation signal
-IF bExecute THEN
-	// Move according to WaveSimulator output
-	FOR i := 0 TO 5 DO
-		u[i] := etaSim[i];
-	END_FOR
+        <ST><![CDATA[FOR i := 0 TO 5 DO
+	// Generate sine wave
+	A[i] := LIMIT(uMin[i], sineAmplitude[i], uMax[i]);
+	omega[i] := sineOmega[i];
+	phi[i] := sinePhase[i];
 	
-	eCmnd := E_StewartCommand.TO_ENGAGED;
+	// Sine signals
+	etaSine[i] := A[i]*SIN(omega[i]*t + phi[i]);
 	
-ELSE
-	eCmnd := E_StewartCommand.TO_NEUTRAL;
+	// Increment Time
+	t := t + Ts;
+END_FOR]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="StatusCheck_DO" Id="{a39a77ba-2cc3-4587-a018-d8ce79cb4e47}">
+      <Declaration><![CDATA[METHOD PRIVATE StatusCheck_DO : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[eMode := E_StewartMode.SETTLED;
+eCmnd := E_StewartCommand.TO_SETTLED;
 
-END_IF
-		
+Execute();
+
 
 ]]></ST>
       </Implementation>
@@ -2633,45 +3018,35 @@ txUdp.PHI_EXTRA_DDOT 	:= LREAL_TO_REAL( u_tt[3] );
 txUdp.THETA_EXTRA_DDOT 	:= LREAL_TO_REAL( u_tt[4] );
 txUdp.PSI_EXTRA_DDOT 	:= LREAL_TO_REAL( u_tt[5] );
 
+// Execute SineWaveGenerator
+SineWaveGenerator();
+
 // Execute Main thread 
 Execute();
 
 
 
-// Update global Hmi data
-IF bActive THEN
-	pTxHmi^.status := 0;
-ELSE
-	pTxHmi^.status := -1;
-END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="STOPP_DO" Id="{c0f5e363-81aa-4e1d-ba41-5ee852d3c92a}">
+      <Declaration><![CDATA[METHOD PRIVATE STOPP_DO : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Got to settled in case of stop
+eMode := E_StewartMode.SETTLED;
+eCmnd := E_StewartCommand.TO_SETTLED;
+	 
+// Execute main thread
+Execute();
 
-pTxHmi^.eta[0] := rxUdp.Actual_platform_position_surge;
-pTxHmi^.eta[1] := rxUdp.Actual_platform_position_sway;
-pTxHmi^.eta[2] := rxUdp.Actual_platform_position_heave;
-pTxHmi^.eta[3] := rxUdp.Actual_platform_position_roll;
-pTxHmi^.eta[4] := rxUdp.Actual_platform_position_pitch;
-pTxHmi^.eta[5] := rxUdp.Actual_platform_position_yaw;
-
-pTxHmi^.eta_ref[0] := rxUdp.Platform_setpoint_surge;
-pTxHmi^.eta_ref[1] := rxUdp.Platform_setpoint_sway;
-pTxHmi^.eta_ref[2] := rxUdp.Platform_setpoint_heave;
-pTxHmi^.eta_ref[3] := rxUdp.Platform_setpoint_roll;
-pTxHmi^.eta_ref[4] := rxUdp.Platform_setpoint_pitch;
-pTxHmi^.eta_ref[5] := rxUdp.Platform_setpoint_yaw;
-
-pTxHmi^.eta_sim[0] := LREAL_TO_REAL(etaSim[0]);
-pTxHmi^.eta_sim[1] := LREAL_TO_REAL(etaSim[1]);
-pTxHmi^.eta_sim[2] := LREAL_TO_REAL(etaSim[2]);
-pTxHmi^.eta_sim[3] := LREAL_TO_REAL(etaSim[3]);
-pTxHmi^.eta_sim[4] := LREAL_TO_REAL(etaSim[4]);
-pTxHmi^.eta_sim[5] := LREAL_TO_REAL(etaSim[5]);
-
-pTxHmi^.cyl[0] := rxUdp.Actual_position_actuator_1;
-pTxHmi^.cyl[1] := rxUdp.Actual_position_actuator_2;
-pTxHmi^.cyl[2] := rxUdp.Actual_position_actuator_3;
-pTxHmi^.cyl[3] := rxUdp.Actual_position_actuator_4;
-pTxHmi^.cyl[4] := rxUdp.Actual_position_actuator_5;
-pTxHmi^.cyl[5] := rxUdp.Actual_position_actuator_6;]]></ST>
+// Reset stop
+IF (eStatus = E_StewartStatus.SYSTEM_OK) AND bReset THEN
+	bStop := FALSE;
+	
+END_IF]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_StewartInterface.ERROR_DO">
@@ -2710,6 +3085,11 @@ pTxHmi^.cyl[5] := rxUdp.Actual_position_actuator_6;]]></ST>
       <LineId Id="5" Count="0" />
       <LineId Id="41" Count="20" />
       <LineId Id="40" Count="0" />
+      <LineId Id="80" Count="27" />
+      <LineId Id="123" Count="5" />
+      <LineId Id="122" Count="0" />
+      <LineId Id="108" Count="5" />
+      <LineId Id="79" Count="0" />
     </LineIds>
     <LineIds Name="FB_StewartInterface.FB_exit">
       <LineId Id="6" Count="0" />
@@ -2723,35 +3103,9 @@ pTxHmi^.cyl[5] := rxUdp.Actual_position_actuator_6;]]></ST>
     </LineIds>
     <LineIds Name="FB_StewartInterface.GENERATOR_DO">
       <LineId Id="8" Count="0" />
-      <LineId Id="5" Count="0" />
-      <LineId Id="16" Count="0" />
-      <LineId Id="6" Count="0" />
-      <LineId Id="36" Count="0" />
-      <LineId Id="14" Count="0" />
-      <LineId Id="37" Count="1" />
-      <LineId Id="15" Count="0" />
-      <LineId Id="25" Count="2" />
-      <LineId Id="10" Count="0" />
-      <LineId Id="21" Count="2" />
-      <LineId Id="46" Count="0" />
-      <LineId Id="44" Count="0" />
-      <LineId Id="42" Count="1" />
-      <LineId Id="39" Count="0" />
-      <LineId Id="45" Count="0" />
-      <LineId Id="47" Count="2" />
-      <LineId Id="40" Count="0" />
-      <LineId Id="24" Count="0" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="7" Count="0" />
-      <LineId Id="19" Count="1" />
-    </LineIds>
-    <LineIds Name="FB_StewartInterface.ModeCheck_DO">
-      <LineId Id="6" Count="0" />
-      <LineId Id="9" Count="0" />
-      <LineId Id="11" Count="0" />
-      <LineId Id="10" Count="0" />
-      <LineId Id="7" Count="1" />
-      <LineId Id="5" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="57" Count="0" />
+      <LineId Id="20" Count="0" />
     </LineIds>
     <LineIds Name="FB_StewartInterface.NEUTRAL_DO">
       <LineId Id="11" Count="0" />
@@ -2767,15 +3121,28 @@ pTxHmi^.cyl[5] := rxUdp.Actual_position_actuator_6;]]></ST>
     </LineIds>
     <LineIds Name="FB_StewartInterface.SIMULATION_DO">
       <LineId Id="28" Count="0" />
-      <LineId Id="56" Count="0" />
-      <LineId Id="67" Count="2" />
-      <LineId Id="66" Count="0" />
       <LineId Id="70" Count="0" />
-      <LineId Id="57" Count="4" />
-      <LineId Id="55" Count="0" />
-      <LineId Id="65" Count="0" />
+      <LineId Id="57" Count="1" />
       <LineId Id="21" Count="0" />
       <LineId Id="13" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_StewartInterface.SineWaveGenerator">
+      <LineId Id="9" Count="1" />
+      <LineId Id="24" Count="1" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="27" Count="2" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_StewartInterface.StatusCheck_DO">
+      <LineId Id="6" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="7" Count="1" />
+      <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_StewartInterface.Stewart_DO">
       <LineId Id="131" Count="5" />
@@ -2784,13 +3151,27 @@ pTxHmi^.cyl[5] := rxUdp.Actual_position_actuator_6;]]></ST>
       <LineId Id="139" Count="0" />
       <LineId Id="147" Count="5" />
       <LineId Id="146" Count="0" />
+      <LineId Id="157" Count="0" />
+      <LineId Id="156" Count="0" />
+      <LineId Id="158" Count="0" />
       <LineId Id="137" Count="0" />
       <LineId Id="129" Count="0" />
       <LineId Id="87" Count="0" />
       <LineId Id="99" Count="0" />
       <LineId Id="77" Count="0" />
-      <LineId Id="18" Count="33" />
+      <LineId Id="18" Count="0" />
       <LineId Id="17" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_StewartInterface.STOPP_DO">
+      <LineId Id="11" Count="2" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="21" Count="1" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="23" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

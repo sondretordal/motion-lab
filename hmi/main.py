@@ -9,6 +9,7 @@ from src.hmi import *
 def main():
     app = QApplication(sys.argv)
     window = GUI()
+    window.show()
     sys.exit(app.exec_())
 
 #Application startup

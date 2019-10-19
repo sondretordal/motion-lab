@@ -1,0 +1,1 @@
+pyuic5 -x src/gui.ui -o src/gui.py && python main.py
