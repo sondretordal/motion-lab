@@ -61,7 +61,6 @@ def callback3(handle, name, timestamp, value):
     signals.c.emit(value)
 
 
-
 class GUI(QMainWindow, Ui_main):
     _ampEM1500 = []
 
