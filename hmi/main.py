@@ -1,7 +1,6 @@
 # Add subfolders to PYTHONPATH
 import sys
 from src.hmi import *
-from AdsMotionLab import AdsMotionLab
 
 
 # Main function

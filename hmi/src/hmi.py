@@ -7,6 +7,7 @@ import time
 import pyads
 import numpy as np
 import ctypes
+from ctypes import sizeof
 import json
 from scipy.optimize import curve_fit
 
@@ -15,7 +16,6 @@ from src.datastructures import TxHmi, RxHmi
 from src.gui import Ui_main
 from src.opengl import MotionLabVisualizer
 
-from src.StewartPlattform import StewartPlattform
 
 # Motionlab pybind module
 from lib import motionlab as ml
@@ -24,6 +24,43 @@ from lib import motionlab as ml
 pg.setConfigOption('background', 'w')
 pg.setConfigOption('foreground', 'k')
 pg.setConfigOptions(antialias=True)
+
+# PyQt signal
+class Signals(QObject):
+    a = pyqtSignal(float)
+    b = pyqtSignal(int)
+    c = pyqtSignal(object)
+
+    def __init__(self, parent=None):
+        super(Signals, self).__init__(parent)
+
+        # self.a.emit()
+
+# Signals class
+signals = Signals()
+
+plc2 = pyads.Connection('192.168.90.150.1.1', 851)
+
+
+
+
+@plc2.notification(pyads.PLCTYPE_REAL)
+def callback(handle, name, timestamp, value):
+    # Emit value to signal class
+    signals.a.emit(value)
+    
+@plc2.notification(pyads.PLCTYPE_DINT)
+def callback2(handle, name, timestamp, value):
+    # Emit value to signal class
+    signals.b.emit(value)
+
+@plc2.notification(pyads.PLCTYPE_ARR_LREAL(2))
+def callback3(handle, name, timestamp, value):
+    # Emit value to signal class
+    print(value)
+    signals.c.emit(value)
+
+
 
 class GUI(QMainWindow, Ui_main):
     _ampEM1500 = []
@@ -37,6 +74,29 @@ class GUI(QMainWindow, Ui_main):
         # Start ADS communications
         self.plc = pyads.Connection('192.168.90.150.1.1', 851)
         self.plc.open()
+
+        plc2.open()
+        plc2.add_device_notification(
+            'MAIN.test2',
+            pyads.NotificationAttrib(4),
+            callback
+        )
+
+        plc2.add_device_notification(
+            'MAIN.test',
+            pyads.NotificationAttrib(sizeof(pyads.PLCTYPE_DINT)),
+            callback2
+        )
+
+        plc2.add_device_notification(
+            'MAIN.phi',
+            pyads.NotificationAttrib(sizeof(pyads.PLCTYPE_ARR_LREAL(2))),
+            callback3
+        )
+
+        signals.a.connect(self.emitTest)
+        signals.b.connect(self.emitTest2)
+        signals.c.connect(self.emitTest3)
 
         # Setup plotEM1500
         self.plotEM1500_A = RealTimePlot(self._plotEM1500.addPlot())
@@ -73,6 +133,18 @@ class GUI(QMainWindow, Ui_main):
 
         # Calling the initUI function
         self.initUI()
+
+    @pyqtSlot(float)
+    def emitTest(self, value):
+        print('Emitted value is: '+ str(value))
+        
+    @pyqtSlot(int)
+    def emitTest2(self, value):
+        print('Emitted value is: '+ str(value))
+
+    @pyqtSlot(object)
+    def emitTest3(self, value):
+        print('Emitted value is: '+ str(value))
 
     def connectTabStewart(self, name):
         if name == 'EM1500':
@@ -1250,6 +1322,9 @@ class GUI(QMainWindow, Ui_main):
         # reply = QMessageBox.question(self, 'Message',
         #     "Are you sure to quit?", QMessageBox.Yes |
         # QMessageBox.No, QMessageBox.No)
+
+
+        plc2.close()
 
         reply = QMessageBox.Yes
 
