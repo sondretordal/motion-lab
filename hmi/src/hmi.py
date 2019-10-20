@@ -38,7 +38,6 @@ class GUI(QMainWindow, Ui_main):
         self.plc = pyads.Connection('192.168.90.150.1.1', 851)
         self.plc.open()
 
-
         # Setup plotEM1500
         self.plotEM1500_A = RealTimePlot(self._plotEM1500.addPlot())
         self.plotEM1500_A.plot.setLabel('left', 'Position', 'm')
@@ -49,6 +48,16 @@ class GUI(QMainWindow, Ui_main):
         self.plotEM1500_B.plot.setLabel('left', 'Angle', 'deg')
         self.plotEM1500_B.plot.setYRange(-6.0, 6.0)
         self.plotEM1500_B.add_curves(['r', 'g', 'b'], ['Roll', 'Pitch', 'Yaw'])
+
+        self.plotEM8000_A = RealTimePlot(self._plotEM8000.addPlot())
+        self.plotEM8000_A.plot.setLabel('left', 'Position', 'm')
+        self.plotEM8000_A.plot.setYRange(-0.5, 0.5)
+        self.plotEM8000_A.add_curves(['r', 'g', 'b'], ['Surge', 'Sway', 'Heave'])
+        self._plotEM8000.nextRow()
+        self.plotEM8000_B = RealTimePlot(self._plotEM8000.addPlot())
+        self.plotEM8000_B.plot.setLabel('left', 'Angle', 'deg')
+        self.plotEM8000_B.plot.setYRange(-6.0, 6.0)
+        self.plotEM8000_B.add_curves(['r', 'g', 'b'], ['Roll', 'Pitch', 'Yaw'])
         
         # Sine wave parameters
         self._ampEM1500.append(self._ampEM1500_0)
@@ -57,29 +66,48 @@ class GUI(QMainWindow, Ui_main):
         self._ampEM1500.append(self._ampEM1500_3)
         self._ampEM1500.append(self._ampEM1500_4)
         self._ampEM1500.append(self._ampEM1500_5)
+        
 
         self.connectTabStewart('EM1500')
+        self.connectTabStewart('EM8000')
 
         # Calling the initUI function
         self.initUI()
 
-    def connectTabStewart(self, obj):
+    def connectTabStewart(self, name):
+        if name == 'EM1500':
+            maxSurge = 0.2
+            maxSway = 0.2
+            maxHeave = 0.6
+            maxRoll = 5.0/180*np.pi
+            maxPitch = 5.0/180*np.pi
+            maxYaw = 5.0/180*np.pi
+ 
+        elif name == 'EM8000':
+            maxSurge = 0.4
+            maxSway = 0.4
+            maxHeave = 0.6
+            maxRoll = 10.0/180*np.pi
+            maxPitch = 10.0/180*np.pi
+            maxYaw = 10.0/180*np.pi
+
         # FB_StewartInterface.eMode
-        eval('self._eMode' + obj).currentIndexChanged.connect(
+        eval('self._eMode' + name).currentIndexChanged.connect(
             lambda: (
                 self.plc.write_by_name(
-                    'MAIN.' + obj + '.eMode',
-                    eval('self._eMode' + obj).currentIndex(),
+                    'MAIN.' + name + '.eMode',
+                    eval('self._eMode' + name).currentIndex(),
                     pyads.PLCTYPE_USINT
-                )
+                ),
+                self.toggleSineSettings(name, eval('self._eMode' + name).currentIndex())
             )
         )
 
         # FB_StewartInterface.bStop
-        eval('self._bStop' + obj).clicked.connect(
+        eval('self._bStop' + name).clicked.connect(
             lambda: (
                 self.plc.write_by_name(
-                    'MAIN.' + obj + '.bStop',
+                    'MAIN.' + name + '.bStop',
                     True,
                     pyads.PLCTYPE_BOOL
                 )
@@ -87,39 +115,293 @@ class GUI(QMainWindow, Ui_main):
         )
 
         # FB_StewartInterface.bReset
-        eval('self._bReset' + obj).clicked.connect(
+        eval('self._bReset' + name).clicked.connect(
             lambda: (
                 self.plc.write_by_name(
-                    'MAIN.' + obj + '.bReset',
+                    'MAIN.' + name + '.bReset',
                     True,
                     pyads.PLCTYPE_BOOL
                 ),
-                eval('self._eMode' + obj).setCurrentIndex(0)
+                eval('self._eMode' + name).setCurrentIndex(0)
             )
         )
 
-        # FB_StewartInterface.{sineAmplitude, sineOmega, sinePhase}
-        for i in range(0, 5):
-            self._ampEM1500[i].returnPressed.connect(
-                lambda: (
-                    self.plc.write_by_name(
-                        'MAIN.' + obj + '.sineAmplitude[' + str(i) + ']',
-                        float(self._ampEM1500[i].text()),
-                        pyads.PLCTYPE_LREAL
-                    ),
-                    print(self._ampEM1500[i].text())
+        # FB_StewartInterface.sineAmplitude[0]
+        eval('self._amp' + name + '_0').valueChanged.connect(
+            lambda: (
+                self.plc.write_by_name(
+                    'MAIN.' + name + '.sineAmplitude[0]',
+                    eval('self._amp' + name + '_0').value(),
+                    pyads.PLCTYPE_LREAL
                 )
             )
+        )
+        eval('self._amp' + name + '_0').setMinimum(0.0)
+        eval('self._amp' + name + '_0').setMaximum(maxSurge)
+        eval('self._amp' + name + '_0').setSingleStep(0.01)
         
+        # FB_StewartInterface.sineAmplitude[1]
+        eval('self._amp' + name + '_1').valueChanged.connect(
+            lambda: (
+                self.plc.write_by_name(
+                    'MAIN.' + name + '.sineAmplitude[1]',
+                    eval('self._amp' + name + '_1').value(),
+                    pyads.PLCTYPE_LREAL
+                )
+            )
+        )
+        eval('self._amp' + name + '_1').setMinimum(0.0)
+        eval('self._amp' + name + '_1').setMaximum(maxSway)
+        eval('self._amp' + name + '_1').setSingleStep(0.01)
+
+        # FB_StewartInterface.sineAmplitude[2]
+        eval('self._amp' + name + '_2').valueChanged.connect(
+            lambda: (
+                self.plc.write_by_name(
+                    'MAIN.' + name + '.sineAmplitude[2]',
+                    eval('self._amp' + name + '_2').value(),
+                    pyads.PLCTYPE_LREAL
+                )
+            )
+        )
+        eval('self._amp' + name + '_2').setMinimum(0.0)
+        eval('self._amp' + name + '_2').setMaximum(maxHeave)
+        eval('self._amp' + name + '_2').setSingleStep(0.01)
+
+        # FB_StewartInterface.sineAmplitude[3]
+        eval('self._amp' + name + '_3').valueChanged.connect(
+            lambda: (
+                self.plc.write_by_name(
+                    'MAIN.' + name + '.sineAmplitude[3]',
+                    eval('self._amp' + name + '_3').value()/180.0*np.pi,
+                    pyads.PLCTYPE_LREAL
+                )
+            )
+        )
+        eval('self._amp' + name + '_3').setMinimum(0.0)
+        eval('self._amp' + name + '_3').setMaximum(maxRoll/np.pi*180.0)
+        eval('self._amp' + name + '_3').setSingleStep(0.01)
+
+        # FB_StewartInterface.sineAmplitude[4]
+        eval('self._amp' + name + '_4').valueChanged.connect(
+            lambda: (
+                self.plc.write_by_name(
+                    'MAIN.' + name + '.sineAmplitude[4]',
+                    eval('self._amp' + name + '_4').value()/180.0*np.pi,
+                    pyads.PLCTYPE_LREAL
+                )
+            )
+        )
+        eval('self._amp' + name + '_4').setMinimum(0.0)
+        eval('self._amp' + name + '_4').setMaximum(maxPitch/np.pi*180.0)
+        eval('self._amp' + name + '_4').setSingleStep(0.01)
+
+        # FB_StewartInterface.sineAmplitude[5]
+        eval('self._amp' + name + '_5').valueChanged.connect(
+            lambda: (
+                self.plc.write_by_name(
+                    'MAIN.' + name + '.sineAmplitude[5]',
+                    eval('self._amp' + name + '_5').value()/180.0*np.pi,
+                    pyads.PLCTYPE_LREAL
+                )
+            )
+        )
+        eval('self._amp' + name + '_5').setMinimum(0.0)
+        eval('self._amp' + name + '_5').setMaximum(maxYaw/np.pi*180.0)
+        eval('self._amp' + name + '_5').setSingleStep(0.01)
+
+        # FB_StewartInterface.sineOmega[0]
+        eval('self._freq' + name + '_0').valueChanged.connect(
+            lambda: (
+                self.plc.write_by_name(
+                    'MAIN.' + name + '.sineOmega[0]',
+                    eval('self._freq' + name + '_0').value()*2.0*np.pi,
+                    pyads.PLCTYPE_LREAL
+                )
+            )
+        )
+        eval('self._freq' + name + '_0').setMinimum(0.0)
+        eval('self._freq' + name + '_0').setMaximum(1.0)
+        eval('self._freq' + name + '_0').setSingleStep(0.01)
+
+        # FB_StewartInterface.sineOmega[1]
+        eval('self._freq' + name + '_1').valueChanged.connect(
+            lambda: (
+                self.plc.write_by_name(
+                    'MAIN.' + name + '.sineOmega[1]',
+                    eval('self._freq' + name + '_1').value()*2.0*np.pi,
+                    pyads.PLCTYPE_LREAL
+                )
+            )
+        )
+        eval('self._freq' + name + '_1').setMinimum(0.0)
+        eval('self._freq' + name + '_1').setMaximum(1.0)
+        eval('self._freq' + name + '_1').setSingleStep(0.01)
+
+        # FB_StewartInterface.sineOmega[2]
+        eval('self._freq' + name + '_2').valueChanged.connect(
+            lambda: (
+                self.plc.write_by_name(
+                    'MAIN.' + name + '.sineOmega[2]',
+                    eval('self._freq' + name + '_2').value()*2.0*np.pi,
+                    pyads.PLCTYPE_LREAL
+                )
+            )
+        )
+        eval('self._freq' + name + '_2').setMinimum(0.0)
+        eval('self._freq' + name + '_2').setMaximum(1.0)
+        eval('self._freq' + name + '_2').setSingleStep(0.01)
+
+        # FB_StewartInterface.sineOmega[3]
+        eval('self._freq' + name + '_3').valueChanged.connect(
+            lambda: (
+                self.plc.write_by_name(
+                    'MAIN.' + name + '.sineOmega[3]',
+                    eval('self._freq' + name + '_3').value()*2.0*np.pi,
+                    pyads.PLCTYPE_LREAL
+                )
+            )
+        )
+        eval('self._freq' + name + '_3').setMinimum(0.0)
+        eval('self._freq' + name + '_3').setMaximum(1.0)
+        eval('self._freq' + name + '_3').setSingleStep(0.01)
+
+        # FB_StewartInterface.sineOmega[4]
+        eval('self._freq' + name + '_4').valueChanged.connect(
+            lambda: (
+                self.plc.write_by_name(
+                    'MAIN.' + name + '.sineOmega[4]',
+                    eval('self._freq' + name + '_4').value()*2.0*np.pi,
+                    pyads.PLCTYPE_LREAL
+                )
+            )
+        )
+        eval('self._freq' + name + '_4').setMinimum(0.0)
+        eval('self._freq' + name + '_4').setMaximum(1.0)
+        eval('self._freq' + name + '_4').setSingleStep(0.01)
+
+        # FB_StewartInterface.sineOmega[5]
+        eval('self._freq' + name + '_5').valueChanged.connect(
+            lambda: (
+                self.plc.write_by_name(
+                    'MAIN.' + name + '.sineOmega[5]',
+                    eval('self._freq' + name + '_5').value()*2.0*np.pi,
+                    pyads.PLCTYPE_LREAL
+                )
+            )
+        )
+        eval('self._freq' + name + '_5').setMinimum(0.0)
+        eval('self._freq' + name + '_5').setMaximum(1.0)
+        eval('self._freq' + name + '_5').setSingleStep(0.01)
+
+        # FB_StewartInterface.sinePhase[0]
+        eval('self._phase' + name + '_0').valueChanged.connect(
+            lambda: (
+                self.plc.write_by_name(
+                    'MAIN.' + name + '.sinePhase[0]',
+                    eval('self._phase' + name + '_0').value()/180.0*np.pi,
+                    pyads.PLCTYPE_LREAL
+                )
+            )
+        )
+        eval('self._phase' + name + '_0').setMinimum(0)
+        eval('self._phase' + name + '_0').setMaximum(360)
+        eval('self._phase' + name + '_0').setSingleStep(5)
+
+         # FB_StewartInterface.sinePhase[1]
+        eval('self._phase' + name + '_1').valueChanged.connect(
+            lambda: (
+                self.plc.write_by_name(
+                    'MAIN.' + name + '.sinePhase[1]',
+                    eval('self._phase' + name + '_1').value()/180.0*np.pi,
+                    pyads.PLCTYPE_LREAL
+                )
+            )
+        )
+        eval('self._phase' + name + '_1').setMinimum(0)
+        eval('self._phase' + name + '_1').setMaximum(360)
+        eval('self._phase' + name + '_1').setSingleStep(5)
+
+         # FB_StewartInterface.sinePhase[2]
+        eval('self._phase' + name + '_2').valueChanged.connect(
+            lambda: (
+                self.plc.write_by_name(
+                    'MAIN.' + name + '.sinePhase[2]',
+                    eval('self._phase' + name + '_2').value()/180.0*np.pi,
+                    pyads.PLCTYPE_LREAL
+                )
+            )
+        )
+        eval('self._phase' + name + '_2').setMinimum(0)
+        eval('self._phase' + name + '_2').setMaximum(360)
+        eval('self._phase' + name + '_2').setSingleStep(5)
+
+         # FB_StewartInterface.sinePhase[3]
+        eval('self._phase' + name + '_3').valueChanged.connect(
+            lambda: (
+                self.plc.write_by_name(
+                    'MAIN.' + name + '.sinePhase[3]',
+                    eval('self._phase' + name + '_3').value()/180.0*np.pi,
+                    pyads.PLCTYPE_LREAL
+                )
+            )
+        )
+        eval('self._phase' + name + '_3').setMinimum(0)
+        eval('self._phase' + name + '_3').setMaximum(360)
+        eval('self._phase' + name + '_3').setSingleStep(5)
+
+         # FB_StewartInterface.sinePhase[4]
+        eval('self._phase' + name + '_4').valueChanged.connect(
+            lambda: (
+                self.plc.write_by_name(
+                    'MAIN.' + name + '.sinePhase[4]',
+                    eval('self._phase' + name + '_4').value()/180.0*np.pi,
+                    pyads.PLCTYPE_LREAL
+                )
+            )
+        )
+        eval('self._phase' + name + '_4').setMinimum(0)
+        eval('self._phase' + name + '_4').setMaximum(360)
+        eval('self._phase' + name + '_4').setSingleStep(5)
+
+         # FB_StewartInterface.sinePhase[5]
+        eval('self._phase' + name + '_5').valueChanged.connect(
+            lambda: (
+                self.plc.write_by_name(
+                    'MAIN.' + name + '.sinePhase[5]',
+                    eval('self._phase' + name + '_5').value()/180.0*np.pi,
+                    pyads.PLCTYPE_LREAL
+                )
+            )
+        )
+        eval('self._phase' + name + '_5').setMinimum(0)
+        eval('self._phase' + name + '_5').setMaximum(360)
+        eval('self._phase' + name + '_5').setSingleStep(5)
 
 
-    
-
-
-
+    def toggleSineSettings(self, name, eMode):
         
-    
-        # self.eModeEM8000.currentIndexChanged.connect(lambda: self.eModeChanged('EM8000'))
+        eval('self._amp' + name + '_0').setDisabled(eMode == 3)
+        eval('self._amp' + name + '_1').setDisabled(eMode == 3)
+        eval('self._amp' + name + '_2').setDisabled(eMode == 3)
+        eval('self._amp' + name + '_3').setDisabled(eMode == 3)
+        eval('self._amp' + name + '_4').setDisabled(eMode == 3)
+        eval('self._amp' + name + '_5').setDisabled(eMode == 3)
+
+        eval('self._freq' + name + '_0').setDisabled(eMode == 3)
+        eval('self._freq' + name + '_1').setDisabled(eMode == 3)
+        eval('self._freq' + name + '_2').setDisabled(eMode == 3)
+        eval('self._freq' + name + '_3').setDisabled(eMode == 3)
+        eval('self._freq' + name + '_4').setDisabled(eMode == 3)
+        eval('self._freq' + name + '_5').setDisabled(eMode == 3)
+
+        eval('self._phase' + name + '_0').setDisabled(eMode == 3)
+        eval('self._phase' + name + '_1').setDisabled(eMode == 3)
+        eval('self._phase' + name + '_2').setDisabled(eMode == 3)
+        eval('self._phase' + name + '_3').setDisabled(eMode == 3)
+        eval('self._phase' + name + '_4').setDisabled(eMode == 3)
+        eval('self._phase' + name + '_5').setDisabled(eMode == 3)
+
 
     # Function that initialize all the objects in the UI
     def initUI(self):
@@ -578,13 +860,12 @@ class GUI(QMainWindow, Ui_main):
         self.t = time.time() - self.tStart
 
         # Plot EM1500
-        self.plotEM1500_A.time_range
         plotModeEM1500 = self._plotModeEM1500.currentIndex()
         if plotModeEM1500 == 0:
-            etaEM1500 = txHmi.em1500.etaSine
+            etaEM1500 = txHmi.em1500.etaSim
 
         elif plotModeEM1500 == 1:
-            etaEM1500 = txHmi.em1500.etaSim
+            etaEM1500 = txHmi.em1500.etaSine
 
         else:
             etaEM1500 = np.zeros(6)
@@ -602,6 +883,33 @@ class GUI(QMainWindow, Ui_main):
                 etaEM1500[3]/np.pi*180,
                 etaEM1500[4]/np.pi*180,
                 etaEM1500[5]/np.pi*180,
+            ]
+        )
+
+        # Plot EM8000
+        plotModeEM8000 = self._plotModeEM8000.currentIndex()
+        if plotModeEM8000 == 0:
+            etaEM8000 = txHmi.em8000.etaSim
+
+        elif plotModeEM8000 == 1:
+            etaEM8000 = txHmi.em8000.etaSine
+
+        else:
+            etaEM8000 = np.zeros(6)
+
+        self.plotEM8000_A.update(self.t, 
+            [
+                etaEM8000[0],
+                etaEM8000[1],
+                etaEM8000[2],
+            ]
+        )
+
+        self.plotEM8000_B.update(self.t, 
+            [
+                etaEM8000[3]/np.pi*180,
+                etaEM8000[4]/np.pi*180,
+                etaEM8000[5]/np.pi*180,
             ]
         )
 

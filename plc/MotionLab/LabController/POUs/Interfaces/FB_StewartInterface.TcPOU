@@ -49,14 +49,6 @@ VAR
 	{attribute 'tc_no_symbol'}
 	txUdp : ST_TxUdpStewart;
 	
-	// Sine wave generator settings
-	{attribute 'tc_no_symbol'}
-	A : ARRAY [0..5] OF LREAL;
-	{attribute 'tc_no_symbol'}
-	omega : ARRAY [0..5] OF LREAL;
-	{attribute 'tc_no_symbol'}
-	phi : ARRAY [0..5] OF LREAL;
-	
 	// Stewart setpoint
 	u : ARRAY [0..5] OF LREAL;
 	u_t : ARRAY [0..5] OF LREAL;
@@ -2710,6 +2702,7 @@ VAR
 	nState : UDINT;
 	nStatus : UDINT;
 	nOpMode : UDINT;
+	i: INT;
 END_VAR
 ]]></Declaration>
       <Implementation>
@@ -2719,8 +2712,25 @@ bCycleTimeExceeded := _TaskInfo[fbGetCurrentTaskIdx.index].CycleTimeExceeded;
 nCycleCount := _TaskInfo[fbGetCurrentTaskIdx.index].CycleCount;
 Ts := UDINT_TO_LREAL(_TaskInfo[fbGetCurrentTaskIdx.index].CycleTime/10)/1E6;
 
+// Sine genrator
+FOR i := 0 TO 5 DO
+	// Sine signals
+	etaSine[i] := LIMIT(uMin[i], sineAmplitude[i], uMax[i])*SIN(sineOmega[i]*t + sinePhase[i]);
+	
+END_FOR
+
+// Increment Time
+t := t + Ts;
+
 // Set controls
 txUdp.CMND := eCmnd;
+
+txUdp.X_EXTRA 			:= LREAL_TO_REAL( LIMIT(uMin[0], u[0], uMax[0]) );
+txUdp.Y_EXTRA 			:= LREAL_TO_REAL( LIMIT(uMin[1], u[1], uMax[1]) );
+txUdp.Z_EXTRA 			:= LREAL_TO_REAL( LIMIT(uMin[2], u[2], uMax[2]) );
+txUdp.PHI_EXTRA 		:= LREAL_TO_REAL( LIMIT(uMin[3], u[3], uMax[3]) );
+txUdp.THETA_EXTRA 		:= LREAL_TO_REAL( LIMIT(uMin[4], u[4], uMax[4]) );
+txUdp.PSI_EXTRA 		:= LREAL_TO_REAL( LIMIT(uMin[5], u[5], uMax[5]) );
 
 // Update udpClient
 udpClient();
@@ -2949,32 +2959,6 @@ eCmnd := E_StewartCommand.TO_ENGAGED;
 ]]></ST>
       </Implementation>
     </Method>
-    <Method Name="SineWaveGenerator" Id="{9fd22f8a-8763-4e5d-bf45-13e24d1d6d73}">
-      <Declaration><![CDATA[METHOD PRIVATE SineWaveGenerator
-VAR_INPUT
-END_VAR
-VAR
-	i : UINT;
-	A : ARRAY [0..5] OF LREAL;
-	omega : ARRAY [0..5] OF LREAL;
-	phi : ARRAY [0..5] OF LREAL;
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[FOR i := 0 TO 5 DO
-	// Generate sine wave
-	A[i] := LIMIT(uMin[i], sineAmplitude[i], uMax[i]);
-	omega[i] := sineOmega[i];
-	phi[i] := sinePhase[i];
-	
-	// Sine signals
-	etaSine[i] := A[i]*SIN(omega[i]*t + phi[i]);
-	
-	// Increment Time
-	t := t + Ts;
-END_FOR]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="StatusCheck_DO" Id="{a39a77ba-2cc3-4587-a018-d8ce79cb4e47}">
       <Declaration><![CDATA[METHOD PRIVATE StatusCheck_DO : BOOL
 VAR_INPUT
@@ -2994,32 +2978,13 @@ Execute();
       <Declaration><![CDATA[METHOD PRIVATE Stewart_DO : BOOL
 VAR_INPUT
 END_VAR
-]]></Declaration>
+
+VAR
+	i: INT;
+END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[// Set input data
-txUdp.X_EXTRA 			:= LREAL_TO_REAL( LIMIT(uMin[0], u[0], uMax[0]) );
-txUdp.Y_EXTRA 			:= LREAL_TO_REAL( LIMIT(uMin[1], u[1], uMax[1]) );
-txUdp.Z_EXTRA 			:= LREAL_TO_REAL( LIMIT(uMin[2], u[2], uMax[2]) );
-txUdp.PHI_EXTRA 		:= LREAL_TO_REAL( LIMIT(uMin[3], u[3], uMax[3]) );
-txUdp.THETA_EXTRA 		:= LREAL_TO_REAL( LIMIT(uMin[4], u[4], uMax[4]) );
-txUdp.PSI_EXTRA 		:= LREAL_TO_REAL( LIMIT(uMin[5], u[5], uMax[5]) );
+        <ST><![CDATA[
 
-txUdp.X_EXTRA_DOT 		:= LREAL_TO_REAL( u_t[0] );
-txUdp.Y_EXTRA_DOT 		:= LREAL_TO_REAL( u_t[1] );
-txUdp.Z_EXTRA_DOT 		:= LREAL_TO_REAL( u_t[2] );
-txUdp.PHI_EXTRA_DOT 	:= LREAL_TO_REAL( u_t[3] );
-txUdp.THETA_EXTRA_DOT 	:= LREAL_TO_REAL( u_t[4] );
-txUdp.PSI_EXTRA_DOT 	:= LREAL_TO_REAL( u_t[5] );
-
-txUdp.X_EXTRA_DDOT 		:= LREAL_TO_REAL( u_tt[0] );
-txUdp.Y_EXTRA_DDOT 		:= LREAL_TO_REAL( u_tt[1] );
-txUdp.Z_EXTRA_DDOT 		:= LREAL_TO_REAL( u_tt[2] );
-txUdp.PHI_EXTRA_DDOT 	:= LREAL_TO_REAL( u_tt[3] );
-txUdp.THETA_EXTRA_DDOT 	:= LREAL_TO_REAL( u_tt[4] );
-txUdp.PSI_EXTRA_DDOT 	:= LREAL_TO_REAL( u_tt[5] );
-
-// Execute SineWaveGenerator
-SineWaveGenerator();
 
 // Execute Main thread 
 Execute();
@@ -3068,9 +3033,16 @@ END_IF]]></ST>
     <LineIds Name="FB_StewartInterface.Execute">
       <LineId Id="72" Count="3" />
       <LineId Id="71" Count="0" />
+      <LineId Id="139" Count="0" />
+      <LineId Id="129" Count="0" />
+      <LineId Id="131" Count="6" />
+      <LineId Id="130" Count="0" />
       <LineId Id="70" Count="0" />
       <LineId Id="39" Count="0" />
       <LineId Id="38" Count="0" />
+      <LineId Id="148" Count="0" />
+      <LineId Id="143" Count="4" />
+      <LineId Id="140" Count="0" />
       <LineId Id="37" Count="0" />
       <LineId Id="27" Count="4" />
       <LineId Id="6" Count="0" />
@@ -3126,16 +3098,6 @@ END_IF]]></ST>
       <LineId Id="21" Count="0" />
       <LineId Id="13" Count="0" />
     </LineIds>
-    <LineIds Name="FB_StewartInterface.SineWaveGenerator">
-      <LineId Id="9" Count="1" />
-      <LineId Id="24" Count="1" />
-      <LineId Id="23" Count="0" />
-      <LineId Id="26" Count="0" />
-      <LineId Id="30" Count="0" />
-      <LineId Id="11" Count="0" />
-      <LineId Id="27" Count="2" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
     <LineIds Name="FB_StewartInterface.StatusCheck_DO">
       <LineId Id="6" Count="0" />
       <LineId Id="9" Count="0" />
@@ -3145,15 +3107,8 @@ END_IF]]></ST>
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="FB_StewartInterface.Stewart_DO">
-      <LineId Id="131" Count="5" />
       <LineId Id="130" Count="0" />
-      <LineId Id="140" Count="5" />
-      <LineId Id="139" Count="0" />
-      <LineId Id="147" Count="5" />
       <LineId Id="146" Count="0" />
-      <LineId Id="157" Count="0" />
-      <LineId Id="156" Count="0" />
-      <LineId Id="158" Count="0" />
       <LineId Id="137" Count="0" />
       <LineId Id="129" Count="0" />
       <LineId Id="87" Count="0" />
