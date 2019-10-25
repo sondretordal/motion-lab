@@ -1,14 +1,12 @@
 # Add subfolders to PYTHONPATH
 import sys
-from src.hmi import *
-
+from PyQt5 import QtWidgets
+from src.MotionLab import MotionLab
 
 # Main function
 def main():
-  
-    app = QApplication(sys.argv)
-    window = GUI()
-    window.show()
+    app = QtWidgets.QApplication(sys.argv)
+    motionLab = MotionLab()
 
     sys.exit(app.exec_())
     

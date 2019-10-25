@@ -5,10 +5,10 @@
 {attribute 'strict'}
 TYPE E_StewartStatus :
 (
-	SYSTEM_OK 		:= 16#00000000,
-	WARNING		 	:= 16#00000040,
-	ERROR		 	:= 16#00000080
-) UDINT;
+	SYSTEM_OK := 0,
+	WARNING,
+	ERROR
+) USINT;
 END_TYPE
 ]]></Declaration>
   </DUT>

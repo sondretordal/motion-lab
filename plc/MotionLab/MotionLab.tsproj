@@ -4985,14 +4985,14 @@ External Setpoint Generation:
 					<Vars VarGrpType="1">
 						<Name>MainTask Inputs</Name>
 						<Var>
-							<Name>MAIN.EM8000.etaSim</Name>
+							<Name>MAIN.em8000.etaSim</Name>
 							<Comment>
 								<![CDATA[ Ship simulator data]]>
 							</Comment>
 							<Type GUID="{59CB7A65-AEAB-E588-EB2A-AFE112B8A9C3}">ARRAY [0..5] OF LREAL</Type>
 						</Var>
 						<Var>
-							<Name>MAIN.EM1500.etaSim</Name>
+							<Name>MAIN.em1500.etaSim</Name>
 							<Comment>
 								<![CDATA[ Ship simulator data]]>
 							</Comment>
@@ -5111,12 +5111,12 @@ External Setpoint Generation:
 					</Vars>
 					<InitSymbols>
 						<InitSymbol>
-							<Name>MAIN.EM8000.udpClient.oid</Name>
+							<Name>MAIN.em8000.udpClient.oid</Name>
 							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
 							<Data>20000101</Data>
 						</InitSymbol>
 						<InitSymbol>
-							<Name>MAIN.EM1500.udpClient.oid</Name>
+							<Name>MAIN.em1500.udpClient.oid</Name>
 							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
 							<Data>10000101</Data>
 						</InitSymbol>
@@ -8850,8 +8850,8 @@ External Setpoint Generation:
 		</OwnerA>
 		<OwnerA Name="TIPC^LabController^LabController Instance">
 			<OwnerB Name="TIRC^TcCOM Objects^WaveSimulator">
-				<Link VarA="MainTask Inputs^MAIN.EM1500.etaSim" VarB="Output^em1500.control^eta"/>
-				<Link VarA="MainTask Inputs^MAIN.EM8000.etaSim" VarB="Output^em8000.control^eta"/>
+				<Link VarA="MainTask Inputs^MAIN.em1500.etaSim" VarB="Output^em1500.control"/>
+				<Link VarA="MainTask Inputs^MAIN.em8000.etaSim" VarB="Output^em8000.control"/>
 				<Link VarA="MainTask Outputs^MAIN.lambda" VarB="Input^lambda"/>
 				<Link VarA="MainTask Outputs^MAIN.sigma" VarB="Input^sigma"/>
 				<Link VarA="MainTask Outputs^MAIN.w0" VarB="Input^w0"/>

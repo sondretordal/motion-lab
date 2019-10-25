@@ -6,7 +6,7 @@ VAR_INPUT
 	// Stewart Operation 
 	bStop : BOOL;
 	bReset : BOOL;
-	eMode : E_StewartMode;
+	eModeCmd : E_StewartMode;
 	
 	// Sine Generator Settings
 	sineAmplitude : ARRAY [0..5] OF LREAL;
@@ -1030,7 +1030,7 @@ SIMULATION:INT:=13;
                   <v n="ActionText">""</v>
                   <v n="InjectedActionCode">""</v>
                   <v n="ActionTextLength">100</v>
-                  <v n="ConditionText">"eMode = E_StewartMode.SIMULATION"</v>
+                  <v n="ConditionText">"eModeCmd = E_StewartMode.SIMULATION"</v>
                   <v n="LengthConditionText">100</v>
                   <v n="RelationID">32</v>
                   <v n="TriggerlessStatechartTransition">true</v>
@@ -1294,7 +1294,7 @@ SIMULATION:INT:=13;
                   <v n="ActionText">""</v>
                   <v n="InjectedActionCode">""</v>
                   <v n="ActionTextLength">100</v>
-                  <v n="ConditionText">"NOT (eMode = E_StewartMode.SIMULATION)"</v>
+                  <v n="ConditionText">"NOT (eModeCmd = E_StewartMode.SIMULATION)"</v>
                   <v n="LengthConditionText">100</v>
                   <v n="RelationID">34</v>
                   <v n="TriggerlessStatechartTransition">true</v>
@@ -1385,7 +1385,7 @@ SIMULATION:INT:=13;
                   <v n="ActionText">""</v>
                   <v n="InjectedActionCode">""</v>
                   <v n="ActionTextLength">100</v>
-                  <v n="ConditionText">"NOT (eMode = E_StewartMode.GENERATOR)"</v>
+                  <v n="ConditionText">"NOT (eModeCmd = E_StewartMode.GENERATOR)"</v>
                   <v n="LengthConditionText">100</v>
                   <v n="RelationID">39</v>
                   <v n="TriggerlessStatechartTransition">true</v>
@@ -1838,7 +1838,7 @@ SIMULATION:INT:=13;
                     <v n="FlagPosition" t="Double">0.5</v>
                     <d n="flagsX" t="Hashtable" ckt="String" cvt="Int32">
                       <v>ConditionPosition</v>
-                      <v>-290</v>
+                      <v>-363</v>
                     </d>
                     <d n="flagsY" t="Hashtable" ckt="String" cvt="Int32">
                       <v>ConditionPosition</v>
@@ -1908,7 +1908,7 @@ SIMULATION:INT:=13;
                   <v n="ActionText">""</v>
                   <v n="InjectedActionCode">""</v>
                   <v n="ActionTextLength">100</v>
-                  <v n="ConditionText">"eMode = E_StewartMode.SETTLED"</v>
+                  <v n="ConditionText">"eModeCmd = E_StewartMode.SETTLED"</v>
                   <v n="LengthConditionText">100</v>
                   <v n="RelationID">28</v>
                   <v n="TriggerlessStatechartTransition">true</v>
@@ -1992,7 +1992,7 @@ SIMULATION:INT:=13;
                   <v n="ActionText">""</v>
                   <v n="InjectedActionCode">""</v>
                   <v n="ActionTextLength">100</v>
-                  <v n="ConditionText">"eMode = E_StewartMode.NEUTRAL"</v>
+                  <v n="ConditionText">"eModeCmd = E_StewartMode.NEUTRAL"</v>
                   <v n="LengthConditionText">100</v>
                   <v n="RelationID">26</v>
                   <v n="TriggerlessStatechartTransition">true</v>
@@ -2246,7 +2246,7 @@ SIMULATION:INT:=13;
                   <v n="ActionText">""</v>
                   <v n="InjectedActionCode">""</v>
                   <v n="ActionTextLength">100</v>
-                  <v n="ConditionText">"eMode = E_StewartMode.GENERATOR"</v>
+                  <v n="ConditionText">"eModeCmd = E_StewartMode.GENERATOR"</v>
                   <v n="LengthConditionText">100</v>
                   <v n="RelationID">38</v>
                   <v n="TriggerlessStatechartTransition">true</v>
@@ -2670,6 +2670,112 @@ SIMULATION:INT:=13;
         </XmlArchive>
       </StateChart>
     </Implementation>
+    <Method Name="decode_E_StewartOpMode" Id="{aeed7a95-8ef5-47a2-87d9-187ad2fce3da}">
+      <Declaration><![CDATA[METHOD decode_E_StewartOpMode : E_StewartOpMode
+VAR_INPUT
+	motionStatus : UDINT;
+END_VAR
+VAR
+	mask : UDINT;
+	n : USINT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+mask := 16#FF000000 AND motionStatus;
+n := UDINT_TO_USINT(SHR(mask, 6));
+
+(*
+CASE mask OF
+	16#00000000 :
+		eResult := E_StewartOpMode.MANUAL;
+		
+	16#01000000 :
+		eResult := E_StewartOpMode.NORMAL;
+	
+END_CASE
+*)
+
+
+ ]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="decode_E_StewartState" Id="{e4d78dc9-868d-41d9-8edb-2d85943c11a0}">
+      <Declaration><![CDATA[METHOD PRIVATE decode_E_StewartState : E_StewartState
+VAR_INPUT
+	motionStatus : UDINT;
+END_VAR
+VAR
+	mask : UDINT;
+	eResult : E_StewartState;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// PDF: Motion System Ethernet Interface p.18
+
+mask := 16#0000000F AND motionStatus;
+
+CASE mask OF
+	16#00000000 : 
+		eResult := E_StewartState.TRANSIT;
+		
+	16#00000001 : 
+		eResult := E_StewartState.OFF;
+		
+	16#00000002 : 
+		eResult := E_StewartState.SETTLED;
+		
+	16#00000003 : 
+		eResult := E_StewartState.OIL_HEATING;
+		
+	16#00000004 : 
+		eResult := E_StewartState.NEUTRAL;
+		
+	16#00000005 : 
+		eResult := E_StewartState.NEUTRAL_FREEZE;
+		
+	16#00000008 : 
+		eResult := E_StewartState.ENGAGED;
+		
+	16#00000009 : 
+		eResult := E_StewartState.ENGAGED_FREEZE;
+	
+END_CASE
+
+decode_E_StewartState := eResult;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="decode_E_StewartStatus" Id="{bbaee5fb-4eca-4cf3-9659-16a29517b6f5}">
+      <Declaration><![CDATA[METHOD decode_E_StewartStatus : E_StewartStatus
+VAR_INPUT
+	motionStatus : UDINT;
+END_VAR
+VAR
+	mask : UDINT;
+	eResult : E_StewartStatus;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+mask := 16#000000F0 AND motionStatus;
+
+CASE mask OF
+	16#00000000 :
+		eResult := E_StewartStatus.SYSTEM_OK;
+		
+	16#01000040 :
+		eResult := E_StewartStatus.WARNING;
+		
+	16#01000080 :
+		eResult := E_StewartStatus.ERROR;
+	
+END_CASE
+
+decode_E_StewartStatus := eResult;
+
+ ]]></ST>
+      </Implementation>
+    </Method>
     <Method Name="ERROR_DO" Id="{4a61e0e3-a4c6-4d6d-8f96-df1f66850830}">
       <Declaration><![CDATA[METHOD PRIVATE ERROR_DO : BOOL
 VAR_INPUT
@@ -2678,7 +2784,7 @@ END_VAR
       <Implementation>
         <ST><![CDATA[// Wait for SYSTEM_OK and return to settled
 IF eStatus = E_StewartStatus.SYSTEM_OK THEN
-	eMode := E_StewartMode.SETTLED;
+	eModeCmd := E_StewartMode.SETTLED;
 	eCmnd := E_StewartCommand.TO_SETTLED;
 	bError := FALSE;
 	
@@ -2736,14 +2842,20 @@ txUdp.PSI_EXTRA 		:= LREAL_TO_REAL( LIMIT(uMin[5], u[5], uMax[5]) );
 udpClient();
 
 // Unamsk Motion_Status signal
-nState		 := 16#0000000F AND rxUdp.Motion_Status;
-nStatus		 := 16#000000F0 AND rxUdp.Motion_Status;
-nOpMode 	 := 16#FF000000 AND rxUdp.Motion_Status;
+//nState		 := 16#0000000F AND rxUdp.Motion_Status;
+//nStatus		 := 16#000000F0 AND rxUdp.Motion_Status;
+//nOpMode 	 := 16#FF000000 AND rxUdp.Motion_Status;
+
+// TODO: Fix decoding 
+eState := decode_E_StewartState(rxUdp.Motion_Status);
+eStatus := decode_E_StewartStatus(rxUdp.Motion_Status);
+eOpMode := decode_E_StewartOpMode(rxUdp.Motion_Status);
+
 
 // Copy to strict enum type
-MEMCPY(ADR(eState), ADR(nState), SIZEOF(eState));
-MEMCPY(ADR(eStatus), ADR(nStatus), SIZEOF(eStatus));
-MEMCPY(ADR(eOpMode), ADR(nOpMode), SIZEOF(eOpMode));
+//MEMCPY(ADR(eState), ADR(nState), SIZEOF(eState));
+//MEMCPY(ADR(eStatus), ADR(nStatus), SIZEOF(eStatus));
+//MEMCPY(ADR(eOpMode), ADR(nOpMode), SIZEOF(eOpMode));
 
 // Error/Warning check
 IF (eStatus <> E_StewartStatus.SYSTEM_OK) THEN
@@ -2965,7 +3077,7 @@ VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[eMode := E_StewartMode.SETTLED;
+        <ST><![CDATA[eModeCmd := E_StewartMode.SETTLED;
 eCmnd := E_StewartCommand.TO_SETTLED;
 
 Execute();
@@ -3001,7 +3113,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Got to settled in case of stop
-eMode := E_StewartMode.SETTLED;
+eModeCmd := E_StewartMode.SETTLED;
 eCmnd := E_StewartCommand.TO_SETTLED;
 	 
 // Execute main thread
@@ -3014,6 +3126,45 @@ IF (eStatus = E_StewartStatus.SYSTEM_OK) AND bReset THEN
 END_IF]]></ST>
       </Implementation>
     </Method>
+    <LineIds Name="FB_StewartInterface.decode_E_StewartOpMode">
+      <LineId Id="25" Count="0" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="10" Count="1" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="14" Count="5" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="13" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_StewartInterface.decode_E_StewartState">
+      <LineId Id="7" Count="0" />
+      <LineId Id="41" Count="1" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="11" Count="1" />
+      <LineId Id="16" Count="6" />
+      <LineId Id="24" Count="13" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="38" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_StewartInterface.decode_E_StewartStatus">
+      <LineId Id="27" Count="0" />
+      <LineId Id="10" Count="1" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="14" Count="3" />
+      <LineId Id="23" Count="2" />
+      <LineId Id="18" Count="1" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="13" Count="0" />
+    </LineIds>
     <LineIds Name="FB_StewartInterface.ERROR_DO">
       <LineId Id="15" Count="1" />
       <LineId Id="24" Count="0" />
@@ -3046,7 +3197,12 @@ END_IF]]></ST>
       <LineId Id="37" Count="0" />
       <LineId Id="27" Count="4" />
       <LineId Id="6" Count="0" />
-      <LineId Id="77" Count="0" />
+      <LineId Id="161" Count="0" />
+      <LineId Id="165" Count="0" />
+      <LineId Id="162" Count="0" />
+      <LineId Id="160" Count="0" />
+      <LineId Id="163" Count="0" />
+      <LineId Id="158" Count="1" />
       <LineId Id="69" Count="0" />
       <LineId Id="67" Count="0" />
       <LineId Id="66" Count="0" />
