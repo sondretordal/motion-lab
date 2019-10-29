@@ -5,9 +5,9 @@
 {attribute 'strict'}
 TYPE E_StewartStatus :
 (
-	SYSTEM_OK := 0,
-	WARNING,
-	ERROR
+	SYSTEM_OK 	:= 16#00,
+	WARNING		:= 16#04,
+	ERROR		:= 16#08
 ) USINT;
 END_TYPE
 ]]></Declaration>

@@ -5,14 +5,14 @@
 {attribute 'strict'}
 TYPE E_StewartState :
 (
-	TRANSIT := 0,
-	OFF,
-	SETTLED,
-	OIL_HEATING,
-	NEUTRAL,
-	NEUTRAL_FREEZE,
-	ENGAGED,
-	ENGAGED_FREEZE	
+	TRANSIT 		:= 16#00,
+	OFF				:= 16#01,
+	SETTLED			:= 16#02,
+	OIL_HEATING		:= 16#03,
+	NEUTRAL 		:= 16#04,
+	NEUTRAL_FREEZE	:= 16#05,
+	ENGAGED			:= 16#08,
+	ENGAGED_FREEZE	:= 16#09	
 ) USINT;
 END_TYPE
 ]]></Declaration>

@@ -41,8 +41,8 @@ VAR
 	//remote : FB_RemoteInterface('192.168.90.60', 50060, 50050);
 	
 	// Machinery
-	em8000 : FB_StewartInterface('192.168.90.30', 50030, 50040, ADR(txHmi.em8000));
-	em1500 : FB_StewartInterface('192.168.90.31', 50031, 50041, ADR(txHmi.em1500));
+	em8000 : FB_StewartInterface('192.168.90.30', 50030, 50040);
+	em1500 : FB_StewartInterface('192.168.90.31', 50031, 50041);
 	comau : FB_ComauInterface('192.168.90.32', 50032, 50042, ADR(txHmi.comau));
 	winch : FB_WinchInterface(ADR(txHmi.winch));
 	

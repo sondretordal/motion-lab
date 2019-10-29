@@ -5,8 +5,8 @@
 {attribute 'strict'}
 TYPE E_StewartOpMode :
 (
-	MANUAL := 16#00,
-	NORMAL := 16#01
+	MANUAL 	:= 16#00,
+	NORMAL	:= 16#01
 ) USINT;
 END_TYPE
 ]]></Declaration>

@@ -46,11 +46,11 @@ class MotionLab(QMainWindow, Ui_MainWindow):
         except pyads.ADSError:
             self.plcActive = False
         
-        # Connec equipement to UI
+        # Connect equipement to UI
         if self.plcActive:
             self.em1500 = StewartPlattform(self.plc, self.ui, 'em1500')
 
-        
+
 
         
 
@@ -62,33 +62,8 @@ class MotionLab(QMainWindow, Ui_MainWindow):
         text = open('./src/calib.json').read()
         calib = json.loads(text)
         # self.visualizer = MotionLabVisualizer(calib)
-
-        self.addNotification(
-            'MAIN.val',
-            pyads.PLCTYPE_SINT,
-            self.em1500.eState
-        )
         
-        # Setup plotEM1500
-        self.plotEM1500_A = RealTimePlot(self.ui._plotEM1500.addPlot())
-        self.plotEM1500_A.plot.setLabel('left', 'Position', 'm')
-        self.plotEM1500_A.plot.setYRange(-0.5, 0.5)
-        self.plotEM1500_A.add_curves(['r', 'g', 'b'], ['Surge', 'Sway', 'Heave'])
-        self.ui._plotEM1500.nextRow()
-        self.plotEM1500_B = RealTimePlot(self.ui._plotEM1500.addPlot())
-        self.plotEM1500_B.plot.setLabel('left', 'Angle', 'deg')
-        self.plotEM1500_B.plot.setYRange(-6.0, 6.0)
-        self.plotEM1500_B.add_curves(['r', 'g', 'b'], ['Roll', 'Pitch', 'Yaw'])
-
-        self.plotEM8000_A = RealTimePlot(self.ui._plotEM8000.addPlot())
-        self.plotEM8000_A.plot.setLabel('left', 'Position', 'm')
-        self.plotEM8000_A.plot.setYRange(-0.5, 0.5)
-        self.plotEM8000_A.add_curves(['r', 'g', 'b'], ['Surge', 'Sway', 'Heave'])
-        self.ui._plotEM8000.nextRow()
-        self.plotEM8000_B = RealTimePlot(self.ui._plotEM8000.addPlot())
-        self.plotEM8000_B.plot.setLabel('left', 'Angle', 'deg')
-        self.plotEM8000_B.plot.setYRange(-6.0, 6.0)
-        self.plotEM8000_B.add_curves(['r', 'g', 'b'], ['Roll', 'Pitch', 'Yaw'])
+        
 
 
         self.show()
@@ -115,6 +90,8 @@ class MotionLab(QMainWindow, Ui_MainWindow):
         #     "Are you sure to quit?", QMessageBox.Yes |
         # QMessageBox.No, QMessageBox.No)
         reply = QMessageBox.Yes
+
+        self.em1500.close()
 
         if reply == QMessageBox.Yes:
             
