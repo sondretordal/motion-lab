@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1304</width>
-    <height>894</height>
+    <height>903</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,7 +15,7 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="1">
+    <item row="0" column="0">
      <widget class="QTabWidget" name="tabSelector">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -40,9 +40,1411 @@
       <property name="currentIndex">
        <number>1</number>
       </property>
+      <widget class="QWidget" name="tab_11">
+       <attribute name="title">
+        <string>EM8000</string>
+       </attribute>
+       <widget class="QGroupBox" name="groupBox_33">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>20</y>
+          <width>401</width>
+          <height>81</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Stewart Mode Selector</string>
+        </property>
+        <widget class="QPushButton" name="_bStopEM8000">
+         <property name="geometry">
+          <rect>
+           <x>290</x>
+           <y>30</y>
+           <width>91</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="palette">
+          <palette>
+           <active>
+            <colorrole role="Button">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>255</red>
+               <green>0</green>
+               <blue>0</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </active>
+           <inactive>
+            <colorrole role="Button">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>255</red>
+               <green>0</green>
+               <blue>0</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </inactive>
+           <disabled>
+            <colorrole role="Button">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>255</red>
+               <green>0</green>
+               <blue>0</blue>
+              </color>
+             </brush>
+            </colorrole>
+           </disabled>
+          </palette>
+         </property>
+         <property name="text">
+          <string>STOP</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="_bResetEM8000">
+         <property name="geometry">
+          <rect>
+           <x>180</x>
+           <y>30</y>
+           <width>91</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>RESET</string>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="_eModeEM8000">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>30</y>
+           <width>141</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <item>
+          <property name="text">
+           <string>SETTLED</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>NEUTRAL</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>WAVE SIMULATOR</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>SINE GENERATOR</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>REMOTE</string>
+          </property>
+         </item>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="groupBox_34">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>430</y>
+          <width>401</width>
+          <height>341</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Ship Simulator Settings</string>
+        </property>
+       </widget>
+       <widget class="QGroupBox" name="groupBox_35">
+        <property name="geometry">
+         <rect>
+          <x>430</x>
+          <y>20</y>
+          <width>841</width>
+          <height>751</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Stewart Command Inspector</string>
+        </property>
+        <widget class="QComboBox" name="_plotModeEM8000">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>31</y>
+           <width>131</width>
+           <height>31</height>
+          </rect>
+         </property>
+         <item>
+          <property name="text">
+           <string>WAVE SIMULATOR</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>SINE GENERATOR</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>REMOTE</string>
+          </property>
+         </item>
+        </widget>
+        <widget class="GraphicsLayoutWidget" name="_plotEM8000">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>80</y>
+           <width>821</width>
+           <height>661</height>
+          </rect>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="groupBox_36">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>110</y>
+          <width>401</width>
+          <height>311</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Sine Generator Settings</string>
+        </property>
+        <widget class="QGroupBox" name="groupBox_37">
+         <property name="geometry">
+          <rect>
+           <x>100</x>
+           <y>30</y>
+           <width>81</width>
+           <height>121</height>
+          </rect>
+         </property>
+         <property name="title">
+          <string>Amp [m]</string>
+         </property>
+         <widget class="QDoubleSpinBox" name="_ampEM8000_0">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>30</y>
+            <width>62</width>
+            <height>22</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QDoubleSpinBox" name="_ampEM8000_1">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>60</y>
+            <width>62</width>
+            <height>22</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QDoubleSpinBox" name="_ampEM8000_2">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>90</y>
+            <width>62</width>
+            <height>22</height>
+           </rect>
+          </property>
+         </widget>
+        </widget>
+        <widget class="QGroupBox" name="groupBox_38">
+         <property name="geometry">
+          <rect>
+           <x>200</x>
+           <y>30</y>
+           <width>81</width>
+           <height>121</height>
+          </rect>
+         </property>
+         <property name="title">
+          <string>Freq [Hz]</string>
+         </property>
+         <widget class="QDoubleSpinBox" name="_freqEM8000_0">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>30</y>
+            <width>62</width>
+            <height>22</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QDoubleSpinBox" name="_freqEM8000_1">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>60</y>
+            <width>62</width>
+            <height>22</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QDoubleSpinBox" name="_freqEM8000_2">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>90</y>
+            <width>62</width>
+            <height>22</height>
+           </rect>
+          </property>
+         </widget>
+        </widget>
+        <widget class="QGroupBox" name="groupBox_39">
+         <property name="geometry">
+          <rect>
+           <x>300</x>
+           <y>30</y>
+           <width>81</width>
+           <height>121</height>
+          </rect>
+         </property>
+         <property name="title">
+          <string>Phase [deg]</string>
+         </property>
+         <widget class="QDoubleSpinBox" name="_phaseEM8000_0">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>30</y>
+            <width>62</width>
+            <height>22</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QDoubleSpinBox" name="_phaseEM8000_1">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>60</y>
+            <width>62</width>
+            <height>22</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QDoubleSpinBox" name="_phaseEM8000_2">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>90</y>
+            <width>62</width>
+            <height>22</height>
+           </rect>
+          </property>
+         </widget>
+        </widget>
+        <widget class="QGroupBox" name="groupBox_40">
+         <property name="geometry">
+          <rect>
+           <x>100</x>
+           <y>170</y>
+           <width>81</width>
+           <height>121</height>
+          </rect>
+         </property>
+         <property name="title">
+          <string>Amp [deg]</string>
+         </property>
+         <widget class="QDoubleSpinBox" name="_ampEM8000_3">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>30</y>
+            <width>62</width>
+            <height>22</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QDoubleSpinBox" name="_ampEM8000_4">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>60</y>
+            <width>62</width>
+            <height>22</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QDoubleSpinBox" name="_ampEM8000_5">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>90</y>
+            <width>62</width>
+            <height>22</height>
+           </rect>
+          </property>
+         </widget>
+        </widget>
+        <widget class="QGroupBox" name="groupBox_41">
+         <property name="geometry">
+          <rect>
+           <x>200</x>
+           <y>170</y>
+           <width>81</width>
+           <height>121</height>
+          </rect>
+         </property>
+         <property name="title">
+          <string>Freq [Hz]</string>
+         </property>
+         <widget class="QDoubleSpinBox" name="_freqEM8000_3">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>30</y>
+            <width>62</width>
+            <height>22</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QDoubleSpinBox" name="_freqEM8000_4">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>60</y>
+            <width>62</width>
+            <height>22</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QDoubleSpinBox" name="_freqEM8000_5">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>90</y>
+            <width>62</width>
+            <height>22</height>
+           </rect>
+          </property>
+         </widget>
+        </widget>
+        <widget class="QGroupBox" name="groupBox_42">
+         <property name="geometry">
+          <rect>
+           <x>300</x>
+           <y>170</y>
+           <width>81</width>
+           <height>121</height>
+          </rect>
+         </property>
+         <property name="title">
+          <string>Phase [deg]</string>
+         </property>
+         <widget class="QDoubleSpinBox" name="_phaseEM8000_3">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>30</y>
+            <width>62</width>
+            <height>22</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QDoubleSpinBox" name="_phaseEM8000_4">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>60</y>
+            <width>62</width>
+            <height>22</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QDoubleSpinBox" name="_phaseEM8000_5">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>90</y>
+            <width>62</width>
+            <height>22</height>
+           </rect>
+          </property>
+         </widget>
+        </widget>
+        <widget class="QGroupBox" name="groupBox_43">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>30</y>
+           <width>61</width>
+           <height>261</height>
+          </rect>
+         </property>
+         <property name="title">
+          <string>DOF</string>
+         </property>
+         <widget class="QLabel" name="label_7">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>170</y>
+            <width>51</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Roll:</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_10">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>90</y>
+            <width>51</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Heave:</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_11">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>30</y>
+            <width>51</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Surge:</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_12">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>200</y>
+            <width>51</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Pitch:</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_19">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>60</y>
+            <width>51</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Sway:</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_20">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>230</y>
+            <width>51</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Yaw:</string>
+          </property>
+         </widget>
+        </widget>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tab_8">
+       <attribute name="title">
+        <string>EM1500</string>
+       </attribute>
+       <widget class="QGroupBox" name="groupBox_2">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>351</width>
+          <height>101</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Stewart Operation</string>
+        </property>
+        <widget class="QComboBox" name="em1500_eModeCmd">
+         <property name="geometry">
+          <rect>
+           <x>13</x>
+           <y>30</y>
+           <width>153</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <item>
+          <property name="text">
+           <string>SETTLED</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>NEUTRAL</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>SIMULATION</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>GENERATOR</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>FILE</string>
+          </property>
+         </item>
+        </widget>
+        <widget class="QPushButton" name="em1500_engage">
+         <property name="geometry">
+          <rect>
+           <x>12</x>
+           <y>65</y>
+           <width>155</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>ENGAGE</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="em1500_disengage">
+         <property name="geometry">
+          <rect>
+           <x>180</x>
+           <y>65</y>
+           <width>155</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>DISENGAGE</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="em1500_eMode">
+         <property name="geometry">
+          <rect>
+           <x>180</x>
+           <y>30</y>
+           <width>153</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="groupBox_3">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>230</y>
+          <width>351</width>
+          <height>291</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Sine Generator Settings</string>
+        </property>
+        <widget class="QGroupBox" name="groupBox_5">
+         <property name="geometry">
+          <rect>
+           <x>80</x>
+           <y>30</y>
+           <width>81</width>
+           <height>121</height>
+          </rect>
+         </property>
+         <property name="title">
+          <string>Amp [m]</string>
+         </property>
+         <widget class="QDoubleSpinBox" name="em1500_amp_1">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>60</y>
+            <width>62</width>
+            <height>22</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QDoubleSpinBox" name="em1500_amp_2">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>90</y>
+            <width>62</width>
+            <height>22</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QDoubleSpinBox" name="em1500_amp_0">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>30</y>
+            <width>62</width>
+            <height>22</height>
+           </rect>
+          </property>
+         </widget>
+        </widget>
+        <widget class="QGroupBox" name="groupBox_9">
+         <property name="geometry">
+          <rect>
+           <x>170</x>
+           <y>30</y>
+           <width>81</width>
+           <height>121</height>
+          </rect>
+         </property>
+         <property name="title">
+          <string>Freq [Hz]</string>
+         </property>
+         <widget class="QDoubleSpinBox" name="em1500_freq_1">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>60</y>
+            <width>62</width>
+            <height>22</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QDoubleSpinBox" name="em1500_freq_2">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>90</y>
+            <width>62</width>
+            <height>22</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QDoubleSpinBox" name="em1500_freq_0">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>30</y>
+            <width>62</width>
+            <height>22</height>
+           </rect>
+          </property>
+         </widget>
+        </widget>
+        <widget class="QGroupBox" name="groupBox_26">
+         <property name="geometry">
+          <rect>
+           <x>260</x>
+           <y>30</y>
+           <width>81</width>
+           <height>121</height>
+          </rect>
+         </property>
+         <property name="title">
+          <string>Phase [deg]</string>
+         </property>
+         <widget class="QDoubleSpinBox" name="em1500_phase_1">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>60</y>
+            <width>62</width>
+            <height>22</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QDoubleSpinBox" name="em1500_phase_2">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>90</y>
+            <width>62</width>
+            <height>22</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QDoubleSpinBox" name="em1500_phase_0">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>30</y>
+            <width>62</width>
+            <height>22</height>
+           </rect>
+          </property>
+         </widget>
+        </widget>
+        <widget class="QGroupBox" name="groupBox_27">
+         <property name="geometry">
+          <rect>
+           <x>80</x>
+           <y>160</y>
+           <width>81</width>
+           <height>121</height>
+          </rect>
+         </property>
+         <property name="title">
+          <string>Amp [deg]</string>
+         </property>
+         <widget class="QDoubleSpinBox" name="em1500_amp_4">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>60</y>
+            <width>62</width>
+            <height>22</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QDoubleSpinBox" name="em1500_amp_5">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>90</y>
+            <width>62</width>
+            <height>22</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QDoubleSpinBox" name="em1500_amp_3">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>30</y>
+            <width>62</width>
+            <height>22</height>
+           </rect>
+          </property>
+         </widget>
+        </widget>
+        <widget class="QGroupBox" name="groupBox_28">
+         <property name="geometry">
+          <rect>
+           <x>170</x>
+           <y>160</y>
+           <width>81</width>
+           <height>121</height>
+          </rect>
+         </property>
+         <property name="title">
+          <string>Freq [Hz]</string>
+         </property>
+         <widget class="QDoubleSpinBox" name="em1500_freq_4">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>60</y>
+            <width>62</width>
+            <height>22</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QDoubleSpinBox" name="em1500_freq_5">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>90</y>
+            <width>62</width>
+            <height>22</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QDoubleSpinBox" name="em1500_freq_3">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>30</y>
+            <width>62</width>
+            <height>22</height>
+           </rect>
+          </property>
+         </widget>
+        </widget>
+        <widget class="QGroupBox" name="groupBox_29">
+         <property name="geometry">
+          <rect>
+           <x>260</x>
+           <y>160</y>
+           <width>81</width>
+           <height>121</height>
+          </rect>
+         </property>
+         <property name="title">
+          <string>Phase [deg]</string>
+         </property>
+         <widget class="QDoubleSpinBox" name="em1500_phase_4">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>60</y>
+            <width>62</width>
+            <height>22</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QDoubleSpinBox" name="em1500_phase_5">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>90</y>
+            <width>62</width>
+            <height>22</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QDoubleSpinBox" name="em1500_phase_3">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>30</y>
+            <width>62</width>
+            <height>22</height>
+           </rect>
+          </property>
+         </widget>
+        </widget>
+        <widget class="QGroupBox" name="groupBox_31">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>30</y>
+           <width>61</width>
+           <height>251</height>
+          </rect>
+         </property>
+         <property name="title">
+          <string>DOF</string>
+         </property>
+         <widget class="QLabel" name="label_5">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>160</y>
+            <width>51</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Roll:</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_3">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>90</y>
+            <width>51</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Heave:</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>30</y>
+            <width>51</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Surge:</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_6">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>190</y>
+            <width>51</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Pitch:</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_2">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>60</y>
+            <width>51</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Sway:</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_4">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>220</y>
+            <width>51</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Yaw:</string>
+          </property>
+         </widget>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="groupBox_32">
+        <property name="geometry">
+         <rect>
+          <x>370</x>
+          <y>10</y>
+          <width>901</width>
+          <height>811</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Stewart Command Inspector</string>
+        </property>
+        <widget class="GraphicsLayoutWidget" name="em1500_plot">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>30</y>
+           <width>881</width>
+           <height>771</height>
+          </rect>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="groupBox_7">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>520</y>
+          <width>351</width>
+          <height>301</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Actuator Stroke Utilization</string>
+        </property>
+        <widget class="QProgressBar" name="em1500_cylinder_1">
+         <property name="geometry">
+          <rect>
+           <x>21</x>
+           <y>31</y>
+           <width>38</width>
+           <height>240</height>
+          </rect>
+         </property>
+         <property name="minimum">
+          <number>-100</number>
+         </property>
+         <property name="value">
+          <number>0</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="invertedAppearance">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_41">
+         <property name="geometry">
+          <rect>
+           <x>239</x>
+           <y>275</y>
+           <width>21</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>5</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_42">
+         <property name="geometry">
+          <rect>
+           <x>293</x>
+           <y>275</y>
+           <width>21</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>6</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_43">
+         <property name="geometry">
+          <rect>
+           <x>188</x>
+           <y>275</y>
+           <width>21</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>4</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_44">
+         <property name="geometry">
+          <rect>
+           <x>132</x>
+           <y>275</y>
+           <width>21</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>3</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_45">
+         <property name="geometry">
+          <rect>
+           <x>82</x>
+           <y>275</y>
+           <width>21</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>2</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_46">
+         <property name="geometry">
+          <rect>
+           <x>28</x>
+           <y>275</y>
+           <width>21</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>1</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QProgressBar" name="em1500_cylinder_2">
+         <property name="geometry">
+          <rect>
+           <x>74</x>
+           <y>31</y>
+           <width>38</width>
+           <height>240</height>
+          </rect>
+         </property>
+         <property name="minimum">
+          <number>-100</number>
+         </property>
+         <property name="value">
+          <number>0</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="invertedAppearance">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QProgressBar" name="em1500_cylinder_3">
+         <property name="geometry">
+          <rect>
+           <x>126</x>
+           <y>31</y>
+           <width>38</width>
+           <height>240</height>
+          </rect>
+         </property>
+         <property name="minimum">
+          <number>-100</number>
+         </property>
+         <property name="value">
+          <number>0</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="invertedAppearance">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QProgressBar" name="em1500_cylinder_4">
+         <property name="geometry">
+          <rect>
+           <x>179</x>
+           <y>31</y>
+           <width>38</width>
+           <height>240</height>
+          </rect>
+         </property>
+         <property name="minimum">
+          <number>-100</number>
+         </property>
+         <property name="value">
+          <number>0</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="invertedAppearance">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QProgressBar" name="em1500_cylinder_5">
+         <property name="geometry">
+          <rect>
+           <x>231</x>
+           <y>31</y>
+           <width>38</width>
+           <height>240</height>
+          </rect>
+         </property>
+         <property name="minimum">
+          <number>-100</number>
+         </property>
+         <property name="value">
+          <number>0</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="invertedAppearance">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QProgressBar" name="em1500_cylinder_6">
+         <property name="geometry">
+          <rect>
+           <x>284</x>
+           <y>31</y>
+           <width>38</width>
+           <height>240</height>
+          </rect>
+         </property>
+         <property name="minimum">
+          <number>-100</number>
+         </property>
+         <property name="value">
+          <number>0</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="invertedAppearance">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="groupBox">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>110</y>
+          <width>351</width>
+          <height>121</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Stewart Status Feedback</string>
+        </property>
+        <widget class="QLineEdit" name="em1500_eOpMode">
+         <property name="geometry">
+          <rect>
+           <x>180</x>
+           <y>85</y>
+           <width>153</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="em1500_eStatus">
+         <property name="geometry">
+          <rect>
+           <x>180</x>
+           <y>55</y>
+           <width>153</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_13">
+         <property name="geometry">
+          <rect>
+           <x>19</x>
+           <y>26</y>
+           <width>141</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Operation State:</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_14">
+         <property name="geometry">
+          <rect>
+           <x>19</x>
+           <y>56</y>
+           <width>141</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>System Status:</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_15">
+         <property name="geometry">
+          <rect>
+           <x>19</x>
+           <y>86</y>
+           <width>141</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Operation Mode:</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="em1500_eState">
+         <property name="geometry">
+          <rect>
+           <x>180</x>
+           <y>25</y>
+           <width>153</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </widget>
+      </widget>
       <widget class="QWidget" name="tab_interface">
        <attribute name="title">
-        <string>Interface</string>
+        <string>COMAU</string>
        </attribute>
        <widget class="QPushButton" name="EM8000_settled_btn">
         <property name="geometry">
@@ -1557,1411 +2959,29 @@ color: rgb(255, 255, 255);
        <zorder>show3dView</zorder>
        <zorder>groupBox_EM1500_4</zorder>
       </widget>
-      <widget class="QWidget" name="tab_8">
+      <widget class="QWidget" name="tab">
        <attribute name="title">
-        <string>EM1500</string>
+        <string>WINCH</string>
        </attribute>
-       <widget class="QGroupBox" name="groupBox_2">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>10</y>
-          <width>351</width>
-          <height>101</height>
-         </rect>
-        </property>
-        <property name="title">
-         <string>Stewart Operation</string>
-        </property>
-        <widget class="QComboBox" name="em1500_eModeCmd">
-         <property name="geometry">
-          <rect>
-           <x>13</x>
-           <y>30</y>
-           <width>153</width>
-           <height>22</height>
-          </rect>
-         </property>
-         <item>
-          <property name="text">
-           <string>SETTLED</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>NEUTRAL</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>SIMULATION</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>GENERATOR</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>REMOTE</string>
-          </property>
-         </item>
-        </widget>
-        <widget class="QPushButton" name="em1500_engage">
-         <property name="geometry">
-          <rect>
-           <x>12</x>
-           <y>65</y>
-           <width>155</width>
-           <height>23</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>ENGAGE</string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="em1500_disengage">
-         <property name="geometry">
-          <rect>
-           <x>180</x>
-           <y>65</y>
-           <width>155</width>
-           <height>23</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>DISENGAGE</string>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="em1500_eMode">
-         <property name="geometry">
-          <rect>
-           <x>180</x>
-           <y>30</y>
-           <width>153</width>
-           <height>22</height>
-          </rect>
-         </property>
-         <property name="readOnly">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </widget>
-       <widget class="QGroupBox" name="groupBox_3">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>230</y>
-          <width>351</width>
-          <height>291</height>
-         </rect>
-        </property>
-        <property name="title">
-         <string>Sine Generator Settings</string>
-        </property>
-        <widget class="QGroupBox" name="groupBox_5">
-         <property name="geometry">
-          <rect>
-           <x>80</x>
-           <y>30</y>
-           <width>81</width>
-           <height>121</height>
-          </rect>
-         </property>
-         <property name="title">
-          <string>Amp [m]</string>
-         </property>
-         <widget class="QDoubleSpinBox" name="_ampEM1500_0">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>30</y>
-            <width>62</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="_ampEM1500_1">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>60</y>
-            <width>62</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="_ampEM1500_2">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>90</y>
-            <width>62</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QGroupBox" name="groupBox_9">
-         <property name="geometry">
-          <rect>
-           <x>170</x>
-           <y>30</y>
-           <width>81</width>
-           <height>121</height>
-          </rect>
-         </property>
-         <property name="title">
-          <string>Freq [Hz]</string>
-         </property>
-         <widget class="QDoubleSpinBox" name="_freqEM1500_0">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>30</y>
-            <width>62</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="_freqEM1500_1">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>60</y>
-            <width>62</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="_freqEM1500_2">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>90</y>
-            <width>62</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QGroupBox" name="groupBox_26">
-         <property name="geometry">
-          <rect>
-           <x>260</x>
-           <y>30</y>
-           <width>81</width>
-           <height>121</height>
-          </rect>
-         </property>
-         <property name="title">
-          <string>Phase [deg]</string>
-         </property>
-         <widget class="QDoubleSpinBox" name="_phaseEM1500_0">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>30</y>
-            <width>62</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="_phaseEM1500_1">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>60</y>
-            <width>62</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="_phaseEM1500_2">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>90</y>
-            <width>62</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QGroupBox" name="groupBox_27">
-         <property name="geometry">
-          <rect>
-           <x>80</x>
-           <y>160</y>
-           <width>81</width>
-           <height>121</height>
-          </rect>
-         </property>
-         <property name="title">
-          <string>Amp [deg]</string>
-         </property>
-         <widget class="QDoubleSpinBox" name="_ampEM1500_5">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>90</y>
-            <width>62</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="_ampEM1500_4">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>60</y>
-            <width>62</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="_ampEM1500_3">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>30</y>
-            <width>62</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QGroupBox" name="groupBox_28">
-         <property name="geometry">
-          <rect>
-           <x>170</x>
-           <y>160</y>
-           <width>81</width>
-           <height>121</height>
-          </rect>
-         </property>
-         <property name="title">
-          <string>Freq [Hz]</string>
-         </property>
-         <widget class="QDoubleSpinBox" name="_freqEM1500_3">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>30</y>
-            <width>62</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="_freqEM1500_4">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>60</y>
-            <width>62</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="_freqEM1500_5">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>90</y>
-            <width>62</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QGroupBox" name="groupBox_29">
-         <property name="geometry">
-          <rect>
-           <x>260</x>
-           <y>160</y>
-           <width>81</width>
-           <height>121</height>
-          </rect>
-         </property>
-         <property name="title">
-          <string>Phase [deg]</string>
-         </property>
-         <widget class="QDoubleSpinBox" name="_phaseEM1500_3">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>30</y>
-            <width>62</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="_phaseEM1500_4">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>60</y>
-            <width>62</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="_phaseEM1500_5">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>90</y>
-            <width>62</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QGroupBox" name="groupBox_31">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>30</y>
-           <width>61</width>
-           <height>251</height>
-          </rect>
-         </property>
-         <property name="title">
-          <string>DOF</string>
-         </property>
-         <widget class="QLabel" name="label_5">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>160</y>
-            <width>51</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Roll:</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_3">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>90</y>
-            <width>51</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Heave:</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>30</y>
-            <width>51</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Surge:</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_6">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>190</y>
-            <width>51</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Pitch:</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_2">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>60</y>
-            <width>51</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Sway:</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_4">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>220</y>
-            <width>51</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Yaw:</string>
-          </property>
-         </widget>
-        </widget>
-       </widget>
-       <widget class="QGroupBox" name="groupBox_32">
-        <property name="geometry">
-         <rect>
-          <x>370</x>
-          <y>10</y>
-          <width>901</width>
-          <height>811</height>
-         </rect>
-        </property>
-        <property name="title">
-         <string>Stewart Command Inspector</string>
-        </property>
-        <widget class="GraphicsLayoutWidget" name="em1500_plot">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>30</y>
-           <width>881</width>
-           <height>771</height>
-          </rect>
-         </property>
-        </widget>
-       </widget>
-       <widget class="QGroupBox" name="groupBox_7">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>520</y>
-          <width>351</width>
-          <height>301</height>
-         </rect>
-        </property>
-        <property name="title">
-         <string>Actuator Stroke Utilization</string>
-        </property>
-        <widget class="QProgressBar" name="em1500_cylinder_1">
-         <property name="geometry">
-          <rect>
-           <x>21</x>
-           <y>31</y>
-           <width>38</width>
-           <height>240</height>
-          </rect>
-         </property>
-         <property name="minimum">
-          <number>-100</number>
-         </property>
-         <property name="value">
-          <number>0</number>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="invertedAppearance">
-          <bool>false</bool>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_41">
-         <property name="geometry">
-          <rect>
-           <x>239</x>
-           <y>275</y>
-           <width>21</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="text">
-          <string>5</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_42">
-         <property name="geometry">
-          <rect>
-           <x>293</x>
-           <y>275</y>
-           <width>21</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="text">
-          <string>6</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_43">
-         <property name="geometry">
-          <rect>
-           <x>188</x>
-           <y>275</y>
-           <width>21</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="text">
-          <string>4</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_44">
-         <property name="geometry">
-          <rect>
-           <x>132</x>
-           <y>275</y>
-           <width>21</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="text">
-          <string>3</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_45">
-         <property name="geometry">
-          <rect>
-           <x>82</x>
-           <y>275</y>
-           <width>21</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="text">
-          <string>2</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_46">
-         <property name="geometry">
-          <rect>
-           <x>28</x>
-           <y>275</y>
-           <width>21</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="text">
-          <string>1</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-        <widget class="QProgressBar" name="em1500_cylinder_2">
-         <property name="geometry">
-          <rect>
-           <x>74</x>
-           <y>31</y>
-           <width>38</width>
-           <height>240</height>
-          </rect>
-         </property>
-         <property name="minimum">
-          <number>-100</number>
-         </property>
-         <property name="value">
-          <number>0</number>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="invertedAppearance">
-          <bool>false</bool>
-         </property>
-        </widget>
-        <widget class="QProgressBar" name="em1500_cylinder_3">
-         <property name="geometry">
-          <rect>
-           <x>126</x>
-           <y>31</y>
-           <width>38</width>
-           <height>240</height>
-          </rect>
-         </property>
-         <property name="minimum">
-          <number>-100</number>
-         </property>
-         <property name="value">
-          <number>0</number>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="invertedAppearance">
-          <bool>false</bool>
-         </property>
-        </widget>
-        <widget class="QProgressBar" name="em1500_cylinder_4">
-         <property name="geometry">
-          <rect>
-           <x>179</x>
-           <y>31</y>
-           <width>38</width>
-           <height>240</height>
-          </rect>
-         </property>
-         <property name="minimum">
-          <number>-100</number>
-         </property>
-         <property name="value">
-          <number>0</number>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="invertedAppearance">
-          <bool>false</bool>
-         </property>
-        </widget>
-        <widget class="QProgressBar" name="em1500_cylinder_5">
-         <property name="geometry">
-          <rect>
-           <x>231</x>
-           <y>31</y>
-           <width>38</width>
-           <height>240</height>
-          </rect>
-         </property>
-         <property name="minimum">
-          <number>-100</number>
-         </property>
-         <property name="value">
-          <number>0</number>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="invertedAppearance">
-          <bool>false</bool>
-         </property>
-        </widget>
-        <widget class="QProgressBar" name="em1500_cylinder_6">
-         <property name="geometry">
-          <rect>
-           <x>284</x>
-           <y>31</y>
-           <width>38</width>
-           <height>240</height>
-          </rect>
-         </property>
-         <property name="minimum">
-          <number>-100</number>
-         </property>
-         <property name="value">
-          <number>0</number>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="invertedAppearance">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </widget>
-       <widget class="QGroupBox" name="groupBox">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>110</y>
-          <width>351</width>
-          <height>121</height>
-         </rect>
-        </property>
-        <property name="title">
-         <string>Stewart Status Feedback</string>
-        </property>
-        <widget class="QLineEdit" name="em1500_eOpMode">
-         <property name="geometry">
-          <rect>
-           <x>180</x>
-           <y>85</y>
-           <width>153</width>
-           <height>22</height>
-          </rect>
-         </property>
-         <property name="readOnly">
-          <bool>true</bool>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="em1500_eStatus">
-         <property name="geometry">
-          <rect>
-           <x>180</x>
-           <y>55</y>
-           <width>153</width>
-           <height>22</height>
-          </rect>
-         </property>
-         <property name="readOnly">
-          <bool>true</bool>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_13">
-         <property name="geometry">
-          <rect>
-           <x>19</x>
-           <y>26</y>
-           <width>141</width>
-           <height>16</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Operation State:</string>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_14">
-         <property name="geometry">
-          <rect>
-           <x>19</x>
-           <y>56</y>
-           <width>141</width>
-           <height>16</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>System Status:</string>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_15">
-         <property name="geometry">
-          <rect>
-           <x>19</x>
-           <y>86</y>
-           <width>141</width>
-           <height>16</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Operation Mode:</string>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="em1500_eState">
-         <property name="geometry">
-          <rect>
-           <x>180</x>
-           <y>25</y>
-           <width>153</width>
-           <height>22</height>
-          </rect>
-         </property>
-         <property name="readOnly">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </widget>
       </widget>
-      <widget class="QWidget" name="tab_11">
+      <widget class="QWidget" name="tab_2">
        <attribute name="title">
-        <string>EM8000</string>
+        <string>MRU 1</string>
        </attribute>
-       <widget class="QGroupBox" name="groupBox_33">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>20</y>
-          <width>401</width>
-          <height>81</height>
-         </rect>
-        </property>
-        <property name="title">
-         <string>Stewart Mode Selector</string>
-        </property>
-        <widget class="QPushButton" name="_bStopEM8000">
-         <property name="geometry">
-          <rect>
-           <x>290</x>
-           <y>30</y>
-           <width>91</width>
-           <height>31</height>
-          </rect>
-         </property>
-         <property name="palette">
-          <palette>
-           <active>
-            <colorrole role="Button">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>255</red>
-               <green>0</green>
-               <blue>0</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </active>
-           <inactive>
-            <colorrole role="Button">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>255</red>
-               <green>0</green>
-               <blue>0</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </inactive>
-           <disabled>
-            <colorrole role="Button">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>255</red>
-               <green>0</green>
-               <blue>0</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </disabled>
-          </palette>
-         </property>
-         <property name="text">
-          <string>STOP</string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="_bResetEM8000">
-         <property name="geometry">
-          <rect>
-           <x>180</x>
-           <y>30</y>
-           <width>91</width>
-           <height>31</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>RESET</string>
-         </property>
-        </widget>
-        <widget class="QComboBox" name="_eModeEM8000">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>30</y>
-           <width>141</width>
-           <height>31</height>
-          </rect>
-         </property>
-         <item>
-          <property name="text">
-           <string>SETTLED</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>NEUTRAL</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>WAVE SIMULATOR</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>SINE GENERATOR</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>REMOTE</string>
-          </property>
-         </item>
-        </widget>
-       </widget>
-       <widget class="QGroupBox" name="groupBox_34">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>430</y>
-          <width>401</width>
-          <height>341</height>
-         </rect>
-        </property>
-        <property name="title">
-         <string>Ship Simulator Settings</string>
-        </property>
-       </widget>
-       <widget class="QGroupBox" name="groupBox_35">
-        <property name="geometry">
-         <rect>
-          <x>430</x>
-          <y>20</y>
-          <width>841</width>
-          <height>751</height>
-         </rect>
-        </property>
-        <property name="title">
-         <string>Stewart Command Inspector</string>
-        </property>
-        <widget class="QComboBox" name="_plotModeEM8000">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>31</y>
-           <width>131</width>
-           <height>31</height>
-          </rect>
-         </property>
-         <item>
-          <property name="text">
-           <string>WAVE SIMULATOR</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>SINE GENERATOR</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>REMOTE</string>
-          </property>
-         </item>
-        </widget>
-        <widget class="GraphicsLayoutWidget" name="_plotEM8000">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>80</y>
-           <width>821</width>
-           <height>661</height>
-          </rect>
-         </property>
-        </widget>
-       </widget>
-       <widget class="QGroupBox" name="groupBox_36">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>110</y>
-          <width>401</width>
-          <height>311</height>
-         </rect>
-        </property>
-        <property name="title">
-         <string>Sine Generator Settings</string>
-        </property>
-        <widget class="QGroupBox" name="groupBox_37">
-         <property name="geometry">
-          <rect>
-           <x>100</x>
-           <y>30</y>
-           <width>81</width>
-           <height>121</height>
-          </rect>
-         </property>
-         <property name="title">
-          <string>Amp [m]</string>
-         </property>
-         <widget class="QDoubleSpinBox" name="_ampEM8000_0">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>30</y>
-            <width>62</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="_ampEM8000_1">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>60</y>
-            <width>62</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="_ampEM8000_2">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>90</y>
-            <width>62</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QGroupBox" name="groupBox_38">
-         <property name="geometry">
-          <rect>
-           <x>200</x>
-           <y>30</y>
-           <width>81</width>
-           <height>121</height>
-          </rect>
-         </property>
-         <property name="title">
-          <string>Freq [Hz]</string>
-         </property>
-         <widget class="QDoubleSpinBox" name="_freqEM8000_0">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>30</y>
-            <width>62</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="_freqEM8000_1">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>60</y>
-            <width>62</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="_freqEM8000_2">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>90</y>
-            <width>62</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QGroupBox" name="groupBox_39">
-         <property name="geometry">
-          <rect>
-           <x>300</x>
-           <y>30</y>
-           <width>81</width>
-           <height>121</height>
-          </rect>
-         </property>
-         <property name="title">
-          <string>Phase [deg]</string>
-         </property>
-         <widget class="QDoubleSpinBox" name="_phaseEM8000_0">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>30</y>
-            <width>62</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="_phaseEM8000_1">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>60</y>
-            <width>62</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="_phaseEM8000_2">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>90</y>
-            <width>62</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QGroupBox" name="groupBox_40">
-         <property name="geometry">
-          <rect>
-           <x>100</x>
-           <y>170</y>
-           <width>81</width>
-           <height>121</height>
-          </rect>
-         </property>
-         <property name="title">
-          <string>Amp [deg]</string>
-         </property>
-         <widget class="QDoubleSpinBox" name="_ampEM8000_3">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>30</y>
-            <width>62</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="_ampEM8000_4">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>60</y>
-            <width>62</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="_ampEM8000_5">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>90</y>
-            <width>62</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QGroupBox" name="groupBox_41">
-         <property name="geometry">
-          <rect>
-           <x>200</x>
-           <y>170</y>
-           <width>81</width>
-           <height>121</height>
-          </rect>
-         </property>
-         <property name="title">
-          <string>Freq [Hz]</string>
-         </property>
-         <widget class="QDoubleSpinBox" name="_freqEM8000_3">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>30</y>
-            <width>62</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="_freqEM8000_4">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>60</y>
-            <width>62</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="_freqEM8000_5">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>90</y>
-            <width>62</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QGroupBox" name="groupBox_42">
-         <property name="geometry">
-          <rect>
-           <x>300</x>
-           <y>170</y>
-           <width>81</width>
-           <height>121</height>
-          </rect>
-         </property>
-         <property name="title">
-          <string>Phase [deg]</string>
-         </property>
-         <widget class="QDoubleSpinBox" name="_phaseEM8000_3">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>30</y>
-            <width>62</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="_phaseEM8000_4">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>60</y>
-            <width>62</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="_phaseEM8000_5">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>90</y>
-            <width>62</width>
-            <height>22</height>
-           </rect>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QGroupBox" name="groupBox_43">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>30</y>
-           <width>61</width>
-           <height>261</height>
-          </rect>
-         </property>
-         <property name="title">
-          <string>DOF</string>
-         </property>
-         <widget class="QLabel" name="label_7">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>170</y>
-            <width>51</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Roll:</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_10">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>90</y>
-            <width>51</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Heave:</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_11">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>30</y>
-            <width>51</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Surge:</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_12">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>200</y>
-            <width>51</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Pitch:</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_19">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>60</y>
-            <width>51</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Sway:</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_20">
-          <property name="geometry">
-           <rect>
-            <x>10</x>
-            <y>230</y>
-            <width>51</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Yaw:</string>
-          </property>
-         </widget>
-        </widget>
-       </widget>
+      </widget>
+      <widget class="QWidget" name="tab_3">
+       <attribute name="title">
+        <string>MRU 2</string>
+       </attribute>
       </widget>
       <widget class="QWidget" name="tab_12">
        <attribute name="title">
         <string>Wave Simulator</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="tab_9">
+       <attribute name="title">
+        <string>Data Logger</string>
        </attribute>
       </widget>
       <widget class="QWidget" name="tab_5">
@@ -3293,7 +3313,7 @@ color: rgb(255, 255, 255);
       </widget>
       <widget class="QWidget" name="tab_4">
        <attribute name="title">
-        <string>Control Settings</string>
+        <string>Anti-Swing System</string>
        </attribute>
        <widget class="QLabel" name="label_34">
         <property name="geometry">
@@ -3818,6 +3838,108 @@ color: rgb(255, 255, 255);
    <header>pyqtgraph</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>em1500_eModeCmd</tabstop>
+  <tabstop>em1500_engage</tabstop>
+  <tabstop>em1500_disengage</tabstop>
+  <tabstop>activeWINCH</tabstop>
+  <tabstop>em1500_amp_0</tabstop>
+  <tabstop>em1500_freq_0</tabstop>
+  <tabstop>em1500_phase_0</tabstop>
+  <tabstop>em1500_amp_1</tabstop>
+  <tabstop>em1500_freq_1</tabstop>
+  <tabstop>em1500_phase_1</tabstop>
+  <tabstop>em1500_amp_2</tabstop>
+  <tabstop>em1500_freq_2</tabstop>
+  <tabstop>em1500_phase_2</tabstop>
+  <tabstop>em1500_amp_3</tabstop>
+  <tabstop>em1500_freq_3</tabstop>
+  <tabstop>em1500_phase_3</tabstop>
+  <tabstop>em1500_amp_4</tabstop>
+  <tabstop>em1500_freq_4</tabstop>
+  <tabstop>em1500_phase_4</tabstop>
+  <tabstop>em1500_amp_5</tabstop>
+  <tabstop>em1500_freq_5</tabstop>
+  <tabstop>em1500_phase_5</tabstop>
+  <tabstop>activeLEICA</tabstop>
+  <tabstop>activeQTM</tabstop>
+  <tabstop>activeMRU1</tabstop>
+  <tabstop>activeMRU2</tabstop>
+  <tabstop>activeXBOX</tabstop>
+  <tabstop>EM8000_settled_btn</tabstop>
+  <tabstop>em1500_eState</tabstop>
+  <tabstop>em1500_eStatus</tabstop>
+  <tabstop>em1500_eOpMode</tabstop>
+  <tabstop>EM1500_neutral_btn</tabstop>
+  <tabstop>SYSTEM_settled_btn</tabstop>
+  <tabstop>winchEngaged</tabstop>
+  <tabstop>em1500_plot</tabstop>
+  <tabstop>_bStopEM8000</tabstop>
+  <tabstop>_bResetEM8000</tabstop>
+  <tabstop>_eModeEM8000</tabstop>
+  <tabstop>_plotModeEM8000</tabstop>
+  <tabstop>_plotEM8000</tabstop>
+  <tabstop>_ampEM8000_0</tabstop>
+  <tabstop>_ampEM8000_1</tabstop>
+  <tabstop>_ampEM8000_2</tabstop>
+  <tabstop>_freqEM8000_0</tabstop>
+  <tabstop>_freqEM8000_1</tabstop>
+  <tabstop>_freqEM8000_2</tabstop>
+  <tabstop>_phaseEM8000_0</tabstop>
+  <tabstop>_phaseEM8000_1</tabstop>
+  <tabstop>_phaseEM8000_2</tabstop>
+  <tabstop>_ampEM8000_3</tabstop>
+  <tabstop>_ampEM8000_4</tabstop>
+  <tabstop>_ampEM8000_5</tabstop>
+  <tabstop>_freqEM8000_3</tabstop>
+  <tabstop>_freqEM8000_4</tabstop>
+  <tabstop>_freqEM8000_5</tabstop>
+  <tabstop>_phaseEM8000_3</tabstop>
+  <tabstop>_phaseEM8000_4</tabstop>
+  <tabstop>_phaseEM8000_5</tabstop>
+  <tabstop>tab_6</tabstop>
+  <tabstop>DP1_SimStates</tabstop>
+  <tabstop>DP2_SimStates</tabstop>
+  <tabstop>EM8000_wave_spectra</tabstop>
+  <tabstop>EM8000_wave_height</tabstop>
+  <tabstop>EM8000_wave_period</tabstop>
+  <tabstop>EM8000_plot_time_range_ship</tabstop>
+  <tabstop>DP1_wavespectrum</tabstop>
+  <tabstop>estimatedDampingPlot</tabstop>
+  <tabstop>swingAnglesWidget</tabstop>
+  <tabstop>swingVelocityWidget</tabstop>
+  <tabstop>dampingParamPlotWidget</tabstop>
+  <tabstop>errorStatePlotWidget</tabstop>
+  <tabstop>antiSwayPlotRange</tabstop>
+  <tabstop>btnDeactivateAntiSway</tabstop>
+  <tabstop>btnActivateAntiSway</tabstop>
+  <tabstop>btnResetAntiSway</tabstop>
+  <tabstop>btnEnableMruEKF</tabstop>
+  <tabstop>btnDisableMruEKF</tabstop>
+  <tabstop>btnResetEKF</tabstop>
+  <tabstop>btnEnableMruCM</tabstop>
+  <tabstop>btnDisableMruCM</tabstop>
+  <tabstop>btnEnableMruWinch</tabstop>
+  <tabstop>btnDisableMruWinch</tabstop>
+  <tabstop>EM8000_neutral_btn</tabstop>
+  <tabstop>EM8000_engaged_btn</tabstop>
+  <tabstop>em1500_eMode</tabstop>
+  <tabstop>EM1500_engaged_btn</tabstop>
+  <tabstop>COMAU_settled_btn</tabstop>
+  <tabstop>EM1500_settled_btn</tabstop>
+  <tabstop>COMAU_engaged_fast_btn</tabstop>
+  <tabstop>SYSTEM_stop_btn</tabstop>
+  <tabstop>winchOff</tabstop>
+  <tabstop>winchOn</tabstop>
+  <tabstop>winchEngagedFast</tabstop>
+  <tabstop>show3dView</tabstop>
+  <tabstop>activeEM8000</tabstop>
+  <tabstop>activeEM1500</tabstop>
+  <tabstop>activeCOMAU</tabstop>
+  <tabstop>tabSelector</tabstop>
+  <tabstop>COMAU_engaged_btn</tabstop>
+  <tabstop>winchSettled</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

@@ -34,7 +34,7 @@ class MotionLab(QMainWindow, Ui_MainWindow):
         super(MotionLab, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-
+        
         # Start ADS communications
         self.plc = pyads.Connection('192.168.90.150.1.1', 851)
         self.plc.open()
@@ -50,9 +50,6 @@ class MotionLab(QMainWindow, Ui_MainWindow):
         if self.plcActive:
             self.em1500 = StewartPlattform(self.plc, self.ui, 'em1500')
 
-
-
-        
 
         # Xbox controller
         self.xbox = ml.XboxController()

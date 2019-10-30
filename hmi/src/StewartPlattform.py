@@ -37,7 +37,7 @@ class E_StewartMode(Enum):
     NEUTRAL         = 0x01
     SIMULATION      = 0x02
     GENERATOR       = 0x03
-    REMOTE          = 0x04
+    FILE            = 0x04
 
 class ST_TxHmiStewart(Structure):
     _fields_ = [
@@ -103,6 +103,11 @@ class StewartPlattform(QtCore.QObject):
         # Setup plot area
         self.setupPlot()
 
+        # Setup sine wave input fields
+        self.intilizeHmiFields()
+        self.setupSineWaveInputs()
+        self.connectSineWaveInputs()
+        
         # Sunchronous timer
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(self.updateGraph)
@@ -123,12 +128,13 @@ class StewartPlattform(QtCore.QObject):
         eval(self.guiRoot + '_eStatus').setText(self.eStatus.name)
 
         # Warning or error popup
-        if not(self.eStatus == E_StewartStatus.SYSTEM_OK):
-            self.errorBox.setWindowTitle(self.eStatus.name)
+        if not (self.eStatus == E_StewartStatus.SYSTEM_OK):
+            self.errorBox.setWindowTitle(
+                self.plcInstance + ': ' + self.eStatus.name
+            )
             self.errorBox.setText('Click reset to return to normal operation')
             # self.errorBox.setDetailedText('Warning details goes here!')
             self.errorBox.exec_()
-
 
     @QtCore.pyqtSlot(int)
     def slot_eOpMode(self, value):
@@ -147,15 +153,64 @@ class StewartPlattform(QtCore.QObject):
     def slot_engage(self):
         self.plc.write_by_name(self.plcRoot + '.bStart', True, pyads.PLCTYPE_BOOL)
 
+        if self.eMode == E_StewartMode.GENERATOR:
+            self.toggleSineInput(True)
+
     @QtCore.pyqtSlot()
     def slot_disengage(self):
         self.plc.write_by_name(self.plcRoot + '.bStart', False, pyads.PLCTYPE_BOOL)
 
-    # Synchronous read function
+        if self.eMode == E_StewartMode.GENERATOR:
+            self.toggleSineInput(False)
+
+    def intilizeHmiFields(self):
+        # Read data from PLC to intilize the HMI fields
+        eval(self.guiRoot + '_eModeCmd').setCurrentIndex(
+            self.plc.read_by_name(self.plcRoot + '.eModeCmd', pyads.PLCTYPE_USINT)
+        )
+
+        # Read amplitude, frequency and phase settings from PLC
+        for i in range(0, 6):
+            amp = eval(self.guiRoot + '_amp_' + str(i))
+            freq = eval(self.guiRoot + '_freq_' + str(i))
+            phase = eval(self.guiRoot + '_phase_' + str(i))
+
+            if i < 3:
+                amp.setValue(
+                    self.plc.read_by_name(self.plcRoot + '.sineAmplitude[' + str(i) + ']', pyads.PLCTYPE_LREAL)
+                )
+
+            else:
+                amp.setValue(
+                    self.plc.read_by_name(self.plcRoot + '.sineAmplitude[' + str(i) + ']', pyads.PLCTYPE_LREAL)/np.pi*180
+                )
+
+            freq.setValue(
+                self.plc.read_by_name(self.plcRoot + '.sineOmega[' + str(i) + ']', pyads.PLCTYPE_LREAL)/(2*np.pi)
+            )
+
+            phase.setValue(
+                self.plc.read_by_name(self.plcRoot + '.sinePhase[' + str(i) + ']', pyads.PLCTYPE_LREAL)/np.pi*180
+            )
+
+            # Read max DOF settings from PLC
+            self.etaRefMin = self.plc.read_by_name(
+                self.plcRoot + '.etaRefMin', pyads.PLCTYPE_ARR_LREAL(6)
+            )
+
+            self.etaRefMax = self.plc.read_by_name(
+                self.plcRoot + '.etaRefMax', pyads.PLCTYPE_ARR_LREAL(6)
+            )
+
+    def toggleSineInput(self, disable):    
+        for i in range(0, 6):
+            eval(self.guiRoot + '_amp_' + str(i)).setDisabled(disable)
+            eval(self.guiRoot + '_freq_' + str(i)).setDisabled(disable)
+            eval(self.guiRoot + '_phase_' + str(i)).setDisabled(disable)
+
     def updateGraph(self):
         
         self.txHmi = self.plc.read_by_name(self.plcRoot + '.txHmi', ST_TxHmiStewart)
-        
         
         if self.eMode == E_StewartMode.GENERATOR:
             self.updatePlot(self.txHmi.etaSine)
@@ -167,18 +222,15 @@ class StewartPlattform(QtCore.QObject):
             self.updatePlot(np.zeros(6))
 
     def setupPlot(self):
-        # UI plot instance
-        plot = eval(self.guiRoot + '_plot')
-
         # Surge, sway and heave
-        self.plotPosition = RealTimePlot(plot.addPlot())
+        self.plotPosition = RealTimePlot(eval(self.guiRoot + '_plot').addPlot())
         self.plotPosition.plot.setLabel('left', 'Position', 'm')
         self.plotPosition.plot.setYRange(-0.5, 0.5)
         self.plotPosition.add_curves(['r', 'g', 'b'], ['Surge', 'Sway', 'Heave'])
 
         # Roll, pitch and yaw
-        plot.nextRow()
-        self.plotAttitude = RealTimePlot(plot.addPlot())
+        eval(self.guiRoot + '_plot').nextRow()
+        self.plotAttitude = RealTimePlot(eval(self.guiRoot + '_plot').addPlot())
         self.plotAttitude.plot.setLabel('left', 'Angle', 'deg')
         self.plotAttitude.plot.setYRange(-6.0, 6.0)
         self.plotAttitude.add_curves(['r', 'g', 'b'], ['Roll', 'Pitch', 'Yaw'])
@@ -201,15 +253,115 @@ class StewartPlattform(QtCore.QObject):
         eval(self.guiRoot + '_cylinder_5').setValue(self.txHmi.cyl[4]/maxStroke*100)
         eval(self.guiRoot + '_cylinder_6').setValue(self.txHmi.cyl[5]/maxStroke*100)
 
+    def connectSineWaveInputs(self):
+        # Connect sine wave paramters to PLC
+        eval(self.guiRoot + '_amp_0').valueChanged.connect(lambda:
+            self.plc.write_by_name(self.plcRoot + '.sineAmplitude[0]', eval(self.guiRoot + '_amp_0').value(), pyads.PLCTYPE_LREAL)
+        )
 
-    # Helper functions
+        eval(self.guiRoot + '_amp_1').valueChanged.connect(lambda:
+            self.plc.write_by_name(self.plcRoot + '.sineAmplitude[1]', eval(self.guiRoot + '_amp_1').value(), pyads.PLCTYPE_LREAL)
+        )
+
+        eval(self.guiRoot + '_amp_2').valueChanged.connect(lambda:
+            self.plc.write_by_name(self.plcRoot + '.sineAmplitude[2]', eval(self.guiRoot + '_amp_2').value(), pyads.PLCTYPE_LREAL)
+        )
+
+        eval(self.guiRoot + '_amp_3').valueChanged.connect(lambda:
+            self.plc.write_by_name(self.plcRoot + '.sineAmplitude[3]', eval(self.guiRoot + '_amp_3').value()/180*np.pi, pyads.PLCTYPE_LREAL)
+        )
+        
+        eval(self.guiRoot + '_amp_4').valueChanged.connect(lambda:
+            self.plc.write_by_name(self.plcRoot + '.sineAmplitude[4]', eval(self.guiRoot + '_amp_4').value()/180*np.pi, pyads.PLCTYPE_LREAL)
+        )
+        
+        eval(self.guiRoot + '_amp_5').valueChanged.connect(lambda:
+            self.plc.write_by_name(self.plcRoot + '.sineAmplitude[5]', eval(self.guiRoot + '_amp_5').value()/180*np.pi, pyads.PLCTYPE_LREAL)
+        )
+
+        eval(self.guiRoot + '_freq_0').valueChanged.connect(lambda:
+            self.plc.write_by_name(self.plcRoot + '.sineOmega[0]', eval(self.guiRoot + '_freq_0').value()*2*np.pi, pyads.PLCTYPE_LREAL)
+        )
+
+        eval(self.guiRoot + '_freq_1').valueChanged.connect(lambda:
+            self.plc.write_by_name(self.plcRoot + '.sineOmega[1]', eval(self.guiRoot + '_freq_1').value()*2*np.pi, pyads.PLCTYPE_LREAL)
+        )
+
+        eval(self.guiRoot + '_freq_2').valueChanged.connect(lambda:
+            self.plc.write_by_name(self.plcRoot + '.sineOmega[2]', eval(self.guiRoot + '_freq_2').value()*2*np.pi, pyads.PLCTYPE_LREAL)
+        )
+
+        eval(self.guiRoot + '_freq_3').valueChanged.connect(lambda:
+            self.plc.write_by_name(self.plcRoot + '.sineOmega[3]', eval(self.guiRoot + '_freq_3').value()*2*np.pi, pyads.PLCTYPE_LREAL)
+        )
+
+        eval(self.guiRoot + '_freq_4').valueChanged.connect(lambda:
+            self.plc.write_by_name(self.plcRoot + '.sineOmega[4]', eval(self.guiRoot + '_freq_4').value()*2*np.pi, pyads.PLCTYPE_LREAL)
+        )
+
+        eval(self.guiRoot + '_freq_5').valueChanged.connect(lambda:
+            self.plc.write_by_name(self.plcRoot + '.sineOmega[5]', eval(self.guiRoot + '_freq_5').value()*2*np.pi, pyads.PLCTYPE_LREAL)
+        )
+
+        eval(self.guiRoot + '_phase_0').valueChanged.connect(lambda:
+            self.plc.write_by_name(self.plcRoot + '.sinePhase[0]', eval(self.guiRoot + '_phase_0').value()/180*np.pi, pyads.PLCTYPE_LREAL)
+        )
+
+        eval(self.guiRoot + '_phase_1').valueChanged.connect(lambda:
+            self.plc.write_by_name(self.plcRoot + '.sinePhase[1]', eval(self.guiRoot + '_phase_1').value()/180*np.pi, pyads.PLCTYPE_LREAL)
+        )
+
+        eval(self.guiRoot + '_phase_2').valueChanged.connect(lambda:
+            self.plc.write_by_name(self.plcRoot + '.sinePhase[2]', eval(self.guiRoot + '_phase_2').value()/180*np.pi, pyads.PLCTYPE_LREAL)
+        )
+
+        eval(self.guiRoot + '_phase_3').valueChanged.connect(lambda:
+            self.plc.write_by_name(self.plcRoot + '.sinePhase[3]', eval(self.guiRoot + '_phase_3').value()/180*np.pi, pyads.PLCTYPE_LREAL)
+        )
+
+        eval(self.guiRoot + '_phase_4').valueChanged.connect(lambda:
+            self.plc.write_by_name(self.plcRoot + '.sinePhase[4]', eval(self.guiRoot + '_phase_4').value()/180*np.pi, pyads.PLCTYPE_LREAL)
+        )
+
+        eval(self.guiRoot + '_phase_5').valueChanged.connect(lambda:
+            self.plc.write_by_name(self.plcRoot + '.sinePhase[5]', eval(self.guiRoot + '_phase_5').value()/180*np.pi, pyads.PLCTYPE_LREAL)
+        )
+
+    def setupSineWaveInputs(self):
+        # Setup sine wave input fields
+        for i in range(0, 6):
+            amp = eval(self.guiRoot + '_amp_' + str(i))
+            freq = eval(self.guiRoot + '_freq_' + str(i))
+            phase = eval(self.guiRoot + '_phase_' + str(i))
+
+            # Amplitude settings
+            if i < 3:
+                # Position
+                amp.setDecimals(2)
+                amp.setSingleStep(0.01)
+                amp.setMinimum(self.etaRefMin[i])
+                amp.setMaximum(self.etaRefMax[i])
+
+            else:
+                # Attitude
+                amp.setDecimals(1)
+                amp.setSingleStep(0.1)
+                amp.setMinimum(self.etaRefMin[i]/np.pi*180)
+                amp.setMaximum(self.etaRefMax[i]/np.pi*180)
+            
+            # Frequency settings
+            freq.setDecimals(2)
+            freq.setSingleStep(0.02)
+            freq.setMinimum(0.01)
+            freq.setMaximum(1.0)
+
+            # Phase settings
+            phase.setDecimals(1)
+            phase.setSingleStep(10)
+            phase.setMinimum(-180)
+            phase.setMaximum(180)
+
     def plcNotification(self, adsName, plcType, pyqtSignal):
-
-        # # Initial read
-        # value = self.plc.read_by_name(adsName, plcType)
-        # pyqtSignal.emit(value)
-        # print(adsName + ' = ' + str(value))
-
         # General callback function
         @notification(plcType, pyqtSignal)
         def callback(handle, name, timestamp, value):
@@ -229,7 +381,6 @@ class StewartPlattform(QtCore.QObject):
             callback
         )
 
-    # Function to handle the closing event of to the application
     def close(self):
         self.timer.stop()
 

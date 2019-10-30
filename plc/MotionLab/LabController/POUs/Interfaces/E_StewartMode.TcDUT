@@ -9,7 +9,7 @@ TYPE E_StewartMode :
 	NEUTRAL,
 	SIMULATION,
 	GENERATOR,
-	REMOTE
+	FILE
 ) USINT ;
 END_TYPE]]></Declaration>
   </DUT>
