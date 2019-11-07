@@ -49,6 +49,7 @@ class MotionLab(QMainWindow, Ui_MainWindow):
         # Connect equipement to UI
         if self.plcActive:
             self.em1500 = StewartPlattform(self.plc, self.ui, 'em1500')
+            self.em8000 = StewartPlattform(self.plc, self.ui, 'em8000')
 
 
         # Xbox controller
@@ -89,6 +90,7 @@ class MotionLab(QMainWindow, Ui_MainWindow):
         reply = QMessageBox.Yes
 
         self.em1500.close()
+        self.em8000.close()
 
         if reply == QMessageBox.Yes:
             
