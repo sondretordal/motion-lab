@@ -15,6 +15,9 @@
     <LibraryReferences>{aef4fe47-5e6c-4062-a679-76e7b334d805}</LibraryReferences>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CsvTask.TcTTO">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\Control\ST_Control.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -112,6 +115,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="MainTask.TcTTO">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\CSV\FB_CsvReader.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\Interfaces\E_StewartCommand.TcDUT">
@@ -213,6 +219,9 @@
     <Compile Include="POUs\Simulink\rt_atan2d.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\TEST.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\UdpFBs\FB_UdpServerRT.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -235,6 +244,7 @@
     <Folder Include="DUTs\RxUdp" />
     <Folder Include="GVLs" />
     <Folder Include="POUs\Interfaces" />
+    <Folder Include="POUs\CSV" />
     <Folder Include="POUs\Simulink" />
     <Folder Include="POUs\Utils" />
     <Folder Include="POUs\UdpFBs" />

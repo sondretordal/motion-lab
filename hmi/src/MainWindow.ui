@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1304</width>
-    <height>903</height>
+    <height>901</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -38,7 +38,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tab_11">
        <attribute name="title">
@@ -1766,1635 +1766,40 @@
         </widget>
        </widget>
       </widget>
-      <widget class="QWidget" name="tab_interface">
-       <attribute name="title">
-        <string>COMAU</string>
-       </attribute>
-       <widget class="QPushButton" name="EM8000_settled_btn">
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>110</y>
-          <width>141</width>
-          <height>30</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>10</pointsize>
-         </font>
-        </property>
-        <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
-        </property>
-        <property name="autoFillBackground">
-         <bool>false</bool>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(204, 204, 204);</string>
-        </property>
-        <property name="text">
-         <string>Settled</string>
-        </property>
-        <property name="autoDefault">
-         <bool>false</bool>
-        </property>
-        <property name="default">
-         <bool>false</bool>
-        </property>
-        <property name="flat">
-         <bool>false</bool>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="EM8000_neutral_btn">
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>160</y>
-          <width>141</width>
-          <height>30</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>10</pointsize>
-         </font>
-        </property>
-        <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">selection-background-color: rgb(184, 255, 69);
-border-color: rgb(0, 170, 127);</string>
-        </property>
-        <property name="text">
-         <string>Neutral</string>
-        </property>
-        <property name="checkable">
-         <bool>false</bool>
-        </property>
-        <property name="autoDefault">
-         <bool>false</bool>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="EM8000_engaged_btn">
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>210</y>
-          <width>141</width>
-          <height>30</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>10</pointsize>
-         </font>
-        </property>
-        <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
-        </property>
-        <property name="text">
-         <string>Engaged</string>
-        </property>
-        <property name="autoDefault">
-         <bool>false</bool>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="EM1500_settled_btn">
-        <property name="geometry">
-         <rect>
-          <x>220</x>
-          <y>110</y>
-          <width>141</width>
-          <height>30</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>10</pointsize>
-         </font>
-        </property>
-        <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(204, 204, 204);</string>
-        </property>
-        <property name="text">
-         <string>Settled</string>
-        </property>
-        <property name="autoDefault">
-         <bool>false</bool>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="EM1500_neutral_btn">
-        <property name="geometry">
-         <rect>
-          <x>220</x>
-          <y>160</y>
-          <width>141</width>
-          <height>30</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>10</pointsize>
-         </font>
-        </property>
-        <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
-        </property>
-        <property name="text">
-         <string>Neutral</string>
-        </property>
-        <property name="autoDefault">
-         <bool>false</bool>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="EM1500_engaged_btn">
-        <property name="geometry">
-         <rect>
-          <x>220</x>
-          <y>210</y>
-          <width>141</width>
-          <height>30</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>10</pointsize>
-         </font>
-        </property>
-        <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
-        </property>
-        <property name="text">
-         <string>Engaged</string>
-        </property>
-        <property name="autoDefault">
-         <bool>false</bool>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="COMAU_settled_btn">
-        <property name="geometry">
-         <rect>
-          <x>410</x>
-          <y>110</y>
-          <width>141</width>
-          <height>30</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>10</pointsize>
-         </font>
-        </property>
-        <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(204, 204, 204);</string>
-        </property>
-        <property name="text">
-         <string>Settled</string>
-        </property>
-        <property name="autoDefault">
-         <bool>false</bool>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="COMAU_engaged_fast_btn">
-        <property name="geometry">
-         <rect>
-          <x>410</x>
-          <y>210</y>
-          <width>141</width>
-          <height>30</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>10</pointsize>
-         </font>
-        </property>
-        <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
-        </property>
-        <property name="text">
-         <string>Engaged - Fast</string>
-        </property>
-        <property name="autoDefault">
-         <bool>false</bool>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="COMAU_engaged_btn">
-        <property name="geometry">
-         <rect>
-          <x>410</x>
-          <y>160</y>
-          <width>141</width>
-          <height>30</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>10</pointsize>
-         </font>
-        </property>
-        <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
-        </property>
-        <property name="text">
-         <string>Engaged</string>
-        </property>
-        <property name="autoDefault">
-         <bool>false</bool>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label_8">
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>20</y>
-          <width>181</width>
-          <height>25</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>16</pointsize>
-          <weight>50</weight>
-          <bold>false</bold>
-         </font>
-        </property>
-        <property name="text">
-         <string>Motion-Lab Control</string>
-        </property>
-       </widget>
-       <widget class="Line" name="line">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>40</y>
-          <width>1071</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-       <widget class="QGroupBox" name="groupBox_EM8000">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>70</y>
-          <width>161</width>
-          <height>181</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>16</pointsize>
-         </font>
-        </property>
-        <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
-        </property>
-        <property name="title">
-         <string>E-Motion 8000</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-       <widget class="QGroupBox" name="groupBox_EM1500">
-        <property name="geometry">
-         <rect>
-          <x>210</x>
-          <y>70</y>
-          <width>161</width>
-          <height>181</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>16</pointsize>
-         </font>
-        </property>
-        <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
-        </property>
-        <property name="title">
-         <string>E-Motion 1500</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-       <widget class="QGroupBox" name="groupBox_EM1500_2">
-        <property name="geometry">
-         <rect>
-          <x>400</x>
-          <y>70</y>
-          <width>161</width>
-          <height>181</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>16</pointsize>
-         </font>
-        </property>
-        <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
-        </property>
-        <property name="styleSheet">
-         <string notr="true"/>
-        </property>
-        <property name="title">
-         <string>COMAU Robot</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-       <widget class="QGroupBox" name="groupBox_EM1500_3">
-        <property name="geometry">
-         <rect>
-          <x>780</x>
-          <y>70</y>
-          <width>161</width>
-          <height>131</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>16</pointsize>
-         </font>
-        </property>
-        <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
-        </property>
-        <property name="title">
-         <string>System</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <widget class="QPushButton" name="SYSTEM_settled_btn">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>40</y>
-           <width>141</width>
-           <height>30</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(204, 204, 204);</string>
-         </property>
-         <property name="text">
-          <string>Full System Settled</string>
-         </property>
-         <property name="autoDefault">
-          <bool>false</bool>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="SYSTEM_stop_btn">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>90</y>
-           <width>141</width>
-           <height>30</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(255, 0, 0);
-color: rgb(255, 255, 255);
-</string>
-         </property>
-         <property name="text">
-          <string>STOP</string>
-         </property>
-         <property name="autoDefault">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </widget>
-       <widget class="QGroupBox" name="groupBox_8">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>440</y>
-          <width>261</width>
-          <height>291</height>
-         </rect>
-        </property>
-        <property name="title">
-         <string>EM8000 Actuator Position</string>
-        </property>
-        <widget class="QProgressBar" name="EM8000_bar1_l1">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>30</y>
-           <width>21</width>
-           <height>221</height>
-          </rect>
-         </property>
-         <property name="minimum">
-          <number>-100</number>
-         </property>
-         <property name="value">
-          <number>0</number>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="invertedAppearance">
-          <bool>false</bool>
-         </property>
-        </widget>
-        <widget class="QProgressBar" name="EM8000_bar1_l2">
-         <property name="geometry">
-          <rect>
-           <x>60</x>
-           <y>30</y>
-           <width>21</width>
-           <height>221</height>
-          </rect>
-         </property>
-         <property name="minimum">
-          <number>-100</number>
-         </property>
-         <property name="value">
-          <number>0</number>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="invertedAppearance">
-          <bool>false</bool>
-         </property>
-        </widget>
-        <widget class="QProgressBar" name="EM8000_bar1_l3">
-         <property name="geometry">
-          <rect>
-           <x>100</x>
-           <y>30</y>
-           <width>21</width>
-           <height>221</height>
-          </rect>
-         </property>
-         <property name="minimum">
-          <number>-100</number>
-         </property>
-         <property name="value">
-          <number>0</number>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="invertedAppearance">
-          <bool>false</bool>
-         </property>
-        </widget>
-        <widget class="QProgressBar" name="EM8000_bar1_l4">
-         <property name="geometry">
-          <rect>
-           <x>140</x>
-           <y>30</y>
-           <width>21</width>
-           <height>221</height>
-          </rect>
-         </property>
-         <property name="minimum">
-          <number>-100</number>
-         </property>
-         <property name="value">
-          <number>0</number>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="invertedAppearance">
-          <bool>false</bool>
-         </property>
-        </widget>
-        <widget class="QProgressBar" name="EM8000_bar1_l5">
-         <property name="geometry">
-          <rect>
-           <x>180</x>
-           <y>30</y>
-           <width>21</width>
-           <height>221</height>
-          </rect>
-         </property>
-         <property name="minimum">
-          <number>-100</number>
-         </property>
-         <property name="value">
-          <number>0</number>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="invertedAppearance">
-          <bool>false</bool>
-         </property>
-        </widget>
-        <widget class="QProgressBar" name="EM8000_bar1_l6">
-         <property name="geometry">
-          <rect>
-           <x>220</x>
-           <y>30</y>
-           <width>21</width>
-           <height>221</height>
-          </rect>
-         </property>
-         <property name="minimum">
-          <number>-100</number>
-         </property>
-         <property name="maximum">
-          <number>100</number>
-         </property>
-         <property name="value">
-          <number>0</number>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="invertedAppearance">
-          <bool>false</bool>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_21">
-         <property name="geometry">
-          <rect>
-           <x>180</x>
-           <y>260</y>
-           <width>21</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="text">
-          <string>5</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_47">
-         <property name="geometry">
-          <rect>
-           <x>220</x>
-           <y>260</y>
-           <width>21</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="text">
-          <string>6</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_48">
-         <property name="geometry">
-          <rect>
-           <x>140</x>
-           <y>260</y>
-           <width>21</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="text">
-          <string>4</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_49">
-         <property name="geometry">
-          <rect>
-           <x>100</x>
-           <y>260</y>
-           <width>21</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="text">
-          <string>3</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_50">
-         <property name="geometry">
-          <rect>
-           <x>60</x>
-           <y>260</y>
-           <width>21</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="text">
-          <string>2</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_51">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>260</y>
-           <width>21</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="text">
-          <string>1</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </widget>
-       <widget class="QGroupBox" name="groupBox_10">
-        <property name="geometry">
-         <rect>
-          <x>580</x>
-          <y>440</y>
-          <width>261</width>
-          <height>291</height>
-         </rect>
-        </property>
-        <property name="title">
-         <string>COMAU Joint Position</string>
-        </property>
-        <widget class="QProgressBar" name="COMAU_bar1_j1">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>30</y>
-           <width>21</width>
-           <height>221</height>
-          </rect>
-         </property>
-         <property name="minimum">
-          <number>-100</number>
-         </property>
-         <property name="value">
-          <number>0</number>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="invertedAppearance">
-          <bool>false</bool>
-         </property>
-        </widget>
-        <widget class="QProgressBar" name="COMAU_bar1_j2">
-         <property name="geometry">
-          <rect>
-           <x>60</x>
-           <y>30</y>
-           <width>21</width>
-           <height>221</height>
-          </rect>
-         </property>
-         <property name="minimum">
-          <number>-100</number>
-         </property>
-         <property name="value">
-          <number>0</number>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="invertedAppearance">
-          <bool>false</bool>
-         </property>
-        </widget>
-        <widget class="QProgressBar" name="COMAU_bar1_j3">
-         <property name="geometry">
-          <rect>
-           <x>100</x>
-           <y>30</y>
-           <width>21</width>
-           <height>221</height>
-          </rect>
-         </property>
-         <property name="minimum">
-          <number>-100</number>
-         </property>
-         <property name="value">
-          <number>0</number>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="invertedAppearance">
-          <bool>false</bool>
-         </property>
-        </widget>
-        <widget class="QProgressBar" name="COMAU_bar1_j4">
-         <property name="geometry">
-          <rect>
-           <x>140</x>
-           <y>30</y>
-           <width>21</width>
-           <height>221</height>
-          </rect>
-         </property>
-         <property name="minimum">
-          <number>-100</number>
-         </property>
-         <property name="value">
-          <number>0</number>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="invertedAppearance">
-          <bool>false</bool>
-         </property>
-        </widget>
-        <widget class="QProgressBar" name="COMAU_bar1_j5">
-         <property name="geometry">
-          <rect>
-           <x>180</x>
-           <y>30</y>
-           <width>21</width>
-           <height>221</height>
-          </rect>
-         </property>
-         <property name="minimum">
-          <number>-100</number>
-         </property>
-         <property name="value">
-          <number>0</number>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="invertedAppearance">
-          <bool>false</bool>
-         </property>
-        </widget>
-        <widget class="QProgressBar" name="COMAU_bar1_j6">
-         <property name="geometry">
-          <rect>
-           <x>220</x>
-           <y>30</y>
-           <width>21</width>
-           <height>221</height>
-          </rect>
-         </property>
-         <property name="minimum">
-          <number>-100</number>
-         </property>
-         <property name="value">
-          <number>0</number>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="invertedAppearance">
-          <bool>false</bool>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_52">
-         <property name="geometry">
-          <rect>
-           <x>180</x>
-           <y>260</y>
-           <width>21</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="text">
-          <string>5</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_53">
-         <property name="geometry">
-          <rect>
-           <x>220</x>
-           <y>260</y>
-           <width>21</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="text">
-          <string>6</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_54">
-         <property name="geometry">
-          <rect>
-           <x>140</x>
-           <y>260</y>
-           <width>21</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="text">
-          <string>4</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_55">
-         <property name="geometry">
-          <rect>
-           <x>100</x>
-           <y>260</y>
-           <width>21</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="text">
-          <string>3</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_56">
-         <property name="geometry">
-          <rect>
-           <x>60</x>
-           <y>260</y>
-           <width>21</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="text">
-          <string>2</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_57">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>260</y>
-           <width>21</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="text">
-          <string>1</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </widget>
-       <widget class="QGroupBox" name="groupBox_EM1500_5">
-        <property name="geometry">
-         <rect>
-          <x>590</x>
-          <y>70</y>
-          <width>161</width>
-          <height>281</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>16</pointsize>
-         </font>
-        </property>
-        <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
-        </property>
-        <property name="title">
-         <string>Winch</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <widget class="QPushButton" name="winchOff">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>190</y>
-           <width>141</width>
-           <height>30</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(204, 204, 204);</string>
-         </property>
-         <property name="text">
-          <string>OFF</string>
-         </property>
-         <property name="autoDefault">
-          <bool>false</bool>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="winchOn">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>240</y>
-           <width>141</width>
-           <height>30</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="text">
-          <string>ON</string>
-         </property>
-         <property name="autoDefault">
-          <bool>false</bool>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="winchEngagedFast">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>140</y>
-           <width>141</width>
-           <height>30</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="text">
-          <string>Engaged - Fast</string>
-         </property>
-         <property name="autoDefault">
-          <bool>false</bool>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="winchSettled">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>40</y>
-           <width>141</width>
-           <height>30</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(204, 204, 204);</string>
-         </property>
-         <property name="text">
-          <string>Settled</string>
-         </property>
-         <property name="autoDefault">
-          <bool>false</bool>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="winchEngaged">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>90</y>
-           <width>141</width>
-           <height>30</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
-         </property>
-         <property name="text">
-          <string>Engaged</string>
-         </property>
-         <property name="autoDefault">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </widget>
-       <widget class="QPushButton" name="show3dView">
-        <property name="geometry">
-         <rect>
-          <x>890</x>
-          <y>630</y>
-          <width>141</width>
-          <height>30</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>10</pointsize>
-         </font>
-        </property>
-        <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
-        </property>
-        <property name="text">
-         <string>Show 3D View</string>
-        </property>
-        <property name="autoDefault">
-         <bool>false</bool>
-        </property>
-       </widget>
-       <widget class="QGroupBox" name="groupBox_EM1500_4">
-        <property name="geometry">
-         <rect>
-          <x>970</x>
-          <y>70</y>
-          <width>121</width>
-          <height>401</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>16</pointsize>
-         </font>
-        </property>
-        <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
-        </property>
-        <property name="title">
-         <string>Status</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <widget class="QCheckBox" name="activeEM8000">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>40</y>
-           <width>111</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>EM8000</string>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>16</width>
-           <height>16</height>
-          </size>
-         </property>
-         <property name="checkable">
-          <bool>false</bool>
-         </property>
-         <property name="tristate">
-          <bool>false</bool>
-         </property>
-        </widget>
-        <widget class="QCheckBox" name="activeEM1500">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>80</y>
-           <width>81</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>EM1500</string>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>16</width>
-           <height>16</height>
-          </size>
-         </property>
-         <property name="checkable">
-          <bool>false</bool>
-         </property>
-         <property name="tristate">
-          <bool>false</bool>
-         </property>
-        </widget>
-        <widget class="QCheckBox" name="activeCOMAU">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>200</y>
-           <width>111</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>COMAU</string>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>16</width>
-           <height>16</height>
-          </size>
-         </property>
-         <property name="checkable">
-          <bool>false</bool>
-         </property>
-         <property name="tristate">
-          <bool>false</bool>
-         </property>
-        </widget>
-        <widget class="QCheckBox" name="activeWINCH">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>240</y>
-           <width>111</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>WINCH</string>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>16</width>
-           <height>16</height>
-          </size>
-         </property>
-         <property name="checkable">
-          <bool>false</bool>
-         </property>
-         <property name="tristate">
-          <bool>false</bool>
-         </property>
-        </widget>
-        <widget class="QCheckBox" name="activeLEICA">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>280</y>
-           <width>111</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>LEICA</string>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>16</width>
-           <height>16</height>
-          </size>
-         </property>
-         <property name="checkable">
-          <bool>false</bool>
-         </property>
-         <property name="tristate">
-          <bool>false</bool>
-         </property>
-        </widget>
-        <widget class="QCheckBox" name="activeQTM">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>320</y>
-           <width>111</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>QTM</string>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>16</width>
-           <height>16</height>
-          </size>
-         </property>
-         <property name="checkable">
-          <bool>false</bool>
-         </property>
-         <property name="tristate">
-          <bool>false</bool>
-         </property>
-        </widget>
-        <widget class="QCheckBox" name="activeMRU1">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>120</y>
-           <width>111</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>MRU1</string>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>16</width>
-           <height>16</height>
-          </size>
-         </property>
-         <property name="checkable">
-          <bool>false</bool>
-         </property>
-         <property name="tristate">
-          <bool>false</bool>
-         </property>
-        </widget>
-        <widget class="QCheckBox" name="activeMRU2">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>160</y>
-           <width>111</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>MRU2</string>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>16</width>
-           <height>16</height>
-          </size>
-         </property>
-         <property name="checkable">
-          <bool>false</bool>
-         </property>
-         <property name="tristate">
-          <bool>false</bool>
-         </property>
-        </widget>
-        <widget class="QCheckBox" name="activeXBOX">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>360</y>
-           <width>81</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>XBOX</string>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>16</width>
-           <height>16</height>
-          </size>
-         </property>
-         <property name="checkable">
-          <bool>false</bool>
-         </property>
-         <property name="tristate">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </widget>
-       <zorder>groupBox_EM8000</zorder>
-       <zorder>groupBox_EM1500_2</zorder>
-       <zorder>groupBox_EM1500</zorder>
-       <zorder>EM8000_settled_btn</zorder>
-       <zorder>EM8000_neutral_btn</zorder>
-       <zorder>EM8000_engaged_btn</zorder>
-       <zorder>EM1500_settled_btn</zorder>
-       <zorder>EM1500_neutral_btn</zorder>
-       <zorder>EM1500_engaged_btn</zorder>
-       <zorder>COMAU_settled_btn</zorder>
-       <zorder>COMAU_engaged_fast_btn</zorder>
-       <zorder>COMAU_engaged_btn</zorder>
-       <zorder>label_8</zorder>
-       <zorder>line</zorder>
-       <zorder>groupBox_EM1500_3</zorder>
-       <zorder>groupBox_8</zorder>
-       <zorder>groupBox_10</zorder>
-       <zorder>groupBox_EM1500_5</zorder>
-       <zorder>show3dView</zorder>
-       <zorder>groupBox_EM1500_4</zorder>
-      </widget>
-      <widget class="QWidget" name="tab">
-       <attribute name="title">
-        <string>WINCH</string>
-       </attribute>
-      </widget>
-      <widget class="QWidget" name="tab_2">
-       <attribute name="title">
-        <string>MRU 1</string>
-       </attribute>
-      </widget>
-      <widget class="QWidget" name="tab_3">
-       <attribute name="title">
-        <string>MRU 2</string>
-       </attribute>
-      </widget>
       <widget class="QWidget" name="tab_12">
        <attribute name="title">
         <string>Wave Simulator</string>
        </attribute>
-      </widget>
-      <widget class="QWidget" name="tab_9">
-       <attribute name="title">
-        <string>Data Logger</string>
-       </attribute>
-      </widget>
-      <widget class="QWidget" name="tab_5">
-       <attribute name="title">
-        <string>DP Simulator</string>
-       </attribute>
-       <widget class="Line" name="line_6">
+       <widget class="QGroupBox" name="groupBox_40">
         <property name="geometry">
          <rect>
-          <x>20</x>
-          <y>40</y>
-          <width>1071</width>
-          <height>21</height>
+          <x>370</x>
+          <y>10</y>
+          <width>901</width>
+          <height>811</height>
          </rect>
         </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+        <property name="title">
+         <string>Wave Spectrum</string>
         </property>
-       </widget>
-       <widget class="QLabel" name="label_58">
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>20</y>
-          <width>681</width>
-          <height>25</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>16</pointsize>
-          <weight>50</weight>
-          <bold>false</bold>
-         </font>
-        </property>
-        <property name="text">
-         <string>Real-Time Dyanamic Positioning (DP) Simulator - 6DOF</string>
-        </property>
-       </widget>
-       <widget class="QTabWidget" name="tab_6">
-        <property name="geometry">
-         <rect>
-          <x>300</x>
-          <y>70</y>
-          <width>791</width>
-          <height>701</height>
-         </rect>
-        </property>
-        <property name="currentIndex">
-         <number>1</number>
-        </property>
-        <widget class="QWidget" name="widget_2">
-         <attribute name="title">
-          <string>EM 8000</string>
-         </attribute>
-         <widget class="GraphicsLayoutWidget" name="DP1_SimStates">
-          <property name="geometry">
-           <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>791</width>
-            <height>671</height>
-           </rect>
-          </property>
-         </widget>
-        </widget>
-        <widget class="QWidget" name="tab_7">
-         <attribute name="title">
-          <string>EM 1500</string>
-         </attribute>
-         <widget class="GraphicsLayoutWidget" name="DP2_SimStates">
-          <property name="geometry">
-           <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>791</width>
-            <height>671</height>
-           </rect>
-          </property>
-         </widget>
+        <widget class="GraphicsLayoutWidget" name="waveSpectrum_plot">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>30</y>
+           <width>881</width>
+           <height>771</height>
+          </rect>
+         </property>
         </widget>
        </widget>
        <widget class="QGroupBox" name="groupBox_23">
         <property name="geometry">
          <rect>
-          <x>20</x>
-          <y>70</y>
-          <width>261</width>
-          <height>321</height>
+          <x>10</x>
+          <y>10</y>
+          <width>351</width>
+          <height>171</height>
          </rect>
         </property>
         <property name="title">
@@ -3403,8 +1808,8 @@ color: rgb(255, 255, 255);
         <widget class="QLabel" name="label_149">
          <property name="geometry">
           <rect>
-           <x>220</x>
-           <y>60</y>
+           <x>310</x>
+           <y>51</y>
            <width>31</width>
            <height>20</height>
           </rect>
@@ -3419,8 +1824,8 @@ color: rgb(255, 255, 255);
         <widget class="QLabel" name="label_151">
          <property name="geometry">
           <rect>
-           <x>220</x>
-           <y>30</y>
+           <x>310</x>
+           <y>20</y>
            <width>31</width>
            <height>20</height>
           </rect>
@@ -3435,14 +1840,14 @@ color: rgb(255, 255, 255);
         <widget class="QLabel" name="label_152">
          <property name="geometry">
           <rect>
-           <x>10</x>
-           <y>31</y>
-           <width>151</width>
+           <x>11</x>
+           <y>21</y>
+           <width>181</width>
            <height>20</height>
           </rect>
          </property>
          <property name="text">
-          <string>Significant Wave Height :</string>
+          <string>Significant Wave Height (Hs):</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -3451,14 +1856,14 @@ color: rgb(255, 255, 255);
         <widget class="QLabel" name="label_159">
          <property name="geometry">
           <rect>
-           <x>10</x>
-           <y>60</y>
+           <x>11</x>
+           <y>51</y>
            <width>151</width>
            <height>20</height>
           </rect>
          </property>
          <property name="text">
-          <string>Wave Time Period :</string>
+          <string>Wave Time Period (Tp) :</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -3467,172 +1872,774 @@ color: rgb(255, 255, 255);
         <widget class="QLabel" name="label_160">
          <property name="geometry">
           <rect>
-           <x>10</x>
-           <y>90</y>
+           <x>11</x>
+           <y>82</y>
            <width>141</width>
            <height>20</height>
           </rect>
          </property>
          <property name="text">
-          <string>Ocean-Wave Spectra :</string>
+          <string>Wave Spectum :</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
          </property>
         </widget>
-        <widget class="QComboBox" name="EM8000_wave_spectra">
+        <widget class="QComboBox" name="spectrumType">
          <property name="geometry">
           <rect>
-           <x>160</x>
-           <y>90</y>
-           <width>81</width>
+           <x>141</x>
+           <y>82</y>
+           <width>151</width>
            <height>22</height>
           </rect>
          </property>
          <property name="currentText">
-          <string>JONSWAP</string>
+          <string>Pierson-Moskowitz</string>
          </property>
          <property name="currentIndex">
           <number>0</number>
          </property>
          <item>
           <property name="text">
+           <string>Pierson-Moskowitz</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
            <string>JONSWAP</string>
           </property>
          </item>
-         <item>
-          <property name="text">
-           <string>PMS</string>
-          </property>
-         </item>
         </widget>
-        <widget class="QLineEdit" name="EM8000_wave_height">
-         <property name="geometry">
-          <rect>
-           <x>160</x>
-           <y>30</y>
-           <width>51</width>
-           <height>20</height>
-          </rect>
-         </property>
-         <property name="clearButtonEnabled">
-          <bool>false</bool>
-         </property>
-        </widget>
-        <widget class="QLineEdit" name="EM8000_wave_period">
-         <property name="geometry">
-          <rect>
-           <x>160</x>
-           <y>60</y>
-           <width>51</width>
-           <height>20</height>
-          </rect>
-         </property>
-         <property name="clearButtonEnabled">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </widget>
-       <widget class="QGroupBox" name="groupBox_15">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>400</y>
-          <width>261</width>
-          <height>51</height>
-         </rect>
-        </property>
-        <property name="title">
-         <string>Plot options</string>
-        </property>
-        <widget class="QLabel" name="label_109">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>20</y>
-           <width>101</width>
-           <height>20</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Time axis range:</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-        <widget class="QComboBox" name="EM8000_plot_time_range_ship">
-         <property name="geometry">
-          <rect>
-           <x>130</x>
-           <y>20</y>
-           <width>69</width>
-           <height>22</height>
-          </rect>
-         </property>
-         <property name="currentText">
-          <string>20</string>
-         </property>
-         <property name="currentIndex">
-          <number>1</number>
-         </property>
-         <item>
-          <property name="text">
-           <string>10</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>20</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>30</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>40</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>50</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>60</string>
-          </property>
-         </item>
-        </widget>
-        <widget class="QLabel" name="label_110">
+        <widget class="QDoubleSpinBox" name="Hs">
          <property name="geometry">
           <rect>
            <x>210</x>
            <y>20</y>
-           <width>31</width>
-           <height>20</height>
+           <width>81</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="minimum">
+          <double>1.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>8.000000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>0.500000000000000</double>
+         </property>
+         <property name="value">
+          <double>2.500000000000000</double>
+         </property>
+        </widget>
+        <widget class="QDoubleSpinBox" name="Tp">
+         <property name="geometry">
+          <rect>
+           <x>210</x>
+           <y>51</y>
+           <width>81</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="minimum">
+          <double>5.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>25.000000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>1.000000000000000</double>
+         </property>
+         <property name="value">
+          <double>12.000000000000000</double>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="bResetWaveSim">
+         <property name="geometry">
+          <rect>
+           <x>162</x>
+           <y>121</y>
+           <width>130</width>
+           <height>30</height>
           </rect>
          </property>
          <property name="text">
-          <string>[s]</string>
+          <string>Reset Scaling</string>
          </property>
-         <property name="alignment">
-          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </widget>
+        <widget class="QPushButton" name="bWriteSpectrum_2">
+         <property name="geometry">
+          <rect>
+           <x>14</x>
+           <y>121</y>
+           <width>130</width>
+           <height>30</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Set Spectrum Data</string>
          </property>
         </widget>
        </widget>
-       <widget class="GraphicsLayoutWidget" name="DP1_wavespectrum">
+       <widget class="QGroupBox" name="groupBox_8">
         <property name="geometry">
          <rect>
-          <x>20</x>
-          <y>467</y>
-          <width>261</width>
-          <height>301</height>
+          <x>10</x>
+          <y>500</y>
+          <width>351</width>
+          <height>321</height>
          </rect>
         </property>
+        <property name="title">
+         <string>EM1500 DOF Scale</string>
+        </property>
+        <widget class="QProgressBar" name="em1500_dof_scale_0">
+         <property name="geometry">
+          <rect>
+           <x>21</x>
+           <y>36</y>
+           <width>38</width>
+           <height>240</height>
+          </rect>
+         </property>
+         <property name="minimum">
+          <number>0</number>
+         </property>
+         <property name="value">
+          <number>100</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="invertedAppearance">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_47">
+         <property name="geometry">
+          <rect>
+           <x>223</x>
+           <y>280</y>
+           <width>50</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>pitch</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_49">
+         <property name="geometry">
+          <rect>
+           <x>188</x>
+           <y>280</y>
+           <width>21</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>roll</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_50">
+         <property name="geometry">
+          <rect>
+           <x>132</x>
+           <y>280</y>
+           <width>21</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>z</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_51">
+         <property name="geometry">
+          <rect>
+           <x>82</x>
+           <y>280</y>
+           <width>21</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>y</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_52">
+         <property name="geometry">
+          <rect>
+           <x>28</x>
+           <y>280</y>
+           <width>21</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>x</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QProgressBar" name="em1500_dof_scale_1">
+         <property name="geometry">
+          <rect>
+           <x>74</x>
+           <y>36</y>
+           <width>38</width>
+           <height>240</height>
+          </rect>
+         </property>
+         <property name="minimum">
+          <number>0</number>
+         </property>
+         <property name="value">
+          <number>100</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="invertedAppearance">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QProgressBar" name="em1500_dof_scale_2">
+         <property name="geometry">
+          <rect>
+           <x>126</x>
+           <y>36</y>
+           <width>38</width>
+           <height>240</height>
+          </rect>
+         </property>
+         <property name="minimum">
+          <number>0</number>
+         </property>
+         <property name="value">
+          <number>100</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="invertedAppearance">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QProgressBar" name="em1500_dof_scale_3">
+         <property name="geometry">
+          <rect>
+           <x>179</x>
+           <y>36</y>
+           <width>38</width>
+           <height>240</height>
+          </rect>
+         </property>
+         <property name="minimum">
+          <number>0</number>
+         </property>
+         <property name="value">
+          <number>100</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="invertedAppearance">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QProgressBar" name="em1500_dof_scale_4">
+         <property name="geometry">
+          <rect>
+           <x>231</x>
+           <y>36</y>
+           <width>38</width>
+           <height>240</height>
+          </rect>
+         </property>
+         <property name="minimum">
+          <number>0</number>
+         </property>
+         <property name="value">
+          <number>100</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="invertedAppearance">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QProgressBar" name="em1500_dof_scale_5">
+         <property name="geometry">
+          <rect>
+           <x>284</x>
+           <y>36</y>
+           <width>38</width>
+           <height>240</height>
+          </rect>
+         </property>
+         <property name="minimum">
+          <number>0</number>
+         </property>
+         <property name="value">
+          <number>100</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="invertedAppearance">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_48">
+         <property name="geometry">
+          <rect>
+           <x>276</x>
+           <y>280</y>
+           <width>50</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>yaw</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <zorder>em1500_dof_scale_0</zorder>
+        <zorder>label_47</zorder>
+        <zorder>label_49</zorder>
+        <zorder>label_50</zorder>
+        <zorder>label_51</zorder>
+        <zorder>label_52</zorder>
+        <zorder>em1500_dof_scale_1</zorder>
+        <zorder>em1500_dof_scale_2</zorder>
+        <zorder>em1500_dof_scale_3</zorder>
+        <zorder>em1500_dof_scale_4</zorder>
+        <zorder>em1500_dof_scale_5</zorder>
+        <zorder>label_48</zorder>
+        <zorder>groupBox_10</zorder>
+       </widget>
+       <widget class="QGroupBox" name="groupBox_10">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>180</y>
+          <width>351</width>
+          <height>321</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>EM8000 DOF Scale</string>
+        </property>
+        <widget class="QProgressBar" name="em8000_dof_scale_0">
+         <property name="geometry">
+          <rect>
+           <x>21</x>
+           <y>36</y>
+           <width>38</width>
+           <height>240</height>
+          </rect>
+         </property>
+         <property name="minimum">
+          <number>0</number>
+         </property>
+         <property name="value">
+          <number>100</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="invertedAppearance">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_53">
+         <property name="geometry">
+          <rect>
+           <x>223</x>
+           <y>280</y>
+           <width>50</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>pitch</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_54">
+         <property name="geometry">
+          <rect>
+           <x>188</x>
+           <y>280</y>
+           <width>21</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>roll</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_55">
+         <property name="geometry">
+          <rect>
+           <x>132</x>
+           <y>280</y>
+           <width>21</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>z</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_56">
+         <property name="geometry">
+          <rect>
+           <x>82</x>
+           <y>280</y>
+           <width>21</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>y</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_57">
+         <property name="geometry">
+          <rect>
+           <x>28</x>
+           <y>280</y>
+           <width>21</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>x</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+        <widget class="QProgressBar" name="em8000_dof_scale_1">
+         <property name="geometry">
+          <rect>
+           <x>74</x>
+           <y>36</y>
+           <width>38</width>
+           <height>240</height>
+          </rect>
+         </property>
+         <property name="minimum">
+          <number>0</number>
+         </property>
+         <property name="value">
+          <number>100</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="invertedAppearance">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QProgressBar" name="em8000_dof_scale_2">
+         <property name="geometry">
+          <rect>
+           <x>126</x>
+           <y>36</y>
+           <width>38</width>
+           <height>240</height>
+          </rect>
+         </property>
+         <property name="minimum">
+          <number>0</number>
+         </property>
+         <property name="value">
+          <number>100</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="invertedAppearance">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QProgressBar" name="em8000_dof_scale_3">
+         <property name="geometry">
+          <rect>
+           <x>179</x>
+           <y>36</y>
+           <width>38</width>
+           <height>240</height>
+          </rect>
+         </property>
+         <property name="minimum">
+          <number>0</number>
+         </property>
+         <property name="value">
+          <number>100</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="invertedAppearance">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QProgressBar" name="em8000_dof_scale_4">
+         <property name="geometry">
+          <rect>
+           <x>231</x>
+           <y>36</y>
+           <width>38</width>
+           <height>240</height>
+          </rect>
+         </property>
+         <property name="minimum">
+          <number>0</number>
+         </property>
+         <property name="value">
+          <number>100</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="invertedAppearance">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QProgressBar" name="em8000_dof_scale_5">
+         <property name="geometry">
+          <rect>
+           <x>284</x>
+           <y>36</y>
+           <width>38</width>
+           <height>240</height>
+          </rect>
+         </property>
+         <property name="minimum">
+          <number>0</number>
+         </property>
+         <property name="value">
+          <number>100</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="invertedAppearance">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_65">
+         <property name="geometry">
+          <rect>
+           <x>276</x>
+           <y>280</y>
+           <width>50</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>yaw</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tab_interface">
+       <attribute name="title">
+        <string>Remote Interface</string>
+       </attribute>
+       <widget class="QGroupBox" name="groupBox_38">
+        <property name="geometry">
+         <rect>
+          <x>370</x>
+          <y>10</y>
+          <width>901</width>
+          <height>811</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Remote Input Inspector</string>
+        </property>
+        <widget class="GraphicsLayoutWidget" name="em8000_plot_2">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>30</y>
+           <width>881</width>
+           <height>771</height>
+          </rect>
+         </property>
+        </widget>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tab_9">
+       <attribute name="title">
+        <string>Data Logger</string>
+       </attribute>
+       <widget class="QGroupBox" name="groupBox_41">
+        <property name="geometry">
+         <rect>
+          <x>370</x>
+          <y>10</y>
+          <width>901</width>
+          <height>811</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Signal Inspector</string>
+        </property>
+        <widget class="GraphicsLayoutWidget" name="waveSpectrum_plot_2">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>30</y>
+           <width>881</width>
+           <height>771</height>
+          </rect>
+         </property>
+        </widget>
        </widget>
       </widget>
       <widget class="QWidget" name="tab_4">
@@ -4166,7 +3173,6 @@ color: rgb(255, 255, 255);
   <tabstop>em1500_eModeCmd</tabstop>
   <tabstop>em1500_engage</tabstop>
   <tabstop>em1500_disengage</tabstop>
-  <tabstop>activeWINCH</tabstop>
   <tabstop>em1500_amp_0</tabstop>
   <tabstop>em1500_freq_0</tabstop>
   <tabstop>em1500_phase_0</tabstop>
@@ -4185,27 +3191,10 @@ color: rgb(255, 255, 255);
   <tabstop>em1500_amp_5</tabstop>
   <tabstop>em1500_freq_5</tabstop>
   <tabstop>em1500_phase_5</tabstop>
-  <tabstop>activeLEICA</tabstop>
-  <tabstop>activeQTM</tabstop>
-  <tabstop>activeMRU1</tabstop>
-  <tabstop>activeMRU2</tabstop>
-  <tabstop>activeXBOX</tabstop>
-  <tabstop>EM8000_settled_btn</tabstop>
   <tabstop>em1500_eState</tabstop>
   <tabstop>em1500_eStatus</tabstop>
   <tabstop>em1500_eOpMode</tabstop>
-  <tabstop>EM1500_neutral_btn</tabstop>
-  <tabstop>SYSTEM_settled_btn</tabstop>
-  <tabstop>winchEngaged</tabstop>
   <tabstop>em1500_plot</tabstop>
-  <tabstop>tab_6</tabstop>
-  <tabstop>DP1_SimStates</tabstop>
-  <tabstop>DP2_SimStates</tabstop>
-  <tabstop>EM8000_wave_spectra</tabstop>
-  <tabstop>EM8000_wave_height</tabstop>
-  <tabstop>EM8000_wave_period</tabstop>
-  <tabstop>EM8000_plot_time_range_ship</tabstop>
-  <tabstop>DP1_wavespectrum</tabstop>
   <tabstop>estimatedDampingPlot</tabstop>
   <tabstop>swingAnglesWidget</tabstop>
   <tabstop>swingVelocityWidget</tabstop>
@@ -4222,24 +3211,7 @@ color: rgb(255, 255, 255);
   <tabstop>btnDisableMruCM</tabstop>
   <tabstop>btnEnableMruWinch</tabstop>
   <tabstop>btnDisableMruWinch</tabstop>
-  <tabstop>EM8000_neutral_btn</tabstop>
-  <tabstop>EM8000_engaged_btn</tabstop>
   <tabstop>em1500_eMode</tabstop>
-  <tabstop>EM1500_engaged_btn</tabstop>
-  <tabstop>COMAU_settled_btn</tabstop>
-  <tabstop>EM1500_settled_btn</tabstop>
-  <tabstop>COMAU_engaged_fast_btn</tabstop>
-  <tabstop>SYSTEM_stop_btn</tabstop>
-  <tabstop>winchOff</tabstop>
-  <tabstop>winchOn</tabstop>
-  <tabstop>winchEngagedFast</tabstop>
-  <tabstop>show3dView</tabstop>
-  <tabstop>activeEM8000</tabstop>
-  <tabstop>activeEM1500</tabstop>
-  <tabstop>activeCOMAU</tabstop>
-  <tabstop>tabSelector</tabstop>
-  <tabstop>COMAU_engaged_btn</tabstop>
-  <tabstop>winchSettled</tabstop>
  </tabstops>
  <resources/>
  <connections/>

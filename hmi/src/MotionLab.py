@@ -19,7 +19,8 @@ from src.opengl import MotionLabVisualizer
 # NEW
 from .MainWindow import Ui_MainWindow
 from .AdsQt import notification
-from .StewartPlattform import *
+from .StewartPlattform import StewartPlattform
+from .WaveSimulator import WaveSimulator
 
 # Motionlab pybind module
 from lib import motionlab as ml
@@ -46,10 +47,11 @@ class MotionLab(QMainWindow, Ui_MainWindow):
         except pyads.ADSError:
             self.plcActive = False
         
-        # Connect equipement to UI
+        # Connect UI
         if self.plcActive:
             self.em1500 = StewartPlattform(self.plc, self.ui, 'em1500')
             self.em8000 = StewartPlattform(self.plc, self.ui, 'em8000')
+            self.waveSimulator = WaveSimulator(self.plc, self.ui)
 
 
         # Xbox controller
