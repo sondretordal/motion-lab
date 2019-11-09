@@ -30,12 +30,12 @@ VAR
 	hmiTimer : TON;
 	
 	// Remote interface
-	remote : FB_RemoteInterface('192.168.90.60', 50060, 50050);
+	remote : FB_RemoteInterface('192.168.90.201', 50201, 50200);
 	
 	// Machinery
 	em8000 : FB_StewartInterface('192.168.90.30', 50030, 50040);
 	em1500 : FB_StewartInterface('192.168.90.31', 50031, 50041);
-	comau : FB_ComauInterface('192.168.90.32', 50032, 50042, ADR(txHmi.comau));
+	comau : FB_ComauInterface('192.168.90.32', 50032, 50042);
 	winch : FB_WinchInterface(ADR(txHmi.winch));
 	
 	// Sensors
@@ -1267,7 +1267,15 @@ qtm();
 comau();
 winch();
 
-remote();]]></ST>
+
+remote.txUdp.comau_q := comau.q;
+remote.txUdp.comau_q_t := comau.q_t;
+
+remote();
+
+comau.u := remote.rxUdp.comau_u;
+
+]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="MAIN.Error_DO">
@@ -1312,8 +1320,16 @@ remote();]]></ST>
       <LineId Id="5" Count="0" />
       <LineId Id="15" Count="0" />
       <LineId Id="12" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="26" Count="0" />
       <LineId Id="20" Count="0" />
       <LineId Id="19" Count="0" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="21" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

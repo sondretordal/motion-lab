@@ -2276,19 +2276,6 @@
           <set>Qt::AlignCenter</set>
          </property>
         </widget>
-        <zorder>em1500_dof_scale_0</zorder>
-        <zorder>label_47</zorder>
-        <zorder>label_49</zorder>
-        <zorder>label_50</zorder>
-        <zorder>label_51</zorder>
-        <zorder>label_52</zorder>
-        <zorder>em1500_dof_scale_1</zorder>
-        <zorder>em1500_dof_scale_2</zorder>
-        <zorder>em1500_dof_scale_3</zorder>
-        <zorder>em1500_dof_scale_4</zorder>
-        <zorder>em1500_dof_scale_5</zorder>
-        <zorder>label_48</zorder>
-        <zorder>groupBox_10</zorder>
        </widget>
        <widget class="QGroupBox" name="groupBox_10">
         <property name="geometry">
@@ -2602,7 +2589,7 @@
         <property name="title">
          <string>Remote Input Inspector</string>
         </property>
-        <widget class="GraphicsLayoutWidget" name="em8000_plot_2">
+        <widget class="GraphicsLayoutWidget" name="comau_plot">
          <property name="geometry">
           <rect>
            <x>10</x>
@@ -2610,6 +2597,93 @@
            <width>881</width>
            <height>771</height>
           </rect>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="groupBox_15">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>351</width>
+          <height>101</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Comau Robot Operation</string>
+        </property>
+        <widget class="QComboBox" name="em1500_eModeCmd_2">
+         <property name="geometry">
+          <rect>
+           <x>13</x>
+           <y>30</y>
+           <width>153</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <item>
+          <property name="text">
+           <string>SETTLED</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>NEUTRAL</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>SIMULATION</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>GENERATOR</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>FILE</string>
+          </property>
+         </item>
+        </widget>
+        <widget class="QPushButton" name="comau_engage">
+         <property name="geometry">
+          <rect>
+           <x>12</x>
+           <y>65</y>
+           <width>155</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>ENGAGE</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="comau_disengage">
+         <property name="geometry">
+          <rect>
+           <x>180</x>
+           <y>65</y>
+           <width>155</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>DISENGAGE</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="em1500_eMode_2">
+         <property name="geometry">
+          <rect>
+           <x>180</x>
+           <y>30</y>
+           <width>153</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
          </property>
         </widget>
        </widget>

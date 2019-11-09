@@ -4,7 +4,7 @@
     <Declaration><![CDATA[TYPE ST_TxUdpComau :
 STRUCT
 	udpKey : DINT := 0;
-	cmnd : DINT := 0;
+	cmnd : DINT; // 0: SETTLED, 1: ENGAGED
 	qDotRef : ARRAY [0..5] OF REAL;
 END_STRUCT
 END_TYPE

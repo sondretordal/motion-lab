@@ -4,9 +4,12 @@ from ctypes import Structure
 import pyads
 import time
 
+from .RealTimePlot import RealTimePlot
+
 class TxHmiComau(Structure):
     _fields_ = [
         ('status', pyads.PLCTYPE_DINT),
+        ('u', pyads.PLCTYPE_ARR_REAL(6)),
         ('q', pyads.PLCTYPE_ARR_REAL(6)),
         ('q_t', pyads.PLCTYPE_ARR_REAL(6)),
         ('qMin', pyads.PLCTYPE_ARR_REAL(6)),
@@ -23,3 +26,55 @@ class ComauRobot(QtCore.QObject):
         self.guiRoot = 'self.gui.' + self.plcInstance
         self.plcRoot = 'MAIN.' + self.plcInstance
         self.t0 = time.time()
+
+        # Setup plot area
+        self.setupPlot()
+
+        self.gui.comau_engage.clicked.connect(self.engage)
+        self.gui.comau_disengage.clicked.connect(self.disengage)
+
+        # Plot timer
+        self.timer = QtCore.QTimer()
+        self.timer.timeout.connect(self.updatePlot)
+        self.timer.start(50)
+
+    
+    def updatePlot(self):
+        self.txHmi = self.plc.read_by_name(
+            'MAIN.comau.txHmi',
+            TxHmiComau
+        )
+
+
+        t = time.time() - self.t0
+        self.plotInput.update(t, np.array(self.txHmi.u)/np.pi*180)
+        self.plotAngles.update(t, np.array(self.txHmi.q)/np.pi*180)
+
+
+    def engage(self):
+        self.plc.write_by_name('MAIN.comau.bStart', True, pyads.PLCTYPE_BOOL)
+    
+    def disengage(self):
+        self.plc.write_by_name('MAIN.comau.bStart', False, pyads.PLCTYPE_BOOL)
+
+    def setupPlot(self):
+        self.plotInput = RealTimePlot(self.gui.comau_plot.addPlot())
+        self.plotInput.plot.setLabel('left', 'Input', 'deg/s')
+        self.plotInput.plot.setYRange(-10, 10)
+        self.plotInput.add_curves(
+            ['b', 'g', 'r', 'c', 'm', 'y'],
+            ['u1', 'u2', 'u3', 'u4', 'u5', 'u6']
+        )
+
+        self.gui.comau_plot.nextRow()
+        self.plotAngles = RealTimePlot(self.gui.comau_plot.addPlot())
+        self.plotAngles.plot.setLabel('left', 'Angles', 'deg')
+        self.plotAngles.plot.setYRange(-120, 90)
+        self.plotAngles.add_curves(
+            ['b', 'g', 'r', 'c', 'm', 'y'],
+            ['q1', 'q2', 'q3', 'q4', 'q5', 'q6']
+        )
+
+
+    def close():
+        self.timer.stop()

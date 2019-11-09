@@ -3,17 +3,18 @@
   <POU Name="FB_ComauInterface" Id="{7f6fcfb6-ea5d-4e07-bbf6-5b138a56f61f}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_ComauInterface
 VAR_INPUT
-	cmnd : DINT;
+	bStart : BOOL;
+	eModeCmd : E_ComauMode;
 	control : ST_ControlComau;
 	
-	qRef : ARRAY [0..5] OF REAL;
+	u : ARRAY [0..5] OF REAL;
 END_VAR
 VAR_OUTPUT
 	q : ARRAY [0..5] OF REAL;
 	q_t : ARRAY [0..5] OF REAL;
 	
 	feedback : ST_FeedbackComau;
-	active : BOOL:= FALSE;
+	bActive : BOOL:= FALSE;
 END_VAR
 VAR
 	// Udp related
@@ -24,7 +25,7 @@ VAR
 	{attribute 'tc_no_symbol'}
 	txUdp : ST_TxUdpComau;
 	
-	pTxHmi : POINTER TO ST_TxHmiComau;
+	txHmi : ST_TxHmiComau;
 	
 	// Actviity monitoring
 	frame : DINT := 0;
@@ -51,9 +52,9 @@ END_IF
 
 // Set activity status after 1 second given 5ms in ms
 IF frameLoss > 200 THEN
-	active := FALSE;
+	bActive := FALSE;
 ELSE
-	active := TRUE;
+	bActive := TRUE;
 END_IF
 
 // Update udpClient
@@ -63,8 +64,14 @@ udpClient();
 UpdateHMI();
 
 // Apply control inputs
-txUdp.cmnd := cmnd;
+IF bStart THEN
+	txUdp.cmnd := 1;
+ELSE
+	txUdp.cmnd := 0;
+END_IF
+
 txUdp.udpKey := 32;
+txUdp.qDotRef := u;
 
 // Set feedback data
 q := rxUdp.q;
@@ -93,12 +100,10 @@ VAR_INPUT
 	_remoteIpAddr : T_Ipv4Addr;
 	_remotePort : UINT;
 	_localPort : UINT;
-	_pTxHmi : POINTER TO ST_TxHmiComau;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[pTxHmi := _pTxHmi;
-
+        <ST><![CDATA[
 // Initilize udpClient
 udpClient.FB_init(
 	bInitRetains,
@@ -132,24 +137,31 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Update HMI Data
-IF active THEN
-	pTxHmi^.status := 1;
+IF bActive THEN
+	txHmi.status := 1;
 ELSE
-	pTxHmi^.status := 0;
+	txHmi.status := 0;
 END_IF
 
 FOR i := 0 TO 5 DO
-	pTxHmi^.q[i] := rxUdp.q[i];
-	pTxHmi^.q_t[i] := rxUdp.q_t[i];
-	pTxHmi^.qMin[i] := rxUdp.qMin[i];
-	pTxHmi^.qMax[i] := rxUdp.qMax[i];
-	pTxHmi^.qMax_t[i] := rxUdp.qMax_t[i];
+	txHmi.u[i] := u[i];
+	txHmi.q[i] := rxUdp.q[i];
+	txHmi.q_t[i] := rxUdp.q_t[i];
+	txHmi.qMin[i] := rxUdp.qMin[i];
+	txHmi.qMax[i] := rxUdp.qMax[i];
+	txHmi.qMax_t[i] := rxUdp.qMax_t[i];
 END_FOR
 ]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_ComauInterface">
-      <LineId Id="251" Count="28" />
+      <LineId Id="251" Count="26" />
+      <LineId Id="412" Count="1" />
+      <LineId Id="415" Count="1" />
+      <LineId Id="414" Count="0" />
+      <LineId Id="411" Count="0" />
+      <LineId Id="279" Count="0" />
+      <LineId Id="407" Count="0" />
       <LineId Id="404" Count="0" />
       <LineId Id="401" Count="0" />
       <LineId Id="400" Count="0" />
@@ -162,7 +174,6 @@ END_FOR
       <LineId Id="6" Count="0" />
     </LineIds>
     <LineIds Name="FB_ComauInterface.FB_init">
-      <LineId Id="31" Count="0" />
       <LineId Id="30" Count="0" />
       <LineId Id="8" Count="10" />
       <LineId Id="7" Count="0" />
@@ -176,6 +187,7 @@ END_FOR
       <LineId Id="6" Count="0" />
       <LineId Id="29" Count="0" />
       <LineId Id="28" Count="0" />
+      <LineId Id="48" Count="0" />
       <LineId Id="30" Count="0" />
       <LineId Id="38" Count="3" />
       <LineId Id="31" Count="0" />

@@ -4,6 +4,7 @@
     <Declaration><![CDATA[TYPE ST_TxHmiComau :
 STRUCT
 	status : DINT;
+	u : ARRAY [0..5] OF REAL;
 	q : ARRAY [0..5] OF REAL;
 	q_t : ARRAY [0..5] OF REAL;
 	qMin : ARRAY [0..5] OF REAL;

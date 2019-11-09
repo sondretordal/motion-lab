@@ -123,6 +123,9 @@
     <Compile Include="POUs\CSV\FB_CsvReader.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\Interfaces\E_ComauMode.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\Interfaces\E_StewartCommand.TcDUT">
       <SubType>Code</SubType>
     </Compile>
