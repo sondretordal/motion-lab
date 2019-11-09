@@ -44,8 +44,6 @@ class ST_TxHmiStewart(Structure):
         ('status', pyads.PLCTYPE_UDINT),
         ('eta', pyads.PLCTYPE_ARR_REAL(6)),
         ('etaRef', pyads.PLCTYPE_ARR_REAL(6)),
-        ('etaSim', pyads.PLCTYPE_ARR_REAL(6)),
-        ('etaSine', pyads.PLCTYPE_ARR_REAL(6)),
         ('cyl', pyads.PLCTYPE_ARR_REAL(6))
     ]
 
@@ -60,6 +58,7 @@ class StewartPlattform(QtCore.QObject):
     signal_eOpMode = QtCore.pyqtSignal(int)
 
     # PLC status
+    eState = E_StewartState(0x00)
     eMode = E_StewartMode(0x00)
     eStatus = E_StewartStatus(0x00)
 
@@ -107,6 +106,9 @@ class StewartPlattform(QtCore.QObject):
         self.intilizeHmiFields()
         self.setupSineWaveInputs()
         self.connectSineWaveInputs()
+
+        # Deactivate sine inputs on startup
+        self.disableSineInputs()
         
         # Sunchronous timer
         self.timer = QtCore.QTimer()
@@ -120,6 +122,7 @@ class StewartPlattform(QtCore.QObject):
 
     @QtCore.pyqtSlot(int)
     def slot_eState(self, value):
+        self.eState = E_StewartState(value)
         eval(self.guiRoot + '_eState').setText(E_StewartState(value).name)
 
     @QtCore.pyqtSlot(int)
@@ -143,10 +146,12 @@ class StewartPlattform(QtCore.QObject):
     @QtCore.pyqtSlot(int)
     def slot_eMode(self, value):
         self.eMode = E_StewartMode(value)
+        self.enableSineInputs()
         eval(self.guiRoot + '_eMode').setText(self.eMode.name)
 
     @QtCore.pyqtSlot()
     def slot_bReset(self):
+        eval(self.guiRoot + '_eModeCmd').setCurrentIndex(0)
         self.plc.write_by_name(self.plcRoot + '.bReset', True, pyads.PLCTYPE_BOOL)
 
     @QtCore.pyqtSlot()
@@ -154,14 +159,14 @@ class StewartPlattform(QtCore.QObject):
         self.plc.write_by_name(self.plcRoot + '.bStart', True, pyads.PLCTYPE_BOOL)
 
         if self.eMode == E_StewartMode.GENERATOR:
-            self.toggleSineInput(True)
+            self.disableSineInputs()
 
     @QtCore.pyqtSlot()
     def slot_disengage(self):
         self.plc.write_by_name(self.plcRoot + '.bStart', False, pyads.PLCTYPE_BOOL)
 
         if self.eMode == E_StewartMode.GENERATOR:
-            self.toggleSineInput(False)
+            self.enableSineInputs()
 
     def intilizeHmiFields(self):
         # Read data from PLC to intilize the HMI fields
@@ -202,24 +207,31 @@ class StewartPlattform(QtCore.QObject):
                 self.plcRoot + '.etaRefMax', pyads.PLCTYPE_ARR_LREAL(6)
             )
 
-    def toggleSineInput(self, disable):    
+    def disableSineInputs(self):    
         for i in range(0, 6):
-            eval(self.guiRoot + '_amp_' + str(i)).setDisabled(disable)
-            eval(self.guiRoot + '_freq_' + str(i)).setDisabled(disable)
-            eval(self.guiRoot + '_phase_' + str(i)).setDisabled(disable)
+            eval(self.guiRoot + '_amp_' + str(i)).setDisabled(True)
+            eval(self.guiRoot + '_freq_' + str(i)).setDisabled(True)
+            eval(self.guiRoot + '_phase_' + str(i)).setDisabled(True)
+
+    def enableSineInputs(self):    
+        for i in range(0, 6):
+            eval(self.guiRoot + '_amp_' + str(i)).setDisabled(False)
+            eval(self.guiRoot + '_freq_' + str(i)).setDisabled(False)
+            eval(self.guiRoot + '_phase_' + str(i)).setDisabled(False)
 
     def updateGraph(self):
         
         self.txHmi = self.plc.read_by_name(self.plcRoot + '.txHmi', ST_TxHmiStewart)
-        
-        if self.eMode == E_StewartMode.GENERATOR:
-            self.updatePlot(self.txHmi.etaSine)
-        
-        elif self.eMode == E_StewartMode.SIMULATION:
-            self.updatePlot(self.txHmi.etaSim)
 
-        else:
-            self.updatePlot(np.zeros(6))
+        # Plot when active
+        if self.txHmi.status == 1:
+            if self.eState == E_StewartState.ENGAGED:
+                # Plot feedback when engaged
+                self.updatePlot(self.txHmi.eta)
+
+            else:
+                # Plot input reference when else
+                self.updatePlot(self.txHmi.etaRef)
 
     def setupPlot(self):
         # Surge, sway and heave
