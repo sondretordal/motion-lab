@@ -1,4 +1,4 @@
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtCore
 import pyqtgraph as pg
 import pyads
 import json
@@ -64,12 +64,13 @@ class MotionLab(QtWidgets.QMainWindow, Ui_MainWindow):
         # reply = QMessageBox.question(self, 'Message',
         #     "Are you sure to quit?", QMessageBox.Yes |
         # QMessageBox.No, QMessageBox.No)
-        reply = QMessageBox.Yes
+        reply = QtWidgets.QMessageBox.Yes
+        
 
         self.em1500.close()
         self.em8000.close()
 
-        if reply == QMessageBox.Yes:
+        if reply == QtWidgets.QMessageBox.Yes:
             
             if self.plcActive:
                 # Close ADS ports

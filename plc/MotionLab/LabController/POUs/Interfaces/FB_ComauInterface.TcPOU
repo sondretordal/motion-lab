@@ -5,8 +5,13 @@
 VAR_INPUT
 	cmnd : DINT;
 	control : ST_ControlComau;
+	
+	qRef : ARRAY [0..5] OF REAL;
 END_VAR
 VAR_OUTPUT
+	q : ARRAY [0..5] OF REAL;
+	q_t : ARRAY [0..5] OF REAL;
+	
 	feedback : ST_FeedbackComau;
 	active : BOOL:= FALSE;
 END_VAR
@@ -60,6 +65,11 @@ UpdateHMI();
 // Apply control inputs
 txUdp.cmnd := cmnd;
 txUdp.udpKey := 32;
+
+// Set feedback data
+q := rxUdp.q;
+q_t := rxUdp.q_t;
+
 
 ]]></ST>
     </Implementation>
@@ -140,6 +150,11 @@ END_FOR
     </Method>
     <LineIds Name="FB_ComauInterface">
       <LineId Id="251" Count="28" />
+      <LineId Id="404" Count="0" />
+      <LineId Id="401" Count="0" />
+      <LineId Id="400" Count="0" />
+      <LineId Id="402" Count="0" />
+      <LineId Id="405" Count="0" />
       <LineId Id="366" Count="0" />
       <LineId Id="365" Count="0" />
     </LineIds>

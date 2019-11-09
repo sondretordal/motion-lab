@@ -6,7 +6,7 @@ VAR_INPUT
 	txUdp : ST_TxUdpRemote;
 END_VAR
 VAR_OUTPUT
-	recvCounter : DINT := 0;
+	rxUdp : ST_RxUdpRemote;
 END_VAR
 VAR
 	// Udp connection
@@ -47,8 +47,8 @@ udpClient.FB_init(
 	_remoteIpAddr,
 	_remotePort,
 	_localPort,
-	SIZEOF(recvCounter),
-	ADR(recvCounter),
+	SIZEOF(rxUdp),
+	ADR(rxUdp),
 	SIZEOF(txUdp),
 	ADR(txUdp)
 );]]></ST>
