@@ -18,9 +18,13 @@ VAR
 	remoteIpAddr : UDINT;
 	remotePort : UINT;
 	localPort : UINT;
+	{attribute 'tc_no_symbol'}
 	nRxData : UDINT := 0;
+	{attribute 'tc_no_symbol'}
 	pRxData : PVOID;
+	{attribute 'tc_no_symbol'}
 	nTxData : UDINT := 0;
+	{attribute 'tc_no_symbol'}
 	pTxData : PVOID;
 	
 	// Send/Recv counters

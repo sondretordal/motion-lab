@@ -1,6 +1,6 @@
 from PyQt5 import QtCore, QtWidgets
 from enum import Enum
-from ctypes import *
+from ctypes import Structure, sizeof
 import numpy as np
 import pyads
 import time

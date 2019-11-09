@@ -21,7 +21,11 @@ class TxHmiMru(Structure):
 class TxHmiComau(Structure):
     _fields_ = [
         ('status', c_int),
-        ('q', 6*c_float)
+        ('q', 6*c_float),
+        ('q_t', 6*c_float),
+        ('qMin', 6*c_float),
+        ('qMax', 6*c_float),
+        ('qMax_t', 6*c_float)
     ]
 
 class TxHmiLeica(Structure):

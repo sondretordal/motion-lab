@@ -976,7 +976,7 @@ class Ui_MainWindow(object):
         self.menu_save_file.setObjectName("menu_save_file")
 
         self.retranslateUi(MainWindow)
-        self.tabSelector.setCurrentIndex(0)
+        self.tabSelector.setCurrentIndex(3)
         self.spectrumType.setCurrentIndex(0)
         self.estimatedDampingPlot.setCurrentIndex(0)
         self.antiSwayPlotRange.setCurrentIndex(0)

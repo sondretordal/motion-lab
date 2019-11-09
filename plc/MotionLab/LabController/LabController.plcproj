@@ -84,6 +84,9 @@
     <Compile Include="DUTs\RxUdp\ST_RxUdpQualisys.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\RxUdp\ST_RxUdpRemote.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\RxUdp\ST_RxUdpStewart.TcDUT">
       <SubType>Code</SubType>
     </Compile>

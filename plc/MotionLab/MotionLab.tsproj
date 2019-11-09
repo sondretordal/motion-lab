@@ -4988,20 +4988,6 @@ External Setpoint Generation:
 					<Vars VarGrpType="1">
 						<Name>MainTask Inputs</Name>
 						<Var>
-							<Name>MAIN.em8000.etaSim</Name>
-							<Comment>
-								<![CDATA[ Ship simulator data]]>
-							</Comment>
-							<Type GUID="{59CB7A65-AEAB-E588-EB2A-AFE112B8A9C3}">ARRAY [0..5] OF LREAL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.em1500.etaSim</Name>
-							<Comment>
-								<![CDATA[ Ship simulator data]]>
-							</Comment>
-							<Type GUID="{59CB7A65-AEAB-E588-EB2A-AFE112B8A9C3}">ARRAY [0..5] OF LREAL</Type>
-						</Var>
-						<Var>
 							<Name>MAIN.winch.axis.NcToPlc</Name>
 							<Type GUID="{6A65C767-34E5-42BF-AD87-E1A503EAC7BE}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
 							<SubVar>
@@ -5089,6 +5075,20 @@ External Setpoint Generation:
 							<Name>MAIN.at960.Quaternion3</Name>
 							<Type>LREAL</Type>
 						</Var>
+						<Var>
+							<Name>MAIN.em8000.etaSim</Name>
+							<Comment>
+								<![CDATA[ Ship simulator data]]>
+							</Comment>
+							<Type GUID="{59CB7A65-AEAB-E588-EB2A-AFE112B8A9C3}">ARRAY [0..5] OF LREAL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.em1500.etaSim</Name>
+							<Comment>
+								<![CDATA[ Ship simulator data]]>
+							</Comment>
+							<Type GUID="{59CB7A65-AEAB-E588-EB2A-AFE112B8A9C3}">ARRAY [0..5] OF LREAL</Type>
+						</Var>
 					</Vars>
 					<Vars VarGrpType="2">
 						<Name>MainTask Outputs</Name>
@@ -5117,6 +5117,21 @@ External Setpoint Generation:
 					</Vars>
 					<InitSymbols>
 						<InitSymbol>
+							<Name>MAIN.mru1.udpServer.oid</Name>
+							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
+							<Data>30000101</Data>
+						</InitSymbol>
+						<InitSymbol>
+							<Name>MAIN.mru2.udpServer.oid</Name>
+							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
+							<Data>40000101</Data>
+						</InitSymbol>
+						<InitSymbol>
+							<Name>MAIN.qtm.udpServer.oid</Name>
+							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
+							<Data>90000101</Data>
+						</InitSymbol>
+						<InitSymbol>
 							<Name>MAIN.em8000.udpClient.oid</Name>
 							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
 							<Data>20000101</Data>
@@ -5132,19 +5147,9 @@ External Setpoint Generation:
 							<Data>50000101</Data>
 						</InitSymbol>
 						<InitSymbol>
-							<Name>MAIN.mru1.udpServer.oid</Name>
+							<Name>MAIN.remote.udpClient.oid</Name>
 							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
-							<Data>30000101</Data>
-						</InitSymbol>
-						<InitSymbol>
-							<Name>MAIN.mru2.udpServer.oid</Name>
-							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
-							<Data>40000101</Data>
-						</InitSymbol>
-						<InitSymbol>
-							<Name>MAIN.qtm.udpServer.oid</Name>
-							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
-							<Data>90000101</Data>
+							<Data>80000101</Data>
 						</InitSymbol>
 					</InitSymbols>
 					<TaskPouOids>

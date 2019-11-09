@@ -1,12 +1,12 @@
 # Add subfolders to PYTHONPATH
 import sys
 from PyQt5 import QtWidgets
-from src.MotionLab import MotionLab
+from RemoteInterface import RemoteInterface
 
 # Main function
 def main():
     app = QtWidgets.QApplication(sys.argv)
-    motionLab = MotionLab()
+    remoteInterface = RemoteInterface()
 
     sys.exit(app.exec_())
     

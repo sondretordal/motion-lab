@@ -10,14 +10,6 @@ VAR_OUTPUT
 	
 END_VAR
 VAR
-	test : DINT;
-	test2 : REAL;
-	
-	val : SINT;
-	val2 : SINT;
-	arr : ARRAY [0..5] OF LREAL;
-	
-
 	// Task monitoring
 	fbGetCurrentTaskIdx : GETCURTASKINDEX;
 	bCycleTimeExceeded : BOOL;
@@ -38,7 +30,7 @@ VAR
 	hmiTimer : TON;
 	
 	// Remote interface
-	//remote : FB_RemoteInterface('192.168.90.60', 50060, 50050);
+	remote : FB_RemoteInterface('192.168.90.60', 50060, 50050);
 	
 	// Machinery
 	em8000 : FB_StewartInterface('192.168.90.30', 50030, 50040);

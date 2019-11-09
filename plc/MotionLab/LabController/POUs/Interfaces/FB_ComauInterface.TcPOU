@@ -123,13 +123,17 @@ END_VAR
       <Implementation>
         <ST><![CDATA[// Update HMI Data
 IF active THEN
-	pTxHmi^.status := 0;
+	pTxHmi^.status := 1;
 ELSE
-	pTxHmi^.status := -1;
+	pTxHmi^.status := 0;
 END_IF
 
 FOR i := 0 TO 5 DO
 	pTxHmi^.q[i] := rxUdp.q[i];
+	pTxHmi^.q_t[i] := rxUdp.q_t[i];
+	pTxHmi^.qMin[i] := rxUdp.qMin[i];
+	pTxHmi^.qMax[i] := rxUdp.qMax[i];
+	pTxHmi^.qMax_t[i] := rxUdp.qMax_t[i];
 END_FOR
 ]]></ST>
       </Implementation>
@@ -157,7 +161,9 @@ END_FOR
       <LineId Id="6" Count="0" />
       <LineId Id="29" Count="0" />
       <LineId Id="28" Count="0" />
-      <LineId Id="30" Count="1" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="38" Count="3" />
+      <LineId Id="31" Count="0" />
       <LineId Id="13" Count="0" />
     </LineIds>
   </POU>

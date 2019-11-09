@@ -1,26 +1,17 @@
-from PyQt5.QtWidgets import *
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5 import uic
+from PyQt5 import QtWidgets
 import pyqtgraph as pg
-import time
 import pyads
-import numpy as np
-import ctypes
-from ctypes import sizeof
 import json
-from scipy.optimize import curve_fit
 
-from src.classes import RealTimePlot, RealTimeBar, WaveSpectrum
-from src.datastructures import TxHmi, RxHmi
-
+# TODO: Implement this
 from src.opengl import MotionLabVisualizer
 
 # NEW
 from .MainWindow import Ui_MainWindow
-from .AdsQt import notification
 from .StewartPlattform import StewartPlattform
+from .ComauRobot import ComauRobot
 from .WaveSimulator import WaveSimulator
+
 
 # Motionlab pybind module
 from lib import motionlab as ml
@@ -30,11 +21,12 @@ pg.setConfigOption('background', 'w')
 pg.setConfigOption('foreground', 'k')
 pg.setConfigOptions(antialias=True)
 
-class MotionLab(QMainWindow, Ui_MainWindow):
+
+class MotionLab(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
         super(MotionLab, self).__init__()
-        self.ui = Ui_MainWindow()
-        self.ui.setupUi(self)
+        self.gui = Ui_MainWindow()
+        self.gui.setupUi(self)
         
         # Start ADS communications
         self.plc = pyads.Connection('192.168.90.150.1.1', 851)
@@ -49,9 +41,10 @@ class MotionLab(QMainWindow, Ui_MainWindow):
         
         # Connect UI
         if self.plcActive:
-            self.em1500 = StewartPlattform(self.plc, self.ui, 'em1500')
-            self.em8000 = StewartPlattform(self.plc, self.ui, 'em8000')
-            self.waveSimulator = WaveSimulator(self.plc, self.ui)
+            self.em1500 = StewartPlattform(self.plc, self.gui, 'em1500')
+            self.em8000 = StewartPlattform(self.plc, self.gui, 'em8000')
+            self.comau = ComauRobot(self.plc, self.gui, 'comau')
+            self.waveSimulator = WaveSimulator(self.plc, self.gui)
 
 
         # Xbox controller
@@ -63,26 +56,8 @@ class MotionLab(QMainWindow, Ui_MainWindow):
         calib = json.loads(text)
         # self.visualizer = MotionLabVisualizer(calib)
         
-        
-
 
         self.show()
-
-    
-    def addNotification(self, adsName, plcType, pyqtSignal):
-
-        # General callback function
-        @notification(plcType, pyqtSignal)
-        def callback(handle, name, timestamp, value):
-            pass
-
-        # Add notification to ads
-        self.plc.add_device_notification(
-            adsName,
-            pyads.NotificationAttrib(sizeof(plcType)),
-            callback
-        )
-
 
     # Function to handle the closing event of to the application
     def closeEvent(self, event):

@@ -1,7 +1,9 @@
 from enum import Enum
 import numpy as np
+import pyads
 from scipy.optimize import curve_fit
 from .RealTimePlot import RealTimePlot
+
 
 
 class WaveSimulator(object):
@@ -37,6 +39,9 @@ class WaveSimulator(object):
         self.updatePlot()
 
         # Write paramters to PLC
+        self.plc.write_by_name('MAIN.w0', self.spectrum.w0, pyads.PLCTYPE_LREAL)
+        self.plc.write_by_name('MAIN.lambda', self.spectrum.Lambda, pyads.PLCTYPE_LREAL)
+        self.plc.write_by_name('MAIN.sigma', self.spectrum.sigma, pyads.PLCTYPE_LREAL)
 
 
     def updatePlot(self):
