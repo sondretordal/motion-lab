@@ -2587,7 +2587,7 @@
          </rect>
         </property>
         <property name="title">
-         <string>Remote Input Inspector</string>
+         <string>Remote Input Trend</string>
         </property>
         <widget class="GraphicsLayoutWidget" name="comau_plot">
          <property name="geometry">
@@ -2606,13 +2606,85 @@
           <x>10</x>
           <y>10</y>
           <width>351</width>
-          <height>101</height>
+          <height>91</height>
          </rect>
         </property>
         <property name="title">
-         <string>Comau Robot Operation</string>
+         <string>Robot Operation</string>
         </property>
-        <widget class="QComboBox" name="em1500_eModeCmd_2">
+        <widget class="QComboBox" name="comau_eModeCmd">
+         <property name="geometry">
+          <rect>
+           <x>13</x>
+           <y>30</y>
+           <width>153</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <item>
+          <property name="text">
+           <string>SETTLED</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>REMOTE</string>
+          </property>
+         </item>
+        </widget>
+        <widget class="QPushButton" name="comau_engage">
+         <property name="geometry">
+          <rect>
+           <x>12</x>
+           <y>60</y>
+           <width>155</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>ENGAGE</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="comau_disengage">
+         <property name="geometry">
+          <rect>
+           <x>180</x>
+           <y>60</y>
+           <width>155</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>DISENGAGE</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="comau_eMode">
+         <property name="geometry">
+          <rect>
+           <x>180</x>
+           <y>30</y>
+           <width>153</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="groupBox_16">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>560</y>
+          <width>351</width>
+          <height>91</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Winch Operation</string>
+        </property>
+        <widget class="QComboBox" name="winch_eModeCmd">
          <property name="geometry">
           <rect>
            <x>13</x>
@@ -2647,11 +2719,11 @@
           </property>
          </item>
         </widget>
-        <widget class="QPushButton" name="comau_engage">
+        <widget class="QPushButton" name="winch_engage">
          <property name="geometry">
           <rect>
            <x>12</x>
-           <y>65</y>
+           <y>60</y>
            <width>155</width>
            <height>23</height>
           </rect>
@@ -2660,11 +2732,11 @@
           <string>ENGAGE</string>
          </property>
         </widget>
-        <widget class="QPushButton" name="comau_disengage">
+        <widget class="QPushButton" name="winch_disengage">
          <property name="geometry">
           <rect>
            <x>180</x>
-           <y>65</y>
+           <y>60</y>
            <width>155</width>
            <height>23</height>
           </rect>
@@ -2673,7 +2745,7 @@
           <string>DISENGAGE</string>
          </property>
         </widget>
-        <widget class="QLineEdit" name="em1500_eMode_2">
+        <widget class="QLineEdit" name="winch_eMode">
          <property name="geometry">
           <rect>
            <x>180</x>
@@ -2686,6 +2758,495 @@
           <bool>true</bool>
          </property>
         </widget>
+       </widget>
+       <widget class="QGroupBox" name="groupBox_20">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>105</y>
+          <width>351</width>
+          <height>221</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Robot Joint Angle Utilization - qMin &lt; q(t) &lt; qMax</string>
+        </property>
+        <widget class="QGroupBox" name="groupBox_21">
+         <property name="geometry">
+          <rect>
+           <x>160</x>
+           <y>230</y>
+           <width>351</width>
+           <height>231</height>
+          </rect>
+         </property>
+         <property name="title">
+          <string>Robot Jont Utilization</string>
+         </property>
+        </widget>
+        <widget class="QProgressBar" name="comau_q_0">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>29</y>
+           <width>300</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="minimum">
+          <number>-100</number>
+         </property>
+         <property name="value">
+          <number>0</number>
+         </property>
+         <property name="textVisible">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QProgressBar" name="comau_q_1">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>60</y>
+           <width>300</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="minimum">
+          <number>-100</number>
+         </property>
+         <property name="value">
+          <number>0</number>
+         </property>
+         <property name="textVisible">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QProgressBar" name="comau_q_2">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>91</y>
+           <width>300</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="minimum">
+          <number>-100</number>
+         </property>
+         <property name="value">
+          <number>0</number>
+         </property>
+         <property name="textVisible">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QProgressBar" name="comau_q_3">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>121</y>
+           <width>300</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="minimum">
+          <number>-100</number>
+         </property>
+         <property name="value">
+          <number>0</number>
+         </property>
+         <property name="textVisible">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QProgressBar" name="comau_q_4">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>152</y>
+           <width>300</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="minimum">
+          <number>-100</number>
+         </property>
+         <property name="value">
+          <number>0</number>
+         </property>
+         <property name="textVisible">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QProgressBar" name="comau_q_5">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>183</y>
+           <width>300</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="minimum">
+          <number>-100</number>
+         </property>
+         <property name="value">
+          <number>0</number>
+         </property>
+         <property name="textVisible">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_8">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>32</y>
+           <width>47</width>
+           <height>13</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>#1</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_20">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>64</y>
+           <width>47</width>
+           <height>13</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>#2</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_21">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>94</y>
+           <width>47</width>
+           <height>13</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>#3</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_22">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>125</y>
+           <width>47</width>
+           <height>13</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>#4</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_23">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>155</y>
+           <width>47</width>
+           <height>13</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>#5</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_24">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>186</y>
+           <width>47</width>
+           <height>13</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>#6</string>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="groupBox_22">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>332</y>
+          <width>351</width>
+          <height>221</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Robot Speed Utilization - qDot(t) &lt; |qDotMax|</string>
+        </property>
+        <widget class="QProgressBar" name="comau_q_t_2">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>91</y>
+           <width>300</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="value">
+          <number>0</number>
+         </property>
+         <property name="textVisible">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QProgressBar" name="comau_q_t_4">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>152</y>
+           <width>300</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="value">
+          <number>0</number>
+         </property>
+         <property name="textVisible">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QProgressBar" name="comau_q_t_5">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>183</y>
+           <width>300</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="value">
+          <number>0</number>
+         </property>
+         <property name="textVisible">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QProgressBar" name="comau_q_t_3">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>121</y>
+           <width>300</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="value">
+          <number>0</number>
+         </property>
+         <property name="textVisible">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QProgressBar" name="comau_q_t_1">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>60</y>
+           <width>300</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="value">
+          <number>0</number>
+         </property>
+         <property name="textVisible">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QProgressBar" name="comau_q_t_0">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>29</y>
+           <width>300</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="value">
+          <number>0</number>
+         </property>
+         <property name="textVisible">
+          <bool>false</bool>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_25">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>124</y>
+           <width>47</width>
+           <height>13</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>#4</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_26">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>154</y>
+           <width>47</width>
+           <height>13</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>#5</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_27">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>63</y>
+           <width>47</width>
+           <height>13</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>#2</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_28">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>185</y>
+           <width>47</width>
+           <height>13</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>#6</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_29">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>31</y>
+           <width>47</width>
+           <height>13</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>#1</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_30">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>93</y>
+           <width>47</width>
+           <height>13</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>#3</string>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="groupBox_42">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>660</y>
+          <width>351</width>
+          <height>71</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Winch Length Utilization</string>
+        </property>
+        <widget class="QProgressBar" name="comau_q_6">
+         <property name="geometry">
+          <rect>
+           <x>59</x>
+           <y>33</y>
+           <width>280</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="minimum">
+          <number>-100</number>
+         </property>
+         <property name="value">
+          <number>0</number>
+         </property>
+         <property name="textVisible">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="groupBox_43">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>740</y>
+          <width>351</width>
+          <height>81</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Winch Length Utilization</string>
+        </property>
        </widget>
       </widget>
       <widget class="QWidget" name="tab_9">
