@@ -22,14 +22,12 @@ class RxData(Structure):
         ('em8000_eta_tt', pyads.PLCTYPE_ARR_REAL(6)),
         ('mru1_eta', pyads.PLCTYPE_ARR_REAL(6)),
         ('mru1_v', pyads.PLCTYPE_ARR_REAL(6)),
-        ('mru1_v_t', pyads.PLCTYPE_ARR_REAL(6)),
 
         ('em1500_eta', pyads.PLCTYPE_ARR_REAL(6)),
         ('em1500_eta_t', pyads.PLCTYPE_ARR_REAL(6)),
         ('em1500_eta_tt', pyads.PLCTYPE_ARR_REAL(6)),
         ('mru2_eta', pyads.PLCTYPE_ARR_REAL(6)),
-        ('mru2_v', pyads.PLCTYPE_ARR_REAL(6)),
-        ('mru2_v_t', pyads.PLCTYPE_ARR_REAL(6))
+        ('mru2_v', pyads.PLCTYPE_ARR_REAL(6))
     ]
 
 

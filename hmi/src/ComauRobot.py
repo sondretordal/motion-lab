@@ -17,6 +17,12 @@ class TxHmiComau(Structure):
         ('qMax_t', pyads.PLCTYPE_ARR_REAL(6))
     ]
 
+class TxHmiWinch(Structure):
+    _fields_ = [
+        ('status', pyads.PLCTYPE_DINT),
+        ('l', pyads.PLCTYPE_REAL
+    ]
+
 class ComauRobot(QtCore.QObject):
     def __init__(self, plc, gui, plcInstance, parent=None):
         super(QtCore.QObject, self).__init__(parent)
@@ -35,21 +41,36 @@ class ComauRobot(QtCore.QObject):
 
         # Plot timer
         self.timer = QtCore.QTimer()
-        self.timer.timeout.connect(self.updatePlot)
+        self.timer.timeout.connect(self.update)
         self.timer.start(50)
 
     
-    def updatePlot(self):
+    def update(self):
         self.txHmi = self.plc.read_by_name(
             'MAIN.comau.txHmi',
             TxHmiComau
         )
 
-
+        # Plot
         t = time.time() - self.t0
         self.plotInput.update(t, np.array(self.txHmi.u)/np.pi*180)
         self.plotAngles.update(t, np.array(self.txHmi.q)/np.pi*180)
 
+        # Bars
+        q = self.txHmi.q
+        qMin = self.txHmi.qMin
+        qMax = self.txHmi.qMax
+        for i in range(0, 6):
+            # Robot Stroke utilization
+            A = qMax[i] - qMin[i]
+            if A != 0.0:
+                stroke = (q[i] - qMin[i])/A*100
+                if stroke < 50:
+                    stroke = np.floor(stroke)
+                else:
+                    stroke = np.ceil(stroke)
+
+                eval('self.gui.comau_q_' + str(i)).setValue(stroke)
 
     def engage(self):
         self.plc.write_by_name('MAIN.comau.bStart', True, pyads.PLCTYPE_BOOL)
@@ -75,6 +96,5 @@ class ComauRobot(QtCore.QObject):
             ['q1', 'q2', 'q3', 'q4', 'q5', 'q6']
         )
 
-
-    def close():
+    def close(self):
         self.timer.stop()

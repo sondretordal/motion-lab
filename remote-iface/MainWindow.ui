@@ -54,6 +54,9 @@
      <property name="maximum">
       <number>100</number>
      </property>
+     <property name="singleStep">
+      <number>0</number>
+     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
@@ -72,6 +75,9 @@
      </property>
      <property name="maximum">
       <number>100</number>
+     </property>
+     <property name="singleStep">
+      <number>0</number>
      </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -144,6 +150,9 @@
      <property name="maximum">
       <number>100</number>
      </property>
+     <property name="singleStep">
+      <number>0</number>
+     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
@@ -162,6 +171,9 @@
      </property>
      <property name="maximum">
       <number>100</number>
+     </property>
+     <property name="singleStep">
+      <number>0</number>
      </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -195,6 +207,9 @@
      <property name="maximum">
       <number>100</number>
      </property>
+     <property name="singleStep">
+      <number>0</number>
+     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
@@ -213,6 +228,9 @@
      </property>
      <property name="maximum">
       <number>100</number>
+     </property>
+     <property name="singleStep">
+      <number>0</number>
      </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -258,6 +276,9 @@
      </property>
      <property name="maximum">
       <number>100</number>
+     </property>
+     <property name="singleStep">
+      <number>0</number>
      </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>

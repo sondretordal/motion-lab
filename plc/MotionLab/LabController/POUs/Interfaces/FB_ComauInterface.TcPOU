@@ -4,17 +4,14 @@
     <Declaration><![CDATA[FUNCTION_BLOCK FB_ComauInterface
 VAR_INPUT
 	bStart : BOOL;
-	eModeCmd : E_ComauMode;
-	control : ST_ControlComau;
+	u : ARRAY [0..5] OF LREAL;
 	
-	u : ARRAY [0..5] OF REAL;
 END_VAR
 VAR_OUTPUT
-	q : ARRAY [0..5] OF REAL;
-	q_t : ARRAY [0..5] OF REAL;
-	
-	feedback : ST_FeedbackComau;
 	bActive : BOOL:= FALSE;
+	q : ARRAY [0..5] OF LREAL;
+	q_t : ARRAY [0..5] OF LREAL;
+	
 END_VAR
 VAR
 	// Udp related
@@ -71,11 +68,18 @@ ELSE
 END_IF
 
 txUdp.udpKey := 32;
-txUdp.qDotRef := u;
 
-// Set feedback data
-q := rxUdp.q;
-q_t := rxUdp.q_t;
+// Set contorl and feedback data
+FOR i := 0 TO 5 DO
+	txUdp.qDotRef[i] := LREAL_TO_REAL(u[i]);
+	q[i] := rxUdp.q[i];
+	q_t[i] := rxUdp.q_t[i];
+	
+END_FOR
+
+
+
+
 
 
 ]]></ST>
@@ -144,7 +148,7 @@ ELSE
 END_IF
 
 FOR i := 0 TO 5 DO
-	txHmi.u[i] := u[i];
+	txHmi.u[i] := LREAL_TO_REAL(u[i]);
 	txHmi.q[i] := rxUdp.q[i];
 	txHmi.q_t[i] := rxUdp.q_t[i];
 	txHmi.qMin[i] := rxUdp.qMin[i];
@@ -161,10 +165,16 @@ END_FOR
       <LineId Id="414" Count="0" />
       <LineId Id="411" Count="0" />
       <LineId Id="279" Count="0" />
+      <LineId Id="490" Count="0" />
+      <LineId Id="471" Count="0" />
+      <LineId Id="467" Count="0" />
+      <LineId Id="505" Count="0" />
+      <LineId Id="465" Count="1" />
+      <LineId Id="473" Count="0" />
+      <LineId Id="464" Count="0" />
       <LineId Id="407" Count="0" />
       <LineId Id="404" Count="0" />
-      <LineId Id="401" Count="0" />
-      <LineId Id="400" Count="0" />
+      <LineId Id="460" Count="0" />
       <LineId Id="402" Count="0" />
       <LineId Id="405" Count="0" />
       <LineId Id="366" Count="0" />

@@ -32,6 +32,7 @@ class RemoteInterface(QtWidgets.QMainWindow, Ui_MainWindow):
         self.gui.comau_u_4.sliderReleased.connect(lambda: self.gui.comau_u_4.setValue(0))
         self.gui.comau_u_5.sliderReleased.connect(lambda: self.gui.comau_u_5.setValue(0))
 
+
         self.gui.winch_u.sliderReleased.connect(lambda: self.gui.winch_u.setValue(0))
 
         # Udp Read/Write thread

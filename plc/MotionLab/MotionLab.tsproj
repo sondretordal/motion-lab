@@ -7994,9 +7994,9 @@ External Setpoint Generation:
 				<Name>REMOTE (RT-Ethernet Adapter)</Name>
 				<AddressInfo>
 					<Pnp>
-						<DeviceDesc>M3-X600-REMOTE (TwinCAT-Intel PCI Ethernet Adapter </DeviceDesc>
-						<DeviceName>\DEVICE\{2C05A650-55D3-4757-B3F5-2819A2F93124}</DeviceName>
-						<DeviceData>00010530121e</DeviceData>
+						<DeviceDesc>CPU-X001 (TwinCAT-Intel PCI Ethernet Adapter (Gigab</DeviceDesc>
+						<DeviceName>\DEVICE\{A532FBCF-D816-40DC-8F73-0C06CF922ACC}</DeviceName>
+						<DeviceData>000105240832</DeviceData>
 					</Pnp>
 				</AddressInfo>
 				<Module Id="#x01010080" KeepUnrestoredLinks="2">
@@ -8410,7 +8410,7 @@ External Setpoint Generation:
 						</InterfacePointerValues>
 					</TmcDesc>
 				</Module>
-				<Ethernet DeviceDesc="M3-X600-REMOTE (TwinCAT-Intel PCI Ethernet Adapter (Gigabit) #6)" Ports="1" VLanIds="0a0014001e00280032003c00460050005a00">
+				<Ethernet DeviceDesc="CPU-X001 (TwinCAT-Intel PCI Ethernet Adapter (Gigabit))" Ports="1" VLanIds="0a0014001e00280032003c00460050005a00">
 					<Esl SyncSlaveProtocolPort="-1"/>
 				</Ethernet>
 			</Device>
@@ -8862,12 +8862,16 @@ External Setpoint Generation:
 			</OwnerB>
 		</OwnerA>
 		<OwnerA Name="TIPC^LabController^LabController Instance">
+			<OwnerB Name="TINC^NC-Task 1 SAF^Axes^RobotWinch">
+				<Link VarA="MainTask Inputs^MAIN.winch.axis.NcToPlc" VarB="Outputs^ToPlc"/>
+				<Link VarA="MainTask Outputs^MAIN.winch.axis.PlcToNc" VarB="Inputs^FromPlc"/>
+			</OwnerB>
 			<OwnerB Name="TIRC^TcCOM Objects^WaveSimulator">
 				<Link VarA="CsvTask Outputs^MAIN.lambda" VarB="Input^lambda"/>
 				<Link VarA="CsvTask Outputs^MAIN.sigma" VarB="Input^sigma"/>
 				<Link VarA="CsvTask Outputs^MAIN.w0" VarB="Input^w0"/>
-				<Link VarA="MainTask Inputs^MAIN.em1500.etaSim" VarB="Output^em1500.control"/>
-				<Link VarA="MainTask Inputs^MAIN.em8000.etaSim" VarB="Output^em8000.control"/>
+				<Link VarA="MainTask Inputs^MAIN.em1500.etaSim" VarB="Output^em1500.control^eta"/>
+				<Link VarA="MainTask Inputs^MAIN.em8000.etaSim" VarB="Output^em8000.control^eta"/>
 			</OwnerB>
 		</OwnerA>
 	</Mappings>

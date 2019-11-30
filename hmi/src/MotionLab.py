@@ -69,6 +69,7 @@ class MotionLab(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.em1500.close()
         self.em8000.close()
+        self.comau.close()
 
         if reply == QtWidgets.QMessageBox.Yes:
             

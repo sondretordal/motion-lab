@@ -6,7 +6,8 @@
 TYPE E_ComauMode :
 (
 	SETTLED := 0,
-	ENGAGED := 1
+	REMOTE,
+	MOTION_COMP
 ) DINT;
 END_TYPE
 ]]></Declaration>
