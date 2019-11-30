@@ -141,6 +141,9 @@
     <Compile Include="POUs\Interfaces\E_StewartStatus.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\Interfaces\E_WinchMode.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\Interfaces\FB_ComauInterface.TcPOU">
       <SubType>Code</SubType>
     </Compile>
