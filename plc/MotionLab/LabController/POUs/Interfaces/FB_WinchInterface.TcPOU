@@ -4,12 +4,11 @@
     <Declaration><![CDATA[FUNCTION_BLOCK FB_WinchInterface
 VAR_INPUT
 	Ts : LREAL := 0.005;
-	bEnable : BOOL := FALSE;
-	bReset : BOOL := FALSE;
-	bStopp : BOOL := FALSE;
+	bEnable : BOOL;
 	
 	eModeCmd : E_WinchMode;
 	u : LREAL;
+	uRemote : LREAL;
 	
 END_VAR
 VAR_OUTPUT
@@ -18,6 +17,7 @@ VAR_OUTPUT
 	eMode : E_WinchMode;
 	length : LREAL;
 	length_t : LREAL;
+	length_tt : LREAL;
 	
 	
 END_VAR
@@ -39,14 +39,15 @@ VAR
 	l_t : LREAL := 0.0;
 	l_tt : LREAL := 0.0;
 	
-	// Actviity monitoring
-	vel : LREAL;
-	velOld : LREAL;
-	frameLoss : UDINT;
+	// Old input memeory
+	uOld : LREAL;
+	uRemoteOld : LREAL;
+
+	
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// Read parameter set every one second
+      <ST><![CDATA[// Read parameter set
 IF NOT fbReadParameterSet.Busy AND NOT fbReadParameterSet.Error THEN
 	fbReadParameterSet(
 		Axis := axis,
@@ -62,110 +63,116 @@ ELSE
 	);
 END_IF
 
-// Set power status for winch
-IF bEnable THEN
-	// Power on the drive
-	fbPower(
-		Axis := axis,
-		Enable := TRUE,
-		Enable_Positive := TRUE,
-		Enable_Negative := TRUE
-	);
-	
-	// Rest disable
-	bReset := FALSE;
-	
-ELSE
-	IF NOT fbExtSetPointGenDisable.Busy AND fbExtSetPointGenDisable.Done THEN
-		// Power off the drive
-		fbPower(
-			Axis := axis,
-			Enable := FALSE,
-			Enable_Positive := FALSE,
-			Enable_Negative := FALSE
-		);
-	END_IF
-END_IF
-
-
 // Operation state machine
-IF fbPower.Status THEN
-	CASE eModeCmd OF
+CASE eModeCmd OF
 	E_WinchMode.SETTLED :
+		// Reset enable signal
+		bEnable := FALSE;
+	
 		// Read current state to trajectory
 		l := axis.NcToPlc.ActPos;
 		l_t := axis.NcToPlc.ActVelo;
 		l_tt := axis.NcToPlc.ActAcc;
 		
+		// Disable external setpoint
 		disableExtSetPoint();
 		
-		// Set current mode
-		eMode := E_WinchMode.SETTLED;
-		
-	E_WinchMode.ENGAGED :
-		// Set input based on input velocity u	
-		l := LIMIT(stAxisParameterSet.fEncSoftEndMin, l + u*Ts, stAxisParameterSet.fEncSoftEndMax);
-		l_t := u;
-		l_tt := 0.0;
-
-		// Feed extrernal setpoints to axis interface
-		MC_ExtSetPointGenFeed(
-			Axis := axis,
-			Position := l ,
-			Velocity := l_t,
-			Acceleration := l_tt,
-			Direction := getDirection(l_t, l_tt)
-		);
+		// Power off the drive when external setpoint is disabled
+		IF NOT fbExtSetPointGenDisable.Busy AND fbExtSetPointGenDisable.Done THEN
+			fbPower(
+				Axis := axis,
+				Enable := FALSE,
+				Enable_Positive := FALSE,
+				Enable_Negative := FALSE
+			);
+			
+		END_IF
 	
-		// Enable external setpoint		
-		enableExtSetPoint();
-		
 		// Set current mode
-		eMode := E_WinchMode.ENGAGED;
-	
-	END_CASE
-ELSE
-	// Set to SETTLED
-	eModeCmd := E_WinchMode.SETTLED;
-	eMode := E_WinchMode.SETTLED;
+		eMode := eModeCmd;
+		
+	E_WinchMode.REMOTE, E_WinchMode.MOTION_COMP :		
+		// Power switch
+		IF bEnable THEN
+			// Enable power
+			fbPower(
+				Axis := axis,
+				Enable := TRUE,
+				Enable_Positive := TRUE,
+				Enable_Negative := TRUE
+			);	
+			
+			IF fbPower.Status THEN
+				// Enable external setpoint when on		
+				enableExtSetPoint();
+			
+			END_IF
+			
+		ELSE
+			// Disable externale setpoint
+			disableExtSetPoint();
+			
+			IF NOT fbExtSetPointGenDisable.Busy AND fbExtSetPointGenDisable.Done THEN
+				// Enable power
+				fbPower(
+					Axis := axis,
+					Enable := FALSE,
+					Enable_Positive := FALSE,
+					Enable_Negative := FALSE
+				);	
+				
+			END_IF
+		END_IF
+			
 
-END_IF
+		IF fbPower.Status AND fbExtSetPointGenEnable.Enabled THEN			
+			// Set input based on velocity input u
+			CASE eMode OF
+				E_WinchMode.REMOTE : 
+					l := LIMIT(stAxisParameterSet.fEncSoftEndMin, l + uRemote*Ts, stAxisParameterSet.fEncSoftEndMax);
+					l_t := uRemote;
+					l_tt := (uRemote - uRemoteOld)/Ts;
+					
+					// Update old variable
+					uRemoteOld := uRemote;
+					
+				E_WinchMode.MOTION_COMP : 
+					l := LIMIT(stAxisParameterSet.fEncSoftEndMin, l + u*Ts, stAxisParameterSet.fEncSoftEndMax);
+					l_t := u;
+					l_tt := (u - uOld)/Ts;
+					
+					// Update old variable
+					uOld := u;
+				
+			END_CASE
+			
+			// Feed extrernal setpoints to axis interface
+			MC_ExtSetPointGenFeed(
+				Axis := axis,
+				Position := l ,
+				Velocity := l_t,
+				Acceleration := l_tt,
+				Direction := getDirection(l_t, l_tt)
+			);
+			
+		END_IF
+	
+		// Set current mode
+		eMode := eModeCmd;	
+	
+END_CASE
+
 
 // Update axis data
 axis();
 
-// Return feedback data
+// Return feedback data all the time
 length := axis.NcToPlc.ActPos;
 length_t := axis.NcToPlc.ActVelo;
+length_tt := axis.NcToPlc.ActAcc;
 
 // Check activity
-vel := axis.NcToPlc.ActVelo;
-IF vel <> velOld THEN
-	// Update frame old
-	velOld := vel;
-	
-	// Reset frameLoss
-	frameLoss := 0;
-ELSE
-	// Count frame losses
-	frameLoss := frameLoss + 1;
-END_IF
-
-// Set activity status after 1 second given 5ms in ms
-IF frameLoss > 200 THEN
-	bActive := FALSE;
-	
-ELSE
-	bActive := TRUE;
-	
-END_IF
-
-
-
-
-
-
-]]></ST>
+bActive := fbPower.Status;]]></ST>
     </Implementation>
     <Method Name="disableExtSetPoint" Id="{8625365a-3f23-4e76-ba3a-d36439744fe2}">
       <Declaration><![CDATA[METHOD PRIVATE disableExtSetPoint : BOOL
@@ -272,65 +279,77 @@ END_VAR
       <LineId Id="1544" Count="0" />
       <LineId Id="1547" Count="3" />
       <LineId Id="1545" Count="1" />
-      <LineId Id="1451" Count="9" />
-      <LineId Id="1475" Count="0" />
-      <LineId Id="1461" Count="1" />
-      <LineId Id="1474" Count="0" />
-      <LineId Id="1463" Count="0" />
-      <LineId Id="1465" Count="8" />
-      <LineId Id="1450" Count="0" />
-      <LineId Id="1563" Count="0" />
       <LineId Id="1107" Count="0" />
       <LineId Id="943" Count="0" />
-      <LineId Id="1032" Count="0" />
       <LineId Id="945" Count="0" />
+      <LineId Id="1684" Count="0" />
+      <LineId Id="1686" Count="0" />
+      <LineId Id="1685" Count="0" />
       <LineId Id="958" Count="0" />
       <LineId Id="1445" Count="0" />
       <LineId Id="1037" Count="0" />
       <LineId Id="1422" Count="1" />
-      <LineId Id="1499" Count="1" />
+      <LineId Id="1499" Count="0" />
+      <LineId Id="1583" Count="0" />
+      <LineId Id="1500" Count="0" />
+      <LineId Id="1673" Count="0" />
+      <LineId Id="1675" Count="8" />
+      <LineId Id="1674" Count="0" />
       <LineId Id="1490" Count="0" />
       <LineId Id="1502" Count="0" />
       <LineId Id="1491" Count="0" />
       <LineId Id="1443" Count="0" />
       <LineId Id="995" Count="0" />
-      <LineId Id="1408" Count="0" />
-      <LineId Id="1435" Count="0" />
-      <LineId Id="1421" Count="0" />
-      <LineId Id="1419" Count="0" />
-      <LineId Id="1409" Count="0" />
-      <LineId Id="1411" Count="6" />
-      <LineId Id="1410" Count="0" />
-      <LineId Id="1039" Count="0" />
-      <LineId Id="1036" Count="0" />
-      <LineId Id="1028" Count="0" />
+      <LineId Id="1597" Count="0" />
+      <LineId Id="1728" Count="0" />
+      <LineId Id="1749" Count="5" />
+      <LineId Id="1747" Count="1" />
+      <LineId Id="1755" Count="0" />
+      <LineId Id="1742" Count="1" />
+      <LineId Id="1756" Count="1" />
+      <LineId Id="1759" Count="0" />
+      <LineId Id="1758" Count="0" />
+      <LineId Id="1760" Count="0" />
+      <LineId Id="1762" Count="0" />
+      <LineId Id="1761" Count="0" />
+      <LineId Id="1763" Count="0" />
+      <LineId Id="1765" Count="5" />
+      <LineId Id="1764" Count="0" />
+      <LineId Id="1771" Count="1" />
+      <LineId Id="1736" Count="1" />
+      <LineId Id="1606" Count="0" />
+      <LineId Id="1621" Count="0" />
+      <LineId Id="1624" Count="0" />
+      <LineId Id="1692" Count="1" />
+      <LineId Id="1697" Count="1" />
+      <LineId Id="1696" Count="0" />
+      <LineId Id="1779" Count="0" />
+      <LineId Id="1781" Count="0" />
+      <LineId Id="1780" Count="0" />
+      <LineId Id="1699" Count="1" />
+      <LineId Id="1702" Count="1" />
+      <LineId Id="1701" Count="0" />
+      <LineId Id="1782" Count="2" />
+      <LineId Id="1695" Count="0" />
+      <LineId Id="1694" Count="0" />
+      <LineId Id="1627" Count="0" />
+      <LineId Id="1629" Count="6" />
+      <LineId Id="1622" Count="0" />
+      <LineId Id="1690" Count="0" />
+      <LineId Id="1689" Count="0" />
       <LineId Id="1492" Count="0" />
       <LineId Id="1501" Count="0" />
       <LineId Id="1493" Count="0" />
-      <LineId Id="1449" Count="0" />
+      <LineId Id="1571" Count="0" />
       <LineId Id="947" Count="0" />
-      <LineId Id="1483" Count="0" />
-      <LineId Id="1489" Count="0" />
-      <LineId Id="1486" Count="0" />
-      <LineId Id="1488" Count="0" />
       <LineId Id="1484" Count="0" />
-      <LineId Id="1481" Count="0" />
       <LineId Id="1271" Count="0" />
       <LineId Id="1438" Count="4" />
       <LineId Id="1407" Count="0" />
+      <LineId Id="1786" Count="0" />
       <LineId Id="1247" Count="0" />
-      <LineId Id="1514" Count="15" />
-      <LineId Id="1537" Count="0" />
-      <LineId Id="1530" Count="1" />
-      <LineId Id="1536" Count="0" />
+      <LineId Id="1514" Count="0" />
       <LineId Id="1243" Count="0" />
-      <LineId Id="829" Count="0" />
-      <LineId Id="725" Count="0" />
-      <LineId Id="1069" Count="0" />
-      <LineId Id="559" Count="0" />
-      <LineId Id="39" Count="0" />
-      <LineId Id="68" Count="0" />
-      <LineId Id="27" Count="0" />
     </LineIds>
     <LineIds Name="FB_WinchInterface.disableExtSetPoint">
       <LineId Id="6" Count="6" />

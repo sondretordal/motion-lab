@@ -10,6 +10,7 @@ from src.opengl import MotionLabVisualizer
 from .MainWindow import Ui_MainWindow
 from .StewartPlattform import StewartPlattform
 from .ComauRobot import ComauRobot
+from .RobotWinch import RobotWinch
 from .WaveSimulator import WaveSimulator
 
 
@@ -41,9 +42,12 @@ class MotionLab(QtWidgets.QMainWindow, Ui_MainWindow):
         
         # Connect UI
         if self.plcActive:
+            # Physical equipement
             self.em1500 = StewartPlattform(self.plc, self.gui, 'em1500')
             self.em8000 = StewartPlattform(self.plc, self.gui, 'em8000')
             self.comau = ComauRobot(self.plc, self.gui, 'comau')
+            self.winch = RobotWinch(self.plc, self.gui, 'winch')
+
             self.waveSimulator = WaveSimulator(self.plc, self.gui)
 
 

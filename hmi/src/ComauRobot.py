@@ -3,8 +3,10 @@ import numpy as np
 from ctypes import Structure
 import pyads
 import time
+from enum import Enum
 
 from .RealTimePlot import RealTimePlot
+
 
 class TxHmiComau(Structure):
     _fields_ = [
@@ -20,7 +22,7 @@ class TxHmiComau(Structure):
 class TxHmiWinch(Structure):
     _fields_ = [
         ('status', pyads.PLCTYPE_DINT),
-        ('l', pyads.PLCTYPE_REAL
+        ('l', pyads.PLCTYPE_REAL)
     ]
 
 class ComauRobot(QtCore.QObject):
