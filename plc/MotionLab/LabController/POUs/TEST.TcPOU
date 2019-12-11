@@ -3,13 +3,13 @@
   <POU Name="TEST" Id="{f2edba56-12f7-486d-8838-64932ca9e828}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM TEST
 VAR
-	csvReader : FB_CsvReader;
+	//csvReader : FB_CsvReader;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[
 
-csvReader();]]></ST>
+//csvReader();]]></ST>
     </Implementation>
     <LineIds Name="TEST">
       <LineId Id="7" Count="1" />

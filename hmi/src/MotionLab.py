@@ -12,6 +12,7 @@ from .StewartPlattform import StewartPlattform
 from .ComauRobot import ComauRobot
 from .RobotWinch import RobotWinch
 from .WaveSimulator import WaveSimulator
+from .DataLogger import DataLogger
 
 
 # Motionlab pybind module
@@ -49,6 +50,7 @@ class MotionLab(QtWidgets.QMainWindow, Ui_MainWindow):
             self.winch = RobotWinch(self.plc, self.gui, 'winch')
 
             self.waveSimulator = WaveSimulator(self.plc, self.gui)
+            self.dataLogger = DataLogger(self.plc, self.gui)
 
 
         # Xbox controller
@@ -74,6 +76,9 @@ class MotionLab(QtWidgets.QMainWindow, Ui_MainWindow):
         self.em1500.close()
         self.em8000.close()
         self.comau.close()
+        self.winch.close()
+        self.dataLogger.close()
+
 
         if reply == QtWidgets.QMessageBox.Yes:
             
