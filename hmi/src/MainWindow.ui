@@ -38,7 +38,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="tab_11">
        <attribute name="title">
@@ -2681,7 +2681,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>103</y>
+          <y>190</y>
           <width>351</width>
           <height>221</height>
          </rect>
@@ -2917,7 +2917,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>523</y>
+          <y>610</y>
           <width>351</width>
           <height>71</height>
          </rect>
@@ -2965,7 +2965,7 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>326</y>
+          <y>423</y>
           <width>351</width>
           <height>121</height>
          </rect>
@@ -2985,6 +2985,11 @@
          <item>
           <property name="text">
            <string>SETTLED</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>LOCAL</string>
           </property>
          </item>
          <item>
@@ -3055,13 +3060,61 @@
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>450</y>
+          <y>547</y>
+          <width>351</width>
+          <height>61</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Velocity Setpoint - max 0.2 m/s</string>
+        </property>
+        <widget class="QSlider" name="winchVelSetpoint">
+         <property name="geometry">
+          <rect>
+           <x>40</x>
+           <y>28</y>
+           <width>291</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="minimum">
+          <number>-100</number>
+         </property>
+         <property name="maximum">
+          <number>100</number>
+         </property>
+         <property name="singleStep">
+          <number>0</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_26">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>30</y>
+           <width>47</width>
+           <height>13</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>#1</string>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="groupBox_47">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>100</y>
           <width>351</width>
           <height>71</height>
          </rect>
         </property>
         <property name="title">
-         <string>Winch Range Settings</string>
+         <string>Joint Jogger</string>
         </property>
        </widget>
       </widget>

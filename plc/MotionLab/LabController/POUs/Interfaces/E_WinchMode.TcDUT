@@ -6,6 +6,7 @@
 TYPE E_WinchMode :
 (
 	SETTLED := 0,
+	LOCAL,
 	REMOTE,
 	MOTION_COMP
 ) USINT;

@@ -4768,14 +4768,15 @@ External Setpoint Generation:
 						<![CDATA[Winch placed on top of Comau Robot]]>
 					</Comment>
 					<AxisPara>
-						<Dynamic AccelerationMaximum="10000" DecelerationMaximum="10000" Acceleration="5000" Deceleration="5000" Jerk="10000"/>
-						<Velo RefSearch="23.782781784375" RefSync="23.782781784375" SlowManual="118.913908921875" FastManual="713.48345353125" Fast="2378.2781784375" Maximum="3000"/>
+						<General UnitName="m"/>
+						<Dynamic AccelerationMaximum="10000" DecelerationMaximum="10000" Acceleration="3.56741726765625" Deceleration="3.56741726765625" Jerk="10.7022518029688"/>
+						<Velo RefSearch="0.023782781784375" RefSync="0.023782781784375" SlowManual="0.118913908921875" FastManual="0.71348345353125" Fast="2.3782781784375" Maximum="2.3782781784375"/>
 						<OtherSettings AllowMotionCmdToSlave="true"/>
 					</AxisPara>
 					<Encoder Name="Enc" EncType="8">
-						<EncPara ScaleFactorNumerator="21.8304" ScaleFactorDenominator="1048576" MaxCount="#xffffffff">
-							<SoftEndMinControl Enable="true" Range="4300"/>
-							<SoftEndMaxControl Enable="true" Range="7600"/>
+						<EncPara ScaleFactorNumerator="0.0218304" ScaleFactorDenominator="1048576" Inverse="true" MaxCount="#xffffffff">
+							<SoftEndMinControl Enable="true" Range="-7.5"/>
+							<SoftEndMaxControl Enable="true" Range="-6"/>
 						</EncPara>
 						<Vars VarGrpType="1">
 							<Name>Inputs</Name>
@@ -4843,8 +4844,8 @@ External Setpoint Generation:
 						</Vars>
 					</Encoder>
 					<Drive Name="Drive" DrvType="9">
-						<DrvPara MaxCount="#xffffffff" DriveControlDWord="#x00030100">
-							<Analog VeloReferenz="2616.10599628125" VeloScale="1.02400649589962" ScaleFactorActTorque="0.1"/>
+						<DrvPara Inverse="true" MaxCount="#xffffffff" DriveControlDWord="#x00030100">
+							<Analog VeloReferenz="2.61610599628125" VeloScale="1.02400649589962" ScaleFactorActTorque="0.1"/>
 							<TimeComp TaskDelayCycles="1"/>
 						</DrvPara>
 						<Vars VarGrpType="1">
@@ -5002,6 +5003,45 @@ External Setpoint Generation:
 							<Type GUID="{59CB7A65-AEAB-E588-EB2A-AFE112B8A9C3}">ARRAY [0..5] OF LREAL</Type>
 						</Var>
 						<Var>
+							<Name>MAIN.at960.Status</Name>
+							<Comment>
+								<![CDATA[ Variables linked to LeicaAT960 Box 1]]>
+							</Comment>
+							<Type>UDINT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.at960.TimeStamp</Name>
+							<Type>ULINT</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.at960.AngleHz</Name>
+							<Type>LREAL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.at960.AngleVt</Name>
+							<Type>LREAL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.at960.Distance</Name>
+							<Type>LREAL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.at960.Quaternion0</Name>
+							<Type>LREAL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.at960.Quaternion1</Name>
+							<Type>LREAL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.at960.Quaternion2</Name>
+							<Type>LREAL</Type>
+						</Var>
+						<Var>
+							<Name>MAIN.at960.Quaternion3</Name>
+							<Type>LREAL</Type>
+						</Var>
+						<Var>
 							<Name>MAIN.winch.axis.NcToPlc</Name>
 							<Type GUID="{6A65C767-34E5-42BF-AD87-E1A503EAC7BE}" Namespace="MC">NCTOPLC_AXIS_REF</Type>
 							<SubVar>
@@ -5049,45 +5089,6 @@ External Setpoint Generation:
 ]]>
 								</Comment>
 							</SubVar>
-						</Var>
-						<Var>
-							<Name>MAIN.at960.Status</Name>
-							<Comment>
-								<![CDATA[ Variables linked to LeicaAT960 Box 1]]>
-							</Comment>
-							<Type>UDINT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.at960.TimeStamp</Name>
-							<Type>ULINT</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.at960.AngleHz</Name>
-							<Type>LREAL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.at960.AngleVt</Name>
-							<Type>LREAL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.at960.Distance</Name>
-							<Type>LREAL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.at960.Quaternion0</Name>
-							<Type>LREAL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.at960.Quaternion1</Name>
-							<Type>LREAL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.at960.Quaternion2</Name>
-							<Type>LREAL</Type>
-						</Var>
-						<Var>
-							<Name>MAIN.at960.Quaternion3</Name>
-							<Type>LREAL</Type>
 						</Var>
 					</Vars>
 					<Vars VarGrpType="2">

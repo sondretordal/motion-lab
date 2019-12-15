@@ -1,4 +1,4 @@
-from PyQt5 import QtCore
+from PyQt5 import QtCore, QtWidgets
 import numpy as np
 from ctypes import Structure, sizeof
 import pyads
@@ -10,8 +10,9 @@ from .RealTimePlot import RealTimePlot
 
 class E_WinchMode(Enum):
     SETTLED         = 0x00
-    REMOTE          = 0x01
-    MOTION_COMP     = 0x02
+    LOCAL           = 0x01
+    REMOTE          = 0x02
+    MOTION_COMP     = 0x03
 
 
 class TxHmiWinch(Structure):
@@ -48,6 +49,10 @@ class RobotWinch(QtCore.QObject):
         self.plcNotification(self.plcRoot + '.bActive', pyads.PLCTYPE_BOOL, self.signal_bActive)
         self.plcNotification(self.plcRoot + '.eMode', pyads.PLCTYPE_USINT, self.signal_eMode)
 
+        # Velocity input
+        self.gui.winchVelSetpoint.sliderReleased.connect(lambda: self.gui.winchVelSetpoint.setValue(0))
+        self.gui.winchVelSetpoint.valueChanged.connect(self.velSetpoint)
+
         # Init read from plc
         self.init()
         
@@ -57,7 +62,7 @@ class RobotWinch(QtCore.QObject):
         # Plot timer
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(self.update)
-        self.timer.start(50)
+        self.timer.start(100)
 
     @QtCore.pyqtSlot(bool)
     def slot_bActive(self, value):
@@ -74,8 +79,15 @@ class RobotWinch(QtCore.QObject):
     def slot_eModeCmd(self, value):
         self.plc.write_by_name(self.plcRoot + '.eModeCmd', value, pyads.PLCTYPE_USINT)
 
+
+    @QtCore.pyqtSlot(int)
+    def velSetpoint(self, value):
+        v = float(value)/100*0.2
+        self.plc.write_by_name(self.plcRoot + '.u', v, pyads.PLCTYPE_LREAL)
+
     def update(self):
-        pass
+        lengthUtilization =self.plc.read_by_name(self.plcRoot + '.lengthUtilization', pyads.PLCTYPE_LREAL)
+        self.gui.winch_l.setValue(lengthUtilization)
 
     def engage(self):
         self.plc.write_by_name(self.plcRoot + '.bEnable', True, pyads.PLCTYPE_BOOL)

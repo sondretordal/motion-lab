@@ -19,7 +19,7 @@ VAR_OUTPUT
 	length_t : LREAL;
 	length_tt : LREAL;
 	
-	
+	lengthUtilization : LREAL;
 END_VAR
 VAR
 	// HMI feedback	
@@ -61,6 +61,7 @@ ELSE
 		Parameter := stAxisParameterSet,
 		Execute := FALSE
 	);
+	
 END_IF
 
 // Operation state machine
@@ -91,7 +92,7 @@ CASE eModeCmd OF
 		// Set current mode
 		eMode := eModeCmd;
 		
-	E_WinchMode.REMOTE, E_WinchMode.MOTION_COMP :		
+	E_WinchMode.LOCAL, E_WinchMode.REMOTE, E_WinchMode.MOTION_COMP :		
 		// Power switch
 		IF bEnable THEN
 			// Enable power
@@ -103,7 +104,7 @@ CASE eModeCmd OF
 			);	
 			
 			IF fbPower.Status THEN
-				// Enable external setpoint when on		
+				// Enable external setpoint when on
 				enableExtSetPoint();
 			
 			END_IF
@@ -128,7 +129,7 @@ CASE eModeCmd OF
 		IF fbPower.Status AND fbExtSetPointGenEnable.Enabled THEN			
 			// Set input based on velocity input u
 			CASE eMode OF
-				E_WinchMode.REMOTE : 
+				E_WinchMode.REMOTE : 					
 					l := LIMIT(stAxisParameterSet.fEncSoftEndMin, l + uRemote*Ts, stAxisParameterSet.fEncSoftEndMax);
 					l_t := uRemote;
 					l_tt := (uRemote - uRemoteOld)/Ts;
@@ -136,7 +137,7 @@ CASE eModeCmd OF
 					// Update old variable
 					uRemoteOld := uRemote;
 					
-				E_WinchMode.MOTION_COMP : 
+				E_WinchMode.LOCAL, E_WinchMode.MOTION_COMP : 
 					l := LIMIT(stAxisParameterSet.fEncSoftEndMin, l + u*Ts, stAxisParameterSet.fEncSoftEndMax);
 					l_t := u;
 					l_tt := (u - uOld)/Ts;
@@ -162,14 +163,21 @@ CASE eModeCmd OF
 	
 END_CASE
 
+// Reset/Acknowledge errors
+fbReset(
+	Axis:= axis
+);
 
 // Update axis data
 axis();
 
 // Return feedback data all the time
-length := axis.NcToPlc.ActPos;
+length := axis.NcToPlc.ActPos - stAxisParameterSet.fEncSoftEndMin;
 length_t := axis.NcToPlc.ActVelo;
 length_tt := axis.NcToPlc.ActAcc;
+
+// Calculate length utilization [0..100] %
+lengthUtilization := length/(stAxisParameterSet.fEncSoftEndMax - stAxisParameterSet.fEncSoftEndMin)*100;
 
 // Check activity
 bActive := fbPower.Status;]]></ST>
@@ -278,7 +286,9 @@ END_VAR
       <LineId Id="1552" Count="0" />
       <LineId Id="1544" Count="0" />
       <LineId Id="1547" Count="3" />
-      <LineId Id="1545" Count="1" />
+      <LineId Id="1545" Count="0" />
+      <LineId Id="1837" Count="0" />
+      <LineId Id="1546" Count="0" />
       <LineId Id="1107" Count="0" />
       <LineId Id="943" Count="0" />
       <LineId Id="945" Count="0" />
@@ -342,11 +352,16 @@ END_VAR
       <LineId Id="1493" Count="0" />
       <LineId Id="1571" Count="0" />
       <LineId Id="947" Count="0" />
+      <LineId Id="1840" Count="0" />
       <LineId Id="1484" Count="0" />
+      <LineId Id="1841" Count="2" />
       <LineId Id="1271" Count="0" />
       <LineId Id="1438" Count="4" />
       <LineId Id="1407" Count="0" />
       <LineId Id="1786" Count="0" />
+      <LineId Id="1848" Count="0" />
+      <LineId Id="1847" Count="0" />
+      <LineId Id="1850" Count="0" />
       <LineId Id="1247" Count="0" />
       <LineId Id="1514" Count="0" />
       <LineId Id="1243" Count="0" />
