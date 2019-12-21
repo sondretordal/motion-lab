@@ -13,6 +13,8 @@ from .RealTimePlot import RealTimePlot
 
 
 class DataLogger(QtCore.QObject):
+    i = 0
+
     def __init__(self, plc, gui, parent=None):
         super(QtCore.QObject, self).__init__(parent)
         self.plc = plc
@@ -28,6 +30,12 @@ class DataLogger(QtCore.QObject):
 
 
     def startLog(self):
+        # Write message on log started
+        self.plc.write_by_name('GVL.logMessage', 'CSV logging started', pyads.PLCTYPE_STRING)
+
+        # Set log amsple count to zero
+        self.i = 0
+
         # Read destination file name
         filename = self.gui.logFilePath.text()
 
@@ -69,6 +77,9 @@ class DataLogger(QtCore.QObject):
         self.timer.start(50)
 
     def stopLog(self):
+        # Write message on log started
+        self.plc.write_by_name('GVL.logMessage', 'CSV logging ended', pyads.PLCTYPE_STRING)
+
         # Stop timer
         self.timer.stop()
 
@@ -88,11 +99,14 @@ class DataLogger(QtCore.QObject):
             data[0] = t - self.t0
             data = np.around(np.array(data), 4)
 
+            # Increment log sample count
+            self.i = self.i + 1
             
             # Write data to CSV file
             self.writer.writerow(data)
 
-            # Update log progress bar
+            # Update log progress bar and log sample count
+            self.gui.logSampleCount.setText(str(self.i))
             self.gui.logProgress.setValue(int((t - self.t0)/(self.t1 - self.t0)*100))
 
         else:

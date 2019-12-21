@@ -117,6 +117,31 @@
     <Compile Include="DUTs\TxUdp\ST_TxUdpStewart.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GVL.TcGVL">
+      <SubType>Code</SubType>
+      <LinkAlways>true</LinkAlways>
+    </Compile>
+    <Compile Include="HydroSimulator\E_TcMatSimDataAreaType.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="HydroSimulator\FB_HydroSimulator.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="HydroSimulator\FB_TcMatSimObject.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="HydroSimulator\ST_HydroSimulatorInitData.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="HydroSimulator\ST_HydroSimulator_Input.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="HydroSimulator\ST_HydroSimulator_Output.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="HydroSimulator\ST_TcMatSimObjectDataAreaInfo.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="MainTask.TcTTO">
       <SubType>Code</SubType>
     </Compile>
@@ -240,6 +265,12 @@
     <Compile Include="POUs\Utils\FB_BumplessTransfer.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SystemFunctions\CheckDivReal.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SystemFunctions\CheckDivLReal.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DUTs" />
@@ -252,6 +283,8 @@
     <Folder Include="DUTs\TxUdp" />
     <Folder Include="DUTs\RxUdp" />
     <Folder Include="GVLs" />
+    <Folder Include="HydroSimulator" />
+    <Folder Include="SystemFunctions" />
     <Folder Include="POUs\Interfaces" />
     <Folder Include="POUs\CSV" />
     <Folder Include="POUs\Simulink" />
@@ -292,6 +325,48 @@
     <None Include="LabController.tmc">
       <SubType>Content</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <SubObject Include="FB_HydroSimulator.Execute" />
+    <SubObject Include="FB_HydroSimulator.FB_init" />
+    <SubObject Include="FB_HydroSimulator.InitData" />
+    <SubObject Include="FB_HydroSimulator.InitData.Get" />
+    <SubObject Include="FB_HydroSimulator.InitData.Set" />
+    <SubObject Include="FB_HydroSimulator.Internal_SetObjState" />
+    <SubObject Include="FB_HydroSimulator.SaveOnlineParametersForInit" />
+    <SubObject Include="FB_HydroSimulator.VerifyParameters" />
+    <SubObject Include="FB_TcMatSimObject.AssignClassId" />
+    <SubObject Include="FB_TcMatSimObject.ClassId" />
+    <SubObject Include="FB_TcMatSimObject.ClassId.Get" />
+    <SubObject Include="FB_TcMatSimObject.Error" />
+    <SubObject Include="FB_TcMatSimObject.Error.Get" />
+    <SubObject Include="FB_TcMatSimObject.ErrorCode" />
+    <SubObject Include="FB_TcMatSimObject.ErrorCode.Get" />
+    <SubObject Include="FB_TcMatSimObject.Execute" />
+    <SubObject Include="FB_TcMatSimObject.FB_exit" />
+    <SubObject Include="FB_TcMatSimObject.FB_init" />
+    <SubObject Include="FB_TcMatSimObject.GetImagePtrs" />
+    <SubObject Include="FB_TcMatSimObject.GetObjPara" />
+    <SubObject Include="FB_TcMatSimObject.Init" />
+    <SubObject Include="FB_TcMatSimObject.InitObjName" />
+    <SubObject Include="FB_TcMatSimObject.Internal_SetObjState" />
+    <SubObject Include="FB_TcMatSimObject.QueryObjInterface" />
+    <SubObject Include="FB_TcMatSimObject.QueryObjInterfaces" />
+    <SubObject Include="FB_TcMatSimObject.QueryTcComInterface" />
+    <SubObject Include="FB_TcMatSimObject.ReadModuleClassId" />
+    <SubObject Include="FB_TcMatSimObject.ReleaseImagePtrs" />
+    <SubObject Include="FB_TcMatSimObject.ReleaseObjInterfaces" />
+    <SubObject Include="FB_TcMatSimObject.ReleaseTcComInterface" />
+    <SubObject Include="FB_TcMatSimObject.ResetHresult" />
+    <SubObject Include="FB_TcMatSimObject.SaveOnlineParametersForInit" />
+    <SubObject Include="FB_TcMatSimObject.SetDataAreaInfo" />
+    <SubObject Include="FB_TcMatSimObject.SetInitDataInfo" />
+    <SubObject Include="FB_TcMatSimObject.SetObjPara" />
+    <SubObject Include="FB_TcMatSimObject.SetObjState" />
+    <SubObject Include="FB_TcMatSimObject.State" />
+    <SubObject Include="FB_TcMatSimObject.State.Get" />
+    <SubObject Include="FB_TcMatSimObject.State.Set" />
+    <SubObject Include="FB_TcMatSimObject.VerifyClassId" />
   </ItemGroup>
   <ProjectExtensions>
     <PlcProjectOptions>

@@ -7,6 +7,7 @@ STRUCT
 	eta : ARRAY [0..5] OF REAL;
 	etaRef : ARRAY [0..5] OF REAL;
 	cyl : ARRAY [0..5] OF REAL;
+	dofScale : ARRAY [0..5] OF REAL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

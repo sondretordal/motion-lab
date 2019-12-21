@@ -1,4 +1,4 @@
-from PyQt5 import QtCore, QtWidgets
+from PyQt5 import QtCore, QtWidgets, QtGui
 from enum import Enum
 from ctypes import Structure, sizeof
 import numpy as np
@@ -44,14 +44,15 @@ class ST_TxHmiStewart(Structure):
         ('status', pyads.PLCTYPE_UDINT),
         ('eta', pyads.PLCTYPE_ARR_REAL(6)),
         ('etaRef', pyads.PLCTYPE_ARR_REAL(6)),
-        ('cyl', pyads.PLCTYPE_ARR_REAL(6))
+        ('cyl', pyads.PLCTYPE_ARR_REAL(6)),
+        ('dofScale', pyads.PLCTYPE_ARR_REAL(6))
     ]
 
 class StewartPlattform(QtCore.QObject):
     # Async: PLC -> HMI
     signal_eMode = QtCore.pyqtSignal(int)
     signal_bError = QtCore.pyqtSignal(bool)
-    signal_bReady = QtCore.pyqtSignal(bool)
+    signal_bActive = QtCore.pyqtSignal(bool)
     signal_bBusy = QtCore.pyqtSignal(bool)
     signal_eState = QtCore.pyqtSignal(int)
     signal_eStatus = QtCore.pyqtSignal(int)
@@ -89,15 +90,19 @@ class StewartPlattform(QtCore.QObject):
         self.signal_eStatus.connect(self.slot_eStatus)
         self.signal_eOpMode.connect(self.slot_eOpMode)
         self.signal_eMode.connect(self.slot_eMode)
+        self.signal_bActive.connect(self.slot_bActive)
 
         # Connect: PLC -> SIGNAL
         self.plcNotification(self.plcRoot + '.bError', pyads.PLCTYPE_BOOL, self.signal_bError)
-        self.plcNotification(self.plcRoot + '.bReady', pyads.PLCTYPE_BOOL, self.signal_bReady)
+        self.plcNotification(self.plcRoot + '.bActive', pyads.PLCTYPE_BOOL, self.signal_bActive)
         self.plcNotification(self.plcRoot + '.bBusy', pyads.PLCTYPE_BOOL, self.signal_bBusy)
         self.plcNotification(self.plcRoot + '.eState', pyads.PLCTYPE_USINT, self.signal_eState)
         self.plcNotification(self.plcRoot + '.eStatus', pyads.PLCTYPE_USINT, self.signal_eStatus)
         self.plcNotification(self.plcRoot + '.eOpMode', pyads.PLCTYPE_USINT, self.signal_eOpMode)
         self.plcNotification(self.plcRoot + '.eMode', pyads.PLCTYPE_USINT, self.signal_eMode)
+
+        # Set intial avtivity LED status
+        eval(self.guiRoot + '_bActive').setScaledContents(True)
 
         # Setup plot area
         self.setupPlot()
@@ -112,7 +117,7 @@ class StewartPlattform(QtCore.QObject):
         
         # Sunchronous timer
         self.timer = QtCore.QTimer()
-        self.timer.timeout.connect(self.updateGraph)
+        self.timer.timeout.connect(self.update)
         self.timer.start(50)
 
     # QtSlots
@@ -168,6 +173,14 @@ class StewartPlattform(QtCore.QObject):
         if self.eMode == E_StewartMode.GENERATOR:
             self.enableSineInputs()
 
+    @QtCore.pyqtSlot(bool)
+    def slot_bActive(self, value):
+        if value:
+            eval(self.guiRoot + '_bActive').setPixmap(QtGui.QPixmap('./icons/led-on.png'))
+
+        else:
+            eval(self.guiRoot + '_bActive').setPixmap(QtGui.QPixmap('./icons/led-off.png'))
+
     def intilizeHmiFields(self):
         # Read data from PLC to intilize the HMI fields
         eval(self.guiRoot + '_eModeCmd').setCurrentIndex(
@@ -219,12 +232,12 @@ class StewartPlattform(QtCore.QObject):
             eval(self.guiRoot + '_freq_' + str(i)).setDisabled(False)
             eval(self.guiRoot + '_phase_' + str(i)).setDisabled(False)
 
-    def updateGraph(self):
-        
+    def update(self):
+        # Read HMI data bundle
         self.txHmi = self.plc.read_by_name(self.plcRoot + '.txHmi', ST_TxHmiStewart)
 
-        # Plot when active
-        if self.txHmi.status == 1:
+        # Plot
+        if self.txHmi.status != 0:
             if self.eState == E_StewartState.ENGAGED:
                 # Plot feedback when engaged
                 self.updatePlot(self.txHmi.eta)
@@ -232,6 +245,11 @@ class StewartPlattform(QtCore.QObject):
             else:
                 # Plot input reference when else
                 self.updatePlot(self.txHmi.etaRef)
+
+        # TODO: Mowe into wave simualtor
+        # Plot Hydro Simualator scaling
+        for i in range(0, 5):
+            eval(self.guiRoot + '_dof_scale_' + str(i)).setValue(int(self.txHmi.dofScale[i]*100))
 
     def setupPlot(self):
         # Surge, sway and heave

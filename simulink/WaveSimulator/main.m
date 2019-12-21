@@ -30,7 +30,9 @@ step.yaw.tau = tau;
 
 save('step.mat', 'step')
 
-
+% Make linearized wave spectrum
+[S, w] = hydro.PiersonMoscowitz(6, 12, 100, false);
+[lambda, w0, sigma] = hydro.LinearWaveSpec(S, w, false);
 
 
 

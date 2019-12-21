@@ -63,6 +63,7 @@ def notification(plc_datatype=None, pyqtSignal=None):
                 # read only until null-termination character
                 value = bytearray(data).split(b"\0", 1)[0].decode("utf-8")
 
+
             elif issubclass(plc_datatype, Structure):
                 value = plc_datatype()
                 fit_size = min(data_size, sizeof(value))
@@ -82,6 +83,7 @@ def notification(plc_datatype=None, pyqtSignal=None):
 
             # Write data to signal
             pyqtSignal.emit(value)
+            
             
             
             

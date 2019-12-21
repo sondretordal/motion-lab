@@ -1,0 +1,90 @@
+Microsoft (R) Build Engine version 15.6.85.37198 for .NET Framework
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Build started 20.12.2019 06:07:46.
+Project "C:\GitHub\motion-lab\simulink\WaveSimulator\HydroSimulator_tct\HydroSimulator.vcxproj" on node 1 (TcPublishModule target(s)).
+TcRemovePublishedModule:
+  Directory "C:\TwinCAT\3.1\CustomConfig\Modules\HydroSimulator\" doesn't exist. Skipping.
+TcPublishModule:
+  Publishing module to folder 'C:\TwinCAT\3.1\CustomConfig\Modules\HydroSimulator\' using module installation directory '%SOLUTIONMODULEINSTTPATH%'
+Project "C:\GitHub\motion-lab\simulink\WaveSimulator\HydroSimulator_tct\HydroSimulator.vcxproj" (1) is building "C:\GitHub\motion-lab\simulink\WaveSimulator\HydroSimulator_tct\HydroSimulator.vcxproj" (1:2) on node 1 (TcPublishModuleBinaries target(s)).
+CoreClean:
+  Creating directory "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2019a\HydroSimulator\".
+PrepareForBuild:
+  Creating directory "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2019a\HydroSimulator\HydroSimulator.tlog\".
+InitializeBuildStatus:
+  Creating "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2019a\HydroSimulator\HydroSimulator.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+PreBuildEvent:
+  "C:\TwinCAT\3.1\SDK\\Bin\ExtractVersionInfo" "HydroSimulator" "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2019a\HydroSimulator\\HydroSimulator"
+  "C:\TwinCAT\3.1\SDK\\Bin\ExtractVersionInfo" "HydroSimulator" "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2019a\HydroSimulator\\HydroSimulator"
+  :VCEnd
+  ExtractVersionInfo could not open header file "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2019a\HydroSimulator\\HydroSimulatorVersion.h" for read!
+ClCompile:
+  C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.13.26128\bin\HostX86\x64\CL.exe /c /I"C:\GitHub\motion-lab\simulink\WaveSimulator\HydroSimulator_tct\..\\" /I"C:\GitHub\motion-lab\simulink\WaveSimulator\HydroSimulator_tct\\" /I"C:\Program Files\MATLAB\R2019a\extern\include\\" /I"C:\Program Files\MATLAB\R2019a\simulink\include\\" /I"C:\Program Files\MATLAB\R2019a\rtw\c\src\\" /I"C:\GitHub\motion-lab\simulink\WaveSimulator\HydroSimulator_tct\TwinCAT RT (x64)\\" /I"C:\GitHub\motion-lab\simulink\WaveSimulator\HydroSimulator_tct\TwinCAT RT\\" /I"C:\GitHub\motion-lab\simulink\WaveSimulator\HydroSimulator_tct\TwinCAT RT\3.1\\" /I"C:\GitHub\motion-lab\simulink\WaveSimulator\HydroSimulator_tct\\" /I"C:\Program Files\MATLAB\R2019a\\rtw\c\src\ext_mode\common" /I"C:\Program Files\MATLAB\R2019a\\rtw\c\src" /I"C:\Program Files\MATLAB\R2019a\\simulink\include" /I"C:\Program Files\MATLAB\R2019a\\extern\include" /IC:\TwinCAT\3.1\SDK\\Include /IC:\TwinCAT\3.1\SDK\\Include\Io /IC:\TwinCAT\3.1\SDK\\Include\Nc /IC:\TwinCAT\3.1\SDK\\Include\CM /IC:\TwinCAT\3.1\SDK\\Include\Plc /IC:\TwinCAT\3.1\SDK\\Include\Stl\Stl /IC:\WinDDK\7600.16385.1\\inc\ddk /IC:\WinDDK\7600.16385.1\\inc\crt /IC:\WinDDK\7600.16385.1\\inc\mfc42 /IC:\WinDDK\7600.16385.1\\inc\api /I"C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2019a\HydroSimulator\\" /Zi /nologo /W3 /WX- /diagnostics:classic /MP /O2 /Ob2 /Oy- /D "MODEL=\"HydroSimulator\"" /D NUMST=4 /D NCSTATES=30 /D HAVESTDIO /D CLASSIC_INTERFACE=1 /D ALLOCATIONFCN=0 /D TID01EQ=1 /D ONESTEPFCN=0 /D TERMFCN=1 /D MULTI_INSTANCE_CODE=0 /D INTEGER_CODE=0 /D MT=0 /D RT=1 /D USE_RTMODEL /D TC_UNLIMITED_MAP_ENTRIES /D TCMATH_BLOCK_STANDARDLIB=0 /D TC_BUILD=4022 /D USE_CRT_OWN_IMPL /D _AMD64_ /D _X64_ /D _WIN64 /D STD_CALL /D CONDITION_HANDLING /D WIN32_LEAN_AND_MEAN /D _IDWBUILD /D IS_R0 /D WINNT /D _WDM_INCLUDED_ /D _WIN32_WINNT=_WIN32_WINNT_WINXP /D NTDDI_VERSION=NTDDI_WINXPSP2 /D TC_VER=301 /X /GF /Gm- /MT /GS- /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR- /Fo"C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2019a\HydroSimulator\\" /Fd"C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2019a\HydroSimulator\vc141.pdb" /Gz /TP /analyze- /FC /errorReport:queue /kernel CHydroSimulatorClassFactory.cpp CHydroSimulator.cpp CHydroSimulatorDrv.cpp TcPch.cpp
+  CHydroSimulatorClassFactory.cpp
+  CHydroSimulator.cpp
+  CHydroSimulatorDrv.cpp
+  TcPch.cpp
+  C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.13.26128\bin\HostX86\x64\CL.exe /c /I"C:\GitHub\motion-lab\simulink\WaveSimulator\HydroSimulator_tct\..\\" /I"C:\GitHub\motion-lab\simulink\WaveSimulator\HydroSimulator_tct\\" /I"C:\Program Files\MATLAB\R2019a\extern\include\\" /I"C:\Program Files\MATLAB\R2019a\simulink\include\\" /I"C:\Program Files\MATLAB\R2019a\rtw\c\src\\" /I"C:\GitHub\motion-lab\simulink\WaveSimulator\HydroSimulator_tct\TwinCAT RT (x64)\\" /I"C:\GitHub\motion-lab\simulink\WaveSimulator\HydroSimulator_tct\TwinCAT RT\\" /I"C:\GitHub\motion-lab\simulink\WaveSimulator\HydroSimulator_tct\TwinCAT RT\3.1\\" /I"C:\GitHub\motion-lab\simulink\WaveSimulator\HydroSimulator_tct\\" /I"C:\Program Files\MATLAB\R2019a\\rtw\c\src\ext_mode\common" /I"C:\Program Files\MATLAB\R2019a\\rtw\c\src" /I"C:\Program Files\MATLAB\R2019a\\simulink\include" /I"C:\Program Files\MATLAB\R2019a\\extern\include" /IC:\TwinCAT\3.1\SDK\\Include /IC:\TwinCAT\3.1\SDK\\Include\Io /IC:\TwinCAT\3.1\SDK\\Include\Nc /IC:\TwinCAT\3.1\SDK\\Include\CM /IC:\TwinCAT\3.1\SDK\\Include\Plc /IC:\TwinCAT\3.1\SDK\\Include\Stl\Stl /IC:\WinDDK\7600.16385.1\\inc\ddk /IC:\WinDDK\7600.16385.1\\inc\crt /IC:\WinDDK\7600.16385.1\\inc\mfc42 /IC:\WinDDK\7600.16385.1\\inc\api /I"C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2019a\HydroSimulator\\" /Zi /nologo /W3 /WX- /diagnostics:classic /MP /O2 /Ob2 /Oy- /D "MODEL=\"HydroSimulator\"" /D NUMST=4 /D NCSTATES=30 /D HAVESTDIO /D CLASSIC_INTERFACE=1 /D ALLOCATIONFCN=0 /D TID01EQ=1 /D ONESTEPFCN=0 /D TERMFCN=1 /D MULTI_INSTANCE_CODE=0 /D INTEGER_CODE=0 /D MT=0 /D RT=1 /D USE_RTMODEL /D TC_UNLIMITED_MAP_ENTRIES /D TCMATH_BLOCK_STANDARDLIB=0 /D TC_BUILD=4022 /D USE_CRT_OWN_IMPL /D _AMD64_ /D _X64_ /D _WIN64 /D STD_CALL /D CONDITION_HANDLING /D WIN32_LEAN_AND_MEAN /D _IDWBUILD /D IS_R0 /D WINNT /D _WDM_INCLUDED_ /D _WIN32_WINNT=_WIN32_WINNT_WINXP /D NTDDI_VERSION=NTDDI_WINXPSP2 /D TC_VER=301 /X /GF /Gm- /MT /GS- /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR- /Fo"C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2019a\HydroSimulator\\" /Fd"C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2019a\HydroSimulator\vc141.pdb" /Gd /TP /analyze- /FC /errorReport:queue /kernel HydroSimulator.cpp HydroSimulator_data.cpp rtGetInf.cpp rtGetNaN.cpp rt_nonfinite.cpp
+  HydroSimulator.cpp
+  HydroSimulator_data.cpp
+  rtGetInf.cpp
+  rtGetNaN.cpp
+  rt_nonfinite.cpp
+ResourceCompile:
+  C:\Program Files (x86)\Windows Kits\8.1\bin\x86\rc.exe /l"0x0409" /nologo /fo"C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2019a\HydroSimulator\HydroSimulator.res" HydroSimulator.rc 
+Link:
+  C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.13.26128\bin\HostX86\x64\link.exe /ERRORREPORT:QUEUE /OUT:"C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2019a\HydroSimulator.sys" /NOLOGO /LIBPATH:"C:\TwinCAT\3.1\..\Functions\TE1400-TargetForMatlabSimulink\Libraries\TwinCAT RT (x64)\R2019a\Release\\" /LIBPATH:"C:\TwinCAT\3.1\..\Functions\TE1400-TargetForMatlabSimulink\Libraries\TwinCAT RT (x64)\R2019a\\" /LIBPATH:"C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2019a\..\\" /LIBPATH:"C:\TwinCAT\3.1\SDK\\lib\TwinCAT RT (x64)" /LIBPATH:"C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2019a\\" TcMatSim.lib TcFramework.lib TcDdkHal.lib TcDdkKrnl.lib /NODEFAULTLIB /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2019a\HydroSimulator.pdb" /SUBSYSTEM:NATIVE /TLBID:1 /ENTRY:"DriverEntry" /DYNAMICBASE /NXCOMPAT:NO /IMPLIB:"C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2019a\HydroSimulator.lib" /MACHINE:X64 "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2019a\HydroSimulator\HydroSimulator.res"
+  "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2019a\HydroSimulator\CHydroSimulatorClassFactory.obj"
+  "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2019a\HydroSimulator\CHydroSimulator.obj"
+  "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2019a\HydroSimulator\HydroSimulator.obj"
+  "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2019a\HydroSimulator\HydroSimulator_data.obj"
+  "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2019a\HydroSimulator\rtGetInf.obj"
+  "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2019a\HydroSimulator\rtGetNaN.obj"
+  "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2019a\HydroSimulator\rt_nonfinite.obj"
+  "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2019a\HydroSimulator\CHydroSimulatorDrv.obj"
+  "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2019a\HydroSimulator\TcPch.obj"
+  HydroSimulator.vcxproj -> C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2019a\HydroSimulator.sys
+PostBuildEvent:
+  "C:\WinDDK\7600.16385.1\\bin\x86\signtool" sign /v /s PrivateCertStore /n MyTestSigningCert "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2019a\HydroSimulator.sys"
+  :VCEnd
+  The following certificate was selected:
+      Issued to: MyTestSigningCert
+  
+      Issued by: MyTestSigningCert
+  
+      Expires:   Sun Jan 01 00:59:59 2040
+  
+      SHA1 hash: A3C33E6FE9CC2F92D28EE43C1D305EABCA547644
+  
+  
+  Done Adding Additional Store
+  Successfully signed: C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2019a\HydroSimulator.sys
+  
+  
+  Number of files successfully Signed: 1
+  
+  Number of warnings: 0
+  
+  Number of errors: 0
+  
+FinalizeBuildStatus:
+  Deleting file "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2019a\HydroSimulator\HydroSimulator.tlog\unsuccessfulbuild".
+  Touching "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2019a\HydroSimulator\HydroSimulator.tlog\HydroSimulator.lastbuildstate".
+TcPublishModuleBinaries:
+  Creating directory "C:\TwinCAT\3.1\CustomConfig\Modules\HydroSimulator\TwinCAT RT (x64)".
+  Copying file from "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2019a\HydroSimulator.sys" to "C:\TwinCAT\3.1\CustomConfig\Modules\HydroSimulator\TwinCAT RT (x64)\HydroSimulator.sys".
+  Copying file from "C:\TwinCAT\3.1\SDK\\_products\TwinCAT RT (x64)\Release\MATLAB_R2019a\HydroSimulator.pdb" to "C:\TwinCAT\3.1\CustomConfig\Modules\HydroSimulator\TwinCAT RT (x64)\HydroSimulator.pdb".
+Done Building Project "C:\GitHub\motion-lab\simulink\WaveSimulator\HydroSimulator_tct\HydroSimulator.vcxproj" (TcPublishModuleBinaries target(s)).
+Project "C:\GitHub\motion-lab\simulink\WaveSimulator\HydroSimulator_tct\HydroSimulator.vcxproj" (1) is building "C:\GitHub\motion-lab\simulink\WaveSimulator\HydroSimulator_tct\HydroSimulator.vcxproj" (1:3) on node 1 (TcPublishAdditionalFiles target(s)).
+TcPublishAdditionalFiles:
+  Copying file from "C:\GitHub\motion-lab\simulink\WaveSimulator\HydroSimulator_tct\HydroSimulator_PlcOpenPOUs.xml" to "C:\TwinCAT\3.1\CustomConfig\Modules\HydroSimulator\HydroSimulator_PlcOpenPOUs.xml".
+  Copying file from "C:\GitHub\motion-lab\simulink\WaveSimulator\HydroSimulator_tct\HydroSimulator_ModuleInfo.xml" to "C:\TwinCAT\3.1\CustomConfig\Modules\HydroSimulator\HydroSimulator_ModuleInfo.xml".
+Done Building Project "C:\GitHub\motion-lab\simulink\WaveSimulator\HydroSimulator_tct\HydroSimulator.vcxproj" (TcPublishAdditionalFiles target(s)).
+Done Building Project "C:\GitHub\motion-lab\simulink\WaveSimulator\HydroSimulator_tct\HydroSimulator.vcxproj" (TcPublishModule target(s)).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:02.58

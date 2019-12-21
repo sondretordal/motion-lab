@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <DUT Name="ST_HydroSimulator_Input" Id="{79eeb7c4-5a16-4068-b0ba-cede92b5527d}">
+    <Declaration><![CDATA[TYPE ST_HydroSimulator_Input :
+STRUCT
+	bReset: BOOL;
+	etaMax: matrix_6_real_T := [0.1, 0.1, 0.3, 5.0/180.0*PI, 5.0/180.0*PI, 5.0/180.0*PI];
+	w0 : LREAL := 0.5457;
+	lambda : LREAL := 0.2405;
+	sigma : LREAL := 0.8444;
+	
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

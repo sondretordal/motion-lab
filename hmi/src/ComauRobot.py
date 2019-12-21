@@ -1,10 +1,11 @@
-from PyQt5 import QtCore
+from PyQt5 import QtCore, QtGui
 import numpy as np
-from ctypes import Structure
+from ctypes import Structure, sizeof
 import pyads
 import time
 from enum import Enum
 
+from .AdsQt import notification
 from .RealTimePlot import RealTimePlot
 
 
@@ -26,6 +27,8 @@ class TxHmiWinch(Structure):
     ]
 
 class ComauRobot(QtCore.QObject):
+    signal_bActive = QtCore.pyqtSignal(bool)
+
     def __init__(self, plc, gui, plcInstance, parent=None):
         super(QtCore.QObject, self).__init__(parent)
         self.plc = plc
@@ -37,15 +40,34 @@ class ComauRobot(QtCore.QObject):
 
         # Setup plot area
         self.setupPlot()
-
+        
+        # GUI -> SLOT
         self.gui.comau_engage.clicked.connect(self.engage)
         self.gui.comau_disengage.clicked.connect(self.disengage)
+
+        # PLC -> SIGNAL
+        self.plcNotification(self.plcRoot + '.bActive', pyads.PLCTYPE_BOOL, self.signal_bActive)
+        
+        # SIGNAL -> SLOT
+        self.signal_bActive.connect(self.slot_bActive)
+
+        # Initial LED state
+        eval(self.guiRoot + '_bActive').setPixmap(QtGui.QPixmap('./icons/led-off.png'))
+        eval(self.guiRoot + '_bActive').setScaledContents(True)
+
 
         # Plot timer
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(self.update)
         self.timer.start(50)
 
+    @QtCore.pyqtSlot(bool)
+    def slot_bActive(self, value):
+        if value:
+            eval(self.guiRoot + '_bActive').setPixmap(QtGui.QPixmap('./icons/led-on.png'))
+        
+        else:
+            eval(self.guiRoot + '_bActive').setPixmap(QtGui.QPixmap('./icons/led-off.png'))
     
     def update(self):
         self.txHmi = self.plc.read_by_name(
@@ -96,6 +118,26 @@ class ComauRobot(QtCore.QObject):
         self.plotAngles.add_curves(
             ['b', 'g', 'r', 'c', 'm', 'y'],
             ['q1', 'q2', 'q3', 'q4', 'q5', 'q6']
+        )
+
+    def plcNotification(self, adsName, plcType, pyqtSignal):
+        # General callback function
+        @notification(plcType, pyqtSignal)
+        def callback(handle, name, timestamp, value):
+            pass    
+
+        attrib = pyads.NotificationAttrib(
+            length=sizeof(plcType)
+            # trans_mode=pyads.ADSTRANS_SERVERCYCLE,
+            # max_delay=100, # Max delay in ms
+            # cycle_time=500 # Cycle time in ms
+        )
+
+        # Add notification to ads
+        self.plc.add_device_notification(
+            adsName,
+            attrib,
+            callback
         )
 
     def close(self):

@@ -4,9 +4,12 @@
     <Declaration><![CDATA[FUNCTION_BLOCK FB_RemoteInterface
 VAR_INPUT
 	txUdp : ST_TxUdpRemote;
+	
 END_VAR
 VAR_OUTPUT
 	rxUdp : ST_RxUdpRemote;
+	bActive : BOOL := FALSE;
+	
 END_VAR
 VAR
 	// Udp connection

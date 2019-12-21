@@ -20,11 +20,17 @@ class WaveSimulator(object):
     
         # Initial wave spectrum
         self.spectrumChanged()
+        
 
         # Conncet GUI elements
         self.gui.Hs.valueChanged.connect(self.spectrumChanged)
         self.gui.Tp.valueChanged.connect(self.spectrumChanged)
         self.gui.spectrumType.currentIndexChanged.connect(self.spectrumChanged)
+        self.gui.bResetDofScaling.clicked.connect(self.resetScaling)
+
+    def resetScaling(self):
+        self.plc.write_by_name('MAIN.em1500.bResetScale', True, pyads.PLCTYPE_BOOL)
+        self.plc.write_by_name('MAIN.em8000.bResetScale', True, pyads.PLCTYPE_BOOL)
 
     def spectrumChanged(self):
         # Get values from UI
@@ -35,15 +41,22 @@ class WaveSimulator(object):
         # Calculate spectrum
         self.spectrum = WaveSpectrum(Hs, Tp, spec)
 
+        # Write parameters
+        self.writeParameters()
+
         # Update plot on startup
         self.updatePlot()
 
+    def writeParameters(self):
         # Write paramters to PLC
-        self.plc.write_by_name('MAIN.w0', self.spectrum.w0, pyads.PLCTYPE_LREAL)
-        self.plc.write_by_name('MAIN.lambda', self.spectrum.Lambda, pyads.PLCTYPE_LREAL)
-        self.plc.write_by_name('MAIN.sigma', self.spectrum.sigma, pyads.PLCTYPE_LREAL)
+        self.plc.write_by_name('MAIN.em1500.hydro.stInput.w0', self.spectrum.w0, pyads.PLCTYPE_LREAL)
+        self.plc.write_by_name('MAIN.em1500.hydro.stInput.lambda', self.spectrum.Lambda, pyads.PLCTYPE_LREAL)
+        self.plc.write_by_name('MAIN.em1500.hydro.stInput.sigma', self.spectrum.sigma, pyads.PLCTYPE_LREAL)
 
-
+        self.plc.write_by_name('MAIN.em8000.hydro.stInput.w0', self.spectrum.w0, pyads.PLCTYPE_LREAL)
+        self.plc.write_by_name('MAIN.em8000.hydro.stInput.lambda', self.spectrum.Lambda, pyads.PLCTYPE_LREAL)
+        self.plc.write_by_name('MAIN.em8000.hydro.stInput.sigma', self.spectrum.sigma, pyads.PLCTYPE_LREAL)
+        
     def updatePlot(self):
         f = self.spectrum.w/(2*np.pi)
         xMin = min(f)

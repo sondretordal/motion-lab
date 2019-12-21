@@ -5,7 +5,6 @@
 VAR_INPUT
 	Ts : LREAL := 0.005;
 	bEnable : BOOL;
-	
 	eModeCmd : E_WinchMode;
 	u : LREAL;
 	uRemote : LREAL;
@@ -42,6 +41,12 @@ VAR
 	// Old input memeory
 	uOld : LREAL;
 	uRemoteOld : LREAL;
+	
+	// Actviity monitoring
+	vel : LREAL := 0;
+	velOld : LREAL := 0;
+	frameLoss : DINT := 0;
+	
 
 	
 END_VAR
@@ -67,7 +72,7 @@ END_IF
 // Operation state machine
 CASE eModeCmd OF
 	E_WinchMode.SETTLED :
-		// Reset enable signal
+		// Reset enable
 		bEnable := FALSE;
 	
 		// Read current state to trajectory
@@ -93,7 +98,6 @@ CASE eModeCmd OF
 		eMode := eModeCmd;
 		
 	E_WinchMode.LOCAL, E_WinchMode.REMOTE, E_WinchMode.MOTION_COMP :		
-		// Power switch
 		IF bEnable THEN
 			// Enable power
 			fbPower(
@@ -177,10 +181,35 @@ length_t := axis.NcToPlc.ActVelo;
 length_tt := axis.NcToPlc.ActAcc;
 
 // Calculate length utilization [0..100] %
-lengthUtilization := length/(stAxisParameterSet.fEncSoftEndMax - stAxisParameterSet.fEncSoftEndMin)*100;
+IF (stAxisParameterSet.fEncSoftEndMax - stAxisParameterSet.fEncSoftEndMin) <> 0.0 THEN
+	lengthUtilization := length/(stAxisParameterSet.fEncSoftEndMax - stAxisParameterSet.fEncSoftEndMin)*100;
+	
+ELSE
+	lengthUtilization := 0;
+	
+END_IF
 
 // Check activity
-bActive := fbPower.Status;]]></ST>
+vel := length_t;
+IF vel <> velOld THEN
+	// Update frame old
+	velOld := vel;
+	
+	// Reset frameLoss
+	frameLoss := 0;
+ELSE
+	// Count frame losses
+	frameLoss := frameLoss + 1;
+END_IF
+
+// Set activity status after 1 second given 5ms in ms
+IF frameLoss > 200 THEN
+	bActive := FALSE;
+	
+ELSE
+	bActive := TRUE;
+	
+END_IF]]></ST>
     </Implementation>
     <Method Name="disableExtSetPoint" Id="{8625365a-3f23-4e76-ba3a-d36439744fe2}">
       <Declaration><![CDATA[METHOD PRIVATE disableExtSetPoint : BOOL
@@ -293,9 +322,8 @@ END_VAR
       <LineId Id="943" Count="0" />
       <LineId Id="945" Count="0" />
       <LineId Id="1684" Count="0" />
-      <LineId Id="1686" Count="0" />
-      <LineId Id="1685" Count="0" />
-      <LineId Id="958" Count="0" />
+      <LineId Id="1886" Count="1" />
+      <LineId Id="1885" Count="0" />
       <LineId Id="1445" Count="0" />
       <LineId Id="1037" Count="0" />
       <LineId Id="1422" Count="1" />
@@ -310,8 +338,7 @@ END_VAR
       <LineId Id="1491" Count="0" />
       <LineId Id="1443" Count="0" />
       <LineId Id="995" Count="0" />
-      <LineId Id="1597" Count="0" />
-      <LineId Id="1728" Count="0" />
+      <LineId Id="1888" Count="0" />
       <LineId Id="1749" Count="5" />
       <LineId Id="1747" Count="1" />
       <LineId Id="1755" Count="0" />
@@ -361,9 +388,19 @@ END_VAR
       <LineId Id="1786" Count="0" />
       <LineId Id="1848" Count="0" />
       <LineId Id="1847" Count="0" />
+      <LineId Id="1851" Count="0" />
       <LineId Id="1850" Count="0" />
-      <LineId Id="1247" Count="0" />
+      <LineId Id="1856" Count="0" />
+      <LineId Id="1852" Count="1" />
+      <LineId Id="1855" Count="0" />
+      <LineId Id="1854" Count="0" />
       <LineId Id="1514" Count="0" />
+      <LineId Id="1864" Count="0" />
+      <LineId Id="1882" Count="0" />
+      <LineId Id="1866" Count="13" />
+      <LineId Id="1883" Count="0" />
+      <LineId Id="1880" Count="1" />
+      <LineId Id="1884" Count="0" />
       <LineId Id="1243" Count="0" />
     </LineIds>
     <LineIds Name="FB_WinchInterface.disableExtSetPoint">

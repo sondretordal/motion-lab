@@ -1,4 +1,4 @@
-from PyQt5 import QtCore, QtWidgets
+from PyQt5 import QtCore, QtWidgets, QtGui
 import numpy as np
 from ctypes import Structure, sizeof
 import pyads
@@ -53,6 +53,10 @@ class RobotWinch(QtCore.QObject):
         self.gui.winchVelSetpoint.sliderReleased.connect(lambda: self.gui.winchVelSetpoint.setValue(0))
         self.gui.winchVelSetpoint.valueChanged.connect(self.velSetpoint)
 
+        # Initial LED state
+        eval(self.guiRoot + '_bActive').setPixmap(QtGui.QPixmap('./icons/led-off.png'))
+        eval(self.guiRoot + '_bActive').setScaledContents(True)
+
         # Init read from plc
         self.init()
         
@@ -67,9 +71,10 @@ class RobotWinch(QtCore.QObject):
     @QtCore.pyqtSlot(bool)
     def slot_bActive(self, value):
         if value:
-            eval(self.guiRoot + '_bActive').setText('Power is ON')
+            eval(self.guiRoot + '_bActive').setPixmap(QtGui.QPixmap('./icons/led-on.png'))
+
         else:
-            eval(self.guiRoot + '_bActive').setText('Power is OFF')
+            eval(self.guiRoot + '_bActive').setPixmap(QtGui.QPixmap('./icons/led-off.png'))
 
     @QtCore.pyqtSlot(int)
     def slot_eMode(self, value):

@@ -1,0 +1,31 @@
+﻿// cstdio standard header
+#pragma once
+
+#ifndef _TC_CSTDIO_
+#define _TC_CSTDIO_
+
+#ifndef DISABLE_TWINCAT_STL
+
+#include <TcStlSeh.h>
+#include <Stl/Stl/TcStlCommon.h>
+#include "RtlR0.h"
+
+#if TC_STL_IN_NAMESPACE_STD
+#define TC_CSTDIO_NAMESPACE std
+#else
+#define TC_CSTDIO_NAMESPACE tc_std
+#endif
+
+namespace TC_CSTDIO_NAMESPACE
+{
+	using ::sprintf;
+	using ::sscanf;
+	using ::snprintf;
+	using ::vsnprintf;
+	using ::vsprintf;
+}
+
+// DISABLE_TWINCAT_STL
+#endif
+// include guard
+#endif
