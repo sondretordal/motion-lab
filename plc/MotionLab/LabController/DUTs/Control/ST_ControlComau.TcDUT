@@ -1,11 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.7">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <DUT Name="ST_ControlComau" Id="{73075925-8e60-4fe6-994b-5a1e70361c0b}">
     <Declaration><![CDATA[TYPE ST_ControlComau :
 STRUCT
-	q: ARRAY[0..2] OF LREAL;
-	q_t: ARRAY[0..2] OF LREAL;
-	q_tt: ARRAY[0..2] OF LREAL;
+	u : ARRAY[0..5] OF LREAL;
+
 END_STRUCT
 END_TYPE
 ]]></Declaration>

@@ -4,11 +4,14 @@ import pyqtgraph as pg
 import numpy as np
 import socket
 from ctypes import *
+import time
 
-from RxData import RxData
-from TxData import TxData
 from MainWindow import Ui_MainWindow
 from RealTimePlot import RealTimePlot
+
+# PLC UDP Data Types import
+from ST_TxUdpRemote import ST_TxUdpRemote
+from ST_RxUdpRemote import ST_RxUdpRemote
 
 class RemoteInterface(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -20,9 +23,9 @@ class RemoteInterface(QtWidgets.QMainWindow, Ui_MainWindow):
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.sock.bind(('192.168.90.60', 50060))
 
-        # UPD data 
-        self.rxData = RxData()
-        self.txData = TxData()
+        # UPD data comm with PLC
+        self.txData = ST_RxUdpRemote() # Send "ST_RxUdpRemote" type to PLC
+        self.rxData = ST_TxUdpRemote() # Recv "ST_TxUdpRemote" type from PLC
 
         # Connect sliders
         self.gui.comau_u_0.sliderReleased.connect(lambda: self.gui.comau_u_0.setValue(0))
@@ -40,12 +43,27 @@ class RemoteInterface(QtWidgets.QMainWindow, Ui_MainWindow):
         self.timer.timeout.connect(self.update)
         self.timer.start(50)
 
+        # Initial time
+        self.t0 = time.time()
+
+        # Start GUI
         self.show()
 
     def update(self):
+        # Elapsed time
+        t = self.t0 - time.time()
+
         # Read data from udp
         data, addr = self.sock.recvfrom(1024) 
         memmove(addressof(self.rxData), data, sizeof(self.rxData))
+
+
+        # Incerement counter
+        self.txData.iCounter = self.txData.iCounter + 1
+
+        self.txData.em1500_u[2] = 0.0*np.sin(0.1*2.0*np.pi*t)
+
+        self.txData.em1500_u[2] = self.gui.em1500_heavePos.value()
 
         # Comau speed setpoints
         for i in range(0, len(self.txData.comau_u)):
@@ -53,6 +71,9 @@ class RemoteInterface(QtWidgets.QMainWindow, Ui_MainWindow):
             self.txData.comau_u[i] = qDotRef
 
         
+        
+
+        # Send data to PLC
         self.sock.sendto(self.txData, ('192.168.90.50', 50050))
 
 

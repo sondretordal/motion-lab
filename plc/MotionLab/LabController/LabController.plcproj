@@ -196,58 +196,7 @@
     <Compile Include="POUs\MAIN_OLD.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\Simulink\diag.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\Simulink\diag_j.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\Simulink\eulerToBody.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\Simulink\f.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\Simulink\FB_ControlMapping.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\Simulink\FB_LqrAntiSwing.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\Simulink\FB_PendelEstimator.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="POUs\Simulink\FB_QuatToRotMatrix.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\Simulink\FB_WinchController.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\Simulink\fJacobian.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\Simulink\h.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\Simulink\hJacobian.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\Simulink\inv.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\Simulink\invNxN.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\Simulink\mldivide.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\Simulink\mldivide_1.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\Simulink\mldivide_h.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\Simulink\rt_atan2d.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\TEST.TcPOU">

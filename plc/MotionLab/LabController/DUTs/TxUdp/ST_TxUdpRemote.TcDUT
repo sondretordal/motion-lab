@@ -14,17 +14,13 @@ STRUCT
 	// Equipement: Robot Winch
 	winch_l : REAL;
 	winch_l_t : REAL;
-	winch_l_tt : REAL;
-	
-	// Hook position in {WORLD}
-	hook_p : ARRAY [0..2] OF REAL;
-	hook_p_t : ARRAY [0..2] OF REAL;
-	hook_p_tt : ARRAY [0..2] OF REAL;
 
-	// Equipement: EM8000 and MRU1
+	// Equipement: EM8000
 	em8000_eta : ARRAY [0..5] OF REAL;
 	em8000_eta_t : ARRAY [0..5] OF REAL;
 	em8000_eta_tt : ARRAY [0..5] OF REAL;
+	
+	// Equipement: MRU1 (Mounted on EM8000)
 	mru1_eta : ARRAY [0..5] OF REAL;
 	mru1_v : ARRAY [0..5] OF REAL;
 	
@@ -32,6 +28,8 @@ STRUCT
 	em1500_eta : ARRAY [0..5] OF REAL;
 	em1500_eta_t : ARRAY [0..5] OF REAL;
 	em1500_eta_tt : ARRAY [0..5] OF REAL;
+	
+	// Equipement: MRU2 (Mounted on EM1500)
 	mru2_eta : ARRAY [0..5] OF REAL;
 	mru2_v : ARRAY [0..5] OF REAL;
 	

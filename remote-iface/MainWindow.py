@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(391, 441)
+        MainWindow.resize(385, 595)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.groupBox = QtWidgets.QGroupBox(self.centralwidget)
@@ -90,9 +90,21 @@ class Ui_MainWindow(object):
         self.winch_u.setSingleStep(0)
         self.winch_u.setOrientation(QtCore.Qt.Horizontal)
         self.winch_u.setObjectName("winch_u")
+        self.groupBox_3 = QtWidgets.QGroupBox(self.centralwidget)
+        self.groupBox_3.setGeometry(QtCore.QRect(40, 400, 301, 71))
+        self.groupBox_3.setObjectName("groupBox_3")
+        self.label_12 = QtWidgets.QLabel(self.groupBox_3)
+        self.label_12.setGeometry(QtCore.QRect(20, 30, 101, 20))
+        self.label_12.setObjectName("label_12")
+        self.em1500_heavePos = QtWidgets.QDoubleSpinBox(self.groupBox_3)
+        self.em1500_heavePos.setGeometry(QtCore.QRect(160, 30, 62, 22))
+        self.em1500_heavePos.setMinimum(-0.2)
+        self.em1500_heavePos.setMaximum(0.2)
+        self.em1500_heavePos.setSingleStep(0.01)
+        self.em1500_heavePos.setObjectName("em1500_heavePos")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 391, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 385, 21))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -114,6 +126,8 @@ class Ui_MainWindow(object):
         self.label_5.setText(_translate("MainWindow", "Comau qDotRef[4]"))
         self.groupBox_2.setTitle(_translate("MainWindow", "Winch Speed Input"))
         self.label_11.setText(_translate("MainWindow", "Winch qDotRef"))
+        self.groupBox_3.setTitle(_translate("MainWindow", "Stewart Input"))
+        self.label_12.setText(_translate("MainWindow", "Heave Setpoint:"))
 
 
 if __name__ == "__main__":
