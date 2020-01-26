@@ -1,15 +1,14 @@
-from ctypes import Structure
-import pyads
+import ctypes
 
-class ST_RxUdpRemote(Structure):
+class ST_RxUdpRemote(ctypes.Structure):
     _fields_ = [
-        ('iCounter', pyads.PLCTYPE_UDINT),
-        ('eModeCmd', pyads.PLCTYPE_UDINT),
+        ('iCounter', ctypes.c_uint32),
+        ('eModeCmd', ctypes.c_uint32),
 
-        ('em8000_u', pyads.PLCTYPE_ARR_REAL(6)),
-        ('em1500_u', pyads.PLCTYPE_ARR_REAL(6)),
-        ('comau_u', pyads.PLCTYPE_ARR_REAL(6)),
-        ('winch_u', pyads.PLCTYPE_REAL)
+        ('em8000_u', ctypes.c_float*6),
+        ('em1500_u', ctypes.c_float*6),
+        ('comau_u', ctypes.c_float*6),
+        ('winch_u', ctypes.c_float*6)
         
     ]
 

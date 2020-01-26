@@ -1,30 +1,29 @@
-from ctypes import Structure
-import pyads
+import ctypes
 
-class ST_TxUdpRemote(Structure):
+class ST_TxUdpRemote(ctypes.Structure):
     _fields_ = [
-        ('eMode', pyads.PLCTYPE_UDINT),
-        ('t', pyads.PLCTYPE_REAL),
+        ('eMode', ctypes.c_uint32),
+        ('t', ctypes.c_float),
 
-        ('comau_q', pyads.PLCTYPE_ARR_REAL(6)),
-        ('comau_q_t', pyads.PLCTYPE_ARR_REAL(6)),
+        ('comau_q', ctypes.c_float*6),
+        ('comau_q_t', ctypes.c_float*6),
 
-        ('winch_l', pyads.PLCTYPE_REAL),
-        ('winch_l_t', pyads.PLCTYPE_REAL),
+        ('winch_l', ctypes.c_float),
+        ('winch_l_t', ctypes.c_float),
 
-        ('em8000_eta', pyads.PLCTYPE_ARR_REAL(6)),
-        ('em8000_eta_t', pyads.PLCTYPE_ARR_REAL(6)),
-        ('em8000_eta_tt', pyads.PLCTYPE_ARR_REAL(6)),
+        ('em8000_eta', ctypes.c_float*6),
+        ('em8000_eta_t', ctypes.c_float*6),
+        ('em8000_eta_tt', ctypes.c_float*6),
 
-        ('mru1_eta', pyads.PLCTYPE_ARR_REAL(6)),
-        ('mru1_v', pyads.PLCTYPE_ARR_REAL(6)),
+        ('mru1_eta', ctypes.c_float*6),
+        ('mru1_v', ctypes.c_float*6),
 
-        ('em1500_eta', pyads.PLCTYPE_ARR_REAL(6)),
-        ('em1500_eta_t', pyads.PLCTYPE_ARR_REAL(6)),
-        ('em1500_eta_tt', pyads.PLCTYPE_ARR_REAL(6)),
+        ('em1500_eta', ctypes.c_float*6),
+        ('em1500_eta_t', ctypes.c_float*6),
+        ('em1500_eta_tt', ctypes.c_float*6),
 
-        ('mru2_eta', pyads.PLCTYPE_ARR_REAL(6)),
-        ('mru2_v', pyads.PLCTYPE_ARR_REAL(6))
+        ('mru2_eta', ctypes.c_float*6),
+        ('mru2_v', ctypes.c_float*6)
     ]
 
 
