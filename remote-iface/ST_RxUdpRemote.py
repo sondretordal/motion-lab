@@ -8,7 +8,7 @@ class ST_RxUdpRemote(ctypes.Structure):
         ('em8000_u', ctypes.c_float*6),
         ('em1500_u', ctypes.c_float*6),
         ('comau_u', ctypes.c_float*6),
-        ('winch_u', ctypes.c_float*6)
+        ('winch_u', ctypes.c_float)
         
     ]
 
