@@ -37,7 +37,7 @@ class E_StewartMode(Enum):
     NEUTRAL         = 0x01
     SIMULATION      = 0x02
     GENERATOR       = 0x03
-    FILE            = 0x04
+    REMOTE          = 0x04
 
 class ST_TxHmiStewart(Structure):
     _fields_ = [

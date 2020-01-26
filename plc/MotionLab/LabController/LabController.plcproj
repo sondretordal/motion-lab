@@ -184,9 +184,6 @@
     <Compile Include="POUs\Interfaces\FB_RemoteInterface.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\Interfaces\FB_StewartInterface_old.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="POUs\Interfaces\FB_WinchInterface.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -262,7 +259,13 @@
     <Compile Include="POUs\UdpFBs\FB_UdpClientRT.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\Utils\FB_BumplessTransfer.TcPOU">
+    <Compile Include="POUs\Utils\FB_SoftMotion.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Utils\F_VelocityBoundary.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Utils\ST_VelocityBoundary.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="SystemFunctions\CheckDivReal.TcPOU">

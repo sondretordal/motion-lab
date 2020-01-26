@@ -4,8 +4,10 @@
     <Declaration><![CDATA[TYPE ST_RxUdpRemote :
 STRUCT
 	eModeCmd : UDINT; // Operation mode
-	comau_u : ARRAY [0..5] OF REAL; // Joint speed setpoint
+	comau_u : ARRAY [0..5] OF REAL; // Joint speed setpoints
 	winch_u : REAL; // Winch wire speed setpoint
+	em1500_u : ARRAY [0..5] OF REAL; // EM1500 DOF position setpoints
+	em8000_u : ARRAY [0..5] OF REAL; // EM8000 DOF position setpoints
 END_STRUCT
 END_TYPE
 ]]></Declaration>
