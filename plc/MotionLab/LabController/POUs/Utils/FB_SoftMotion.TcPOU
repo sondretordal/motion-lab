@@ -14,8 +14,8 @@ END_VAR
 VAR_OUTPUT
 	q : LREAL; // Limited position
 	q_t : LREAL; // Limited velocity
-	qMin_t : LREAL; // Current lower boundary 
-	qMax_t : LREAL; // Current upper boundary
+	qMin_t : LREAL; // Current lower velocity boundary 
+	qMax_t : LREAL; // Current upper velocity boundary
 	
 END_VAR
 VAR

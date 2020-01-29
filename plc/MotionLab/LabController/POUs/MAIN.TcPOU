@@ -1089,7 +1089,7 @@ remote.feedback.comau.q := comau.q;
 remote();
 
 // REMOTE -> PLC
-
+em1500.bRemoteActive := remote.bActive;
 em1500.uRemote := remote.control.em1500.u;
 
 // *** REMOTE Interface ***]]></ST>

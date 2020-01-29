@@ -61,9 +61,9 @@ class RemoteInterface(QtWidgets.QMainWindow, Ui_MainWindow):
         # Incerement counter
         self.txData.iCounter = self.txData.iCounter + 1
 
-        self.txData.em1500_u[2] = 0.0*np.sin(0.1*2.0*np.pi*t)
+        self.txData.em1500_u[2] = 0.1*np.sin(0.1*2.0*np.pi*t)
 
-        self.txData.em1500_u[2] = self.gui.em1500_heavePos.value()
+        # self.txData.em1500_u[2] = self.gui.em1500_heavePos.value()
 
         # Comau speed setpoints
         for i in range(0, len(self.txData.comau_u)):
