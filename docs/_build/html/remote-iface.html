@@ -1,0 +1,349 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Remote UDP interface &mdash; Motion Laboratory 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="author" title="About these documents" href="about.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Internal Communication" href="comm.html" />
+    <link rel="prev" title="Code" href="code.html" /> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Motion Laboratory
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code.html">Code</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Remote UDP interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#remote-setup">Remote Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-types">Data Types</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="comm.html">Internal Communication</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comau.html">Comau Robot Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stewart-platforms.html">Stewart Platforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="publications.html">Publications</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Motion Laboratory</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Remote UDP interface</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/remote-iface.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="remote-udp-interface">
+<h1>Remote UDP interface<a class="headerlink" href="#remote-udp-interface" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="remote-setup">
+<h2>Remote Setup<a class="headerlink" href="#remote-setup" title="Permalink to this headline">¶</a></h2>
+<p>The Motion Laboratory can be operated using the remote interface, given that the remote mode is enabled from the main HMI. The remote mode is selected in the main HMI.</p>
+<img alt="_images/remoteModeEnabled.png" src="_images/remoteModeEnabled.png" />
+<p>The user have to connect to the physical Ethernet port named X001 on the Beckhoff CX2040. The following settings have to be changed on the remote unit in order to establish the remote UDP connection.</p>
+<p>The remote has to switch to use a static IP adress which is set to <code class="docutils literal"><span class="pre">192.168.90.60</span></code> using subnet <code class="docutils literal"><span class="pre">255.255.255.0</span></code>. Also ensure that nothign else is using the port <code class="docutils literal"><span class="pre">50060</span></code> since it will be used for the UDP communication with Motion Lab.</p>
+<p>The following Python example illustrates how the UDP comunication is realized in a simple PyQt app.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PyQt5</span> <span class="kn">import</span> <span class="n">QtWidgets</span>
+<span class="kn">from</span> <span class="nn">PyQt5</span> <span class="kn">import</span> <span class="n">QtCore</span>
+<span class="kn">import</span> <span class="nn">pyqtgraph</span> <span class="kn">as</span> <span class="nn">pg</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">socket</span>
+<span class="kn">from</span> <span class="nn">ctypes</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="kn">from</span> <span class="nn">MainWindow</span> <span class="kn">import</span> <span class="n">Ui_MainWindow</span>
+
+<span class="c1"># PLC UDP Data Types import</span>
+<span class="kn">from</span> <span class="nn">RxUdp</span> <span class="kn">import</span> <span class="n">RxUdp</span>
+<span class="kn">from</span> <span class="nn">TxUdp</span> <span class="kn">import</span> <span class="n">TxUdp</span>
+
+<span class="k">class</span> <span class="nc">RemoteInterface</span><span class="p">(</span><span class="n">QtWidgets</span><span class="o">.</span><span class="n">QMainWindow</span><span class="p">,</span> <span class="n">Ui_MainWindow</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">RemoteInterface</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gui</span> <span class="o">=</span> <span class="n">Ui_MainWindow</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gui</span><span class="o">.</span><span class="n">setupUi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+        <span class="c1"># Udp Socket</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sock</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_DGRAM</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sock</span><span class="o">.</span><span class="n">bind</span><span class="p">((</span><span class="s1">&#39;192.168.90.60&#39;</span><span class="p">,</span> <span class="mi">50060</span><span class="p">))</span>
+
+        <span class="c1"># UPD data comm with PLC</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">txData</span> <span class="o">=</span> <span class="n">TxUdp</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rxData</span> <span class="o">=</span> <span class="n">RxUdp</span><span class="p">()</span>
+
+        <span class="c1"># Udp Read/Write thread</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timer</span> <span class="o">=</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">QTimer</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timer</span><span class="o">.</span><span class="n">timeout</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timer</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+
+        <span class="c1"># Initial time</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+        <span class="c1"># Start GUI</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Elapsed time</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t0</span> <span class="o">-</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+        <span class="c1"># Read data from udp</span>
+        <span class="n">data</span><span class="p">,</span> <span class="n">addr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sock</span><span class="o">.</span><span class="n">recvfrom</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span> 
+        <span class="n">memmove</span><span class="p">(</span><span class="n">addressof</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rxData</span><span class="p">),</span> <span class="n">data</span><span class="p">,</span> <span class="n">sizeof</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rxData</span><span class="p">))</span>
+
+        <span class="c1"># Incerement counter</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">txData</span><span class="o">.</span><span class="n">iCounter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">txData</span><span class="o">.</span><span class="n">iCounter</span> <span class="o">+</span> <span class="mi">1</span>
+
+        <span class="c1"># Apply sine motion to heave for EM1500</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">txData</span><span class="o">.</span><span class="n">em1500_u</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.1</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mf">0.1</span><span class="o">*</span><span class="mf">2.0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">t</span><span class="p">)</span>
+
+        <span class="c1"># Send data to PLC</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sock</span><span class="o">.</span><span class="n">sendto</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">txData</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;192.168.90.50&#39;</span><span class="p">,</span> <span class="mi">50050</span><span class="p">))</span>
+
+
+    <span class="k">def</span> <span class="nf">closeEvent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timer</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="data-types">
+<h2>Data Types<a class="headerlink" href="#data-types" title="Permalink to this headline">¶</a></h2>
+<p>The PyQt app sends and recieves data of the types <code class="docutils literal"><span class="pre">TxUdp</span></code> and <code class="docutils literal"><span class="pre">RxUdp</span></code> every 50ms using the UDP socket. The two data types are defined as data structures given by:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">ctypes</span>
+
+<span class="k">class</span> <span class="nc">TxUdp</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">Structure</span><span class="p">):</span>
+    <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s1">&#39;iCounter&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_uint32</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;eModeCmd&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_uint32</span><span class="p">),</span>
+
+        <span class="p">(</span><span class="s1">&#39;em8000_u&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="o">*</span><span class="mi">6</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;em1500_u&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="o">*</span><span class="mi">6</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;comau_u&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="o">*</span><span class="mi">6</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;winch_u&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">)</span>   
+    <span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">ctypes</span>
+
+<span class="k">class</span> <span class="nc">RxUdp</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">Structure</span><span class="p">):</span>
+    <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s1">&#39;eMode&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_uint32</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+
+        <span class="p">(</span><span class="s1">&#39;comau_q&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="o">*</span><span class="mi">6</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;comau_q_t&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="o">*</span><span class="mi">6</span><span class="p">),</span>
+
+        <span class="p">(</span><span class="s1">&#39;winch_l&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;winch_l_t&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+
+        <span class="p">(</span><span class="s1">&#39;em8000_eta&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="o">*</span><span class="mi">6</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;em8000_eta_t&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="o">*</span><span class="mi">6</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;em8000_eta_tt&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="o">*</span><span class="mi">6</span><span class="p">),</span>
+
+        <span class="p">(</span><span class="s1">&#39;mru1_eta&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="o">*</span><span class="mi">6</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;mru1_v&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="o">*</span><span class="mi">6</span><span class="p">),</span>
+
+        <span class="p">(</span><span class="s1">&#39;em1500_eta&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="o">*</span><span class="mi">6</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;em1500_eta_t&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="o">*</span><span class="mi">6</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;em1500_eta_tt&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="o">*</span><span class="mi">6</span><span class="p">),</span>
+
+        <span class="p">(</span><span class="s1">&#39;mru2_eta&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="o">*</span><span class="mi">6</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;mru2_v&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="o">*</span><span class="mi">6</span><span class="p">)</span>
+    <span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="comm.html" class="btn btn-neutral float-right" title="Internal Communication" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="code.html" class="btn btn-neutral" title="Code" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, University of Agder, 4879 Grimstad.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  <script type="text/javascript" src="_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

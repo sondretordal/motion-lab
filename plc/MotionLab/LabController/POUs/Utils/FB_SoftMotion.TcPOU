@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="FB_SoftMotion" Id="{010a5b7b-56b1-465f-8f23-34d3a8446e9f}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_SoftMotion
+VAR_INPUT
+	Ts : LREAL := 0.01;
+	qRef_t : LREAL; // Velocity reference input
+	qMin : LREAL := -0.1; // Minium position
+	qMax : LREAL :=  0.1; // Maximum position
+	V : LREAL := 1; // Max alowable velocity
+	A : LREAL := 1; // Max alowable acceleration
+	
+END_VAR
+VAR_OUTPUT
+	q : LREAL; // Limited position
+	q_t : LREAL; // Limited velocity
+	qMin_t : LREAL; // Current lower velocity boundary 
+	qMax_t : LREAL; // Current upper velocity boundary
+	
+END_VAR
+VAR
+	t0, t1, t2 : LREAL;
+	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// ** Velocity Boundary **
+// Ensure Ts i spositive
+Ts := ABS(Ts); 
+
+// Ensure that V and A is positive
+V := ABS(V);
+A := ABS(A);
+
+// Lower Boundary       
+t0 := (qMin - q)/Ts;
+t1 := -V;
+t2 := -SQRT(ABS(2*A*(q - qMin)));
+qMin_t := MAX(t0, MAX(t1, t2));
+
+// Upper Boundary
+t0 := (qMax - q)/Ts;
+t1 := V;
+t2 := SQRT(ABS(2*A*(qMax - q)));
+qMax_t := MIN(t0, MIN(t1, t2));
+
+
+// ** Calcualte Output for q and q_t **
+// Limit Velocity
+q_t := qRef_t;
+q_t := MAX(q_t, qMin_t);
+q_t := MIN(q_t, qMax_t);
+
+// Apply numerical integration to position
+q := q + q_t*Ts;
+
+ // Ensure q is in [qMin, qMax]
+q := MAX(q, qMin);
+q := MIN(q, qMax);
+
+
+
+
+
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="FB_SoftMotion">
+      <LineId Id="56" Count="0" />
+      <LineId Id="24" Count="5" />
+      <LineId Id="34" Count="4" />
+      <LineId Id="40" Count="5" />
+      <LineId Id="47" Count="0" />
+      <LineId Id="78" Count="1" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="70" Count="0" />
+      <LineId Id="81" Count="0" />
+      <LineId Id="72" Count="0" />
+      <LineId Id="57" Count="0" />
+      <LineId Id="74" Count="0" />
+      <LineId Id="73" Count="0" />
+      <LineId Id="75" Count="0" />
+      <LineId Id="69" Count="0" />
+      <LineId Id="76" Count="1" />
+      <LineId Id="64" Count="0" />
+      <LineId Id="60" Count="3" />
+      <LineId Id="59" Count="0" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

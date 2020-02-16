@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <DUT Name="ST_HydroSimulator_Output" Id="{7b829819-4b8b-4635-a931-a6603e3f4616}">
+    <Declaration><![CDATA[TYPE ST_HydroSimulator_Output :
+STRUCT
+	scale: matrix_6_real_T;
+	eta: matrix_6_real_T;
+	v: matrix_6_real_T;
+	v_t: matrix_6_real_T;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

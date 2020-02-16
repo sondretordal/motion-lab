@@ -1,0 +1,336 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="FB_HydroSimulator" Id="{df399ed7-be93-4912-b2e0-c7d5bf3b9321}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'TcDependOnClassFactory' := 'HydroSimulator'}
+FUNCTION_BLOCK FB_HydroSimulator EXTENDS FB_TcMatSimObject
+VAR_INPUT
+	stInput: ST_HydroSimulator_Input;
+END_VAR
+VAR_OUTPUT
+	stOutput: ST_HydroSimulator_Output;
+END_VAR
+VAR
+	stInitData: ST_HydroSimulatorInitData;
+	arrDataAreas: ARRAY[1..2] OF ST_TcMatSimObjectDataAreaInfo;
+	bParametersVerified: BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Execute" Id="{798ae2cc-1bc7-4195-8755-3607b56d136c}">
+      <Declaration><![CDATA[METHOD Execute : HRESULT
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+IF (SUCCEEDED(hResult)) THEN
+  hResult := VerifyParameters();
+END_IF
+
+// update DataArea information
+SetDataAreaInfo(ADR(arrDataAreas),2);
+arrDataAreas[1].nDataAreaId := 0;
+arrDataAreas[1].nSize := SIZEOF(stInput);
+arrDataAreas[1].pPlcVar := ADR(stInput);
+arrDataAreas[1].pModuleProcImg := 0;
+arrDataAreas[1].eDataAreaType := E_TcMatSimDataAreaType.InputDst;
+arrDataAreas[2].nDataAreaId := 1;
+arrDataAreas[2].nSize := SIZEOF(stOutput);
+arrDataAreas[2].pPlcVar := ADR(stOutput);
+arrDataAreas[2].pModuleProcImg := 0;
+arrDataAreas[2].eDataAreaType := E_TcMatSimDataAreaType.OutputSrc;
+
+	
+// call base method
+Execute := SUPER^.Execute();
+                  ]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_init" Id="{fdba17f9-fba6-4bee-a778-17569af1357d}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	/// if TRUE, the retain variables are initialized (warm start / cold start)
+	bInitRetains: BOOL;
+	/// if TRUE, the instance afterwards gets moved into the copy code (online change)
+	bInCopyCode: BOOL;
+	oid: OTCID;
+END_VAR
+VAR
+	clsId: CLSID;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+// initialize flags
+bParametersVerified := false;
+                    
+// set module class id for compatibility check
+clsId.Data1 := 16#1ddd7197;
+clsId.Data2 := 16#7f96;
+clsId.Data3 := 16#43a8;
+clsId.Data4[0] := 16#9f;
+clsId.Data4[1] := 16#9f;
+clsId.Data4[2] := 16#ee;
+clsId.Data4[3] := 16#8f;
+clsId.Data4[4] := 16#6b;
+clsId.Data4[5] := 16#63;
+clsId.Data4[6] := 16#0d;
+clsId.Data4[7] := 16#c0;
+
+AssignClassId(clsId);
+                    
+// initialize InitData structure with default values              
+stInitData.CallByHdr.indexGroup := 0;
+stInitData.CallByHdr.indexOffset := 16#00000000;
+stInitData.CallByHdr.cbData := SIZEOF(stInitData.CallBy);
+stInitData.CallBy := TctModuleCallByType.CyclicTask;
+stInitData.ExecutionSequenceHdr.indexGroup := 0;
+stInitData.ExecutionSequenceHdr.indexOffset := 16#00000001;
+stInitData.ExecutionSequenceHdr.cbData := SIZEOF(stInitData.ExecutionSequence);
+stInitData.ExecutionSequence := TctModuleExecutionSequenceType.StateUpdateAfterOutputMapping;
+stInitData.StepSizeHdr.indexGroup := 0;
+stInitData.StepSizeHdr.indexOffset := 16#00000002;
+stInitData.StepSizeHdr.cbData := SIZEOF(stInitData.StepSize);
+stInitData.StepSize := TctStepSizeType.RequireMatchingTaskCycleTime;
+stInitData.ExecuteModelCodeHdr.indexGroup := 0;
+stInitData.ExecuteModelCodeHdr.indexOffset := 16#00000007;
+stInitData.ExecuteModelCodeHdr.cbData := SIZEOF(stInitData.ExecuteModelCode);
+stInitData.ExecuteModelCode := 1;
+stInitData.ModelParametersHdr.indexGroup := 0;
+stInitData.ModelParametersHdr.indexOffset := 16#83000000;
+stInitData.ModelParametersHdr.cbData := SIZEOF(stInitData.ModelParameters);
+stInitData.ModelParameters.DPController_InitialConditionFo := 0;
+stInitData.ModelParameters.DetectRisePositive_vinit := 0;
+stInitData.ModelParameters.Saturation_UpperSat := 1.7976931348623157e+308;
+stInitData.ModelParameters.Saturation_LowerSat := 9.9999999999999995e-07;
+stInitData.ModelParameters.UnitDelay_InitialCondition := 1;
+stInitData.ModelParameters.Saturation1_UpperSat := 1;
+stInitData.ModelParameters.Saturation1_LowerSat := 1e-10;
+stInitData.ModelParameters.Integrator1_IC[0] := 0;
+stInitData.ModelParameters.Integrator1_IC[1] := 0;
+stInitData.ModelParameters.Integrator1_IC[2] := 0;
+stInitData.ModelParameters.Integrator1_IC[3] := 0;
+stInitData.ModelParameters.Integrator1_IC[4] := 0;
+stInitData.ModelParameters.Integrator1_IC[5] := 0;
+stInitData.ModelParameters.Integrator_IC[0] := 0;
+stInitData.ModelParameters.Integrator_IC[1] := 0;
+stInitData.ModelParameters.Integrator_IC[2] := 0;
+stInitData.ModelParameters.Integrator_IC[3] := 0;
+stInitData.ModelParameters.Integrator_IC[4] := 0;
+stInitData.ModelParameters.Integrator_IC[5] := 0;
+stInitData.ModelParameters.Integrator_IC_k[0] := 0;
+stInitData.ModelParameters.Integrator_IC_k[1] := 0;
+stInitData.ModelParameters.Integrator_IC_k[2] := 0;
+stInitData.ModelParameters.Integrator_IC_k[3] := 0;
+stInitData.ModelParameters.Integrator_IC_k[4] := 0;
+stInitData.ModelParameters.Integrator_IC_k[5] := 0;
+stInitData.ModelParameters.Integrator_IC_k[6] := 0;
+stInitData.ModelParameters.Integrator_IC_k[7] := 0;
+stInitData.ModelParameters.Integrator_IC_k[8] := 0;
+stInitData.ModelParameters.Integrator_IC_k[9] := 0;
+stInitData.ModelParameters.Integrator_IC_k[10] := 0;
+stInitData.ModelParameters.Integrator_IC_k[11] := 0;
+stInitData.ModelParameters.RandomSequence_Mean[0] := 0;
+stInitData.ModelParameters.RandomSequence_Mean[1] := 0;
+stInitData.ModelParameters.RandomSequence_Mean[2] := 0;
+stInitData.ModelParameters.RandomSequence_Mean[3] := 0;
+stInitData.ModelParameters.RandomSequence_Mean[4] := 0;
+stInitData.ModelParameters.RandomSequence_Mean[5] := 0;
+stInitData.ModelParameters.RandomSequence_StdDev[0] := 1;
+stInitData.ModelParameters.RandomSequence_StdDev[1] := 1;
+stInitData.ModelParameters.RandomSequence_StdDev[2] := 1;
+stInitData.ModelParameters.RandomSequence_StdDev[3] := 1;
+stInitData.ModelParameters.RandomSequence_StdDev[4] := 1;
+stInitData.ModelParameters.RandomSequence_StdDev[5] := 1;
+stInitData.ModelParameters.RandomSequence_Seed[0] := 0;
+stInitData.ModelParameters.RandomSequence_Seed[1] := 20;
+stInitData.ModelParameters.RandomSequence_Seed[2] := 500;
+stInitData.ModelParameters.RandomSequence_Seed[3] := 9000;
+stInitData.ModelParameters.RandomSequence_Seed[4] := 400;
+stInitData.ModelParameters.RandomSequence_Seed[5] := 200;
+stInitData.ModelParameters.Gain_Gain[0] := 10000;
+stInitData.ModelParameters.Gain_Gain[1] := 10000;
+stInitData.ModelParameters.Gain_Gain[2] := 100000000;
+stInitData.ModelParameters.Gain_Gain[3] := 10000000;
+stInitData.ModelParameters.Gain_Gain[4] := 100000000;
+stInitData.ModelParameters.Gain_Gain[5] := 1000;
+stInitData.ModelParameters.u_Value[0] := 0;
+stInitData.ModelParameters.u_Value[1] := 0;
+stInitData.ModelParameters.u_Value[2] := 0;
+stInitData.ModelParameters.u_Value[3] := 0;
+stInitData.ModelParameters.u_Value[4] := 0;
+stInitData.ModelParameters.u_Value[5] := 0;
+stInitData.ModelParameters.InputSaturation_UpperSat[0] := 0.20000000000000001;
+stInitData.ModelParameters.InputSaturation_UpperSat[1] := 0.20000000000000001;
+stInitData.ModelParameters.InputSaturation_UpperSat[2] := 0;
+stInitData.ModelParameters.InputSaturation_UpperSat[3] := 0;
+stInitData.ModelParameters.InputSaturation_UpperSat[4] := 0;
+stInitData.ModelParameters.InputSaturation_UpperSat[5] := 0.087266462599716474;
+stInitData.ModelParameters.InputSaturation_LowerSat[0] := -0.20000000000000001;
+stInitData.ModelParameters.InputSaturation_LowerSat[1] := -0.20000000000000001;
+stInitData.ModelParameters.InputSaturation_LowerSat[2] := -0;
+stInitData.ModelParameters.InputSaturation_LowerSat[3] := -0;
+stInitData.ModelParameters.InputSaturation_LowerSat[4] := -0;
+stInitData.ModelParameters.InputSaturation_LowerSat[5] := -0.087266462599716474;
+stInitData.ModelParameters.poles_Value := -30;
+stInitData.ModelParameters.PolesSaturation_UpperSat := 0;
+stInitData.ModelParameters.PolesSaturation_LowerSat := -30;
+stInitData.ModelParameters.Constant_Value[0] := 1;
+stInitData.ModelParameters.Constant_Value[1] := 1;
+stInitData.ModelParameters.Constant_Value[2] := 1;
+stInitData.ModelParameters.Constant_Value[3] := 1;
+stInitData.ModelParameters.Constant_Value[4] := 1;
+stInitData.ModelParameters.Constant_Value[5] := 1;
+stInitData.ModelParameters.Constant_Value_l := 0;
+stInitData.ContextInfoArr_0_TaskOidHdr.indexGroup := 0;
+stInitData.ContextInfoArr_0_TaskOidHdr.indexOffset := 16#03002060;
+stInitData.ContextInfoArr_0_TaskOidHdr.cbData := SIZEOF(stInitData.ContextInfoArr_0_TaskOid);
+stInitData.ContextInfoArr_0_TaskPriorityHdr.indexGroup := 0;
+stInitData.ContextInfoArr_0_TaskPriorityHdr.indexOffset := 16#03002070;
+stInitData.ContextInfoArr_0_TaskPriorityHdr.cbData := SIZEOF(stInitData.ContextInfoArr_0_TaskPriority);
+stInitData.ContextInfoArr_0_TaskCycleTimeNsHdr.indexGroup := 0;
+stInitData.ContextInfoArr_0_TaskCycleTimeNsHdr.indexOffset := 16#03002080;
+stInitData.ContextInfoArr_0_TaskCycleTimeNsHdr.cbData := SIZEOF(stInitData.ContextInfoArr_0_TaskCycleTimeNs);
+stInitData.ContextInfoArr_0_TaskPortHdr.indexGroup := 0;
+stInitData.ContextInfoArr_0_TaskPortHdr.indexOffset := 16#03002090;
+stInitData.ContextInfoArr_0_TaskPortHdr.cbData := SIZEOF(stInitData.ContextInfoArr_0_TaskPort);
+stInitData.ContextInfoArr_0_TaskSortOrderHdr.indexGroup := 0;
+stInitData.ContextInfoArr_0_TaskSortOrderHdr.indexOffset := 16#030020b0;
+stInitData.ContextInfoArr_0_TaskSortOrderHdr.cbData := SIZEOF(stInitData.ContextInfoArr_0_TaskSortOrder);
+stInitData.Header.cbData := SIZEOF(stInitData)-SIZEOF(stInitData.Header);
+stInitData.Header.uiElmCnt := 10;
+
+
+// set pointer to InitData structure
+SetInitDataInfo(ADR(stInitData));
+
+// set DataArea information
+SetDataAreaInfo(ADR(arrDataAreas),2);
+arrDataAreas[1].nDataAreaId := 0;
+arrDataAreas[1].nSize := SIZEOF(stInput);
+arrDataAreas[1].pPlcVar := ADR(stInput);
+arrDataAreas[1].pModuleProcImg := 0;
+arrDataAreas[1].eDataAreaType := E_TcMatSimDataAreaType.InputDst;
+arrDataAreas[2].nDataAreaId := 1;
+arrDataAreas[2].nSize := SIZEOF(stOutput);
+arrDataAreas[2].pPlcVar := ADR(stOutput);
+arrDataAreas[2].pModuleProcImg := 0;
+arrDataAreas[2].eDataAreaType := E_TcMatSimDataAreaType.OutputSrc;
+
+
+// initialize basic interface pointers and return
+FB_init := SUCCEEDED(Init(oid));
+                  ]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="InitData" Id="{03d01fd4-ec39-4f62-a12c-98453a7c92df}">
+      <Declaration><![CDATA[PROPERTY InitData : ST_HydroSimulatorInitData
+]]></Declaration>
+      <Get Name="Get" Id="{fb267129-b17e-42cc-80ed-22629cef083e}">
+        <Declaration><![CDATA[]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[InitData := stInitData;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{0d947293-25e0-46a6-9ad2-522cb73ae719}">
+        <Declaration><![CDATA[]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[stInitData := InitData;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="Internal_SetObjState" Id="{15d82521-a6e8-4536-bfb7-59bc4c0f4d95}">
+      <Declaration><![CDATA[{attribute 'object_name' := 'Internal_SetObjState'}
+METHOD PROTECTED Internal_SetObjState
+VAR_INPUT
+	hr: REFERENCE TO HRESULT;
+	nextState: TCOM_STATE;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+// update pointer to InitData structure
+SetInitDataInfo(ADR(stInitData));
+// call base method
+SUPER^.Internal_SetObjState(hr,nextState);
+                  ]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SaveOnlineParametersForInit" Id="{d3d647c3-723a-4bd1-9764-84a8b9d70b60}">
+      <Declaration><![CDATA[{attribute 'object_name' := 'SaveOnlineParametersForInit'}
+METHOD SaveOnlineParametersForInit : HRESULT
+VAR
+	idx: UINT;
+	pInitElemHdr: POINTER TO TComInitDataElmHdr;
+	pData: PVOID;
+	nData: UDINT;
+END_VAR
+VAR CONSTANT
+	nInitDataAlignment: UDINT := 4;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+// update pointer to InitData structure
+SetInitDataInfo(ADR(stInitData));
+// call base method
+SaveOnlineParametersForInit := SUPER^.SaveOnlineParametersForInit();
+                  ]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="VerifyParameters" Id="{4cabf9b9-be92-4538-829a-e05f00f4d035}">
+      <Declaration><![CDATA[{attribute 'object_name' := 'VerifyParameters'}
+METHOD PRIVATE VerifyParameters : HRESULT
+VAR
+	moduleCallByParam: TctModuleCallByType;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+IF (bParametersVerified) THEN
+  VerifyParameters := Tc2_System.E_HRESULTAdsErr.HRESULT_ADS_NOERROR;
+ELSE
+  VerifyParameters := GetObjPara(stInitData.CallByHdr.indexOffset,SIZEOF(moduleCallByParam),ADR(moduleCallByParam));
+  
+  // check the "CallBy" parameter to be set to "Module"
+  IF (SUCCEEDED(VerifyParameters) AND (moduleCallByParam <> TctModuleCallByType.Module)) THEN
+      VerifyParameters := Tc2_System.E_HRESULTAdsErr.INVALIDPARM;
+  END_IF
+  
+  // set the parameters verified flag
+  bParametersVerified := SUCCEEDED(VerifyParameters);
+END_IF
+                  ]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_HydroSimulator">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_HydroSimulator.Execute">
+      <LineId Id="3" Count="20" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_HydroSimulator.FB_init">
+      <LineId Id="3" Count="159" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_HydroSimulator.InitData.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_HydroSimulator.InitData.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_HydroSimulator.Internal_SetObjState">
+      <LineId Id="3" Count="4" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_HydroSimulator.SaveOnlineParametersForInit">
+      <LineId Id="3" Count="4" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_HydroSimulator.VerifyParameters">
+      <LineId Id="3" Count="13" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.7">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <DUT Name="ST_RxUdpStewart" Id="{abe168e2-cdbf-4745-8b3b-3cce51d127f9}">
     <Declaration><![CDATA[TYPE ST_RxUdpStewart :
 STRUCT
-	Frame_Count : DINT := 0;
-	Motion_Status : DINT := 0;
+	Frame_Count : UDINT := 0;
+	Motion_Status : UDINT := 0;
 	Platform_setpoint_surge : REAL := 0.0;
 	Platform_setpoint_sway : REAL := 0.0;
 	Platform_setpoint_heave : REAL := 0.0;

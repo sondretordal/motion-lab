@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <DUT Name="ST_TcMatSimObjectDataAreaInfo" Id="{89adc21d-2d2b-439b-b7e5-59345adcf2e9}">
+    <Declaration><![CDATA[TYPE ST_TcMatSimObjectDataAreaInfo :
+STRUCT
+	pPlcVar: PVOID;
+	pModuleProcImg: PVOID;
+	nSize: UDINT;
+	nDataAreaId: UDINT;
+	eDataAreaType: E_TcMatSimDataAreaType;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

@@ -1,16 +1,24 @@
 # Add subfolders to PYTHONPATH
 import sys
-from src.hmi import *
+import qdarkstyle
+from PyQt5 import QtWidgets
+from src.MotionLab import MotionLab
 
-
-
+from src.Remote import Remote
 
 # Main function
 def main():
-    app = QApplication(sys.argv)
-    window = GUI()
-    sys.exit(app.exec_())
+    app = QtWidgets.QApplication(sys.argv)
+    # app.setStyleSheet(qdarkstyle.load_stylesheet(qt_api='pyqt5'))
 
-#Application startup
+    motionLab = MotionLab()
+
+    if motionLab.plcActive:
+        remote = Remote(motionLab.plc, motionLab.gui, 'remote', motionLab)
+
+    sys.exit(app.exec_())
+    
+
+# Application startup
 if __name__ == '__main__':
     main()

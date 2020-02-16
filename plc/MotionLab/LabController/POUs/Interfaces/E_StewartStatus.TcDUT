@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <DUT Name="E_StewartStatus" Id="{7a7e46e3-59f5-46d7-b122-01aa70980d96}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE E_StewartStatus :
+(
+	SYSTEM_OK 	:= 16#00,
+	WARNING		:= 16#04,
+	ERROR		:= 16#08
+) USINT;
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

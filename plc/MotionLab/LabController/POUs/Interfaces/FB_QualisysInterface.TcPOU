@@ -10,11 +10,11 @@ VAR_OUTPUT
 	
 	feedback : ST_FeedbackQualisys;
 	
-	active : BOOL := FALSE;
+	bActive : BOOL := FALSE;
 END_VAR
 VAR
 	// Udp related
-	udpServer : FB_UdpServer(0, 0, 0, 0, 0); // Dummy constructor
+	udpServer : FB_UdpServerRT(0, 0, 0, 0, 0); // Dummy constructor
 	
 
 	// Header 
@@ -71,9 +71,9 @@ END_IF
 
 // Set activity status after 1 second given 5ms in ms
 IF frameLoss > 200 THEN
-	active := FALSE;
+	bActive := FALSE;
 ELSE
-	active := TRUE;
+	bActive := TRUE;
 END_IF
 
 // Update HMI data
@@ -134,7 +134,7 @@ FOR comp := 1 TO qrtPacket.nComponentCount DO
 END_FOR
 
 // Get hook position
-IF active THEN
+IF bActive THEN
 	IF markerComponent.nMarkers >= 2 THEN
 		// Reset eMin to a default "high" value
 		eMin := 1E10;
@@ -268,7 +268,7 @@ VAR
 END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Update global Hmi data
-IF active THEN
+IF bActive THEN
 	pTxHmi^.status := 0;
 ELSE
 	pTxHmi^.status := -1;

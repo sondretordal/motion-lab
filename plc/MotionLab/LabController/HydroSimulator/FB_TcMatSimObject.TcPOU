@@ -1,0 +1,860 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="FB_TcMatSimObject" Id="{6554d274-b874-4c02-94e7-d20981bbad5c}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_TcMatSimObject
+VAR_INPUT
+	/// set this flag to write FB input values to the TcComObject's input DataAreas. This will overwrite the mapped input values before module execution. Set to FALSE to read the mapped input values from the TcComObject to the FB.
+	bWriteFbInputValues: BOOL := TRUE;
+END_VAR
+VAR
+	/// process image src and dst pointers and sizes
+	pDataAreas: POINTER TO ST_TcMatSimObjectDataAreaInfo;
+	nDataAreas: UDINT;
+	/// global interface pointers
+	ipObjSrv: ITComObjectServer;
+	/// object interface pointers
+	ipTcComObj: ITComObject;
+	ipTcCyclic: ITcCyclic;
+	ipTcPostCyclic: ITcPostCyclic;
+	ipTcAdi: ITcADI;
+	/// task interface pointers
+	ipTask: ITcTask;
+	/// initial parameters
+	pInitData: POINTER TO TComInitDataHdr;
+	/// hResult of interface calls (0 if no error)
+	hResult: HRESULT;
+	/// module class ID
+	moduleClsId: CLSID;
+	/// expected/desired module class ID
+	assignedClsId: CLSID;
+	bClassIdVerified: BOOL;
+	/// flag indicating whether the module instance was created dynamically
+	bDynInstance: BOOL;
+	/// the object state at the time FB_init was called, FB_exit will try to switch to this state (only if this means to shift down)
+	eInitialObjState: TCOM_STATE := TCOM_STATE.TCOM_STATE_INIT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="AssignClassId" Id="{70aee05c-b7c0-4a1a-90db-a70048b378df}">
+      <Declaration><![CDATA[METHOD PUBLIC AssignClassId
+VAR_INPUT
+	clsId : CLSID;
+END_VAR
+                ]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[assignedClsId := clsId;
+bClassIdVerified := false;
+                  ]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="ClassId" Id="{da03c2dd-af5f-4069-bed0-82d28ca88a6f}">
+      <Declaration><![CDATA[PROPERTY ClassId : CLSID
+]]></Declaration>
+      <Get Name="Get" Id="{33a85e99-8d18-48f2-8ba4-bf9b8069eb5a}">
+        <Declaration><![CDATA[]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[hResult := ReadModuleClassId();
+ClassId := moduleClsId;
+                    ]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Error" Id="{d8c48c4b-d6ec-49ce-9b34-442ea4160883}">
+      <Declaration><![CDATA[PROPERTY Error : BOOL
+]]></Declaration>
+      <Get Name="Get" Id="{011bcfa0-58cd-4708-9b02-bcf232061832}">
+        <Declaration><![CDATA[]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Error := FAILED(hResult);]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="ErrorCode" Id="{ed3c4968-d320-445c-bb56-f127448b4c6f}">
+      <Declaration><![CDATA[PROPERTY ErrorCode : HRESULT
+]]></Declaration>
+      <Get Name="Get" Id="{c8bda17b-8606-41cf-9197-09f7e78269f1}">
+        <Declaration><![CDATA[]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[ErrorCode := hResult;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="Execute" Id="{8fee3f14-73f9-4054-bd2e-12e27084cd57}">
+      <Declaration><![CDATA[{attribute 'object_name' := 'Execute'}
+METHOD Execute : HRESULT
+VAR
+	nDaIdx: UDINT;
+	pCurDataArea: POINTER TO ST_TcMatSimObjectDataAreaInfo;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+IF (SUCCEEDED(hResult)) THEN
+  hResult := VerifyClassId();
+END_IF
+
+IF (SUCCEEDED(hResult) AND State<>TCOM_STATE_OP) THEN
+  hResult := Tc2_System.E_HRESULTAdsErr.NOTREADY;
+END_IF
+
+// get image pointers
+IF (SUCCEEDED(hResult)) THEN
+  GetImagePtrs(hResult);
+END_IF
+
+// copy inputs
+IF (pDataAreas<>0 AND nDataAreas>0 AND bWriteFbInputValues) THEN
+  FOR nDaIdx:=0 TO nDataAreas-1 DO
+    IF (FAILED(hResult))THEN
+      CONTINUE;
+    END_IF
+    pCurDataArea := pDataAreas + nDaIdx*SIZEOF(ST_TcMatSimObjectDataAreaInfo);
+    IF ((pCurDataArea^.eDataAreaType <> E_TcMatSimDataAreaType.InputDst))THEN
+      CONTINUE;
+    END_IF
+    IF (pCurDataArea^.pModuleProcImg<>0 AND pCurDataArea^.pPlcVar<>0) THEN
+      MEMCPY(pCurDataArea^.pModuleProcImg,pCurDataArea^.pPlcVar,pCurDataArea^.nSize);
+    ELSE
+      hResult := Tc2_System.E_HRESULTAdsErr.NOINTERFACE;
+    END_IF
+  END_FOR
+END_IF
+
+// call cycle update
+IF (SUCCEEDED(hResult)) THEN
+  IF (ipTcCyclic<>0) THEN
+    hResult := ipTcCyclic.CycleUpdate(ipTask:= ipTask, ipCaller:= 0, context:= 0);
+  ELSE
+    hResult := Tc2_System.E_HRESULTAdsErr.NOINTERFACE;
+  END_IF
+END_IF
+
+// copy outputs
+IF (pDataAreas<>0 AND nDataAreas>0) THEN
+  FOR nDaIdx:=0 TO nDataAreas-1 DO
+    IF (FAILED(hResult))THEN
+      CONTINUE;
+    END_IF
+    pCurDataArea := pDataAreas + nDaIdx*SIZEOF(ST_TcMatSimObjectDataAreaInfo);
+    IF ((pCurDataArea^.eDataAreaType = E_TcMatSimDataAreaType.OutputSrc) OR NOT bWriteFbInputValues) THEN
+      IF (pCurDataArea^.pModuleProcImg<>0 AND pCurDataArea^.pPlcVar<>0) THEN
+        MEMCPY(pCurDataArea^.pPlcVar,pCurDataArea^.pModuleProcImg,pCurDataArea^.nSize);
+      ELSE
+        hResult := Tc2_System.E_HRESULTAdsErr.NOINTERFACE;
+      END_IF
+    END_IF
+  END_FOR
+END_IF
+
+
+// call post cyclic update
+IF (SUCCEEDED(hResult)) THEN
+  IF (ipTcPostCyclic<>0) THEN
+    hResult := ipTcPostCyclic.PostCyclicUpdate(ipTask:= 0, ipCaller:= 0, context:= 0);
+  ELSE
+    hResult := Tc2_System.E_HRESULTAdsErr.NOINTERFACE;
+  END_IF
+END_IF
+
+ReleaseImagePtrs();
+
+Execute := hResult;
+                  ]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_exit" Id="{9a1a97e3-f354-4fba-95fc-c56bd3778c8b}">
+      <Declaration><![CDATA[{attribute 'object_name' := 'FB_exit'}
+METHOD FB_exit : BOOL
+VAR_INPUT
+	/// Online Change
+	bInCopyCode: BOOL;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+IF (NOT bInCopyCode) THEN
+  IF (ipObjSrv<>0) THEN
+    ipObjSrv.TcRelease();
+    ipObjSrv := 0;
+  END_IF
+
+  ReleaseTcComInterface();
+END_IF
+                  ]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_init" Id="{d8d3421f-7e0b-4b00-9f65-b1f3a8cc2d16}">
+      <Declaration><![CDATA[{attribute 'object_name' := 'FB_init'}
+METHOD FB_init : BOOL
+VAR_INPUT
+	/// init retain variables
+	bInitRetains: BOOL;
+	/// Online Change
+	bInCopyCode: BOOL;
+	oid: OTCID;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+FB_init := SUCCEEDED(Init(oid));
+                  ]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetImagePtrs" Id="{5b1bba6e-8fbe-48db-8680-e3fcbbe42186}">
+      <Declaration><![CDATA[{attribute 'object_name' := 'GetImagePtrs'}
+METHOD PRIVATE GetImagePtrs
+VAR_INPUT
+	hr: REFERENCE TO HRESULT;
+END_VAR
+VAR
+	nDaIdx: UDINT;
+	pCurDataArea: POINTER TO ST_TcMatSimObjectDataAreaInfo;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+IF (ipTcAdi=0) THEN
+  hr := Tc2_System.E_HRESULTAdsErr.NOINTERFACE;
+END_IF
+IF(State<>TCOM_STATE_OP)THEN
+  hr := Tc2_System.E_HRESULTAdsErr.INVALIDSTATE;
+END_IF
+
+
+// get pointers to process images
+IF (pDataAreas<>0 AND nDataAreas>0) THEN
+  FOR nDaIdx:=0 TO nDataAreas-1 DO
+    pCurDataArea := pDataAreas + nDaIdx*SIZEOF(ST_TcMatSimObjectDataAreaInfo);
+    IF (FAILED(hr))THEN
+      CONTINUE;
+    END_IF
+    IF ((pCurDataArea^.eDataAreaType <> E_TcMatSimDataAreaType.InputDst) AND (pCurDataArea^.eDataAreaType <> E_TcMatSimDataAreaType.OutputSrc))THEN
+      CONTINUE;
+    END_IF
+    IF (pCurDataArea^.pModuleProcImg=0 AND pCurDataArea^.nSize>0) THEN
+      hr := ipTcAdi.GetImagePtr(size:= pCurDataArea^.nSize , offs:=0 , adi_x:=pCurDataArea^.nDataAreaId , ppData:=ADR(pCurDataArea^.pModuleProcImg));
+    END_IF
+  END_FOR
+END_IF
+
+IF (FAILED(hr)) THEN
+  ReleaseImagePtrs();
+END_IF
+                  ]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetObjPara" Id="{ae47c03f-aed2-412a-852b-abbe526ff99e}">
+      <Declaration><![CDATA[{attribute 'object_name' := 'GetObjPara'}
+METHOD GetObjPara : HRESULT
+VAR_INPUT
+	pid: PTCID;
+	nData: UDINT;
+	pData: PVOID;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+IF (ipTcComObj=0) THEN
+  GetObjPara := Tc2_System.E_HRESULTAdsErr.NOINTERFACE;
+END_IF
+
+IF (SUCCEEDED(GetObjPara)) THEN
+  GetObjPara := ipTcComObj.TcGetObjPara(pid:=pid,nData,pData,0);
+END_IF
+                  ]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Init" Id="{6323670b-6ddd-4e45-8573-d8f5ce8ef850}">
+      <Declaration><![CDATA[{attribute 'object_name' := 'Init'}
+METHOD PROTECTED Init : HRESULT
+VAR_INPUT
+	oid: OTCID;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+// preinitialize variables
+memset(ADR(moduleClsId),0,SIZEOF(moduleClsId));
+bClassIdVerified := FALSE;
+hResult := Tc2_System.E_HRESULTAdsErr.HRESULT_ADS_NOERROR;
+
+// get object server
+IF (ipObjSrv=0) THEN
+  hResult := FW_ObjMgr_GetObjectServer(_AppInfo.ObjId,ADR(ipObjSrv));
+END_IF
+
+// try to get object interfaces
+IF (SUCCEEDED(hresult)) THEN
+  QueryTcComInterface(hResult,oid);
+END_IF
+
+// verify class id
+IF (SUCCEEDED(hresult)) THEN
+  hresult := VerifyClassId();
+END_IF
+
+// query interfaces, if the current state is higher than INIT
+IF (SUCCEEDED(hresult) AND State>TCOM_STATE.TCOM_STATE_INIT) THEN
+  QueryObjInterfaces(hResult);
+END_IF
+
+// return value
+Init := hresult;
+                  ]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="InitObjName" Id="{174b37aa-d4ff-4ab8-be78-38f988842a7e}">
+      <Declaration><![CDATA[{attribute 'object_name' := 'InitObjName'}
+METHOD PRIVATE InitObjName
+VAR_INPUT
+	hr: REFERENCE TO HRESULT;
+END_VAR
+VAR
+	objectName: STRING(255) := 'TcMatSimObject_PlcRtFbInstance';
+	oid: OTCID;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+IF (SUCCEEDED(hr)) THEN
+  hr := ipTcComObj.TcGetObjectId(oid);
+END_IF
+
+IF (SUCCEEDED(hr) and bDynInstance) THEN
+  objectName := TC2_STANDARD.CONCAT(objectName,'_');
+  objectName := TC2_STANDARD.CONCAT(objectName,UDINT_TO_STRING(oid));
+  hr := ipTcComObj.TcSetObjectName(ADR(objectName));
+END_IF
+                  ]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Internal_SetObjState" Id="{ffc99d1c-70bc-47fc-8087-e3c1538184df}">
+      <Declaration><![CDATA[{attribute 'object_name' := 'Internal_SetObjState'}
+METHOD PROTECTED Internal_SetObjState
+VAR_INPUT
+	hr: REFERENCE TO HRESULT;
+	nextState: TCOM_STATE;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+// verify class id
+IF (SUCCEEDED(hr)) THEN
+  hr := VerifyClassId();
+END_IF
+
+// switch object state
+IF (SUCCEEDED(hr) AND nextState>=TCOM_STATE_INIT) THEN
+  IF (ipTcComObj=0) THEN
+    hr := Tc2_System.E_HRESULTAdsErr.NOINTERFACE;
+  END_IF
+  IF (ipObjSrv=0) THEN
+    hr := Tc2_System.E_HRESULTAdsErr.NOINTERFACE;
+  END_IF
+  IF (SUCCEEDED(hr)) THEN
+    hr := ipTcComObj.TcSetObjState(nextState,ipObjSrv,pInitData);
+  END_IF
+END_IF
+                  ]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="QueryObjInterface" Id="{cd512e58-b753-412c-93c5-e62d3912482a}">
+      <Declaration><![CDATA[{attribute 'object_name' := 'QueryObjInterface'}
+METHOD PRIVATE QueryObjInterface
+VAR_INPUT
+	hr: REFERENCE TO HRESULT;
+	iid: REFERENCE TO IID;
+	pipItf: POINTER TO ITcUnknown;
+END_VAR
+VAR CONSTANT
+	pNull: PVOID := 0;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+IF (SUCCEEDED(hr)) THEN
+  IF (ipTcComObj=0) THEN
+    hr := Tc2_System.E_HRESULTAdsErr.NOINTERFACE;
+  ELSIF (pipItf^=ULINT_TO_DWORD(pNull)) THEN
+    hr := ipTcComObj.TcQueryInterface(iid:= iid, pipItf:=pipItf);
+  END_IF
+END_IF
+                  ]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="QueryObjInterfaces" Id="{b6a66a35-c2cb-4206-87c3-6861972209ab}">
+      <Declaration><![CDATA[{attribute 'object_name' := 'QueryObjInterfaces'}
+METHOD PRIVATE QueryObjInterfaces
+VAR_INPUT
+	hr: REFERENCE TO HRESULT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+IF(State<TCOM_STATE_PREOP)THEN
+  hr := Tc2_System.E_HRESULTAdsErr.INVALIDSTATE;
+END_IF
+
+//cyclic interface
+QueryObjInterface(hr,IID_ITCCYCLIC,ADR(ipTcCyclic));
+//post cyclic interface
+QueryObjInterface(hr,IID_ITCPOSTCYCLIC,ADR(ipTcPostCyclic));
+//adi interface
+QueryObjInterface(hr,IID_ITcADI,ADR(ipTcAdi));
+                  ]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="QueryTcComInterface" Id="{d7d74db1-8ceb-4ad7-9087-d66f8845d307}">
+      <Declaration><![CDATA[{attribute 'object_name' := 'QueryTcComInterface'}
+METHOD PRIVATE QueryTcComInterface
+VAR_INPUT
+	hr: REFERENCE TO HRESULT;
+	oid: OTCID;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+IF (ipObjSrv=0) THEN
+  hr := Tc2_System.E_HRESULTAdsErr.NOINTERFACE;
+END_IF
+
+IF (SUCCEEDED(hr) AND ipTcComObj=0) THEN
+  bDynInstance := FALSE;
+  IF(oid>0) THEN
+    // query interface of existing object
+    hr := ipObjSrv.TcQueryObjectInterface(oid,IID_ITComObject,ADR(ipTcComObj));
+  ELSE
+    // create new instance and get the object interface
+    hr := ipObjSrv.TcCreateInstance(assignedClsId,IID_ITComObject,ADR(ipTcComObj));
+    IF (SUCCEEDED(hr)) THEN
+      bDynInstance := TRUE;
+      hr := ipTcComObj.TcSetObjectId(OTCID_CreateNewId);
+    END_IF
+  END_IF
+  IF (SUCCEEDED(hr)) THEN
+    eInitialObjState := State;
+  END_IF
+END_IF
+                  ]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ReadModuleClassId" Id="{4430359c-9c39-4c2f-b0ca-4e5015b398ea}">
+      <Declaration><![CDATA[{attribute 'object_name' := 'ReadModuleClassId'}
+METHOD PRIVATE ReadModuleClassId : HRESULT
+VAR
+	emptyClsId: CLSID;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[memset(ADR(emptyClsId),0,SIZEOF(emptyClsId));
+IF (memcmp(ADR(moduleClsId),ADR(emptyClsId),SIZEOF(moduleClsId))=0) THEN
+  IF (ipTcComObj=0) THEN
+    ReadModuleClassId := Tc2_System.E_HRESULTAdsErr.NOINTERFACE;
+  END_IF
+
+  //objectClsId := clsid;
+  IF (SUCCEEDED(ReadModuleClassId)) THEN
+    ReadModuleClassId := ipTcComObj.GetClassId(moduleClsId);
+  END_IF
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ReleaseImagePtrs" Id="{0a7f8e9d-c43f-4251-9973-e3e3267d9f35}">
+      <Declaration><![CDATA[{attribute 'object_name' := 'ReleaseImagePtrs'}
+METHOD PRIVATE ReleaseImagePtrs : HRESULT
+VAR
+	nDaIdx: UDINT;
+	pCurDataArea: POINTER TO ST_TcMatSimObjectDataAreaInfo;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+IF (ipTcAdi=0) THEN
+  ReleaseImagePtrs := Tc2_System.E_HRESULTAdsErr.NOINTERFACE;
+END_IF
+
+IF (SUCCEEDED(ReleaseImagePtrs) AND pDataAreas<>0 AND nDataAreas>0) THEN
+  // release pointers to the simulink module process images
+  FOR nDaIdx:=0 TO nDataAreas-1 DO
+    pCurDataArea := pDataAreas + nDaIdx*SIZEOF(ST_TcMatSimObjectDataAreaInfo);
+
+    IF (pCurDataArea^.pModuleProcImg<>0) THEN
+      ipTcAdi.ReleaseImagePtr(pData:=pCurDataArea^.pModuleProcImg);
+      pCurDataArea^.pModuleProcImg := 0;
+    END_IF
+  END_FOR
+END_IF
+                  ]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ReleaseObjInterfaces" Id="{49fda46c-fb8f-4939-87f1-4d5840cafeda}">
+      <Declaration><![CDATA[{attribute 'object_name' := 'ReleaseObjInterfaces'}
+METHOD PRIVATE ReleaseObjInterfaces : HRESULT
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+// release interface pointers
+IF (ipTcCyclic<>0) THEN
+  ipTcCyclic.TcRelease();
+  ipTcCyclic := 0;
+END_IF
+IF (ipTcPostCyclic<>0) THEN
+  ipTcPostCyclic.TcRelease();
+  ipTcPostCyclic := 0;
+END_IF
+IF (ipTcAdi<>0) THEN
+  ipTcAdi.TcRelease();
+  ipTcAdi := 0;
+END_IF
+                  ]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ReleaseTcComInterface" Id="{3df7a2ea-5537-4e28-aa33-909b3a73e394}">
+      <Declaration><![CDATA[{attribute 'object_name' := 'ReleaseTcComInterface'}
+METHOD PRIVATE ReleaseTcComInterface : HRESULT
+VAR
+	nStateChangeCnt: DINT := 0;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+IF (ipTcComObj<>0) THEN
+  WHILE (State>eInitialObjState AND nStateChangeCnt<1000) DO
+    State := eInitialObjState;
+    nStateChangeCnt := nStateChangeCnt+1;
+  END_WHILE
+  ReleaseObjInterfaces();
+  IF (bDynInstance) THEN
+    ReleaseTcComInterface := TC3_MODULE.FW_ObjMgr_DeleteInstance(ADR(ipTcComObj));
+  ELSE
+    ipTcComObj.TcRelease();
+  END_IF
+  ipTcComObj := 0;
+END_IF
+                  ]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ResetHresult" Id="{6f5e2a9f-d884-490f-a4ef-a814744071c2}">
+      <Declaration><![CDATA[{attribute 'object_name' := 'ResetHresult'}
+METHOD ResetHresult
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[hResult := S_OK;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SaveOnlineParametersForInit" Id="{d5ca5ecf-84b5-4741-bca9-ab48f8de0364}">
+      <Declaration><![CDATA[{attribute 'object_name' := 'SaveOnlineParametersForInit'}
+METHOD SaveOnlineParametersForInit : HRESULT
+VAR
+	idx: UINT;
+	pInitElemHdr: POINTER TO TComInitDataElmHdr;
+	pData: PVOID;
+	nData: UDINT;
+END_VAR
+VAR CONSTANT
+	nInitDataAlignment: UDINT := 4;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF (pInitData<>0) THEN
+  pInitElemHdr := pInitData + SIZEOF(pInitData^);
+  FOR idx:=1 TO pInitData^.uiElmCnt DO
+    pData := pInitElemHdr + ULINT_TO_DWORD(SIZEOF(pInitElemHdr^));
+    nData := pInitElemHdr^.cbData;
+    SaveOnlineParametersForInit := GetObjPara(pInitElemHdr^.indexOffset,nData,pData);
+    IF (FAILED(SaveOnlineParametersForInit)) THEN
+      RETURN;
+    END_IF
+    pInitElemHdr := pData + (nInitDataAlignment*((nData + nInitDataAlignment - 1)/nInitDataAlignment));
+  END_FOR
+ELSE
+	SaveOnlineParametersForInit := Tc2_System.E_HRESULTAdsErr.NOTINIT;
+END_IF
+                  ]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetDataAreaInfo" Id="{11a4ecef-f4b8-4ea3-b32a-f5c95d2a16a3}">
+      <Declaration><![CDATA[
+METHOD PUBLIC SetDataAreaInfo
+VAR_INPUT
+  pDataAreas: POINTER TO ST_TcMatSimObjectDataAreaInfo;
+  nDataAreas: UDINT;
+END_VAR
+                ]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+THIS^.nDataAreas := nDataAreas;
+THIS^.pDataAreas := pDataAreas;
+                  ]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetInitDataInfo" Id="{a4b3eb8c-b58b-4cd6-a9be-95800eb47e3c}">
+      <Declaration><![CDATA[
+METHOD PUBLIC SetInitDataInfo
+VAR_INPUT
+  pInitData : POINTER TO TComInitDataHdr;
+END_VAR
+                ]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[this^.pInitData := pInitData;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetObjPara" Id="{a0919eac-6388-499a-81ea-06b6e578e7cd}">
+      <Declaration><![CDATA[{attribute 'object_name' := 'SetObjPara'}
+METHOD SetObjPara : HRESULT
+VAR_INPUT
+	pid: PTCID;
+	nData: UDINT;
+	pData: PVOID;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+IF (ipTcComObj=0) THEN
+  SetObjPara := Tc2_System.E_HRESULTAdsErr.NOINTERFACE;
+END_IF
+
+IF (SUCCEEDED(SetObjPara)) THEN
+  SetObjPara := ipTcComObj.TcSetObjPara(pid:=pid,nData,pData,0);
+END_IF
+                  ]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetObjState" Id="{dddafed9-930e-49bb-a165-bb49232a3980}">
+      <Declaration><![CDATA[{attribute 'object_name' := 'SetObjState'}
+METHOD SetObjState : HRESULT
+VAR_INPUT
+	finalState: TCOM_STATE;
+END_VAR
+VAR
+	bShiftUp: BOOL;
+	bShiftDown: BOOL;
+	currentState: TCOM_STATE;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+currentState := State;
+
+bShiftUp := finalState>currentState;
+bShiftDown := finalState<currentState;
+
+// do not switch up on error
+IF (FAILED(hresult)) THEN
+  bShiftUp := FALSE;
+END_IF
+// reset existing error on switching down
+IF (bShiftDown) THEN
+  ResetHresult();
+END_IF
+
+// prepared state switch
+CASE currentState OF
+  TCOM_STATE_INIT:
+    IF(bShiftUp) THEN
+      QueryTcComInterface(hResult,0);
+      Internal_SetObjState(hResult,TCOM_STATE.TCOM_STATE_PREOP);
+      InitObjName(hResult);
+    END_IF
+
+  TCOM_STATE_PREOP:
+    IF(bShiftUp) THEN
+      Internal_SetObjState(hResult,TCOM_STATE.TCOM_STATE_SAFEOP);
+      QueryObjInterfaces(hResult);
+    ELSIF (bShiftDown) THEN
+      Internal_SetObjState(hResult,TCOM_STATE.TCOM_STATE_INIT);
+    END_IF
+
+  TCOM_STATE_SAFEOP:
+    IF(bShiftUp) THEN
+      Internal_SetObjState(hResult,TCOM_STATE.TCOM_STATE_OP);
+      QueryObjInterfaces(hResult);
+    ELSIF (bShiftDown) THEN
+      Internal_SetObjState(hResult,TCOM_STATE.TCOM_STATE_PREOP);
+      ReleaseObjInterfaces();
+    END_IF
+
+
+  TCOM_STATE_OP:
+    IF (bShiftDown) THEN
+      Internal_SetObjState(hResult,TCOM_STATE.TCOM_STATE_SAFEOP);
+    END_IF
+END_CASE
+
+SetObjState := hResult;
+                  ]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="State" Id="{38d88d8b-b91c-4041-b3f3-b10192cd59d1}">
+      <Declaration><![CDATA[PROPERTY State : TCOM_STATE
+]]></Declaration>
+      <Get Name="Get" Id="{8aaa51ad-8100-4ad4-b084-9a0258c809f1}">
+        <Declaration><![CDATA[VAR
+	hr: HRESULT := S_OK;
+	eObjState: TCOM_STATE;
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[
+IF (ipTcComObj<>0) THEN
+  hr := ipTcComObj.TcGetObjState(ADR(eObjState));
+IF (FAILED(hr)) THEN
+  eObjState := TCOM_STATE.TCOM_STATE_INIT;
+END_IF
+ELSE
+  eObjState := TCOM_STATE.TCOM_STATE_INIT;
+END_IF
+State := eObjState;
+                    ]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{4b74ed03-55c0-4015-b727-d1e9d2a38447}">
+        <Declaration><![CDATA[]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[SetObjState(State);]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="VerifyClassId" Id="{239bccd7-2f3a-47e3-959e-96b59c3eff01}">
+      <Declaration><![CDATA[{attribute 'object_name' := 'VerifyClassId'}
+METHOD PRIVATE VerifyClassId : HRESULT
+VAR
+	emptyClsId: CLSID;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[memset(ADR(emptyClsId),0,SIZEOF(emptyClsId));
+IF (bClassIdVerified) THEN
+  // class ID was already verified
+  VerifyClassId := Tc2_System.E_HRESULTAdsErr.HRESULT_ADS_NOERROR;
+ELSIF (memcmp(ADR(assignedClsId),ADR(emptyClsId),SIZEOF(assignedClsId))=0) THEN
+  // skip class ID verification if no assignedClsId specified
+  VerifyClassId := Tc2_System.E_HRESULTAdsErr.HRESULT_ADS_NOERROR;
+ELSE
+  // verify class ID
+  VerifyClassId := ReadModuleClassId();
+
+  IF (SUCCEEDED(VerifyClassId)) THEN
+    IF (memcmp(ADR(assignedClsId),ADR(moduleClsId),SIZEOF(assignedClsId))<>0) THEN
+     VerifyClassId := Tc2_System.E_HRESULTAdsErr.INVALIDCLSID;
+    END_IF
+  END_IF
+  bClassIdVerified := SUCCEEDED(VerifyClassId);
+END_IF
+                  ]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="FB_TcMatSimObject">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TcMatSimObject.AssignClassId">
+      <LineId Id="3" Count="1" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TcMatSimObject.ClassId.Get">
+      <LineId Id="3" Count="1" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TcMatSimObject.Error.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TcMatSimObject.ErrorCode.Get">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TcMatSimObject.Execute">
+      <LineId Id="3" Count="70" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TcMatSimObject.FB_exit">
+      <LineId Id="3" Count="8" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TcMatSimObject.FB_init">
+      <LineId Id="3" Count="1" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TcMatSimObject.GetImagePtrs">
+      <LineId Id="3" Count="27" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TcMatSimObject.GetObjPara">
+      <LineId Id="3" Count="7" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TcMatSimObject.Init">
+      <LineId Id="3" Count="27" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TcMatSimObject.InitObjName">
+      <LineId Id="3" Count="9" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TcMatSimObject.Internal_SetObjState">
+      <LineId Id="3" Count="17" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TcMatSimObject.QueryObjInterface">
+      <LineId Id="3" Count="7" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TcMatSimObject.QueryObjInterfaces">
+      <LineId Id="3" Count="10" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TcMatSimObject.QueryTcComInterface">
+      <LineId Id="3" Count="21" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TcMatSimObject.ReadModuleClassId">
+      <LineId Id="3" Count="9" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TcMatSimObject.ReleaseImagePtrs">
+      <LineId Id="3" Count="15" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TcMatSimObject.ReleaseObjInterfaces">
+      <LineId Id="3" Count="13" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TcMatSimObject.ReleaseTcComInterface">
+      <LineId Id="3" Count="13" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TcMatSimObject.ResetHresult">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TcMatSimObject.SaveOnlineParametersForInit">
+      <LineId Id="3" Count="13" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TcMatSimObject.SetDataAreaInfo">
+      <LineId Id="3" Count="2" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TcMatSimObject.SetInitDataInfo">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TcMatSimObject.SetObjPara">
+      <LineId Id="3" Count="7" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TcMatSimObject.SetObjState">
+      <LineId Id="3" Count="48" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TcMatSimObject.State.Get">
+      <LineId Id="3" Count="9" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TcMatSimObject.State.Set">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_TcMatSimObject.VerifyClassId">
+      <LineId Id="3" Count="17" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

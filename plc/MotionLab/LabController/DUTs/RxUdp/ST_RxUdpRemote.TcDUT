@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <DUT Name="ST_RxUdpRemote" Id="{fa01c5f1-abf7-41e7-9176-503e6a9c127a}">
+    <Declaration><![CDATA[TYPE ST_RxUdpRemote :
+STRUCT
+	iCounter : UDINT; // Heartbeat counter
+	eModeCmd : UDINT; // Operation mode
+	em8000_u : ARRAY [0..5] OF REAL; // EM8000 DOF position setpoints
+	em1500_u : ARRAY [0..5] OF REAL; // EM1500 DOF position setpoints
+	comau_u : ARRAY [0..5] OF REAL; // Joint speed setpoints
+	winch_u : REAL; // Winch wire speed setpoint
+	
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

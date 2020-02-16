@@ -1,1 +1,0 @@
-cp -a _build/html/. ../

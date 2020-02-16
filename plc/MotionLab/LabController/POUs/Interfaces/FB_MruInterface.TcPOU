@@ -6,11 +6,11 @@ VAR_INPUT
 END_VAR
 VAR_OUTPUT
 	feedback : ST_FeedbackMru;
-	active : BOOL := FALSE;
+	bActive : BOOL := FALSE;
 END_VAR
 VAR
 	// Udp related
-	udpServer : FB_UdpServer(0, 0, 0, 0, 0); // Dummy constructor
+	udpServer : FB_UdpServerRT(0, 0, 0, 0, 0); // Dummy constructor
 	
 	{attribute 'tc_no_symbol'}
 	rxUdpBE : ST_RxUdpMru;
@@ -42,9 +42,9 @@ END_IF
 
 // Set activity status after 1 second given 5ms in ms
 IF frameLoss > 200 THEN
-	active := FALSE;
+	bActive := FALSE;
 ELSE
-	active := TRUE;
+	bActive := TRUE;
 END_IF
 
 // Update udpServer
@@ -168,7 +168,7 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Update global Hmi data
-IF active THEN
+IF bActive THEN
 	pTxHmi^.status := 0;
 ELSE
 	pTxHmi^.status := -1;

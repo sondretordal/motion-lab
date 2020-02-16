@@ -3,27 +3,26 @@
   <POU Name="FB_ComauInterface" Id="{7f6fcfb6-ea5d-4e07-bbf6-5b138a56f61f}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_ComauInterface
 VAR_INPUT
-	u : REAL;
+	bStart : BOOL;
+	u : ARRAY [0..5] OF LREAL;
 	
-	bNext : BOOL;
-	bPrev : BOOL;	
-	cmnd : DINT;
-	control : ST_ControlComau;
 END_VAR
 VAR_OUTPUT
-	feedback : ST_FeedbackComau;
-	active : BOOL:= FALSE;
+	bActive : BOOL:= FALSE;
+	q : ARRAY [0..5] OF LREAL;
+	q_t : ARRAY [0..5] OF LREAL;
+	
 END_VAR
 VAR
 	// Udp related
-	udpClient : FB_UdpClient('', 0, 0, 0, 0, 0, 0);	// Dummy constructor
+	udpClient : FB_UdpClientRT('', 0, 0, 0, 0, 0, 0);	// Dummy constructor
 	
 	{attribute 'tc_no_symbol'}
 	rxUdp : ST_RxUdpComau;
 	{attribute 'tc_no_symbol'}
 	txUdp : ST_TxUdpComau;
 	
-	pTxHmi : POINTER TO ST_TxHmiComau;
+	txHmi : ST_TxHmiComau;
 	
 	// Actviity monitoring
 	frame : DINT := 0;
@@ -50,9 +49,9 @@ END_IF
 
 // Set activity status after 1 second given 5ms in ms
 IF frameLoss > 200 THEN
-	active := FALSE;
+	bActive := FALSE;
 ELSE
-	active := TRUE;
+	bActive := TRUE;
 END_IF
 
 // Update udpClient
@@ -62,21 +61,27 @@ udpClient();
 UpdateHMI();
 
 // Apply control inputs
-txUdp.cmnd := cmnd;
+IF bStart THEN
+	txUdp.cmnd := 1;
+ELSE
+	txUdp.cmnd := 0;
+END_IF
+
 txUdp.udpKey := 32;
 
+// Set contorl and feedback data
+FOR i := 0 TO 5 DO
+	txUdp.qDotRef[i] := LREAL_TO_REAL(u[i]);
+	q[i] := rxUdp.q[i];
+	q_t[i] := rxUdp.q_t[i];
+	
+END_FOR
 
-IF (i < 5) AND bNext THEN
-	i := i + 1;
-	bNext := FALSE;
-END_IF
 
-IF (i > 0) AND bPrev THEN
-	i := i - 1;
-	bPrev := FALSE;
-END_IF
 
-txUdp.qDotRef[i] := u;
+
+
+
 ]]></ST>
     </Implementation>
     <Method Name="FB_exit" Id="{f18839c2-6d63-4a3d-ad66-5f830bcc3ab8}">
@@ -99,12 +104,10 @@ VAR_INPUT
 	_remoteIpAddr : T_Ipv4Addr;
 	_remotePort : UINT;
 	_localPort : UINT;
-	_pTxHmi : POINTER TO ST_TxHmiComau;
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[pTxHmi := _pTxHmi;
-
+        <ST><![CDATA[
 // Initilize udpClient
 udpClient.FB_init(
 	bInitRetains,
@@ -138,37 +141,49 @@ END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[// Update HMI Data
-IF active THEN
-	pTxHmi^.status := 0;
+IF bActive THEN
+	txHmi.status := 1;
 ELSE
-	pTxHmi^.status := -1;
+	txHmi.status := 0;
 END_IF
 
 FOR i := 0 TO 5 DO
-	pTxHmi^.q[i] := rxUdp.q[i];
+	txHmi.u[i] := LREAL_TO_REAL(u[i]);
+	txHmi.q[i] := rxUdp.q[i];
+	txHmi.q_t[i] := rxUdp.q_t[i];
+	txHmi.qMin[i] := rxUdp.qMin[i];
+	txHmi.qMax[i] := rxUdp.qMax[i];
+	txHmi.qMax_t[i] := rxUdp.qMax_t[i];
 END_FOR
 ]]></ST>
       </Implementation>
     </Method>
     <LineIds Name="FB_ComauInterface">
-      <LineId Id="251" Count="28" />
-      <LineId Id="322" Count="1" />
-      <LineId Id="315" Count="0" />
-      <LineId Id="324" Count="0" />
-      <LineId Id="326" Count="0" />
-      <LineId Id="325" Count="0" />
-      <LineId Id="327" Count="0" />
-      <LineId Id="329" Count="2" />
-      <LineId Id="328" Count="0" />
-      <LineId Id="332" Count="0" />
-      <LineId Id="317" Count="0" />
-      <LineId Id="249" Count="0" />
+      <LineId Id="251" Count="26" />
+      <LineId Id="412" Count="1" />
+      <LineId Id="415" Count="1" />
+      <LineId Id="414" Count="0" />
+      <LineId Id="411" Count="0" />
+      <LineId Id="279" Count="0" />
+      <LineId Id="490" Count="0" />
+      <LineId Id="471" Count="0" />
+      <LineId Id="467" Count="0" />
+      <LineId Id="505" Count="0" />
+      <LineId Id="465" Count="1" />
+      <LineId Id="473" Count="0" />
+      <LineId Id="464" Count="0" />
+      <LineId Id="407" Count="0" />
+      <LineId Id="404" Count="0" />
+      <LineId Id="460" Count="0" />
+      <LineId Id="402" Count="0" />
+      <LineId Id="405" Count="0" />
+      <LineId Id="366" Count="0" />
+      <LineId Id="365" Count="0" />
     </LineIds>
     <LineIds Name="FB_ComauInterface.FB_exit">
       <LineId Id="6" Count="0" />
     </LineIds>
     <LineIds Name="FB_ComauInterface.FB_init">
-      <LineId Id="31" Count="0" />
       <LineId Id="30" Count="0" />
       <LineId Id="8" Count="10" />
       <LineId Id="7" Count="0" />
@@ -182,7 +197,10 @@ END_FOR
       <LineId Id="6" Count="0" />
       <LineId Id="29" Count="0" />
       <LineId Id="28" Count="0" />
-      <LineId Id="30" Count="1" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="38" Count="3" />
+      <LineId Id="31" Count="0" />
       <LineId Id="13" Count="0" />
     </LineIds>
   </POU>

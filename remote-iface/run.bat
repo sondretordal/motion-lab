@@ -1,0 +1,1 @@
+pyuic5 -x MainWindow.ui -o MainWindow.py && python main.py

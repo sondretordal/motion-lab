@@ -1,0 +1,4 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(441,5): warning MSB8003: The WindowsSDKDir property is not defined. Some build tools may not be found.
+  pch.cpp
+  TestCPPLibrary.cpp
+C:\GitHub\motion-lab\unity\PlcCommunicator\TestCPPLibrary.cpp(19,1): fatal error C1010: unexpected end of file while looking for precompiled header. Did you forget to add '#include "pch.h"' to your source?

@@ -1,12 +1,38 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.7">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
   <DUT Name="ST_TxUdpRemote" Id="{e855cfb6-bd67-4fa5-9051-ffcbcaa8ada0}">
     <Declaration><![CDATA[TYPE ST_TxUdpRemote :
 STRUCT
-	timestamp : ULINT;
-	arr : ARRAY [0..5] OF REAL;
-	//control : ST_Control;
-	//feedback : ST_Feedback;
+	// Mode and time
+	eMode : UDINT;
+	t : REAL;
+	
+	// Equipement: Comau robot
+	comau_q : ARRAY [0..5] OF REAL;
+	comau_q_t : ARRAY [0..5] OF REAL;
+	
+	// Equipement: Robot Winch
+	winch_l : REAL;
+	winch_l_t : REAL;
+
+	// Equipement: EM8000
+	em8000_eta : ARRAY [0..5] OF REAL;
+	em8000_eta_t : ARRAY [0..5] OF REAL;
+	em8000_eta_tt : ARRAY [0..5] OF REAL;
+	
+	// Equipement: MRU1 (Mounted on EM8000)
+	mru1_eta : ARRAY [0..5] OF REAL;
+	mru1_v : ARRAY [0..5] OF REAL;
+	
+	// Equipement: EM1500 and MRU2
+	em1500_eta : ARRAY [0..5] OF REAL;
+	em1500_eta_t : ARRAY [0..5] OF REAL;
+	em1500_eta_tt : ARRAY [0..5] OF REAL;
+	
+	// Equipement: MRU2 (Mounted on EM1500)
+	mru2_eta : ARRAY [0..5] OF REAL;
+	mru2_v : ARRAY [0..5] OF REAL;
+	
 END_STRUCT
 END_TYPE
 ]]></Declaration>

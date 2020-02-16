@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <POU Name="FB_CsvReader" Id="{3731b04a-1903-4e40-9513-292cb4a2684f}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_CsvReader
+VAR_INPUT
+	bStart : BOOL;
+	
+END_VAR
+VAR_OUTPUT
+	data : ARRAY [0..100] OF T_MaxString;
+END_VAR
+
+VAR
+	sNetId : T_MaxString := '';
+	bOpen : BOOL;
+	bClose : BOOL;
+	
+	fbOpen : FB_FileOpen;
+	fbClose : FB_FileClose;
+	
+	fbWriter : FB_CSVMemBufferWriter;
+	
+	n : UDINT;
+	i : UDINT;
+
+	
+	
+	
+	eState : INT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[n := n + 1;
+CASE eState OF
+	-1 : // ERROR
+			
+	
+	0 : // Idle
+		i := 0;
+	
+	1 : // Start open
+		fbOpen(
+			sNetId := sNetId,
+			sPathName := 'C:\test.txt',
+			nMode := FOPEN_MODEWRITE OR FOPEN_MODETEXT,
+			ePath := PATH_GENERIC,
+			bExecute := TRUE
+		);
+		
+		eState := 2;
+	
+	2 : // Open
+		fbOpen(bExecute := FALSE);
+		
+		IF NOT fbOpen.bBusy THEN
+			IF NOT fbOpen.bError THEN
+				eState := 3;
+				
+			ELSE
+				eState := - 1;
+				
+			END_IF
+		END_IF
+		
+	3 : // File redy
+
+		IF bStart THEN
+			eState := 4;
+			
+		END_IF;
+		
+	4 : // Start to record data to CSV file
+	
+		
+	
+	
+	100 : // Start close
+		fbClose(
+			sNetId := sNetId,
+			hFile := fbOpen.hFile,
+			bExecute := TRUE
+		);
+		
+		eState := 101;
+		
+	101: // Close
+		fbClose(bExecute := FALSE);
+		
+		IF NOT fbClose.bBusy THEN
+			IF NOT fbClose.bError THEN
+				eState := 0;
+				
+			ELSE
+				eState := -1;
+				
+			END_IF
+			
+		END_IF
+		
+	
+END_CASE
+
+
+	
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="FB_CsvReader">
+      <LineId Id="106" Count="0" />
+      <LineId Id="33" Count="0" />
+      <LineId Id="148" Count="2" />
+      <LineId Id="72" Count="2" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="40" Count="0" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="41" Count="3" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="50" Count="1" />
+      <LineId Id="49" Count="0" />
+      <LineId Id="46" Count="2" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="139" Count="0" />
+      <LineId Id="53" Count="0" />
+      <LineId Id="145" Count="2" />
+      <LineId Id="140" Count="1" />
+      <LineId Id="54" Count="2" />
+      <LineId Id="85" Count="2" />
+      <LineId Id="160" Count="1" />
+      <LineId Id="88" Count="0" />
+      <LineId Id="113" Count="0" />
+      <LineId Id="163" Count="2" />
+      <LineId Id="59" Count="2" />
+      <LineId Id="63" Count="8" />
+      <LineId Id="75" Count="1" />
+      <LineId Id="153" Count="1" />
+      <LineId Id="156" Count="3" />
+      <LineId Id="155" Count="0" />
+      <LineId Id="77" Count="1" />
+      <LineId Id="57" Count="0" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="37" Count="0" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
