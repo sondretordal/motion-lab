@@ -10,8 +10,8 @@ from MainWindow import Ui_MainWindow
 from RealTimePlot import RealTimePlot
 
 # PLC UDP Data Types import
-from ST_TxUdpRemote import ST_TxUdpRemote
-from ST_RxUdpRemote import ST_RxUdpRemote
+from RxUdp import RxUdp
+from TxUdp import TxUdp
 
 class RemoteInterface(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -24,19 +24,8 @@ class RemoteInterface(QtWidgets.QMainWindow, Ui_MainWindow):
         self.sock.bind(('192.168.90.60', 50060))
 
         # UPD data comm with PLC
-        self.txData = ST_RxUdpRemote() # Send "ST_RxUdpRemote" type to PLC
-        self.rxData = ST_TxUdpRemote() # Recv "ST_TxUdpRemote" type from PLC
-
-        # Connect sliders
-        self.gui.comau_u_0.sliderReleased.connect(lambda: self.gui.comau_u_0.setValue(0))
-        self.gui.comau_u_1.sliderReleased.connect(lambda: self.gui.comau_u_1.setValue(0))
-        self.gui.comau_u_2.sliderReleased.connect(lambda: self.gui.comau_u_2.setValue(0))
-        self.gui.comau_u_3.sliderReleased.connect(lambda: self.gui.comau_u_3.setValue(0))
-        self.gui.comau_u_4.sliderReleased.connect(lambda: self.gui.comau_u_4.setValue(0))
-        self.gui.comau_u_5.sliderReleased.connect(lambda: self.gui.comau_u_5.setValue(0))
-
-
-        self.gui.winch_u.sliderReleased.connect(lambda: self.gui.winch_u.setValue(0))
+        self.txData = TxUdp()
+        self.rxData = RxUdp()
 
         # Udp Read/Write thread
         self.timer = QtCore.QTimer()
@@ -49,6 +38,7 @@ class RemoteInterface(QtWidgets.QMainWindow, Ui_MainWindow):
         # Start GUI
         self.show()
 
+
     def update(self):
         # Elapsed time
         t = self.t0 - time.time()
@@ -57,25 +47,14 @@ class RemoteInterface(QtWidgets.QMainWindow, Ui_MainWindow):
         data, addr = self.sock.recvfrom(1024) 
         memmove(addressof(self.rxData), data, sizeof(self.rxData))
 
-
         # Incerement counter
         self.txData.iCounter = self.txData.iCounter + 1
 
+        # Apply sine motion to heave for EM1500
         self.txData.em1500_u[2] = 0.1*np.sin(0.1*2.0*np.pi*t)
-
-        # self.txData.em1500_u[2] = self.gui.em1500_heavePos.value()
-
-        # Comau speed setpoints
-        for i in range(0, len(self.txData.comau_u)):
-            qDotRef = eval('self.gui.comau_u_' + str(i)).value()/10.0/180.0*np.pi
-            self.txData.comau_u[i] = qDotRef
-
-        
-        
 
         # Send data to PLC
         self.sock.sendto(self.txData, ('192.168.90.50', 50050))
-
 
 
     def closeEvent(self, event):
