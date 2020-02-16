@@ -3,11 +3,12 @@
   <POU Name="MAIN" Id="{d462b44c-e22e-4563-ab9d-2a5ea9094f9e}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR_INPUT
-	bStopp : BOOL;
+	bStop : BOOL;
 	bReset : BOOL := FALSE;
 	
 END_VAR
 VAR_OUTPUT
+	eState : E_MotionLabState;
 	
 END_VAR
 VAR
@@ -75,10 +76,10 @@ END_VAR
               <v n="TracesCount">0</v>
               <v n="StatesInitString">":=[(ID := 1, Name := 'GeneratedStartStateForAbort1', StateType := _UML_SC_StateTypes.InitialState, StartOfTransitionIndex := 1, OutGoingTransitionsCount := 1, RegionCount := 0, RegionStartIndex := 0, RegionEndIndex := 0, CompletionTransitionID := 0, MaxDoCycles := 32766, HasEntryAction := False, HasDoAction := False, HasExitAction := False) , 
 (ID := 2, Name := 'GeneratedFinalStateForAbort1', StateType := _UML_SC_StateTypes.FinalState, StartOfTransitionIndex := 0, OutGoingTransitionsCount := 0, RegionCount := 0, RegionStartIndex := 0, RegionEndIndex := 0, CompletionTransitionID := 0, MaxDoCycles := 32766, HasEntryAction := False, HasDoAction := False, HasExitAction := False) , 
-(ID := 3, Name := 'Error', StateType := _UML_SC_StateTypes.SlowState, StartOfTransitionIndex := 2, OutGoingTransitionsCount := 2, RegionCount := 0, RegionStartIndex := 0, RegionEndIndex := 0, CompletionTransitionID := 0, MaxDoCycles := 32766, HasEntryAction := True, HasDoAction := True, HasExitAction := True) , 
+(ID := 3, Name := 'STOP', StateType := _UML_SC_StateTypes.SlowState, StartOfTransitionIndex := 2, OutGoingTransitionsCount := 2, RegionCount := 0, RegionStartIndex := 0, RegionEndIndex := 0, CompletionTransitionID := 0, MaxDoCycles := 32766, HasEntryAction := True, HasDoAction := True, HasExitAction := True) , 
 (ID := 4, Name := 'StartState1', StateType := _UML_SC_StateTypes.FastState, StartOfTransitionIndex := 4, OutGoingTransitionsCount := 1, RegionCount := 0, RegionStartIndex := 0, RegionEndIndex := 0, CompletionTransitionID := 0, MaxDoCycles := 32766, HasEntryAction := False, HasDoAction := False, HasExitAction := False) , 
 (ID := 5, Name := 'StartState2', StateType := _UML_SC_StateTypes.FastState, StartOfTransitionIndex := 5, OutGoingTransitionsCount := 1, RegionCount := 0, RegionStartIndex := 0, RegionEndIndex := 0, CompletionTransitionID := 0, MaxDoCycles := 32766, HasEntryAction := False, HasDoAction := False, HasExitAction := False) , 
-(ID := 6, Name := 'State1', StateType := _UML_SC_StateTypes.SlowState, StartOfTransitionIndex := 6, OutGoingTransitionsCount := 2, RegionCount := 0, RegionStartIndex := 0, RegionEndIndex := 0, CompletionTransitionID := 0, MaxDoCycles := 32766, HasEntryAction := False, HasDoAction := False, HasExitAction := False) ];
+(ID := 6, Name := 'State1', StateType := _UML_SC_StateTypes.SlowState, StartOfTransitionIndex := 6, OutGoingTransitionsCount := 2, RegionCount := 0, RegionStartIndex := 0, RegionEndIndex := 0, CompletionTransitionID := 0, MaxDoCycles := 32766, HasEntryAction := False, HasDoAction := True, HasExitAction := False) ];
 "</v>
               <v n="TransitionsInitString">":=[(ID := 1, StartStateID := 1, EndStateID := 4, Priority := 1, HasAction := False, IsCompletion := True,IsPseudoException := False,IsException := False), 
 (ID := 2, StartStateID := 3, EndStateID := 2, Priority := 1, HasAction := True, IsCompletion := False,IsPseudoException := False,IsException := True), 
@@ -91,7 +92,7 @@ END_VAR
               <v n="RegionsInitString">""</v>
               <v n="StateNamesString">"GeneratedStartStateForAbort1:INT:=1;
 GeneratedFinalStateForAbort1:INT:=2;
-Error:INT:=3;
+STOP:INT:=3;
 StartState1:INT:=4;
 StartState2:INT:=5;
 State1:INT:=6;
@@ -206,7 +207,7 @@ State1:INT:=6;
                   <v n="EntryParametersString">""</v>
                   <v n="EntryActionText">""</v>
                   <v n="InjectedDoImplementationCode">""</v>
-                  <v n="DoActionText">""</v>
+                  <v n="DoActionText">"eState := E_MotionLabState.NORMAL"</v>
                   <v n="ExitActionText">""</v>
                   <v n="DoLocalVariableName">""</v>
                   <v n="DoActionName">""</v>
@@ -215,7 +216,7 @@ State1:INT:=6;
                   <v n="ExitActionName">""</v>
                   <v n="ExitParametersString">""</v>
                   <v n="HasEntryAction">false</v>
-                  <v n="HasDoAction">false</v>
+                  <v n="HasDoAction">true</v>
                   <v n="HasExitAction">false</v>
                   <v n="PropertyID">0</v>
                   <v n="wasFork">false</v>
@@ -229,11 +230,11 @@ State1:INT:=6;
                     <v n="ShowMethods">true</v>
                     <v n="RepresentedElement">1</v>
                     <v n="IsElementVisible">true</v>
-                    <v n="TopPosition">181</v>
-                    <v n="LeftPosition">343</v>
-                    <v n="WidthValue">62</v>
+                    <v n="TopPosition">196</v>
+                    <v n="LeftPosition">335</v>
+                    <v n="WidthValue">240</v>
                     <v n="MinWidthValue">0</v>
-                    <v n="Height">32</v>
+                    <v n="Height">49</v>
                     <v n="MinHeight">0</v>
                     <v n="AutomaticLayout">false</v>
                     <d n="DockingPoints" t="Hashtable" />
@@ -263,7 +264,7 @@ State1:INT:=6;
                   <v n="UMLPosition">-1L</v>
                   <v n="IsModified">false</v>
                   <v n="ARGBElementColor">-13447886</v>
-                  <v n="ZOrder">70U</v>
+                  <v n="ZOrder">71U</v>
                 </o>
                 <v>a1806d9f-a0cd-4b66-b590-ddb016608a93</v>
                 <o t="UMLStateChartComposite">
@@ -347,17 +348,17 @@ State1:INT:=6;
                   <v n="StateChartGuid">{d462b44c-e22e-4563-ab9d-2a5ea9094f9e}</v>
                   <v n="ImplicitStartStateType" t="ImplicitStartStateTypes">None</v>
                   <v n="EntryLocalVariableName">""</v>
-                  <v n="EntryActionName">"Error_ENTRY"</v>
+                  <v n="EntryActionName">"STOP_ENTRY"</v>
                   <v n="EntryParametersString">""</v>
-                  <v n="EntryActionText">"Error_ENTRY"</v>
+                  <v n="EntryActionText">"STOP_ENTRY"</v>
                   <v n="InjectedDoImplementationCode">""</v>
-                  <v n="DoActionText">"Error_DO"</v>
-                  <v n="ExitActionText">"Error_EXIT"</v>
+                  <v n="DoActionText">"STOP_DO"</v>
+                  <v n="ExitActionText">"STOP_EXIT"</v>
                   <v n="DoLocalVariableName">""</v>
-                  <v n="DoActionName">"Error_DO"</v>
+                  <v n="DoActionName">"STOP_DO"</v>
                   <v n="DoParametersString">""</v>
                   <v n="ExitLocalVariableName">""</v>
-                  <v n="ExitActionName">"Error_EXIT"</v>
+                  <v n="ExitActionName">"STOP_EXIT"</v>
                   <v n="ExitParametersString">""</v>
                   <v n="HasEntryAction">true</v>
                   <v n="HasDoAction">true</v>
@@ -366,7 +367,7 @@ State1:INT:=6;
                   <v n="wasFork">false</v>
                   <d n="ActionList" t="Hashtable" />
                   <d n="PropertyList" t="Hashtable" />
-                  <v n="ElementName">"Error"</v>
+                  <v n="ElementName">"STOP"</v>
                   <v n="MethodID">0</v>
                   <d n="MethodStereotypContainer" t="Hashtable" />
                   <o n="ElementVisualisation" t="UMLStateChartElementVisualisation">
@@ -376,7 +377,7 @@ State1:INT:=6;
                     <v n="IsElementVisible">true</v>
                     <v n="TopPosition">124</v>
                     <v n="LeftPosition">1014</v>
-                    <v n="WidthValue">141</v>
+                    <v n="WidthValue">146</v>
                     <v n="MinWidthValue">0</v>
                     <v n="Height">83</v>
                     <v n="MinHeight">0</v>
@@ -488,7 +489,7 @@ State1:INT:=6;
                   <v n="HasGraphicalRepresentation">true</v>
                   <v n="StartUMLElement">{d22ab23e-96f8-44f5-9155-adb50115d06e}</v>
                   <v n="HighlightedLine">false</v>
-                  <v n="ZOrder">0U</v>
+                  <v n="ZOrder">71U</v>
                   <v n="SpecialHandling">false</v>
                   <v n="ActionLocalVariableName">""</v>
                   <v n="ActionParametersString">""</v>
@@ -508,21 +509,21 @@ State1:INT:=6;
                     <d n="flagsY" t="Hashtable" />
                     <o n="StartAnchor" t="UMLAnchorPoint">
                       <v n="AnchorID">0</v>
-                      <v n="AnchorLeftPosition">377</v>
+                      <v n="AnchorLeftPosition">369</v>
                       <v n="AnchorTopPosition">117</v>
                       <v n="AnchorRelationID">{f10ac0a7-c0ee-4b27-8325-1157955a0843}</v>
                       <v n="StartAnchor">true</v>
                       <v n="EndAnchor">false</v>
-                      <v n="AnchorDockedState" t="Docked">Bottom</v>
+                      <v n="AnchorDockedState" t="Docked">NotDocked</v>
                     </o>
                     <o n="EndAnchor" t="UMLAnchorPoint">
                       <v n="AnchorID">1</v>
-                      <v n="AnchorLeftPosition">377</v>
-                      <v n="AnchorTopPosition">176</v>
+                      <v n="AnchorLeftPosition">369</v>
+                      <v n="AnchorTopPosition">191</v>
                       <v n="AnchorRelationID">{f10ac0a7-c0ee-4b27-8325-1157955a0843}</v>
                       <v n="StartAnchor">false</v>
                       <v n="EndAnchor">true</v>
-                      <v n="AnchorDockedState" t="Docked">Top</v>
+                      <v n="AnchorDockedState" t="Docked">NotDocked</v>
                     </o>
                     <v n="NextAnchorID">1</v>
                     <d n="AnchorPoints" t="Hashtable" />
@@ -841,7 +842,7 @@ State1:INT:=6;
                   <v n="ActionText">""</v>
                   <v n="InjectedActionCode">""</v>
                   <v n="ActionTextLength">100</v>
-                  <v n="ConditionText">"bStopp"</v>
+                  <v n="ConditionText">"bStop"</v>
                   <v n="LengthConditionText">100</v>
                   <v n="RelationID">5</v>
                   <v n="TriggerlessStatechartTransition">true</v>
@@ -999,37 +1000,6 @@ END_VAR
         <ST><![CDATA[]]></ST>
       </Implementation>
     </Method>
-    <Method Name="Error_DO" Id="{665dd04a-072f-47ec-a226-d0f09c9f21b0}">
-      <Declaration><![CDATA[METHOD PRIVATE Error_DO : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[
-// Update all interfaces
-Execute();]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="Error_ENTRY" Id="{0bf0dc2f-020d-406e-9f42-3070dff00bf9}">
-      <Declaration><![CDATA[METHOD PRIVATE Error_ENTRY : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[
-]]></ST>
-      </Implementation>
-    </Method>
-    <Method Name="Error_EXIT" Id="{69553a08-a7e2-486c-ad2d-8a29443988b9}">
-      <Declaration><![CDATA[METHOD PRIVATE Error_EXIT : BOOL
-VAR_INPUT
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[bStopp := FALSE;
-bReset := FALSE;]]></ST>
-      </Implementation>
-    </Method>
     <Method Name="Execute" Id="{8ac26dd8-229b-4308-9bc6-a444f6f7546c}">
       <Declaration><![CDATA[METHOD PRIVATE Execute : BOOL
 VAR_INPUT
@@ -1050,20 +1020,14 @@ FOR i := 0 TO 9 DO
 	data[i] := LREAL_TO_REAL((1 + i)*0.1*SIN(0.1*2*PI*t));
 END_FOR
 
-IF k <= 100 THEN
-	k := k + 1;
-ELSE
-	k := 0;
-	rand();
-	//GVL.logMessage := LREAL_TO_STRING(rand.Num);
-	
-END_IF
-
-
-
 // Update all interfaces
-em8000();
-em1500();
+em8000(
+	Ts := Ts,
+);
+em1500(
+	Ts := Ts,
+);
+
 mru1();
 mru2();
 at960();
@@ -1104,31 +1068,61 @@ END_VAR
         <ST><![CDATA[]]></ST>
       </Implementation>
     </Method>
+    <Method Name="STOP_DO" Id="{665dd04a-072f-47ec-a226-d0f09c9f21b0}">
+      <Declaration><![CDATA[METHOD PRIVATE STOP_DO : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[
+// Update all interfaces
+Execute();
+
+eState := E_MotionLabState.STOP;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="STOP_ENTRY" Id="{0bf0dc2f-020d-406e-9f42-3070dff00bf9}">
+      <Declaration><![CDATA[METHOD PRIVATE STOP_ENTRY : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[em8000.bStop := TRUE;
+em1500.bStop := TRUE;
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="STOP_EXIT" Id="{69553a08-a7e2-486c-ad2d-8a29443988b9}">
+      <Declaration><![CDATA[METHOD PRIVATE STOP_EXIT : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[bStop := FALSE;
+bReset := FALSE;
+
+// Reset equipement
+em8000.bReset := TRUE;
+em1500.bReset := TRUE;]]></ST>
+      </Implementation>
+    </Method>
     <LineIds Name="MAIN.Close">
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="MAIN.Error_DO">
-      <LineId Id="7" Count="0" />
-      <LineId Id="6" Count="0" />
-      <LineId Id="5" Count="0" />
-    </LineIds>
-    <LineIds Name="MAIN.Error_ENTRY">
-      <LineId Id="7" Count="0" />
-      <LineId Id="6" Count="0" />
-    </LineIds>
-    <LineIds Name="MAIN.Error_EXIT">
-      <LineId Id="6" Count="0" />
       <LineId Id="5" Count="0" />
     </LineIds>
     <LineIds Name="MAIN.Execute">
       <LineId Id="41" Count="3" />
       <LineId Id="40" Count="0" />
       <LineId Id="85" Count="0" />
-      <LineId Id="87" Count="11" />
-      <LineId Id="86" Count="0" />
-      <LineId Id="99" Count="1" />
+      <LineId Id="87" Count="3" />
       <LineId Id="39" Count="0" />
-      <LineId Id="9" Count="7" />
+      <LineId Id="9" Count="1" />
+      <LineId Id="117" Count="0" />
+      <LineId Id="116" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="119" Count="0" />
+      <LineId Id="118" Count="0" />
+      <LineId Id="120" Count="0" />
+      <LineId Id="12" Count="4" />
       <LineId Id="59" Count="0" />
       <LineId Id="17" Count="0" />
       <LineId Id="52" Count="0" />
@@ -1153,6 +1147,24 @@ END_VAR
     </LineIds>
     <LineIds Name="MAIN.Init">
       <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.STOP_DO">
+      <LineId Id="7" Count="0" />
+      <LineId Id="6" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="11" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.STOP_ENTRY">
+      <LineId Id="11" Count="1" />
+      <LineId Id="6" Count="0" />
+    </LineIds>
+    <LineIds Name="MAIN.STOP_EXIT">
+      <LineId Id="6" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="12" Count="1" />
     </LineIds>
   </POU>
 </TcPlcObject>

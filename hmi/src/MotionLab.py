@@ -4,6 +4,7 @@ import pyads
 import json
 from ctypes import sizeof
 from datetime import datetime
+from enum import Enum
 
 # TODO: Implement this
 from src.opengl import MotionLabVisualizer
@@ -16,7 +17,7 @@ from .ComauRobot import ComauRobot
 from .RobotWinch import RobotWinch
 from .WaveSimulator import WaveSimulator
 from .DataLogger import DataLogger
-from .Remote import Remote
+# from .Remote import Remote
 from .Mru import Mru
 from .Qtm import Qtm
 
@@ -30,9 +31,14 @@ pg.setConfigOption('foreground', 'k')
 pg.setConfigOptions(antialias=True)
 
 
+class E_MotionLabState(Enum):
+    STOP 		= 0x00
+    NORMAL      = 0x01
+    ERROR		= 0x10
+
 class MotionLab(QtWidgets.QMainWindow, Ui_MainWindow):
     signal_logMessage = QtCore.pyqtSignal(str)
-    
+    signal_eState = QtCore.pyqtSignal(int)
 
     def __init__(self):
         super(MotionLab, self).__init__()
@@ -62,22 +68,17 @@ class MotionLab(QtWidgets.QMainWindow, Ui_MainWindow):
             self.winch = RobotWinch(self.plc, self.gui, 'winch')
             self.mru1 = Mru(self.plc, self.gui, 'mru1')
             self.mru2 = Mru(self.plc, self.gui, 'mru2')
-            self.remote = Remote(self.plc, self.gui, 'remote')
+            # self.remote = Remote(self.plc, self.gui, 'remote', self)
             self.qtm = Qtm(self.plc, self.gui, 'qtm')
 
             self.waveSimulator = WaveSimulator(self.plc, self.gui)
             self.dataLogger = DataLogger(self.plc, self.gui)
 
-            # Log Dump notification
-            self.plc.write_by_name('GVL.logMessage', 'HMI Started', pyads.PLCTYPE_STRING)    
-            self.plcNotification('GVL.logMessage', pyads.PLCTYPE_STRING, self.signal_logMessage)
-            self.signal_logMessage.connect(self.slot_logMessage)
-            
 
 
         # Stop button A
         self.gui.stopButtonA.setIconSize(self.gui.stopButtonA.size())
-        self.gui.stopButtonA.clicked.connect(self.stopAll)
+        self.gui.stopButtonA.clicked.connect(self.slot_bStop)
         self.gui.stopButtonA.setStyleSheet(
             """
                 QPushButton {
@@ -99,7 +100,7 @@ class MotionLab(QtWidgets.QMainWindow, Ui_MainWindow):
 
         # Stop button B
         self.gui.stopButtonB.setIconSize(self.gui.stopButtonB.size())
-        self.gui.stopButtonB.clicked.connect(self.stopAll)
+        self.gui.stopButtonB.clicked.connect(self.slot_bStop)
         self.gui.stopButtonB.setStyleSheet(
             """
                 QPushButton {
@@ -119,30 +120,71 @@ class MotionLab(QtWidgets.QMainWindow, Ui_MainWindow):
             """
         )
 
-        # Xbox controller
-        self.xbox = ml.XboxController()
-        self.xbox.start()
+        # PLC -> SIGNAL
+        self.plcNotification('MAIN.eState', pyads.PLCTYPE_USINT, self.signal_eState)
+        
+        # SIGNAL -> SLOT
+        self.signal_eState.connect(self.slot_eState)
 
+        # Error popup
+        self.msg = QtWidgets.QMessageBox()
+        self.msg.setWindowTitle("MotionLab ERROR")
+        self.msg.setText("Click OK to Acknowledge ERROR!")
+        self.msg.setIcon(QtWidgets.QMessageBox.Critical)
+        self.msg.buttonClicked.connect(self.startErrorCheck)
+        
         # OpenGL
         text = open('./src/calib.json').read()
         calib = json.loads(text)
         # self.visualizer = MotionLabVisualizer(calib)
         
+        # Initial log message
+        self.logMessage('HMI Started')
 
+        # Timer
+        self.timer = QtCore.QTimer()
+        self.timer.timeout.connect(self.errorCheck)
+        
         self.show()
 
-    def stopAll(self):
-        if self.plcActive:
-            # TODO: Implement stop all in PLC
-            self.plc.write_by_name('GVL.logMessage', 'Stop activated from HMI', pyads.PLCTYPE_STRING)
-  
-    @QtCore.pyqtSlot(str)
-    def slot_logMessage(self, var):
-        message = self.plc.read_by_name('GVL.logMessage', pyads.PLCTYPE_STRING)
+    @QtCore.pyqtSlot(int)
+    def slot_eState(self, var):
+        eState = E_MotionLabState(var)
+
+        self.logMessage('Motion Lab is in ' + eState.name + ' mode')
+        
+        if eState != E_MotionLabState.NORMAL:
+            # Show error message
+            self.msg.exec_()
+
+
+    def startErrorCheck(self):
+        # Send reset to PLC and start timer for check
+        self.timer.start(5000)        
+        self.plc.write_by_name('MAIN.bReset', True, pyads.PLCTYPE_BOOL)
+
+    def errorCheck(self):
+        # Check if eState is NORMAL
+        eState = E_MotionLabState(self.plc.read_by_name('MAIN.eState', pyads.PLCTYPE_USINT))
+
+        # Stop timer
+        self.timer.stop()
+
+        if eState != E_MotionLabState.NORMAL:
+            # Show popup again if not returned to NORMAL
+            self.msg.exec_()
+
+    
+    def logMessage(self, message):
         now = datetime.now()
         date_time = str(now.strftime("[%d.%m.%Y-%H:%M:%S]: "))
-        self.gui.logDump.insertPlainText(date_time +  str(message) + '\n')
+        self.gui.logDump.insertPlainText(date_time +  message + '\n')
         self.gui.logDump.ensureCursorVisible()
+
+    @QtCore.pyqtSlot()
+    def slot_bStop(self):
+        self.plc.write_by_name('MAIN.bStop', True, pyads.PLCTYPE_BOOL)
+        self.logMessage('Stop pressed from HMI!')
 
 
     def plcNotification(self, adsName, plcType, pyqtSignal):

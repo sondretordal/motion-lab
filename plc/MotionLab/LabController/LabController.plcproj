@@ -15,9 +15,6 @@
     <LibraryReferences>{aef4fe47-5e6c-4062-a679-76e7b334d805}</LibraryReferences>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="CsvTask.TcTTO">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="DUTs\Control\ST_Control.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -28,6 +25,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\Control\ST_ControlWinch.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\E_MotionLabState.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\Feedback\ST_Feedback.TcDUT">
@@ -193,13 +193,7 @@
     <Compile Include="POUs\MAIN.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\MAIN_OLD.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="POUs\Simulink\FB_QuatToRotMatrix.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\TEST.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\UdpFBs\FB_UdpServerRT.TcPOU">

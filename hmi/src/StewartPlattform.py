@@ -104,6 +104,7 @@ class StewartPlattform(QtCore.QObject):
         # Set intial avtivity LED status
         eval(self.guiRoot + '_bActive').setScaledContents(True)
 
+        
         # Setup plot area
         self.setupPlot()
 
@@ -115,7 +116,7 @@ class StewartPlattform(QtCore.QObject):
         # Deactivate sine inputs on startup
         self.disableSineInputs()
         
-        # Sunchronous timer
+        # Timer
         self.timer = QtCore.QTimer()
         self.timer.timeout.connect(self.update)
         self.timer.start(50)
@@ -180,6 +181,7 @@ class StewartPlattform(QtCore.QObject):
 
         else:
             eval(self.guiRoot + '_bActive').setPixmap(QtGui.QPixmap('./icons/led-off.png'))
+
 
     def intilizeHmiFields(self):
         # Read data from PLC to intilize the HMI fields

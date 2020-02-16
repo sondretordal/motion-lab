@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <DUT Name="E_MotionLabState" Id="{c003d724-bbfe-40ed-a6d8-7020242e2a93}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE E_MotionLabState :
+(
+	STOP := 16#00,
+	NORMAL := 16#01,
+	ERROR := 16#10
+) USINT;
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>
