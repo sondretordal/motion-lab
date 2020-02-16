@@ -1,7 +1,7 @@
 .. _remote-io:
 
-Remote IO Interface
-###################
+Internal Communication
+######################
 
 This section presentes the communication structure and setup of the Motion-Lab.
 The laboratory consist of two Stewart Platforms (E-Motion 8000 and 1500),
@@ -173,13 +173,3 @@ Available systems are listed in the table below, with the related port number.
 +-------------------------------+--------------+
 
 
-.. _remote-io-interface:
-
-Remote UDP Interface
---------------------
-
-The motion-lab can be operated using the dedicated remote UDP interface. Using this
-iterface, the essential control and feedback signals can be utilized.
-
-.. literalinclude:: ../pybind11-modules/src/DataStructures.h
-    :language: cpp

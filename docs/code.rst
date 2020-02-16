@@ -27,12 +27,4 @@ Python
        print 'This one is not...'
        print '...but this one is.'
 
-Test
-----
-
-.. literalinclude:: ../hmi/src/classes.py
-    :pyobject: RealTimePlot
-
-.. literalinclude:: ../hmi/src/classes.py
-    :pyobject: RealTimePlot.update
 

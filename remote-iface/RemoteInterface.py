@@ -7,7 +7,6 @@ from ctypes import *
 import time
 
 from MainWindow import Ui_MainWindow
-from RealTimePlot import RealTimePlot
 
 # PLC UDP Data Types import
 from RxUdp import RxUdp

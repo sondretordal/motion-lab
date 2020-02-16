@@ -12,7 +12,8 @@ Norwegian Motion-laboratory documentation
    
     about
     code
-    remote-io
+    remote-iface
+    comm
     comau
     stewart-platforms
     publications

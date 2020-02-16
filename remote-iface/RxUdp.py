@@ -25,8 +25,3 @@ class RxUdp(ctypes.Structure):
         ('mru2_eta', ctypes.c_float*6),
         ('mru2_v', ctypes.c_float*6)
     ]
-
-
-
-
-
