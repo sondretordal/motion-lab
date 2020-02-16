@@ -5402,11 +5402,6 @@ External Setpoint Generation:
 					</Vars>
 					<InitSymbols>
 						<InitSymbol>
-							<Name>MAIN.remote.udpClient.oid</Name>
-							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
-							<Data>80000101</Data>
-						</InitSymbol>
-						<InitSymbol>
 							<Name>MAIN.em8000.udpClient.oid</Name>
 							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
 							<Data>20000101</Data>
@@ -5435,6 +5430,11 @@ External Setpoint Generation:
 							<Name>MAIN.qtm.udpServer.oid</Name>
 							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
 							<Data>90000101</Data>
+						</InitSymbol>
+						<InitSymbol>
+							<Name>MAIN.remote.udpClient.oid</Name>
+							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
+							<Data>80000101</Data>
 						</InitSymbol>
 					</InitSymbols>
 					<TaskPouOids>
