@@ -50,7 +50,8 @@ class RemoteInterface(QtWidgets.QMainWindow, Ui_MainWindow):
         self.txData.iCounter = self.txData.iCounter + 1
 
         # Apply sine motion to heave for EM1500
-        self.txData.em1500_u[2] = 0.1*np.sin(0.1*2.0*np.pi*t)
+        self.txData.em1500_surge_cmd = 0.1*np.sin(0.05*2.0*np.pi*t)
+        self.txData.em1500_heave_cmd = 0.2*np.sin(0.1*2.0*np.pi*t)
 
         # Send data to PLC
         self.sock.sendto(self.txData, ('192.168.90.50', 50050))
