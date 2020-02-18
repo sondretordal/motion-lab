@@ -17,13 +17,15 @@ The following Python example illustrates how the UDP comunication is realized in
    :language: python
 
 
-Data Types
-----------
 The PyQt app sends and recieves data of the types ``TxUdp`` and ``RxUdp`` every 50ms using the UDP socket. The two data types are defined as data structures given by:
 
+TxUdp: REMOTE -> PLC
+---------------------------------
 .. literalinclude:: ../remote-iface/TxUdp.py
    :language: python
 
+RxUdp: PLC -> REMOTE
+----------------------------------
 .. literalinclude:: ../remote-iface/RxUdp.py
    :language: python
 

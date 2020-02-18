@@ -89,7 +89,8 @@
 <li class="toctree-l1"><a class="reference internal" href="code.html">Code</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Remote UDP interface</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#remote-setup">Remote Setup</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#data-types">Data Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#txudp-remote-plc">TxUdp: REMOTE -&gt; PLC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rxudp-plc-remote">RxUdp: PLC -&gt; REMOTE</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="comm.html">Internal Communication</a></li>
@@ -231,50 +232,183 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">timer</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="data-types">
-<h2>Data Types<a class="headerlink" href="#data-types" title="Permalink to this headline">¶</a></h2>
 <p>The PyQt app sends and recieves data of the types <code class="docutils literal"><span class="pre">TxUdp</span></code> and <code class="docutils literal"><span class="pre">RxUdp</span></code> every 50ms using the UDP socket. The two data types are defined as data structures given by:</p>
+</div>
+<div class="section" id="txudp-remote-plc">
+<h2>TxUdp: REMOTE -&gt; PLC<a class="headerlink" href="#txudp-remote-plc" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">ctypes</span>
 
 <span class="k">class</span> <span class="nc">TxUdp</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">Structure</span><span class="p">):</span>
     <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="c1"># Activity counter</span>
         <span class="p">(</span><span class="s1">&#39;iCounter&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_uint32</span><span class="p">),</span>
+
+        <span class="c1"># Mode command (inactive as for now....)</span>
         <span class="p">(</span><span class="s1">&#39;eModeCmd&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_uint32</span><span class="p">),</span>
 
-        <span class="p">(</span><span class="s1">&#39;em8000_u&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="o">*</span><span class="mi">6</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;em1500_u&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="o">*</span><span class="mi">6</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;comau_u&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="o">*</span><span class="mi">6</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;winch_u&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">)</span>   
+        <span class="c1"># EM8000 position commands in [m]</span>
+        <span class="p">(</span><span class="s1">&#39;em8000_surge_cmd&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;em8000_sway_cmd&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;em8000_heave_cmd&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+
+        <span class="c1"># EM8000 euler angle commands in [rad]</span>
+        <span class="p">(</span><span class="s1">&#39;em8000_roll_cmd&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;em8000_pitch_cmd&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;em8000_yaw_cmd&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+
+        <span class="c1"># EM8000 position commands in [m]</span>
+        <span class="p">(</span><span class="s1">&#39;em1500_surge_cmd&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;em1500_sway_cmd&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;em1500_heave_cmd&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+
+        <span class="c1"># EM1500 euler angle commands in [rad]</span>
+        <span class="p">(</span><span class="s1">&#39;em1500_roll_cmd&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;em1500_pitch_cmd&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;em1500_yaw_cmd&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+
+        <span class="c1"># Comau robot joint speed commands in [rad/s]</span>
+        <span class="p">(</span><span class="s1">&#39;comau_q1_t_cmd&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;comau_q2_t_cmd&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;comau_q3_t_cmd&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;comau_q4_t_cmd&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;comau_q5_t_cmd&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;comau_q6_t_cmd&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+
+        <span class="c1"># Winch speed command in [m/s]</span>
+        <span class="p">(</span><span class="s1">&#39;winch_l_t_cmd&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">)</span>
     <span class="p">]</span>
 </pre></div>
 </div>
+</div>
+<div class="section" id="rxudp-plc-remote">
+<h2>RxUdp: PLC -&gt; REMOTE<a class="headerlink" href="#rxudp-plc-remote" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">ctypes</span>
 
 <span class="k">class</span> <span class="nc">RxUdp</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">Structure</span><span class="p">):</span>
     <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="c1"># Current operation mode and PLC time [s]</span>
         <span class="p">(</span><span class="s1">&#39;eMode&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_uint32</span><span class="p">),</span>
         <span class="p">(</span><span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        
+        <span class="c1"># Comau angle feedback in [rad]</span>
+        <span class="p">(</span><span class="s1">&#39;comau_q1&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;comau_q2&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;comau_q3&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;comau_q4&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;comau_q5&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;comau_q6&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
 
-        <span class="p">(</span><span class="s1">&#39;comau_q&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="o">*</span><span class="mi">6</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;comau_q_t&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="o">*</span><span class="mi">6</span><span class="p">),</span>
+        <span class="c1"># Comau angular speed feedback in [rad/s]</span>
+        <span class="p">(</span><span class="s1">&#39;comau_q1_t&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;comau_q2_t&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;comau_q3_t&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;comau_q4_t&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;comau_q5_t&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;comau_q6_t&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
 
+        <span class="c1"># Winch wire length in [m] and speed in [m/s]</span>
         <span class="p">(</span><span class="s1">&#39;winch_l&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
         <span class="p">(</span><span class="s1">&#39;winch_l_t&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
 
-        <span class="p">(</span><span class="s1">&#39;em8000_eta&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="o">*</span><span class="mi">6</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;em8000_eta_t&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="o">*</span><span class="mi">6</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;em8000_eta_tt&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="o">*</span><span class="mi">6</span><span class="p">),</span>
+        <span class="c1"># EM8000 translational positions in [m]</span>
+        <span class="p">(</span><span class="s1">&#39;em8000_surge&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;em8000_sway&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;em8000_heave&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
 
-        <span class="p">(</span><span class="s1">&#39;mru1_eta&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="o">*</span><span class="mi">6</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;mru1_v&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="o">*</span><span class="mi">6</span><span class="p">),</span>
+        <span class="c1"># EM8000 euler angles in [rad]</span>
+        <span class="p">(</span><span class="s1">&#39;em8000_roll&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;em8000_pitch&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;em8000_yaw&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
 
-        <span class="p">(</span><span class="s1">&#39;em1500_eta&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="o">*</span><span class="mi">6</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;em1500_eta_t&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="o">*</span><span class="mi">6</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;em1500_eta_tt&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="o">*</span><span class="mi">6</span><span class="p">),</span>
+        <span class="c1"># EM8000 translational velocites in [m/s]</span>
+        <span class="p">(</span><span class="s1">&#39;em8000_surge_t&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;em8000_sway_t&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;em8000_heave_t&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
 
-        <span class="p">(</span><span class="s1">&#39;mru2_eta&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="o">*</span><span class="mi">6</span><span class="p">),</span>
-        <span class="p">(</span><span class="s1">&#39;mru2_v&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="o">*</span><span class="mi">6</span><span class="p">)</span>
+        <span class="c1"># EM8000 euler velocites in [rad/s]</span>
+        <span class="p">(</span><span class="s1">&#39;em8000_roll_t&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;em8000_pitch_t&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;em8000_yaw_t&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+
+        <span class="c1"># EM8000 translational accelerations in [m/s^2]</span>
+        <span class="p">(</span><span class="s1">&#39;em8000_surge_tt&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;em8000_sway_tt&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;em8000_heave_tt&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+
+        <span class="c1"># EM8000 euler accelerations in [rad/s^2]</span>
+        <span class="p">(</span><span class="s1">&#39;em8000_roll_tt&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;em8000_pitch_tt&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;em8000_yaw_tt&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+
+        <span class="c1"># MRU1 (EM8000) translational positions in [m]</span>
+        <span class="p">(</span><span class="s1">&#39;mru1_surge&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;mru1_sway&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;mru1_heave&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+
+        <span class="c1"># MRU1 (EM8000) euler angles in [rad]</span>
+        <span class="p">(</span><span class="s1">&#39;mru1_roll&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;mru1_pitch&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;mru1_yaw&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+
+        <span class="c1"># MRU1 (EM8000) translational velocites in [m/s]</span>
+        <span class="p">(</span><span class="s1">&#39;mru1_surge_t&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;mru1_sway_t&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;mru1_heave_t&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+
+        <span class="c1"># MRU1 (EM8000) body velocities in [rad/s]</span>
+        <span class="p">(</span><span class="s1">&#39;mru1_wx&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;mru1_wy&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;mru1_wz&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+
+        <span class="c1"># EM1500 translational positions in [m]</span>
+        <span class="p">(</span><span class="s1">&#39;em1500_surge&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;em1500_sway&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;em1500_heave&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+
+        <span class="c1"># EM1500 euler angles in [rad]</span>
+        <span class="p">(</span><span class="s1">&#39;em1500_roll&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;em1500_pitch&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;em1500_yaw&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+
+        <span class="c1"># EM1500 translational velocites in [m/s]</span>
+        <span class="p">(</span><span class="s1">&#39;em1500_surge_t&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;em1500_sway_t&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;em1500_heave_t&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+
+        <span class="c1"># EM1500 euler velocites in [rad/s]</span>
+        <span class="p">(</span><span class="s1">&#39;em1500_roll_t&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;em1500_pitch_t&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;em1500_yaw_t&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+
+        <span class="c1"># EM1500 translational accelerations in [m/s^2]</span>
+        <span class="p">(</span><span class="s1">&#39;em1500_surge_tt&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;em1500_sway_tt&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;em1500_heave_tt&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+
+        <span class="c1"># EM1500 euler accelerations in [rad/s^2]</span>
+        <span class="p">(</span><span class="s1">&#39;em1500_roll_tt&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;em1500_pitch_tt&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;em1500_yaw_tt&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+
+        <span class="c1"># MRU1 (EM1500) translational positions in [m]</span>
+        <span class="p">(</span><span class="s1">&#39;mru1_surge&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;mru1_sway&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;mru1_heave&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+
+        <span class="c1"># MRU1 (EM1500) euler angles in [rad]</span>
+        <span class="p">(</span><span class="s1">&#39;mru1_roll&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;mru1_pitch&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;mru1_yaw&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+
+        <span class="c1"># MRU1 (EM1500) translational velocites in [m/s]</span>
+        <span class="p">(</span><span class="s1">&#39;mru1_surge_t&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;mru1_sway_t&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;mru1_heave_t&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+
+        <span class="c1"># MRU1 (EM1500) body velocities in [rad/s]</span>
+        <span class="p">(</span><span class="s1">&#39;mru1_wx&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;mru1_wy&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;mru1_wz&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_float</span><span class="p">)</span>
     <span class="p">]</span>
 </pre></div>
 </div>
