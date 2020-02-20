@@ -46,7 +46,8 @@ class RemoteInterface(QtWidgets.QMainWindow, Ui_MainWindow):
         data, addr = self.sock.recvfrom(1024) 
         memmove(addressof(self.rxData), data, sizeof(self.rxData))
 
-        # Incerement counter
+        # Incerement counter and set Udp Key
+        self.txData.iUdpKey = 46505228
         self.txData.iCounter = self.txData.iCounter + 1
 
         # Apply sine motion to heave for EM1500

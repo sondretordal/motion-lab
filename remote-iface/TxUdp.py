@@ -2,6 +2,9 @@ import ctypes
 
 class TxUdp(ctypes.Structure):
     _fields_ = [
+        # Udp Acess Key
+        ('iUdpKey', ctypes.c_uint32),
+
         # Activity counter
         ('iCounter', ctypes.c_uint32),
 
@@ -19,6 +22,16 @@ class TxUdp(ctypes.Structure):
         ('em8000_yaw_cmd', ctypes.c_float),
 
         # EM8000 position commands in [m]
+        ('em8000_surge_t_cmd', ctypes.c_float),
+        ('em8000_sway_t_cmd', ctypes.c_float),
+        ('em8000_heave_t_cmd', ctypes.c_float),
+
+        # EM8000 euler angle commands in [rad]
+        ('em8000_roll_t_cmd', ctypes.c_float),
+        ('em8000_pitch_t_cmd', ctypes.c_float),
+        ('em8000_yaw_t_cmd', ctypes.c_float),
+
+        # EM1500 position commands in [m]
         ('em1500_surge_cmd', ctypes.c_float),
         ('em1500_sway_cmd', ctypes.c_float),
         ('em1500_heave_cmd', ctypes.c_float),
@@ -27,6 +40,16 @@ class TxUdp(ctypes.Structure):
         ('em1500_roll_cmd', ctypes.c_float),
         ('em1500_pitch_cmd', ctypes.c_float),
         ('em1500_yaw_cmd', ctypes.c_float),
+
+        # EM1500 position commands in [m]
+        ('em1500_surge_t_cmd', ctypes.c_float),
+        ('em1500_sway_t_cmd', ctypes.c_float),
+        ('em1500_heave_t_cmd', ctypes.c_float),
+
+        # EM1500 euler angle commands in [rad]
+        ('em1500_roll_t_cmd', ctypes.c_float),
+        ('em1500_pitch_t_cmd', ctypes.c_float),
+        ('em1500_yaw_t_cmd', ctypes.c_float),
 
         # Comau robot joint speed commands in [rad/s]
         ('comau_q1_t_cmd', ctypes.c_float),

@@ -580,16 +580,16 @@ State1:INT:=6;
                     <v n="RelationID">{3d42ec9b-21cf-4a68-9386-3521854d49b9}</v>
                     <v n="FlagPosition" t="Double">0.5</v>
                     <d n="flagsX" t="Hashtable" ckt="String" cvt="Int32">
-                      <v>ConditionPosition</v>
-                      <v>-114</v>
                       <v>ActionPosition</v>
                       <v>50</v>
+                      <v>ConditionPosition</v>
+                      <v>-114</v>
                     </d>
                     <d n="flagsY" t="Hashtable" ckt="String" cvt="Int32">
-                      <v>ConditionPosition</v>
-                      <v>17</v>
                       <v>ActionPosition</v>
                       <v>0</v>
+                      <v>ConditionPosition</v>
+                      <v>17</v>
                     </d>
                     <o n="StartAnchor" t="UMLAnchorPoint">
                       <v n="AnchorID">0</v>
@@ -1058,6 +1058,7 @@ remote(
 // REMOTE -> PLC
 em1500.bRemoteActive := remote.bActive;
 em1500.uRemote := remote.control.em1500.u;
+em1500.uRemote_t := remote.control.em1500.u_t;
 
 // *** REMOTE Interface ***]]></ST>
       </Implementation>
@@ -1147,6 +1148,7 @@ em1500.bReset := TRUE;]]></ST>
       <LineId Id="78" Count="0" />
       <LineId Id="109" Count="0" />
       <LineId Id="102" Count="0" />
+      <LineId Id="133" Count="0" />
       <LineId Id="79" Count="0" />
       <LineId Id="77" Count="0" />
     </LineIds>

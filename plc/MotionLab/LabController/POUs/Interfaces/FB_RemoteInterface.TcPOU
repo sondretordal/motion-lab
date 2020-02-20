@@ -34,13 +34,18 @@ END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[// Feedback data
-FOR i := 0 TO 5 DO
-	// eMode
-	txUdp.eMode := 0;
+// eMode
+txUdp.eMode := 0;
+
+// Time 
+txUdp.t := txUdp.t + LREAL_TO_REAL(Ts);
+
+IF txUdp.t >= 3.40E+38 THEN
+	txUdp.t := 0.0;
 	
-	// Time 
-	txUdp.t := txUdp.t + LREAL_TO_REAL(Ts);
-	
+END_IF
+
+FOR i := 0 TO 5 DO	
 	// EM8000
 	txUdp.em8000_eta[i] := LREAL_TO_REAL(feedback.em8000.eta[i]);
 	txUdp.em8000_eta_t[i] := LREAL_TO_REAL(feedback.em8000.eta_t[i]);
@@ -71,18 +76,22 @@ END_FOR
 
 
 // Update Udp client
-udpClient();
+udpClient(
+	bEchoServer := TRUE
+);
 
 // Control data
 FOR i := 0 TO 5 DO
 	// EM8000
 	control.em8000.u[i] := REAL_TO_LREAL(rxUdp.em8000_u[i]);
+	control.em8000.u_t[i] := REAL_TO_LREAL(rxUdp.em8000_u_t[i]);
 	
 	// MRU1
 	
 	
 	// EM1500
 	control.em1500.u[i] := REAL_TO_LREAL(rxUdp.em1500_u[i]);
+	control.em1500.u_t[i] := REAL_TO_LREAL(rxUdp.em1500_u_t[i]);
 	
 	// MRU2
 	
@@ -117,7 +126,21 @@ ELSE
 END_IF
 
 // Set bActive based on timer
-bActive := NOT fbTimer.Q;]]></ST>
+IF NOT fbTimer.Q THEN
+	IF rxUdp.iUdpKey = 46505228 THEN
+		// Set active if correct updKey and not timed out
+		bActive := TRUE;
+		
+	END_IF
+	
+ELSE
+	// Set to not active and reset udpKey
+	rxUdp.iUdpKey := 0;
+	bActive := FALSE;
+		
+END_IF
+
+]]></ST>
     </Implementation>
     <Method Name="FB_exit" Id="{8f02c622-0e73-4bd7-94f0-589e37e92221}">
       <Declaration><![CDATA[METHOD FB_exit : BOOL
@@ -167,11 +190,15 @@ END_VAR
     </Method>
     <LineIds Name="FB_RemoteInterface">
       <LineId Id="72" Count="0" />
+      <LineId Id="208" Count="3" />
+      <LineId Id="207" Count="0" />
+      <LineId Id="213" Count="0" />
+      <LineId Id="212" Count="0" />
+      <LineId Id="214" Count="0" />
+      <LineId Id="216" Count="0" />
+      <LineId Id="215" Count="0" />
+      <LineId Id="206" Count="0" />
       <LineId Id="80" Count="0" />
-      <LineId Id="173" Count="2" />
-      <LineId Id="169" Count="0" />
-      <LineId Id="171" Count="0" />
-      <LineId Id="170" Count="0" />
       <LineId Id="114" Count="2" />
       <LineId Id="113" Count="0" />
       <LineId Id="134" Count="3" />
@@ -194,14 +221,18 @@ END_VAR
       <LineId Id="73" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="17" Count="0" />
+      <LineId Id="233" Count="0" />
+      <LineId Id="232" Count="0" />
       <LineId Id="74" Count="0" />
       <LineId Id="71" Count="0" />
       <LineId Id="75" Count="0" />
       <LineId Id="118" Count="1" />
+      <LineId Id="234" Count="0" />
       <LineId Id="121" Count="2" />
       <LineId Id="120" Count="0" />
       <LineId Id="92" Count="0" />
       <LineId Id="76" Count="0" />
+      <LineId Id="235" Count="0" />
       <LineId Id="93" Count="0" />
       <LineId Id="124" Count="0" />
       <LineId Id="94" Count="0" />
@@ -230,7 +261,17 @@ END_VAR
       <LineId Id="45" Count="0" />
       <LineId Id="56" Count="0" />
       <LineId Id="55" Count="0" />
+      <LineId Id="219" Count="0" />
+      <LineId Id="225" Count="0" />
+      <LineId Id="231" Count="0" />
       <LineId Id="57" Count="0" />
+      <LineId Id="226" Count="1" />
+      <LineId Id="220" Count="1" />
+      <LineId Id="230" Count="0" />
+      <LineId Id="228" Count="1" />
+      <LineId Id="222" Count="1" />
+      <LineId Id="218" Count="0" />
+      <LineId Id="217" Count="0" />
     </LineIds>
     <LineIds Name="FB_RemoteInterface.FB_exit">
       <LineId Id="6" Count="0" />

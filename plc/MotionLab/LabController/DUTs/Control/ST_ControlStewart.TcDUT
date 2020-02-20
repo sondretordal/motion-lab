@@ -5,6 +5,7 @@
 STRUCT
 	// Velocity setpint to stewart
 	u : ARRAY[0..5] OF LREAL;
+	u_t : ARRAY[0..5] OF LREAL;
 	
 END_STRUCT
 END_TYPE
