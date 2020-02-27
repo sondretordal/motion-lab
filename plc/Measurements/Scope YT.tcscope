@@ -113,218 +113,17 @@
           </Style>
           <Channels>
             <ScopeChannelSerializable>
-              <GUID>6e907062-4303-43ad-9188-3d4a9fc5bc5f</GUID>
-              <Name>eta[2]</Name>
+              <GUID>a8673bcd-e1bb-4742-b315-1460d40a4639</GUID>
+              <Name>em1500_u[4]</Name>
               <IdentHandle>1</IdentHandle>
-              <Acquisition>
-                <DataType>REAL64</DataType>
-                <IndexGroup>16448</IndexGroup>
-                <IndexOffset>724248</IndexOffset>
-                <Unit />
-                <TargetPort>851</TargetPort>
-                <VariableSize>8</VariableSize>
-                <SymbolName>MAIN.em1500.feedback.eta[2]</SymbolName>
-                <SymbolComment></SymbolComment>
-                <IsSymbolBased>true</IsSymbolBased>
-                <FileHandle>0</FileHandle>
-                <UseLocalServer>true</UseLocalServer>
-                <AmsNetIdString>192.168.90.150.1.1</AmsNetIdString>
-                <SampleTime>50000</SampleTime>
-                <Disabled>false</Disabled>
-                <Oversample>0</Oversample>
-                <UseTaskSampletime>true</UseTaskSampletime>
-                <ForceOversampling>false</ForceOversampling>
-                <IsArray>false</IsArray>
-                <ArrayLength>0</ArrayLength>
-                <ContextMask>0</ContextMask>
-                <TimeOffset>0</TimeOffset>
-                <DataAccess>
-                  <Source>TwinCAT</Source>
-                  <Protocoll>ADS</Protocoll>
-                  <Format>TcBinary</Format>
-                  <TimeContext>Present</TimeContext>
-                  <TimeRange>
-                    <StartTimeStamp>0</StartTimeStamp>
-                    <EndTimeStamp>0</EndTimeStamp>
-                  </TimeRange>
-                </DataAccess>
-                <DbSelect>unknown</DbSelect>
-                <DbColumn>unknown</DbColumn>
-                <DbTimeCol>unknown</DbTimeCol>
-                <DbId>0</DbId>
-                <DbTable>unknown</DbTable>
-                <DbRecords>
-                  <Records />
-                </DbRecords>
-                <IotFilePath>unknown</IotFilePath>
-                <IotFileTimeRangeId>18446744073709551615</IotFileTimeRangeId>
-                <IotFileRecords>
-                  <Records />
-                </IotFileRecords>
-                <IotFileSymbolName>unknown</IotFileSymbolName>
-                <IotFileValueByteOffset>4294967295</IotFileValueByteOffset>
-                <MqttHost>unknown</MqttHost>
-                <MqttLayout>00000000-0000-0000-0000-000000000000</MqttLayout>
-                <MqttTopic>unknown</MqttTopic>
-                <MqttTimeRangeId>18446744073709551615</MqttTimeRangeId>
-                <MqttRecords>
-                  <Records />
-                </MqttRecords>
-                <MqttConnectionSettings>
-                  <Broker></Broker>
-                  <BrokerPort>1883</BrokerPort>
-                  <UserID></UserID>
-                  <PasswordCrypted>zTwAWXMuQrRWLRKfYDCcb6Xb4+r459UB</PasswordCrypted>
-                  <WithCertificates>false</WithCertificates>
-                  <CA_Certificate></CA_Certificate>
-                  <CA_Pwd></CA_Pwd>
-                  <Pfx_Certificate></Pfx_Certificate>
-                  <Pfx_Pwd></Pfx_Pwd>
-                  <Cert_Certificate></Cert_Certificate>
-                  <Cert_Pwd></Cert_Pwd>
-                  <Key_Certificate></Key_Certificate>
-                  <Key_Pwd></Key_Pwd>
-                </MqttConnectionSettings>
-                <MqttSymbolName>unknown</MqttSymbolName>
-                <MqttValueByteOffset>4294967295</MqttValueByteOffset>
-                <MqttCmdTopic>unknown</MqttCmdTopic>
-                <IsHistorical>false</IsHistorical>
-                <OpcUaAddress>
-                  <ServerUrl></ServerUrl>
-                  <EndpointName></EndpointName>
-                  <SecurityPolicyUri></SecurityPolicyUri>
-                  <IdentityType>Anonymous</IdentityType>
-                  <UserName></UserName>
-                </OpcUaAddress>
-                <OpcUaSymbol>
-                  <Name></Name>
-                  <Path></Path>
-                  <BitSize>0</BitSize>
-                  <BaseType></BaseType>
-                  <NodeClass></NodeClass>
-                  <NodeId></NodeId>
-                  <NamespaceName></NamespaceName>
-                  <IsArray>false</IsArray>
-                  <IsMatrix>false</IsMatrix>
-                  <Dimensions>0</Dimensions>
-                  <ArrayLength>-1</ArrayLength>
-                </OpcUaSymbol>
-              </Acquisition>
-              <Style>
-                <ColorValue>-9728477</ColorValue>
-                <SolidLine>true</SolidLine>
-                <Marks>false</Marks>
-                <LineWidth>1</LineWidth>
-                <Antialias>true</Antialias>
-                <Offset>0</Offset>
-                <BitMask>18446744073709551615</BitMask>
-                <ShowCursorValue>true</ShowCursorValue>
-                <Visible>true</Visible>
-                <MarkColorValue>-9728477</MarkColorValue>
-                <MarkSize>3</MarkSize>
-                <TimeShift>0</TimeShift>
-                <ScaleFactor>1</ScaleFactor>
-                <Comment></Comment>
-                <AutoMarks>true</AutoMarks>
-                <XOffset>0</XOffset>
-                <XScaleFactor>1</XScaleFactor>
-                <XBitMask>18446744073709551615</XBitMask>
-                <FillMode>0</FillMode>
-                <FillColorValue>845909539</FillColorValue>
-                <EndCap>false</EndCap>
-                <StartCap>false</StartCap>
-                <CapSize>3</CapSize>
-                <CapColorValue>-65536</CapColorValue>
-                <SeriesType>Line</SeriesType>
-                <ShowMin>false</ShowMin>
-                <ShowMax>false</ShowMax>
-                <ResultingUnit>
-                  <Unit>
-                    <BaseUnitValue>0</BaseUnitValue>
-                    <Prefix>none</Prefix>
-                    <ScaleFactor>1</ScaleFactor>
-                    <Offset>0</Offset>
-                    <Symbol></Symbol>
-                    <ReturnText> (None) </ReturnText>
-                    <BaseUnitString />
-                    <NameExtension />
-                  </Unit>
-                  <Transformation>
-                    <BaseUnitValue>0</BaseUnitValue>
-                    <TargetUnitValue>0</TargetUnitValue>
-                    <ScaleFactor>1</ScaleFactor>
-                    <Name>None</Name>
-                    <SourceUnitString />
-                    <TargetUnitString />
-                    <SourceUnitPrefix>none</SourceUnitPrefix>
-                    <Symbol>1</Symbol>
-                  </Transformation>
-                  <UserUnit>
-                    <BaseUnitValue>0</BaseUnitValue>
-                    <Prefix>none</Prefix>
-                    <ScaleFactor>1</ScaleFactor>
-                    <Offset>0</Offset>
-                    <Name>None</Name>
-                    <BaseName>UnitOfOne</BaseName>
-                    <NameExtension />
-                    <Symbol></Symbol>
-                    <BaseUnitString />
-                    <UserPrefix>none</UserPrefix>
-                  </UserUnit>
-                  <UnitScaleResult>1</UnitScaleResult>
-                  <UnitOffsetResult>0</UnitOffsetResult>
-                </ResultingUnit>
-                <XResultingUnit>
-                  <Unit>
-                    <BaseUnitValue>0</BaseUnitValue>
-                    <Prefix>none</Prefix>
-                    <ScaleFactor>1</ScaleFactor>
-                    <Offset>0</Offset>
-                    <Symbol></Symbol>
-                    <ReturnText> (None) </ReturnText>
-                    <BaseUnitString />
-                    <NameExtension />
-                  </Unit>
-                  <Transformation>
-                    <BaseUnitValue>0</BaseUnitValue>
-                    <TargetUnitValue>0</TargetUnitValue>
-                    <ScaleFactor>1</ScaleFactor>
-                    <Name>None</Name>
-                    <SourceUnitString />
-                    <TargetUnitString />
-                    <SourceUnitPrefix>none</SourceUnitPrefix>
-                    <Symbol>1</Symbol>
-                  </Transformation>
-                  <UserUnit>
-                    <BaseUnitValue>0</BaseUnitValue>
-                    <Prefix>none</Prefix>
-                    <ScaleFactor>1</ScaleFactor>
-                    <Offset>0</Offset>
-                    <Name>None</Name>
-                    <BaseName>UnitOfOne</BaseName>
-                    <NameExtension />
-                    <Symbol></Symbol>
-                    <BaseUnitString />
-                    <UserPrefix>none</UserPrefix>
-                  </UserUnit>
-                  <UnitScaleResult>1</UnitScaleResult>
-                  <UnitOffsetResult>0</UnitOffsetResult>
-                </XResultingUnit>
-              </Style>
-              <SortPriority>-1</SortPriority>
-            </ScopeChannelSerializable>
-            <ScopeChannelSerializable>
-              <GUID>a24332e2-045b-4a2f-9de5-09dfe11d82ce</GUID>
-              <Name>em1500_u[2]</Name>
-              <IdentHandle>2</IdentHandle>
               <Acquisition>
                 <DataType>REAL32</DataType>
                 <IndexGroup>16448</IndexGroup>
-                <IndexOffset>520268</IndexOffset>
+                <IndexOffset>520276</IndexOffset>
                 <Unit />
                 <TargetPort>851</TargetPort>
                 <VariableSize>4</VariableSize>
-                <SymbolName>MAIN.remote.rxUdp.em1500_u[2]</SymbolName>
+                <SymbolName>MAIN.remote.rxUdp.em1500_u[4]</SymbolName>
                 <SymbolComment> EM1500 DOF position setpoints</SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
@@ -375,7 +174,7 @@
                   <Broker></Broker>
                   <BrokerPort>1883</BrokerPort>
                   <UserID></UserID>
-                  <PasswordCrypted>BA+hWYnngu0NEJZ3vvo4hGLqqtL559UB</PasswordCrypted>
+                  <PasswordCrypted>ggbV2P3YqAJx+ojEiugBccOyHH4A6NUB</PasswordCrypted>
                   <WithCertificates>false</WithCertificates>
                   <CA_Certificate></CA_Certificate>
                   <CA_Pwd></CA_Pwd>
@@ -412,7 +211,7 @@
                 </OpcUaSymbol>
               </Acquisition>
               <Style>
-                <ColorValue>-16777088</ColorValue>
+                <ColorValue>-4419697</ColorValue>
                 <SolidLine>true</SolidLine>
                 <Marks>false</Marks>
                 <LineWidth>1</LineWidth>
@@ -421,7 +220,7 @@
                 <BitMask>18446744073709551615</BitMask>
                 <ShowCursorValue>true</ShowCursorValue>
                 <Visible>true</Visible>
-                <MarkColorValue>-16777088</MarkColorValue>
+                <MarkColorValue>-4419697</MarkColorValue>
                 <MarkSize>3</MarkSize>
                 <TimeShift>0</TimeShift>
                 <ScaleFactor>1</ScaleFactor>
@@ -431,7 +230,7 @@
                 <XScaleFactor>1</XScaleFactor>
                 <XBitMask>18446744073709551615</XBitMask>
                 <FillMode>0</FillMode>
-                <FillColorValue>838860928</FillColorValue>
+                <FillColorValue>851218319</FillColorValue>
                 <EndCap>false</EndCap>
                 <StartCap>false</StartCap>
                 <CapSize>3</CapSize>
@@ -515,17 +314,17 @@
               <SortPriority>-1</SortPriority>
             </ScopeChannelSerializable>
             <ScopeChannelSerializable>
-              <GUID>04893846-8477-4d94-bcf0-2628c92e1db3</GUID>
-              <Name>em1500_u_t[2]</Name>
-              <IdentHandle>3</IdentHandle>
+              <GUID>614c7b82-b3eb-4f70-bd1a-c23eb886eaa7</GUID>
+              <Name>em1500_u_t[4]</Name>
+              <IdentHandle>2</IdentHandle>
               <Acquisition>
                 <DataType>REAL32</DataType>
                 <IndexGroup>16448</IndexGroup>
-                <IndexOffset>520292</IndexOffset>
+                <IndexOffset>520300</IndexOffset>
                 <Unit />
                 <TargetPort>851</TargetPort>
                 <VariableSize>4</VariableSize>
-                <SymbolName>MAIN.remote.rxUdp.em1500_u_t[2]</SymbolName>
+                <SymbolName>MAIN.remote.rxUdp.em1500_u_t[4]</SymbolName>
                 <SymbolComment> EM1500 DOF velocity setpoints</SymbolComment>
                 <IsSymbolBased>true</IsSymbolBased>
                 <FileHandle>0</FileHandle>
@@ -576,7 +375,7 @@
                   <Broker></Broker>
                   <BrokerPort>1883</BrokerPort>
                   <UserID></UserID>
-                  <PasswordCrypted>zB/yX+z6mVTRuT0+pXT/1SNCG9T559UB</PasswordCrypted>
+                  <PasswordCrypted>SE4SGek7thq2oD4YFQLwFby7IX4A6NUB</PasswordCrypted>
                   <WithCertificates>false</WithCertificates>
                   <CA_Certificate></CA_Certificate>
                   <CA_Pwd></CA_Pwd>
@@ -613,7 +412,7 @@
                 </OpcUaSymbol>
               </Acquisition>
               <Style>
-                <ColorValue>-16181</ColorValue>
+                <ColorValue>-16728065</ColorValue>
                 <SolidLine>true</SolidLine>
                 <Marks>false</Marks>
                 <LineWidth>1</LineWidth>
@@ -622,7 +421,7 @@
                 <BitMask>18446744073709551615</BitMask>
                 <ShowCursorValue>true</ShowCursorValue>
                 <Visible>true</Visible>
-                <MarkColorValue>-16181</MarkColorValue>
+                <MarkColorValue>-16728065</MarkColorValue>
                 <MarkSize>3</MarkSize>
                 <TimeShift>0</TimeShift>
                 <ScaleFactor>1</ScaleFactor>
@@ -632,7 +431,208 @@
                 <XScaleFactor>1</XScaleFactor>
                 <XBitMask>18446744073709551615</XBitMask>
                 <FillMode>0</FillMode>
-                <FillColorValue>855621835</FillColorValue>
+                <FillColorValue>838909951</FillColorValue>
+                <EndCap>false</EndCap>
+                <StartCap>false</StartCap>
+                <CapSize>3</CapSize>
+                <CapColorValue>-65536</CapColorValue>
+                <SeriesType>Line</SeriesType>
+                <ShowMin>false</ShowMin>
+                <ShowMax>false</ShowMax>
+                <ResultingUnit>
+                  <Unit>
+                    <BaseUnitValue>0</BaseUnitValue>
+                    <Prefix>none</Prefix>
+                    <ScaleFactor>1</ScaleFactor>
+                    <Offset>0</Offset>
+                    <Symbol></Symbol>
+                    <ReturnText> (None) </ReturnText>
+                    <BaseUnitString />
+                    <NameExtension />
+                  </Unit>
+                  <Transformation>
+                    <BaseUnitValue>0</BaseUnitValue>
+                    <TargetUnitValue>0</TargetUnitValue>
+                    <ScaleFactor>1</ScaleFactor>
+                    <Name>None</Name>
+                    <SourceUnitString />
+                    <TargetUnitString />
+                    <SourceUnitPrefix>none</SourceUnitPrefix>
+                    <Symbol>1</Symbol>
+                  </Transformation>
+                  <UserUnit>
+                    <BaseUnitValue>0</BaseUnitValue>
+                    <Prefix>none</Prefix>
+                    <ScaleFactor>1</ScaleFactor>
+                    <Offset>0</Offset>
+                    <Name>None</Name>
+                    <BaseName>UnitOfOne</BaseName>
+                    <NameExtension />
+                    <Symbol></Symbol>
+                    <BaseUnitString />
+                    <UserPrefix>none</UserPrefix>
+                  </UserUnit>
+                  <UnitScaleResult>1</UnitScaleResult>
+                  <UnitOffsetResult>0</UnitOffsetResult>
+                </ResultingUnit>
+                <XResultingUnit>
+                  <Unit>
+                    <BaseUnitValue>0</BaseUnitValue>
+                    <Prefix>none</Prefix>
+                    <ScaleFactor>1</ScaleFactor>
+                    <Offset>0</Offset>
+                    <Symbol></Symbol>
+                    <ReturnText> (None) </ReturnText>
+                    <BaseUnitString />
+                    <NameExtension />
+                  </Unit>
+                  <Transformation>
+                    <BaseUnitValue>0</BaseUnitValue>
+                    <TargetUnitValue>0</TargetUnitValue>
+                    <ScaleFactor>1</ScaleFactor>
+                    <Name>None</Name>
+                    <SourceUnitString />
+                    <TargetUnitString />
+                    <SourceUnitPrefix>none</SourceUnitPrefix>
+                    <Symbol>1</Symbol>
+                  </Transformation>
+                  <UserUnit>
+                    <BaseUnitValue>0</BaseUnitValue>
+                    <Prefix>none</Prefix>
+                    <ScaleFactor>1</ScaleFactor>
+                    <Offset>0</Offset>
+                    <Name>None</Name>
+                    <BaseName>UnitOfOne</BaseName>
+                    <NameExtension />
+                    <Symbol></Symbol>
+                    <BaseUnitString />
+                    <UserPrefix>none</UserPrefix>
+                  </UserUnit>
+                  <UnitScaleResult>1</UnitScaleResult>
+                  <UnitOffsetResult>0</UnitOffsetResult>
+                </XResultingUnit>
+              </Style>
+              <SortPriority>-1</SortPriority>
+            </ScopeChannelSerializable>
+            <ScopeChannelSerializable>
+              <GUID>3cab194c-f426-4674-b2b2-007127c67e88</GUID>
+              <Name>eta[4]</Name>
+              <IdentHandle>3</IdentHandle>
+              <Acquisition>
+                <DataType>REAL64</DataType>
+                <IndexGroup>16448</IndexGroup>
+                <IndexOffset>724264</IndexOffset>
+                <Unit />
+                <TargetPort>851</TargetPort>
+                <VariableSize>8</VariableSize>
+                <SymbolName>MAIN.em1500.feedback.eta[4]</SymbolName>
+                <SymbolComment></SymbolComment>
+                <IsSymbolBased>true</IsSymbolBased>
+                <FileHandle>0</FileHandle>
+                <UseLocalServer>true</UseLocalServer>
+                <AmsNetIdString>192.168.90.150.1.1</AmsNetIdString>
+                <SampleTime>50000</SampleTime>
+                <Disabled>false</Disabled>
+                <Oversample>0</Oversample>
+                <UseTaskSampletime>true</UseTaskSampletime>
+                <ForceOversampling>false</ForceOversampling>
+                <IsArray>false</IsArray>
+                <ArrayLength>0</ArrayLength>
+                <ContextMask>0</ContextMask>
+                <TimeOffset>0</TimeOffset>
+                <DataAccess>
+                  <Source>TwinCAT</Source>
+                  <Protocoll>ADS</Protocoll>
+                  <Format>TcBinary</Format>
+                  <TimeContext>Present</TimeContext>
+                  <TimeRange>
+                    <StartTimeStamp>0</StartTimeStamp>
+                    <EndTimeStamp>0</EndTimeStamp>
+                  </TimeRange>
+                </DataAccess>
+                <DbSelect>unknown</DbSelect>
+                <DbColumn>unknown</DbColumn>
+                <DbTimeCol>unknown</DbTimeCol>
+                <DbId>0</DbId>
+                <DbTable>unknown</DbTable>
+                <DbRecords>
+                  <Records />
+                </DbRecords>
+                <IotFilePath>unknown</IotFilePath>
+                <IotFileTimeRangeId>18446744073709551615</IotFileTimeRangeId>
+                <IotFileRecords>
+                  <Records />
+                </IotFileRecords>
+                <IotFileSymbolName>unknown</IotFileSymbolName>
+                <IotFileValueByteOffset>4294967295</IotFileValueByteOffset>
+                <MqttHost>unknown</MqttHost>
+                <MqttLayout>00000000-0000-0000-0000-000000000000</MqttLayout>
+                <MqttTopic>unknown</MqttTopic>
+                <MqttTimeRangeId>18446744073709551615</MqttTimeRangeId>
+                <MqttRecords>
+                  <Records />
+                </MqttRecords>
+                <MqttConnectionSettings>
+                  <Broker></Broker>
+                  <BrokerPort>1883</BrokerPort>
+                  <UserID></UserID>
+                  <PasswordCrypted>2VzCReUkjeBv4j1Aj6aN1P7ZrQoB6NUB</PasswordCrypted>
+                  <WithCertificates>false</WithCertificates>
+                  <CA_Certificate></CA_Certificate>
+                  <CA_Pwd></CA_Pwd>
+                  <Pfx_Certificate></Pfx_Certificate>
+                  <Pfx_Pwd></Pfx_Pwd>
+                  <Cert_Certificate></Cert_Certificate>
+                  <Cert_Pwd></Cert_Pwd>
+                  <Key_Certificate></Key_Certificate>
+                  <Key_Pwd></Key_Pwd>
+                </MqttConnectionSettings>
+                <MqttSymbolName>unknown</MqttSymbolName>
+                <MqttValueByteOffset>4294967295</MqttValueByteOffset>
+                <MqttCmdTopic>unknown</MqttCmdTopic>
+                <IsHistorical>false</IsHistorical>
+                <OpcUaAddress>
+                  <ServerUrl></ServerUrl>
+                  <EndpointName></EndpointName>
+                  <SecurityPolicyUri></SecurityPolicyUri>
+                  <IdentityType>Anonymous</IdentityType>
+                  <UserName></UserName>
+                </OpcUaAddress>
+                <OpcUaSymbol>
+                  <Name></Name>
+                  <Path></Path>
+                  <BitSize>0</BitSize>
+                  <BaseType></BaseType>
+                  <NodeClass></NodeClass>
+                  <NodeId></NodeId>
+                  <NamespaceName></NamespaceName>
+                  <IsArray>false</IsArray>
+                  <IsMatrix>false</IsMatrix>
+                  <Dimensions>0</Dimensions>
+                  <ArrayLength>-1</ArrayLength>
+                </OpcUaSymbol>
+              </Acquisition>
+              <Style>
+                <ColorValue>-16776961</ColorValue>
+                <SolidLine>true</SolidLine>
+                <Marks>false</Marks>
+                <LineWidth>1</LineWidth>
+                <Antialias>true</Antialias>
+                <Offset>0</Offset>
+                <BitMask>18446744073709551615</BitMask>
+                <ShowCursorValue>true</ShowCursorValue>
+                <Visible>true</Visible>
+                <MarkColorValue>-16776961</MarkColorValue>
+                <MarkSize>3</MarkSize>
+                <TimeShift>0</TimeShift>
+                <ScaleFactor>1</ScaleFactor>
+                <Comment></Comment>
+                <AutoMarks>true</AutoMarks>
+                <XOffset>0</XOffset>
+                <XScaleFactor>1</XScaleFactor>
+                <XBitMask>18446744073709551615</XBitMask>
+                <FillMode>0</FillMode>
+                <FillColorValue>838861055</FillColorValue>
                 <EndCap>false</EndCap>
                 <StartCap>false</StartCap>
                 <CapSize>3</CapSize>
