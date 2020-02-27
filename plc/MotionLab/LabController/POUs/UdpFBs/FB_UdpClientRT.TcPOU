@@ -4,6 +4,7 @@
     <Declaration><![CDATA[{attribute 'c++_compatible'}
 FUNCTION_BLOCK FB_UdpClientRT IMPLEMENTS ITcIoUdpProtocolRecv
 VAR_INPUT
+	bEchoServer : BOOL := FALSE;
 	
 END_VAR
 VAR_OUTPUT
@@ -39,10 +40,13 @@ END_VAR
     <Implementation>
       <ST><![CDATA[IF ipUdp <> 0 THEN
 	// Send data to remote server
-	IF nTxData > 0 THEN		
-		hrSend := ipUdp.SendData(remoteIpAddr, remotePort, localPort, nTxData, pTxData, TRUE, 0);
-		txCounter := txCounter + 1;
-	END_IF
+	IF NOT bEchoServer THEN
+		IF nTxData > 0 THEN		
+			hrSend := ipUdp.SendData(remoteIpAddr, remotePort, localPort, nTxData, pTxData, TRUE, 0);
+			
+			txCounter := txCounter + 1;
+		END_IF
+	END_IF;
 	
 	// Check for incoming data
 	IF nRxData > 0 THEN
@@ -178,6 +182,15 @@ IF nData = nRxData THEN
 	// Copy recived data
 	MEMCPY(pRxData, pData, nRxData);
 	
+	// Send data to sender if EchoServer
+	IF bEchoServer THEN
+		IF nTxData > 0 THEN		
+			hrSend := ipUdp.SendData(remoteIpAddr, remotePort, localPort, nTxData, pTxData, TRUE, 0);
+			
+			txCounter := txCounter + 1;
+		END_IF
+	END_IF
+	
 	// Increment counters
 	rxCounter := rxCounter + 1;
 END_IF
@@ -244,7 +257,13 @@ METHOD TcRelease : UDINT]]></Declaration>
       </Implementation>
     </Method>
     <LineIds Name="FB_UdpClientRT">
-      <LineId Id="183" Count="10" />
+      <LineId Id="183" Count="1" />
+      <LineId Id="230" Count="0" />
+      <LineId Id="185" Count="1" />
+      <LineId Id="228" Count="0" />
+      <LineId Id="187" Count="1" />
+      <LineId Id="231" Count="0" />
+      <LineId Id="189" Count="4" />
       <LineId Id="9" Count="0" />
     </LineIds>
     <LineIds Name="FB_UdpClientRT.FB_exit">
@@ -280,6 +299,11 @@ METHOD TcRelease : UDINT]]></Declaration>
       <LineId Id="40" Count="0" />
       <LineId Id="75" Count="0" />
       <LineId Id="77" Count="0" />
+      <LineId Id="95" Count="0" />
+      <LineId Id="99" Count="0" />
+      <LineId Id="96" Count="0" />
+      <LineId Id="100" Count="3" />
+      <LineId Id="97" Count="1" />
       <LineId Id="63" Count="0" />
       <LineId Id="79" Count="0" />
       <LineId Id="72" Count="0" />

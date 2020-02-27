@@ -5402,19 +5402,14 @@ External Setpoint Generation:
 					</Vars>
 					<InitSymbols>
 						<InitSymbol>
+							<Name>MAIN.remote.udpClient.oid</Name>
+							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
+							<Data>80000101</Data>
+						</InitSymbol>
+						<InitSymbol>
 							<Name>MAIN.em8000.udpClient.oid</Name>
 							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
 							<Data>20000101</Data>
-						</InitSymbol>
-						<InitSymbol>
-							<Name>MAIN.em1500.udpClient.oid</Name>
-							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
-							<Data>10000101</Data>
-						</InitSymbol>
-						<InitSymbol>
-							<Name>MAIN.comau.udpClient.oid</Name>
-							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
-							<Data>50000101</Data>
 						</InitSymbol>
 						<InitSymbol>
 							<Name>MAIN.mru1.udpServer.oid</Name>
@@ -5432,9 +5427,14 @@ External Setpoint Generation:
 							<Data>90000101</Data>
 						</InitSymbol>
 						<InitSymbol>
-							<Name>MAIN.remote.udpClient.oid</Name>
+							<Name>MAIN.em1500.udpClient.oid</Name>
 							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
-							<Data>80000101</Data>
+							<Data>10000101</Data>
+						</InitSymbol>
+						<InitSymbol>
+							<Name>MAIN.comau.udpClient.oid</Name>
+							<Type GUID="{18071995-0000-0000-0000-00000000000F}">OTCID</Type>
+							<Data>50000101</Data>
 						</InitSymbol>
 					</InitSymbols>
 					<TaskPouOids>

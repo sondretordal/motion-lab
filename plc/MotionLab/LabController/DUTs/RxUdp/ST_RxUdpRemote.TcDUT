@@ -3,10 +3,13 @@
   <DUT Name="ST_RxUdpRemote" Id="{fa01c5f1-abf7-41e7-9176-503e6a9c127a}">
     <Declaration><![CDATA[TYPE ST_RxUdpRemote :
 STRUCT
+	iUdpKey : UDINT; // Udp Key
 	iCounter : UDINT; // Heartbeat counter
 	eModeCmd : UDINT; // Operation mode
 	em8000_u : ARRAY [0..5] OF REAL; // EM8000 DOF position setpoints
+	em8000_u_t : ARRAY [0..5] OF REAL; // EM8000 DOF velocity setpoints
 	em1500_u : ARRAY [0..5] OF REAL; // EM1500 DOF position setpoints
+	em1500_u_t : ARRAY [0..5] OF REAL; // EM1500 DOF velocity setpoints
 	comau_u : ARRAY [0..5] OF REAL; // Joint speed setpoints
 	winch_u : REAL; // Winch wire speed setpoint
 	
